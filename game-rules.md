@@ -1,6 +1,6 @@
 ## Colt Express_Game Rules:
 
->**Components**:
+### **Components**:
 	- the train(the train cars may have different looks/setups etc.)
 	- extra little things(rocks, cactuses...)
 	- each player is asigned one unique meeple that represents him/her in the game
@@ -8,8 +8,7 @@
 	- each player may have one individual player board that outlines their character's abilities 
 	- round cards (determine what happens during each round of the game)
 
-Horizontal Rule 
->**Procedures**: 
+### **Procedures**: 
 	- player1 selects an action from his/her set of cards and puts that card onto a central pile 
 	- player2 does the same ^
 	- ...
@@ -17,7 +16,7 @@ Horizontal Rule
 	- ...(sometimes there are 3 rounds, sometimes 4) 
 	- once all players have selected their actions, all actions are revealed and carried out(first-in-first-out)
 
->**Actions**:
+### **Actions**:
 	- [Climb] Climbing man with up and down arrows 
         -(allows you to move your token up onto the roof or back into the train car)
 	- [Run] Running man with <-> 
@@ -35,12 +34,12 @@ Horizontal Rule
 	- If the marshal meets another player in the carriage -> that player is sent to the roof and that player receives a bullet card.
 	- If a player who moves from the roof to the train car meets the marshal -> that player has to go back up onto the roof
 
->**Treasures**
+### **Treasures**
 	- Gems ($500 each)    
 	- Money bags (ranging from $250 to $500)
 	- The Strongbox (located in the front of the train, worth $1000) 
 
->**The Five Round Cards**
+### **The Five Round Cards**
 	- Describe how the actions are carried out
 	- The action cards are played *face-up* onto the pile 
 	- a tunnel: the player can play their action card facedown
@@ -53,7 +52,7 @@ Horizontal Rule
 		- we can elaborate on this!! 
 	- after five rounds, the player that has the most $$ is the winner
 
->**Characters**
+### **Characters**
 	- Each player has a special ability that will help him/her
 	- [Ghost]: the mustache man 
 		 - the first card that he plays in every round can be face-down 
