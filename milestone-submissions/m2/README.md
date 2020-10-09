@@ -4,4 +4,4 @@ A use case model that describes the interactions between the system and the envi
 
 The model covers all functionalities described in the official game manual as well as the additional project description handout document (i.e., including game lobby, game set up, loading and saving, etc.). It also covers how the game will interact with the provided lobby service.
 
-Link to the collaborative google doc: https://docs.google.com/document/d/1KtVWLjW4oRhO8xMKGlQm032lNwK40Q_nxUVhppz4fc0/edit?usp=sharing
+Link to the collaborative google doc: https://docs.google.com/document/d/1DJby7FaZWRvE4GVl_BGeYeCJXywq3vuIEPNd4p2JAvU/edit?usp=sharing
