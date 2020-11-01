@@ -8,7 +8,7 @@ Horses and Stagecoach extension.
   * client/server (decided on Oct 25)
 * Requirements Specification Models
   * Structural Requirements
-    * Environment Model
+    * Environment Model (link to the collaborative google doc: https://docs.google.com/document/d/1mPdbCsDs0ccpKhITg7z8-lcgtMyOKkk0x8_xtC4BCp8/edit?usp=sharing)
     * Concept Model
   * Behavioural Requirements
     * Operation Model
