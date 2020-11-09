@@ -16,3 +16,4 @@ implemented, but some minimum functionality should be shown as outlined below.
   * additional points for any additional functionality that you demonstrate
 
 ## File Organization 
+  * source code can be found in the [source folder](./src)
