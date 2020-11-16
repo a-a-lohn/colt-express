@@ -1,0 +1,9 @@
+.idea
+sample-csharp-code
+ColtExpress/src/server/virt
+ColtExpress/src/client/Temp
+ColtExpress/src/client/Library
+
+# Elastic Beanstalk Files
+ColtExpress/src/server/.elasticbeanstalk
+.ebignore
