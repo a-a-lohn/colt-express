@@ -16,4 +16,12 @@ implemented, but some minimum functionality should be shown as outlined below.
   * additional points for any additional functionality that you demonstrate
 
 ## File Organization 
-  * source code can be found in the [source folder](./src)
+  * the Assets folder contains all the scenes, scripts, resources and imports used in this project. Can't upload the entire project because it is too large...
+
+## File Structure 
+  * to be updated
+
+## Structure of the UI Demo 
+  * to be updated 😪
+
+
