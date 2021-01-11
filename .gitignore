@@ -7,3 +7,4 @@ ColtExpress/src/client/Library
 # Elastic Beanstalk Files
 ColtExpress/src/server/.elasticbeanstalk
 .ebignore
+.DS_Store
