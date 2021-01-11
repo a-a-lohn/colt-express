@@ -13,13 +13,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cacheType: 2
-  lastUpdatedAtString: 2021-01-10T21:05:55.761-05:00
+  lastUpdatedAtString: 2021-01-10T21:10:23.487-05:00
   initializedAtString: 2021-01-10T21:05:55.751-05:00
   localBranches:
   - name: master
     tracking: origin/master
   remoteBranches:
   - name: origin/HEAD
+    tracking: '[None]'
+  - name: origin/master
     tracking: '[None]'
   remotes:
   - name: origin
@@ -44,9 +46,15 @@ MonoBehaviour:
     subKeys:
     - Values:
       - HEAD
+      - master
     subKeyValues:
     - Values:
       - name: HEAD
+        remote:
+          name: origin
+          url: https://github.com/COMP361/f2020-hexanome-09.git
+        trackingBranch: 
+      - name: master
         remote:
           name: origin
           url: https://github.com/COMP361/f2020-hexanome-09.git
