@@ -5,6 +5,8 @@ colt-express-jan-2021/Temp
 ColtExpress/src/client/Temp
 ColtExpress/src/client/Library
 
+Builds
+
 # Elastic Beanstalk Files
 ColtExpress/src/server/.elasticbeanstalk
 .ebignore
