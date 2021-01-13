@@ -1,10 +1,14 @@
 .idea
 sample-csharp-code
+
 colt-express-jan-2021/Library
 colt-express-jan-2021/Temp
+colt-express-jan-2021/Logs
+colt-express-jan-2021/UserSettings
+
 ColtExpress/src/client/Temp
 ColtExpress/src/client/Library
-colt-express-jan-2021/Logs
+
 
 Builds
 
