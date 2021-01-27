@@ -7,7 +7,7 @@ The goal of this milestone is to develop the design models for the node that sto
 * Design Class Model/Structural Design
 
 ## File Organization 
-  * 
+  * link to the Google Drive https://drive.google.com/drive/folders/1w9jSCgFZVuB1YaEKWF_2OcVpsMh0Z3Sf
 
 ## File Structure 
 
