@@ -15,4 +15,6 @@ public abstract class Loot implements SerializableSFSType {
     
     protected boolean isWhiskey;
     
+    // NEEDED FOR SERIALIZATION
+    public Loot() { }
 }

@@ -15,4 +15,6 @@ public class Turn implements SerializableSFSType {
     
     protected TurnType turn;
     
+    public Turn() { }
+    
 }
