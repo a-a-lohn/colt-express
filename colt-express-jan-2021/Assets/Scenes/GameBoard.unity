@@ -730,7 +730,7 @@ GameObject:
   - component: {fileID: 367661731}
   - component: {fileID: 367661730}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: CardD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -851,7 +851,7 @@ GameObject:
   - component: {fileID: 369979178}
   - component: {fileID: 369979177}
   m_Layer: 5
-  m_Name: Button (4)
+  m_Name: CardA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1275,7 +1275,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.8867924, g: 0.85894406, b: 0.5479708, a: 0.09803922}
+  m_BackGroundColor: {r: 0.9056604, g: 0.8934902, b: 0.756141, a: 0.54509807}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1417,7 +1417,7 @@ GameObject:
   - component: {fileID: 541298847}
   - component: {fileID: 541298846}
   m_Layer: 5
-  m_Name: Button (3)
+  m_Name: CardB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2377,7 +2377,7 @@ GameObject:
   - component: {fileID: 1023083647}
   - component: {fileID: 1023083646}
   m_Layer: 5
-  m_Name: Button (2)
+  m_Name: CardC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2737,7 +2737,7 @@ GameObject:
   - component: {fileID: 1135692234}
   - component: {fileID: 1135692233}
   m_Layer: 5
-  m_Name: Button
+  m_Name: CardE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3018,8 +3018,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 56, y: -210}
-  m_SizeDelta: {x: 484.92, y: 98}
+  m_AnchoredPosition: {x: 56.915, y: -219.24}
+  m_SizeDelta: {x: 483.09, y: 79.526}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1214098419
 MonoBehaviour:
@@ -3167,7 +3167,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1258289863}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -205, y: -23, z: 0}
+  m_LocalPosition: {x: -205, y: -10, z: 0}
   m_LocalScale: {x: 32.63383, y: 32.63383, z: 32.63383}
   m_Children: []
   m_Father: {fileID: 734506206}
@@ -4554,8 +4554,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -274.2609, y: -209.00107}
-  m_SizeDelta: {x: 124, y: 100}
+  m_AnchoredPosition: {x: -282.92242, y: -219.23741}
+  m_SizeDelta: {x: 106.677, y: 79.5273}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1711425315
 MonoBehaviour:
