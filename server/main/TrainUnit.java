@@ -21,55 +21,57 @@ public class TrainUnit implements SerializableSFSType {
     protected ArrayList<TrainUnit> adjacent = new ArrayList<TrainUnit>();
     protected ArrayList<Horse> horses = new ArrayList<Horse>();
     
-    boolean addBanditPositionsAt(int index, Bandit a) {
+    public TrainUnit() { }
+
+    /*boolean addBanditPositionsAt(int index, Bandit a) {
         int size = banditPositions.size();
-        /*if (size == maximum) {
+        if (size == maximum) {
             return false;
-        }*/
+        }
         banditPositions.add(index, a);
         return true;
     }
+    */
 
-    boolean removeBanditPositionsAt(int index) {
+    /*boolean removeBanditPositionsAt(int index) {
         Bandit removedElement = banditPositions.remove(index);
         boolean result = removedElement != null;
         return result;
-    }
+    }*/
 
-    Bandit getBanditPositionsAt(int index) {
+    /*Bandit getBanditPositionsAt(int index) {
         Bandit associated = banditPositions.get(index);
         return associated;
+    }*/
+
+    public void addBanditPosition(Bandit a) {
+        if (this.banditPositions.contains(a)){
+            return;
+        }
+        this.banditPositions.add(a);
     }
 
-    boolean addBanditPositions(Bandit a) {
-        int size = banditPositions.size();
-        /*if (size == maximum) {
-            return false;
-        }*/
-        boolean added = banditPositions.add(a);
-        return added;
+    public void removeBanditPosition(Bandit a) {
+        if (this.banditPositions.contains(a)) {
+            this.banditPositions.remove(a);
+        }
     }
 
-    boolean removeBanditPositions(Bandit a) {
-        boolean removed = banditPositions.remove(a);
-        return removed;
-    }
-
-    boolean containsBanditPositions(Bandit a) {
-        boolean contains = banditPositions.contains(a);
+    public boolean containsBanditPositions(Bandit a) {
+        boolean contains = this.banditPositions.contains(a);
         return contains;
     }
 
-    int sizeOfBanditPositions() {
-        int size = banditPositions.size();
+    public int numberOfBandits() {
+        int size = this.banditPositions.size();
         return size;
     }
 
-    ArrayList<Bandit> getBanditPositions() {
+    public ArrayList<Bandit> getBanditPositions() {
         return this.banditPositions;
     }
 
-    boolean addLootInCabinAt(int index, Loot a) {
+    /*boolean addLootInCabinAt(int index, Loot a) {
         boolean contains = lootInCabin.contains(a);
         if (contains) {
             return false;
@@ -87,37 +89,37 @@ public class TrainUnit implements SerializableSFSType {
     Loot getLootInCabinAt(int index) {
         Loot associated = lootInCabin.get(index);
         return associated;
-    }
+    }*/
 
-    boolean addLootInCabin(Loot a) {
-        boolean contains = lootInCabin.contains(a);
+    public void addLootInCabin(Loot a) {
+        boolean contains = this.lootInCabin.contains(a);
         if (contains) {
-            return false;
+            return;
         }
-        boolean added = lootInCabin.add(a);
-        return added;
+        this.lootInCabin.add(a);
     }
 
-    boolean removeLootInCabin(Loot a) {
-        boolean removed = lootInCabin.remove(a);
-        return removed;
+    public void removeLootInCabin(Loot a) {
+        if (this.lootInCabin.contains(a)){
+            this.lootInCabin.remove(a);
+        }
     }
 
-    boolean containsLootInCabin(Loot a) {
-        boolean contains = lootInCabin.contains(a);
+    public boolean containsLoot(Loot a) {
+        boolean contains = this.lootInCabin.contains(a);
         return contains;
     }
 
-    int sizeOfLootInCabin() {
-        int size = lootInCabin.size();
+    public int amountOfLootInCabin() {
+        int size = this.lootInCabin.size();
         return size;
     }
 
-    ArrayList<Loot> getLootInCabin() {
+    public ArrayList<Loot> getLootInCabin() {
         return this.lootInCabin;
     }
 
-    boolean addAdjacentAt(int index, TrainUnit a) {
+    /*boolean addAdjacentAt(int index, TrainUnit a) {
         boolean contains = adjacent.contains(a);
         if (contains) {
             return false;
@@ -135,48 +137,45 @@ public class TrainUnit implements SerializableSFSType {
     TrainUnit getAdjacentAt(int index) {
         TrainUnit associated = adjacent.get(index);
         return associated;
-    }
+    }*/
 
-    boolean addAdjacent(TrainUnit a) {
-        boolean contains = adjacent.contains(a);
+    public void addAdjacent(TrainUnit a) {
+        boolean contains = this.adjacent.contains(a);
         if (contains) {
-            return false;
+            return;
         }
-        boolean added = adjacent.add(a);
-        return added;
+        this.adjacent.add(a);
     }
 
-    boolean removeAdjacent(TrainUnit a) {
-        boolean removed = adjacent.remove(a);
-        return removed;
+    public void removeAdjacent(TrainUnit a) {
+        if (this.adjacent.contains(a)) {
+            adjacent.remove(a);
+        }
     }
 
-    public TrainUnit() { }
-
-    boolean containsAdjacent(TrainUnit a) {
-        boolean contains = adjacent.contains(a);
+    public boolean containsAdjacent(TrainUnit a) {
+        boolean contains = this.adjacent.contains(a);
         return contains;
     }
 
-    int sizeOfAdjacent() {
-        int size = adjacent.size();
+    public int sizeOfAdjacent() {
+        int size = this.adjacent.size();
         return size;
     }
 
-    ArrayList<TrainUnit> getAdjacent() {
+    public ArrayList<TrainUnit> getAdjacent() {
         return this.adjacent;
     }
 
-    TrainUnit getOtherfloor() {
+    public TrainUnit getOtherfloor() {
         return this.otherfloor;
     }
 
-    boolean setOtherfloor(TrainUnit newObject) {
+    public void setOtherfloor(TrainUnit newObject) {
         this.otherfloor = newObject;
-        return true;
     }
 
-    boolean addHorsesAt(int index, Horse a) {
+    /*boolean addHorsesAt(int index, Horse a) {
         boolean contains = horses.contains(a);
         if (contains) {
             return false;
@@ -194,42 +193,41 @@ public class TrainUnit implements SerializableSFSType {
     Horse getHorsesAt(int index) {
         Horse associated = horses.get(index);
         return associated;
-    }
+    }*/
 
-    boolean addHorses(Horse a) {
-        boolean contains = horses.contains(a);
+    public void addHorse(Horse a) {
+        boolean contains = this.horses.contains(a);
         if (contains) {
-            return false;
+            return;
         }
-        boolean added = horses.add(a);
-        return added;
+        this.horses.add(a);
     }
 
-    boolean removeHorses(Horse a) {
-        boolean removed = horses.remove(a);
-        return removed;
+    public void removeHorses(Horse a) {
+        if (this.horses.contains(a)){
+            this.horses.remove(a);
+        }
     }
 
-    boolean containsHorses(Horse a) {
-        boolean contains = horses.contains(a);
+    public boolean containsHorses(Horse a) {
+        boolean contains = this.horses.contains(a);
         return contains;
     }
 
-    int sizeOfHorses() {
+    public int numberOfHorses() {
         int size = horses.size();
         return size;
     }
 
-    ArrayList<Horse> getHorses() {
+    public ArrayList<Horse> getHorses() {
         return this.horses;
     }
 
-    Marshal getMarshalHere() {
+    public Marshal getMarshalHere() {
         return this.marshalHere;
     }
 
-    boolean setMarshalHere(Marshal newObject) {
+    public void setMarshalHere(Marshal newObject) {
         this.marshalHere = newObject;
-        return true;
     }
 }

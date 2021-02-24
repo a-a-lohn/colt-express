@@ -19,182 +19,131 @@ public class Bandit implements SerializableSFSType {
     
     public void setGetsAnotherAction(boolean anotherAction) {
         /* TODO: No message view defined */
+        this.getsAnotherAction = anotherAction;
     }
 
     public boolean getGetsAnotherAction() {
         /* TODO: No message view defined */
-        return false;
+        return this.getsAnotherAction;
     }
 
     public boolean getPlayedThisTurn() {
         /* TODO: No message view defined */
-        return false;
+        return this.playedThisTurn;
     }
 
-    public boolean setPlayedThisTurn(boolean played) {
+    public void setPlayedThisTurn(boolean played) {
         /* TODO: No message view defined */
-        return false;
+        this.playedThisTurn = played;
     }
 
-    TrainUnit getPosition() {
+    public TrainUnit getPosition() {
         return this.position;
     }
 
-    boolean setPosition(TrainUnit newObject) {
+    public void setPosition(TrainUnit newObject) {
         this.position = newObject;
-        return true;
     }
 
-    boolean addLootAt(int index, Loot a) {
-        boolean contains = loot.contains(a);
+    public void addLoot(Loot a) {
+        boolean contains = this.loot.contains(a);
         if (contains) {
-            return false;
+            return ;
         }
-        loot.add(index, a);
-        return true;
+        this.loot.add(a);
     }
 
-    boolean removeLootAt(int index) {
-        Loot removedElement = loot.remove(index);
-        boolean result = removedElement != null;
-        return result;
+    public void removeLoot(Loot a) {
+        if (this.loot.contains(a)) {
+            this.loot.remove(a);
+        }
     }
 
-    Loot getLootAt(int index) {
+    public Loot getLootAt(int index) {
         Loot associated = loot.get(index);
         return associated;
     }
 
-    boolean addLoot(Loot a) {
-        boolean contains = loot.contains(a);
-        if (contains) {
-            return false;
-        }
-        boolean added = loot.add(a);
-        return added;
-    }
 
-    boolean removeLoot(Loot a) {
-        boolean removed = loot.remove(a);
-        return removed;
-    }
-
-    boolean containsLoot(Loot a) {
+    public boolean containsLoot(Loot a) {
         boolean contains = loot.contains(a);
         return contains;
     }
 
-    int sizeOfLoot() {
+    public int sizeOfLoot() {
         int size = loot.size();
         return size;
     }
 
-    ArrayList<Loot> getLoot() {
+    public ArrayList<Loot> getLoot() {
         return this.loot;
     }
 
-    boolean addHandAt(int index, ActionCard a) {
-        boolean contains = hand.contains(a);
+    public void addToHand(ActionCard a) {
+        boolean contains = this.hand.contains(a);
         if (contains) {
-            return false;
+            return;
         }
-        hand.add(index, a);
-        return true;
+        this.hand.add(a);
     }
 
-    boolean removeHandAt(int index) {
-        ActionCard removedElement = hand.remove(index);
-        boolean result = removedElement != null;
-        return result;
-    }
-
-    ActionCard getHandAt(int index) {
-        ActionCard associated = hand.get(index);
-        return associated;
-    }
-
-    boolean addHand(ActionCard a) {
-        boolean contains = hand.contains(a);
-        if (contains) {
-            return false;
+    public void removeFromHand(ActionCard a) {
+        if (this.hand.contains(a)){
+            this.hand.remove(a);
         }
-        boolean added = hand.add(a);
-        return added;
     }
 
-    boolean removeHand(ActionCard a) {
-        boolean removed = hand.remove(a);
-        return removed;
+    public boolean handContains(ActionCard a) {
+        if (this.hand.contains(a)) {
+            return true;
+        }
+        return false;
     }
 
-    boolean containsHand(ActionCard a) {
-        boolean contains = hand.contains(a);
-        return contains;
-    }
-
-    int sizeOfHand() {
+    public int sizeOfHand() {
         int size = hand.size();
         return size;
     }
 
-    ArrayList<ActionCard> getHand() {
+    public ArrayList<ActionCard> getHand() {
         return this.hand;
     }
 
-    boolean addDiscardPileAt(int index, ActionCard a) {
-        boolean contains = discardPile.contains(a);
+    public void addToDiscardPile(ActionCard a) {
+        boolean contains = this.discardPile.contains(a);
         if (contains) {
-            return false;
+            return;
         }
-        discardPile.add(index, a);
-        return true;
+        this.discardPile.add(a);
     }
 
-    boolean removeDiscardPileAt(int index) {
-        ActionCard removedElement = discardPile.remove(index);
-        boolean result = removedElement != null;
-        return result;
-    }
-
-    ActionCard getDiscardPileAt(int index) {
-        ActionCard associated = discardPile.get(index);
-        return associated;
-    }
-
-    boolean addDiscardPile(ActionCard a) {
-        boolean contains = discardPile.contains(a);
-        if (contains) {
-            return false;
+    public void removeFromDiscardPile(ActionCard a) {
+        if (this.discardPile.contains(a)) {
+            this.discardPile.remove(a);
         }
-        boolean added = discardPile.add(a);
-        return added;
     }
 
-    boolean removeDiscardPile(ActionCard a) {
-        boolean removed = discardPile.remove(a);
-        return removed;
+    public boolean discardPileContains(ActionCard a) {
+        if (this.discardPile.contains(a)) {
+            return true;
+        }
+        return false;;
     }
 
-    boolean containsDiscardPile(ActionCard a) {
-        boolean contains = discardPile.contains(a);
-        return contains;
-    }
-
-    int sizeOfDiscardPile() {
+    public int sizeOfDiscardPile() {
         int size = discardPile.size();
         return size;
     }
 
-    ArrayList<ActionCard> getDiscardPile() {
+    public ArrayList<ActionCard> getDiscardPile() {
         return this.discardPile;
     }
 
-    Hostage getHostage() {
+    public Hostage getHostage() {
         return this.hostage;
     }
 
-    boolean setHostage(Hostage newObject) {
+    public void setHostage(Hostage newObject) {
         this.hostage = newObject;
-        return true;
     }
 }

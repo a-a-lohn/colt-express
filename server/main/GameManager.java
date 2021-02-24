@@ -13,7 +13,8 @@ import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
  */
 public class GameManager implements SerializableSFSType {
     
-    protected GameStatus status;
+    protected static GameManager singleton;
+    protected GameStatus gameStatus;
     protected Round currentRound;
     protected Bandit currentBandit;
     protected ArrayList<Round> rounds = new ArrayList<Round>();
@@ -25,142 +26,104 @@ public class GameManager implements SerializableSFSType {
     
     public GameManager() { }
     
-    Round getCurrentRound() {
+    public Round getCurrentRound() {
         return this.currentRound;
     }
 
-    boolean setCurrentRound(Round newObject) {
+    public void setCurrentRound(Round newObject) {
         this.currentRound = newObject;
-        return true;
     }
 
-    protected boolean addSimpleRounds(int index, Round a) {
-        /* TODO: No message view defined */
-        return false;
+    public Round getRoundAt(index){
+        return this.rounds.get(index);
     }
 
-    /*boolean addRoundsAt(int index, Round a) {
-        int size = rounds.size();
-        if (size == maximum) {
-            return false;
-        }
-        rounds.add(index, a);
-        return true;
-    }*/
-
-    boolean removeRoundsAt(int index) {
-        Round removedElement = rounds.remove(index);
-        boolean result = removedElement != null;
-        return result;
-    }
-
-    Round getRoundsAt(int index) {
-        Round associated = rounds.get(index);
-        return associated;
-    }
-
-    protected boolean addSimpleRounds(Round a) {
-        /* TODO: No message view defined */
-        return false;
-    }
-
-    protected boolean removeSimpleRounds(Round a) {
-        /* TODO: No message view defined */
-        return false;
-    }
-
-    boolean addRounds(Round a) {
+    public void addRound(Round a) {
         int size = rounds.size();
         /*if (size == maximum) {
             return false;
         }*/
-        boolean added = rounds.add(a);
-        return added;
+        this.rounds.add(a);
     }
 
-    boolean removeRounds(Round a) {
-        boolean removed = rounds.remove(a);
-        return removed;
+    public void removeRound(Round a) {
+        if (this.rounds.contains(a)) {
+            this.rounds.remove(a);
+        }
     }
 
-    boolean containsRounds(Round a) {
+    public boolean roundsContains(Round a) {
         boolean contains = rounds.contains(a);
         return contains;
     }
 
-    int sizeOfRounds() {
+    public int sizeOfRounds() {
         int size = rounds.size();
         return size;
     }
 
-    ArrayList<Round> getRounds() {
+    public ArrayList<Round> getRounds() {
         return this.rounds;
     }
 
-    void setGameStatus(GameStatus newStatus) {
-        /* TODO: No message view defined */
+    public void setGameStatus(GameStatus newStatus) {
+        this.gameStatus = newStatus;
     }
 
-    boolean addTrainUnitsAt(int index, TrainUnit a) {
-        boolean contains = trainUnits.contains(a);
+    public void getGameStatus(){
+        return this.gameStatus;
+    }
+
+    public void addTrainUnitsAt(int index, TrainUnit a) {
+        boolean contains = this.trainUnits.contains(a);
         if (contains) {
-            return false;
+            return;
         }
         trainUnits.add(index, a);
-        return true;
     }
 
-    boolean removeTrainUnitsAt(int index) {
-        TrainUnit removedElement = trainUnits.remove(index);
-        boolean result = removedElement != null;
-        return result;
-    }
-
-    TrainUnit getTrainUnitsAt(int index) {
-        TrainUnit associated = trainUnits.get(index);
-        return associated;
-    }
-
-    boolean addTrainUnits(TrainUnit a) {
-        boolean contains = trainUnits.contains(a);
-        if (contains) {
-            return false;
+    public void removeTrainUnitsAt(int index) {
+        if (this.trainUnits.size >= index) {
+            this.trainUnits.remove(index);
         }
-        boolean added = trainUnits.add(a);
-        return added;
     }
 
-    boolean removeTrainUnits(TrainUnit a) {
-        boolean removed = trainUnits.remove(a);
-        return removed;
+    public TrainUnit getTrainUnitsAt(int index) {
+        if (this.trainUnits.size >= index) {
+            return this.trainUnits.get(index);
+        }
     }
 
-    boolean containsTrainUnits(TrainUnit a) {
+    public void addTrainUnit(TrainUnit a) {
+        this.trainUnits.add(a);
+    }
+
+    public void removeTrainUnits(TrainUnit a) {
+        if (this.trainUnits.contains(a)){
+            this.trainUnits.remove(a);
+        }
+    }
+
+    public boolean trainUnitsContain(TrainUnit a) {
         boolean contains = trainUnits.contains(a);
         return contains;
     }
 
-    int sizeOfTrainUnits() {
-        int size = trainUnits.size();
+    public int sizeOfTrainUnits() {
+        int size = this.trainUnits.size();
         return size;
     }
 
-    ArrayList<TrainUnit> getTrainUnits() {
+    public ArrayList<TrainUnit> getTrainUnits() {
         return this.trainUnits;
     }
 
-    Bandit getCurrentBandit() {
+    public Bandit getCurrentBandit() {
         return this.currentBandit;
     }
 
-    boolean setCurrentBandit(Bandit newObject) {
+    public void setCurrentBandit(Bandit newObject) {
         this.currentBandit = newObject;
-        return true;
-    }
-
-    protected boolean addSimpleBandits(int index, Bandit a) {
-        /* TODO: No message view defined */
-        return false;
     }
 
     /*boolean addBanditsAt(int index, Bandit a) {
@@ -172,48 +135,36 @@ public class GameManager implements SerializableSFSType {
         return true;
     }*/
 
-    boolean removeBanditsAt(int index) {
-        Bandit removedElement = bandits.remove(index);
-        boolean result = removedElement != null;
-        return result;
+    public void removeBanditsAt(int index) {
+        if (this.bandits.size()) >= index {
+            this.bandits.remove(index);
+        }
     }
 
-    Bandit getBanditsAt(int index) {
-        Bandit associated = bandits.get(index);
-        return associated;
+    public Bandit getBanditsAt(int index) {
+        if (this.bandits.size() >= index) {
+            return this.bandits.get(index);
+        }
     }
 
-    protected boolean addSimpleBandits(Bandit a) {
-        /* TODO: No message view defined */
-        return false;
+
+    public void addBandit(Bandit a) {
+        bandits.add(a);
     }
 
-    protected boolean removeSimpleBandits(Bandit a) {
-        /* TODO: No message view defined */
-        return false;
+    public void removeBandits(Bandit a) {
+        if (this.bandits.contains(a)) {
+            this.bandits.remove(a);
+        }
     }
 
-    boolean addBandits(Bandit a) {
-        int size = bandits.size();
-        /*if (size == maximum) {
-            return false;
-        }*/
-        boolean added = bandits.add(a);
-        return added;
-    }
-
-    boolean removeBandits(Bandit a) {
-        boolean removed = bandits.remove(a);
-        return removed;
-    }
-
-    boolean containsBandits(Bandit a) {
-        boolean contains = bandits.contains(a);
+    public boolean containsBandits(Bandit a) {
+        boolean contains = this.bandits.contains(a);
         return contains;
     }
 
-    int sizeOfBandits() {
-        int size = bandits.size();
+    public int sizeOfBandits() {
+        int size = this.bandits.size();
         return size;
     }
 
@@ -221,8 +172,10 @@ public class GameManager implements SerializableSFSType {
         return this.bandits;
     }
 
-    static GameManager getInstance() {
-        /* TODO: No message view defined */
-        return null;
+    public static GameManager getInstance() {
+        if (singleton == null) {
+            singleton = new GameManager();
+        }
+        return singleton;
     }
 }

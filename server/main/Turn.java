@@ -13,8 +13,16 @@ import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
  */
 public class Turn implements SerializableSFSType {
     
-    protected TurnType turn;
+    protected TurnType turnType;
     
     public Turn() { }
+
+    public TurnType getTurnType(){
+        return this.turnType;
+    }
+    
+    public void setTurnType(TurnType p){
+        this.turnType = p;
+    }
     
 }

@@ -17,90 +17,63 @@ public class Round implements SerializableSFSType {
     protected Turn currentTurn;
     protected ArrayList<Turn> turns = new ArrayList<Turn>();
     
-    protected boolean addSimpleTurns(int index, Turn a) {
-        /* TODO: No message view defined */
-        return false;
-    }
-
-    boolean addTurns(Turn a) {
-        int size = turns.size();
-        /*if (size == maximum) {
-            return false;
-        }*/
-        boolean added = turns.add(a);
-        return added;
-    }
-
-    boolean addTurnsAt(int index, Turn a) {
-        int size = turns.size();
-        /*if (size == maximum) {
-            return false;
-        }*/
-        turns.add(index, a);
-        return true;
-    }
-
-    boolean removeTurnsAt(int index) {
-        int size = turns.size();
-        /*if (size == minimum) {
-            return false;
-        }*/
-        Turn removedElement = turns.remove(index);
-        boolean result = removedElement != null;
-        return result;
-    }
-
-    Turn getTurnsAt(int index) {
-        Turn associated = turns.get(index);
-        return associated;
-    }
-
-    protected boolean addSimpleTurns(Turn a) {
-        /* TODO: No message view defined */
-        return false;
-    }
-
-    protected boolean removeSimpleTurns(Turn a) {
-        /* TODO: No message view defined */
-        return false;
-    }
-
-    boolean removeTurns(Turn a) {
-        int size = turns.size();
-        /*if (size == minimum) {
-            return false;
-        }*/
-        boolean removed = turns.remove(a);
-        return removed;
-    }
 
     public Round() {  }
 
-    boolean containsTurns(Turn a) {
-        boolean contains = turns.contains(a);
+    public void addTurn(Turn a) {
+        if (this.turns.contains(a)){
+            return;
+        }
+        this.turns.add(a);
+    }
+
+    public void addTurnsAt(int index, Turn a) {
+        this.turns.add(index, a);
+    }
+
+    public void removeTurnsAt(int index) {
+        int size = this.turns.size();
+        if (index<size) {
+            this.turns.remove(index);
+        }
+    }
+
+    public Turn getTurnAt(int index) {
+        if (index<this.turns.size()) {
+            return this.turns.get(index);
+        }
+    }
+
+    public void removeTurn(Turn a) {
+        if (this.turns.contains(a)){
+            this.turns.remove(a);
+        }
+    }
+
+    public boolean containsTurns(Turn a) {
+        boolean contains = this.turns.contains(a);
         return contains;
     }
 
-    int sizeOfTurns() {
-        int size = turns.size();
+    public int sizeOfTurns() {
+        int size = this.turns.size();
         return size;
     }
 
-    ArrayList<Turn> getTurns() {
+    public ArrayList<Turn> getTurns() {
         return this.turns;
     }
 
-    Turn getCurrentTurn() {
+    public Turn getCurrentTurn() {
         return this.currentTurn;
     }
 
-    boolean setCurrentTurn(Turn newObject) {
+    public void setCurrentTurn(Turn newObject) {
         this.currentTurn = newObject;
-        return true;
     }
 
     public Turn getNextTurn() {
-        /* TODO: No message view defined */
+        /* TODO: implement this(?) */
         return null;
     }
 }

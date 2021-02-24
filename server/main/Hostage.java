@@ -16,12 +16,19 @@ public class Hostage implements SerializableSFSType {
     
     public Hostage() { }
     
-    Bandit getCapturedBy() {
+    public Bandit getCapturedBy() {
         return this.capturedBy;
     }
 
-    boolean setCapturedBy(Bandit newObject) {
+    public void setCapturedBy(Bandit newObject) {
         this.capturedBy = newObject;
-        return true;
+    }
+
+    public HostageType getHostageType(){
+        return this.hostageType;
+    }
+
+    public void setHostageType(HostageType p) {
+        this.hostageType=p;
     }
 }

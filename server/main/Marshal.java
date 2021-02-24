@@ -14,17 +14,20 @@ public class Marshal implements SerializableSFSType {
     protected TrainUnit marshalPosition;
     protected static Marshal instance;
 
-    public Marshal() {
-        /* TODO: No message view defined */
-    }
+    public Marshal() {}
     
-    TrainUnit getMarshalPosition() {
+    public TrainUnit getMarshalPosition() {
         return this.marshalPosition;
     }
 
-    boolean setMarshalPosition(TrainUnit newObject) {
+    public void setMarshalPosition(TrainUnit newObject) {
         this.marshalPosition = newObject;
-        return true;
     }
 
+    public static getInstance(){
+        if (instance==null){
+            instance = new Marshal();
+        }
+        return instance;
+    }
 }

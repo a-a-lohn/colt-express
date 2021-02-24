@@ -17,4 +17,12 @@ public abstract class Loot implements SerializableSFSType {
     
     // NEEDED FOR SERIALIZATION
     public Loot() { }
+
+    public void setIsWhiskey(boolean b){
+        this.isWhiskey=b;
+    }
+
+    public boolean getIsWhiskey(){
+        return this.isWhiskey;
+    }
 }

@@ -13,8 +13,7 @@ public abstract class Card implements SerializableSFSType {
         return this.belongsTo;
     }
 
-    boolean setBelongsTo(Bandit newObject) {
+    public void setBelongsTo(Bandit newObject) {
         this.belongsTo = newObject;
-        return true;
     }
 }

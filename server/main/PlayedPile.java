@@ -16,60 +16,60 @@ public class PlayedPile implements SerializableSFSType {
     protected static PlayedPile instance;
     protected ArrayList<ActionCard> playedCards = new ArrayList<ActionCard>();
     
-    boolean addPlayedCardsAt(int index, ActionCard a) {
+    public PlayedPile() { }
+    
+    public void addPlayedCardsAt(int index, ActionCard a) {
         boolean contains = playedCards.contains(a);
         if (contains) {
-            return false;
+            return;
         }
-        playedCards.add(index, a);
-        return true;
+        this.playedCards.add(index, a);
     }
 
-    boolean removePlayedCardsAt(int index) {
-        ActionCard removedElement = playedCards.remove(index);
-        boolean result = removedElement != null;
-        return result;
+    public void removePlayedCardsAt(int index) {
+        if (this.playedCards.size() > index){
+            playedCards.remove(index);
+        }
     }
 
-    ActionCard getPlayedCardsAt(int index) {
-        ActionCard associated = playedCards.get(index);
-        return associated;
+    public ActionCard getPlayedCardsAt(int index) {
+        if (this.playedCards.size() > index) {
+            return this.playedCards.get(index);
+        }
     }
 
-    boolean addPlayedCards(ActionCard a) {
-        boolean contains = playedCards.contains(a);
+    public void addPlayedCards(ActionCard a) {
+        boolean contains = this.playedCards.contains(a);
         if (contains) {
-            return false;
+            return;
         }
-        boolean added = playedCards.add(a);
-        return added;
+        this.playedCards.add(a);
     }
 
-    boolean removePlayedCards(ActionCard a) {
-        boolean removed = playedCards.remove(a);
-        return removed;
+    public void removePlayedCards(ActionCard a) {
+        if (this.playedCards.contains(a)){
+            playedCards.remove(a);
+        }
     }
 
-    boolean containsPlayedCards(ActionCard a) {
-        boolean contains = playedCards.contains(a);
+    public boolean containsPlayedCards(ActionCard a) {
+        boolean contains = this.playedCards.contains(a);
         return contains;
     }
 
-    int sizeOfPlayedCards() {
-        int size = playedCards.size();
+    public int sizeOfPlayedCards() {
+        int size = this.playedCards.size();
         return size;
     }
 
-    ArrayList<ActionCard> getPlayedCards() {
+    public ArrayList<ActionCard> getPlayedCards() {
         return this.playedCards;
     }
 
-    public PlayedPile() {
-        /* TODO: No message view defined */
-    }
-
-    static GameManager getInstance() {
-        /* TODO: No message view defined */
-        return null;
+    public static GameManager getInstance() {
+        if (instance==null){
+            instance = new PlayedPile();
+        }
+        return instance;
     }
 }
