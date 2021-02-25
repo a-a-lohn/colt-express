@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 using System;
 using RestSharp;
 using Newtonsoft.Json.Linq;
@@ -26,6 +27,8 @@ public class Hand : MonoBehaviour
     }
 
     public void doAction(){
-        message.text = "hii";
+
+        string button = EventSystem.current.currentSelectedGameObject.name;
+        message.text = "Clicked on " + button;
     }
 }
