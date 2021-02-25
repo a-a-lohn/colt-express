@@ -39,6 +39,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: GameItems
+    uniqueID: 1230360083
+    locked: 0
+  - name: Player
+    uniqueID: 2438832743
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
