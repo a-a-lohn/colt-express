@@ -18,13 +18,27 @@ public class GameManager implements SerializableSFSType {
     protected Round currentRound;
     protected Bandit currentBandit;
     protected ArrayList<Round> rounds = new ArrayList<Round>();
-    protected static GameManager instance;
     protected static Marshal marshalInstance;
     protected static PlayedPile playedPileInstance;
-    protected ArrayList<TrainUnit> trainUnits = new ArrayList<TrainUnit>();
+    protected TrainUnit[][] train;
+    protected TrainUnit stagecoach;
     protected ArrayList<Bandit> bandits = new ArrayList<Bandit>();
     
-    public GameManager() { }
+    private GameManager GameManger() {
+        this.train = TrainUnit.createTrain(this.bandits.size());
+        this.stagecoach = TrainUnit.createStagecoach();
+    }
+
+    public static GameManger getInstance(){
+        GameMananger gm = null;
+        if(singleton = null){
+            gm = new GameManger();
+        }
+        else{
+            gm = GameManger.singleton;
+        }
+        return gm;
+    }
     
     public Round getCurrentRound() {
         return this.currentRound;

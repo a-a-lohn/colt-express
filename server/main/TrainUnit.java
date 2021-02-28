@@ -1,6 +1,8 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Optional;
 
 import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
 
@@ -14,168 +16,213 @@ import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
 public class TrainUnit implements SerializableSFSType {
     
     protected CarType carType;
-    protected TrainUnit otherfloor;
-    protected Marshal marshalHere;
-    protected ArrayList<Bandit> banditPositions = new ArrayList<Bandit>();
-    protected ArrayList<Loot> lootInCabin = new ArrayList<Loot>();
-    protected ArrayList<TrainUnit> adjacent = new ArrayList<TrainUnit>();
-    protected ArrayList<Horse> horses = new ArrayList<Horse>();
     
-    public TrainUnit() { }
+    protected Optional<TrainUnit> above = Optional.empty();
+    protected Optional<TrainUnit> below = Optional.empty();
+    protected Optional<TrainUnit> left = Optional.empty();
+    protected Optional<TrainUnit> right = Optional.empty();
+    protected Optional<TrainUnit> beside = Optional.empty(); //Used for stagecoach and it's adjacent car ONLY.
+    
+    protected boolean marshalHere = false;
+    protected HashSet<Bandit> banditsHere = new HashSet<Bandit>();
+    protected HashSet<Loot> lootHere = new HashSet<Loot>();
+    protected HashSet<Horse> horsesHere = new HashSet<Horse>();
+    
+    private TrainUnit TrainUnit(CarType carType) {
+    	this.carType = carType;
+    	//TODO: createGraphic()
+    }
+    
+    /**
+     * 
+     * @param numberOfBandits
+     *           the number of train cars to create is based on the number of bandits playing the game
+     * @return a 2D array laid out in the following configuration:
+     *           train[0][i] = roof units
+     *           train[1][i] = cabin units
+     *           where i=0 is the caboose and i=number of cars is the locomotive
+     * Does NOT contain the stagecoach. The GameManger must separately call createStagecoach().
+     */
+    static ArrayList<TrainUnit> createTrain(int numberOfBandits){
+    	//Create one car for each player, +1 to account for the locomotive
+    	final int trainLength = numberOfBandits + 1;
+    	
+    	TrainUnit[][] train = new Train[2][trainLength];
+    	TrainUnit locoCabin = new TrainUnit(CarType.LocomotiveCabin);
+    	TrainUnit locoRoof = new TrainUnit(CarType.LocomotiveRoof);
+    	
+    	//Create locomotive
+    	locoCabin.above = Optional.of(locoRoof);
+    	locoCabin.marshalHere = true;
+    	locoRoof.below = Optional.of(locoCabin);
+    	
+    	//TODO: Add locomotive to array
+    	
+    	//TODO: Create rest of the cars, associate with each other, add to array
+    	
+    	//TODO: Associate locomotive to front car
+    	
+    }
+    
+    static TrainUnit createStagecoach() {
+    	TrainUnit cabin = new TrainUnit(CarType.StagecoachCabin);
+    	TrainUnit roof = new TrainUnit(CarType.StagecoachRoof);
+    }
 
-    /*boolean addBanditPositionsAt(int index, Bandit a) {
-        int size = banditPositions.size();
-        if (size == maximum) {
-            return false;
+
+    
+    /**
+     * TRAIN UNIT METHODS
+     */
+    
+    
+    /**
+     * 
+     * @return
+     */
+    TrainUnit getAbove() {
+        if(this.above.isEmpty()) {
+        	return null; //better design?
         }
-        banditPositions.add(index, a);
-        return true;
-    }
-    */
-
-    /*boolean removeBanditPositionsAt(int index) {
-        Bandit removedElement = banditPositions.remove(index);
-        boolean result = removedElement != null;
-        return result;
-    }*/
-
-    /*Bandit getBanditPositionsAt(int index) {
-        Bandit associated = banditPositions.get(index);
-        return associated;
-    }*/
-
-    public void addBanditPosition(Bandit a) {
-        if (this.banditPositions.contains(a)){
-            return;
-        }
-        this.banditPositions.add(a);
-    }
-
-    public void removeBanditPosition(Bandit a) {
-        if (this.banditPositions.contains(a)) {
-            this.banditPositions.remove(a);
-        }
-    }
-
-    public boolean containsBanditPositions(Bandit a) {
-        boolean contains = this.banditPositions.contains(a);
-        return contains;
-    }
-
-    public int numberOfBandits() {
-        int size = this.banditPositions.size();
-        return size;
-    }
-
-    public ArrayList<Bandit> getBanditPositions() {
-        return this.banditPositions;
-    }
-
-    /*boolean addLootInCabinAt(int index, Loot a) {
-        boolean contains = lootInCabin.contains(a);
-        if (contains) {
-            return false;
-        }
-        lootInCabin.add(index, a);
-        return true;
-    }
-
-    boolean removeLootInCabinAt(int index) {
-        Loot removedElement = lootInCabin.remove(index);
-        boolean result = removedElement != null;
-        return result;
-    }
-
-    Loot getLootInCabinAt(int index) {
-        Loot associated = lootInCabin.get(index);
-        return associated;
-    }*/
-
-    public void addLootInCabin(Loot a) {
-        boolean contains = this.lootInCabin.contains(a);
-        if (contains) {
-            return;
-        }
-        this.lootInCabin.add(a);
-    }
-
-    public void removeLootInCabin(Loot a) {
-        if (this.lootInCabin.contains(a)){
-            this.lootInCabin.remove(a);
+        else {
+        	return this.above.get();
         }
     }
 
-    public boolean containsLoot(Loot a) {
-        boolean contains = this.lootInCabin.contains(a);
-        return contains;
-    }
-
-    public int amountOfLootInCabin() {
-        int size = this.lootInCabin.size();
-        return size;
-    }
-
-    public ArrayList<Loot> getLootInCabin() {
-        return this.lootInCabin;
-    }
-
-    /*boolean addAdjacentAt(int index, TrainUnit a) {
-        boolean contains = adjacent.contains(a);
-        if (contains) {
-            return false;
+    TrainUnit getBelow() {
+        if(this.below.isEmpty()) {
+        	return null;
         }
-        adjacent.add(index, a);
-        return true;
-    }
-
-    boolean removeAdjacentAt(int index) {
-        TrainUnit removedElement = adjacent.remove(index);
-        boolean result = removedElement != null;
-        return result;
-    }
-
-    TrainUnit getAdjacentAt(int index) {
-        TrainUnit associated = adjacent.get(index);
-        return associated;
-    }*/
-
-    public void addAdjacent(TrainUnit a) {
-        boolean contains = this.adjacent.contains(a);
-        if (contains) {
-            return;
-        }
-        this.adjacent.add(a);
-    }
-
-    public void removeAdjacent(TrainUnit a) {
-        if (this.adjacent.contains(a)) {
-            adjacent.remove(a);
+        else {
+        	return this.below.get();
         }
     }
 
-    public boolean containsAdjacent(TrainUnit a) {
-        boolean contains = this.adjacent.contains(a);
-        return contains;
+    TrainUnit getRight() {
+        if(this.right.isEmpty()) {
+        	return null;
+        }
+        else {
+        	return this.right.get();
+        }
     }
 
-    public int sizeOfAdjacent() {
-        int size = this.adjacent.size();
-        return size;
+    TrainUnit getLeft() {
+        if(this.left.isEmpty()) {
+        	return null;
+        }
+        else {
+        	return this.left.get();
+        }
     }
 
-    public ArrayList<TrainUnit> getAdjacent() {
-        return this.adjacent;
+    TrainUnit getBeside() {
+        if(this.beside.isEmpty()) {
+        	return null;
+        }
+        else {
+        	return this.beside.get();
+        }
+    }
+    
+    boolean isAdjacentTo(TrainUnit a) {
+        //TODO
+    	return false;
     }
 
-    public TrainUnit getOtherfloor() {
-        return this.otherfloor;
+    
+    
+    /**
+     * BANDIT METHODS
+     */
+    
+    
+    /**
+     * 
+     * @param b
+     *           b is a non-null Bandit to be added to this train car
+     * @pre this train car must not already contain b
+     */
+    void addBandit(Bandit b) {
+    	assert !banditsHere.contains(b);
+        //TODO
     }
 
-    public void setOtherfloor(TrainUnit newObject) {
-        this.otherfloor = newObject;
+    /**
+     * 
+     * @param b
+     *           b is a non-null Bandit to be removed from this train car
+     * @pre this train car must contain b
+     */
+    boolean static removeBandit(Bandit b) {
+    	assert banditsHere.contains(b);
+    	//TODO
+    	return false;
     }
 
-    /*boolean addHorsesAt(int index, Horse a) {
+    boolean containsBandit(Bandit b) {
+        return this.banditsHere.contains(a);
+    }
+
+    int numOfBanditsHere() {
+        return this.banditsHere.size();
+    }
+
+    HashSet<Bandit> getBanditsHere() {
+        return this.banditsHere.clone();
+    }
+
+    
+    /**
+     * LOOT METHODS
+     */
+    
+    
+    /**
+     * 
+     * @param a
+     */
+    void addLoot(Loot a) {
+        //TODO
+    }
+
+    void removeLoot(Loot a) {
+        //TODO
+    }
+
+    boolean containsLoot(Loot a) {
+        return this.lootHere.contains(a);
+    }
+
+    int numOfLootHere() {
+        return this.lootHere.size();
+    }
+
+    HashSet<Loot> getLootHere() {
+        return this.lootHere.clone();
+    }
+    
+    
+    /**
+     * MARSHAL METHODS
+     */
+    
+    
+    boolean isMarshalHere() {
+        return this.marshalHere;
+    }
+
+    void setMarshalHere() {
+        this.marshalHere = true;
+    }
+    
+
+    /**
+     * HORSE METHODS, (HAVE NOT BEEN CHECKED)
+     */
+    
+    
+    boolean addHorsesAt(int index, Horse a) {
         boolean contains = horses.contains(a);
         if (contains) {
             return false;
@@ -193,41 +240,33 @@ public class TrainUnit implements SerializableSFSType {
     Horse getHorsesAt(int index) {
         Horse associated = horses.get(index);
         return associated;
-    }*/
+    }
 
-    public void addHorse(Horse a) {
-        boolean contains = this.horses.contains(a);
+    boolean addHorses(Horse a) {
+        boolean contains = horses.contains(a);
         if (contains) {
-            return;
+            return false;
         }
-        this.horses.add(a);
+        boolean added = horses.add(a);
+        return added;
     }
 
-    public void removeHorses(Horse a) {
-        if (this.horses.contains(a)){
-            this.horses.remove(a);
-        }
+    boolean removeHorses(Horse a) {
+        boolean removed = horses.remove(a);
+        return removed;
     }
 
-    public boolean containsHorses(Horse a) {
-        boolean contains = this.horses.contains(a);
+    boolean containsHorses(Horse a) {
+        boolean contains = horses.contains(a);
         return contains;
     }
 
-    public int numberOfHorses() {
+    int sizeOfHorses() {
         int size = horses.size();
         return size;
     }
 
-    public ArrayList<Horse> getHorses() {
+    ArrayList<Horse> getHorses() {
         return this.horses;
-    }
-
-    public Marshal getMarshalHere() {
-        return this.marshalHere;
-    }
-
-    public void setMarshalHere(Marshal newObject) {
-        this.marshalHere = newObject;
     }
 }
