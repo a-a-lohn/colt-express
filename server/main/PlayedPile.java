@@ -66,10 +66,10 @@ public class PlayedPile implements SerializableSFSType {
         return this.playedCards;
     }
 
-    public static GameManager getInstance() {
-        if (instance==null){
-            instance = new PlayedPile();
-        }
-        return instance;
-    }
+    public static PlayedPile getInstance() {
+		if (instance == null) {
+			instance = new PlayedPile();
+		}
+		return instance;
+	}
 }
