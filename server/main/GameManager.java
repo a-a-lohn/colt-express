@@ -24,7 +24,17 @@ public class GameManager implements SerializableSFSType {
     protected TrainUnit stagecoach;
     protected ArrayList<Bandit> bandits = new ArrayList<Bandit>();
     
-    private GameManager GameManger() {
+    private GameManager GameManger(ArrayList<Bandit> bandits, Bandit currentBandit, ArrayList<Round> rounds, Round currentRound,
+			GameStatus status, ArrayList<TrainUnit> trainUnits) {
+        
+        this.bandits = bandits;
+		this.currentBandit = currentBandit;
+		this.rounds = rounds;
+		this.currentRound = currentRound;
+		this.status = status;
+		this.marshalInstance = Marshal.getInstance();
+		this.playedPileInstance = PlayedPile.getInstance();
+        
         this.train = TrainUnit.createTrain(this.bandits.size());
         this.stagecoach = TrainUnit.createStagecoach();
     }
@@ -32,7 +42,8 @@ public class GameManager implements SerializableSFSType {
     public static GameManger getInstance(){
         GameMananger gm = null;
         if(singleton = null){
-            gm = new GameManger();
+            gm = new GameManager(new ArrayList<Bandit>(), null, new ArrayList<Round>(), null, GameStatus.SETUP,
+					new ArrayList<TrainUnit>());
         }
         else{
             gm = GameManger.singleton;
@@ -84,7 +95,7 @@ public class GameManager implements SerializableSFSType {
         this.gameStatus = newStatus;
     }
 
-    public void getGameStatus(){
+    public GameStatus getGameStatus(){
         return this.gameStatus;
     }
 
@@ -186,10 +197,59 @@ public class GameManager implements SerializableSFSType {
         return this.bandits;
     }
 
-    public static GameManager getInstance() {
-        if (singleton == null) {
-            singleton = new GameManager();
-        }
-        return singleton;
-    }
+    boolean allPlayersChosen() {
+		// TO DO
+		// for all players, return if they are all associated with a bandit or not.
+		return true;
+	}
+
+	int getNumOfPlayers() {
+		// TO DO
+		// Here to get number of players
+		return 3;
+	}
+
+	void chosenCharacter(int playerId, Character c) {
+		Bandit newBandit = new Bandit(c);
+		this.bandits.add(newBandit);
+		// TO DO.
+		// Here to associate playerId with newBandit.
+		boolean ready = this.allPlayersChosen();
+		if (!ready) {
+			System.out.println("Not all players are ready!");
+		} else {
+			int numP = this.getNumOfPlayers();
+			for (int i = 0; i < numP; i++) {
+				// Here create new TrainUnit object
+				this.addTrainUnits(new TrainUnit());
+			}
+
+			for (Bandit b : this.bandits) {
+				b.createStartingCards();
+				b.createBulletCards();
+				b.createStartingPurse();
+			}
+			
+			// TO DO
+			// set up positions for bandits correspondingly
+
+			Marshal marshal = new Marshal();
+
+			Money strongbox = new Money(MoneyType.STRONGBOX, 1000);
+			
+			// TO DO 
+			// set up the positions for marshal and strongbox 
+			
+			for (TrainUnit tu : this.trainUnits) {
+				// TO DO
+				// algorithm for adding loots randomly to each train unit that is created
+				// Money l = new Money();
+				// tu.addLootInCabin(l);
+			}
+
+			this.setGameStatus(GameStatus.SCHEMIN);
+			this.setCurrentRound(this.rounds.get(0));
+			// set waiting for input to be true;
+		}
+	}
 }
