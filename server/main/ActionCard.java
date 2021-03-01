@@ -15,7 +15,11 @@ public class ActionCard extends Card implements SerializableSFSType {
     protected boolean saveForNextRound;
     
     public ActionCard() { }
-
+    
+    public ActionCard(ActionKind ak) {
+		this.action = ak;
+	}
+    
     public void setAction(ActionKind a) {
         this.action = a;
     }
