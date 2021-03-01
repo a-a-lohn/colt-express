@@ -21,7 +21,7 @@ public class Whiskey extends Loot implements SerializableSFSType {
     }
 
     public WhiskeyStatus getWhiskeyStatus(){
-        return this.WhiskeyStatus;
+        return this.whiskeyStatus;
     }
 
     public void setWhiskeyType(WhiskeyType p){
