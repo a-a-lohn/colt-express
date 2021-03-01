@@ -9,7 +9,7 @@ public abstract class Card implements SerializableSFSType {
 	// NEEDED FOR SERIALIZATION
 	public Card() { }
 	
-    Bandit getBelongsTo() {
+    public Bandit getBelongsTo() {
         return this.belongsTo;
     }
 

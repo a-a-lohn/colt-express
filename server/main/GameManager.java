@@ -193,7 +193,7 @@ public class GameManager implements SerializableSFSType {
         return size;
     }
 
-    ArrayList<Bandit> getBandits() {
+    public ArrayList<Bandit> getBandits() {
         return this.bandits;
     }
 

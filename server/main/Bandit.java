@@ -47,16 +47,15 @@ public class Bandit implements SerializableSFSType {
 		this.playedThisTurn = played;
 	}
 
-	TrainUnit getPosition() {
+	public TrainUnit getPosition() {
 		return this.position;
 	}
 
-	boolean setPosition(TrainUnit newObject) {
+	public void setPosition(TrainUnit newObject) {
 		this.position = newObject;
-		return true;
 	}
 
-	boolean addLootAt(int index, Loot a) {
+	public boolean addLootAt(int index, Loot a) {
 		boolean contains = loot.contains(a);
 		if (contains) {
 			return false;
@@ -65,196 +64,204 @@ public class Bandit implements SerializableSFSType {
 		return true;
 	}
 
-	boolean removeLootAt(int index) {
-		Loot removedElement = loot.remove(index);
-		boolean result = removedElement != null;
-		return result;
-	}
-
-	Loot getLootAt(int index) {
-		Loot associated = loot.get(index);
-		return associated;
-	}
-
-	boolean addLoot(Loot a) {
-		boolean contains = loot.contains(a);
-		if (contains) {
-			return false;
+	public void removeLootAt(int index) {
+		if (this.loot.size() > index) {
+			this.loot.remove(index);
 		}
-		boolean added = loot.add(a);
-		return added;
 	}
 
-	boolean removeLoot(Loot a) {
-		boolean removed = loot.remove(a);
-		return removed;
+	public Loot getLootAt(int index) {
+		if (this.loot.size() > index){
+			Loot a = this.loot.get(index);
+			return a;
+		}
+		return null;
 	}
 
-	boolean containsLoot(Loot a) {
-		boolean contains = loot.contains(a);
+	public void addLoot(Loot a) {
+		boolean contains = this.loot.contains(a);
+		if (contains) {
+			return;
+		}
+		this.loot.add(a);
+	}
+
+	public void removeLoot(Loot a) {
+		if (this.loot.contains(a)) {
+			loot.remove(a);
+		}
+	}
+
+	public boolean containsLoot(Loot a) {
+		boolean contains = this.loot.contains(a);
 		return contains;
 	}
 
-	int sizeOfLoot() {
-		int size = loot.size();
+	public int sizeOfLoot() {
+		int size = this.loot.size();
 		return size;
 	}
 
-	ArrayList<Loot> getLoot() {
+	public ArrayList<Loot> getLoot() {
 		return this.loot;
 	}
 
-	boolean addDeckAt(int index, ActionCard a) {
-		boolean contains = deck.contains(a);
+	public void addDeckAt(int index, ActionCard a) {
+		boolean contains = this.deck.contains(a);
 		if (contains) {
-			return false;
+			return;
 		}
-		deck.add(index, a);
-		return true;
+		this.deck.add(index, a);
 	}
 
-	boolean removeDeckAt(int index) {
-		ActionCard removedElement = deck.remove(index);
-		boolean result = removedElement != null;
-		return result;
+	public void removeDeckAt(int index) {
+		if (this.deck.size() > index) {
+			this.deck.remove(index);
+		}
 	}
 
-	ActionCard getDeckAt(int index) {
-		ActionCard associated = deck.get(index);
-		return associated;
+	public ActionCard getDeckAt(int index) {
+		if (this.deck.size() > index) {
+			return this.deck.get(index);
+		}
+		return null;
 	}
 
-	boolean addDeck(ActionCard a) {
-		boolean contains = deck.contains(a);
+	public void addDeck(ActionCard a) {
+		boolean contains = this.deck.contains(a);
 		if (contains) {
-			return false;
+			return;
 		}
-		boolean added = deck.add(a);
-		return added;
+		this.deck.add(a);
 	}
 
-	boolean removeDeck(ActionCard a) {
-		boolean removed = deck.remove(a);
-		return removed;
+	public void removeDeck(ActionCard a) {
+		if (this.deck.contains(a)) {
+			this.deck.remove(a);
+		}
 	}
 
-	boolean containsDeck(ActionCard a) {
-		boolean contains = deck.contains(a);
+	public boolean containsDeck(ActionCard a) {
+		boolean contains = this.deck.contains(a);
 		return contains;
 	}
 
-	int sizeOfDeck() {
-		int size = deck.size();
+	public int sizeOfDeck() {
+		int size = this.deck.size();
 		return size;
 	}
 
-	ArrayList<ActionCard> getDeck() {
+	public ArrayList<ActionCard> getDeck() {
 		return this.deck;
 	}
 
-	boolean addHandAt(int index, ActionCard a) {
+	public void addHandAt(int index, ActionCard a) {
 		boolean contains = hand.contains(a);
 		if (contains) {
-			return false;
+			return;
 		}
 		hand.add(index, a);
-		return true;
 	}
 
-	boolean removeHandAt(int index) {
-		ActionCard removedElement = hand.remove(index);
-		boolean result = removedElement != null;
-		return result;
-	}
-
-	ActionCard getHandAt(int index) {
-		ActionCard associated = hand.get(index);
-		return associated;
-	}
-
-	boolean addHand(ActionCard a) {
-		boolean contains = hand.contains(a);
-		if (contains) {
-			return false;
+	public void removeHandAt(int index) {
+		if (this.hand.size() > index){
+			this.hand.remove(index);
 		}
-		boolean added = hand.add(a);
-		return added;
 	}
 
-	boolean removeHand(ActionCard a) {
-		boolean removed = hand.remove(a);
-		return removed;
+	public ActionCard getHandAt(int index) {
+		if (this.hand.size() > index) {
+			ActionCard a = this.hand.get(index);
+			return a;
+		}
+		return null;
 	}
 
-	boolean containsHand(ActionCard a) {
-		boolean contains = hand.contains(a);
+	public void addHand(ActionCard a) {
+		boolean contains = this.hand.contains(a);
+		if (contains) {
+			return;
+		}
+		this.hand.add(a);
+	}
+
+	public void removeHand(ActionCard a) {
+		if (this.hand.contains(a)) {
+			this.hand.remove(a);
+		}
+	}
+
+	public boolean containsHand(ActionCard a) {
+		boolean contains = this.hand.contains(a);
 		return contains;
 	}
 
-	int sizeOfHand() {
-		int size = hand.size();
+	public int sizeOfHand() {
+		int size = this.hand.size();
 		return size;
 	}
 
-	ArrayList<ActionCard> getHand() {
+	public ArrayList<ActionCard> getHand() {
 		return this.hand;
 	}
 
-	boolean addDiscardPileAt(int index, ActionCard a) {
-		boolean contains = discardPile.contains(a);
+	public void addDiscardPileAt(int index, ActionCard a) {
+		boolean contains = this.discardPile.contains(a);
 		if (contains) {
-			return false;
+			return;
 		}
-		discardPile.add(index, a);
-		return true;
+		this.discardPile.add(index, a);
 	}
 
-	boolean removeDiscardPileAt(int index) {
-		ActionCard removedElement = discardPile.remove(index);
-		boolean result = removedElement != null;
-		return result;
-	}
-
-	ActionCard getDiscardPileAt(int index) {
-		ActionCard associated = discardPile.get(index);
-		return associated;
-	}
-
-	boolean addDiscardPile(ActionCard a) {
-		boolean contains = discardPile.contains(a);
-		if (contains) {
-			return false;
+	public void removeDiscardPileAt(int index) {
+		if (this.discardPile.size() > index) {
+			discardPile.remove(index);
 		}
-		boolean added = discardPile.add(a);
-		return added;
 	}
 
-	boolean removeDiscardPile(ActionCard a) {
-		boolean removed = discardPile.remove(a);
-		return removed;
+	public ActionCard getDiscardPileAt(int index) {
+		if (this.discardPile.size() > index){
+			ActionCard associated = discardPile.get(index);
+			return associated;
+		}
+		else {
+			return null;
+		}
 	}
 
-	boolean containsDiscardPile(ActionCard a) {
-		boolean contains = discardPile.contains(a);
+	public void addDiscardPile(ActionCard a) {
+		boolean contains = this.discardPile.contains(a);
+		if (!contains) {
+			this.discardPile.add(a);
+		}
+	}
+
+	public void removeDiscardPile(ActionCard a) {
+		if (this.discardPile.contains(a)){
+			this.discardPile.remove(a);
+		}
+	}
+
+	public boolean containsDiscardPile(ActionCard a) {
+		boolean contains = this.discardPile.contains(a);
 		return contains;
 	}
 
-	int sizeOfDiscardPile() {
-		int size = discardPile.size();
+	public int sizeOfDiscardPile() {
+		int size = this.discardPile.size();
 		return size;
 	}
 
-	ArrayList<ActionCard> getDiscardPile() {
+	public ArrayList<ActionCard> getDiscardPile() {
 		return this.discardPile;
 	}
 
-	Hostage getHostage() {
+	public Hostage getHostage() {
 		return this.hostage;
 	}
 
-	boolean setHostage(Hostage newObject) {
+	public void setHostage(Hostage newObject) {
 		this.hostage = newObject;
-		return true;
 	}
 
 	void createStartingCards() {

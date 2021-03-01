@@ -80,7 +80,7 @@ public class TrainUnit implements SerializableSFSType {
      * 
      * @return
      */
-    TrainUnit getAbove() {
+    public TrainUnit getAbove() {
         if(this.above.isEmpty()) {
         	return null; //better design?
         }
@@ -89,7 +89,7 @@ public class TrainUnit implements SerializableSFSType {
         }
     }
 
-    TrainUnit getBelow() {
+    public TrainUnit getBelow() {
         if(this.below.isEmpty()) {
         	return null;
         }
@@ -98,7 +98,7 @@ public class TrainUnit implements SerializableSFSType {
         }
     }
 
-    TrainUnit getRight() {
+    public TrainUnit getRight() {
         if(this.right.isEmpty()) {
         	return null;
         }
@@ -107,7 +107,7 @@ public class TrainUnit implements SerializableSFSType {
         }
     }
 
-    TrainUnit getLeft() {
+    public TrainUnit getLeft() {
         if(this.left.isEmpty()) {
         	return null;
         }
@@ -116,7 +116,7 @@ public class TrainUnit implements SerializableSFSType {
         }
     }
 
-    TrainUnit getBeside() {
+    public TrainUnit getBeside() {
         if(this.beside.isEmpty()) {
         	return null;
         }
@@ -125,7 +125,7 @@ public class TrainUnit implements SerializableSFSType {
         }
     }
     
-    boolean isAdjacentTo(TrainUnit a) {
+    public boolean isAdjacentTo(TrainUnit a) {
         //TODO
     	return false;
     }
@@ -143,7 +143,7 @@ public class TrainUnit implements SerializableSFSType {
      *           b is a non-null Bandit to be added to this train car
      * @pre this train car must not already contain b
      */
-    void addBandit(Bandit b) {
+    public void addBandit(Bandit b) {
     	assert !banditsHere.contains(b);
         //TODO
     }
@@ -154,7 +154,7 @@ public class TrainUnit implements SerializableSFSType {
      *           b is a non-null Bandit to be removed from this train car
      * @pre this train car must contain b
      */
-    boolean static removeBandit(Bandit b) {
+    static boolean removeBandit(Bandit b) {
     	assert banditsHere.contains(b);
     	//TODO
     	return false;
@@ -168,7 +168,7 @@ public class TrainUnit implements SerializableSFSType {
         return this.banditsHere.size();
     }
 
-    HashSet<Bandit> getBanditsHere() {
+    public HashSet<Bandit> getBandtsHere() {
         return this.banditsHere.clone();
     }
 
@@ -182,11 +182,11 @@ public class TrainUnit implements SerializableSFSType {
      * 
      * @param a
      */
-    void addLoot(Loot a) {
+    public void addLoot(Loot a) {
         //TODO
     }
 
-    void removeLoot(Loot a) {
+    public void removeLoot(Loot a) {
         //TODO
     }
 
@@ -198,7 +198,7 @@ public class TrainUnit implements SerializableSFSType {
         return this.lootHere.size();
     }
 
-    HashSet<Loot> getLootHere() {
+    public HashSet<Loot> getLootHere() {
         return this.lootHere.clone();
     }
     
@@ -208,11 +208,11 @@ public class TrainUnit implements SerializableSFSType {
      */
     
     
-    boolean getIsMarshalHere() {
+    public boolean getIsMarshalHere() {
         return this.isMarshalHere;
     }
 
-    void setIsMarshalHere(boolean b) {
+    public void setIsMarshalHere(boolean b) {
         this.isMarshalHere = b;
     }
     
@@ -222,7 +222,7 @@ public class TrainUnit implements SerializableSFSType {
      */
     
     
-    boolean addHorsesAt(int index, Horse a) {
+    public boolean addHorsesAt(int index, Horse a) {
         boolean contains = horses.contains(a);
         if (contains) {
             return false;
@@ -231,7 +231,7 @@ public class TrainUnit implements SerializableSFSType {
         return true;
     }
 
-    boolean removeHorsesAt(int index) {
+    public boolean removeHorsesAt(int index) {
         Horse removedElement = horses.remove(index);
         boolean result = removedElement != null;
         return result;
