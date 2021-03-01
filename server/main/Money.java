@@ -14,6 +14,13 @@ public class Money extends Loot implements SerializableSFSType {
     protected int value;
     protected MoneyType moneyType;
     
+    public Money() { }
+    
+	public Money(MoneyType mt, int value) {
+		this.moneyType = mt;
+		this.value = value;
+	}
+    
     public void setValue(int v){
         this.value=v;
     }
