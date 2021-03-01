@@ -23,7 +23,7 @@ public class TrainUnit implements SerializableSFSType {
     protected Optional<TrainUnit> right = Optional.empty();
     protected Optional<TrainUnit> beside = Optional.empty(); //Used for stagecoach and it's adjacent car ONLY.
     
-    protected boolean marshalHere = false;
+    protected boolean isMarshalHere = false;
     protected HashSet<Bandit> banditsHere = new HashSet<Bandit>();
     protected HashSet<Loot> lootHere = new HashSet<Loot>();
     protected HashSet<Horse> horsesHere = new HashSet<Horse>();
@@ -208,12 +208,12 @@ public class TrainUnit implements SerializableSFSType {
      */
     
     
-    boolean isMarshalHere() {
-        return this.marshalHere;
+    boolean getIsMarshalHere() {
+        return this.isMarshalHere;
     }
 
-    void setMarshalHere() {
-        this.marshalHere = true;
+    void setIsMarshalHere(boolean b) {
+        this.isMarshalHere = b;
     }
     
 
