@@ -24,7 +24,7 @@ public class Marshal implements SerializableSFSType {
         this.marshalPosition = newObject;
     }
 
-    public static getInstance(){
+    public static Marshal getInstance(){
         if (instance==null){
             instance = new Marshal();
         }
