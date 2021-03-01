@@ -9,6 +9,8 @@ public class loot : MonoBehaviour
     void OnMouseDown(){
         // gameObject.active = false; 
         // Destroy(gameObject);
+        // gem = GameObject.Find("gem");
+        // Debug.Log("position is: " + gem.transform.position);
         gem.SetActive(false);
         Destroy(gem);
     }
@@ -18,6 +20,12 @@ public class loot : MonoBehaviour
     {
         
     }
+
+    // private void Awake(){
+    //     gem = GameObject.Find("gem");
+    //     Debug.Log("position is: " + gem.transform.position);
+    // }
+
 
     // Update is called once per frame
     void Update()
