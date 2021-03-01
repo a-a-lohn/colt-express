@@ -39,10 +39,11 @@ public class Round implements SerializableSFSType {
     }
 
     public Turn getTurnAt(int index) {
-        if (index<this.turns.size()) {
-            return this.turns.get(index);
-        }
-    }
+		if (index < this.turns.size()) {
+			return this.turns.get(index);
+		}
+		return null;
+	}
 
     public void removeTurn(Turn a) {
         if (this.turns.contains(a)){
