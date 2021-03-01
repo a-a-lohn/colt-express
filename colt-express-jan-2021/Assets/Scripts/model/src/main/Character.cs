@@ -13,11 +13,7 @@ using Sfs2X.Protocol.Serialization;
 //The following code is executed right after creating the SmartFox object:
 // using System.Reflection;
 //        DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
-public abstract class Loot : SerializableSFSType
+public enum Character
 {
-
-    public bool isWhiskey;
-
-    public Loot() { }
-
+    
 }
