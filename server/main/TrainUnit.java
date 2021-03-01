@@ -251,12 +251,12 @@ public class TrainUnit implements SerializableSFSType {
         return added;
     }
 
-    boolean removeHorses(Horse a) {
+    boolean removeHorse(Horse a) {
         boolean removed = horses.remove(a);
         return removed;
     }
 
-    boolean containsHorses(Horse a) {
+    boolean containsHorse(Horse a) {
         boolean contains = horses.contains(a);
         return contains;
     }
