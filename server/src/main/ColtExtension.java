@@ -2,12 +2,16 @@ package main;
 
 import com.smartfoxserver.v2.extensions.SFSExtension;
 
-public class MyExt extends SFSExtension
+public class ColtExtension extends SFSExtension
 {
     @Override
     public void init()
     {
-        addRequestHandler("math", MathHandler.class);
+    	/*
+    	 * Add request handlers here for info sent to server from client
+    	 * 
+    	 */
+        //addRequestHandler("math", MathHandler.class);
     }
  
     @Override

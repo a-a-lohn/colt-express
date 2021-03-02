@@ -1,4 +1,4 @@
-package main;
+package model;
 
 import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
 

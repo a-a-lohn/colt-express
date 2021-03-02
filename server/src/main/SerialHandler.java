@@ -22,7 +22,7 @@ public class SerialHandler extends BaseClientRequestHandler {
 		test.addLoot(l);
 		ISFSObject rtn = new SFSObject();
 		rtn.putClass("class", test);
-		MyExt parentExt = (MyExt)getParentExtension();
+		ColtExtension parentExt = (ColtExtension)getParentExtension();
 		// can choose who to send the result of the server code back, giving the command a name, passing the
 		// object and specifying the recipient
 		Zone zone = parentExt.getParentZone();
