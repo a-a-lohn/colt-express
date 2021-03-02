@@ -23,8 +23,8 @@ public class GameManager implements SerializableSFSType {
 	protected TrainUnit stagecoach;
 	protected ArrayList<Bandit> bandits = new ArrayList<Bandit>();
 
-	private GameManager GameManger(ArrayList<Bandit> bandits, Bandit currentBandit, ArrayList<Round> rounds,
-			Round currentRound, GameStatus status, TrainUnit[][] trainUnits) {
+	private GameManager(ArrayList<Bandit> bandits, Bandit currentBandit, ArrayList<Round> rounds, Round currentRound,
+			GameStatus status, TrainUnit[][] trainUnits) {
 
 		this.bandits = bandits;
 		this.currentBandit = currentBandit;
@@ -41,7 +41,8 @@ public class GameManager implements SerializableSFSType {
 	public static GameManager getInstance() {
 		GameManager gm = null;
 		if (singleton == null) {
-			gm = new GameManager();
+			gm = new GameManager(new ArrayList<Bandit>(), null, new ArrayList<Round>(), null, GameStatus.SETUP,
+					TrainUnit.createTrain(0));
 		} else {
 			gm = GameManager.singleton;
 		}
@@ -229,6 +230,7 @@ public class GameManager implements SerializableSFSType {
 		} else {
 			int numP = this.getNumOfPlayers();
 			for (int i = 0; i < numP; i++) {
+				// TO DO
 				// Here create new TrainUnit object
 				// this.addTrainUnits(new TrainUnit());
 			}
@@ -249,12 +251,12 @@ public class GameManager implements SerializableSFSType {
 			// TO DO
 			// set up the positions for marshal and strongbox
 
-			//for (TrainUnit tu : this.trainUnits) {
-				// TO DO
-				// algorithm for adding loots randomly to each train unit that is created
-				// Money l = new Money();
-				// tu.addLootInCabin(l);
-			//}
+			// for (TrainUnit tu : this.trainUnits) {
+			// TO DO
+			// algorithm for adding loots randomly to each train unit that is created
+			// Money l = new Money();
+			// tu.addLootInCabin(l);
+			// }
 
 			this.setGameStatus(GameStatus.SCHEMIN);
 			this.setCurrentRound(this.rounds.get(0));
@@ -264,12 +266,105 @@ public class GameManager implements SerializableSFSType {
 
 	void Rob() {
 
-		if (!this.position.lootInCabin.isEmpty()) {
-			// ask the player of the bandit to choose (get the index)
-			int index = 0;
-			this.loot.add(this.position.lootInCabin.get(index));
+		if (this.currentBandit.getPosition().carType == CarType.Car1Roof
+				|| this.currentBandit.getPosition().carType == CarType.Car2Roof
+				|| this.currentBandit.getPosition().carType == CarType.Car3Roof
+				|| this.currentBandit.getPosition().carType == CarType.Car4Roof
+				|| this.currentBandit.getPosition().carType == CarType.Car5Roof
+				|| this.currentBandit.getPosition().carType == CarType.Car6Roof
+				|| this.currentBandit.getPosition().carType == CarType.LocomotiveRoof
+				|| this.currentBandit.getPosition().carType == CarType.StagecoachRoof) {
+			return;
+		} else {
+			if (!this.currentBandit.getPosition().getLootHere().isEmpty()) {
+				// ask the bandit to choose loot
+				Loot l = null;
+				this.currentBandit.addLoot(l);
+			}
+		}
+
+	}
+
+	void shoot() {
+
+		ArrayList<Bandit> roofShootTarget = new ArrayList<Bandit>();
+		ArrayList<Bandit> carShootTarget = new ArrayList<Bandit>();
+		if (this.currentBandit.getPosition().carType == CarType.Car1Roof
+				|| this.currentBandit.getPosition().carType == CarType.Car2Roof
+				|| this.currentBandit.getPosition().carType == CarType.Car3Roof
+				|| this.currentBandit.getPosition().carType == CarType.Car4Roof
+				|| this.currentBandit.getPosition().carType == CarType.Car5Roof
+				|| this.currentBandit.getPosition().carType == CarType.Car6Roof
+				|| this.currentBandit.getPosition().carType == CarType.LocomotiveRoof
+				|| this.currentBandit.getPosition().carType == CarType.StagecoachRoof) {
+			for (Bandit b : this.bandits) {
+				if (b != this.currentBandit) {
+					if (b.getPosition().carType == CarType.Car1Roof || b.getPosition().carType == CarType.Car2Roof
+							|| b.getPosition().carType == CarType.Car3Roof
+							|| b.getPosition().carType == CarType.Car4Roof
+							|| b.getPosition().carType == CarType.Car5Roof
+							|| b.getPosition().carType == CarType.Car6Roof
+							|| b.getPosition().carType == CarType.LocomotiveRoof
+							|| b.getPosition().carType == CarType.StagecoachRoof) {
+						roofShootTarget.add(b);
+					}
+				}
+			}
+
+			if (roofShootTarget.get(0) != null) {
+				// ask the current player to choose which bandit to shoot
+				Bandit b = null;
+
+				BulletCard bc = this.currentBandit.bullets.remove(0);
+				if (bc != null) {
+					b.addDiscardPile(bc);
+				}
+			}
+
+		} else {
+			for (Bandit bl : this.currentBandit.getPosition().getLeft().banditsHere) {
+				carShootTarget.add(bl);
+			}
+			for (Bandit br : this.currentBandit.getPosition().getRight().banditsHere) {
+				carShootTarget.add(br);
+			}
+			if (carShootTarget.get(0) != null) {
+				// ask the current player to choose which bandit to shoot
+				Bandit b = null;
+
+				BulletCard bc = this.currentBandit.bullets.remove(0);
+				if (bc != null) {
+					b.addDiscardPile(bc);
+				}
+			}
+		}
+
+	}
+
+	void punch() {
+		ArrayList<Bandit> otherBandits = new ArrayList<Bandit>();
+		for (Bandit b : this.currentBandit.getPosition().getBandtsHere()) {
+			if (b != this.currentBandit) {
+				otherBandits.add(b);
+			}
+		}
+
+		if (otherBandits.get(0) != null) {
+			// ask the player to choose target
+			Bandit target = null;
+			if (!target.getLoot().isEmpty()) {
+				// ask the player to choose 1 loot
+				Loot l = null;
+				target.removeLoot(l);
+				this.currentBandit.addLoot(l);
+			}
+
+			// ask where to punch to
+			TrainUnit tu = null;
+			target.setPosition(tu);
 
 		}
+
 	}
 
 	/**
