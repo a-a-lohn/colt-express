@@ -19,9 +19,9 @@ public class Bandit implements SerializableSFSType {
 	protected Hostage hostage;
 	protected ArrayList<Loot> loot = new ArrayList<Loot>();
 	protected ArrayList<BulletCard> bullets = new ArrayList<BulletCard>();;
-	protected ArrayList<ActionCard> deck = new ArrayList<ActionCard>();;
-	protected ArrayList<ActionCard> hand = new ArrayList<ActionCard>();;
-	protected ArrayList<ActionCard> discardPile = new ArrayList<ActionCard>();;
+	protected ArrayList<Card> deck = new ArrayList<Card>();;
+	protected ArrayList<Card> hand = new ArrayList<Card>();;
+	protected ArrayList<Card> discardPile = new ArrayList<Card>();;
 
 	public Bandit(Character c) {
 		this.banditName = c;
@@ -124,7 +124,7 @@ public class Bandit implements SerializableSFSType {
 		}
 	}
 
-	public ActionCard getDeckAt(int index) {
+	public Card getDeckAt(int index) {
 		if (this.deck.size() > index) {
 			return this.deck.get(index);
 		}
@@ -155,7 +155,7 @@ public class Bandit implements SerializableSFSType {
 		return size;
 	}
 
-	public ArrayList<ActionCard> getDeck() {
+	public ArrayList<Card> getDeck() {
 		return this.deck;
 	}
 
@@ -173,9 +173,9 @@ public class Bandit implements SerializableSFSType {
 		}
 	}
 
-	public ActionCard getHandAt(int index) {
+	public Card getHandAt(int index) {
 		if (this.hand.size() > index) {
-			ActionCard a = this.hand.get(index);
+			Card a = this.hand.get(index);
 			return a;
 		}
 		return null;
@@ -205,7 +205,7 @@ public class Bandit implements SerializableSFSType {
 		return size;
 	}
 
-	public ArrayList<ActionCard> getHand() {
+	public ArrayList<Card> getHand() {
 		return this.hand;
 	}
 
@@ -223,9 +223,9 @@ public class Bandit implements SerializableSFSType {
 		}
 	}
 
-	public ActionCard getDiscardPileAt(int index) {
+	public Card getDiscardPileAt(int index) {
 		if (this.discardPile.size() > index){
-			ActionCard associated = discardPile.get(index);
+			Card associated = discardPile.get(index);
 			return associated;
 		}
 		else {
@@ -256,7 +256,7 @@ public class Bandit implements SerializableSFSType {
 		return size;
 	}
 
-	public ArrayList<ActionCard> getDiscardPile() {
+	public ArrayList<Card> getDiscardPile() {
 		return this.discardPile;
 	}
 
@@ -292,7 +292,7 @@ public class Bandit implements SerializableSFSType {
 		this.deck.add(acShoot1);
 		this.deck.add(acShoot2);
 
-		for (ActionCard c : this.deck) {
+		for (Card c : this.deck) {
 			c.setBelongsTo(this);
 		}
 
@@ -323,16 +323,6 @@ public class Bandit implements SerializableSFSType {
 	void createStartingPurse() {
 		Money startingPurse = new Money(MoneyType.PURSE, 250);
 		this.loot.add(startingPurse);
-	}
-
-	void Rob() {
-		
-		if (!this.position.lootInCabin.isEmpty()) {
-			// ask the player of the bandit to choose (get the index)
-			int index = 0;
-			this.loot.add(this.position.lootInCabin.get(index));
-			
-		}
 	}
 
 }
