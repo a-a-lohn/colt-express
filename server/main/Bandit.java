@@ -110,7 +110,7 @@ public class Bandit implements SerializableSFSType {
 		return this.loot;
 	}
 
-	public void addDeckAt(int index, ActionCard a) {
+	public void addDeckAt(int index, Card a) {
 		boolean contains = this.deck.contains(a);
 		if (contains) {
 			return;
@@ -131,7 +131,7 @@ public class Bandit implements SerializableSFSType {
 		return null;
 	}
 
-	public void addDeck(ActionCard a) {
+	public void addDeck(Card a) {
 		boolean contains = this.deck.contains(a);
 		if (contains) {
 			return;
@@ -139,13 +139,13 @@ public class Bandit implements SerializableSFSType {
 		this.deck.add(a);
 	}
 
-	public void removeDeck(ActionCard a) {
+	public void removeDeck(Card a) {
 		if (this.deck.contains(a)) {
 			this.deck.remove(a);
 		}
 	}
 
-	public boolean containsDeck(ActionCard a) {
+	public boolean containsDeck(Card a) {
 		boolean contains = this.deck.contains(a);
 		return contains;
 	}
@@ -159,7 +159,7 @@ public class Bandit implements SerializableSFSType {
 		return this.deck;
 	}
 
-	public void addHandAt(int index, ActionCard a) {
+	public void addHandAt(int index, Card a) {
 		boolean contains = hand.contains(a);
 		if (contains) {
 			return;
@@ -181,7 +181,7 @@ public class Bandit implements SerializableSFSType {
 		return null;
 	}
 
-	public void addHand(ActionCard a) {
+	public void addHand(Card a) {
 		boolean contains = this.hand.contains(a);
 		if (contains) {
 			return;
@@ -189,13 +189,13 @@ public class Bandit implements SerializableSFSType {
 		this.hand.add(a);
 	}
 
-	public void removeHand(ActionCard a) {
+	public void removeHand(Card a) {
 		if (this.hand.contains(a)) {
 			this.hand.remove(a);
 		}
 	}
 
-	public boolean containsHand(ActionCard a) {
+	public boolean containsHand(Card a) {
 		boolean contains = this.hand.contains(a);
 		return contains;
 	}
@@ -209,7 +209,7 @@ public class Bandit implements SerializableSFSType {
 		return this.hand;
 	}
 
-	public void addDiscardPileAt(int index, ActionCard a) {
+	public void addDiscardPileAt(int index, Card a) {
 		boolean contains = this.discardPile.contains(a);
 		if (contains) {
 			return;
@@ -233,20 +233,20 @@ public class Bandit implements SerializableSFSType {
 		}
 	}
 
-	public void addDiscardPile(ActionCard a) {
+	public void addDiscardPile(Card a) {
 		boolean contains = this.discardPile.contains(a);
 		if (!contains) {
 			this.discardPile.add(a);
 		}
 	}
 
-	public void removeDiscardPile(ActionCard a) {
+	public void removeDiscardPile(Card a) {
 		if (this.discardPile.contains(a)){
 			this.discardPile.remove(a);
 		}
 	}
 
-	public boolean containsDiscardPile(ActionCard a) {
+	public boolean containsDiscardPile(Card a) {
 		boolean contains = this.discardPile.contains(a);
 		return contains;
 	}
