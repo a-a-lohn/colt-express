@@ -18,8 +18,6 @@ using UnityEngine;
  
          if (Eventlog.Count >= maxLines)Eventlog.RemoveAt(0);
  
-         guiText = "";
- 
          foreach (string logEvent in Eventlog)
          {
              guiText += logEvent;
