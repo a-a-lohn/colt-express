@@ -31,6 +31,10 @@ public class Bandit implements SerializableSFSType {
 		this.hostage = null;
 	}
 
+	public Character getCharacter(){
+		return this.banditName;
+	}
+
 	public void setGetsAnotherAction(boolean anotherAction) {
 		this.getsAnotherAction = anotherAction;
 	}

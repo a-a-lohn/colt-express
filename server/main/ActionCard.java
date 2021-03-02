@@ -12,9 +12,12 @@ import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
 public class ActionCard extends Card implements SerializableSFSType {
     
     protected ActionKind action;
-    protected boolean saveForNextRound;
+    protected boolean saveForNextRound = false;
+    protected boolean faceDown = false;
     
-    public ActionCard() { }
+    public ActionCard(ActionKind ak) {
+        this.ActionKind = ak;
+    }
     
     public ActionCard(ActionKind ak) {
 		this.action = ak;
@@ -35,4 +38,8 @@ public class ActionCard extends Card implements SerializableSFSType {
     public ActionKind getAction() {
         return this.action;
     }
+
+    public boolean getFaceDown() { return this.faceDown; }
+
+    public void setFaceDown(boolean b) { this.faceDown = b }
 }

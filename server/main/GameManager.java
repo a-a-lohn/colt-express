@@ -50,7 +50,10 @@ public class GameManager implements SerializableSFSType {
         }
         return gm;
     }
-    
+
+    /**
+     * --ROUND METHODS--
+     */
     public Round getCurrentRound() {
         return this.currentRound;
     }
@@ -91,6 +94,10 @@ public class GameManager implements SerializableSFSType {
         return this.rounds;
     }
 
+
+    /**
+     * --GAME STATUS METHODS--
+     */
     public void setGameStatus(GameStatus newStatus) {
         this.gameStatus = newStatus;
     }
@@ -99,6 +106,9 @@ public class GameManager implements SerializableSFSType {
         return this.gameStatus;
     }
 
+    /**
+     * --TRAIN UNIT METHODS--
+     */
     public void addTrainUnitsAt(int index, TrainUnit a) {
         boolean contains = this.trainUnits.contains(a);
         if (contains) {
@@ -143,6 +153,9 @@ public class GameManager implements SerializableSFSType {
         return this.trainUnits;
     }
 
+    /**
+     * --BANDIT METHODS--
+     */
     public Bandit getCurrentBandit() {
         return this.currentBandit;
     }
@@ -196,6 +209,12 @@ public class GameManager implements SerializableSFSType {
     public ArrayList<Bandit> getBandits() {
         return this.bandits;
     }
+
+
+    /**
+     * --GAME MANAGER METHODS--
+     */
+
 
     boolean allPlayersChosen() {
 		// TO DO
@@ -252,4 +271,28 @@ public class GameManager implements SerializableSFSType {
 			// set waiting for input to be true;
 		}
 	}
+
+    /**
+     * @param c
+     *           Card will be moved from bandit's hand to played pile and it's effect will be resolved
+     *
+     */
+	public void playActionCard(ActionCard c){
+
+	    //Remove card from bandit's hand
+        this.currentBandit = c.getBelongsTo();
+        this.currentBandit.removeHand(c);
+
+        //Prompt playing face down
+        if(currentBandit.getCharacter() == Character.GHOST && ){
+            //TODO: prompt choice;
+        }
+        else if()
+
+        //Assign card to played pile
+        PlayedPile pile = PlayedPile.getInstance();
+        pile.addPlayedCards(c);
+
+
+    }
 }

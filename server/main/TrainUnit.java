@@ -47,13 +47,13 @@ public class TrainUnit implements SerializableSFSType {
     	//Create one car for each player, +1 to account for the locomotive
     	final int trainLength = numberOfBandits + 1;
     	
-    	TrainUnit[][] train = new Train[2][trainLength];
+    	TrainUnit[][] train = new TrainUnit[2][trainLength];
     	TrainUnit locoCabin = new TrainUnit(CarType.LocomotiveCabin);
     	TrainUnit locoRoof = new TrainUnit(CarType.LocomotiveRoof);
     	
     	//Create locomotive
     	locoCabin.above = Optional.of(locoRoof);
-    	locoCabin.marshalHere = true;
+    	locoCabin.isMarshalHere = true;
     	locoRoof.below = Optional.of(locoCabin);
     	
     	//TODO: Add locomotive to array
