@@ -51,13 +51,11 @@ using UnityEngine;
 
      public void AddEvent(string eventString){
          Eventlog.Add(eventString);
-         // Debug.Log(Eventlog); 
-//          if (Eventlog.Count >= maxLines){    
-//             Eventlog.RemoveAt(0);
-//          }
-         guiText = "";
-         foreach (string logEvent in Eventlog){
-            // Debug.Log(logEvent); 
+ 
+         if (Eventlog.Count >= maxLines)Eventlog.RemoveAt(0);
+ 
+         foreach (string logEvent in Eventlog)
+         {
              guiText += logEvent;
              guiText += "\n";
         }
