@@ -16,10 +16,6 @@ public class ActionCard extends Card implements SerializableSFSType {
     protected boolean faceDown = false;
     
     public ActionCard(ActionKind ak) {
-        this.ActionKind = ak;
-    }
-    
-    public ActionCard(ActionKind ak) {
 		this.action = ak;
 	}
     
@@ -41,5 +37,5 @@ public class ActionCard extends Card implements SerializableSFSType {
 
     public boolean getFaceDown() { return this.faceDown; }
 
-    public void setFaceDown(boolean b) { this.faceDown = b }
+    public void setFaceDown(boolean b) { this.faceDown = b; }
 }
