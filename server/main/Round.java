@@ -15,7 +15,7 @@ public class Round implements SerializableSFSType {
     
     protected RoundType round;
     protected Turn currentTurn;
-    protected ArrayList<Turn> turns;
+    protected ArrayList<Turn> turns = new ArrayList<Turn>();
     
     protected boolean addSimpleTurns(int index, Turn a) {
         /* TODO: No message view defined */
@@ -74,9 +74,7 @@ public class Round implements SerializableSFSType {
         return removed;
     }
 
-    Round() {
-        ArrayList<Turn> collection = new ArrayList<Turn>();
-    }
+    public Round() {  }
 
     boolean containsTurns(Turn a) {
         boolean contains = turns.contains(a);
