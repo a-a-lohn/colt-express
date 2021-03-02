@@ -36,6 +36,7 @@ public class PlayedPile implements SerializableSFSType {
         if (this.playedCards.size() > index) {
             return this.playedCards.get(index);
         }
+	return null;
     }
 
     public void addPlayedCards(ActionCard a) {
