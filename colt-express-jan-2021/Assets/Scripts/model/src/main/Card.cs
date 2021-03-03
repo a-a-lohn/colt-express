@@ -9,16 +9,20 @@ using Sfs2X.Entities;
 using Sfs2X.Entities.Data;
 using Sfs2X.Protocol.Serialization;
 
-public abstract class Card : SerializableSFSType {
-    
-    public Bandit belongsTo;
-    
-    Bandit getBelongsTo() {
-        return this.belongsTo;
-    }
-    
-    bool setBelongsTo(Bandit newObject) {
-        this.belongsTo = newObject;
-        return true;
+namespace model {
+    public abstract class Card : SerializableSFSType {
+        
+        public Bandit belongsTo;
+
+        public Card() {}
+        
+        Bandit getBelongsTo() {
+            return this.belongsTo;
+        }
+        
+        bool setBelongsTo(Bandit newObject) {
+            this.belongsTo = newObject;
+            return true;
+        }
     }
 }

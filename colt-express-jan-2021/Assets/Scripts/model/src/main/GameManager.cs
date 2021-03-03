@@ -15,19 +15,20 @@ using Sfs2X.Protocol.Serialization;
 //        DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
 
 // STATIC FIELDS ARE NOT SERIALIZED
-public class GameManager : SerializableSFSType
-{
+namespace model {
+    public class GameManager : SerializableSFSType {
 
-    public GameStatus status;
-    public Round currentRound;
-    public Bandit currentBandit;
-    public ArrayList rounds = new ArrayList();
-    public static GameManager instance;
-    public static Marshal marshalInstance;
-    public static PlayedPile playedPileInstance; 
-    public ArrayList trainUnits = new ArrayList();
-    public ArrayList bandits = new ArrayList();
+        public string strStatus; //public GameStatus status;
+        public Round currentRound;
+        public Bandit currentBandit;
+        public ArrayList rounds;
+        public static GameManager instance;
+        public static Marshal marshalInstance;
+        public static PlayedPile playedPileInstance; 
+        public ArrayList trainUnits;
+        public ArrayList bandits;
 
-    public GameManager() { }
+        public GameManager() { }
 
+    }
 }

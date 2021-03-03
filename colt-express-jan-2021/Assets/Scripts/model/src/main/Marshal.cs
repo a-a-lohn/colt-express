@@ -13,23 +13,25 @@ using Sfs2X.Protocol.Serialization;
 //The following code is executed right after creating the SmartFox object:
 // using System.Reflection;
 //        DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
-public class Marshal : SerializableSFSType
-{
+namespace model {
+    public class Marshal : SerializableSFSType
+    {
 
-    public TrainUnit marshalPosition;
-    // STATIC FIELDS ARE NOT SERIALIZED
-    public static Marshal instance;
-    
-    public Marshal() {
+        public TrainUnit marshalPosition;
+        // STATIC FIELDS ARE NOT SERIALIZED
+        public static Marshal instance;
         
-    }
-    
-    TrainUnit getMarshalPosition() {
-        return this.marshalPosition;
-    }
-    
-    bool setMarshalPosition(TrainUnit newObject) {
-        this.marshalPosition = newObject;
-        return true;
+        public Marshal() {
+            
+        }
+        
+        TrainUnit getMarshalPosition() {
+            return this.marshalPosition;
+        }
+        
+        bool setMarshalPosition(TrainUnit newObject) {
+            this.marshalPosition = newObject;
+            return true;
+        }
     }
 }

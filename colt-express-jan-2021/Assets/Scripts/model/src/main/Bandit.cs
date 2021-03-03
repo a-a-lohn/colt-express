@@ -13,18 +13,22 @@ using Sfs2X.Protocol.Serialization;
 //The following code is executed right after creating the SmartFox object:
 // using System.Reflection;
 //        DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
-public class Bandit : SerializableSFSType
-{
+namespace model {
+    public class Bandit : SerializableSFSType
+    {
 
-    public bool getsAnotherAction;
-    public bool playedThisTurn;
-    public Character banditName;
-    public TrainUnit position;
-    public Hostage hostage;
-    public ArrayList loot = new ArrayList();
-    public ArrayList hand = new ArrayList();
-    public ArrayList discardPile = new ArrayList();
+        public bool getsAnotherAction;
+        public bool playedThisTurn;
+        public string strBanditName; //public Character banditName;
+        public TrainUnit position;
+        public Hostage hostage;
+        public ArrayList loot = new ArrayList();
+        public ArrayList hand = new ArrayList();
+        public ArrayList discardPile = new ArrayList();
 
-    public Bandit() { }
+        public GameObject clickable;
 
+        public Bandit() { }
+
+    }
 }

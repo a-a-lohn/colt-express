@@ -13,13 +13,15 @@ using Sfs2X.Protocol.Serialization;
 //The following code is executed right after creating the SmartFox object:
 // using System.Reflection;
 //        DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
-public class PlayedPile : SerializableSFSType
-{
+namespace model {
+    public class PlayedPile : SerializableSFSType
+    {
 
-    // STATIC FIELDS ARE NOT SERIALIZED
-    public static PlayedPile instance;
-    public ArrayList playedCards = new ArrayList();
+        // STATIC FIELDS ARE NOT SERIALIZED
+        public static PlayedPile instance;
+        public ArrayList playedCards;
 
-    public PlayedPile() { }
+        public PlayedPile() { }
 
+    }
 }

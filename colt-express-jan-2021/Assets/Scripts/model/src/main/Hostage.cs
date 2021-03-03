@@ -13,23 +13,25 @@ using Sfs2X.Protocol.Serialization;
 //The following code is executed right after creating the SmartFox object:
 // using System.Reflection;
 //        DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
-public class Hostage : SerializableSFSType
-{
+namespace model {
+    public class Hostage : SerializableSFSType
+    {
 
-    public HostageType hostageType;
-    public Bandit capturedBy;
-    
-    public Hostage() {
+        public string strHostageType; //public HostageType hostageType;
+        public Bandit capturedBy;
         
-    }
-    
-    Bandit getCapturedBy() {
-        return this.capturedBy;
-    }
-    
-    bool setCapturedBy(Bandit newObject) {
-        this.capturedBy = newObject;
-        return true;
-    }
+        public Hostage() {
+            
+        }
+        
+        Bandit getCapturedBy() {
+            return this.capturedBy;
+        }
+        
+        bool setCapturedBy(Bandit newObject) {
+            this.capturedBy = newObject;
+            return true;
+        }
 
+    }
 }

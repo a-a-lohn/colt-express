@@ -13,13 +13,15 @@ using Sfs2X.Protocol.Serialization;
 //The following code is executed right after creating the SmartFox object:
 // using System.Reflection;
 //        DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
-public class Round : SerializableSFSType
-{
+namespace model {
+    public class Round : SerializableSFSType
+    {
 
-    public RoundType round;
-    public Turn currentTurn;
-    public ArrayList turns = new ArrayList();
+        public string StrRound; //public RoundType round;
+        public Turn currentTurn;
+        public ArrayList turns;
 
-    public Round() { }
+        public Round() { }
 
+    }
 }
