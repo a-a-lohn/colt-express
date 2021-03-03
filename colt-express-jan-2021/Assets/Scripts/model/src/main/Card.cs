@@ -9,7 +9,7 @@ using Sfs2X.Entities;
 using Sfs2X.Entities.Data;
 using Sfs2X.Protocol.Serialization;
 
-public abstract class Card : SerializableSFSType {
+public abstract class Card : MonoBehaviour, SerializableSFSType {
     
     public Bandit belongsTo;
     
