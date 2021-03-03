@@ -13,7 +13,8 @@ public class ColtExtension extends SFSExtension
     	 * Make GameManager a @MultiHandler Extension that delegates incoming client requests to different methods,
     	 * and then those methods send back responses directly to user(s)
     	 */
-        addRequestHandler("gm", GameManager.class); // requests on the client must of the form "gm.method_name"
+        //addRequestHandler("gm", GameManager.class); // requests on the client must of the form "gm.method_name"
+    	addRequestHandler("gm", ColtMultiHandler.class);
     }
  
     @Override

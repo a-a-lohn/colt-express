@@ -13,9 +13,10 @@ import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
  */
 public class Round implements SerializableSFSType {
     
-    protected RoundType round;
-    protected Turn currentTurn;
-    protected ArrayList<Turn> turns = new ArrayList<Turn>();
+	transient public RoundType round;
+	public String strRound; //= round.toString(); -- Not sure if this will work, may have to be done assigned after round is assigned
+	public Turn currentTurn;
+	public ArrayList<Turn> turns = new ArrayList<Turn>();
     
 
     public Round() {  }

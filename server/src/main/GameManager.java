@@ -1,29 +1,31 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.smartfoxserver.v2.entities.User;
+import com.smartfoxserver.v2.entities.Zone;
+import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
+import com.smartfoxserver.v2.entities.data.SFSArray;
+import com.smartfoxserver.v2.entities.data.SFSObject;
 import com.smartfoxserver.v2.extensions.BaseClientRequestHandler;
 import com.smartfoxserver.v2.extensions.SFSExtension;
 import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
-import com.smartfoxserver.v2.annotations.Instantiation;
-import com.smartfoxserver.v2.annotations.Instantiation.InstantiationMode;
-import com.smartfoxserver.v2.annotations.MultiHandler;
 
-import model.ActionCard;
 import model.Bandit;
-import model.BulletCard;
-import model.CarType;
 import model.Character;
 import model.GameStatus;
-import model.Loot;
 import model.Marshal;
 import model.Money;
 import model.MoneyType;
 import model.PlayedPile;
 import model.Round;
 import model.TrainUnit;
+
+import com.smartfoxserver.v2.annotations.Instantiation;
+import com.smartfoxserver.v2.annotations.Instantiation.InstantiationMode;
+import com.smartfoxserver.v2.annotations.MultiHandler;
 
 @Instantiation(InstantiationMode.SINGLE_INSTANCE)
 @MultiHandler
@@ -41,14 +43,27 @@ public class GameManager extends BaseClientRequestHandler implements Serializabl
 	protected ArrayList<Bandit> bandits = new ArrayList<Bandit>();
 	
 	
+	Bandit b = new Bandit(Character.CHEYENNE);
 	
 	@Override
 	public void handleClientRequest(User sender, ISFSObject params) {
 		String command = params.getUtfString(SFSExtension.MULTIHANDLER_REQUEST_ID);
 		
+		ISFSObject gameState = SFSObject.newInstance();
+		
+		if(command.equals("test")) {
+			bandits.add(b);
+			//ISFSArray banditsArray = SFSArray.newInstance();
+			gameState.putClass("bandits", bandits);
+		}
+		
+		ColtExtension parentExt = (ColtExtension)getParentExtension();
+		Zone zone = parentExt.getParentZone();
+		parentExt.send("updateGameState", gameState, (List<User>) zone.getUserList());
+		
 	}
 	
-
+	// SOME OF THESE FIELDS SHOULD BE AUTOMATICALLY INITIALIZED, NOT PASSED AS PARAMS
 	private GameManager(ArrayList<Bandit> bandits, Bandit currentBandit, ArrayList<Round> rounds, Round currentRound,
 			GameStatus status, TrainUnit[][] trainUnits) {
 
@@ -60,11 +75,11 @@ public class GameManager extends BaseClientRequestHandler implements Serializabl
 		this.marshalInstance = Marshal.getInstance();
 		this.playedPileInstance = PlayedPile.getInstance();
 
-		this.train = TrainUnit.createTrain(this.bandits.size());
-		this.stagecoach = TrainUnit.createStagecoach();
+		//this.train = TrainUnit.createTrain(this.bandits.size());
+		//this.stagecoach = TrainUnit.createStagecoach();
 	}
 
-	public static GameManager getInstance() {
+	/*public static GameManager getInstance() {
 		GameManager gm = null;
 		if (singleton == null) {
 			gm = new GameManager(new ArrayList<Bandit>(), null, new ArrayList<Round>(), null, GameStatus.SETUP,
@@ -73,7 +88,7 @@ public class GameManager extends BaseClientRequestHandler implements Serializabl
 			gm = GameManager.singleton;
 		}
 		return gm;
-	}
+	}*/
 
 	/**
 	 * --ROUND METHODS--
@@ -132,7 +147,7 @@ public class GameManager extends BaseClientRequestHandler implements Serializabl
 	/**
 	 * --TRAIN UNIT METHODS--
 	 */
-	public void addTrainUnitsAt(int index, TrainUnit a) {
+	/*public void addTrainUnitsAt(int index, TrainUnit a) {
 		boolean contains = this.trainUnits.contains(a);
 		if (contains) {
 			return;
@@ -174,7 +189,7 @@ public class GameManager extends BaseClientRequestHandler implements Serializabl
 
 	public ArrayList<TrainUnit> getTrainUnits() {
 		return this.trainUnits;
-	}
+	}*/
 
 	/**
 	 * --BANDIT METHODS--
@@ -290,7 +305,7 @@ public class GameManager extends BaseClientRequestHandler implements Serializabl
 		}
 	}
 
-	void Rob() {
+	/*void Rob() {
 
 		if (this.currentBandit.getPosition().carType == CarType.Car1Roof
 				|| this.currentBandit.getPosition().carType == CarType.Car2Roof
@@ -391,14 +406,14 @@ public class GameManager extends BaseClientRequestHandler implements Serializabl
 
 		}
 
-	}
+	}*/
 
 	/**
      * @param c
      *           Card will be moved from bandit's hand to played pile and it's effect will be resolved
      *
      */
-	public void playActionCard(ActionCard c){
+	/*public void playActionCard(ActionCard c){
 
 	    //Remove card from bandit's hand
         this.currentBandit = c.getBelongsTo();
@@ -415,6 +430,6 @@ public class GameManager extends BaseClientRequestHandler implements Serializabl
         pile.addPlayedCards(c);
 
 
-    }
+    }*/
 
 }

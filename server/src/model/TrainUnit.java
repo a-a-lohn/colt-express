@@ -43,7 +43,7 @@ public class TrainUnit implements SerializableSFSType {
      *           where i=0 is the caboose and i=number of cars is the locomotive
      * Does NOT contain the stagecoach. The GameManger must separately call createStagecoach().
      */
-    static ArrayList<TrainUnit> createTrain(int numberOfBandits){
+    /*static ArrayList<TrainUnit> createTrain(int numberOfBandits){
     	//Create one car for each player, +1 to account for the locomotive
     	final int trainLength = numberOfBandits + 1;
     	
@@ -64,10 +64,10 @@ public class TrainUnit implements SerializableSFSType {
     	
     }
     
-    static TrainUnit createStagecoach() {
+    public static TrainUnit createStagecoach() {
     	TrainUnit cabin = new TrainUnit(CarType.StagecoachCabin);
     	TrainUnit roof = new TrainUnit(CarType.StagecoachRoof);
-    }
+    }*/
 
 
     
@@ -80,7 +80,7 @@ public class TrainUnit implements SerializableSFSType {
      * 
      * @return
      */
-    public TrainUnit getAbove() {
+   /* public TrainUnit getAbove() {
         if(this.above.isEmpty()) {
         	return null; //better design?
         }
@@ -128,7 +128,7 @@ public class TrainUnit implements SerializableSFSType {
     public boolean isAdjacentTo(TrainUnit a) {
         //TODO
     	return false;
-    }
+    }*/
 
     
     
@@ -154,7 +154,7 @@ public class TrainUnit implements SerializableSFSType {
      *           b is a non-null Bandit to be removed from this train car
      * @pre this train car must contain b
      */
-    static boolean removeBandit(Bandit b) {
+    /*static boolean removeBandit(Bandit b) {
     	assert banditsHere.contains(b);
     	//TODO
     	return false;
@@ -170,7 +170,7 @@ public class TrainUnit implements SerializableSFSType {
 
     public HashSet<Bandit> getBandtsHere() {
         return this.banditsHere.clone();
-    }
+    }*/
 
     
     /**
@@ -198,9 +198,9 @@ public class TrainUnit implements SerializableSFSType {
         return this.lootHere.size();
     }
 
-    public HashSet<Loot> getLootHere() {
+    /*public HashSet<Loot> getLootHere() {
         return this.lootHere.clone();
-    }
+    }*/
     
     
     /**
@@ -221,7 +221,7 @@ public class TrainUnit implements SerializableSFSType {
      * HORSE METHODS, (HAVE NOT BEEN CHECKED)
      */
     
-    
+    /*
     public boolean addHorsesAt(int index, Horse a) {
         boolean contains = horses.contains(a);
         if (contains) {
@@ -268,5 +268,5 @@ public class TrainUnit implements SerializableSFSType {
 
     ArrayList<Horse> getHorses() {
         return this.horses;
-    }
+    }*/
 }

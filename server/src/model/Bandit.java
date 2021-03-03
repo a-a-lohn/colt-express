@@ -12,19 +12,24 @@ import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
  */
 public class Bandit implements SerializableSFSType {
 
-	protected boolean getsAnotherAction;
-	protected boolean playedThisTurn;
-	protected Character banditName;
-	protected TrainUnit position;
-	protected Hostage hostage;
-	protected ArrayList<Loot> loot = new ArrayList<Loot>();
-	protected ArrayList<BulletCard> bullets = new ArrayList<BulletCard>();;
-	protected ArrayList<Card> deck = new ArrayList<Card>();;
-	protected ArrayList<Card> hand = new ArrayList<Card>();;
-	protected ArrayList<Card> discardPile = new ArrayList<Card>();;
+	public boolean getsAnotherAction;
+	public boolean playedThisTurn;
+	transient public Character banditName;
+	public String strBanditName;
+	public TrainUnit position;
+	public Hostage hostage;
+	public ArrayList<Loot> loot = new ArrayList<Loot>();
+	public ArrayList<BulletCard> bullets = new ArrayList<BulletCard>();
+	public ArrayList<Card> deck = new ArrayList<Card>();
+	public ArrayList<Card> hand = new ArrayList<Card>();
+	public ArrayList<Card> discardPile = new ArrayList<Card>();
 
+	// Needed for serialization
+	public Bandit() { }
+	
 	public Bandit(Character c) {
 		this.banditName = c;
+		this.strBanditName = c.toString();
 		this.getsAnotherAction = false;
 		this.playedThisTurn = false;
 		this.position = null;
@@ -268,7 +273,7 @@ public class Bandit implements SerializableSFSType {
 		this.hostage = newObject;
 	}
 
-	void createStartingCards() {
+	public void createStartingCards() {
 
 		ActionCard acMove1 = new ActionCard(ActionKind.MOVE);
 		ActionCard acMove2 = new ActionCard(ActionKind.MOVE);
@@ -298,7 +303,7 @@ public class Bandit implements SerializableSFSType {
 
 	}
 
-	void createBulletCards() {
+	public void createBulletCards() {
 
 		BulletCard bc1 = new BulletCard();
 		BulletCard bc2 = new BulletCard();
@@ -320,7 +325,7 @@ public class Bandit implements SerializableSFSType {
 
 	}
 
-	void createStartingPurse() {
+	public void createStartingPurse() {
 		Money startingPurse = new Money(MoneyType.PURSE, 250);
 		this.loot.add(startingPurse);
 	}
