@@ -10,6 +10,8 @@ public class ColtExtension extends SFSExtension
     	/*
     	 * Add request handlers here for info sent to server from client
     	 * 
+    	 * Make GameManager a @MultiHandler Extension that delegates incoming client requests to different methods,
+    	 * and then those methods send back responses directly to user(s)
     	 */
         //addRequestHandler("math", MathHandler.class);
     }
