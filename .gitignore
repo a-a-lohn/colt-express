@@ -40,7 +40,6 @@ ExportedObj/
 *.pidb.meta
 *.pdb.meta
 *.mdb.meta
-*.cs.meta
 *model.meta
 *main.meta
 *src.meta
