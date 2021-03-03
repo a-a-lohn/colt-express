@@ -18,7 +18,7 @@ public class TrainUnit implements SerializableSFSType {
     protected Marshal marshalHere;
     protected ArrayList<Bandit> banditPositions = new ArrayList<Bandit>();
     protected ArrayList<Loot> lootInCabin = new ArrayList<Loot>();
-    protected ArrayList<TrainUnit> adjacent;
+    protected ArrayList<TrainUnit> adjacent = new ArrayList<TrainUnit>();
     protected ArrayList<Horse> horses = new ArrayList<Horse>();
     
     boolean addBanditPositionsAt(int index, Bandit a) {
@@ -151,9 +151,7 @@ public class TrainUnit implements SerializableSFSType {
         return removed;
     }
 
-    TrainUnit() {
-        ArrayList<TrainUnit> collection = new ArrayList<TrainUnit>();
-    }
+    public TrainUnit() { }
 
     boolean containsAdjacent(TrainUnit a) {
         boolean contains = adjacent.contains(a);

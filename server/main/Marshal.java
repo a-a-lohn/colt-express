@@ -13,6 +13,10 @@ public class Marshal implements SerializableSFSType {
     
     protected TrainUnit marshalPosition;
     protected static Marshal instance;
+
+    public Marshal() {
+        /* TODO: No message view defined */
+    }
     
     TrainUnit getMarshalPosition() {
         return this.marshalPosition;
@@ -23,7 +27,4 @@ public class Marshal implements SerializableSFSType {
         return true;
     }
 
-    public Marshal() {
-        /* TODO: No message view defined */
-    }
 }

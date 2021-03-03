@@ -14,4 +14,6 @@ public class Money extends Loot implements SerializableSFSType {
     protected int value;
     protected MoneyType moneyType;
     
+    public Money() { }
+    
 }

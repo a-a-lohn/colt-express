@@ -64,7 +64,7 @@ public class PlayedPile implements SerializableSFSType {
         return this.playedCards;
     }
 
-    private PlayedPile() {
+    public PlayedPile() {
         /* TODO: No message view defined */
     }
 

@@ -40,7 +40,11 @@ ExportedObj/
 *.pidb.meta
 *.pdb.meta
 *.mdb.meta
-*.meta
+*.cs.meta
+*model.meta
+*main.meta
+*src.meta
+*dll.meta
 
 # Unity3D generated file on crash reports
 sysinfo.txt
@@ -49,3 +53,4 @@ sysinfo.txt
 *.apk
 *.aab
 *.unitypackage
+/.metadata/
