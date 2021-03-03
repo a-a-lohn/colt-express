@@ -29,7 +29,7 @@ public class GameBoard : MonoBehaviour
 
 
     private SmartFox sfs;
-    private string defaultHost = "13.90.26.131"; //"127.0.0.1"; //
+    private string defaultHost = "13.90.26.131"; //"13.90.26.131"; //"127.0.0.1"; //
 	private int defaultTcpPort = 9933;			// Default TCP port
     private string zone = "ColtExpress"; //"BasicExamples";// "MyExt";
 

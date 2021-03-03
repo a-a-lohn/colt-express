@@ -2929,7 +2929,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 734506202}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30226671e22803d4194be6ab7d6ca1c3, type: 3}
+  m_Script: {fileID: 11500000, guid: a1a1bfbdac2dcab4e91cdac9cfcbba08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cheyenne: {fileID: 1258289863}
@@ -5493,7 +5493,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03dcf93da89396e418ec5138045f97ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gem: {fileID: 1453433084}
 --- !u!61 &1453433088
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5906,7 +5905,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03dcf93da89396e418ec5138045f97ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gem: {fileID: 1574924010}
 --- !u!61 &1574924014
 BoxCollider2D:
   m_ObjectHideFlags: 0
