@@ -22,6 +22,7 @@ public class GameBoard : MonoBehaviour
     public GameObject cheyenne;
     public Text debugText;
     public Button button;
+	public Button extension;
     public Text buttonLabel;
     public Bandit b;
     
@@ -29,9 +30,9 @@ public class GameBoard : MonoBehaviour
 
 
     private SmartFox sfs;
-    private string defaultHost = "13.90.26.131"; //"13.90.26.131"; //"127.0.0.1"; //
+    private string defaultHost = "127.0.0.1";//"13.90.26.131"; //"127.0.0.1"; //
 	private int defaultTcpPort = 9933;			// Default TCP port
-    private string zone = "ColtExpress"; //"BasicExamples";// "MyExt";
+    private string zone = "NewZone"; // "ColtExpress"; //"BasicExamples";// "MyExt";
 
     // Start is called before the first frame update
     void Start()
@@ -65,6 +66,7 @@ public class GameBoard : MonoBehaviour
     private void Test() {
         buttonLabel.text = "CONNECT";
         button.onClick.AddListener(OnButtonClick);
+		extension.onClick.AddListener(GetGameState);
     }
 
 	// client side: receiving input from USER
@@ -245,9 +247,6 @@ public class GameBoard : MonoBehaviour
 		string msg = "Login successful!\n";
 		msg += "Logged in as " + user.Name;
 		trace(msg);
-
-        // make server call to get new game state immediately upon login (this is for testing purposes, we can change this)
-        GetGameState();
 
 	}
 	

@@ -27,9 +27,9 @@ import com.smartfoxserver.v2.annotations.Instantiation;
 import com.smartfoxserver.v2.annotations.Instantiation.InstantiationMode;
 import com.smartfoxserver.v2.annotations.MultiHandler;
 
-@Instantiation(InstantiationMode.SINGLE_INSTANCE)
-@MultiHandler
-public class GameManager extends BaseClientRequestHandler implements SerializableSFSType {
+//@Instantiation(InstantiationMode.SINGLE_INSTANCE)
+//@MultiHandler
+public class GameManager /*extends BaseClientRequestHandler */implements SerializableSFSType {
 
 	protected static GameManager singleton;
 	protected GameStatus gameStatus;
@@ -43,25 +43,28 @@ public class GameManager extends BaseClientRequestHandler implements Serializabl
 	protected ArrayList<Bandit> bandits = new ArrayList<Bandit>();
 	
 	
-	Bandit b = new Bandit(Character.CHEYENNE);
+	/*Bandit b = new Bandit(Character.CHEYENNE);
 	
 	@Override
 	public void handleClientRequest(User sender, ISFSObject params) {
-		String command = params.getUtfString(SFSExtension.MULTIHANDLER_REQUEST_ID);
+		//String command = params.getUtfString(SFSExtension.MULTIHANDLER_REQUEST_ID);
 		
 		ISFSObject gameState = SFSObject.newInstance();
 		
-		if(command.equals("test")) {
+//		if(truecommand.equals("test")) {
 			bandits.add(b);
-			//ISFSArray banditsArray = SFSArray.newInstance();
-			gameState.putClass("bandits", bandits);
-		}
-		
+//			//ISFSArray banditsArray = SFSArray.newInstance();
+//			//gameState.putClass("bandits", bandits);
+//		}
+		gameState.putUtfString("testStr", "someData");
 		ColtExtension parentExt = (ColtExtension)getParentExtension();
 		Zone zone = parentExt.getParentZone();
-		parentExt.send("updateGameState", gameState, (List<User>) zone.getUserList());
+		//parentExt.send("updateGameState", gameState, (List<User>) zone.getUserList());
+		parentExt.send("updateGameState", gameState, sender);
 		
-	}
+	}*/
+	
+	public GameManager() { }
 	
 	// SOME OF THESE FIELDS SHOULD BE AUTOMATICALLY INITIALIZED, NOT PASSED AS PARAMS
 	private GameManager(ArrayList<Bandit> bandits, Bandit currentBandit, ArrayList<Round> rounds, Round currentRound,

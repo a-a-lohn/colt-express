@@ -1,5 +1,6 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.smartfoxserver.v2.annotations.Instantiation;
@@ -10,11 +11,17 @@ import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import com.smartfoxserver.v2.extensions.BaseClientRequestHandler;
+
 import com.smartfoxserver.v2.annotations.Instantiation.InstantiationMode;
 
 @Instantiation(InstantiationMode.SINGLE_INSTANCE)
 //@MultiHandler
 public class ColtMultiHandler extends BaseClientRequestHandler {
+	
+//	GameManager gm = new GameManager();
+//	ArrayList<Bandit> bandits = gm.bandits;
+//	Bandit b = new Bandit(Character.CHEYENNE);
+	
 	
 	@Override
 	public void handleClientRequest(User sender, ISFSObject params) {
