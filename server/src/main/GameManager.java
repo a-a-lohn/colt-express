@@ -1,7 +1,8 @@
 package main;
 
-import java.util.ArrayList;
+import model.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.smartfoxserver.v2.entities.User;
@@ -37,8 +38,8 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	protected Round currentRound;
 	protected Bandit currentBandit;
 	protected ArrayList<Round> rounds = new ArrayList<Round>();
-	protected static Marshal marshalInstance;
-	protected static PlayedPile playedPileInstance;
+	protected Marshal marshalInstance;
+	protected PlayedPile playedPileInstance;
 	protected TrainUnit[][] train;
 	protected TrainUnit stagecoach;
 	public ArrayList<Bandit> bandits = new ArrayList<Bandit>();
@@ -416,23 +417,26 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
      *           Card will be moved from bandit's hand to played pile and it's effect will be resolved
      *
      */
-	/*public void playActionCard(ActionCard c){
+	public void playActionCard(ActionCard c){
 
 	    //Remove card from bandit's hand
         this.currentBandit = c.getBelongsTo();
         this.currentBandit.removeHand(c);
 
         //Prompt playing face down
-        if(currentBandit.getCharacter() == Character.GHOST && ){
+        if(currentBandit.getCharacter() == Character.GHOST && this.currentRound.getTurnCounter() == 0){
             //TODO: prompt choice;
+        	//TODO: receive choice;
         }
-        else if()
+        else if(this.currentRound.getCurrentTurn().getTurnType() == TurnType.TUNNEL) {
+        	c.setFaceDown(true);
+        }
 
         //Assign card to played pile
         PlayedPile pile = PlayedPile.getInstance();
         pile.addPlayedCards(c);
+        //TODO: graphical response
 
-
-    }*/
+    }
 
 }

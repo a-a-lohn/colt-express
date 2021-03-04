@@ -16,6 +16,7 @@ public class Round implements SerializableSFSType {
 	transient public RoundType round;
 	public String strRound; //= round.toString(); -- Not sure if this will work, may have to be done assigned after round is assigned
 	public Turn currentTurn;
+	public int turnCounter; //Tracks the current turn
 	public ArrayList<Turn> turns = new ArrayList<Turn>();
     
 
@@ -74,9 +75,19 @@ public class Round implements SerializableSFSType {
     public void setCurrentTurn(Turn newObject) {
         this.currentTurn = newObject;
     }
-
     public Turn getNextTurn() {
         /* TODO: implement this(?) */
         return null;
     }
+    public void setNextTurn() {
+    	this.turnCounter++;
+    	this.currentTurn = this.turns.get(turnCounter);
+    }
+    public int getTurnCounter() {
+    	return this.turnCounter;
+    }
+    public void setTurnCounter(int i) {
+    	this.turnCounter = i;
+    }
+    
 }
