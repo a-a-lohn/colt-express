@@ -30,9 +30,9 @@ public class GameBoard : MonoBehaviour
 
 
     private SmartFox sfs;
-    private string defaultHost = "127.0.0.1";//"13.90.26.131"; //"127.0.0.1"; //
+    private string defaultHost = "127.0.0.1"; //"13.90.26.131"; //"127.0.0.1"; //
 	private int defaultTcpPort = 9933;			// Default TCP port
-    private string zone = "NewZone"; // "ColtExpress"; //"BasicExamples";// "MyExt";
+    private string zone = "NewZone"; //"ColtExpress"; //"BasicExamples";// "MyExt";
 
     // Start is called before the first frame update
     void Start()
