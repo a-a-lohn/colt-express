@@ -14,6 +14,8 @@ public class Whiskey extends Loot implements SerializableSFSType {
     protected WhiskeyType whiskeyType;
     protected WhiskeyStatus whiskeyStatus;
     
+
+    //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
     public Whiskey() { }
 
     public WhiskeyType getWhiskeyType(){

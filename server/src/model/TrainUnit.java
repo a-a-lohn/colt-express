@@ -28,6 +28,9 @@ public class TrainUnit implements SerializableSFSType {
     protected HashSet<Loot> lootHere = new HashSet<Loot>();
     protected HashSet<Horse> horsesHere = new HashSet<Horse>();
     
+    //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
+    public TrainUnit() {}
+    
     private TrainUnit(CarType carType) {
     	this.carType = carType;
     	//TODO: createGraphic()

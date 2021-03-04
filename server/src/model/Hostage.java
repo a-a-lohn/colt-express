@@ -14,6 +14,7 @@ public class Hostage implements SerializableSFSType {
     protected HostageType hostageType;
     protected Bandit capturedBy;
     
+  //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
     public Hostage() { }
     
     public Bandit getCapturedBy() {

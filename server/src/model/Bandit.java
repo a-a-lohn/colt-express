@@ -24,7 +24,7 @@ public class Bandit implements SerializableSFSType {
 	public ArrayList<Card> hand = new ArrayList<Card>();
 	public ArrayList<Card> discardPile = new ArrayList<Card>();
 
-	// Needed for serialization
+	//--EMPTY CONSTRUCTOR FOR SERIALIZATION--
 	public Bandit() { }
 	
 	public Bandit(Character c) {

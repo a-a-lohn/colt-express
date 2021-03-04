@@ -19,6 +19,7 @@ public class Round implements SerializableSFSType {
 	public ArrayList<Turn> turns = new ArrayList<Turn>();
     
 
+	//--EMPTY CONSTRUCTOR FOR SERIALIZATION--
     public Round() {  }
 
     public void addTurn(Turn a) {
