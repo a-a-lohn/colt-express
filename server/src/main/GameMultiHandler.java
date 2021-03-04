@@ -61,7 +61,7 @@ public class GameMultiHandler extends BaseClientRequestHandler
 		try {
 			character = Character.valueOf(strBandit);
 		} catch(IllegalArgumentException e) {
-			//handle error
+			//TODO: handle error
 		}
 		Bandit b = new Bandit(character);
 		//assigning bandit to user variable
@@ -80,7 +80,7 @@ public class GameMultiHandler extends BaseClientRequestHandler
 		for (User user: users) {
 			Bandit a = (Bandit)user.getVariable("bandit");
 			if (a == null) {
-				done = true;
+				done = false;
 			}
 		}
 		if (done==true) {
