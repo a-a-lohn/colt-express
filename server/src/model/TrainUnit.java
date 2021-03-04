@@ -62,9 +62,9 @@ public class TrainUnit implements SerializableSFSType {
     	
     	//TODO: Associate locomotive to front car
     	
-    }
+    }*/
     
-    public static TrainUnit createStagecoach() {
+    /*public static TrainUnit createStagecoach() {
     	TrainUnit cabin = new TrainUnit(CarType.StagecoachCabin);
     	TrainUnit roof = new TrainUnit(CarType.StagecoachRoof);
     }*/
