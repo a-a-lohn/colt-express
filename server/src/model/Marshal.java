@@ -14,6 +14,7 @@ public class Marshal implements SerializableSFSType {
     protected TrainUnit marshalPosition;
     protected static Marshal instance;
 
+  //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
     public Marshal() {}
     
     public TrainUnit getMarshalPosition() {

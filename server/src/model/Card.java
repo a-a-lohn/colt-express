@@ -6,14 +6,14 @@ public abstract class Card implements SerializableSFSType {
 	
 	protected Bandit belongsTo;
 	
-	// NEEDED FOR SERIALIZATION
+	//--EMPTY CONSTRUCTOR FOR SERIALIZATION--
 	public Card() { }
 	
     public Bandit getBelongsTo() {
         return this.belongsTo;
     }
 
-    public void setBelongsTo(Bandit newObject) {
-        this.belongsTo = newObject;
+    public void setBelongsTo(Bandit belongsTo) {
+        this.belongsTo = belongsTo;
     }
 }

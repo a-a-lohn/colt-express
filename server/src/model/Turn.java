@@ -15,6 +15,7 @@ public class Turn implements SerializableSFSType {
     
     protected TurnType turnType;
     
+    //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
     public Turn() { }
 
     public TurnType getTurnType(){

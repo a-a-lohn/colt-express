@@ -15,6 +15,9 @@ public class ActionCard extends Card implements SerializableSFSType {
     protected boolean saveForNextRound = false;
     protected boolean faceDown = false;
     
+    //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
+    public ActionCard() {}
+    
     public ActionCard(ActionKind ak) {
 		this.action = ak;
 	}

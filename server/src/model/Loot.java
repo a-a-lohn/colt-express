@@ -15,7 +15,7 @@ public abstract class Loot implements SerializableSFSType {
     
     protected boolean isWhiskey;
     
-    // NEEDED FOR SERIALIZATION
+    //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
     public Loot() { }
 
     public void setIsWhiskey(boolean b){

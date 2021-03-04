@@ -1,5 +1,7 @@
 package main;
 
+import model.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,16 +38,16 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	protected Round currentRound;
 	protected Bandit currentBandit;
 	protected ArrayList<Round> rounds = new ArrayList<Round>();
-	protected static Marshal marshalInstance;
-	protected static PlayedPile playedPileInstance;
+	protected Marshal marshalInstance;
+	protected PlayedPile playedPileInstance;
 	protected TrainUnit[][] train;
 	protected TrainUnit stagecoach;
-	protected ArrayList<Bandit> bandits = new ArrayList<Bandit>();
+	public ArrayList<Bandit> bandits = new ArrayList<Bandit>();
 	
+
+	//Bandit b = new Bandit(Character.CHEYENNE);
 	
-	/*Bandit b = new Bandit(Character.CHEYENNE);
-	
-	@Override
+	/*@Override
 	public void handleClientRequest(User sender, ISFSObject params) {
 		//String command = params.getUtfString(SFSExtension.MULTIHANDLER_REQUEST_ID);
 		
@@ -64,8 +66,6 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 		
 	}*/
 	
-	public GameManager() { }
-	
 	// SOME OF THESE FIELDS SHOULD BE AUTOMATICALLY INITIALIZED, NOT PASSED AS PARAMS
 	private GameManager(ArrayList<Bandit> bandits, Bandit currentBandit, ArrayList<Round> rounds, Round currentRound,
 			GameStatus status, TrainUnit[][] trainUnits) {
@@ -81,17 +81,19 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 		//this.train = TrainUnit.createTrain(this.bandits.size());
 		//this.stagecoach = TrainUnit.createStagecoach();
 	}
+	
+	public GameManager() {};
 
-	/*public static GameManager getInstance() {
+	public static GameManager getInstance() {
 		GameManager gm = null;
 		if (singleton == null) {
-			gm = new GameManager(new ArrayList<Bandit>(), null, new ArrayList<Round>(), null, GameStatus.SETUP,
-					TrainUnit.createTrain(0));
+			gm = new GameManager();/*new ArrayList<Bandit>(), null, new ArrayList<Round>(), null, GameStatus.SETUP,
+					TrainUnit.createTrain(0));*/
 		} else {
-			gm = GameManager.singleton;
+			gm = singleton;
 		}
 		return gm;
-	}*/
+	}
 
 	/**
 	 * --ROUND METHODS--
@@ -416,23 +418,26 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
      *           Card will be moved from bandit's hand to played pile and it's effect will be resolved
      *
      */
-	/*public void playActionCard(ActionCard c){
+	public void playActionCard(ActionCard c){
 
 	    //Remove card from bandit's hand
         this.currentBandit = c.getBelongsTo();
         this.currentBandit.removeHand(c);
 
         //Prompt playing face down
-        if(currentBandit.getCharacter() == Character.GHOST && ){
+        if(currentBandit.getCharacter() == Character.GHOST && this.currentRound.getTurnCounter() == 0){
             //TODO: prompt choice;
+        	//TODO: receive choice;
         }
-        else if()
+        else if(this.currentRound.getCurrentTurn().getTurnType() == TurnType.TUNNEL) {
+        	c.setFaceDown(true);
+        }
 
         //Assign card to played pile
         PlayedPile pile = PlayedPile.getInstance();
         pile.addPlayedCards(c);
+        //TODO: graphical response
 
-
-    }*/
+    }
 
 }
