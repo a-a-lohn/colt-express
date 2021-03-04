@@ -2,7 +2,9 @@ package main;
 
 import java.util.List;
 
+import model.*;
 import com.smartfoxserver.v2.annotations.Instantiation;
+import com.smartfoxserver.v2.annotations.MultiHandler;
 import com.smartfoxserver.v2.entities.User;
 import com.smartfoxserver.v2.entities.Zone;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
@@ -13,7 +15,7 @@ import com.smartfoxserver.v2.extensions.BaseClientRequestHandler;
 import com.smartfoxserver.v2.annotations.Instantiation.InstantiationMode;
 
 @Instantiation(InstantiationMode.SINGLE_INSTANCE)
-//@MultiHandler
+@MultiHandler
 public class ColtMultiHandler extends BaseClientRequestHandler {
 	
 	@Override

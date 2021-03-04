@@ -1,6 +1,7 @@
 package main;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import com.smartfoxserver.v2.entities.User;
@@ -29,7 +30,7 @@ import com.smartfoxserver.v2.annotations.MultiHandler;
 
 @Instantiation(InstantiationMode.SINGLE_INSTANCE)
 @MultiHandler
-public class GameManager extends BaseClientRequestHandler implements SerializableSFSType {
+public class GameManager /*extends BaseClientRequestHandler */implements SerializableSFSType {
 
 	protected static GameManager singleton;
 	protected GameStatus gameStatus;
@@ -40,12 +41,12 @@ public class GameManager extends BaseClientRequestHandler implements Serializabl
 	protected static PlayedPile playedPileInstance;
 	protected TrainUnit[][] train;
 	protected TrainUnit stagecoach;
-	protected ArrayList<Bandit> bandits = new ArrayList<Bandit>();
+	public ArrayList<Bandit> bandits = new ArrayList<Bandit>();
 	
 	
-	Bandit b = new Bandit(Character.CHEYENNE);
+	//Bandit b = new Bandit(Character.CHEYENNE);
 	
-	@Override
+	/*@Override
 	public void handleClientRequest(User sender, ISFSObject params) {
 		String command = params.getUtfString(SFSExtension.MULTIHANDLER_REQUEST_ID);
 		
@@ -61,7 +62,7 @@ public class GameManager extends BaseClientRequestHandler implements Serializabl
 		Zone zone = parentExt.getParentZone();
 		parentExt.send("updateGameState", gameState, (List<User>) zone.getUserList());
 		
-	}
+	}*/
 	
 	// SOME OF THESE FIELDS SHOULD BE AUTOMATICALLY INITIALIZED, NOT PASSED AS PARAMS
 	private GameManager(ArrayList<Bandit> bandits, Bandit currentBandit, ArrayList<Round> rounds, Round currentRound,
@@ -78,17 +79,19 @@ public class GameManager extends BaseClientRequestHandler implements Serializabl
 		//this.train = TrainUnit.createTrain(this.bandits.size());
 		//this.stagecoach = TrainUnit.createStagecoach();
 	}
+	
+	public GameManager() {};
 
-	/*public static GameManager getInstance() {
+	public static GameManager getInstance() {
 		GameManager gm = null;
 		if (singleton == null) {
-			gm = new GameManager(new ArrayList<Bandit>(), null, new ArrayList<Round>(), null, GameStatus.SETUP,
-					TrainUnit.createTrain(0));
+			gm = new GameManager();/*new ArrayList<Bandit>(), null, new ArrayList<Round>(), null, GameStatus.SETUP,
+					TrainUnit.createTrain(0));*/
 		} else {
-			gm = GameManager.singleton;
+			gm = singleton;
 		}
 		return gm;
-	}*/
+	}
 
 	/**
 	 * --ROUND METHODS--
