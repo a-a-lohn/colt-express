@@ -77,10 +77,14 @@ public class GameMultiHandler extends BaseClientRequestHandler
 		Zone zone = parentExt.getParentZone();
 		List<User> users = (List<User>)zone.getUserList();
 		boolean done = true;
+		ISFSArray chosen = new SFSArray();
 		for (User user: users) {
 			Bandit a = (Bandit)user.getVariable("bandit");
 			if (a == null) {
 				done = false;
+			}
+			else {
+				chosen.addUtfString(a.strBanditName);
 			}
 		}
 		if (done==true) {
@@ -88,7 +92,9 @@ public class GameMultiHandler extends BaseClientRequestHandler
 		}
 		else {
 			//if choosing bandit phase still ongoing then send this info back
-			updateGameState(gm);
+			ISFSObject gameState = SFSObject.newInstance();
+			gameState.putSFSArray("chosen", chosen);
+			parentExt.send("chosenBandits", gameState, users);
 		}
 			
 		
