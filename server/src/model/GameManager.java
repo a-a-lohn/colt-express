@@ -259,9 +259,9 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 		// Here to get number of players
 		return 3;
 	}
-
+	
 	//void chosenCharacter(int playerId, Character c) {
-	public void chosenCharacter(User player, Character c, int numPlayers) {
+	public Bandit chosenCharacter(User player, Character c, int numPlayers) {
 		Bandit newBandit = new Bandit(c);
 		this.bandits.add(newBandit);
 		this.banditmap.put(newBandit, player);
@@ -308,6 +308,7 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 			//this.setCurrentRound(this.rounds.get(0));
 			// set waiting for input to be true;
 		}
+		return newBandit;
 	}
 
 	/*void Rob() {
