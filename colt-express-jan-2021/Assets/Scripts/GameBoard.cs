@@ -105,13 +105,13 @@ public class GameBoard : MonoBehaviour
 
 	private void DisplayRemainingCharacters(BaseEvent evt) {
 		ISFSObject responseParams = (SFSObject)evt.Params["params"];
-        String[] resp = responseParams.GetUtfStringArray("characterList");
-		string resp2 = responseParams.GetUtfString("cl");
-		int size = responseParams.GetSFSArray("clsfs").Size();
-		trace("Characters to choose from: " + resp2);
-		foreach (var s in resp) {
+        String resp = (string)responseParams.GetSFSArray("characterList").GetUtfString(0);
+		//string resp2 = responseParams.GetUtfString("cl");
+		int size = responseParams.GetSFSArray("characterList").Size();
+		trace("Characters to choose from: " + size + resp);
+		/*foreach (var s in resp) {
 			trace(s.ToString());
-		}
+		}*/
 	}
 
     private void  UpdateGameState(BaseEvent evt) {

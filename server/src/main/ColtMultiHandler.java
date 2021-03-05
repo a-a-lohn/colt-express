@@ -61,12 +61,20 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	private void handleEnterChooseCharacterScene(User sender, ISFSObject params, ISFSObject rtn) {
 		gm = GameManager.getInstance();
 		ISFSArray characters = SFSArray.newInstance();
-		for (String c : Arrays.asList(Character.values().toString())) {
+		List<String> characterStrings = Arrays.asList("GHOST", "DOC", "TUCO", "CHEYENNE", "BELLE", "DJANGO");
+		rtn.putSFSArray("characterList", characters);
+		List<Bandit> chosenBandits = gm.getBandits();
+		List<String> chosenCharacters = new ArrayList<String>();
+		for (Bandit b : chosenBandits) {
+			chosenCharacters.add(b.getCharacter().toString());
+		}
+		for (String c : chosenCharacters) {
+			characterStrings.remove(c);
+		}
+		for (String c : characterStrings) {
 			characters.addUtfString(c);
 		}
-		rtn.putSFSArray("clsfs", characters);
-		rtn.putUtfStringArray("characterList", Arrays.asList(Character.values().toString()));//remainingCharacters());
-		rtn.putUtfString("cl", "TUC");
+		//rtn.putUtfStringArray("characterList", Arrays.asList(Character.values().toString()));//remainingCharacters());
 		sendToSender(sender, rtn, "remainingCharacters");
 	}
 	
