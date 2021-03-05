@@ -1,8 +1,7 @@
-package main;
-
-import model.*;
+package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.smartfoxserver.v2.entities.User;
@@ -14,17 +13,6 @@ import com.smartfoxserver.v2.entities.data.SFSObject;
 import com.smartfoxserver.v2.extensions.BaseClientRequestHandler;
 import com.smartfoxserver.v2.extensions.SFSExtension;
 import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
-
-import model.Bandit;
-import model.Character;
-import model.GameStatus;
-import model.Marshal;
-import model.Money;
-import model.MoneyType;
-import model.PlayedPile;
-import model.Round;
-import model.TrainUnit;
-
 import com.smartfoxserver.v2.annotations.Instantiation;
 import com.smartfoxserver.v2.annotations.Instantiation.InstantiationMode;
 import com.smartfoxserver.v2.annotations.MultiHandler;
@@ -33,16 +21,18 @@ import com.smartfoxserver.v2.annotations.MultiHandler;
 //@MultiHandler
 public class GameManager /*extends BaseClientRequestHandler */implements SerializableSFSType {
 
-	protected static GameManager singleton;
-	protected GameStatus gameStatus;
-	protected Round currentRound;
-	protected Bandit currentBandit;
-	protected ArrayList<Round> rounds = new ArrayList<Round>();
-	protected Marshal marshalInstance;
-	protected PlayedPile playedPileInstance;
-	protected TrainUnit[][] train;
-	protected TrainUnit stagecoach;
+	transient public static GameManager singleton;
+	transient public GameStatus gameStatus;
+	public String strGameStatus;
+	public Round currentRound;
+	public Bandit currentBandit;
+	public ArrayList<Round> rounds = new ArrayList<Round>();
+	public Marshal marshalInstance;
+	public PlayedPile playedPileInstance;
+	public TrainUnit[][] train;
+	public TrainUnit stagecoach;
 	public ArrayList<Bandit> bandits = new ArrayList<Bandit>();
+	transient public HashMap<Bandit, User> banditmap = new HashMap<Bandit, User>();
 	
 
 	//Bandit b = new Bandit(Character.CHEYENNE);
@@ -143,6 +133,7 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	 */
 	public void setGameStatus(GameStatus newStatus) {
 		this.gameStatus = newStatus;
+		this.strGameStatus = gameStatus.toString();
 	}
 
 	public GameStatus getGameStatus() {
@@ -253,10 +244,13 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	 * --GAME MANAGER METHODS--
 	 */
 
-	boolean allPlayersChosen() {
+	boolean allPlayersChosen(int numPlayers) {
 		// TO DO
+		if(numPlayers == bandits.size()) {
+			return true;
+		}
 		// for all players, return if they are all associated with a bandit or not.
-		return true;
+		return false;
 	}
 
 	int getNumOfPlayers() {
@@ -265,12 +259,14 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 		return 3;
 	}
 
-	void chosenCharacter(int playerId, Character c) {
+	//void chosenCharacter(int playerId, Character c) {
+	public void chosenCharacter(User player, Character c, int numPlayers) {
 		Bandit newBandit = new Bandit(c);
 		this.bandits.add(newBandit);
+		this.banditmap.put(newBandit, player);
 		// TO DO.
 		// Here to associate playerId with newBandit.
-		boolean ready = this.allPlayersChosen();
+		boolean ready = this.allPlayersChosen(numPlayers);
 		if (!ready) {
 			System.out.println("Not all players are ready!");
 		} else {
@@ -281,7 +277,10 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 				// this.addTrainUnits(new TrainUnit());
 			}
 
-			for (Bandit b : this.bandits) {
+			// I COMMENTED MOST OF THIS OUT BC IT CAUSES A SERIALIZATION ERROR SINCE THE FIELDS OF THE OBJECTS BEING CREATED
+			// ARE NOT ALL PUBLIC -- Aaron
+			
+			/*for (Bandit b : this.bandits) {
 				b.createStartingCards();
 				b.createBulletCards();
 				b.createStartingPurse();
@@ -292,7 +291,7 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 
 			Marshal marshal = new Marshal();
 
-			Money strongbox = new Money(MoneyType.STRONGBOX, 1000);
+			Money strongbox = new Money(MoneyType.STRONGBOX, 1000);*/
 
 			// TO DO
 			// set up the positions for marshal and strongbox
@@ -305,7 +304,7 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 			// }
 
 			this.setGameStatus(GameStatus.SCHEMIN);
-			this.setCurrentRound(this.rounds.get(0));
+			//this.setCurrentRound(this.rounds.get(0));
 			// set waiting for input to be true;
 		}
 	}

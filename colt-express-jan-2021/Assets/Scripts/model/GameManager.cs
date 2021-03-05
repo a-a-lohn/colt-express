@@ -18,7 +18,7 @@ using Sfs2X.Protocol.Serialization;
 namespace model {
     public class GameManager : SerializableSFSType {
 
-        public string strStatus; //public GameStatus status;
+        public string strGameStatus; //public GameStatus status;
         public Round currentRound;
         public Bandit currentBandit;
         public ArrayList rounds;

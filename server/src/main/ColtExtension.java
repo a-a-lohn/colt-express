@@ -2,6 +2,7 @@ package main;
 
 import com.smartfoxserver.v2.extensions.SFSExtension;
 
+
 public class ColtExtension extends SFSExtension
 {
     @Override

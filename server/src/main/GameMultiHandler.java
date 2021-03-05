@@ -26,7 +26,7 @@ import com.smartfoxserver.v2.annotations.Instantiation.InstantiationMode;
 public class GameMultiHandler extends BaseClientRequestHandler
 {
 	public void handleClientRequest(User sender, ISFSObject params) {
-		String command = params.getUtfString((SFSExtension.MULTIHANDLER_REQUEST_ID));
+		String command = params.getUtfString(SFSExtension.MULTIHANDLER_REQUEST_ID);
 		
 		if (command.equals("chooseBandit")) {
 			handleChooseBandit(sender, params);

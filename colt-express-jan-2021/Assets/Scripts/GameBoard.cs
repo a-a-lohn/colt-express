@@ -32,7 +32,7 @@ public class GameBoard : MonoBehaviour
     private SmartFox sfs;
     private string defaultHost = "127.0.0.1"; //"13.90.26.131"; //"127.0.0.1"; //
 	private int defaultTcpPort = 9933;			// Default TCP port
-    private string zone = "NewZone"; //"ColtExpress"; //"BasicExamples";// "MyExt";
+    private string zone = "MergedExt"; //"NewZone"; //"ColtExpress"; //"BasicExamples";// "MyExt";
 
     // Start is called before the first frame update
     void Start()
@@ -73,8 +73,8 @@ public class GameBoard : MonoBehaviour
     private void GetGameState() {
 
         ISFSObject obj = SFSObject.NewInstance();
-		//obj.PutUtfString("sentData", "someData");
-        ExtensionRequest req = new ExtensionRequest("gm",obj);
+		obj.PutUtfString("character", "TUCO");
+        ExtensionRequest req = new ExtensionRequest("gm.chosenCharacter",obj);
         sfs.Send(req);
         trace("test request sent");
     }
@@ -101,6 +101,8 @@ public class GameBoard : MonoBehaviour
         ISFSObject responseParams = (SFSObject)evt.Params["params"];
         string resp = responseParams.GetUtfString("testStr");
         trace(resp);
+		//Bandit b = (Bandit)responseParams.GetClass("bandits");
+		//trace(b.strBanditName);
         // Extract expected parameters and reassign all game objects
         /*ArrayList banditsArray = (ArrayList)responseParams.GetClass("bandits");
         foreach (Bandit b in banditsArray) {
@@ -109,6 +111,10 @@ public class GameBoard : MonoBehaviour
                 trace("Cheyenne added!");
             }
         }*/
+
+		GameManager gm = (GameManager)responseParams.GetClass("gm");
+		Bandit b = (Bandit)gm.bandits[0];
+		trace(b.strBanditName + " YESSSS");
     }
 
 
