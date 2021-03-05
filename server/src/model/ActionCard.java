@@ -11,9 +11,10 @@ import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
  */
 public class ActionCard extends Card implements SerializableSFSType {
     
-    protected ActionKind action;
-    protected boolean saveForNextRound = false;
-    protected boolean faceDown = false;
+    transient public ActionKind action;
+    public String actionAsString; //FOR NETWORKING
+    public boolean saveForNextRound = false;
+    public boolean faceDown = false;
     
     //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
     public ActionCard() {}

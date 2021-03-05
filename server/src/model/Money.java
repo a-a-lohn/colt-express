@@ -11,8 +11,9 @@ import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
  */
 public class Money extends Loot implements SerializableSFSType {
     
-    protected int value;
-    protected MoneyType moneyType;
+    public int value;
+    public MoneyType moneyType;
+    public String moneyTypeAsString; //FOR NETWORKING
     
   //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
     public Money() { }
@@ -22,20 +23,32 @@ public class Money extends Loot implements SerializableSFSType {
 		this.value = value;
 	}
     
+	
+	/**
+	 * --GETTERS AND SETTERS--
+	 */
+	
+	//value
     public void setValue(int v){
         this.value=v;
     }
-
     public int getValue(){
         return this.value;
     }
 
+    //moneyType
     public void setMoneyType(MoneyType p){
         this.moneyType = p;
     }
-
     public MoneyType getMoneyType(){
         return this.moneyType;
     }
     
+    //moneyTypeAsString
+    public String getMoneyTypeAsString() {
+    	return this.moneyTypeAsString;
+    }
+    public void setMoneyTypeAsString(String s) {
+    	this.moneyTypeAsString = s;
+    }
 }

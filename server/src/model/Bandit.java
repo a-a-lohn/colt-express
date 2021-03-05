@@ -15,7 +15,7 @@ public class Bandit implements SerializableSFSType {
 	public boolean getsAnotherAction;
 	public boolean playedThisTurn;
 	transient public Character banditName;
-	public String strBanditName;
+	public String banditNameAsString; //FOR NETWORKING
 	public TrainUnit position;
 	public Hostage hostage;
 	public ArrayList<Loot> loot = new ArrayList<Loot>();
