@@ -26,8 +26,6 @@ import com.smartfoxserver.v2.annotations.Instantiation.InstantiationMode;
 public class ColtMultiHandler extends BaseClientRequestHandler {
 	
 	GameManager gm;
-	//ArrayList<Bandit> bandits = gm.bandits;
-	//Bandit b = new Bandit(Character.CHEYENNE);
 	
 	@Override
 	public void handleClientRequest(User sender, ISFSObject params) {
@@ -61,20 +59,13 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	private void handleEnterChooseCharacterScene(User sender, ISFSObject params, ISFSObject rtn) {
 		gm = GameManager.getInstance();
 		ISFSArray characters = SFSArray.newInstance();
-		List<String> characterStrings = Arrays.asList("GHOST", "DOC", "TUCO", "CHEYENNE", "BELLE", "DJANGO");
 		rtn.putSFSArray("characterList", characters);
-		List<Bandit> chosenBandits = gm.getBandits();
-		List<String> chosenCharacters = new ArrayList<String>();
-		for (Bandit b : chosenBandits) {
-			chosenCharacters.add(b.getCharacter().toString());
-		}
-		for (String c : chosenCharacters) {
-			characterStrings.remove(c);
-		}
+		
+		List<String> characterStrings = remainingCharacters();
+		
 		for (String c : characterStrings) {
 			characters.addUtfString(c);
 		}
-		//rtn.putUtfStringArray("characterList", Arrays.asList(Character.values().toString()));//remainingCharacters());
 		sendToSender(sender, rtn, "remainingCharacters");
 	}
 	
@@ -94,10 +85,17 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		gm.chosenCharacter(sender, character, numPlayers);
 		
 		int numChosen = gm.getBandits().size();
+		System.out.println("Num players: " + numPlayers + " numChosen: " + numChosen);
 		if(numChosen == numPlayers) {
+			System.out.println("Sending back empty list");
 			rtn.putUtfStringArray("characterList", new ArrayList<String>());
 		} else {
-			//rtn.putUtfStringArray("characterList", remainingCharacters());
+			ISFSArray characters = SFSArray.newInstance();
+			rtn.putSFSArray("characterList", characters);
+			List<String> characterStrings = remainingCharacters();
+			for (String c : characterStrings) {
+				characters.addUtfString(c);
+			}
 		}
 		
 		sendToAllUsers(rtn, "remainingCharacters");
@@ -115,14 +113,23 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		parentExt.send(response, rtn, sender);
 	}
 	
-	/*private List<String> remainingCharacters() {
+	private List<String> remainingCharacters() {
+		
+		List<String> allCharacters = Arrays.asList("GHOST", "DOC", "TUCO", "CHEYENNE", "BELLE", "DJANGO");
+		List<String> characterStrings = new ArrayList<String>();
 		List<Bandit> chosenBandits = gm.getBandits();
-		List<String> chosenCharacters;
+		List<String> chosenCharacters = new ArrayList<String>();
 		for (Bandit b : chosenBandits) {
+			System.out.println("Chosen: "+ b.getCharacter().toString());
 			chosenCharacters.add(b.getCharacter().toString());
 		}
-		List<String> charactersLeft = Arrays.asList(Character.values().toString());
-		return charactersLeft.stream().filter(c -> !chosenCharacters.contains(c)).collect(Collectors.toList());
-	}*/
+		for (int i = 0; i < allCharacters.size(); i++) {
+			if (!chosenCharacters.contains(allCharacters.get(i))) {
+				characterStrings.add(allCharacters.get(i));
+				System.out.println("Added: " + allCharacters.get(i));
+			}
+		}
+		return characterStrings;
+	}
 	
 }

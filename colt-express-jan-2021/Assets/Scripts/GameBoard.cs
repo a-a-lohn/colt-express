@@ -23,6 +23,7 @@ public class GameBoard : MonoBehaviour
     public Text debugText;
     public Button button;
 	public Button extension;
+	public Button chooseChar;
     public Text buttonLabel;
     public Bandit b;
     
@@ -30,9 +31,9 @@ public class GameBoard : MonoBehaviour
 
 
     private SmartFox sfs;
-    private string defaultHost = "127.0.0.1"; //"13.90.26.131"; //"127.0.0.1"; //
+    private string defaultHost = "127.0.0.1"; //"13.90.26.131"; // 
 	private int defaultTcpPort = 9933;			// Default TCP port
-    private string zone = "MergedExt"; //"NewZone"; //"ColtExpress"; //"BasicExamples";// "MyExt";
+    private string zone = "MergedExt"; //"ColtExpress"; //"NewZone"; //"BasicExamples";// "MyExt";
 
     // Start is called before the first frame update
     void Start()
@@ -67,7 +68,8 @@ public class GameBoard : MonoBehaviour
     private void Test() {
         buttonLabel.text = "CONNECT+ENTER";
         button.onClick.AddListener(OnButtonClick);
-		extension.onClick.AddListener(ChooseCharacter);
+		extension.onClick.AddListener(EnterChooseCharacterScene);
+		chooseChar.onClick.AddListener(ChooseCharacter);
     }
 
 	private void EnterChooseCharacterScene() {
@@ -82,7 +84,7 @@ public class GameBoard : MonoBehaviour
     private void ChooseCharacter() {
 
         ISFSObject obj = SFSObject.NewInstance();
-		obj.PutUtfString("character", "TUCO");
+		obj.PutUtfString("chosenCharacter", "TUCO");
         ExtensionRequest req = new ExtensionRequest("gm.chosenCharacter",obj);
         sfs.Send(req);
         trace("chose Tuco");
@@ -105,13 +107,11 @@ public class GameBoard : MonoBehaviour
 
 	private void DisplayRemainingCharacters(BaseEvent evt) {
 		ISFSObject responseParams = (SFSObject)evt.Params["params"];
-        String resp = (string)responseParams.GetSFSArray("characterList").GetUtfString(0);
-		//string resp2 = responseParams.GetUtfString("cl");
 		int size = responseParams.GetSFSArray("characterList").Size();
-		trace("Characters to choose from: " + size + resp);
-		/*foreach (var s in resp) {
-			trace(s.ToString());
-		}*/
+		trace("Characters to choose from: ");
+		for (int i = 0; i < size; i++) {
+			trace((string)responseParams.GetSFSArray("characterList").GetUtfString(i));
+		}
 	}
 
     private void  UpdateGameState(BaseEvent evt) {
@@ -216,7 +216,7 @@ public class GameBoard : MonoBehaviour
 			trace("Connection mode is: " + sfs.ConnectionMode);
 
             // Login with some username after having made connection
-			sfs.Send(new Sfs2X.Requests.LoginRequest("coltplayer"));
+			sfs.Send(new Sfs2X.Requests.LoginRequest("coltplayer2"));
 
             buttonLabel.text = "DISCONNECT";
 		} else {
@@ -276,7 +276,7 @@ public class GameBoard : MonoBehaviour
 		msg += "Logged in as " + user.Name;
 		trace(msg);
 
-		EnterChooseCharacterScene();
+		//EnterChooseCharacterScene();
 
 	}
 	
