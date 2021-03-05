@@ -1,7 +1,9 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import model.Bandit;
 import model.Character;
@@ -23,53 +25,104 @@ import com.smartfoxserver.v2.annotations.Instantiation.InstantiationMode;
 @MultiHandler
 public class ColtMultiHandler extends BaseClientRequestHandler {
 	
-	GameManager gm = new GameManager();
+	GameManager gm;
 	//ArrayList<Bandit> bandits = gm.bandits;
 	//Bandit b = new Bandit(Character.CHEYENNE);
 	
 	@Override
 	public void handleClientRequest(User sender, ISFSObject params) {
-		String command = params.getUtfString(SFSExtension.MULTIHANDLER_REQUEST_ID);
 		
-		ISFSObject gameState = SFSObject.newInstance();
-		if(command.equals("chosenCharacter")) {
-			gameState = handleChooseCharacter(sender, params, gameState);
+		String command = params.getUtfString(SFSExtension.MULTIHANDLER_REQUEST_ID);
+		ISFSObject rtn = SFSObject.newInstance();
+		
+		if(command.equals("enterChooseCharacterScene")) {
+			 handleEnterChooseCharacterScene(sender, params, rtn);
+		}
+		else if(command.equals("chosenCharacter")) {
+			handleChosenCharacter(sender, params, rtn);
 		}
 		
 		//ISFSArray banditsArray = SFSArray.newInstance();
 		//banditsArray.addClass(b);
 		//gameState.putSFSArray("banditsArr", banditsArray);
 
-		gameState.putClass("gm", gm);
-
 		//String received = params.getUtfString("sentData");
 		//gameState.putUtfString("testStr", "evenbetterData");
 		
-		ColtExtension parentExt = (ColtExtension)getParentExtension();
-		Zone zone = parentExt.getParentZone();
-		parentExt.send("updateGameState", gameState, (List<User>) zone.getUserList());
-		
 	}
 	
-	private ISFSObject handleChooseCharacter(User sender, ISFSObject params, ISFSObject rtn) {
-		int size = gm.getBandits().size();
-		if(size == 1) {
-			rtn.putUtfString("testStr", "Already called!");
-		} else {
-			String chosen = params.getUtfString("character");
-			Character character = null;
-			try {
-				character = Character.valueOf(chosen);
-			} catch(IllegalArgumentException e) {
-				//TODO: handle error
-			}
-			ColtExtension parentExt = (ColtExtension)getParentExtension();
-			Zone zone = parentExt.getParentZone();
-			int numPlayers = zone.getUserList().size();
-			
-			gm.chosenCharacter(sender, character, numPlayers);
+	
+	
+	private void updateGameState(ISFSObject rtn) {
+		rtn.putClass("gm", gm);
+		sendToAllUsers(rtn, "updateGameState");
+	}	
+	
+	private void handleEnterChooseCharacterScene(User sender, ISFSObject params, ISFSObject rtn) {
+		gm = GameManager.getInstance();
+		ISFSArray characters = SFSArray.newInstance();
+		List<String> characterStrings = Arrays.asList("GHOST", "DOC", "TUCO", "CHEYENNE", "BELLE", "DJANGO");
+		rtn.putSFSArray("characterList", characters);
+		List<Bandit> chosenBandits = gm.getBandits();
+		List<String> chosenCharacters = new ArrayList<String>();
+		for (Bandit b : chosenBandits) {
+			chosenCharacters.add(b.getCharacter().toString());
 		}
-		return rtn;
+		for (String c : chosenCharacters) {
+			characterStrings.remove(c);
+		}
+		for (String c : characterStrings) {
+			characters.addUtfString(c);
+		}
+		//rtn.putUtfStringArray("characterList", Arrays.asList(Character.values().toString()));//remainingCharacters());
+		sendToSender(sender, rtn, "remainingCharacters");
 	}
+	
+	private void handleChosenCharacter(User sender, ISFSObject params, ISFSObject rtn) {
+		
+		ColtExtension parentExt = (ColtExtension)getParentExtension();
+		Zone zone = parentExt.getParentZone();
+		int numPlayers = zone.getUserList().size();
+		
+		String chosen = params.getUtfString("chosenCharacter");
+		Character character = null;
+		try {
+			character = Character.valueOf(chosen);
+		} catch(IllegalArgumentException e) {
+			//TODO: handle error
+		}
+		gm.chosenCharacter(sender, character, numPlayers);
+		
+		int numChosen = gm.getBandits().size();
+		if(numChosen == numPlayers) {
+			rtn.putUtfStringArray("characterList", new ArrayList<String>());
+		} else {
+			//rtn.putUtfStringArray("characterList", remainingCharacters());
+		}
+		
+		sendToAllUsers(rtn, "remainingCharacters");
+	}
+	
+	
+	private void sendToAllUsers(ISFSObject rtn, String response) {
+		ColtExtension parentExt = (ColtExtension)getParentExtension();
+		Zone zone = parentExt.getParentZone();
+		parentExt.send(response, rtn, (List<User>) zone.getUserList());
+	}
+	
+	private void sendToSender(User sender, ISFSObject rtn, String response) {
+		ColtExtension parentExt = (ColtExtension)getParentExtension();
+		parentExt.send(response, rtn, sender);
+	}
+	
+	/*private List<String> remainingCharacters() {
+		List<Bandit> chosenBandits = gm.getBandits();
+		List<String> chosenCharacters;
+		for (Bandit b : chosenBandits) {
+			chosenCharacters.add(b.getCharacter().toString());
+		}
+		List<String> charactersLeft = Arrays.asList(Character.values().toString());
+		return charactersLeft.stream().filter(c -> !chosenCharacters.contains(c)).collect(Collectors.toList());
+	}*/
 	
 }

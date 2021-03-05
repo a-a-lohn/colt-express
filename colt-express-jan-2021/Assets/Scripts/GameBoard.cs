@@ -37,6 +37,7 @@ public class GameBoard : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+		
         Test();
 
         // Receive classes that were created on server upon game startup here
@@ -64,19 +65,27 @@ public class GameBoard : MonoBehaviour
     }
 
     private void Test() {
-        buttonLabel.text = "CONNECT";
+        buttonLabel.text = "CONNECT+ENTER";
         button.onClick.AddListener(OnButtonClick);
-		extension.onClick.AddListener(GetGameState);
+		extension.onClick.AddListener(ChooseCharacter);
     }
 
-	// client side: receiving input from USER
-    private void GetGameState() {
+	private void EnterChooseCharacterScene() {
+		ISFSObject obj = SFSObject.NewInstance();
+        ExtensionRequest req = new ExtensionRequest("gm.enterChooseCharacterScene",obj);
+        sfs.Send(req);
+        trace("Sent enter scene message");
+	}
+
+
+	// client side: receiving input from USER (for testing purposes it's called automatically upon login)
+    private void ChooseCharacter() {
 
         ISFSObject obj = SFSObject.NewInstance();
 		obj.PutUtfString("character", "TUCO");
         ExtensionRequest req = new ExtensionRequest("gm.chosenCharacter",obj);
         sfs.Send(req);
-        trace("test request sent");
+        trace("chose Tuco");
     }
 
 
@@ -89,8 +98,21 @@ public class GameBoard : MonoBehaviour
         */
 		if (cmd == "updateGameState") {
             UpdateGameState(evt);
+		} else if (cmd == "remainingCharacters") {
+			DisplayRemainingCharacters(evt);
 		}
     }
+
+	private void DisplayRemainingCharacters(BaseEvent evt) {
+		ISFSObject responseParams = (SFSObject)evt.Params["params"];
+        String resp = (string)responseParams.GetSFSArray("characterList").GetUtfString(0);
+		//string resp2 = responseParams.GetUtfString("cl");
+		int size = responseParams.GetSFSArray("characterList").Size();
+		trace("Characters to choose from: " + size + resp);
+		/*foreach (var s in resp) {
+			trace(s.ToString());
+		}*/
+	}
 
     private void  UpdateGameState(BaseEvent evt) {
         trace("updategamestate called");
@@ -169,7 +191,7 @@ public class GameBoard : MonoBehaviour
 			// Disconnect from SFS2X
 			sfs.Disconnect();
             trace("Disconnected");
-            buttonLabel.text = "CONNECT";
+            buttonLabel.text = "CONNECT+ENTER";
 		}
 	}
 
@@ -253,6 +275,8 @@ public class GameBoard : MonoBehaviour
 		string msg = "Login successful!\n";
 		msg += "Logged in as " + user.Name;
 		trace(msg);
+
+		EnterChooseCharacterScene();
 
 	}
 	
