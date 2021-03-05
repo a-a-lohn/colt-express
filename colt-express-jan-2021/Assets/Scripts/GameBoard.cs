@@ -136,7 +136,7 @@ public class GameBoard : MonoBehaviour
 
 		GameManager gm = (GameManager)responseParams.GetClass("gm");
 		Bandit b = (Bandit)gm.bandits[0];
-		trace(b.strBanditName + " YESSSS");
+		trace(b.banditNameAsString + " YESSSS");
     }
 
 

@@ -19,7 +19,7 @@ namespace model {
 
         public bool getsAnotherAction;
         public bool playedThisTurn;
-        public string strBanditName; //public Character banditName;
+        public string banditNameAsString; //public Character banditName;
         public TrainUnit position;
         public Hostage hostage;
         public ArrayList loot = new ArrayList();

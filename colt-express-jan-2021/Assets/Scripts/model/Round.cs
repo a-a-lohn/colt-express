@@ -17,7 +17,7 @@ namespace model {
     public class Round : SerializableSFSType
     {
 
-        public string StrRound; //public RoundType round;
+        public string roundTypeAsString; //public RoundType round;
         public Turn currentTurn;
         public ArrayList turns;
 

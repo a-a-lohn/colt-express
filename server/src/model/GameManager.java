@@ -13,6 +13,9 @@ import com.smartfoxserver.v2.entities.data.SFSObject;
 import com.smartfoxserver.v2.extensions.BaseClientRequestHandler;
 import com.smartfoxserver.v2.extensions.SFSExtension;
 import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
+
+import main.ColtMultiHandler;
+
 import com.smartfoxserver.v2.annotations.Instantiation;
 import com.smartfoxserver.v2.annotations.Instantiation.InstantiationMode;
 import com.smartfoxserver.v2.annotations.MultiHandler;
@@ -33,8 +36,15 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	public TrainUnit[] stagecoach;
 	public ArrayList<Bandit> bandits = new ArrayList<Bandit>();
 	transient public HashMap<Bandit, User> banditmap = new HashMap<Bandit, User>();
+	public static ColtMultiHandler handler;
 	
 
+	public static void setHandler(ColtMultiHandler handle) {
+		handler = handle;
+		//ISFSObject rtn = SFSObject.newInstance();
+		//handler.updateGameState(rtn);
+	}
+	
 	//Bandit b = new Bandit(Character.CHEYENNE);
 	
 	/*@Override
@@ -69,7 +79,6 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 		this.gameStatus = status;
 		this.marshalInstance = Marshal.getInstance();
 		this.playedPileInstance = PlayedPile.getInstance();
-
 
 	}
 	

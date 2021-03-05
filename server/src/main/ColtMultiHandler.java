@@ -30,6 +30,10 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	@Override
 	public void handleClientRequest(User sender, ISFSObject params) {
 		
+		if(gm != null) {
+			GameManager.setHandler(this);
+		}
+		
 		String command = params.getUtfString(SFSExtension.MULTIHANDLER_REQUEST_ID);
 		ISFSObject rtn = SFSObject.newInstance();
 		
@@ -51,7 +55,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	
 	
 	
-	private void updateGameState(ISFSObject rtn) {
+	public void updateGameState(ISFSObject rtn) {
 		rtn.putClass("gm", gm);
 		sendToAllUsers(rtn, "updateGameState");
 	}	

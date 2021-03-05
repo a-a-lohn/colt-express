@@ -17,8 +17,8 @@ namespace model {
     public class Whiskey : SerializableSFSType
     {
 
-        public string strWhiskeyStatus; //public WhiskeyStatus whiskeyStatus;
-        public string strWhiskeyType; //public WhiskeyType whiskeyType;
+        public string whiskeyStatusAsString; //public WhiskeyStatus whiskeyStatus;
+        public string whiskeyTypeAsString; //public WhiskeyType whiskeyType;
 
         public Whiskey() { }
 

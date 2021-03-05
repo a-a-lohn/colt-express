@@ -18,7 +18,7 @@ namespace model {
     {
 
         public int value;
-        public string strMoneyType; //public MoneyType moneyType;
+        public string moneyTypeAsString; //public MoneyType moneyType;
 
         public Money() { }
 
