@@ -30,7 +30,7 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	public Marshal marshalInstance;
 	public PlayedPile playedPileInstance;
 	public TrainUnit[][] train;
-	public TrainUnit stagecoach;
+	public TrainUnit[] stagecoach;
 	public ArrayList<Bandit> bandits = new ArrayList<Bandit>();
 	transient public HashMap<Bandit, User> banditmap = new HashMap<Bandit, User>();
 	
@@ -59,7 +59,9 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	// SOME OF THESE FIELDS SHOULD BE AUTOMATICALLY INITIALIZED, NOT PASSED AS PARAMS
 	private GameManager(ArrayList<Bandit> bandits, Bandit currentBandit, ArrayList<Round> rounds, Round currentRound,
 			GameStatus status, TrainUnit[][] trainUnits) {
-
+		
+		this.train = TrainUnit.createTrain(this.bandits.size());
+		this.stagecoach = TrainUnit.createStagecoach();
 		this.bandits = bandits;
 		this.currentBandit = currentBandit;
 		this.rounds = rounds;
@@ -68,8 +70,7 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 		this.marshalInstance = Marshal.getInstance();
 		this.playedPileInstance = PlayedPile.getInstance();
 
-		//this.train = TrainUnit.createTrain(this.bandits.size());
-		//this.stagecoach = TrainUnit.createStagecoach();
+
 	}
 	
 	public GameManager() {};
@@ -258,9 +259,9 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 		// Here to get number of players
 		return 3;
 	}
-
+	
 	//void chosenCharacter(int playerId, Character c) {
-	public void chosenCharacter(User player, Character c, int numPlayers) {
+	public Bandit chosenCharacter(User player, Character c, int numPlayers) {
 		Bandit newBandit = new Bandit(c);
 		this.bandits.add(newBandit);
 		this.banditmap.put(newBandit, player);
@@ -307,6 +308,7 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 			//this.setCurrentRound(this.rounds.get(0));
 			// set waiting for input to be true;
 		}
+		return newBandit;
 	}
 
 	/*void Rob() {

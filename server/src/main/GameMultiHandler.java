@@ -6,6 +6,7 @@ import java.util.List;
 
 
 import com.smartfoxserver.v2.annotations.Instantiation;
+import com.smartfoxserver.v2.annotations.MultiHandler;
 import com.smartfoxserver.v2.entities.User;
 import com.smartfoxserver.v2.entities.Zone;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
@@ -22,7 +23,7 @@ import model.Character;
 
 import com.smartfoxserver.v2.annotations.Instantiation.InstantiationMode;
 
-
+@MultiHandler
 public class GameMultiHandler extends BaseClientRequestHandler
 {
 	public void handleClientRequest(User sender, ISFSObject params) {
@@ -63,34 +64,31 @@ public class GameMultiHandler extends BaseClientRequestHandler
 		} catch(IllegalArgumentException e) {
 			//TODO: handle error
 		}
-		Bandit b = new Bandit(character);
+		//call chosenCharacter
+		GameExtension parentExt = (GameExtension)getParentExtension();
+		Zone zone = parentExt.getParentZone();
+		List<User> users = (List<User>)zone.getUserList();
+		GameManager gm = GameManager.getInstance();
+		Bandit b = gm.chosenCharacter(sender, character, users.size());
 		//assigning bandit to user variable
 		List<UserVariable> uv = new ArrayList<UserVariable>();
 		UserVariable assignedBandit = new SFSUserVariable("bandit", b);
 		uv.add(assignedBandit);
 		getApi().setUserVariables(sender, uv);
-		//updating gamemanager bandit list
-		GameManager gm = GameManager.getInstance();
-		gm.bandits.add(b);
-		//get all users and check if they are assigned
-		GameExtension parentExt = (GameExtension)getParentExtension();
-		Zone zone = parentExt.getParentZone();
-		List<User> users = (List<User>)zone.getUserList();
-		boolean done = true;
-		ISFSArray chosen = new SFSArray();
-		for (User user: users) {
-			Bandit a = (Bandit)user.getVariable("bandit");
-			if (a == null) {
-				done = false;
-			}
-			else {
-				chosen.addUtfString(a.strBanditName);
-			}
-		}
-		if (done==true) {
+		//if chosenCharacter changed the gameStatus (bandit selection is done), initialize game
+		GameStatus status = gm.getGameStatus();
+		if (status == GameStatus.SCHEMIN) {
 			initializeGame();
 		}
 		else {
+			//bandit selection ongoing, send back list of chosen bandits
+			ISFSArray chosen = new SFSArray();
+			for (User user: users) {
+				Bandit a = (Bandit)user.getVariable("bandit");
+				if (a != null) {
+					chosen.addUtfString(a.strBanditName);
+				}
+			}
 			//if choosing bandit phase still ongoing then send this info back
 			ISFSObject gameState = SFSObject.newInstance();
 			gameState.putSFSArray("chosen", chosen);

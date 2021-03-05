@@ -46,7 +46,7 @@ public class TrainUnit implements SerializableSFSType {
      *           where i=0 is the caboose and i=number of cars is the locomotive
      * Does NOT contain the stagecoach. The GameManger must separately call createStagecoach().
      */
-    /*static ArrayList<TrainUnit> createTrain(int numberOfBandits){
+    public static TrainUnit[][] createTrain(int numberOfBandits){
     	//Create one car for each player, +1 to account for the locomotive
     	final int trainLength = numberOfBandits + 1;
     	
@@ -65,12 +65,26 @@ public class TrainUnit implements SerializableSFSType {
     	
     	//TODO: Associate locomotive to front car
     	
-    }*/
+    	return train;
+    }
     
-    /*public static TrainUnit createStagecoach() {
+    /**
+     * 
+     * @return a 2D array laid out in the following configuration:
+     *           stagecoach[0] = roof
+     *           stagecoach[1] = cabin;
+     */
+    public static TrainUnit[] createStagecoach() {
+    	TrainUnit[] stagecoach = new TrainUnit[2];
+    	
     	TrainUnit cabin = new TrainUnit(CarType.StagecoachCabin);
     	TrainUnit roof = new TrainUnit(CarType.StagecoachRoof);
-    }*/
+    	
+    	stagecoach[0] = roof;
+    	stagecoach[1] = cabin;
+    	
+    	return stagecoach;
+    }
 
 
     

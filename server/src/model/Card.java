@@ -4,7 +4,7 @@ import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
 
 public abstract class Card implements SerializableSFSType {
 	
-	protected Bandit belongsTo;
+	public Bandit belongsTo;
 	
 	//--EMPTY CONSTRUCTOR FOR SERIALIZATION--
 	public Card() { }

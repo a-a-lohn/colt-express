@@ -13,11 +13,18 @@ import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
  */
 public class Turn implements SerializableSFSType {
     
-    protected TurnType turnType;
+    public TurnType turnType;
+    public String turnTypeAsString;
     
     //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
     public Turn() { }
 
+    
+    /**
+     * --GETTERS AND SETTERS--
+     */
+    
+    //turnType
     public TurnType getTurnType(){
         return this.turnType;
     }
@@ -26,4 +33,11 @@ public class Turn implements SerializableSFSType {
         this.turnType = p;
     }
     
+    //turnTypeAsString
+    public String getTurnTypeAsString() {
+    	return this.turnTypeAsString;
+    }
+    public void setTurnTypeAsString(String s) {
+    	this.turnTypeAsString = s;
+    }
 }
