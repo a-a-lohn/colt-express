@@ -15,5 +15,5 @@ using Sfs2X.Protocol.Serialization;
 //        DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
 public enum ActionKind
 {
-    
+    MOVE, CHANGE_FLOOR, ROB, SHOOT, PUNCH, MOVE_MARSHAL 
 }
