@@ -67,17 +67,28 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	}*/
 	
 	// SOME OF THESE FIELDS SHOULD BE AUTOMATICALLY INITIALIZED, NOT PASSED AS PARAMS
+	
+	/**
+	 * 
+	 * @param bandits
+	 *           ALL BANDITS MUST BE CREATED BEFORE THIS METHOD CAN BE CALLED 
+	 * @param currentBandit
+	 * @param rounds
+	 * @param currentRound
+	 * @param status
+	 */
 	private GameManager(ArrayList<Bandit> bandits, Bandit currentBandit, ArrayList<Round> rounds, Round currentRound,
-			GameStatus status, TrainUnit[][] trainUnits) {
+			GameStatus status) {
 		
+		this.bandits = bandits;
 		this.train = TrainUnit.createTrain(this.bandits.size());
 		this.stagecoach = TrainUnit.createStagecoach();
-		this.bandits = bandits;
+		
 		this.currentBandit = currentBandit;
 		this.rounds = rounds;
 		this.currentRound = currentRound;
 		this.gameStatus = status;
-		this.marshalInstance = Marshal.getInstance();
+		this.marshalInstance = Marshal.createMarshal();
 		this.playedPileInstance = PlayedPile.getInstance();
 
 	}

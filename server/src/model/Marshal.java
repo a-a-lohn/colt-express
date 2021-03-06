@@ -17,8 +17,10 @@ public class Marshal implements SerializableSFSType {
   //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
     public Marshal() {}
     
-    public static Marshal create() {
-    	//TODO
+    private Marshal create() {
+    	final int x = TrainUnit.getTrainLength();
+    	TrainUnit t = TrainUnit.getTrain()[1][x-1];
+    	this.marshalPosition = t;
     }
     
     public TrainUnit getMarshalPosition() {

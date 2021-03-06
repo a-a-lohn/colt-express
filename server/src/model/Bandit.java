@@ -17,7 +17,8 @@ public class Bandit implements SerializableSFSType {
 	transient public Character banditName;
 	public String banditNameAsString; //FOR NETWORKING
 	public TrainUnit position;
-	public Hostage hostage;
+	transient public Hostage hostage;
+	public String hostageAsString; //FOR NETWORKING
 	public ArrayList<Loot> loot = new ArrayList<Loot>();
 	public ArrayList<BulletCard> bullets = new ArrayList<BulletCard>();
 	public ArrayList<Card> deck = new ArrayList<Card>();
@@ -269,8 +270,15 @@ public class Bandit implements SerializableSFSType {
 		return this.hostage;
 	}
 
-	public void setHostage(Hostage newObject) {
-		this.hostage = newObject;
+	public void setHostage(Hostage hostage) {
+		this.hostage = hostage;
+	}
+	
+	public String getHostageAsString() {
+		return this.hostageAsString;
+	}
+	public void setHostageAsString(String hostage) {
+		this.hostageAsString = hostage;
 	}
 
 	public void createStartingCards() {
