@@ -13,9 +13,11 @@ import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
  */
 public class PlayedPile implements SerializableSFSType {
     
-    protected static PlayedPile instance;
-    protected ArrayList<ActionCard> playedCards = new ArrayList<ActionCard>();
+    public static PlayedPile instance;
+    public ArrayList<ActionCard> playedCards = new ArrayList<ActionCard>();
     
+  
+    //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
     public PlayedPile() { }
     
     public void addPlayedCardsAt(int index, ActionCard a) {

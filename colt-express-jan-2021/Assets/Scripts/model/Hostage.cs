@@ -17,7 +17,7 @@ namespace model {
     public class Hostage : SerializableSFSType
     {
 
-        public string strHostageType; //public HostageType hostageType;
+        public string hostageTypeAsString; //public HostageType hostageType;
         public Bandit capturedBy;
         
         public Hostage() {

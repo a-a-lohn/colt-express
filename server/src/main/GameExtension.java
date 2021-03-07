@@ -2,8 +2,7 @@ package main;
 
 import com.smartfoxserver.v2.extensions.SFSExtension;
 
-
-public class ColtExtension extends SFSExtension
+public class GameExtension extends SFSExtension
 {
     @Override
     public void init()
@@ -15,7 +14,7 @@ public class ColtExtension extends SFSExtension
     	 * and then those methods send back responses directly to user(s)
     	 */
         //addRequestHandler("gm", GameManager.class); // requests on the client must of the form "gm.method_name"
-    	addRequestHandler("gm", ColtMultiHandler.class);
+    	addRequestHandler("coltexpress", GameMultiHandler.class);
     }
  
     @Override

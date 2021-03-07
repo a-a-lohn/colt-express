@@ -11,31 +11,52 @@ import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
  */
 public class ActionCard extends Card implements SerializableSFSType {
     
-    protected ActionKind action;
-    protected boolean saveForNextRound = false;
-    protected boolean faceDown = false;
+    transient public ActionType actionType;
+    public String actionTypeAsString; //FOR NETWORKING
+    public boolean saveForNextRound = false;
+    public boolean faceDown = false;
     
-    public ActionCard(ActionKind ak) {
-		this.action = ak;
-	}
+    //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
+    public ActionCard() {}
     
-    public void setAction(ActionKind a) {
-        this.action = a;
+    public ActionCard(ActionType action) {
+		this.actionType = action;
+		this.actionTypeAsString = action.name();
+	}    
+    
+    /**
+     * --GETTERS AND SETTERS--
+     */
+
+    //actionType
+    public ActionType getActionType() {
+        return this.actionType;
+    }    
+    public void setActionType(ActionType action) {
+        this.actionType = action;
     }
 
+    //actionTypeAsString
+    public String getActionTypeAsString() {
+    	return this.actionTypeAsString;
+    }
+    public void setActionTypeAsString(String action) {
+    	this.actionTypeAsString = action;
+    }
+    
+    //saveForNextRound
+     public boolean getSaveForNextRound(){
+        return this.saveForNextRound;
+    }   
     public void setSaveForNextRound(boolean b) {
         this.saveForNextRound = b;
     }
 
-    public boolean getSaveForNextRound(){
-        return this.saveForNextRound;
+    //faceDown
+    public boolean getFaceDown() {
+    	return this.faceDown;
     }
-
-    public ActionKind getAction() {
-        return this.action;
+    public void setFaceDown(boolean b) { 
+    	this.faceDown = b;
     }
-
-    public boolean getFaceDown() { return this.faceDown; }
-
-    public void setFaceDown(boolean b) { this.faceDown = b; }
 }

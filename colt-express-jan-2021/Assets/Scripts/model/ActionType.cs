@@ -13,7 +13,7 @@ using Sfs2X.Protocol.Serialization;
 //The following code is executed right after creating the SmartFox object:
 // using System.Reflection;
 //        DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
-public enum ActionKind
+public enum ActionType
 {
     MOVE, CHANGE_FLOOR, ROB, SHOOT, PUNCH, MOVE_MARSHAL 
 }

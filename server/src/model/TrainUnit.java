@@ -15,18 +15,25 @@ import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
  */
 public class TrainUnit implements SerializableSFSType {
     
-    protected CarType carType;
+	transient public static int trainLength;
+	transient public static TrainUnit[][] train;
+	transient public static TrainUnit[] stagecoach;
+	
+    public CarType carType;
     
-    protected Optional<TrainUnit> above = Optional.empty();
-    protected Optional<TrainUnit> below = Optional.empty();
-    protected Optional<TrainUnit> left = Optional.empty();
-    protected Optional<TrainUnit> right = Optional.empty();
-    protected Optional<TrainUnit> beside = Optional.empty(); //Used for stagecoach and it's adjacent car ONLY.
+    public Optional<TrainUnit> above = Optional.empty();
+    public Optional<TrainUnit> below = Optional.empty();
+    public Optional<TrainUnit> left = Optional.empty();
+    public Optional<TrainUnit> right = Optional.empty();
+    public Optional<TrainUnit> beside = Optional.empty(); //Used for stagecoach and it's adjacent car ONLY.
     
-    protected boolean isMarshalHere = false;
-    protected HashSet<Bandit> banditsHere = new HashSet<Bandit>();
-    protected HashSet<Loot> lootHere = new HashSet<Loot>();
-    protected HashSet<Horse> horsesHere = new HashSet<Horse>();
+    public boolean isMarshalHere = false;
+    public HashSet<Bandit> banditsHere = new HashSet<Bandit>();
+    public HashSet<Loot> lootHere = new HashSet<Loot>();
+    public HashSet<Horse> horsesHere = new HashSet<Horse>();
+    
+    //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
+    public TrainUnit() {}
     
     private TrainUnit(CarType carType) {
     	this.carType = carType;
@@ -43,7 +50,7 @@ public class TrainUnit implements SerializableSFSType {
      *           where i=0 is the caboose and i=number of cars is the locomotive
      * Does NOT contain the stagecoach. The GameManger must separately call createStagecoach().
      */
-    static ArrayList<TrainUnit> createTrain(int numberOfBandits){
+    public static TrainUnit[][] createTrain(int numberOfBandits){
     	//Create one car for each player, +1 to account for the locomotive
     	final int trainLength = numberOfBandits + 1;
     	
@@ -62,11 +69,28 @@ public class TrainUnit implements SerializableSFSType {
     	
     	//TODO: Associate locomotive to front car
     	
+    	TrainUnit.trainLength = trainLength;
+    	TrainUnit.train = train;
+    	
+    	return train;
     }
     
-    static TrainUnit createStagecoach() {
+    /**
+     * 
+     * @return a 2D array laid out in the following configuration:
+     *           stagecoach[0] = roof
+     *           stagecoach[1] = cabin;
+     */
+    public static TrainUnit[] createStagecoach() {
+    	TrainUnit[] stagecoach = new TrainUnit[2];
+    	
     	TrainUnit cabin = new TrainUnit(CarType.StagecoachCabin);
     	TrainUnit roof = new TrainUnit(CarType.StagecoachRoof);
+    	
+    	stagecoach[0] = roof;
+    	stagecoach[1] = cabin;
+    	
+    	return stagecoach;
     }
 
 
@@ -75,12 +99,29 @@ public class TrainUnit implements SerializableSFSType {
      * TRAIN UNIT METHODS
      */
     
+    //trainLength
+    public static int getTrainLength() {
+    	return TrainUnit.trainLength;
+    }
+    public static void setTrainLength(int length) {
+    	TrainUnit.trainLength = length;
+    }
+    
+    //train
+    public static TrainUnit[][] getTrain(){
+    	return TrainUnit.train;
+    }
+    
+    //stagecoach
+    public static TrainUnit[] getStagecoach() {
+    	return TrainUnit.stagecoach;
+    }
     
     /**
      * 
      * @return
      */
-    public TrainUnit getAbove() {
+   /* public TrainUnit getAbove() {
         if(this.above.isEmpty()) {
         	return null; //better design?
         }
@@ -128,7 +169,7 @@ public class TrainUnit implements SerializableSFSType {
     public boolean isAdjacentTo(TrainUnit a) {
         //TODO
     	return false;
-    }
+    }*/
 
     
     
@@ -154,7 +195,7 @@ public class TrainUnit implements SerializableSFSType {
      *           b is a non-null Bandit to be removed from this train car
      * @pre this train car must contain b
      */
-    static boolean removeBandit(Bandit b) {
+    /*static boolean removeBandit(Bandit b) {
     	assert banditsHere.contains(b);
     	//TODO
     	return false;
@@ -170,7 +211,7 @@ public class TrainUnit implements SerializableSFSType {
 
     public HashSet<Bandit> getBandtsHere() {
         return this.banditsHere.clone();
-    }
+    }*/
 
     
     /**
@@ -198,9 +239,9 @@ public class TrainUnit implements SerializableSFSType {
         return this.lootHere.size();
     }
 
-    public HashSet<Loot> getLootHere() {
+    /*public HashSet<Loot> getLootHere() {
         return this.lootHere.clone();
-    }
+    }*/
     
     
     /**
@@ -221,7 +262,7 @@ public class TrainUnit implements SerializableSFSType {
      * HORSE METHODS, (HAVE NOT BEEN CHECKED)
      */
     
-    
+    /*
     public boolean addHorsesAt(int index, Horse a) {
         boolean contains = horses.contains(a);
         if (contains) {
@@ -268,5 +309,5 @@ public class TrainUnit implements SerializableSFSType {
 
     ArrayList<Horse> getHorses() {
         return this.horses;
-    }
+    }*/
 }

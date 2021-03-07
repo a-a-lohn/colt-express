@@ -1,76 +1,115 @@
-package main;
+package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import com.smartfoxserver.v2.entities.User;
+import com.smartfoxserver.v2.entities.Zone;
+import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
+import com.smartfoxserver.v2.entities.data.SFSArray;
+import com.smartfoxserver.v2.entities.data.SFSObject;
 import com.smartfoxserver.v2.extensions.BaseClientRequestHandler;
 import com.smartfoxserver.v2.extensions.SFSExtension;
 import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
+
+import main.ColtMultiHandler;
+
 import com.smartfoxserver.v2.annotations.Instantiation;
 import com.smartfoxserver.v2.annotations.Instantiation.InstantiationMode;
 import com.smartfoxserver.v2.annotations.MultiHandler;
 
-import model.ActionCard;
-import model.Bandit;
-import model.BulletCard;
-import model.CarType;
-import model.Character;
-import model.GameStatus;
-import model.Loot;
-import model.Marshal;
-import model.Money;
-import model.MoneyType;
-import model.PlayedPile;
-import model.Round;
-import model.TrainUnit;
+//@Instantiation(InstantiationMode.SINGLE_INSTANCE)
+//@MultiHandler
+public class GameManager /*extends BaseClientRequestHandler */implements SerializableSFSType {
 
-@Instantiation(InstantiationMode.SINGLE_INSTANCE)
-@MultiHandler
-public class GameManager extends BaseClientRequestHandler implements SerializableSFSType {
+	transient public static GameManager singleton;
+	transient public GameStatus gameStatus;
+	public String strGameStatus;
+	public Round currentRound;
+	public Bandit currentBandit;
+	public ArrayList<Round> rounds = new ArrayList<Round>();
+	public Marshal marshalInstance;
+	public PlayedPile playedPileInstance;
+	public TrainUnit[][] train;
+	public TrainUnit[] stagecoach;
+	public ArrayList<Bandit> bandits = new ArrayList<Bandit>();
+	transient public HashMap<Bandit, User> banditmap = new HashMap<Bandit, User>();
+	public static ColtMultiHandler handler;
+	
 
-	protected static GameManager singleton;
-	protected GameStatus gameStatus;
-	protected Round currentRound;
-	protected Bandit currentBandit;
-	protected ArrayList<Round> rounds = new ArrayList<Round>();
-	protected static Marshal marshalInstance;
-	protected static PlayedPile playedPileInstance;
-	protected TrainUnit[][] train;
-	protected TrainUnit stagecoach;
-	protected ArrayList<Bandit> bandits = new ArrayList<Bandit>();
-	
-	
-	
-	@Override
-	public void handleClientRequest(User sender, ISFSObject params) {
-		String command = params.getUtfString(SFSExtension.MULTIHANDLER_REQUEST_ID);
-		
+	public static void setHandler(ColtMultiHandler handle) {
+		handler = handle;
+		//ISFSObject rtn = SFSObject.newInstance();
+		//handler.updateGameState(rtn);
 	}
+		
+	/*@Override
+	public void handleClientRequest(User sender, ISFSObject params) {
+		//String command = params.getUtfString(SFSExtension.MULTIHANDLER_REQUEST_ID);
+		
+		ISFSObject gameState = SFSObject.newInstance();
+		
+//		if(truecommand.equals("test")) {
+			bandits.add(b);
+//			//ISFSArray banditsArray = SFSArray.newInstance();
+//			//gameState.putClass("bandits", bandits);
+//		}
+		gameState.putUtfString("testStr", "someData");
+		ColtExtension parentExt = (ColtExtension)getParentExtension();
+		Zone zone = parentExt.getParentZone();
+		//parentExt.send("updateGameState", gameState, (List<User>) zone.getUserList());
+		parentExt.send("updateGameState", gameState, sender);
+		
+	}*/
 	
+	// SOME OF THESE FIELDS SHOULD BE AUTOMATICALLY INITIALIZED, NOT PASSED AS PARAMS
 
-	private GameManager(ArrayList<Bandit> bandits, Bandit currentBandit, ArrayList<Round> rounds, Round currentRound,
+	/*private GameManager(ArrayList<Bandit> bandits, Bandit currentBandit, ArrayList<Round> rounds, Round currentRound,
 			GameStatus status, TrainUnit[][] trainUnits) {
-
+=======
+	
+	/**
+	 * 
+	 * @param bandits
+	 *           ALL BANDITS MUST BE CREATED BEFORE THIS METHOD CAN BE CALLED 
+	 * @param currentBandit
+	 * @param rounds
+	 * @param currentRound
+	 * @param status
+	 */
+	/*private GameManager(ArrayList<Bandit> bandits, Bandit currentBandit, ArrayList<Round> rounds, Round currentRound,
+			GameStatus status) {
+		
 		this.bandits = bandits;
+		this.train = TrainUnit.createTrain(this.bandits.size());
+		this.stagecoach = TrainUnit.createStagecoach();
+		
 		this.currentBandit = currentBandit;
 		this.rounds = rounds;
 		this.currentRound = currentRound;
 		this.gameStatus = status;
-		this.marshalInstance = Marshal.getInstance();
+		this.marshalInstance = Marshal.createMarshal();
 		this.playedPileInstance = PlayedPile.getInstance();
 
-		this.train = TrainUnit.createTrain(this.bandits.size());
-		this.stagecoach = TrainUnit.createStagecoach();
+	}*/
+	
+	public void initializeGame() {
+		//TODO: implement this method
+		//this should instantiate all the objects related to the game(trains, marshal, etc.) and store them in the attributes
+		//I.e., should do essentially what the above commented constructor is doing
 	}
+	
+	public GameManager() {};
 
 	public static GameManager getInstance() {
 		GameManager gm = null;
 		if (singleton == null) {
-			gm = new GameManager(new ArrayList<Bandit>(), null, new ArrayList<Round>(), null, GameStatus.SETUP,
-					TrainUnit.createTrain(0));
+			gm = new GameManager();/*new ArrayList<Bandit>(), null, new ArrayList<Round>(), null, GameStatus.SETUP,
+					TrainUnit.createTrain(0));*/
 		} else {
-			gm = GameManager.singleton;
+			gm = singleton;
 		}
 		return gm;
 	}
@@ -123,6 +162,7 @@ public class GameManager extends BaseClientRequestHandler implements Serializabl
 	 */
 	public void setGameStatus(GameStatus newStatus) {
 		this.gameStatus = newStatus;
+		this.strGameStatus = gameStatus.toString();
 	}
 
 	public GameStatus getGameStatus() {
@@ -132,7 +172,7 @@ public class GameManager extends BaseClientRequestHandler implements Serializabl
 	/**
 	 * --TRAIN UNIT METHODS--
 	 */
-	public void addTrainUnitsAt(int index, TrainUnit a) {
+	/*public void addTrainUnitsAt(int index, TrainUnit a) {
 		boolean contains = this.trainUnits.contains(a);
 		if (contains) {
 			return;
@@ -174,7 +214,7 @@ public class GameManager extends BaseClientRequestHandler implements Serializabl
 
 	public ArrayList<TrainUnit> getTrainUnits() {
 		return this.trainUnits;
-	}
+	}*/
 
 	/**
 	 * --BANDIT METHODS--
@@ -233,10 +273,13 @@ public class GameManager extends BaseClientRequestHandler implements Serializabl
 	 * --GAME MANAGER METHODS--
 	 */
 
-	boolean allPlayersChosen() {
+	boolean allPlayersChosen(int numPlayers) {
 		// TO DO
+		if(numPlayers == bandits.size()) {
+			return true;
+		}
 		// for all players, return if they are all associated with a bandit or not.
-		return true;
+		return false;
 	}
 
 	int getNumOfPlayers() {
@@ -244,13 +287,15 @@ public class GameManager extends BaseClientRequestHandler implements Serializabl
 		// Here to get number of players
 		return 3;
 	}
-
-	void chosenCharacter(int playerId, Character c) {
+	
+	//void chosenCharacter(int playerId, Character c) {
+	public Bandit chosenCharacter(User player, Character c, int numPlayers) {
 		Bandit newBandit = new Bandit(c);
 		this.bandits.add(newBandit);
+		this.banditmap.put(newBandit, player);
 		// TO DO.
 		// Here to associate playerId with newBandit.
-		boolean ready = this.allPlayersChosen();
+		boolean ready = this.allPlayersChosen(numPlayers);
 		if (!ready) {
 			System.out.println("Not all players are ready!");
 		} else {
@@ -261,7 +306,10 @@ public class GameManager extends BaseClientRequestHandler implements Serializabl
 				// this.addTrainUnits(new TrainUnit());
 			}
 
-			for (Bandit b : this.bandits) {
+			// I COMMENTED MOST OF THIS OUT BC IT CAUSES A SERIALIZATION ERROR SINCE THE FIELDS OF THE OBJECTS BEING CREATED
+			// ARE NOT ALL PUBLIC -- Aaron
+			
+			/*for (Bandit b : this.bandits) {
 				b.createStartingCards();
 				b.createBulletCards();
 				b.createStartingPurse();
@@ -272,7 +320,7 @@ public class GameManager extends BaseClientRequestHandler implements Serializabl
 
 			Marshal marshal = new Marshal();
 
-			Money strongbox = new Money(MoneyType.STRONGBOX, 1000);
+			Money strongbox = new Money(MoneyType.STRONGBOX, 1000);*/
 
 			// TO DO
 			// set up the positions for marshal and strongbox
@@ -285,12 +333,13 @@ public class GameManager extends BaseClientRequestHandler implements Serializabl
 			// }
 
 			this.setGameStatus(GameStatus.SCHEMIN);
-			this.setCurrentRound(this.rounds.get(0));
+			//this.setCurrentRound(this.rounds.get(0));
 			// set waiting for input to be true;
 		}
+		return newBandit;
 	}
 
-	void Rob() {
+	/*void Rob() {
 
 		if (this.currentBandit.getPosition().carType == CarType.Car1Roof
 				|| this.currentBandit.getPosition().carType == CarType.Car2Roof
@@ -391,7 +440,7 @@ public class GameManager extends BaseClientRequestHandler implements Serializabl
 
 		}
 
-	}
+	}*/
 
 	/**
      * @param c
@@ -405,15 +454,18 @@ public class GameManager extends BaseClientRequestHandler implements Serializabl
         this.currentBandit.removeHand(c);
 
         //Prompt playing face down
-        if(currentBandit.getCharacter() == Character.GHOST && ){
+        if(currentBandit.getCharacter() == Character.GHOST && this.currentRound.getTurnCounter() == 0){
             //TODO: prompt choice;
+        	//TODO: receive choice;
         }
-        else if()
+        else if(this.currentRound.getCurrentTurn().getTurnType() == TurnType.TUNNEL) {
+        	c.setFaceDown(true);
+        }
 
         //Assign card to played pile
         PlayedPile pile = PlayedPile.getInstance();
         pile.addPlayedCards(c);
-
+        //TODO: graphical response
 
     }
 

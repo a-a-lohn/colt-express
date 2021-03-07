@@ -17,7 +17,7 @@ namespace model {
     public class Turn : SerializableSFSType
     {
 
-        public string StrTurn; //public TurnType turn;
+        public string turnTypeAsString; //public TurnType turn;
 
         public Turn() { }
 

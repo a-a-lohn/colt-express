@@ -11,17 +11,26 @@ import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
  */
 public class Marshal implements SerializableSFSType {
     
-    protected TrainUnit marshalPosition;
-    protected static Marshal instance;
+    public TrainUnit marshalPosition;
+    public static Marshal instance;
 
-    public Marshal() {}
+  //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
+    //public Marshal() {}
+    
+    public static Marshal createMarshal() {
+    	getInstance();
+    	final int x = TrainUnit.getTrainLength();
+    	TrainUnit t = TrainUnit.getTrain()[1][x-1];
+    	instance.marshalPosition = t;
+    	return instance;
+    }
     
     public TrainUnit getMarshalPosition() {
         return this.marshalPosition;
     }
 
-    public void setMarshalPosition(TrainUnit newObject) {
-        this.marshalPosition = newObject;
+    public void setMarshalPosition(TrainUnit pos) {
+        this.marshalPosition = pos;
     }
 
     public static Marshal getInstance(){

@@ -12,19 +12,25 @@ import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
  */
 public class Bandit implements SerializableSFSType {
 
-	protected boolean getsAnotherAction;
-	protected boolean playedThisTurn;
-	protected Character banditName;
-	protected TrainUnit position;
-	protected Hostage hostage;
-	protected ArrayList<Loot> loot = new ArrayList<Loot>();
-	protected ArrayList<BulletCard> bullets = new ArrayList<BulletCard>();;
-	protected ArrayList<Card> deck = new ArrayList<Card>();;
-	protected ArrayList<Card> hand = new ArrayList<Card>();;
-	protected ArrayList<Card> discardPile = new ArrayList<Card>();;
+	public boolean getsAnotherAction;
+	public boolean playedThisTurn;
+	transient public Character banditName;
+	public String banditNameAsString; //FOR NETWORKING
+	public TrainUnit position;
+	transient public Hostage hostage;
+	public String hostageAsString; //FOR NETWORKING
+	public ArrayList<Loot> loot = new ArrayList<Loot>();
+	public ArrayList<BulletCard> bullets = new ArrayList<BulletCard>();
+	public ArrayList<Card> deck = new ArrayList<Card>();
+	public ArrayList<Card> hand = new ArrayList<Card>();
+	public ArrayList<Card> discardPile = new ArrayList<Card>();
 
+	//--EMPTY CONSTRUCTOR FOR SERIALIZATION--
+	public Bandit() { }
+	
 	public Bandit(Character c) {
 		this.banditName = c;
+		this.banditNameAsString = c.toString();
 		this.getsAnotherAction = false;
 		this.playedThisTurn = false;
 		this.position = null;
@@ -264,22 +270,29 @@ public class Bandit implements SerializableSFSType {
 		return this.hostage;
 	}
 
-	public void setHostage(Hostage newObject) {
-		this.hostage = newObject;
+	public void setHostage(Hostage hostage) {
+		this.hostage = hostage;
+	}
+	
+	public String getHostageAsString() {
+		return this.hostageAsString;
+	}
+	public void setHostageAsString(String hostage) {
+		this.hostageAsString = hostage;
 	}
 
-	void createStartingCards() {
+	public void createStartingCards() {
 
-		ActionCard acMove1 = new ActionCard(ActionKind.MOVE);
-		ActionCard acMove2 = new ActionCard(ActionKind.MOVE);
-		ActionCard acChangeFloor1 = new ActionCard(ActionKind.CHANGEFLOOR);
-		ActionCard acChangeFloor2 = new ActionCard(ActionKind.CHANGEFLOOR);
-		ActionCard acMarshal = new ActionCard(ActionKind.MARSHAL);
-		ActionCard acPunch = new ActionCard(ActionKind.PUNCH);
-		ActionCard acRob1 = new ActionCard(ActionKind.ROB);
-		ActionCard acRob2 = new ActionCard(ActionKind.ROB);
-		ActionCard acShoot1 = new ActionCard(ActionKind.SHOOT);
-		ActionCard acShoot2 = new ActionCard(ActionKind.SHOOT);
+		ActionCard acMove1 = new ActionCard(ActionType.MOVE);
+		ActionCard acMove2 = new ActionCard(ActionType.MOVE);
+		ActionCard acChangeFloor1 = new ActionCard(ActionType.CHANGEFLOOR);
+		ActionCard acChangeFloor2 = new ActionCard(ActionType.CHANGEFLOOR);
+		ActionCard acMarshal = new ActionCard(ActionType.MARSHAL);
+		ActionCard acPunch = new ActionCard(ActionType.PUNCH);
+		ActionCard acRob1 = new ActionCard(ActionType.ROB);
+		ActionCard acRob2 = new ActionCard(ActionType.ROB);
+		ActionCard acShoot1 = new ActionCard(ActionType.SHOOT);
+		ActionCard acShoot2 = new ActionCard(ActionType.SHOOT);
 
 		this.deck.add(acMove1);
 		this.deck.add(acMove2);
@@ -298,7 +311,7 @@ public class Bandit implements SerializableSFSType {
 
 	}
 
-	void createBulletCards() {
+	public void createBulletCards() {
 
 		BulletCard bc1 = new BulletCard();
 		BulletCard bc2 = new BulletCard();
@@ -320,7 +333,7 @@ public class Bandit implements SerializableSFSType {
 
 	}
 
-	void createStartingPurse() {
+	public void createStartingPurse() {
 		Money startingPurse = new Money(MoneyType.PURSE, 250);
 		this.loot.add(startingPurse);
 	}

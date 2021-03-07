@@ -11,24 +11,49 @@ import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
  */
 public class Whiskey extends Loot implements SerializableSFSType {
     
-    protected WhiskeyType whiskeyType;
-    protected WhiskeyStatus whiskeyStatus;
+    transient public WhiskeyType whiskeyType;
+    public String whiskeyTypeAsString; //FOR NETWORKING
+    transient public WhiskeyStatus whiskeyStatus;
+    public String whiskeyStatusAsString; //FOR NETWORKING
     
+
+    //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
     public Whiskey() { }
 
+    
+    /**
+     * --GETTERS AND SETTERS--
+     */
+    
+    //whiskeyType
     public WhiskeyType getWhiskeyType(){
         return this.whiskeyType;
     }
-
-    public WhiskeyStatus getWhiskeyStatus(){
-        return this.whiskeyStatus;
-    }
-
     public void setWhiskeyType(WhiskeyType p){
         this.whiskeyType = p;
     }
-
+    
+    //whiskeyTypeAsString
+    public String getWhiskeyTypeAsString() {
+    	return this.whiskeyTypeAsString;
+    }
+    public void setWhiskeyTypeAsString(String s) {
+    	this.whiskeyTypeAsString = s;
+    }
+    
+    //whiskeyStatus
+    public WhiskeyStatus getWhiskeyStatus(){
+        return this.whiskeyStatus;
+    }
     public void setWhiskeyStatus(WhiskeyStatus p){
         this.whiskeyStatus = p;
+    }
+    
+    //whiskeyStatusAsString
+    public String getWhiskeyStatusAsString() {
+    	return this.whiskeyStatusAsString;
+    }
+    public void setWhiskeyStatusAsString(String s) {
+    	this.whiskeyStatusAsString = s;
     }
 }
