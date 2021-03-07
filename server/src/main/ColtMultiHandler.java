@@ -42,6 +42,8 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		}
 		else if(command.equals("chosenCharacter")) {
 			handleChosenCharacter(sender, params, rtn);
+		} else if(command.equals("newGameState")) {
+			handleNewGameState(params, rtn);
 		}
 		
 		//ISFSArray banditsArray = SFSArray.newInstance();
@@ -53,7 +55,12 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		
 	}
 	
-	
+	public void handleNewGameState(ISFSObject params, ISFSObject rtn) {
+		gm = (GameManager) params.getClass("gm");
+		System.out.println("received game state");
+		System.out.println(gm.bandits.get(0).position.carTypeAsString);
+		updateGameState(rtn);
+	}
 	
 	public void updateGameState(ISFSObject rtn) {
 		rtn.putClass("gm", gm);

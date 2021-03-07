@@ -3010,7 +3010,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 734506202}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f749795ca883b704d927c9ad9bf41b24, type: 3}
+  m_Script: {fileID: 11500000, guid: eef9e68e7eea64a27b31ea3f2a703590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cheyenne: {fileID: 1258289863}
@@ -4587,6 +4587,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b24cc13c0e7154f5a87f24ffd4d06265, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  message: {fileID: 0}
 --- !u!1 &1217476831
 GameObject:
   m_ObjectHideFlags: 0

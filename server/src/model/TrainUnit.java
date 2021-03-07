@@ -21,6 +21,7 @@ public class TrainUnit implements SerializableSFSType {
 	transient public static TrainUnit[] stagecoach;
 	
     public CarType carType;
+    public String carTypeAsString;
     
     public TrainUnit above = null;
     public TrainUnit below = null;
