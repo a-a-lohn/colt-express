@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -94,11 +95,34 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 		this.playedPileInstance = PlayedPile.getInstance();
 
 	}*/
-	
+
+
+	//this method should only be called from if-else block in chosenCharacter
 	public void initializeGame() {
 		//TODO: implement this method
 		//this should instantiate all the objects related to the game(trains, marshal, etc.) and store them in the attributes
 		//I.e., should do essentially what the above commented constructor is doing
+		ArrayList<Bandit> bandits = this.getBandits();
+		for (Bandit b: bandits) {
+			b.createStartingCards();
+			b.createBulletCards();
+			b.createStartingPurse();
+			this.stagecoach = TrainUnit.createStagecoach();
+			//this.train = TrainUnit.createTrain(bandits.size());
+			this.marshalInstance = Marshal.getInstance();
+			//TODO: initialize round attributes/create round constructor
+			//TODO: decide playing order, place bandits accordingly
+			Collections.shuffle(this.bandits); //<- to decide who goes first, shuffle bandit list
+			Round current = new Round();
+			this.rounds.add(current);
+			this.currentRound = current;
+			
+			// TO DO
+			// create netural bullet card
+			// round cards
+			// 
+		}
+		//place bandits
 	}
 	
 	public GameManager() {};
@@ -266,7 +290,8 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	}
 
 	public ArrayList<Bandit> getBandits() {
-		return this.bandits;
+		ArrayList<Bandit> b = (ArrayList<Bandit>) this.bandits.clone();
+		return b;
 	}
 
 	/**
@@ -289,7 +314,7 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	}
 	
 	//void chosenCharacter(int playerId, Character c) {
-	public Bandit chosenCharacter(User player, Character c, int numPlayers) {
+	public void chosenCharacter(User player, Character c, int numPlayers) {
 		Bandit newBandit = new Bandit(c);
 		this.bandits.add(newBandit);
 		this.banditmap.put(newBandit, player);
@@ -299,44 +324,11 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 		if (!ready) {
 			System.out.println("Not all players are ready!");
 		} else {
-			int numP = this.getNumOfPlayers();
-			for (int i = 0; i < numP; i++) {
-				// TO DO
-				// Here create new TrainUnit object
-				// this.addTrainUnits(new TrainUnit());
-			}
-
-			// I COMMENTED MOST OF THIS OUT BC IT CAUSES A SERIALIZATION ERROR SINCE THE FIELDS OF THE OBJECTS BEING CREATED
-			// ARE NOT ALL PUBLIC -- Aaron
-			
-			/*for (Bandit b : this.bandits) {
-				b.createStartingCards();
-				b.createBulletCards();
-				b.createStartingPurse();
-			}
-
-			// TO DO
-			// set up positions for bandits correspondingly
-
-			Marshal marshal = new Marshal();
-
-			Money strongbox = new Money(MoneyType.STRONGBOX, 1000);*/
-
-			// TO DO
-			// set up the positions for marshal and strongbox
-
-			// for (TrainUnit tu : this.trainUnits) {
-			// TO DO
-			// algorithm for adding loots randomly to each train unit that is created
-			// Money l = new Money();
-			// tu.addLootInCabin(l);
-			// }
-
+			this.initializeGame();
 			this.setGameStatus(GameStatus.SCHEMIN);
 			//this.setCurrentRound(this.rounds.get(0));
 			// set waiting for input to be true;
 		}
-		return newBandit;
 	}
 
 	/*void Rob() {

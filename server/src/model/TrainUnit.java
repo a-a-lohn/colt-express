@@ -20,6 +20,7 @@ public class TrainUnit implements SerializableSFSType {
 	transient public static TrainUnit[] stagecoach;
 	
     public CarType carType;
+    public CarFloor carFloor;
     
     public Optional<TrainUnit> above = Optional.empty();
     public Optional<TrainUnit> below = Optional.empty();
@@ -35,8 +36,9 @@ public class TrainUnit implements SerializableSFSType {
     //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
     public TrainUnit() {}
     
-    private TrainUnit(CarType carType) {
+    private TrainUnit(CarType carType, CarFloor carFloor) {
     	this.carType = carType;
+    	this.carFloor = carFloor;
     	//TODO: createGraphic()
     }
     
@@ -55,12 +57,15 @@ public class TrainUnit implements SerializableSFSType {
     	final int trainLength = numberOfBandits + 1;
     	
     	TrainUnit[][] train = new TrainUnit[2][trainLength];
-    	TrainUnit locoCabin = new TrainUnit(CarType.LocomotiveCabin);
-    	TrainUnit locoRoof = new TrainUnit(CarType.LocomotiveRoof);
+    	TrainUnit locoCabin = new TrainUnit(CarType.LOCOMOTIVE, CarFloor.CABIN);
+    	TrainUnit locoRoof = new TrainUnit(CarType.LOCOMOTIVE, CarFloor.ROOF);
     	
     	//Create locomotive
     	locoCabin.above = Optional.of(locoRoof);
     	locoCabin.isMarshalHere = true;
+    	Marshal m = Marshal.getInstance();
+    	m.setMarshalPosition(locoCabin);
+    	//TODO: put strongbox
     	locoRoof.below = Optional.of(locoCabin);
     	
     	//TODO: Add locomotive to array
@@ -84,8 +89,8 @@ public class TrainUnit implements SerializableSFSType {
     public static TrainUnit[] createStagecoach() {
     	TrainUnit[] stagecoach = new TrainUnit[2];
     	
-    	TrainUnit cabin = new TrainUnit(CarType.StagecoachCabin);
-    	TrainUnit roof = new TrainUnit(CarType.StagecoachRoof);
+    	TrainUnit cabin = new TrainUnit(CarType.STAGECOACH, CarFloor.CABIN);
+    	TrainUnit roof = new TrainUnit(CarType.STAGECOACH, CarFloor.ROOF);
     	
     	stagecoach[0] = roof;
     	stagecoach[1] = cabin;
