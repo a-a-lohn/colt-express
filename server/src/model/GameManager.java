@@ -99,30 +99,37 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 
 	//this method should only be called from if-else block in chosenCharacter
 	public void initializeGame() {
-		//TODO: implement this method
-		//this should instantiate all the objects related to the game(trains, marshal, etc.) and store them in the attributes
-		//I.e., should do essentially what the above commented constructor is doing
+		//set train-related attributes
+		this.stagecoach = TrainUnit.createStagecoach();
+		//this.train = TrainUnit.createTrain(bandits.size());
 		ArrayList<Bandit> bandits = this.getBandits();
 		for (Bandit b: bandits) {
+			//initialize each bandit cards, purse
 			b.createStartingCards();
+			b.createHand();
 			b.createBulletCards();
 			b.createStartingPurse();
-			this.stagecoach = TrainUnit.createStagecoach();
-			//this.train = TrainUnit.createTrain(bandits.size());
-			this.marshalInstance = Marshal.getInstance();
-			//TODO: initialize round attributes/create round constructor
-			//TODO: decide playing order, place bandits accordingly
-			Collections.shuffle(this.bandits); //<- to decide who goes first, shuffle bandit list
-			Round current = new Round();
-			this.rounds.add(current);
-			this.currentRound = current;
-			
-			// TO DO
-			// create netural bullet card
-			// round cards
-			// 
+			//TODO: place bandits
 		}
-		//place bandits
+		this.marshalInstance = Marshal.getInstance();
+		//TODO: initialize round cards, round attributes/create round constructor
+		Round current = new Round();
+		Collections.shuffle(this.bandits); //<- to decide who goes first, shuffle bandit list
+		this.currentBandit = this.bandits.get(0);
+		this.rounds.add(current);
+		this.currentRound = current;
+		// TODO: create netural bullet card
+	}
+	
+	public void endOfTurn() {
+		int index = this.bandits.indexOf(this.currentBandit);
+		index++;
+		if (index<this.bandits.size()) {
+			this.currentBandit = this.bandits.get(index);
+		}
+		else {
+			//TODO: deal with end of round 
+		}
 	}
 	
 	public GameManager() {};

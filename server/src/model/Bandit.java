@@ -311,15 +311,15 @@ public class Bandit implements SerializableSFSType {
 		for (Card c : this.deck) {
 			c.setBelongsTo(this);
 		}
-		Collections.shuffle(this.deck, new Random(System.currentTimeMillis()));
 
 	}
 	
 	public void createHand() {
+		Collections.shuffle(this.deck, new Random(System.currentTimeMillis()));
 		for (int i =0; i<6; i++) {
 			Card c = this.deck.get(0);
 			this.hand.add(c);
-			this.deck.remove(c);
+			//this.deck.remove(c);
 		}
 	}
 
