@@ -15,12 +15,14 @@ public class Marshal implements SerializableSFSType {
     public static Marshal instance;
 
   //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
-    public Marshal() {}
+    //public Marshal() {}
     
-    private Marshal create() {
+    public static Marshal createMarshal() {
+    	getInstance();
     	final int x = TrainUnit.getTrainLength();
     	TrainUnit t = TrainUnit.getTrain()[1][x-1];
-    	this.marshalPosition = t;
+    	instance.marshalPosition = t;
+    	return instance;
     }
     
     public TrainUnit getMarshalPosition() {

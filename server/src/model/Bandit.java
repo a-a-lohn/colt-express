@@ -30,7 +30,7 @@ public class Bandit implements SerializableSFSType {
 	
 	public Bandit(Character c) {
 		this.banditName = c;
-		this.strBanditName = c.toString();
+		this.banditNameAsString = c.toString();
 		this.getsAnotherAction = false;
 		this.playedThisTurn = false;
 		this.position = null;

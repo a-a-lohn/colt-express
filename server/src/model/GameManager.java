@@ -44,9 +44,7 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 		//ISFSObject rtn = SFSObject.newInstance();
 		//handler.updateGameState(rtn);
 	}
-	
-	//Bandit b = new Bandit(Character.CHEYENNE);
-	
+		
 	/*@Override
 	public void handleClientRequest(User sender, ISFSObject params) {
 		//String command = params.getUtfString(SFSExtension.MULTIHANDLER_REQUEST_ID);
@@ -67,7 +65,7 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	}*/
 	
 	// SOME OF THESE FIELDS SHOULD BE AUTOMATICALLY INITIALIZED, NOT PASSED AS PARAMS
-<<<<<<< HEAD
+
 	/*private GameManager(ArrayList<Bandit> bandits, Bandit currentBandit, ArrayList<Round> rounds, Round currentRound,
 			GameStatus status, TrainUnit[][] trainUnits) {
 =======
@@ -81,9 +79,8 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	 * @param currentRound
 	 * @param status
 	 */
-	private GameManager(ArrayList<Bandit> bandits, Bandit currentBandit, ArrayList<Round> rounds, Round currentRound,
+	/*private GameManager(ArrayList<Bandit> bandits, Bandit currentBandit, ArrayList<Round> rounds, Round currentRound,
 			GameStatus status) {
->>>>>>> a79f70238dd286497902e231c2d3f3a2ac5591c7
 		
 		this.bandits = bandits;
 		this.train = TrainUnit.createTrain(this.bandits.size());
@@ -96,15 +93,12 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 		this.marshalInstance = Marshal.createMarshal();
 		this.playedPileInstance = PlayedPile.getInstance();
 
-<<<<<<< HEAD
-
 	}*/
 	
 	public void initializeGame() {
 		//TODO: implement this method
 		//this should instantiate all the objects related to the game(trains, marshal, etc.) and store them in the attributes
-=======
->>>>>>> a79f70238dd286497902e231c2d3f3a2ac5591c7
+		//I.e., should do essentially what the above commented constructor is doing
 	}
 	
 	public GameManager() {};
