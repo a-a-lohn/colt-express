@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class ChooseCharacter : MonoBehaviour
 {
-    
+    public Text selected; 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,7 +20,12 @@ public class ChooseCharacter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
- 
+        if (Input.GetMouseButtonDown(0)){
+             string name =  EventSystem.current.currentSelectedGameObject.name;
+            //  Debug.Log(name + "ahh"); 
+            selected.text = "Your bandit is: " + name;
+        }
+        
     }
 
     void OnMouseEnter()
