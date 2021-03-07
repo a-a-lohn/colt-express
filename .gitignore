@@ -42,11 +42,10 @@ ExportedObj/
 *.pidb.meta
 *.pdb.meta
 *.mdb.meta
-*.cs.meta
 *model.meta
 *main.meta
-*src.meta
-*dll.meta
+
+colt-express-jan-2021\UserSettings\EditorUserSettings.asset
 
 # Unity3D generated file on crash reports
 sysinfo.txt

@@ -36,7 +36,7 @@ public class move : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
         // this wont move the object forwards but will reset it's position to 0, 0, 1
-        Debug.Log(lootToMove.transform.position);
+        // Debug.Log(lootToMove.transform.position);
             lootToMove.transform.position = new Vector3 (1219, 819, -364);
         // this code will do the trick
             lootToMove.transform.position += lootToMove.transform.forward * Time.deltaTime * 5f; // can be any float number

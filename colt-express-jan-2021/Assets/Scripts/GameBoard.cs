@@ -68,7 +68,7 @@ public class GameBoard : MonoBehaviour
     private void Test() {
         buttonLabel.text = "CONNECT+ENTER";
         button.onClick.AddListener(OnButtonClick);
-		extension.onClick.AddListener(EnterChooseCharacterScene);
+		extension.onClick.AddListener(SendNewGameState);//EnterChooseCharacterScene);
 		chooseChar.onClick.AddListener(ChooseCharacter);
     }
 
@@ -82,7 +82,6 @@ public class GameBoard : MonoBehaviour
 
 	// client side: receiving input from USER (for testing purposes it's called automatically upon login)
     private void ChooseCharacter() {
-
         ISFSObject obj = SFSObject.NewInstance();
 		obj.PutUtfString("chosenCharacter", "TUCO");
         ExtensionRequest req = new ExtensionRequest("gm.chosenCharacter",obj);
@@ -114,7 +113,25 @@ public class GameBoard : MonoBehaviour
 		}
 	}
 
-    private void  UpdateGameState(BaseEvent evt) {
+	private void SendNewGameState() {
+		ISFSObject obj = SFSObject.NewInstance();
+		
+		GameManager gm = new GameManager();
+		ArrayList bandits = new ArrayList();
+		Bandit doc = new Bandit();
+		TrainUnit position = new TrainUnit();
+		position.carTypeAsString = "LocomotiveRoof";
+		doc.position = position;
+		bandits.Add(doc);
+		gm.bandits = bandits;
+
+		obj.PutClass("gm", gm);
+        ExtensionRequest req = new ExtensionRequest("gm.newGameState",obj);
+        sfs.Send(req);
+        trace("sent game state");
+	}
+
+    private void UpdateGameState(BaseEvent evt) {
         trace("updategamestate called");
         // REASSIGN ALL GAME OBJECTS -- CLEAR THEM FIRST
         bandits = new Dictionary<GameObject, Bandit>();
@@ -123,7 +140,9 @@ public class GameBoard : MonoBehaviour
         ISFSObject responseParams = (SFSObject)evt.Params["params"];
         string resp = responseParams.GetUtfString("testStr");
         trace(resp);
-		//Bandit b = (Bandit)responseParams.GetClass("bandits");
+		GameManager gm = (GameManager)responseParams.GetClass("gm");
+		Bandit b = (Bandit) gm.bandits[0];
+		trace(b.position.carTypeAsString);
 		//trace(b.strBanditName);
         // Extract expected parameters and reassign all game objects
         /*ArrayList banditsArray = (ArrayList)responseParams.GetClass("bandits");
@@ -133,10 +152,6 @@ public class GameBoard : MonoBehaviour
                 trace("Cheyenne added!");
             }
         }*/
-
-		GameManager gm = (GameManager)responseParams.GetClass("gm");
-		Bandit b = (Bandit)gm.bandits[0];
-		trace(b.banditNameAsString + " YESSSS");
     }
 
 

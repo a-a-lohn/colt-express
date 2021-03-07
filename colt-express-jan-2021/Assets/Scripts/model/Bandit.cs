@@ -26,9 +26,18 @@ namespace model {
         public ArrayList hand = new ArrayList();
         public ArrayList discardPile = new ArrayList();
 
-        public GameObject clickable;
+        //private GameObject clickable;
 
         public Bandit() { }
+
+        /*public GameObject getTheClickable() {
+            return clickable;
+        }
+
+        public void setTheClickable(GameObject obj) {
+            clickable = obj;
+        }*/
+
 
     }
 }

@@ -25,7 +25,8 @@ namespace model {
         public static GameManager instance;
         public static Marshal marshalInstance;
         public static PlayedPile playedPileInstance; 
-        public ArrayList trainUnits;
+       //public ArrayList trainUnits;
+        //public ArrayList stagecoach;
         public ArrayList bandits;
 
         public GameManager() { }
