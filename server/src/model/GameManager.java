@@ -57,7 +57,7 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	}*/
 	
 	// SOME OF THESE FIELDS SHOULD BE AUTOMATICALLY INITIALIZED, NOT PASSED AS PARAMS
-	private GameManager(ArrayList<Bandit> bandits, Bandit currentBandit, ArrayList<Round> rounds, Round currentRound,
+	/*private GameManager(ArrayList<Bandit> bandits, Bandit currentBandit, ArrayList<Round> rounds, Round currentRound,
 			GameStatus status, TrainUnit[][] trainUnits) {
 		
 		this.train = TrainUnit.createTrain(this.bandits.size());
@@ -71,6 +71,11 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 		this.playedPileInstance = PlayedPile.getInstance();
 
 
+	}*/
+	
+	public void initializeGame() {
+		//TODO: implement this method
+		//this should instantiate all the objects related to the game(trains, marshal, etc.) and store them in the attributes
 	}
 	
 	public GameManager() {};

@@ -18,6 +18,7 @@ import com.smartfoxserver.v2.entities.variables.UserVariable;
 import com.smartfoxserver.v2.extensions.BaseClientRequestHandler;
 import com.smartfoxserver.v2.extensions.SFSExtension;
 
+import main.GameExtension;
 import model.*;
 import model.Character;
 
@@ -29,7 +30,12 @@ public class GameMultiHandler extends BaseClientRequestHandler
 	public void handleClientRequest(User sender, ISFSObject params) {
 		String command = params.getUtfString(SFSExtension.MULTIHANDLER_REQUEST_ID);
 		
-		if (command.equals("chooseBandit")) {
+		switch(command) {
+		case "chooseBandit": handleChooseBandit(sender, params);
+		case "begin": handleBegin();
+		default: trace("Invalid command - cannot be handled by multihandler");
+		}
+		/*if (command.equals("chooseBandit")) {
 			handleChooseBandit(sender, params);
 		}
 		else if (command.equals("begin")) {
@@ -37,7 +43,7 @@ public class GameMultiHandler extends BaseClientRequestHandler
 		}
 		else if (command.equals("")) {
 			trace("");
-		}
+		}*/
 	}
 	
 	public void handleBegin() {
@@ -86,7 +92,7 @@ public class GameMultiHandler extends BaseClientRequestHandler
 			for (User user: users) {
 				Bandit a = (Bandit)user.getVariable("bandit");
 				if (a != null) {
-					chosen.addUtfString(a.strBanditName);
+					chosen.addUtfString(a.banditNameAsString);
 				}
 			}
 			//if choosing bandit phase still ongoing then send this info back
@@ -101,6 +107,13 @@ public class GameMultiHandler extends BaseClientRequestHandler
 	public void initializeGame() {
 		//TODO: implement
 		//method for creating all non-bandit game objects and sending them to client
+		//GameExtension parentExt = (GameExtension)getParentExtension();
+		//Zone zone = parentExt.getParentZone();
+		//List<User> users = (List<User>)zone.getUserList();
+		GameManager gm = GameManager.getInstance();
+		gm.initializeGame();
+		updateGameState(gm);
+		
 	}
 	
 	public void updateGameState(GameManager gm) {
