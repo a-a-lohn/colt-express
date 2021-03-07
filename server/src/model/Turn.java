@@ -13,8 +13,8 @@ import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
  */
 public class Turn implements SerializableSFSType {
     
-    public TurnType turnType;
-    public String turnTypeAsString;
+    transient public TurnType turnType;
+	public String turnTypeAsString; // FOR NETWORKING
     
     //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
     public Turn() { }
