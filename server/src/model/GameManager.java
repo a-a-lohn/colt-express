@@ -15,6 +15,8 @@ import com.smartfoxserver.v2.extensions.SFSExtension;
 import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
 
 import main.ColtMultiHandler;
+import model.Bandit;
+import model.TrainUnit;
 
 import com.smartfoxserver.v2.annotations.Instantiation;
 import com.smartfoxserver.v2.annotations.Instantiation.InstantiationMode;
@@ -338,9 +340,16 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 		}
 		return newBandit;
 	}
-
+	
+	
+	/**
+	 * --EXECUTE ACTIONS--
+	 * BEFORE CALLING ANY OF THESE METHODS, CURRENT BANDIT MUST BE ASSIGNED CORRECTLY
+	 * All actions will be called from POV of this.currentBandit
+	 */
+	
+	
 	/*void Rob() {
-
 		if (this.currentBandit.getPosition().carType == CarType.Car1Roof
 				|| this.currentBandit.getPosition().carType == CarType.Car2Roof
 				|| this.currentBandit.getPosition().carType == CarType.Car3Roof
@@ -441,6 +450,31 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 		}
 
 	}*/
+	
+	public void changeFloor() {
+		TrainUnit currentPosition = this.currentBandit.getPosition();
+		if(currentPosition.getAbove() == null && currentPosition.getBelow() != null) {
+			currentPosition.removeBandit(currentBandit);
+			currentPosition.getBelow().addBandit(currentBandit);
+			currentBandit.setPosition(currentPosition.getBelow());
+		}
+		else if(currentPosition.getBelow() == null && currentPosition.getAbove() != null) {
+			currentPosition.removeBandit(currentBandit);
+			currentPosition.getAbove().addBandit(currentBandit);
+			currentBandit.setPosition(currentPosition.getAbove());
+		}
+		//TODO FRONT END RESPONSE/SEND TO CLIENTS
+	}
+	
+	public void move() {
+		//TODO SEND PROMPT
+		//TODO RECEIVE RESPONSE
+	}
+	
+	public void moveMarshal() {
+		//TODO SEND PROMPT
+		//TODO RECEIVE RESPONSE
+	}
 
 	/**
      * @param c

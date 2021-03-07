@@ -2,9 +2,10 @@ package model;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Optional;
 
 import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
+
+import model.Bandit;
 
 // Start of user code for imports
 // End of user code
@@ -21,11 +22,11 @@ public class TrainUnit implements SerializableSFSType {
 	
     public CarType carType;
     
-    public Optional<TrainUnit> above = Optional.empty();
-    public Optional<TrainUnit> below = Optional.empty();
-    public Optional<TrainUnit> left = Optional.empty();
-    public Optional<TrainUnit> right = Optional.empty();
-    public Optional<TrainUnit> beside = Optional.empty(); //Used for stagecoach and it's adjacent car ONLY.
+    public TrainUnit above = null;
+    public TrainUnit below = null;
+    public TrainUnit left = null;
+    public TrainUnit right = null;
+    public TrainUnit beside = null; //Used for stagecoach and it's adjacent car ONLY.
     
     public boolean isMarshalHere = false;
     public HashSet<Bandit> banditsHere = new HashSet<Bandit>();
@@ -59,9 +60,9 @@ public class TrainUnit implements SerializableSFSType {
     	TrainUnit locoRoof = new TrainUnit(CarType.LocomotiveRoof);
     	
     	//Create locomotive
-    	locoCabin.above = Optional.of(locoRoof);
+    	locoCabin.above = locoRoof;
     	locoCabin.isMarshalHere = true;
-    	locoRoof.below = Optional.of(locoCabin);
+    	locoRoof.below = locoCabin;
     	
     	//TODO: Add locomotive to array
     	
@@ -117,59 +118,61 @@ public class TrainUnit implements SerializableSFSType {
     	return TrainUnit.stagecoach;
     }
     
-    /**
-     * 
-     * @return
-     */
-   /* public TrainUnit getAbove() {
-        if(this.above.isEmpty()) {
-        	return null; //better design?
-        }
-        else {
-        	return this.above.get();
-        }
+    public TrainUnit getAbove() {
+        return this.above;
     }
-
+    public void setAbove(TrainUnit otherTrainUnit) {
+    	this.above = otherTrainUnit;
+    	otherTrainUnit.below = this;
+    }
+   
     public TrainUnit getBelow() {
-        if(this.below.isEmpty()) {
-        	return null;
-        }
-        else {
-        	return this.below.get();
-        }
+        return this.below;
     }
-
+    public void setBelow(TrainUnit otherTrainUnit) {
+    	this.below = otherTrainUnit;
+    	otherTrainUnit.above = this;
+    }
+    
     public TrainUnit getRight() {
-        if(this.right.isEmpty()) {
-        	return null;
-        }
-        else {
-        	return this.right.get();
-        }
+        return this.right;
+    }
+    public void setRight(TrainUnit otherTrainUnit) {
+    	this.right = otherTrainUnit;
+    	otherTrainUnit.left = this;
     }
 
     public TrainUnit getLeft() {
-        if(this.left.isEmpty()) {
-        	return null;
-        }
-        else {
-        	return this.left.get();
-        }
+        return this.left;
+    }
+    public void setLeft(TrainUnit otherTrainUnit) {
+    	this.left = otherTrainUnit;
+    	otherTrainUnit.right = this;
     }
 
     public TrainUnit getBeside() {
-        if(this.beside.isEmpty()) {
-        	return null;
-        }
-        else {
-        	return this.beside.get();
-        }
+        return this.beside;
     }
     
-    public boolean isAdjacentTo(TrainUnit a) {
-        //TODO
-    	return false;
-    }*/
+    public boolean isAdjacentTo(TrainUnit otherTrainUnit) {
+        boolean adjacentTo = false;
+        if(this.below == otherTrainUnit && otherTrainUnit.above == this) {
+        	adjacentTo = true;
+        }
+        else if(this.above == otherTrainUnit && otherTrainUnit.below == this) {
+        	adjacentTo = true;
+        }
+        else if(this.right == otherTrainUnit && otherTrainUnit.left == this) {
+        	adjacentTo = true;
+        }
+        else if(this.left == otherTrainUnit && otherTrainUnit.right == this) {
+        	adjacentTo = true;
+        }
+        else if(this.beside == otherTrainUnit && otherTrainUnit.beside == this) {
+        	adjacentTo = true;
+        }
+        return adjacentTo;
+    }
 
     
     
@@ -185,8 +188,8 @@ public class TrainUnit implements SerializableSFSType {
      * @pre this train car must not already contain b
      */
     public void addBandit(Bandit b) {
-    	assert !banditsHere.contains(b);
-        //TODO
+    	assert !this.banditsHere.contains(b);
+        this.banditsHere.add(b);
     }
 
     /**
@@ -195,23 +198,22 @@ public class TrainUnit implements SerializableSFSType {
      *           b is a non-null Bandit to be removed from this train car
      * @pre this train car must contain b
      */
-    /*static boolean removeBandit(Bandit b) {
+    public void removeBandit(Bandit b) {
     	assert banditsHere.contains(b);
-    	//TODO
-    	return false;
+    	this.banditsHere.remove(b);
     }
 
-    boolean containsBandit(Bandit b) {
+    public boolean containsBandit(Bandit b) {
         return this.banditsHere.contains(a);
     }
 
-    int numOfBanditsHere() {
+    public int numOfBanditsHere() {
         return this.banditsHere.size();
     }
 
-    public HashSet<Bandit> getBandtsHere() {
+    public HashSet<Bandit> getBanditsHere() {
         return this.banditsHere.clone();
-    }*/
+    }
 
     
     /**
@@ -256,7 +258,10 @@ public class TrainUnit implements SerializableSFSType {
     public void setIsMarshalHere(boolean b) {
         this.isMarshalHere = b;
     }
-    
+    public void moveMarshalTo(TrainUnit dest) {
+    	this.isMarshalHere = false;
+    	dest.isMarshalHere = true;
+    }
 
     /**
      * HORSE METHODS, (HAVE NOT BEEN CHECKED)
