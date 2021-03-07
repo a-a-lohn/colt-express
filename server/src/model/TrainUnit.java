@@ -204,7 +204,7 @@ public class TrainUnit implements SerializableSFSType {
     }
 
     public boolean containsBandit(Bandit b) {
-        return this.banditsHere.contains(a);
+        return this.banditsHere.contains(b);
     }
 
     public int numOfBanditsHere() {
@@ -212,7 +212,7 @@ public class TrainUnit implements SerializableSFSType {
     }
 
     public HashSet<Bandit> getBanditsHere() {
-        return this.banditsHere.clone();
+        return (HashSet<Bandit>) this.banditsHere.clone();
     }
 
     
