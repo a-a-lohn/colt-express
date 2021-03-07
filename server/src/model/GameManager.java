@@ -13,6 +13,9 @@ import com.smartfoxserver.v2.entities.data.SFSObject;
 import com.smartfoxserver.v2.extensions.BaseClientRequestHandler;
 import com.smartfoxserver.v2.extensions.SFSExtension;
 import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
+
+import main.ColtMultiHandler;
+
 import com.smartfoxserver.v2.annotations.Instantiation;
 import com.smartfoxserver.v2.annotations.Instantiation.InstantiationMode;
 import com.smartfoxserver.v2.annotations.MultiHandler;
@@ -33,8 +36,15 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	public TrainUnit[] stagecoach;
 	public ArrayList<Bandit> bandits = new ArrayList<Bandit>();
 	transient public HashMap<Bandit, User> banditmap = new HashMap<Bandit, User>();
+	public static ColtMultiHandler handler;
 	
 
+	public static void setHandler(ColtMultiHandler handle) {
+		handler = handle;
+		//ISFSObject rtn = SFSObject.newInstance();
+		//handler.updateGameState(rtn);
+	}
+	
 	//Bandit b = new Bandit(Character.CHEYENNE);
 	
 	/*@Override
@@ -57,25 +67,44 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	}*/
 	
 	// SOME OF THESE FIELDS SHOULD BE AUTOMATICALLY INITIALIZED, NOT PASSED AS PARAMS
+<<<<<<< HEAD
 	/*private GameManager(ArrayList<Bandit> bandits, Bandit currentBandit, ArrayList<Round> rounds, Round currentRound,
 			GameStatus status, TrainUnit[][] trainUnits) {
+=======
+	
+	/**
+	 * 
+	 * @param bandits
+	 *           ALL BANDITS MUST BE CREATED BEFORE THIS METHOD CAN BE CALLED 
+	 * @param currentBandit
+	 * @param rounds
+	 * @param currentRound
+	 * @param status
+	 */
+	private GameManager(ArrayList<Bandit> bandits, Bandit currentBandit, ArrayList<Round> rounds, Round currentRound,
+			GameStatus status) {
+>>>>>>> a79f70238dd286497902e231c2d3f3a2ac5591c7
 		
+		this.bandits = bandits;
 		this.train = TrainUnit.createTrain(this.bandits.size());
 		this.stagecoach = TrainUnit.createStagecoach();
-		this.bandits = bandits;
+		
 		this.currentBandit = currentBandit;
 		this.rounds = rounds;
 		this.currentRound = currentRound;
 		this.gameStatus = status;
-		this.marshalInstance = Marshal.getInstance();
+		this.marshalInstance = Marshal.createMarshal();
 		this.playedPileInstance = PlayedPile.getInstance();
 
+<<<<<<< HEAD
 
 	}*/
 	
 	public void initializeGame() {
 		//TODO: implement this method
 		//this should instantiate all the objects related to the game(trains, marshal, etc.) and store them in the attributes
+=======
+>>>>>>> a79f70238dd286497902e231c2d3f3a2ac5591c7
 	}
 	
 	public GameManager() {};

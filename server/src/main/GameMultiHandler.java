@@ -61,6 +61,9 @@ public class GameMultiHandler extends BaseClientRequestHandler
 	
 	//"bandit" -> Bandit string that player chooses
 	public void handleChooseBandit(User sender, ISFSObject params) {
+		/* HAS COMPILER ERROR
+		 * 
+		 * 
 		//execute choose bandit logic
 		String strBandit = (String)params.getText("bandit");
 		//create bandit from string info
@@ -100,7 +103,7 @@ public class GameMultiHandler extends BaseClientRequestHandler
 			gameState.putSFSArray("chosen", chosen);
 			parentExt.send("chosenBandits", gameState, users);
 		}
-			
+			*/
 		
 	}
 	

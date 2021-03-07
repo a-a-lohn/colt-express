@@ -15,18 +15,22 @@ import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
  */
 public class TrainUnit implements SerializableSFSType {
     
-    protected CarType carType;
+	transient public static int trainLength;
+	transient public static TrainUnit[][] train;
+	transient public static TrainUnit[] stagecoach;
+	
+    public CarType carType;
     
-    protected Optional<TrainUnit> above = Optional.empty();
-    protected Optional<TrainUnit> below = Optional.empty();
-    protected Optional<TrainUnit> left = Optional.empty();
-    protected Optional<TrainUnit> right = Optional.empty();
-    protected Optional<TrainUnit> beside = Optional.empty(); //Used for stagecoach and it's adjacent car ONLY.
+    public Optional<TrainUnit> above = Optional.empty();
+    public Optional<TrainUnit> below = Optional.empty();
+    public Optional<TrainUnit> left = Optional.empty();
+    public Optional<TrainUnit> right = Optional.empty();
+    public Optional<TrainUnit> beside = Optional.empty(); //Used for stagecoach and it's adjacent car ONLY.
     
-    protected boolean isMarshalHere = false;
-    protected HashSet<Bandit> banditsHere = new HashSet<Bandit>();
-    protected HashSet<Loot> lootHere = new HashSet<Loot>();
-    protected HashSet<Horse> horsesHere = new HashSet<Horse>();
+    public boolean isMarshalHere = false;
+    public HashSet<Bandit> banditsHere = new HashSet<Bandit>();
+    public HashSet<Loot> lootHere = new HashSet<Loot>();
+    public HashSet<Horse> horsesHere = new HashSet<Horse>();
     
     //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
     public TrainUnit() {}
@@ -65,6 +69,9 @@ public class TrainUnit implements SerializableSFSType {
     	
     	//TODO: Associate locomotive to front car
     	
+    	TrainUnit.trainLength = trainLength;
+    	TrainUnit.train = train;
+    	
     	return train;
     }
     
@@ -92,6 +99,23 @@ public class TrainUnit implements SerializableSFSType {
      * TRAIN UNIT METHODS
      */
     
+    //trainLength
+    public static int getTrainLength() {
+    	return TrainUnit.trainLength;
+    }
+    public static void setTrainLength(int length) {
+    	TrainUnit.trainLength = length;
+    }
+    
+    //train
+    public static TrainUnit[][] getTrain(){
+    	return TrainUnit.train;
+    }
+    
+    //stagecoach
+    public static TrainUnit[] getStagecoach() {
+    	return TrainUnit.stagecoach;
+    }
     
     /**
      * 

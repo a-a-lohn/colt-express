@@ -16,8 +16,9 @@ using Sfs2X.Protocol.Serialization;
 namespace model {
     public class ActionCard : SerializableSFSType
     {
-        public string strAction; //public ActionKind action;
+        public string actionAsString; //public ActionKind action;
         public bool saveForNextRound;
+        public bool facedown;
 
         public ActionCard() { }
 
