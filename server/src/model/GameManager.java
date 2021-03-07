@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import com.smartfoxserver.v2.entities.User;
@@ -290,6 +291,36 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 		return 3;
 	}
 	
+	public void setUpPositions(ArrayList<Bandit> b) {
+		int numOfBandit = b.size();
+		if (numOfBandit == 2) {
+			b.get(0).setPosition(this.train[1][0]);
+			b.get(1).setPosition(this.train[1][1]);
+		} else if (numOfBandit == 3) {
+			b.get(0).setPosition(this.train[1][0]);
+			b.get(1).setPosition(this.train[1][1]);
+			b.get(2).setPosition(this.train[1][0]);
+		} else if (numOfBandit == 4) {
+			b.get(0).setPosition(this.train[1][0]);
+			b.get(1).setPosition(this.train[1][1]);
+			b.get(2).setPosition(this.train[1][0]);
+			b.get(3).setPosition(this.train[1][1]);
+		} else if (numOfBandit == 5) {
+			b.get(0).setPosition(this.train[1][0]);
+			b.get(1).setPosition(this.train[1][1]);
+			b.get(2).setPosition(this.train[1][2]);
+			b.get(3).setPosition(this.train[1][0]);
+			b.get(4).setPosition(this.train[1][1]);
+		} else if (numOfBandit == 6) {
+			b.get(0).setPosition(this.train[1][0]);
+			b.get(1).setPosition(this.train[1][1]);
+			b.get(2).setPosition(this.train[1][2]);
+			b.get(3).setPosition(this.train[1][0]);
+			b.get(4).setPosition(this.train[1][1]);
+			b.get(5).setPosition(this.train[1][2]);
+		} else {return;}
+	}
+	
 	//void chosenCharacter(int playerId, Character c) {
 	public Bandit chosenCharacter(User player, Character c, int numPlayers) {
 		Bandit newBandit = new Bandit(c);
@@ -311,28 +342,25 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 			// I COMMENTED MOST OF THIS OUT BC IT CAUSES A SERIALIZATION ERROR SINCE THE FIELDS OF THE OBJECTS BEING CREATED
 			// ARE NOT ALL PUBLIC -- Aaron
 			
-			/*for (Bandit b : this.bandits) {
+			for (Bandit b : this.bandits) {
 				b.createStartingCards();
 				b.createBulletCards();
 				b.createStartingPurse();
 			}
 
-			// TO DO
-			// set up positions for bandits correspondingly
+			this.setUpPositions(this.bandits);
 
 			Marshal marshal = new Marshal();
 
-			Money strongbox = new Money(MoneyType.STRONGBOX, 1000);*/
+			Money strongbox = new Money(MoneyType.STRONGBOX, 1000);
+
+			marshal.setMarshalPosition(this.train[1][this.bandits.size()]);
+			strongbox.setPosition(this.train[1][this.bandits.size()]);
 
 			// TO DO
-			// set up the positions for marshal and strongbox
-
-			// for (TrainUnit tu : this.trainUnits) {
-			// TO DO
-			// algorithm for adding loots randomly to each train unit that is created
+			// adding loots to each train unit 
 			// Money l = new Money();
 			// tu.addLootInCabin(l);
-			// }
 
 			this.setGameStatus(GameStatus.SCHEMIN);
 			//this.setCurrentRound(this.rounds.get(0));
@@ -348,28 +376,37 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	 * All actions will be called from POV of this.currentBandit
 	 */
 	
+	// SEND PROMPT
+	// RECEIVE RESPONSE
 	
-	/*void Rob() {
-		if (this.currentBandit.getPosition().carType == CarType.Car1Roof
-				|| this.currentBandit.getPosition().carType == CarType.Car2Roof
-				|| this.currentBandit.getPosition().carType == CarType.Car3Roof
-				|| this.currentBandit.getPosition().carType == CarType.Car4Roof
-				|| this.currentBandit.getPosition().carType == CarType.Car5Roof
-				|| this.currentBandit.getPosition().carType == CarType.Car6Roof
-				|| this.currentBandit.getPosition().carType == CarType.LocomotiveRoof
-				|| this.currentBandit.getPosition().carType == CarType.StagecoachRoof) {
-			return;
-		} else {
-			if (!this.currentBandit.getPosition().getLootHere().isEmpty()) {
-				// ask the bandit to choose loot
-				Loot l = null;
-				this.currentBandit.addLoot(l);
-			}
+	public Loot RobPrompt(Bandit b, HashSet<Loot> l) {
+		// TO DO
+		// ask b to choose loot from l
+		return l.iterator().next();
+	}
+	
+	public void Rob() {
+		
+		if (!this.currentBandit.getPosition().lootHere.isEmpty()) {
+			Loot l = RobPrompt(this.currentBandit, this.currentBandit.getPosition().lootHere);
+			this.currentBandit.addLoot(l);
 		}
 
 	}
-
-	void shoot() {
+	
+	public Bandit RoofShootPrompt(Bandit b, ArrayList<Bandit> ab) {
+		// TO DO
+		// ask b to choose one target from ab
+		return ab.get(0);
+	}
+	
+	public Bandit CarShootPrompt(Bandit b, ArrayList<Bandit> ab) {
+		// TO DO
+		// ask b to choose one target from ab
+		return ab.get(0);
+	}
+	
+	public void shoot() {
 
 		ArrayList<Bandit> roofShootTarget = new ArrayList<Bandit>();
 		ArrayList<Bandit> carShootTarget = new ArrayList<Bandit>();
@@ -397,7 +434,7 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 
 			if (roofShootTarget.get(0) != null) {
 				// ask the current player to choose which bandit to shoot
-				Bandit b = null;
+				Bandit b = this.RoofShootPrompt(this.currentBandit, roofShootTarget);
 
 				BulletCard bc = this.currentBandit.bullets.remove(0);
 				if (bc != null) {
@@ -414,7 +451,7 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 			}
 			if (carShootTarget.get(0) != null) {
 				// ask the current player to choose which bandit to shoot
-				Bandit b = null;
+				Bandit b = this.CarShootPrompt(this.currentBandit, carShootTarget);
 
 				BulletCard bc = this.currentBandit.bullets.remove(0);
 				if (bc != null) {
@@ -425,9 +462,27 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 
 	}
 
-	void punch() {
+	public Bandit punchBanditPrompt(Bandit b, ArrayList<Bandit> ab) {
+		// TO DO
+		// ask b to choose one target from ab
+		return ab.get(0);
+	}
+	
+	public Loot punchLootPrompt(Bandit b, Bandit b2) {
+		// TO DO
+		// ask b to choose one loot from b2
+		return b2.loot.get(0);
+	}
+	
+	public TrainUnit punchPositionPrompt(Bandit b, Bandit b2) {
+		// TO DO
+		// ask b to choose one position that b2 can be punched to
+		return b2.getPosition().left;
+	}
+	
+	public void punch() {
 		ArrayList<Bandit> otherBandits = new ArrayList<Bandit>();
-		for (Bandit b : this.currentBandit.getPosition().getBandtsHere()) {
+		for (Bandit b : this.currentBandit.getPosition().banditsHere) {
 			if (b != this.currentBandit) {
 				otherBandits.add(b);
 			}
@@ -435,21 +490,21 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 
 		if (otherBandits.get(0) != null) {
 			// ask the player to choose target
-			Bandit target = null;
+			Bandit target = this.punchBanditPrompt(this.currentBandit, otherBandits);
 			if (!target.getLoot().isEmpty()) {
 				// ask the player to choose 1 loot
-				Loot l = null;
+				Loot l = this.punchLootPrompt(this.currentBandit, target);
 				target.removeLoot(l);
 				this.currentBandit.addLoot(l);
 			}
 
 			// ask where to punch to
-			TrainUnit tu = null;
+			TrainUnit tu = this.punchPositionPrompt(this.currentBandit, target);
 			target.setPosition(tu);
 
 		}
 
-	}*/
+	}
 	
 	public void changeFloor() {
 		TrainUnit currentPosition = this.currentBandit.getPosition();
