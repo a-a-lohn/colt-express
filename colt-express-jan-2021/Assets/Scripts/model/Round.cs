@@ -13,7 +13,15 @@ using Sfs2X.Protocol.Serialization;
 //The following code is executed right after creating the SmartFox object:
 // using System.Reflection;
 //        DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
-public enum TurnType
-{
-    
+namespace model {
+    public class Round : SerializableSFSType
+    {
+
+        public string roundTypeAsString; //public RoundType round;
+        public Turn currentTurn;
+        public ArrayList turns;
+
+        public Round() { }
+
+    }
 }

@@ -13,17 +13,7 @@ using Sfs2X.Protocol.Serialization;
 //The following code is executed right after creating the SmartFox object:
 // using System.Reflection;
 //        DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
-public class TrainUnit : SerializableSFSType
+public enum ActionType
 {
-
-    public CarType carType;
-    public TrainUnit otherfloor;
-    public Marshal marshalHere;
-    public ArrayList banditPositions = new ArrayList();
-    public ArrayList lootInCabin = new ArrayList();
-    public ArrayList adjacent = new ArrayList();
-    public ArrayList horses = new ArrayList();
-
-    public TrainUnit() { }
-
+    MOVE, CHANGE_FLOOR, ROB, SHOOT, PUNCH, MOVE_MARSHAL 
 }

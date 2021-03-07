@@ -13,12 +13,9 @@ using Sfs2X.Protocol.Serialization;
 //The following code is executed right after creating the SmartFox object:
 // using System.Reflection;
 //        DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
-public class Money : MonoBehaviour, SerializableSFSType
-{
-
-    public int value;
-    public MoneyType moneyType;
-
-    public Money() { }
-
+namespace model {
+    public enum MoneyType
+    {
+        
+    }
 }

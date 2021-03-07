@@ -13,12 +13,9 @@ using Sfs2X.Protocol.Serialization;
 //The following code is executed right after creating the SmartFox object:
 // using System.Reflection;
 //        DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
-public class Whiskey : SerializableSFSType
-{
-
-    public WhiskeyStatus whiskeyStatus;
-    public WhiskeyType whiskeyType;
-
-    public Whiskey() { }
-
+namespace model {
+    public class BulletCard : SerializableSFSType
+    {
+        public BulletCard() { }
+    }
 }
