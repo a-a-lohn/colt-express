@@ -110,6 +110,38 @@ public class TrainUnit implements SerializableSFSType {
      * TRAIN UNIT METHODS
      */
     
+    //carType
+    public CarType getCarType() {
+    	return this.carType;
+    }
+    public void setCarType(CarType type) {
+    	this.carType = type;
+    }    
+    
+    //carTypeAsString
+    public String getCarTypeAsString() {
+    	return this.carTypeAsString;
+    }
+    public void setCarTypeAsString(String type) {
+    	this.carTypeAsString = type;
+    }
+    
+    //carFloor
+    public CarFloor getCarFloor() {
+    	return this.carFloor;
+    }
+    public void setCarFloor(CarFloor floor) {
+    	this.carFloor = floor;
+    }
+    
+    //carFloorAsString
+    public String getCarFloorAsString() {
+    	return this.getCarFloorAsString();
+    }
+    public void setCarFloorAsString(String floor) {
+    	this.carFloorAsString = floor;
+    }
+    
     //trainLength
     public static int getTrainLength() {
     	return TrainUnit.trainLength;

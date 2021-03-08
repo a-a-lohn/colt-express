@@ -518,7 +518,10 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	}
 	
 	public void move() {
-		//TODO SEND PROMPT
+		TrainUnit currentPosition = currentBandit.getPosition();
+		if(currentPosition.getCarFloor() == CarFloor.CABIN) {
+			//TODO prompt with currentPosition.getRight() and currentPosition.getLeft()
+		}
 		//TODO RECEIVE RESPONSE
 	}
 	
