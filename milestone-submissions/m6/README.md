@@ -1,4 +1,4 @@
-# Milestone 6: Colt Express Demonstration (Feb 12 2021)
+# Milestone 6: Colt Express Demonstration (Feb 16 2021)
 
 ## Description
 The goal of this milestone is to show how at least three players go about to start and play a basic game of Colt
