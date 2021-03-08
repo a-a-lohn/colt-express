@@ -35,8 +35,8 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	public ArrayList<Round> rounds = new ArrayList<Round>();
 	public Marshal marshalInstance;
 	public PlayedPile playedPileInstance;
-	public TrainUnit[][] train;
-	public TrainUnit[] stagecoach;
+	public TrainUnit[][] train; // change to 2 arrays
+	public TrainUnit[] stagecoach; // change to arraylist
 	public ArrayList<Bandit> bandits = new ArrayList<Bandit>();
 	transient public HashMap<Bandit, User> banditmap = new HashMap<Bandit, User>();
 	public static ColtMultiHandler handler;
@@ -548,6 +548,7 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
         	//TODO: receive choice;
         }
         else if(this.currentRound.getCurrentTurn().getTurnType() == TurnType.TUNNEL) {
+        	// this.currentRound.getCurrentTurn().getTurnTypeAsString().equals("TUNNEL")
         	c.setFaceDown(true);
         }
 
