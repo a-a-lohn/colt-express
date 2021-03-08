@@ -37,14 +37,20 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		String command = params.getUtfString(SFSExtension.MULTIHANDLER_REQUEST_ID);
 		ISFSObject rtn = SFSObject.newInstance();
 		
-		if(command.equals("enterChooseCharacterScene")) {
+		switch(command) {
+		case("enterChooseCharacterScene"): handleEnterChooseCharacterScene(sender, params, rtn);
+		case("chosenCharacter"):handleChosenCharacter(sender, params, rtn);
+		case("testSerial"): testSerial(sender, rtn);
+		case("newGameState"): handleNewGameState(params,rtn);
+		default: trace("invalid command passed to multihandler");
+		}
+		
+		/*if(command.equals("enterChooseCharacterScene")) {
 			 handleEnterChooseCharacterScene(sender, params, rtn);
 		}
 		else if(command.equals("chosenCharacter")) {
 			handleChosenCharacter(sender, params, rtn);
-		} else if(command.equals("newGameState")) {
-			handleNewGameState(params, rtn);
-		}
+		}*/
 		
 		//ISFSArray banditsArray = SFSArray.newInstance();
 		//banditsArray.addClass(b);
@@ -63,6 +69,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	}
 	
 	public void updateGameState(ISFSObject rtn) {
+		GameManager gm = GameManager.getInstance();
 		rtn.putClass("gm", gm);
 		sendToAllUsers(rtn, "updateGameState");
 	}	
@@ -94,7 +101,6 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 			//TODO: handle error
 		}
 		gm.chosenCharacter(sender, character, numPlayers);
-		
 		int numChosen = gm.getBandits().size();
 		System.out.println("Num players: " + numPlayers + " numChosen: " + numChosen);
 		if(numChosen == numPlayers) {
@@ -141,6 +147,15 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 			}
 		}
 		return characterStrings;
+	}
+	
+	private void testSerial(User sender, ISFSObject rtn) {
+		GameManager gm = GameManager.getInstance();
+		Bandit b = new Bandit(Character.BELLE);
+		gm.bandits.add(b);
+		gm.initializeGame();
+		rtn.putClass("gm", gm);
+		sendToSender(sender, rtn, "testSerial");
 	}
 	
 }

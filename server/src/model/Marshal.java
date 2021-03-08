@@ -15,7 +15,7 @@ public class Marshal implements SerializableSFSType {
     public static Marshal instance;
 
   //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
-    //public Marshal() {}
+    public Marshal() {}
     
     public static Marshal createMarshal() {
     	getInstance();

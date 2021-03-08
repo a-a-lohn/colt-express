@@ -18,6 +18,11 @@ namespace model {
     {
 
         public string carTypeAsString; //public CarType carType;
+        public string carFloorAsString
+        [ScriptIgnore]
+        public CarType carType;
+        [ScriptIgnore]
+        public CarFloor carFloor;
 
         public TrainUnit above;
         public TrainUnit below;

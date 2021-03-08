@@ -21,7 +21,9 @@ public class TrainUnit implements SerializableSFSType {
 	transient public static TrainUnit[] stagecoach;
 	
     public CarType carType;
+    public CarFloor carFloor;
     public String carTypeAsString;
+    public String carFloorAsString;
     
     public TrainUnit above = null;
     public TrainUnit below = null;
@@ -37,8 +39,11 @@ public class TrainUnit implements SerializableSFSType {
     //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
     public TrainUnit() {}
     
-    private TrainUnit(CarType carType) {
+    private TrainUnit(CarType carType, CarFloor carFloor) {
     	this.carType = carType;
+    	this.carFloor = carFloor;
+    	this.carTypeAsString = carType.toString();
+    	this.carFloorAsString = carFloor.toString();
     	//TODO: createGraphic()
     }
     
@@ -57,12 +62,16 @@ public class TrainUnit implements SerializableSFSType {
     	final int trainLength = numberOfBandits + 1;
     	
     	TrainUnit[][] train = new TrainUnit[2][trainLength];
-    	TrainUnit locoCabin = new TrainUnit(CarType.LocomotiveCabin);
-    	TrainUnit locoRoof = new TrainUnit(CarType.LocomotiveRoof);
+    	TrainUnit locoCabin = new TrainUnit(CarType.LOCOMOTIVE, CarFloor.CABIN);
+    	TrainUnit locoRoof = new TrainUnit(CarType.LOCOMOTIVE, CarFloor.ROOF);
     	
     	//Create locomotive
     	locoCabin.above = locoRoof;
     	locoCabin.isMarshalHere = true;
+    	Marshal m = Marshal.getInstance();
+    	m.setMarshalPosition(locoCabin);
+    	//TODO: put strongbox
+    	//locoRoof.below = Optional.of(locoCabin);
     	locoRoof.below = locoCabin;
     	
     	//TODO: Add locomotive to array
@@ -86,8 +95,8 @@ public class TrainUnit implements SerializableSFSType {
     public static TrainUnit[] createStagecoach() {
     	TrainUnit[] stagecoach = new TrainUnit[2];
     	
-    	TrainUnit cabin = new TrainUnit(CarType.StagecoachCabin);
-    	TrainUnit roof = new TrainUnit(CarType.StagecoachRoof);
+    	TrainUnit cabin = new TrainUnit(CarType.STAGECOACH, CarFloor.CABIN);
+    	TrainUnit roof = new TrainUnit(CarType.STAGECOACH, CarFloor.ROOF);
     	
     	stagecoach[0] = roof;
     	stagecoach[1] = cabin;
@@ -100,6 +109,38 @@ public class TrainUnit implements SerializableSFSType {
     /**
      * TRAIN UNIT METHODS
      */
+    
+    //carType
+    public CarType getCarType() {
+    	return this.carType;
+    }
+    public void setCarType(CarType type) {
+    	this.carType = type;
+    }    
+    
+    //carTypeAsString
+    public String getCarTypeAsString() {
+    	return this.carTypeAsString;
+    }
+    public void setCarTypeAsString(String type) {
+    	this.carTypeAsString = type;
+    }
+    
+    //carFloor
+    public CarFloor getCarFloor() {
+    	return this.carFloor;
+    }
+    public void setCarFloor(CarFloor floor) {
+    	this.carFloor = floor;
+    }
+    
+    //carFloorAsString
+    public String getCarFloorAsString() {
+    	return this.getCarFloorAsString();
+    }
+    public void setCarFloorAsString(String floor) {
+    	this.carFloorAsString = floor;
+    }
     
     //trainLength
     public static int getTrainLength() {

@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -97,11 +98,48 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 		this.playedPileInstance = PlayedPile.getInstance();
 
 	}*/
-	
+
+
+	//this method should only be called from if-else block in chosenCharacter
 	public void initializeGame() {
-		//TODO: implement this method
-		//this should instantiate all the objects related to the game(trains, marshal, etc.) and store them in the attributes
-		//I.e., should do essentially what the above commented constructor is doing
+		//set train-related attributes
+		this.stagecoach = TrainUnit.createStagecoach();
+		//this.train = TrainUnit.createTrain(bandits.size());
+		ArrayList<Bandit> bandits = this.getBandits();
+		for (Bandit b: bandits) {
+			//initialize each bandit cards, purse
+			b.createStartingCards();
+			b.createHand();
+			b.createBulletCards();
+			b.createStartingPurse();
+			//TODO: place bandits
+		}
+		this.marshalInstance = Marshal.getInstance();
+		//TODO: initialize round cards, round attributes/create round constructor
+		Round current = new Round();
+		Collections.shuffle(this.bandits); //<- to decide who goes first, shuffle bandit list
+		this.currentBandit = this.bandits.get(0);
+		this.rounds.add(current);
+		this.currentRound = current;
+		this.setUpPositions(this.bandits);
+		//
+		Marshal marshal = new Marshal();
+		Money strongbox = new Money(MoneyType.STRONGBOX, 1000);
+		marshal.setMarshalPosition(this.train[1][this.bandits.size()]);
+		strongbox.setPosition(this.train[1][this.bandits.size()]);
+		//
+		// TODO: create netural bullet card
+	}
+	
+	public void endOfTurn() {
+		int index = this.bandits.indexOf(this.currentBandit);
+		index++;
+		if (index<this.bandits.size()) {
+			this.currentBandit = this.bandits.get(index);
+		}
+		else {
+			//TODO: deal with end of round 
+		}
 	}
 	
 	public GameManager() {};
@@ -269,7 +307,8 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	}
 
 	public ArrayList<Bandit> getBandits() {
-		return this.bandits;
+		ArrayList<Bandit> b = (ArrayList<Bandit>) this.bandits.clone();
+		return b;
 	}
 
 	/**
@@ -322,7 +361,7 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	}
 	
 	//void chosenCharacter(int playerId, Character c) {
-	public Bandit chosenCharacter(User player, Character c, int numPlayers) {
+	public void chosenCharacter(User player, Character c, int numPlayers) {
 		Bandit newBandit = new Bandit(c);
 		this.bandits.add(newBandit);
 		this.banditmap.put(newBandit, player);
@@ -332,41 +371,11 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 		if (!ready) {
 			System.out.println("Not all players are ready!");
 		} else {
-			int numP = this.getNumOfPlayers();
-			for (int i = 0; i < numP; i++) {
-				// TO DO
-				// Here create new TrainUnit object
-				// this.addTrainUnits(new TrainUnit());
-			}
-
-			// I COMMENTED MOST OF THIS OUT BC IT CAUSES A SERIALIZATION ERROR SINCE THE FIELDS OF THE OBJECTS BEING CREATED
-			// ARE NOT ALL PUBLIC -- Aaron
-			
-			for (Bandit b : this.bandits) {
-				b.createStartingCards();
-				b.createBulletCards();
-				b.createStartingPurse();
-			}
-
-			this.setUpPositions(this.bandits);
-
-			Marshal marshal = new Marshal();
-
-			Money strongbox = new Money(MoneyType.STRONGBOX, 1000);
-
-			marshal.setMarshalPosition(this.train[1][this.bandits.size()]);
-			strongbox.setPosition(this.train[1][this.bandits.size()]);
-
-			// TO DO
-			// adding loots to each train unit 
-			// Money l = new Money();
-			// tu.addLootInCabin(l);
-
+			this.initializeGame();
 			this.setGameStatus(GameStatus.SCHEMIN);
+		}
 			//this.setCurrentRound(this.rounds.get(0));
 			// set waiting for input to be true;
-		}
-		return newBandit;
 	}
 	
 	
@@ -410,23 +419,10 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 
 		ArrayList<Bandit> roofShootTarget = new ArrayList<Bandit>();
 		ArrayList<Bandit> carShootTarget = new ArrayList<Bandit>();
-		if (this.currentBandit.getPosition().carType == CarType.Car1Roof
-				|| this.currentBandit.getPosition().carType == CarType.Car2Roof
-				|| this.currentBandit.getPosition().carType == CarType.Car3Roof
-				|| this.currentBandit.getPosition().carType == CarType.Car4Roof
-				|| this.currentBandit.getPosition().carType == CarType.Car5Roof
-				|| this.currentBandit.getPosition().carType == CarType.Car6Roof
-				|| this.currentBandit.getPosition().carType == CarType.LocomotiveRoof
-				|| this.currentBandit.getPosition().carType == CarType.StagecoachRoof) {
+		if (this.currentBandit.getPosition().carFloor == CarFloor.ROOF) {
 			for (Bandit b : this.bandits) {
 				if (b != this.currentBandit) {
-					if (b.getPosition().carType == CarType.Car1Roof || b.getPosition().carType == CarType.Car2Roof
-							|| b.getPosition().carType == CarType.Car3Roof
-							|| b.getPosition().carType == CarType.Car4Roof
-							|| b.getPosition().carType == CarType.Car5Roof
-							|| b.getPosition().carType == CarType.Car6Roof
-							|| b.getPosition().carType == CarType.LocomotiveRoof
-							|| b.getPosition().carType == CarType.StagecoachRoof) {
+					if (b.getPosition().carFloor == CarFloor.ROOF) {
 						roofShootTarget.add(b);
 					}
 				}
@@ -522,7 +518,10 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	}
 	
 	public void move() {
-		//TODO SEND PROMPT
+		TrainUnit currentPosition = currentBandit.getPosition();
+		if(currentPosition.getCarFloor() == CarFloor.CABIN) {
+			//TODO prompt with currentPosition.getRight() and currentPosition.getLeft()
+		}
 		//TODO RECEIVE RESPONSE
 	}
 	

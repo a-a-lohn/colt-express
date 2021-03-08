@@ -1,6 +1,9 @@
 package model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 
 import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
 
@@ -309,6 +312,15 @@ public class Bandit implements SerializableSFSType {
 			c.setBelongsTo(this);
 		}
 
+	}
+	
+	public void createHand() {
+		Collections.shuffle(this.deck, new Random(System.currentTimeMillis()));
+		for (int i =0; i<6; i++) {
+			Card c = this.deck.get(0);
+			this.hand.add(c);
+			//this.deck.remove(c);
+		}
 	}
 
 	public void createBulletCards() {
