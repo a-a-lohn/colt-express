@@ -25,10 +25,48 @@ namespace model {
         public static GameManager instance;
         public static Marshal marshalInstance;
         public static PlayedPile playedPileInstance; 
-        public ArrayList trainUnits;
+       //public ArrayList trainUnits;
+        //public ArrayList stagecoach;
         public ArrayList bandits;
 
         public GameManager() { }
 
+        public void PlayTurn() {
+            if(/*currentBandit == MYBANDIT*/true) {
+                if(strGameStatus == "SCHEMIN") {
+                    // calculateCardsAvailable()
+                    //promptChooseCardOrDrawCards(Arraylist of cards); -- Makes objects clickable (plus drawcard) (of class types from gm), can be implemented in a separate class
+                }
+                else if (strGameStatus == "STEALIN") {
+                    if (/*playedPileInstance.Pop() == "PUNCH"*/true) {
+                        calculatePunchTargets();
+                    }
+                }
+            }
+        }
+
+        public void PlayCard(ActionCard c) { // -- Called from front-end
+            //...
+            // CARRY OUT END OF MOVE / READY FOR NEXT MOVE (CHANGE BANDIT TO NEXT PLAYER, ETC.)
+            GameBoard.SendNewGameState();
+        }
+
+        public void DrawCards() { // -- Called from front-end
+            //...
+        }
+
+
+        private void calculatePunchTargets() {
+            //...
+            //promptPunch(/*arraylist of bandits*/); -- Makes objects clickable
+            // this method sets clickable and action global variables to the clickable items and to what should be called next, respectively
+        }
+
+        private void punch(Bandit b) { // -- Called from front-end
+            // CARRY OUT THE PUNCH
+            // CARRY OUT END OF MOVE / READY FOR NEXT MOVE (CHANGE BANDIT TO NEXT PLAYER, ETC.)
+            GameBoard.SendNewGameState();
+        }
+        
     }
 }

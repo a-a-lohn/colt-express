@@ -26,9 +26,8 @@ namespace model {
         public ArrayList hand = new ArrayList();
         public ArrayList discardPile = new ArrayList();
 
-        public GameObject clickable;
-
         public Bandit() { }
+
 
     }
 }

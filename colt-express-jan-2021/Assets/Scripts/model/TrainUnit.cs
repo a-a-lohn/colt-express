@@ -17,13 +17,23 @@ namespace model {
     public class TrainUnit : SerializableSFSType
     {
 
-        public string strCarType; //public CarType carType;
-        public TrainUnit otherfloor;
-        public Marshal marshalHere;
-        public ArrayList banditPositions;
-        public ArrayList lootInCabin;
-        public ArrayList adjacent;
-        public ArrayList horses;
+        public string carTypeAsString; //public CarType carType;
+        public string carFloorAsString;
+        //[ScriptIgnore]
+        public CarType carType;
+        //[ScriptIgnore]
+        public CarFloor carFloor;
+
+        public TrainUnit above;
+        public TrainUnit below;
+        public TrainUnit left;
+        public TrainUnit right;
+        public TrainUnit beside;
+
+        public bool isMarshalHere;
+        public ArrayList banditsHere;
+        public ArrayList lootHere;
+        public ArrayList horsesHere;
 
         public TrainUnit() { }
 
