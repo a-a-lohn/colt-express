@@ -33,7 +33,7 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	public String strGameStatus;
 	public Round currentRound;
 	public Bandit currentBandit;
-	public ArrayList<Round> rounds = new ArrayList<Round>();
+	public ArrayList<Round> rounds = new ArrayList<Round>(); //CONVENTION FOR DECK: POSITION DECK.SIZE() IS TOP OF DECK, POSITION 0 IS BOTTOM OF DECK
 	public Marshal marshalInstance;
 	public PlayedPile playedPileInstance;
 	public TrainUnit[][] train; // change to 2 arrays
@@ -42,7 +42,80 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	transient public HashMap<Bandit, User> banditmap = new HashMap<Bandit, User>();
 	public static ColtMultiHandler handler;
 	
-
+	
+	
+	
+	/**
+	 * --RUN GAME--
+	 * Moves the game forward between phases
+	 * All methods are called from here
+	 * 
+	 * @pre
+	 *           can only be called from chosenCharacter after game has been initialized
+	 */
+	
+	
+	public void runGame() {
+		for(Round round : rounds) {
+			currentRound = round; //ROUND CARD MUST BE DISPLAYED
+			//NOTE TO HU: MAKE SURE EACH BANDIT'S DECK IS INITIALIZED IN THE INITIALIZE GAME METHOD
+			schemin();
+			stealin();
+		}
+		
+	}
+	
+	public void schemin() {
+		
+		//DRAW CARDS
+		for(Bandit b : this.bandits) {
+			this.currentBandit = b;
+			int cardsToDraw = 6;
+			if(currentBandit.getCharacter() == Character.DOC) { cardsToDraw=7; }
+			this.drawCards(cardsToDraw);
+		}
+		
+		//PLAY CARDS
+		ArrayList<Turn> turns = this.currentRound.getTurns();
+		for(Turn t : turns) {
+			if(t.getTurnType() == TurnType.STANDARD || t.getTurnType() == TurnType.TUNNEL) {
+				for(Bandit b : this.bandits) {
+					this.currentBandit = b;
+					//PROMPT CHOICE OF DRAW OR PLAY CARD HERE
+					//RECEIVE RESPONSE
+					if(/*IF CHOICE IS PLAY CARD*/true) {
+						//PROMPT CHOICE OF ACTION CARD
+						//RECEIVE RESPONSE ACTIONCARD C
+						//this.playActionCard(c);
+					}
+					/*else { //IF CHOICE IS DRAW
+						int cardsToDraw = 3;
+						this.drawCards(cardsToDraw);
+					}*/
+				}
+			}
+			
+			else if(t.getTurnType() == TurnType.SWITCHING) {
+				//TODO first player goes, then last player, back down to second player
+				this.currentBandit = bandits.get(0);
+				for(int i=bandits.size()-1; i>0; i--) {
+					this.currentBandit = bandits.get(i);
+				}
+			}
+			
+			else if(t.getTurnType() == TurnType.SPEEDINGUP) {
+				//TODO each player gets two turns
+				for(Bandit b : this.bandits) {
+					this.currentBandit = b;
+				}
+			}
+		}
+	}
+	
+	public void stealin() {
+		
+	}
+	
 	public static void setHandler(ColtMultiHandler handle) {
 		handler = handle;
 		//ISFSObject rtn = SFSObject.newInstance();
@@ -373,6 +446,7 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 		} else {
 			this.initializeGame();
 			this.setGameStatus(GameStatus.SCHEMIN);
+			this.runGame();
 		}
 			//this.setCurrentRound(this.rounds.get(0));
 			// set waiting for input to be true;
@@ -557,5 +631,18 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
         //TODO: graphical response
 
     }
+	
+	/**
+	 * 
+	 * @param cardsToDraw
+	 *           the number of cards to add to the Bandit's hand from the top of their deck
+	 * @pre currentBandit must be set correctly
+	 */
+	public void drawCards(int cardsToDraw) {
+		for(int i = currentBandit.sizeOfDeck()-1; i>currentBandit.sizeOfDeck()-cardsToDraw-1; i--) {
+			Card toAdd = currentBandit.removeDeckAt(i);
+			currentBandit.addHand(toAdd);
+		}
+	}
 
 }
