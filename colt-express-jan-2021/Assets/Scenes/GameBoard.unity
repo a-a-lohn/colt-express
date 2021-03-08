@@ -2485,8 +2485,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 111.3, y: 178.8}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 128.51268, y: 167.3467}
+  m_SizeDelta: {x: 99.4979, y: 83.6778}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &677934376
 GameObject:
@@ -2747,7 +2747,7 @@ GameObject:
   - component: {fileID: 734506204}
   - component: {fileID: 734506203}
   - component: {fileID: 734506207}
-  - component: {fileID: 734506208}
+  - component: {fileID: 734506209}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -2866,7 +2866,7 @@ SortingGroup:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &734506208
+--- !u!114 &734506209
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2875,9 +2875,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 734506202}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eef9e68e7eea64a27b31ea3f2a703590, type: 3}
+  m_Script: {fileID: 11500000, guid: 0bfe9ec4456ea4eac87ec36c9465fc77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  announcement: 'ROB: You can take a Loot token of your choice from the Car where
+    you are currently located.'
 --- !u!1 &749691587
 GameObject:
   m_ObjectHideFlags: 0
@@ -4452,8 +4454,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -78.9, y: 180.5}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -60.732166, y: 168.76917}
+  m_SizeDelta: {x: 99.4979, y: 83.6778}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1184717397
 GameObject:
@@ -5835,8 +5837,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -362, y: 166}
-  m_SizeDelta: {x: 87.772, y: 31.65}
+  m_AnchoredPosition: {x: -368.67, y: 168.48}
+  m_SizeDelta: {x: 72.887, y: 29.021}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1462960928
 MonoBehaviour:
@@ -5956,8 +5958,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 16.6, y: 181.3}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 34.288296, y: 169.43864}
+  m_SizeDelta: {x: 99.4979, y: 83.6778}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1557642586
 GameObject:
@@ -6101,9 +6103,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1574924010}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e23e2014e485b46308d0c1cec650bed2, type: 3}
+  m_Script: {fileID: 11500000, guid: 0bfe9ec4456ea4eac87ec36c9465fc77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  announcement: 'ROB: You can take a Loot token of your choice from the Car where
+    you are currently located.'
 --- !u!61 &1574924014
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6248,8 +6252,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -173.6, y: 181.3}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -154.95673, y: 169.43864}
+  m_SizeDelta: {x: 99.4979, y: 83.6778}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1734130465
 GameObject:
@@ -6287,8 +6291,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -270, y: 183}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -250.87265, y: 170.86111}
+  m_SizeDelta: {x: 99.4979, y: 83.6778}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1774342456
 GameObject:
@@ -6995,8 +6999,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 204.3, y: 178}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 221.04575, y: 166.67719}
+  m_SizeDelta: {x: 99.4979, y: 83.6778}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1959723448
 GameObject:
@@ -7301,8 +7305,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -358, y: 227}
-  m_SizeDelta: {x: 87.77, y: 33.09}
+  m_AnchoredPosition: {x: -368.16867, y: 125.26847}
+  m_SizeDelta: {x: 64.2819, y: 31.7028}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2111595372
 MonoBehaviour:
