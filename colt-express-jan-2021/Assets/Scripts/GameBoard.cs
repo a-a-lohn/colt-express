@@ -49,9 +49,9 @@ public class GameBoard : MonoBehaviour
 	public Button chooseChar;
     public Text buttonLabel;
 	
-    public Bandit b;
+    // public Bandit b;
 
-	public static GameManager gm;
+	//public static GameManager gm;
 
 	// LIST OF ALL GAME OBJECTS HERE
     public GameObject cheyenne;
@@ -111,8 +111,6 @@ public class GameBoard : MonoBehaviour
 		objects.Add(gem3, null);
 		objects.Add(gem4, null);
 		objects.Add(gem5, null);
-
-
     }
 
     // Update is called once per frame
@@ -171,6 +169,7 @@ public class GameBoard : MonoBehaviour
         // objects[cheyenne] = gm.ban...
 		// objects[cheyenne] = gm.
 		// ** Assign the game object cheyenne to the Bandit cheyenne ** 
+		// ** ASSUMPTION: gm.bandits save the bandits in a fixed order. i.e. Belle, Cheyenne, Tuco, ... ** 
 		Bandit banditChey = (Bandit) gm.bandits[0]; 
 		Bandit banditBelle = (Bandit) gm.bandits[0];
 		// ... 
@@ -191,7 +190,9 @@ public class GameBoard : MonoBehaviour
         }
     }
 
-	private void ChooseCharacter(Character c) {
+	// the following method is called every time 
+	// a character is clicked, CharacterChoice(character) is called, and it passes the chosen character to the server. 
+	void ChooseCharacter(Character c) {
 		// **Assumption: Character has a function(getName) that returns the name of the character**
         ISFSObject obj = SFSObject.NewInstance();
 		string cName = c.getName; 
