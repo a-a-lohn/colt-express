@@ -14,8 +14,16 @@ using Sfs2X.Protocol.Serialization;
 // using System.Reflection;
 //        DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
 namespace model {
-    public class BulletCard : SerializableSFSType
-    {
-        public BulletCard() { }
+    public class BulletCard : Card, SerializableSFSType {
+    
+        public bool fired;
+        
+        // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
+        public BulletCard() {}
+        
+        public BulletCard(Bandit belongsTo) {
+            this.belongsTo = belongsTo;
+            this.fired = false;
+        }
     }
 }

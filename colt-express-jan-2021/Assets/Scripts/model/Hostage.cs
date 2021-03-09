@@ -14,24 +14,67 @@ using Sfs2X.Protocol.Serialization;
 // using System.Reflection;
 //        DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
 namespace model {
-    public class Hostage : SerializableSFSType
-    {
+    public class Hostage : SerializableSFSType {
+    
+        public HostageType hostageType;
+        public string hostageTypeAsString;
+        
+        /// /FOR NETWORKING
+        public Option<Bandit> capturedBy;
+        
+        // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
+        public Hostage() {}
+        
+        // hostageType
+        public HostageType getHostageType() {
+            return this.hostageType;
+        }
+        
+        public void setHostageType(HostageType hostage) {
+            this.hostageType = hostage;
+        }
+        
+        // hostageTypeAsString
+        public string getHostageTypeAsString() {
+            return this.hostageTypeAsString;
+        }
+        
+        public void setHostageTypeAsString(string hostage) {
+            this.hostageTypeAsString = hostage;
+        }
+        
+        // capturedBy
+        public Bandit getCapturedBy() {
+            return this.capturedBy.value;
+        }
+        
+        public void setCapturedBy(Bandit capturedBy) {
+            this.capturedBy = Option<Bandit>.Some(capturedBy);
+        }
 
-        public string hostageTypeAsString; //public HostageType hostageType;
-        public Bandit capturedBy;
-        
-        public Hostage() {
-            
-        }
-        
-        Bandit getCapturedBy() {
-            return this.capturedBy;
-        }
-        
-        bool setCapturedBy(Bandit newObject) {
-            this.capturedBy = newObject;
-            return true;
+        // Customized Optional type 
+
+        public struct Option<T>
+        {
+            public static Option<T> None => default;
+            public static Option<T> Some(T value) => new Option<T>(value);
+
+            public readonly bool isSome;
+            public readonly T value;
+
+            Option(T value)
+            {
+                this.value = value;
+                isSome = this.value is { };
+            }
+
+            public bool IsSome(out T value)
+            {
+                value = this.value;
+                return isSome;
+            }
         }
 
     }
+
 }

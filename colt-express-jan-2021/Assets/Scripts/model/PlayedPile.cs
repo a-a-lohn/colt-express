@@ -14,14 +14,74 @@ using Sfs2X.Protocol.Serialization;
 // using System.Reflection;
 //        DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
 namespace model {
-    public class PlayedPile : SerializableSFSType
-    {
-
-        // STATIC FIELDS ARE NOT SERIALIZED
+    public class PlayedPile : SerializableSFSType {
+    
         public static PlayedPile instance;
-        public ArrayList playedCards;
-
-        public PlayedPile() { }
-
+        public ArrayList playedCards = new ArrayList();
+        
+        // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
+        public PlayedPile() {}
+        
+        public void addPlayedCardsAt(int index, ActionCard a) {
+            bool contains = this.playedCards.Contains(a);
+            if (contains) {
+                return;
+            }
+            
+            this.playedCards.Insert(index, a);
+        }
+        
+        public void removePlayedCardsAt(int index) {
+            if ((this.playedCards.Count > index)) {
+                this.playedCards.Remove(index);
+            }
+            
+        }
+        
+        public ActionCard getPlayedCardsAt(int index) {
+            if ((this.playedCards.Count > index)) {
+                return (ActionCard)this.playedCards[index];
+            }
+            
+            return null;
+        }
+        
+        public void addPlayedCards(ActionCard a) {
+            bool contains = this.playedCards.Contains(a);
+            if (contains) {
+                return;
+            }
+            
+            this.playedCards.Add(a);
+        }
+        
+        public void removePlayedCards(ActionCard a) {
+            if (this.playedCards.Contains(a)) {
+                this.playedCards.Remove(a);
+            }
+            
+        }
+        
+        public bool containsPlayedCards(ActionCard a) {
+            bool contains = this.playedCards.Contains(a);
+            return contains;
+        }
+        
+        public int sizeOfPlayedCards() {
+            int size = this.playedCards.Count;
+            return size;
+        }
+        
+        public ArrayList getPlayedCards() {
+            return this.playedCards;
+        }
+        
+        public static PlayedPile getInstance() {
+            if ((instance == null)) {
+                instance = new PlayedPile();
+            }
+            
+            return instance;
+        }
     }
 }

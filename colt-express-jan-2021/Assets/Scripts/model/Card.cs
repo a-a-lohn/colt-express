@@ -11,18 +11,18 @@ using Sfs2X.Protocol.Serialization;
 
 namespace model {
     public abstract class Card : SerializableSFSType {
-      
-        public Bandit belongsTo;
-
-        public Card() {}
-        
-        Bandit getBelongsTo() {
-          return this.belongsTo;
-       }
-        
-        bool setBelongsTo(Bandit newObject) {
-            this.belongsTo = newObject;
-            return true;
-        }
+    
+    public Bandit belongsTo;
+    
+    // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
+    public Card() {}
+    
+    public Bandit getBelongsTo() {
+        return this.belongsTo;
     }
+    
+    public void setBelongsTo(Bandit belongsTo) {
+        this.belongsTo = belongsTo;
+    }
+}
 }

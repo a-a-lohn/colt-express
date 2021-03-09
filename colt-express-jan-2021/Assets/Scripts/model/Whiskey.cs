@@ -14,13 +14,53 @@ using Sfs2X.Protocol.Serialization;
 // using System.Reflection;
 //        DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
 namespace model {
-    public class Whiskey : SerializableSFSType
-    {
-
-        public string whiskeyStatusAsString; //public WhiskeyStatus whiskeyStatus;
-        public string whiskeyTypeAsString; //public WhiskeyType whiskeyType;
-
-        public Whiskey() { }
-
+    public class Whiskey : Loot, SerializableSFSType {
+    
+        public WhiskeyType whiskeyType;
+        public string whiskeyTypeAsString;
+        
+        // FOR NETWORKING
+        public WhiskeyStatus whiskeyStatus;
+        public string whiskeyStatusAsString;
+        
+        // FOR NETWORKING
+        // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
+        public Whiskey() {}
+        
+        // whiskeyType
+        public WhiskeyType getWhiskeyType() {
+            return this.whiskeyType;
+        }
+        
+        public void setWhiskeyType(WhiskeyType p) {
+            this.whiskeyType = p;
+        }
+        
+        // whiskeyTypeAsString
+        public string getWhiskeyTypeAsString() {
+            return this.whiskeyTypeAsString;
+        }
+        
+        public void setWhiskeyTypeAsString(string s) {
+            this.whiskeyTypeAsString = s;
+        }
+        
+        // whiskeyStatus
+        public WhiskeyStatus getWhiskeyStatus() {
+            return this.whiskeyStatus;
+        }
+        
+        public void setWhiskeyStatus(WhiskeyStatus p) {
+            this.whiskeyStatus = p;
+        }
+        
+        // whiskeyStatusAsString
+        public string getWhiskeyStatusAsString() {
+            return this.whiskeyStatusAsString;
+        }
+        
+        public void setWhiskeyStatusAsString(string s) {
+            this.whiskeyStatusAsString = s;
+        }
     }
 }

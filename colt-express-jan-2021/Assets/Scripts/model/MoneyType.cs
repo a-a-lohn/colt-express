@@ -16,6 +16,6 @@ using Sfs2X.Protocol.Serialization;
 namespace model {
     public enum MoneyType
     {
-        
+        PURSE, STRONGBOX, RUBY
     }
 }
