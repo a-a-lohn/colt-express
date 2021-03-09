@@ -48,6 +48,17 @@ public class GameBoard : MonoBehaviour
 	// LIST OF ALL GAME OBJECTS HERE
     public GameObject cheyenne;
 	public GameObject belle; 
+	public GameObject tuco; 
+	public GameObject doc; 
+	public GameObject ghost; 
+	public GameObject django; 
+	
+	public GameObject gem1; 
+	public GameObject gem2; 
+	public GameObject gem3; 
+	public GameObject gem4;
+	public GameObject gem5;
+
 	// public GameObject tuco;
 	// public GameObject doc; 
 	// public GameObject django; 
@@ -76,6 +87,18 @@ public class GameBoard : MonoBehaviour
         debugText.text = "";
 		//SendNewGameState();
 		objects.Add(cheyenne, null);
+		objects.Add(belle, null);
+		objects.Add(tuco, null);
+		objects.Add(doc, null);
+		objects.Add(ghost, null);
+		objects.Add(django, null);
+
+		objects.Add(gem1, null);
+		objects.Add(gem2, null);
+		objects.Add(gem3, null);
+		objects.Add(gem4, null);
+		objects.Add(gem5, null);
+
 
     }
 
@@ -141,7 +164,7 @@ public class GameBoard : MonoBehaviour
 		objects[cheyenne] = gm.bandits[0]; 
 		// ** adding to the dictionary ** 
 		objects.Add(cheyenne, banditChey); 
-		cheyenne = objects[cheyenne]
+		cheyenne = objects[cheyenne];
 
 		// assign new gm to all attached scripts here
 		loot.setGame(gm);
