@@ -52,8 +52,10 @@ public class GameBoard : MonoBehaviour
 	// public GameObject doc; 
 	// public GameObject django; 
     
-    
+    // ?? 
     public Dictionary<GameObject, T> objects = new Dictionary<GameObject, T>();
+
+	// public Dictionary<T, GameObject> objects = new Dictionary<T, GameObject>();
 	// NOTE: INITIALIZE THE DICTIONARY FOR EVERY OBJECT HERE FIRST,
 	// ** THE DICTIONARIES ARE INITIALIZED(CLEARED) IN Start() ** 
 	// E.G. objects.Add(cheyenne, null), objects.Add(tuco, null), ...
@@ -74,7 +76,9 @@ public class GameBoard : MonoBehaviour
     {
 		debugTextString = "";
         debugText.text = "";
+
 		//SendNewGameState();
+		// ** THE DICTIONARIES ARE INITIALIZED(CLEARED) IN Start() ** 
 		objects.Add(cheyenne, null);
 
     }
@@ -160,13 +164,17 @@ public class GameBoard : MonoBehaviour
         }
     }
 
-	private void ChooseCharacter() {
+	private void ChooseCharacter(Character c) {
+		// **Assumption: Character has a function(getName) that returns the name of the character**
         ISFSObject obj = SFSObject.NewInstance();
-		obj.PutUtfString("chosenCharacter", "TUCO");
+		string cName = c.getName; 
+		// obj.PutUtfString("chosenCharacter", "TUCO");
+		obj.PutUtfString("chosenCharacter", cName);
         ExtensionRequest req = new ExtensionRequest("gm.chosenCharacter",obj);
         SFS.Send(req);
-        trace("chose Tuco");
+        trace("chose"+cName);
     }
+
 
 	public static void trace(string msg) {
 		debugTextString += (debugTextString != "" ? "\n" : "") + msg;

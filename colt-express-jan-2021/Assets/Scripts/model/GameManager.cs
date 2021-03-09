@@ -58,7 +58,7 @@ namespace model {
 
         private void calculatePunchTargets() {
             //...
-            //promptPunch(/*arraylist of bandits*/); -- Makes objects clickable
+            // promptPunch(/*arraylist of bandits*/); -- Makes objects clickable
             // this method sets clickable and action global variables to the clickable items and to what should be called next, respectively
         }
 
