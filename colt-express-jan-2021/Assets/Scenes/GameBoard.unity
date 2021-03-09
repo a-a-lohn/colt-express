@@ -2007,6 +2007,7 @@ GameObject:
   - component: {fileID: 488911560}
   - component: {fileID: 488911559}
   - component: {fileID: 488911558}
+  - component: {fileID: 488911561}
   m_Layer: 5
   m_Name: Ghost
   m_TagString: Untagged
@@ -2116,6 +2117,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 488911556}
   m_CullTransparentMesh: 1
+--- !u!114 &488911561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 488911556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8eb2303d2cc949cdbd8cb0e17b76923, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &509111310
 GameObject:
   m_ObjectHideFlags: 0
@@ -2813,6 +2826,7 @@ GameObject:
   - component: {fileID: 609776283}
   - component: {fileID: 609776282}
   - component: {fileID: 609776281}
+  - component: {fileID: 609776284}
   m_Layer: 5
   m_Name: Tuco
   m_TagString: Untagged
@@ -2922,6 +2936,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 609776279}
   m_CullTransparentMesh: 1
+--- !u!114 &609776284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609776279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0b01c3b6426243da8a037ad5e113298, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &638333853
 GameObject:
   m_ObjectHideFlags: 0
@@ -3510,7 +3536,6 @@ GameObject:
   - component: {fileID: 734506204}
   - component: {fileID: 734506203}
   - component: {fileID: 734506207}
-  - component: {fileID: 734506209}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -3635,20 +3660,6 @@ SortingGroup:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &734506209
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 734506202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bfe9ec4456ea4eac87ec36c9465fc77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  announcement: 'ROB: You can take a Loot token of your choice from the Car where
-    you are currently located.'
 --- !u!1 &749691587
 GameObject:
   m_ObjectHideFlags: 0
@@ -4123,6 +4134,7 @@ GameObject:
   - component: {fileID: 861067616}
   - component: {fileID: 861067615}
   - component: {fileID: 861067614}
+  - component: {fileID: 861067617}
   m_Layer: 5
   m_Name: Belle
   m_TagString: Untagged
@@ -4232,6 +4244,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 861067612}
   m_CullTransparentMesh: 1
+--- !u!114 &861067617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861067612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39989ce54f42344cc88b5bfd4b4fe5a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &880932330
 GameObject:
   m_ObjectHideFlags: 0
@@ -4496,6 +4520,7 @@ GameObject:
   - component: {fileID: 905480455}
   - component: {fileID: 905480454}
   - component: {fileID: 905480453}
+  - component: {fileID: 905480456}
   m_Layer: 5
   m_Name: Doc
   m_TagString: Untagged
@@ -4605,6 +4630,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 905480451}
   m_CullTransparentMesh: 1
+--- !u!114 &905480456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 905480451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5344a72062ebc41d08cd3fb1f1fd60f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &929800972
 GameObject:
   m_ObjectHideFlags: 0
@@ -5746,7 +5783,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 21.545, y: -135}
+  m_AnchoredPosition: {x: 21.545, y: -138.5}
   m_SizeDelta: {x: 483.09, y: 79.526}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1214098419
@@ -8210,6 +8247,7 @@ GameObject:
   - component: {fileID: 2061015346}
   - component: {fileID: 2061015345}
   - component: {fileID: 2061015344}
+  - component: {fileID: 2061015347}
   m_Layer: 5
   m_Name: Django
   m_TagString: Untagged
@@ -8319,6 +8357,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2061015342}
   m_CullTransparentMesh: 1
+--- !u!114 &2061015347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2061015342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 515763d20c64d445cae2f247bf23f264, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2100086418
 GameObject:
   m_ObjectHideFlags: 0

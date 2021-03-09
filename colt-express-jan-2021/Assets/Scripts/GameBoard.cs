@@ -1,3 +1,11 @@
+using model;
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,7 +22,7 @@ using Sfs2X.Requests;
 using System.Reflection;
 using Sfs2X.Protocol.Serialization;
 
-using model;
+using System.Collections;
 
 public class GameBoard : MonoBehaviour
 {
@@ -22,8 +30,8 @@ public class GameBoard : MonoBehaviour
 	/*
 	Frontend team:
 	-attach choosecharacter strings to characters (attach character strings from
-		 DisplayRemainingCharacters() to characters in the scene so that when the characters are clicked,
-		 CharacterChoice(character) is called that passes the chosen character to the server. This
+		 DisplayRemainingCharacters() to characters in the scene 
+		 so that when the characters are clicked, CharacterChoice(character) is called that passes the chosen character to the server. This
 		 can be done by attaching scripts to each character game object, similar to how it will work for gameobjects on the game board)
 	-Assign all gameobjects in dictionary upon update game state call
 	-implement prompt method in Gamemanager (i.e. set action and clickable global variables)
@@ -53,7 +61,8 @@ public class GameBoard : MonoBehaviour
 	// public GameObject django; 
     
     // ?? 
-    public Dictionary<GameObject, T> objects = new Dictionary<GameObject, T>();
+	// <T> not found // needs to be declared before using 
+    public Dictionary<GameObject, object> objects = new Dictionary<GameObject, object>();
 
 	// public Dictionary<T, GameObject> objects = new Dictionary<T, GameObject>();
 	// NOTE: INITIALIZE THE DICTIONARY FOR EVERY OBJECT HERE FIRST,
@@ -145,7 +154,7 @@ public class GameBoard : MonoBehaviour
 		objects[cheyenne] = gm.bandits[0]; 
 		// ** adding to the dictionary ** 
 		objects.Add(cheyenne, banditChey); 
-		cheyenne = objects[cheyenne]
+		// cheyenne = objects[cheyenne]
 
 		// assign new gm to all attached scripts here
 		loot.setGame(gm);
