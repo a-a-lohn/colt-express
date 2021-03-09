@@ -36,8 +36,10 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	public ArrayList<Round> rounds = new ArrayList<Round>(); //CONVENTION FOR DECK: POSITION DECK.SIZE() IS TOP OF DECK, POSITION 0 IS BOTTOM OF DECK
 	public Marshal marshalInstance;
 	public PlayedPile playedPileInstance;
-	public TrainUnit[][] train; // change to 2 arrays
-	public TrainUnit[] stagecoach; // change to arraylist
+	public TrainUnit[] trainRoof;
+	public TrainUnit[] trainCabin;
+	// public TrainUnit[][] train; // change to 2 arrays
+	// public TrainUnit[] stagecoach; // change to arraylist
 	public ArrayList<Bandit> bandits = new ArrayList<Bandit>();
 	transient public HashMap<Bandit, User> banditmap = new HashMap<Bandit, User>();
 	public static ColtMultiHandler handler;
@@ -176,16 +178,16 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	//this method should only be called from if-else block in chosenCharacter
 	public void initializeGame() {
 		//set train-related attributes
-		this.stagecoach = TrainUnit.createStagecoach();
+		//this.stagecoach = TrainUnit.createStagecoach();
 		//this.train = TrainUnit.createTrain(bandits.size());
+		this.trainRoof = TrainUnit.createTrainRoof(this.getNumOfPlayers());
+		this.trainCabin = TrainUnit.createTrainCabin(this.getNumOfPlayers());
 		ArrayList<Bandit> bandits = this.getBandits();
 		for (Bandit b: bandits) {
 			//initialize each bandit cards, purse
-			b.createStartingCards();
-			b.createHand();
+			b.createStartingCards(); // also the hand for bandits
 			b.createBulletCards();
 			b.createStartingPurse();
-			//TODO: place bandits
 		}
 		this.marshalInstance = Marshal.getInstance();
 		//TODO: initialize round cards, round attributes/create round constructor
@@ -198,8 +200,8 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 		//
 		Marshal marshal = new Marshal();
 		Money strongbox = new Money(MoneyType.STRONGBOX, 1000);
-		marshal.setMarshalPosition(this.train[1][this.bandits.size()]);
-		strongbox.setPosition(this.train[1][this.bandits.size()]);
+		marshal.setMarshalPosition(this.trainCabin[this.getNumOfPlayers()]);
+		strongbox.setPosition(this.trainCabin[this.getNumOfPlayers()]);
 		//
 		// TODO: create netural bullet card
 	}
@@ -406,30 +408,30 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	public void setUpPositions(ArrayList<Bandit> b) {
 		int numOfBandit = b.size();
 		if (numOfBandit == 2) {
-			b.get(0).setPosition(this.train[1][0]);
-			b.get(1).setPosition(this.train[1][1]);
+			b.get(0).setPosition(this.trainCabin[0]);
+			b.get(1).setPosition(this.trainCabin[1]);
 		} else if (numOfBandit == 3) {
-			b.get(0).setPosition(this.train[1][0]);
-			b.get(1).setPosition(this.train[1][1]);
-			b.get(2).setPosition(this.train[1][0]);
+			b.get(0).setPosition(this.trainCabin[0]);
+			b.get(1).setPosition(this.trainCabin[1]);
+			b.get(2).setPosition(this.trainCabin[0]);
 		} else if (numOfBandit == 4) {
-			b.get(0).setPosition(this.train[1][0]);
-			b.get(1).setPosition(this.train[1][1]);
-			b.get(2).setPosition(this.train[1][0]);
-			b.get(3).setPosition(this.train[1][1]);
+			b.get(0).setPosition(this.trainCabin[0]);
+			b.get(1).setPosition(this.trainCabin[1]);
+			b.get(2).setPosition(this.trainCabin[0]);
+			b.get(3).setPosition(this.trainCabin[1]);
 		} else if (numOfBandit == 5) {
-			b.get(0).setPosition(this.train[1][0]);
-			b.get(1).setPosition(this.train[1][1]);
-			b.get(2).setPosition(this.train[1][2]);
-			b.get(3).setPosition(this.train[1][0]);
-			b.get(4).setPosition(this.train[1][1]);
+			b.get(0).setPosition(this.trainCabin[0]);
+			b.get(1).setPosition(this.trainCabin[1]);
+			b.get(2).setPosition(this.trainCabin[2]);
+			b.get(3).setPosition(this.trainCabin[0]);
+			b.get(4).setPosition(this.trainCabin[1]);
 		} else if (numOfBandit == 6) {
-			b.get(0).setPosition(this.train[1][0]);
-			b.get(1).setPosition(this.train[1][1]);
-			b.get(2).setPosition(this.train[1][2]);
-			b.get(3).setPosition(this.train[1][0]);
-			b.get(4).setPosition(this.train[1][1]);
-			b.get(5).setPosition(this.train[1][2]);
+			b.get(0).setPosition(this.trainCabin[0]);
+			b.get(1).setPosition(this.trainCabin[1]);
+			b.get(2).setPosition(this.trainCabin[2]);
+			b.get(3).setPosition(this.trainCabin[0]);
+			b.get(4).setPosition(this.trainCabin[1]);
+			b.get(4).setPosition(this.trainCabin[2]);
 		} else {return;}
 	}
 	
