@@ -26,6 +26,11 @@ public class Round implements SerializableSFSType {
 	//--EMPTY CONSTRUCTOR FOR SERIALIZATION--
     public Round() {  }
     
+    public Round(RoundType Rt) {
+    	this.roundType = Rt;
+    	this.roundTypeAsString = Rt.toString();
+    }
+    
     public void addTurn(Turn a) {
         if (this.turns.contains(a)){
             return;
