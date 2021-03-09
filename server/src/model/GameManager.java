@@ -43,7 +43,7 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	public ArrayList<Bandit> bandits = new ArrayList<Bandit>();
 	transient public HashMap<Bandit, User> banditmap = new HashMap<Bandit, User>();
 	public static ColtMultiHandler handler;
-	
+	public ArrayList<Card> neutralBulletCard;
 	
 	
 	
@@ -174,7 +174,9 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 
 	}*/
 
-
+	
+	
+	
 	//this method should only be called from if-else block in chosenCharacter
 	public void initializeGame() {
 		//set train-related attributes
@@ -190,12 +192,11 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 			b.createStartingPurse();
 		}
 		this.marshalInstance = Marshal.getInstance();
-		//TODO: initialize round cards, round attributes/create round constructor
-		Round current = new Round();
+		// initialize round cards, round attributes/create round constructor
+		this.rounds = this.createRoundCards(this.getNumOfPlayers());
 		Collections.shuffle(this.bandits); //<- to decide who goes first, shuffle bandit list
 		this.currentBandit = this.bandits.get(0);
-		this.rounds.add(current);
-		this.currentRound = current;
+		this.currentRound = this.rounds.get(0);
 		this.setUpPositions(this.bandits);
 		//
 		Marshal marshal = new Marshal();
@@ -203,7 +204,34 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 		marshal.setMarshalPosition(this.trainCabin[this.getNumOfPlayers()]);
 		strongbox.setPosition(this.trainCabin[this.getNumOfPlayers()]);
 		//
-		// TODO: create netural bullet card
+		// create netural bullet card
+		Card NBullet1 = new BulletCard();
+		Card NBullet2 = new BulletCard();
+		Card NBullet3 = new BulletCard();
+		Card NBullet4 = new BulletCard();
+		Card NBullet5 = new BulletCard();
+		Card NBullet6 = new BulletCard();
+		Card NBullet7 = new BulletCard();
+		Card NBullet8 = new BulletCard();
+		Card NBullet9 = new BulletCard();
+		Card NBullet10 = new BulletCard();
+		Card NBullet11 = new BulletCard();
+		Card NBullet12 = new BulletCard();
+		Card NBullet13 = new BulletCard();
+		this.neutralBulletCard.add(NBullet1);
+		this.neutralBulletCard.add(NBullet2);
+		this.neutralBulletCard.add(NBullet3);
+		this.neutralBulletCard.add(NBullet4);
+		this.neutralBulletCard.add(NBullet5);
+		this.neutralBulletCard.add(NBullet6);
+		this.neutralBulletCard.add(NBullet7);
+		this.neutralBulletCard.add(NBullet8);
+		this.neutralBulletCard.add(NBullet9);
+		this.neutralBulletCard.add(NBullet10);
+		this.neutralBulletCard.add(NBullet11);
+		this.neutralBulletCard.add(NBullet12);
+		this.neutralBulletCard.add(NBullet13);
+		
 	}
 	
 	public void endOfTurn() {
@@ -272,6 +300,111 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	public ArrayList<Round> getRounds() {
 		return this.rounds;
 	}
+	
+	public ArrayList<Round> createRoundCards(int numOfPlayers) {
+    	ArrayList<Round> RoundCards = new ArrayList<Round>();
+    	if (numOfPlayers == 2 || numOfPlayers == 3 || numOfPlayers == 4) {
+    		Round r1 = new Round(RoundType.AngryMarshal);
+    		r1.addTurn(new Turn(TurnType.STANDARD));
+    		r1.addTurn(new Turn(TurnType.STANDARD));
+    		r1.addTurn(new Turn(TurnType.TUNNEL));
+    		r1.addTurn(new Turn(TurnType.SWITCHING));
+    		RoundCards.add(r1);
+    		
+    		Round r2 = new Round(RoundType.SwivelArm);
+    		r2.addTurn(new Turn(TurnType.STANDARD));
+    		r2.addTurn(new Turn(TurnType.TUNNEL));
+    		r2.addTurn(new Turn(TurnType.STANDARD));
+    		r2.addTurn(new Turn(TurnType.STANDARD));
+    		RoundCards.add(r2);
+    		
+    		Round r3 = new Round(RoundType.Braking);
+    		r3.addTurn(new Turn(TurnType.STANDARD));
+    		r3.addTurn(new Turn(TurnType.STANDARD));
+    		r3.addTurn(new Turn(TurnType.STANDARD));
+    		r3.addTurn(new Turn(TurnType.STANDARD));
+    		RoundCards.add(r3);
+    		
+    		Round r4 = new Round(RoundType.TakeItAll);
+    		r4.addTurn(new Turn(TurnType.STANDARD));
+    		r4.addTurn(new Turn(TurnType.TUNNEL));
+    		r4.addTurn(new Turn(TurnType.SPEEDINGUP));
+    		r4.addTurn(new Turn(TurnType.STANDARD));
+    		RoundCards.add(r4);
+    		
+    		Round r5 = new Round(RoundType.PassengersRebellion);
+    		r5.addTurn(new Turn(TurnType.STANDARD));
+    		r5.addTurn(new Turn(TurnType.STANDARD));
+    		r5.addTurn(new Turn(TurnType.TUNNEL));
+    		r5.addTurn(new Turn(TurnType.STANDARD));
+    		r5.addTurn(new Turn(TurnType.STANDARD));
+    		RoundCards.add(r5);
+    		
+    		Round r6 = new Round(RoundType.SIX);
+    		r6.addTurn(new Turn(TurnType.STANDARD));
+    		r6.addTurn(new Turn(TurnType.SPEEDINGUP));
+    		r6.addTurn(new Turn(TurnType.STANDARD));
+    		RoundCards.add(r6);
+    		
+    		Round r7 = new Round(RoundType.SEVEN);
+    		r7.addTurn(new Turn(TurnType.STANDARD));
+    		r7.addTurn(new Turn(TurnType.TUNNEL));
+    		r7.addTurn(new Turn(TurnType.STANDARD));
+    		r7.addTurn(new Turn(TurnType.TUNNEL));
+    		r7.addTurn(new Turn(TurnType.STANDARD));
+    		RoundCards.add(r7);
+    		
+    	} else if (numOfPlayers == 5 || numOfPlayers == 6) {
+    		Round r1 = new Round(RoundType.AngryMarshal);
+    		r1.addTurn(new Turn(TurnType.STANDARD));
+    		r1.addTurn(new Turn(TurnType.STANDARD));
+    		r1.addTurn(new Turn(TurnType.SWITCHING));
+    		RoundCards.add(r1);
+    		
+    		Round r2 = new Round(RoundType.SwivelArm);
+    		r2.addTurn(new Turn(TurnType.STANDARD));
+    		r2.addTurn(new Turn(TurnType.TUNNEL));
+    		r2.addTurn(new Turn(TurnType.STANDARD));
+    		RoundCards.add(r2);
+    		
+    		Round r3 = new Round(RoundType.Braking);
+    		r3.addTurn(new Turn(TurnType.STANDARD));
+    		r3.addTurn(new Turn(TurnType.TUNNEL));
+    		r3.addTurn(new Turn(TurnType.STANDARD));
+    		r3.addTurn(new Turn(TurnType.STANDARD));
+    		RoundCards.add(r3);
+    		
+    		Round r4 = new Round(RoundType.TakeItAll);
+    		r4.addTurn(new Turn(TurnType.STANDARD));
+    		r4.addTurn(new Turn(TurnType.SPEEDINGUP));
+    		r4.addTurn(new Turn(TurnType.SWITCHING));
+    		RoundCards.add(r4);
+    		
+    		Round r5 = new Round(RoundType.PassengersRebellion);
+    		r5.addTurn(new Turn(TurnType.STANDARD));
+    		r5.addTurn(new Turn(TurnType.TUNNEL));
+    		r5.addTurn(new Turn(TurnType.STANDARD));
+    		r5.addTurn(new Turn(TurnType.SWITCHING));
+    		RoundCards.add(r5);
+    		
+    		Round r6 = new Round(RoundType.SIX);
+    		r6.addTurn(new Turn(TurnType.STANDARD));
+    		r6.addTurn(new Turn(TurnType.SPEEDINGUP));
+    		RoundCards.add(r6);
+    		
+    		Round r7 = new Round(RoundType.SEVEN);
+    		r7.addTurn(new Turn(TurnType.STANDARD));
+    		r7.addTurn(new Turn(TurnType.TUNNEL));
+    		r7.addTurn(new Turn(TurnType.STANDARD));
+    		r7.addTurn(new Turn(TurnType.TUNNEL));
+    		RoundCards.add(r7);
+    		
+    	} else {return null;};
+    	
+    	Collections.shuffle(RoundCards);
+    	
+    	return RoundCards;
+    }
 
 	/**
 	 * --GAME STATUS METHODS--
