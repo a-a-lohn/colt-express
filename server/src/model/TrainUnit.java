@@ -273,15 +273,20 @@ public class TrainUnit implements SerializableSFSType {
     	TrainUnit.trainLength = length;
     }
     
-    //train
-    public static TrainUnit[][] getTrain(){
-    	return TrainUnit.train;
-    }
+    	// train roof
+	public static TrainUnit[] getTrainRoof() {
+		return TrainUnit.trainRoof;
+	}
+	
+	// train cabin
+	public static TrainUnit[] getTrainCabin() {
+		return TrainUnit.trainCabin;
+	}
     
     //stagecoach
-    public static TrainUnit[] getStagecoach() {
-    	return TrainUnit.stagecoach;
-    }
+    //public static TrainUnit[] getStagecoach() {
+    //	return TrainUnit.stagecoach;
+    //}
     
     public TrainUnit getAbove() {
         return this.above;
