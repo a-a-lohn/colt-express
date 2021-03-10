@@ -13,7 +13,9 @@ using UnityEngine;
 //The following code is executed right after creating the SmartFox object:
 // using System.Reflection;
 //        DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
-public enum CarFloor
-{
-    CABIN, ROOF
+
+namespace model {
+    public enum CarFloor {
+        CABIN, ROOF
+    }
 }

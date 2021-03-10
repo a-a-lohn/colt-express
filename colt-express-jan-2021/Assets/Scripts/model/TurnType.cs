@@ -14,8 +14,8 @@ using Sfs2X.Protocol.Serialization;
 // using System.Reflection;
 //        DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
 namespace model {
-    public enum TurnType
-    {
-        
+    public enum TurnType {
+    
+        STANDARD, TUNNEL, SPEEDINGUP, SWITCHING
     }
 }

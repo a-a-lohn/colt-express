@@ -15,11 +15,55 @@ using Sfs2X.Protocol.Serialization;
 //        DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
 namespace model {
     public class Horse : SerializableSFSType {
-
+    
         public TrainUnit adjacentTo;
+        //public Option<Bandit> riddenBy;
         public Bandit riddenBy;
+        
+        // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
+        public Horse(){}       
+        // adjacentTo
+        public TrainUnit getAdjacentTo() {
+            return this.adjacentTo;
+        }
+        
+        public void setAdjacentTo(TrainUnit adjacentTo) {
+            this.adjacentTo = adjacentTo;
+        }     
+        // riddenBy
+        public Bandit getRiddenBy() {
+            //return this.riddenBy.value;
+            return this.riddenBy;
+        }      
+        public void setRiddenBy(Bandit b) {
+            //this.riddenBy = Option<Bandit>.Some(b);
+            this.riddenBy = b;
+        }
 
-        public Horse() { }
+        // Customized Optional type 
+
+        // public struct Option<T>
+        // {
+        //     public static Option<T> None => default;
+        //     public static Option<T> Some(T value) => new Option<T>(value);
+
+        //     public readonly bool isSome;
+        //     public readonly T value;
+
+        //     Option(T value)
+        //     {
+        //         this.value = value;
+        //         isSome = this.value is { };
+        //     }
+
+        //     public bool IsSome(out T value)
+        //     {
+        //         value = this.value;
+        //         return isSome;
+        //     }
+        // }
+
 
     }
+
 }

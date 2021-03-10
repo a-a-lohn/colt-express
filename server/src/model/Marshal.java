@@ -20,7 +20,7 @@ public class Marshal implements SerializableSFSType {
     public static Marshal createMarshal() {
     	getInstance();
     	final int x = TrainUnit.getTrainLength();
-    	TrainUnit t = TrainUnit.getTrain()[1][x-1];
+    	TrainUnit t = TrainUnit.trainCabin[GameManager.getInstance().getNumOfPlayers()];
     	instance.marshalPosition = t;
     	return instance;
     }

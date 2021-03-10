@@ -24,7 +24,7 @@ public class Bandit implements SerializableSFSType {
 	public String hostageAsString; //FOR NETWORKING
 	public ArrayList<Loot> loot = new ArrayList<Loot>();
 	public ArrayList<BulletCard> bullets = new ArrayList<BulletCard>();
-	public ArrayList<Card> deck = new ArrayList<Card>();
+	public ArrayList<Card> deck = new ArrayList<Card>(); //CONVENTION FOR DECK: POSITION DECK.SIZE() IS TOP OF DECK, POSITION 0 IS BOTTOM OF DECK
 	public ArrayList<Card> hand = new ArrayList<Card>();
 	public ArrayList<Card> discardPile = new ArrayList<Card>();
 
@@ -127,10 +127,9 @@ public class Bandit implements SerializableSFSType {
 		this.deck.add(index, a);
 	}
 
-	public void removeDeckAt(int index) {
-		if (this.deck.size() > index) {
-			this.deck.remove(index);
-		}
+	public Card removeDeckAt(int index) {
+		assert this.deck.size() > index;
+		return this.deck.remove(index);
 	}
 
 	public Card getDeckAt(int index) {

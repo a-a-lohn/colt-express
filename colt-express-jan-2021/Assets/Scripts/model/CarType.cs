@@ -13,7 +13,9 @@ using UnityEngine;
 //The following code is executed right after creating the SmartFox object:
 // using System.Reflection;
 //        DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
-public enum CarType
-{
-    LOCOMOTIVE, STAGECOACH, CAR1, CAR2, CAR3, CAR4, CAR5, CAR6
+
+namespace model {
+    public enum CarType {   
+        LOCOMOTIVE, STAGECOACH, CAR1, CAR2, CAR3, CAR4, CAR5, CAR6
+    }
 }

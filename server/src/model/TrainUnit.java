@@ -17,8 +17,10 @@ import model.Bandit;
 public class TrainUnit implements SerializableSFSType {
     
 	transient public static int trainLength;
-	transient public static TrainUnit[][] train;
-	transient public static TrainUnit[] stagecoach;
+	// transient public static TrainUnit[][] train;
+	// transient public static TrainUnit[] stagecoach;
+	transient public static TrainUnit[] trainRoof;
+	transient public static TrainUnit[] trainCabin;
 	
     public CarType carType;
     public CarFloor carFloor;
@@ -46,7 +48,128 @@ public class TrainUnit implements SerializableSFSType {
     	this.carFloorAsString = carFloor.toString();
     	//TODO: createGraphic()
     }
-    
+	
+	public static TrainUnit[] createTrainRoof(int numberOfBandits) {
+		TrainUnit[] TrainRoof = new TrainUnit[numberOfBandits + 2];
+		TrainUnit LocoRoof = new TrainUnit(CarType.LocomotiveRoof, CarFloor.ROOF);
+		TrainUnit StagecoachRoof = new TrainUnit(CarType.StagecoachRoof, CarFloor.ROOF);
+		TrainRoof[numberOfBandits+1] = StagecoachRoof;
+		TrainRoof[numberOfBandits] = LocoRoof;
+		if (numberOfBandits == 2) {
+			TrainUnit Car1Roof = new TrainUnit(CarType.Car1Roof, CarFloor.ROOF);
+			TrainUnit Car2Roof = new TrainUnit(CarType.Car2Roof, CarFloor.ROOF);
+			TrainRoof[0] = Car1Roof;
+			TrainRoof[1] = Car2Roof;
+		} else if (numberOfBandits == 3) {
+			TrainUnit Car1Roof = new TrainUnit(CarType.Car1Roof, CarFloor.ROOF);
+			TrainUnit Car2Roof = new TrainUnit(CarType.Car2Roof, CarFloor.ROOF);
+			TrainUnit Car3Roof = new TrainUnit(CarType.Car3Roof, CarFloor.ROOF);
+			TrainRoof[0] = Car1Roof;
+			TrainRoof[1] = Car2Roof;
+			TrainRoof[2] = Car3Roof;
+		} else if (numberOfBandits == 4) {
+			TrainUnit Car1Roof = new TrainUnit(CarType.Car1Roof, CarFloor.ROOF);
+			TrainUnit Car2Roof = new TrainUnit(CarType.Car2Roof, CarFloor.ROOF);
+			TrainUnit Car3Roof = new TrainUnit(CarType.Car3Roof, CarFloor.ROOF);
+			TrainUnit Car4Roof = new TrainUnit(CarType.Car4Roof, CarFloor.ROOF);
+			TrainRoof[0] = Car1Roof;
+			TrainRoof[1] = Car2Roof;
+			TrainRoof[2] = Car3Roof;
+			TrainRoof[3] = Car4Roof;
+		} else if (numberOfBandits == 5) {
+			TrainUnit Car1Roof = new TrainUnit(CarType.Car1Roof, CarFloor.ROOF);
+			TrainUnit Car2Roof = new TrainUnit(CarType.Car2Roof, CarFloor.ROOF);
+			TrainUnit Car3Roof = new TrainUnit(CarType.Car3Roof, CarFloor.ROOF);
+			TrainUnit Car4Roof = new TrainUnit(CarType.Car4Roof, CarFloor.ROOF);
+			TrainUnit Car5Roof = new TrainUnit(CarType.Car5Roof, CarFloor.ROOF);
+			TrainRoof[0] = Car1Roof;
+			TrainRoof[1] = Car2Roof;
+			TrainRoof[2] = Car3Roof;
+			TrainRoof[3] = Car4Roof;
+			TrainRoof[4] = Car5Roof;
+		} else if (numberOfBandits == 6) {
+			TrainUnit Car1Roof = new TrainUnit(CarType.Car1Roof, CarFloor.ROOF);
+			TrainUnit Car2Roof = new TrainUnit(CarType.Car2Roof, CarFloor.ROOF);
+			TrainUnit Car3Roof = new TrainUnit(CarType.Car3Roof, CarFloor.ROOF);
+			TrainUnit Car4Roof = new TrainUnit(CarType.Car4Roof, CarFloor.ROOF);
+			TrainUnit Car5Roof = new TrainUnit(CarType.Car5Roof, CarFloor.ROOF);
+			TrainUnit Car6Roof = new TrainUnit(CarType.Car6Roof, CarFloor.ROOF);
+			TrainRoof[0] = Car1Roof;
+			TrainRoof[1] = Car2Roof;
+			TrainRoof[2] = Car3Roof;
+			TrainRoof[3] = Car4Roof;
+			TrainRoof[4] = Car5Roof;
+			TrainRoof[5] = Car6Roof;
+		} else {
+			return null;
+		}
+		
+		return TrainRoof;
+	}
+
+	public static TrainUnit[] createTrainCabin(int numberOfBandits) {
+		TrainUnit[] TrainCabin = new TrainUnit[numberOfBandits + 2];
+		TrainUnit LocoRoof = new TrainUnit(CarType.LocomotiveCabin, CarFloor.CABIN);
+		TrainUnit StagecoachRoof = new TrainUnit(CarType.StagecoachCabin, CarFloor.CABIN);
+		TrainCabin[numberOfBandits+1] = StagecoachRoof;
+		TrainCabin[numberOfBandits] = LocoRoof;
+		if (numberOfBandits == 2) {
+			TrainUnit Car1Roof = new TrainUnit(CarType.Car1Cabin, CarFloor.CABIN);
+			TrainUnit Car2Roof = new TrainUnit(CarType.Car2Cabin, CarFloor.CABIN);
+			TrainCabin[0] = Car1Roof;
+			TrainCabin[1] = Car2Roof;
+		} else if (numberOfBandits == 3) {
+			TrainUnit Car1Roof = new TrainUnit(CarType.Car1Cabin, CarFloor.CABIN);
+			TrainUnit Car2Roof = new TrainUnit(CarType.Car2Cabin, CarFloor.CABIN);
+			TrainUnit Car3Roof = new TrainUnit(CarType.Car3Cabin, CarFloor.CABIN);
+			TrainCabin[0] = Car1Roof;
+			TrainCabin[1] = Car2Roof;
+			TrainCabin[2] = Car3Roof;
+		} else if (numberOfBandits == 4) {
+			TrainUnit Car1Roof = new TrainUnit(CarType.Car1Cabin, CarFloor.CABIN);
+			TrainUnit Car2Roof = new TrainUnit(CarType.Car2Cabin, CarFloor.CABIN);
+			TrainUnit Car3Roof = new TrainUnit(CarType.Car3Cabin, CarFloor.CABIN);
+			TrainUnit Car4Roof = new TrainUnit(CarType.Car4Cabin, CarFloor.CABIN);
+			TrainCabin[0] = Car1Roof;
+			TrainCabin[1] = Car2Roof;
+			TrainCabin[2] = Car3Roof;
+			TrainCabin[3] = Car4Roof;
+		} else if (numberOfBandits == 5) {
+			TrainUnit Car1Roof = new TrainUnit(CarType.Car1Cabin, CarFloor.CABIN);
+			TrainUnit Car2Roof = new TrainUnit(CarType.Car2Cabin, CarFloor.CABIN);
+			TrainUnit Car3Roof = new TrainUnit(CarType.Car3Cabin, CarFloor.CABIN);
+			TrainUnit Car4Roof = new TrainUnit(CarType.Car4Cabin, CarFloor.CABIN);
+			TrainUnit Car5Roof = new TrainUnit(CarType.Car5Cabin, CarFloor.CABIN);
+			TrainCabin[0] = Car1Roof;
+			TrainCabin[1] = Car2Roof;
+			TrainCabin[2] = Car3Roof;
+			TrainCabin[3] = Car4Roof;
+			TrainCabin[4] = Car5Roof;
+		} else if (numberOfBandits == 6) {
+			TrainUnit Car1Roof = new TrainUnit(CarType.Car1Cabin, CarFloor.CABIN);
+			TrainUnit Car2Roof = new TrainUnit(CarType.Car2Cabin, CarFloor.CABIN);
+			TrainUnit Car3Roof = new TrainUnit(CarType.Car3Cabin, CarFloor.CABIN);
+			TrainUnit Car4Roof = new TrainUnit(CarType.Car4Cabin, CarFloor.CABIN);
+			TrainUnit Car5Roof = new TrainUnit(CarType.Car5Cabin, CarFloor.CABIN);
+			TrainUnit Car6Roof = new TrainUnit(CarType.Car6Cabin, CarFloor.CABIN);
+			TrainCabin[0] = Car1Roof;
+			TrainCabin[1] = Car2Roof;
+			TrainCabin[2] = Car3Roof;
+			TrainCabin[3] = Car4Roof;
+			TrainCabin[4] = Car5Roof;
+			TrainCabin[5] = Car6Roof;
+		} else {
+			return null;
+		}
+		
+		return TrainCabin;
+	}
+	
+	
+	
+	
+	
+
     /**
      * 
      * @param numberOfBandits
@@ -57,7 +180,7 @@ public class TrainUnit implements SerializableSFSType {
      *           where i=0 is the caboose and i=number of cars is the locomotive
      * Does NOT contain the stagecoach. The GameManger must separately call createStagecoach().
      */
-    public static TrainUnit[][] createTrain(int numberOfBandits){
+     /*public static TrainUnit[][] createTrain(int numberOfBandits){
     	//Create one car for each player, +1 to account for the locomotive
     	final int trainLength = numberOfBandits + 1;
     	
@@ -84,7 +207,7 @@ public class TrainUnit implements SerializableSFSType {
     	TrainUnit.train = train;
     	
     	return train;
-    }
+    }*/
     
     /**
      * 
@@ -92,7 +215,7 @@ public class TrainUnit implements SerializableSFSType {
      *           stagecoach[0] = roof
      *           stagecoach[1] = cabin;
      */
-    public static TrainUnit[] createStagecoach() {
+    /*public static TrainUnit[] createStagecoach() {
     	TrainUnit[] stagecoach = new TrainUnit[2];
     	
     	TrainUnit cabin = new TrainUnit(CarType.STAGECOACH, CarFloor.CABIN);
@@ -102,7 +225,7 @@ public class TrainUnit implements SerializableSFSType {
     	stagecoach[1] = cabin;
     	
     	return stagecoach;
-    }
+    }*/
 
 
     
@@ -150,15 +273,20 @@ public class TrainUnit implements SerializableSFSType {
     	TrainUnit.trainLength = length;
     }
     
-    //train
-    public static TrainUnit[][] getTrain(){
-    	return TrainUnit.train;
-    }
+    	// train roof
+	public static TrainUnit[] getTrainRoof() {
+		return TrainUnit.trainRoof;
+	}
+	
+	// train cabin
+	public static TrainUnit[] getTrainCabin() {
+		return TrainUnit.trainCabin;
+	}
     
     //stagecoach
-    public static TrainUnit[] getStagecoach() {
-    	return TrainUnit.stagecoach;
-    }
+    //public static TrainUnit[] getStagecoach() {
+    //	return TrainUnit.stagecoach;
+    //}
     
     public TrainUnit getAbove() {
         return this.above;
@@ -318,18 +446,15 @@ public class TrainUnit implements SerializableSFSType {
         horses.add(index, a);
         return true;
     }
-
     public boolean removeHorsesAt(int index) {
         Horse removedElement = horses.remove(index);
         boolean result = removedElement != null;
         return result;
     }
-
     Horse getHorsesAt(int index) {
         Horse associated = horses.get(index);
         return associated;
     }
-
     boolean addHorses(Horse a) {
         boolean contains = horses.contains(a);
         if (contains) {
@@ -338,22 +463,18 @@ public class TrainUnit implements SerializableSFSType {
         boolean added = horses.add(a);
         return added;
     }
-
     boolean removeHorse(Horse a) {
         boolean removed = horses.remove(a);
         return removed;
     }
-
     boolean containsHorse(Horse a) {
         boolean contains = horses.contains(a);
         return contains;
     }
-
     int sizeOfHorses() {
         int size = horses.size();
         return size;
     }
-
     ArrayList<Horse> getHorses() {
         return this.horses;
     }*/
