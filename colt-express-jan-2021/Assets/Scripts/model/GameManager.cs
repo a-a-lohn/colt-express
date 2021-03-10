@@ -30,6 +30,7 @@ namespace model {
         public ArrayList bandits;
 
         public GameManager() { }
-
+        
+        
     }
 }

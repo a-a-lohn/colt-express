@@ -29,13 +29,13 @@ import com.smartfoxserver.v2.annotations.MultiHandler;
 public class GameManager /*extends BaseClientRequestHandler */implements SerializableSFSType {
 
 	transient public static GameManager singleton;
-	transient public GameStatus gameStatus;
-	public String strGameStatus;
+	transient public GameStatus gameStatus = GameStatus.SETUP;
+	public String strGameStatus = "SETUP";
 	public Round currentRound;
 	public Bandit currentBandit;
 	public ArrayList<Round> rounds = new ArrayList<Round>(); //CONVENTION FOR DECK: POSITION DECK.SIZE() IS TOP OF DECK, POSITION 0 IS BOTTOM OF DECK
 	public Marshal marshalInstance;
-	public PlayedPile playedPileInstance;
+	public PlayedPile playedPileInstance; //CONVENTION FOR DECK: POSITION DECK.SIZE() IS TOP OF DECK, POSITION 0 IS BOTTOM OF DECK
 	public TrainUnit[] trainRoof;
 	public TrainUnit[] trainCabin;
 	// public TrainUnit[][] train; // change to 2 arrays
@@ -44,10 +44,12 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	transient public HashMap<Bandit, User> banditmap = new HashMap<Bandit, User>();
 	public static ColtMultiHandler handler;
 	public ArrayList<Card> neutralBulletCard;
+	public int banditsPlayedThisTurn;
+	public int roundIndex;
+	public int banditIndex;
 	
 	
-	
-	/**
+	/*
 	 * --RUN GAME--
 	 * Moves the game forward between phases
 	 * All methods are called from here
@@ -57,7 +59,7 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	 */
 	
 	
-	public void runGame() {
+	/*public void runGame() {
 		for(Round round : rounds) {
 			currentRound = round; //ROUND CARD MUST BE DISPLAYED
 			//NOTE TO HU: MAKE SURE EACH BANDIT'S DECK IS INITIALIZED IN THE INITIALIZE GAME METHOD
@@ -65,8 +67,9 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 			stealin();
 		}
 		
-	}
+	}*/
 	
+	/*
 	public void schemin() {
 		
 		//DRAW CARDS
@@ -85,15 +88,15 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 					this.currentBandit = b;
 					//PROMPT CHOICE OF DRAW OR PLAY CARD HERE
 					//RECEIVE RESPONSE
-					if(/*IF CHOICE IS PLAY CARD*/true) {
+					if(IF CHOICE IS PLAY CARDtrue) {
 						//PROMPT CHOICE OF ACTION CARD
 						//RECEIVE RESPONSE ACTIONCARD C
 						//this.playActionCard(c);
 					}
-					/*else { //IF CHOICE IS DRAW
+					else { //IF CHOICE IS DRAW
 						int cardsToDraw = 3;
 						this.drawCards(cardsToDraw);
-					}*/
+					}
 				}
 			}
 			
@@ -113,10 +116,13 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 			}
 		}
 	}
+	*/
 	
+	/*
 	public void stealin() {
 		
 	}
+	*/
 	
 	public static void setHandler(ColtMultiHandler handle) {
 		handler = handle;
@@ -232,17 +238,45 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 		this.neutralBulletCard.add(NBullet12);
 		this.neutralBulletCard.add(NBullet13);
 		
+		this.roundIndex = 0;
+		//this.currentRound = this.rounds.get(roundIndex);
+		//currentRound and currentRound.currentTurn must be initialized
+		this.banditsPlayedThisTurn = 0;
+		this.gameStatus = GameStatus.SCHEMIN;
+		this.strGameStatus = "SCHEMIN";
+		this.currentBandit = this.bandits.get(0);
 	}
 	
 	public void endOfTurn() {
-		int index = this.bandits.indexOf(this.currentBandit);
-		index++;
-		if (index<this.bandits.size()) {
+		if(this.gameStatus == GameStatus.SCHEMIN) {
+			int index = this.bandits.indexOf(this.currentBandit);
+			index++;
+			if (index<this.bandits.size()) {
 			this.currentBandit = this.bandits.get(index);
+			}
+			else {
+				this.setGameStatus(GameStatus.STEALIN);
+			}
 		}
-		else {
-			//TODO: deal with end of round 
+		else if(this.gameStatus == GameStatus.STEALIN) {
+			Card toResolve = this.playedPileInstance.takeTopCard();
+			if(toResolve != null) {
+				currentBandit = toResolve.getBelongsTo();
+			}
+			else { //played pile is empty
+				roundIndex++;
+				if(roundIndex == this.rounds.size()) {
+					this.setGameStatus(GameStatus.COMPLETED);
+				}
+				else {
+					this.currentRound = this.rounds.get(roundIndex);
+					this.setGameStatus(GameStatus.SCHEMIN);
+					this.banditsPlayedThisTurn = 0;
+				}
+				
+			}
 		}
+		
 	}
 	
 	public GameManager() {};
@@ -519,6 +553,7 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 		return b;
 	}
 
+
 	/**
 	 * --GAME MANAGER METHODS--
 	 */
@@ -581,12 +616,31 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 		} else {
 			this.initializeGame();
 			this.setGameStatus(GameStatus.SCHEMIN);
-			this.runGame();
 		}
 			//this.setCurrentRound(this.rounds.get(0));
 			// set waiting for input to be true;
 	}
 	
+	public int getBanditsPlayedThisTurn() {
+		return this.banditsPlayedThisTurn;
+	}
+	public void setBanditsPlayedThisTurn(int bp) {
+		this.banditsPlayedThisTurn = bp;
+	}
+	
+	public int getRoundIndex() {
+		return this.roundIndex;
+	}
+	public void setRoundIndex(int ri) {
+		this.roundIndex = ri;
+	}
+	
+	public int getBanditIndex() {
+		return this.banditIndex;
+	}
+	public void setBanditIndex(int bi) {
+		this.banditIndex = bi;
+	}
 	
 	/**
 	 * --EXECUTE ACTIONS--
