@@ -49,9 +49,9 @@ public class GameBoard : MonoBehaviour
 	public Button chooseChar;
     public Text buttonLabel;
 	
-    // public Bandit b;
+    public Bandit b;
 
-	//public static GameManager gm;
+	public static GameManager gm;
 
 	// LIST OF ALL GAME OBJECTS HERE
     public GameObject cheyenne;
@@ -111,6 +111,8 @@ public class GameBoard : MonoBehaviour
 		objects.Add(gem3, null);
 		objects.Add(gem4, null);
 		objects.Add(gem5, null);
+
+
     }
 
     // Update is called once per frame
@@ -169,13 +171,29 @@ public class GameBoard : MonoBehaviour
         // objects[cheyenne] = gm.ban...
 		// objects[cheyenne] = gm.
 		// ** Assign the game object cheyenne to the Bandit cheyenne ** 
-		// ** ASSUMPTION: gm.bandits save the bandits in a fixed order. i.e. Belle, Cheyenne, Tuco, ... ** 
 		Bandit banditChey = (Bandit) gm.bandits[0]; 
-		Bandit banditBelle = (Bandit) gm.bandits[0];
+		Bandit banditBelle = (Bandit) gm.bandits[1];
+		Bandit banditTuco = (Bandit) gm.bandits[2];
+		Bandit banditDoc = (Bandit) gm.bandits[3];
+		Bandit banditGhost = (Bandit) gm.bandits[4];
+		Bandit banditDjango = (Bandit) gm.bandits[5];
+
 		// ... 
 		objects[cheyenne] = gm.bandits[0]; 
+		objects[belle] = gm.bandits[1]; 
+		objects[tuco] = gm.bandits[2]; 
+		objects[doc] = gm.bandits[3]; 
+		objects[ghost] = gm.bandits[4]; 
+		objects[django] = gm.bandits[4]; 
+
 		// ** adding to the dictionary ** 
 		objects.Add(cheyenne, banditChey); 
+		objects.Add(belle, banditBelle);
+		objects.Add(tuco, banditTuco);
+		objects.Add(doc, banditDoc);
+		objects.Add(ghost, banditGhost);
+		objects.Add(django, banditDjango);
+
 		gm.PlayTurn();
 
 		//trace(b.strBanditName);
@@ -187,12 +205,30 @@ public class GameBoard : MonoBehaviour
                 bandits.Add(cheyenne, b);
                 trace("Cheyenne added!");
             }
+			if (b.strBanditName == "BELLE") {
+                bandits.Add(belle, b);
+                trace("Belle added!");
+            }
+			if (b.strBanditName == "TUCO") {
+                bandits.Add(tuco, b);
+                trace("Tuco added!");
+            }
+			if (b.strBanditName == "DOC") {
+                bandits.Add(doc, b);
+                trace("Doc added!");
+            }
+			if (b.strBanditName == "GHOST") {
+                bandits.Add(ghost, b);
+                trace("Ghost added!");
+            }
+			if (b.strBanditName == "DJANGO") {
+                bandits.Add(django, b);
+                trace("Django added!");
+            }
         }
     }
 
-	// the following method is called every time 
-	// a character is clicked, CharacterChoice(character) is called, and it passes the chosen character to the server. 
-	void ChooseCharacter(Character c) {
+	private void ChooseCharacter(Character c) {
 		// **Assumption: Character has a function(getName) that returns the name of the character**
         ISFSObject obj = SFSObject.NewInstance();
 		string cName = c.getName; 
