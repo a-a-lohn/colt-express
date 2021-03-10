@@ -30,6 +30,7 @@ namespace model {
         public ArrayList bandits;
 
         public GameManager() { }
+<<<<<<< HEAD
 
         public void PlayTurn() {
             if(/*currentBandit == MYBANDIT*/true) {
@@ -67,6 +68,9 @@ namespace model {
             // CARRY OUT END OF MOVE / READY FOR NEXT MOVE (CHANGE BANDIT TO NEXT PLAYER, ETC.)
             GameBoard.SendNewGameState();
         }
+=======
+        
+>>>>>>> af8063f3902e968e0f5e3953a5ee1fc4bfb0a906
         
     }
 }

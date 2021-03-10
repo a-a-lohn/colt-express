@@ -14,7 +14,7 @@ import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
 public class PlayedPile implements SerializableSFSType {
     
     public static PlayedPile instance;
-    public ArrayList<ActionCard> playedCards = new ArrayList<ActionCard>();
+    public ArrayList<ActionCard> playedCards = new ArrayList<ActionCard>(); //CONVENTION FOR DECK: POSITION DECK.SIZE() IS TOP OF DECK, POSITION 0 IS BOTTOM OF DECK
     
   
     //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
@@ -28,10 +28,14 @@ public class PlayedPile implements SerializableSFSType {
         this.playedCards.add(index, a);
     }
 
-    public void removePlayedCardsAt(int index) {
-        if (this.playedCards.size() > index){
-            playedCards.remove(index);
-        }
+    /**
+     * 
+     * @param index must be less than playedCards.size()
+     * @return the removed action card
+     */
+    public ActionCard removePlayedCardsAt(int index) {
+    	assert index < this.playedCards.size();
+    	return playedCards.remove(index);
     }
 
     public ActionCard getPlayedCardsAt(int index) {
@@ -67,6 +71,10 @@ public class PlayedPile implements SerializableSFSType {
 
     public ArrayList<ActionCard> getPlayedCards() {
         return this.playedCards;
+    }
+    
+    public ActionCard takeTopCard() {
+    	return this.removePlayedCardsAt(this.playedCards.size()-1);
     }
 
     public static PlayedPile getInstance() {
