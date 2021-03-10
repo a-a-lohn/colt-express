@@ -23,7 +23,7 @@ public static class SFS
     public static string zone;
     public static string debugText = "";
     public static bool moreText = false;
-    public static string username = "coltplayer2"; //should be set to logged in user's name
+    public static string username = "coltplayer"; //should be set to logged in user's name
 
     static SFS(){
         defaultHost = "127.0.0.1";  //"13.90.26.131";
@@ -53,7 +53,7 @@ public static class SFS
     // client side: receiving feedback from SERVER
     private static void OnExtensionResponse(BaseEvent evt) {
         String cmd = (String)evt.Params["cmd"];
-        trace("response received: " + cmd);
+        trace("response received: " + cmd); // shpows up after "in-class" debug message
 		if (cmd == "remainingCharacters") {
 			ChooseCharacter.DisplayRemainingCharacters(evt);
 		} else if (cmd == "updateGameState") {
@@ -170,7 +170,7 @@ public static class SFS
 		Debug.Log(message);
 	}
 
-    /*void OnApplicationQuit() {
+    /*public static void OnApplicationQuit() {
 		// Always disconnect before quitting
 		if (sfs != null && sfs.IsConnected)
 			sfs.Disconnect();

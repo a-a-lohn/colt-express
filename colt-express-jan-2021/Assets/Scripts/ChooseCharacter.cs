@@ -141,5 +141,10 @@ public class ChooseCharacter : MonoBehaviour
         }
 	}
 
+    void OnApplicationQuit() {
+		// Always disconnect before quitting
+		SFS.Disconnect();
+	}
+
 
 }

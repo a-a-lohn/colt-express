@@ -19,7 +19,7 @@ namespace model {
     
         public bool getsAnotherAction;       
         public bool playedThisTurn;       
-        public Character banditName;       
+        // public Character banditName;       
         public string banditNameAsString;
         
         // FOR NETWORKING
@@ -36,26 +36,19 @@ namespace model {
         
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public Bandit() {}
-        /*public GameObject getTheClickable() {
-            return clickable;
-        }
 
-        public void setTheClickable(GameObject obj) {
-            clickable = obj;
-        }*/
-
-        public Bandit(Character c) {
-            this.banditName = c;
-            this.banditNameAsString = c.ToString();
+        public Bandit(/*Character*/ string c) {
+            //this.banditName = c;
+            this.banditNameAsString = c;//.ToString();
             this.getsAnotherAction = false;
             this.playedThisTurn = false;
             this.position = null;
             this.hostage = null;
         }
         
-        public Character getCharacter() {
+        /*public Character getCharacter() {
             return this.banditName;
-        }
+        }*/
         
         public void setGetsAnotherAction(bool anotherAction) {
             this.getsAnotherAction = anotherAction;

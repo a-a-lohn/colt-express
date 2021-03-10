@@ -50,7 +50,7 @@ public class TrainUnit implements SerializableSFSType {
     }
 	
 	public static TrainUnit[] createTrainRoof(int numberOfBandits) {
-		TrainUnit[] TrainRoof = new TrainUnit[numberOfBandits + 2];
+		/*TrainUnit[] TrainRoof = new TrainUnit[numberOfBandits + 2];
 		TrainUnit LocoRoof = new TrainUnit(CarType.LocomotiveRoof, CarFloor.ROOF);
 		TrainUnit StagecoachRoof = new TrainUnit(CarType.StagecoachRoof, CarFloor.ROOF);
 		TrainRoof[numberOfBandits+1] = StagecoachRoof;
@@ -102,13 +102,13 @@ public class TrainUnit implements SerializableSFSType {
 			TrainRoof[5] = Car6Roof;
 		} else {
 			return null;
-		}
+		}*/
 		
-		return TrainRoof;
+		return null;//TrainRoof;
 	}
 
 	public static TrainUnit[] createTrainCabin(int numberOfBandits) {
-		TrainUnit[] TrainCabin = new TrainUnit[numberOfBandits + 2];
+		/*TrainUnit[] TrainCabin = new TrainUnit[numberOfBandits + 2];
 		TrainUnit LocoRoof = new TrainUnit(CarType.LocomotiveCabin, CarFloor.CABIN);
 		TrainUnit StagecoachRoof = new TrainUnit(CarType.StagecoachCabin, CarFloor.CABIN);
 		TrainCabin[numberOfBandits+1] = StagecoachRoof;
@@ -160,9 +160,9 @@ public class TrainUnit implements SerializableSFSType {
 			TrainCabin[5] = Car6Roof;
 		} else {
 			return null;
-		}
+		}*/
 		
-		return TrainCabin;
+		return null;// TrainCabin;
 	}
 	
 	

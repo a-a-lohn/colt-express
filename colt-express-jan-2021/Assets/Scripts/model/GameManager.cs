@@ -30,7 +30,6 @@ namespace model {
         public ArrayList bandits;
 
         public GameManager() { }
-<<<<<<< HEAD
 
         public void PlayTurn() {
             if(/*currentBandit == MYBANDIT*/true) {
@@ -59,7 +58,7 @@ namespace model {
 
         private void calculatePunchTargets() {
             //...
-            //promptPunch(/*arraylist of bandits*/); -- Makes objects clickable
+            //promptPunch(/*arraylist of bandits*/); -- Makes objects clickable (this method is not a gamemanager method)
             // this method sets clickable and action global variables to the clickable items and to what should be called next, respectively
         }
 
@@ -68,9 +67,6 @@ namespace model {
             // CARRY OUT END OF MOVE / READY FOR NEXT MOVE (CHANGE BANDIT TO NEXT PLAYER, ETC.)
             GameBoard.SendNewGameState();
         }
-=======
-        
->>>>>>> af8063f3902e968e0f5e3953a5ee1fc4bfb0a906
         
     }
 }

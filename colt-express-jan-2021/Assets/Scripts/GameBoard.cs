@@ -68,7 +68,7 @@ public class GameBoard : MonoBehaviour
     {
 		debugTextString = "";
         debugText.text = "";
-		//SendNewGameState();
+		SendNewGameState();
 
     }
 
@@ -96,7 +96,7 @@ public class GameBoard : MonoBehaviour
 	public static void SendNewGameState() {
 		ISFSObject obj = SFSObject.NewInstance();
 		
-		/* testing purposes
+		// testing purposes
 		gm = new GameManager();
 		ArrayList bandits = new ArrayList();
 		Bandit doc = new Bandit();
@@ -105,7 +105,7 @@ public class GameBoard : MonoBehaviour
 		doc.position = position;
 		bandits.Add(doc);
 		gm.bandits = bandits;
-		*/
+		
 
 		obj.PutClass("gm", gm);
         ExtensionRequest req = new ExtensionRequest("gm.newGameState",obj);

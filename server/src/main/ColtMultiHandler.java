@@ -38,10 +38,10 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		ISFSObject rtn = SFSObject.newInstance();
 		
 		switch(command) {
-		case("enterChooseCharacterScene"): handleEnterChooseCharacterScene(sender, params, rtn);
-		case("chosenCharacter"):handleChosenCharacter(sender, params, rtn);
-		case("testSerial"): testSerial(sender, rtn);
-		case("newGameState"): handleNewGameState(params,rtn);
+		case("enterChooseCharacterScene"): handleEnterChooseCharacterScene(sender, params, rtn); break;
+		case("chosenCharacter"):handleChosenCharacter(sender, params, rtn); break;
+		case("testSerial"): testSerial(sender, rtn); break;
+		case("newGameState"): handleNewGameState(params,rtn); break;
 		default: trace("invalid command passed to multihandler");
 		}
 		
@@ -63,7 +63,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	
 	public void handleNewGameState(ISFSObject params, ISFSObject rtn) {
 		gm = (GameManager) params.getClass("gm");
-		System.out.println("received game state");
+		System.out.println("received game state!");
 		System.out.println(gm.bandits.get(0).position.carTypeAsString);
 		updateGameState(rtn);
 	}

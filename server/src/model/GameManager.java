@@ -43,7 +43,7 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	public ArrayList<Bandit> bandits = new ArrayList<Bandit>();
 	transient public HashMap<Bandit, User> banditmap = new HashMap<Bandit, User>();
 	public static ColtMultiHandler handler;
-	public ArrayList<Card> neutralBulletCard;
+	public ArrayList<Card> neutralBulletCard = new ArrayList<Card>();
 	public int banditsPlayedThisTurn;
 	public int roundIndex;
 	public int banditIndex;
@@ -207,8 +207,8 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 		//
 		Marshal marshal = new Marshal();
 		Money strongbox = new Money(MoneyType.STRONGBOX, 1000);
-		marshal.setMarshalPosition(this.trainCabin[this.getNumOfPlayers()]);
-		strongbox.setPosition(this.trainCabin[this.getNumOfPlayers()]);
+		//marshal.setMarshalPosition(this.trainCabin[this.getNumOfPlayers()]);
+		//strongbox.setPosition(this.trainCabin[this.getNumOfPlayers()]);
 		//
 		// create netural bullet card
 		Card NBullet1 = new BulletCard();
@@ -257,6 +257,7 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 			else {
 				this.setGameStatus(GameStatus.STEALIN);
 			}
+			//sendNewGameState("promptDrawCardsOrPlayActionCard")
 		}
 		else if(this.gameStatus == GameStatus.STEALIN) {
 			Card toResolve = this.playedPileInstance.takeTopCard();

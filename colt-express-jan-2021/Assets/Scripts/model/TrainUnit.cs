@@ -19,8 +19,8 @@ namespace model {
         public static int trainLength;
         public static TrainUnit[,] train;
         public static TrainUnit[] stagecoach;
-        public CarType carType;
-        public CarFloor carFloor;
+        //public CarType carType;
+        //public CarFloor carFloor;
         public string carTypeAsString;
         public string carFloorAsString;
         public TrainUnit above ;
@@ -38,12 +38,12 @@ namespace model {
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public TrainUnit() {}
         
-        private TrainUnit(CarType carType, CarFloor carFloor) {
+        /*private TrainUnit(CarType carType, CarFloor carFloor) {
             this.carType = carType;
             this.carFloor = carFloor;
-            this.carTypeAsString = carType.ToString();
-            this.carFloorAsString = carFloor.ToString();
-            // TODO: createGraphic()
+            this.carTypeAsString = carType;
+            this.carFloorAsString = carFloor;
+            //TODO: createGraphic()
         }
         
         public static TrainUnit[,] createTrain(int numberOfBandits) {
@@ -249,6 +249,6 @@ namespace model {
         public void moveMarshalTo(TrainUnit dest) {
             this.isMarshalHere = false;
             dest.isMarshalHere = true;
-        }
+        }*/
     }
 }
