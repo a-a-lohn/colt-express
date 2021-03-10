@@ -23,17 +23,17 @@ namespace model {
         public CarFloor carFloor;
         public string carTypeAsString;
         public string carFloorAsString;
-        public TrainUnit above = null;
-        public TrainUnit below = null;
-        public TrainUnit left = null;
-        public TrainUnit right = null;
-        public TrainUnit beside = null;
+        public TrainUnit above ;
+        public TrainUnit below ;
+        public TrainUnit left ;
+        public TrainUnit right ;
+        public TrainUnit beside ;
         
         // Used for stagecoach and it's adjacent car ONLY.
-        public bool isMarshalHere = false;
-        public ArrayList banditsHere = new ArrayList();
-        public ArrayList lootHere = new ArrayList();
-        public ArrayList horsesHere = new ArrayList();
+        public bool isMarshalHere ;
+        public ArrayList banditsHere ;
+        public ArrayList lootHere ;
+        public ArrayList horsesHere ;
         
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public TrainUnit() {}

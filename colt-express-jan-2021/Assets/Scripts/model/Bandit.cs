@@ -28,11 +28,11 @@ namespace model {
         public string hostageAsString;
         
         // FOR NETWORKING
-        public ArrayList loot = new ArrayList();      
-        public ArrayList bullets = new ArrayList();        
-        public ArrayList deck = new ArrayList();
-        public ArrayList hand = new ArrayList();
-        public ArrayList discardPile = new ArrayList();
+        public ArrayList loot ;      
+        public ArrayList bullets ;        
+        public ArrayList deck ;
+        public ArrayList hand ;
+        public ArrayList discardPile ;
         
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public Bandit() {}

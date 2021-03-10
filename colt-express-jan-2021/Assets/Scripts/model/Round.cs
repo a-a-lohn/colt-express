@@ -24,7 +24,7 @@ namespace model {
         public int turnCounter;
         
         // Tracks the current turn
-        public ArrayList turns = new ArrayList();
+        public ArrayList turns ;
         
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public Round() {}

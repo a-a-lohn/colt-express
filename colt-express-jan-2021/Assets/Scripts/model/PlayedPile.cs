@@ -17,7 +17,7 @@ namespace model {
     public class PlayedPile : SerializableSFSType {
     
         public static PlayedPile instance;
-        public ArrayList playedCards = new ArrayList();
+        public ArrayList playedCards;
         
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public PlayedPile() {}

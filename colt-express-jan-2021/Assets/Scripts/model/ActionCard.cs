@@ -21,8 +21,8 @@ namespace model {
         public string actionTypeAsString;
 
         // FOR NETWORKING
-        public bool saveForNextRound = false;      
-        public bool faceDown = false;
+        public bool saveForNextRound;      
+        public bool faceDown;
         
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public ActionCard() {}
