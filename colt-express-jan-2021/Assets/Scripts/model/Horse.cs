@@ -20,6 +20,16 @@ namespace model {
         public Bandit riddenBy;
 
         public Horse() { }
+ 
+    public class ActionCard : SerializableSFSType
+    {
+        public string actionAsString; //public ActionKind action;
+        public bool saveForNextRound;
+        public bool facedown;
+
+        public ActionCard() { }
+ 
 
     }
 }
+

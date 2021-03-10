@@ -1,3 +1,11 @@
+using model;
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,120 +22,185 @@ using Sfs2X.Requests;
 using System.Reflection;
 using Sfs2X.Protocol.Serialization;
 
-using model;
+using System.Collections;
 
 public class GameBoard : MonoBehaviour
 {
 
-    public GameObject cheyenne;
-    public Text debugText;
+	/*
+	Frontend team:
+	-attach choosecharacter strings to characters (attach character strings from
+		 DisplayRemainingCharacters() to characters in the scene 
+		 so that when the characters are clicked, CharacterChoice(character) is called that passes the chosen character to the server. This
+		 can be done by attaching scripts to each character game object, similar to how it will work for gameobjects on the game board)
+	-Assign all gameobjects in dictionary upon update game state call
+	-implement prompt method in Gamemanager (i.e. set action and clickable global variables)
+	-write scripts attached to each game object that checks if it is clickable, if so, checks action and calls action on clicked item
+	-assign locations on game board to each gameobject (should be in attached scripts in as a global variable that is reassigned every
+	   time updategamestate() is called, checks updated gm instance for new item's position)
+	-get login and other scripts --done
+	*/
+
+	//debug variables
+	public Text debugText;
+	public static string debugTextString;
     public Button button;
 	public Button extension;
 	public Button chooseChar;
     public Text buttonLabel;
+	
     public Bandit b;
+
+	public static GameManager gm;
+
+	// LIST OF ALL GAME OBJECTS HERE
+    public GameObject cheyenne;
+	public GameObject belle; 
+	public GameObject tuco; 
+	public GameObject doc; 
+	public GameObject ghost; 
+	public GameObject django; 
+	
+	public GameObject gem1; 
+	public GameObject gem2; 
+	public GameObject gem3; 
+	public GameObject gem4;
+	public GameObject gem5;
+
+	// public GameObject tuco;
+	// public GameObject doc; 
+	// public GameObject django; 
     
-    Dictionary<GameObject, Bandit> bandits = new Dictionary<GameObject, Bandit>();
+    // ?? 
+	// <T> not found // needs to be declared before using 
+    public Dictionary<GameObject, object> objects = new Dictionary<GameObject, object>();
+
+	// public Dictionary<T, GameObject> objects = new Dictionary<T, GameObject>();
+	// NOTE: INITIALIZE THE DICTIONARY FOR EVERY OBJECT HERE FIRST,
+	// ** THE DICTIONARIES ARE INITIALIZED(CLEARED) IN Start() ** 
+	// E.G. objects.Add(cheyenne, null), objects.Add(tuco, null), ...
+	// This way, update game state will simply be able to overwrite the values in the dictionary
+	// whenever it is called by the server
 
 
-    private SmartFox sfs;
-    private string defaultHost = "127.0.0.1"; //"13.90.26.131"; // 
-	private int defaultTcpPort = 9933;			// Default TCP port
-    private string zone = "MergedExt"; //"ColtExpress"; //"NewZone"; //"BasicExamples";// "MyExt";
+	public static ArrayList clickable = new ArrayList();
+	public static string action = "";
 
-    // Start is called before the first frame update
+
+    //private static SmartFox sfs = SFS.sfs;
+   // private static string defaultHost = SFS.defaultHost;// = "127.0.0.1"; //"13.90.26.131"; // 
+	//private static int defaultTcpPort = SFS.defaultTcpPort;// = 9933;			// Default TCP port
+    //private static string zone = SFS.zone;// = "MergedExt"; //"ColtExpress"; //"NewZone"; //"BasicExamples";// "MyExt";
+
     void Start()
     {
-		
-        Test();
+		debugTextString = "";
+        debugText.text = "";
 
-        // Receive classes that were created on server upon game startup here
-        
+		//SendNewGameState();
+		// ** THE DICTIONARIES ARE INITIALIZED(CLEARED) IN Start() ** 
+		objects.Add(cheyenne, null);
+		objects.Add(belle, null);
+		objects.Add(tuco, null);
+		objects.Add(doc, null);
+		objects.Add(ghost, null);
+		objects.Add(django, null);
+
+		objects.Add(gem1, null);
+		objects.Add(gem2, null);
+		objects.Add(gem3, null);
+		objects.Add(gem4, null);
+		objects.Add(gem5, null);
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (sfs != null) {
-			sfs.ProcessEvents();
+        if (SFS.IsConnected()) {
+			SFS.ProcessEvents();
 		}
 
+		if (SFS.debugText != debugText.text) {
+            debugText.text = SFS.debugText;
+        }
 
-        // updateGameState method goes here and reassigns all game objects in dictionaries to received objects
-
-        // prompts come in here and indicate (e.g. with a log message what user should do/click).
-        // The prompt should send all the objects that are clickable
-        
-        // user clicks on a gameobject, we check that it is valid, i.e. is one of the available clickable objects
-        // received from prompt, and if so it is sent to the server
-
-        // have listener methods for different prompts that verifies if game object that user clicks
-        // is valid using dictionary
+		// for debugging
+		if (SFS.moreText) {
+            debugTextString += SFS.debugText;
+            SFS.moreText = false;
+        }
+        if (debugTextString != debugText.text) {
+            debugText.text = debugTextString;
+        }
     }
 
-    private void Test() {
-        buttonLabel.text = "CONNECT+ENTER";
-        button.onClick.AddListener(OnButtonClick);
-		extension.onClick.AddListener(EnterChooseCharacterScene);
-		chooseChar.onClick.AddListener(ChooseCharacter);
-    }
-
-	private void EnterChooseCharacterScene() {
+	public static void SendNewGameState() {
 		ISFSObject obj = SFSObject.NewInstance();
-        ExtensionRequest req = new ExtensionRequest("gm.enterChooseCharacterScene",obj);
-        sfs.Send(req);
-        trace("Sent enter scene message");
+		
+		/* testing purposes
+		gm = new GameManager();
+		ArrayList bandits = new ArrayList();
+		Bandit doc = new Bandit();
+		TrainUnit position = new TrainUnit();
+		position.carTypeAsString = "LocomotiveRoof";
+		doc.position = position;
+		bandits.Add(doc);
+		gm.bandits = bandits;
+		*/
+
+		obj.PutClass("gm", gm);
+        ExtensionRequest req = new ExtensionRequest("gm.newGameState",obj);
+        SFS.Send(req);
+        trace("sent game state");
 	}
 
-
-	// client side: receiving input from USER (for testing purposes it's called automatically upon login)
-    private void ChooseCharacter() {
-
-        ISFSObject obj = SFSObject.NewInstance();
-		obj.PutUtfString("chosenCharacter", "TUCO");
-        ExtensionRequest req = new ExtensionRequest("gm.chosenCharacter",obj);
-        sfs.Send(req);
-        trace("chose Tuco");
-    }
-
-
-	// client side: receiving feedback from SERVER
-    private void OnExtensionResponse(BaseEvent evt) {
-        String cmd = (String)evt.Params["cmd"];
-        trace("response received");
-        /*
-        * DELEGATE COMMANDS TO DIFFERENT METHODS HERE, BASED ON VALUE OF cmd
-        */
-		if (cmd == "updateGameState") {
-            UpdateGameState(evt);
-		} else if (cmd == "remainingCharacters") {
-			DisplayRemainingCharacters(evt);
-		}
-    }
-
-	private void DisplayRemainingCharacters(BaseEvent evt) {
-		ISFSObject responseParams = (SFSObject)evt.Params["params"];
-		int size = responseParams.GetSFSArray("characterList").Size();
-		trace("Characters to choose from: ");
-		for (int i = 0; i < size; i++) {
-			trace((string)responseParams.GetSFSArray("characterList").GetUtfString(i));
-		}
-	}
-
-    private void  UpdateGameState(BaseEvent evt) {
+	// THIS IS THE FIRST METHOD CALLED FOR RECEIVING NEW GAME STATE
+    public static void UpdateGameState(BaseEvent evt) {
         trace("updategamestate called");
-        // REASSIGN ALL GAME OBJECTS -- CLEAR THEM FIRST
-        bandits = new Dictionary<GameObject, Bandit>();
-        //...
-
+        
         ISFSObject responseParams = (SFSObject)evt.Params["params"];
-        string resp = responseParams.GetUtfString("testStr");
-        trace(resp);
-		//Bandit b = (Bandit)responseParams.GetClass("bandits");
+		gm = (GameManager)responseParams.GetClass("gm");
+
+		// get the first Bandit obj from GM 
+		// Bandit b = (Bandit) gm.bandits[0];
+		
+		// ** REASSIGN ALL GAME OBJECTS USING DICTIONARY -- CLEAR THEM FIRST ** 
+		// all objects need identity
+        // objects[cheyenne] = gm.ban...
+		// objects[cheyenne] = gm.
+		// ** Assign the game object cheyenne to the Bandit cheyenne ** 
+		Bandit banditChey = (Bandit) gm.bandits[0]; 
+		Bandit banditBelle = (Bandit) gm.bandits[1];
+		Bandit banditTuco = (Bandit) gm.bandits[2];
+		Bandit banditDoc = (Bandit) gm.bandits[3];
+		Bandit banditGhost = (Bandit) gm.bandits[4];
+		Bandit banditDjango = (Bandit) gm.bandits[5];
+
+		// ... 
+		objects[cheyenne] = gm.bandits[0]; 
+		objects[belle] = gm.bandits[1]; 
+		objects[tuco] = gm.bandits[2]; 
+		objects[doc] = gm.bandits[3]; 
+		objects[ghost] = gm.bandits[4]; 
+		objects[django] = gm.bandits[4]; 
+
+		// ** adding to the dictionary ** 
+		objects.Add(cheyenne, banditChey); 
+		objects.Add(belle, banditBelle);
+		objects.Add(tuco, banditTuco);
+		objects.Add(doc, banditDoc);
+		objects.Add(ghost, banditGhost);
+		objects.Add(django, banditDjango);
+
+		gm.PlayTurn();
+
 		//trace(b.strBanditName);
         // Extract expected parameters and reassign all game objects
-        /*ArrayList banditsArray = (ArrayList)responseParams.GetClass("bandits");
-        foreach (Bandit b in banditsArray) {
+        /*ArrayList banditsArray = (ArrayList)responseParams.GetClass("bandits");*/
+        ArrayList banditsArray = (ArrayList)responseParams.GetClass("bandits");
+		foreach (Bandit b in banditsArray) {
             if (b.strBanditName == "CHEYENNE") {
                 bandits.Add(cheyenne, b);
                 trace("Cheyenne added!");
@@ -290,6 +363,64 @@ public class GameBoard : MonoBehaviour
 		// Show error message
 		debugText.text = "Login failed: " + (string) evt.Params["errorMessage"];
 	}
+
+
+}
+			if (b.strBanditName == "BELLE") {
+                bandits.Add(belle, b);
+                trace("Belle added!");
+            }
+			if (b.strBanditName == "TUCO") {
+                bandits.Add(tuco, b);
+                trace("Tuco added!");
+            }
+			if (b.strBanditName == "DOC") {
+                bandits.Add(doc, b);
+                trace("Doc added!");
+            }
+			if (b.strBanditName == "GHOST") {
+                bandits.Add(ghost, b);
+                trace("Ghost added!");
+            }
+			if (b.strBanditName == "DJANGO") {
+                bandits.Add(django, b);
+                trace("Django added!");
+            }
+        }
+    }
+
+	private void ChooseCharacter(Character c) {
+		// **Assumption: Character has a function(getName) that returns the name of the character**
+        ISFSObject obj = SFSObject.NewInstance();
+		string cName = c.getName; 
+		// obj.PutUtfString("chosenCharacter", "TUCO");
+		obj.PutUtfString("chosenCharacter", cName);
+        ExtensionRequest req = new ExtensionRequest("gm.chosenCharacter",obj);
+        SFS.Send(req);
+        trace("chose"+cName);
+    }
+
+
+	public static void trace(string msg) {
+		debugTextString += (debugTextString != "" ? "\n" : "") + msg;
+	}
+
+	void OnApplicationQuit() {
+		// Always disconnect before quitting
+		SFS.Disconnect();
+	}
+
+   /* private void Test() {
+        buttonLabel.text = "CONNECT+ENTER";
+        button.onClick.AddListener(OnButtonClick);
+		extension.onClick.AddListener(SendNewGameState);//EnterChooseCharacterScene);
+		chooseChar.onClick.AddListener(ChooseCharacter);
+    }
+
+
+    private void trace(string msg) {
+		debugText.text += (debugText.text != "" ? "\n" : "") + msg;
+	}*/
 
 
 }

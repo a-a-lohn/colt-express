@@ -14,6 +14,13 @@ using Sfs2X.Protocol.Serialization;
 // using System.Reflection;
 //        DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
 namespace model {
+    public class Horse : SerializableSFSType {
+
+        public TrainUnit adjacentTo;
+        public Bandit riddenBy;
+
+        public Horse() { }
+
     public class ActionCard : SerializableSFSType
     {
         public string actionAsString; //public ActionKind action;
