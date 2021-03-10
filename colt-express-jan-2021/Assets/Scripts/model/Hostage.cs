@@ -20,7 +20,8 @@ namespace model {
         public string hostageTypeAsString;
         
         /// /FOR NETWORKING
-        public Option<Bandit> capturedBy;
+        //public Option<Bandit> capturedBy;
+        public Bandit capturedBy;
         
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public Hostage() {}
@@ -45,35 +46,37 @@ namespace model {
         
         // capturedBy
         public Bandit getCapturedBy() {
-            return this.capturedBy.value;
+            //return this.capturedBy.value;
+            return this.capturedBy;
         }
         
         public void setCapturedBy(Bandit capturedBy) {
-            this.capturedBy = Option<Bandit>.Some(capturedBy);
+            //this.capturedBy = Option<Bandit>.Some(capturedBy);
+            this.capturedBy = capturedBy;
         }
 
         // Customized Optional type 
 
-        public struct Option<T>
-        {
-            public static Option<T> None => default;
-            public static Option<T> Some(T value) => new Option<T>(value);
+        // public struct Option<T>
+        // {
+        //     public static Option<T> None => default;
+        //     public static Option<T> Some(T value) => new Option<T>(value);
 
-            public readonly bool isSome;
-            public readonly T value;
+        //     public readonly bool isSome;
+        //     public readonly T value;
 
-            Option(T value)
-            {
-                this.value = value;
-                isSome = this.value is { };
-            }
+        //     Option(T value)
+        //     {
+        //         this.value = value;
+        //         isSome = this.value is { };
+        //     }
 
-            public bool IsSome(out T value)
-            {
-                value = this.value;
-                return isSome;
-            }
-        }
+        //     public bool IsSome(out T value)
+        //     {
+        //         value = this.value;
+        //         return isSome;
+        //     }
+        // }
 
     }
 

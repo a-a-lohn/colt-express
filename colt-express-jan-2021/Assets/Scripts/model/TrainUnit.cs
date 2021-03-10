@@ -31,9 +31,9 @@ namespace model {
         
         // Used for stagecoach and it's adjacent car ONLY.
         public bool isMarshalHere = false;
-        public HashSet<Bandit> banditsHere = new HashSet<Bandit>();
-        public HashSet<Loot> lootHere = new HashSet<Loot>();
-        public HashSet<Horse> horsesHere = new HashSet<Horse>();
+        public ArrayList banditsHere = new ArrayList();
+        public ArrayList lootHere = new ArrayList();
+        public ArrayList horsesHere = new ArrayList();
         
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public TrainUnit() {}
@@ -216,17 +216,18 @@ namespace model {
             return this.banditsHere.Count;
         }
         
-        public HashSet<Bandit> getBanditsHere() {
-            //return ((HashSet<Bandit>)(this.banditsHere.clone())); Double check the clone() method !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            return new HashSet<Bandit>(banditsHere);
+        public ArrayList getBanditsHere() {
+            return (ArrayList)banditsHere.Clone();
         }
         
         public void addLoot(Loot a) {
-            // TODO
+            System.Diagnostics.Trace.Assert(!this.lootHere.Contains(a));
+            this.lootHere.Add(a);
         }
         
         public void removeLoot(Loot a) {
-            // TODO
+            System.Diagnostics.Trace.Assert(this.lootHere.Contains(a));
+            this.lootHere.Remove(a);
         }
         
         bool containsLoot(Loot a) {
