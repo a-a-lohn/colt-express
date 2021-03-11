@@ -141,6 +141,7 @@ public class GameBoard : MonoBehaviour
         string resp = responseParams.GetUtfString("testStr");
         trace(resp);
 		GameManager gm = (GameManager)responseParams.GetClass("gm");
+		GameManager.replaceInstance(gm);
 		Bandit b = (Bandit) gm.bandits[0];
 		trace(b.position.carTypeAsString);
 		//trace(b.strBanditName);

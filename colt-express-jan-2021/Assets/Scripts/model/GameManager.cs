@@ -28,8 +28,22 @@ namespace model {
        //public ArrayList trainUnits;
         //public ArrayList stagecoach;
         public ArrayList bandits;
+        public static GameManager singleton;
 
         public GameManager() { }
+
+        public static getInstance() {
+            if (singleton == null) {
+                singleton = new GameManager();
+            }
+            return singleton
+        }
+
+        public static replaceInstance(GameManager gm){
+            singleton = gm;
+        }
+
+
         
         
     }
