@@ -762,7 +762,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		// TODO FRONT END RESPONSE/SEND TO CLIENTS
 	}
 
-	public static ArrayList<TrainUnit> moveAlgorithm(Bandit b) {
+	public static ArrayList<TrainUnit> moveAlgorithm(Bandit b) { //use currentBandit instead of parameter //void method
 		ArrayList<TrainUnit> possibleMoving = new ArrayList<TrainUnit>();
 		TrainUnit currentPosition = b.getPosition();
 		if (currentPosition.getLeft() != null) {
@@ -787,7 +787,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 			}
 
 		}
-		return possibleMoving;
+		return possibleMoving; //call promptMoves(possibleMoving)
 	}
 
 	public void move(TrainUnit targetPosition) {
@@ -797,6 +797,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 			this.currentBandit.addDiscardPile(this.neutralBulletCard.remove(0));
 			this.currentBandit.setPosition(currentPosition);
 		}
+		// call endOfTurn()
 	}
 
 	public void moveMarshal() {

@@ -40,31 +40,6 @@ namespace model {
             //this.riddenBy = Option<Bandit>.Some(b);
             this.riddenBy = b;
         }
-
-        // Customized Optional type 
-
-        // public struct Option<T>
-        // {
-        //     public static Option<T> None => default;
-        //     public static Option<T> Some(T value) => new Option<T>(value);
-
-        //     public readonly bool isSome;
-        //     public readonly T value;
-
-        //     Option(T value)
-        //     {
-        //         this.value = value;
-        //         isSome = this.value is { };
-        //     }
-
-        //     public bool IsSome(out T value)
-        //     {
-        //         value = this.value;
-        //         return isSome;
-        //     }
-        // }
-
-        public Horse() { }
     }
 
 }

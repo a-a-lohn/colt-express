@@ -84,7 +84,7 @@ public class ChooseCharacter : MonoBehaviour
              string name =  EventSystem.current.currentSelectedGameObject.name;
              // Debug.Log(name + " ahh"); 
              selected.text = "Your bandit is: " + name;
-             CharacterChoice(name);
+             CharacterChoice(name.ToUpper());
 
              // SET AVAILABILITY OF THE CHOSEN CHARACTER TO FALSE 
              if(name == "Belle"){
