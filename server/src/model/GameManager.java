@@ -253,17 +253,17 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 			TurnType currentTurnType = this.currentRound.getCurrentTurn().getTurnType();
 			
 			if(currentTurnType == TurnType.STANDARD || currentTurnType == TurnType.TUNNEL) {
-				banditIndex = (banditIndex+1) % this.bandits.size();;
+				banditIndex = (banditIndex+1) % this.bandits.size();
 				banditsPlayedThisTurn++;
 				//IF END OF TURN
 				if (banditsPlayedThisTurn>this.bandits.size()) { 
+					banditsPlayedThisTurn = 0;
 					//IF THERE ARE MORE TURNS IN THE ROUND
 					if(this.currentRound.getNextTurn() != null) { //IMPORTANT: getNextTurn() also SETS to next turn
 						this.currentBandit = this.bandits.get(banditIndex);
 					}
 					//IF THERE ARE NO MORE TURNS IN THE ROUND
 					else {
-						banditsPlayedThisTurn = 0;
 						this.setGameStatus(GameStatus.STEALIN);						
 					}
 				}
@@ -284,9 +284,10 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 			
 		}
 		else if(this.gameStatus == GameStatus.STEALIN) { //NOTE TO SELF: UPDATE ROUND TO NEXT ROUND AT THE END OF STEALIN
-			Card toResolve = this.playedPileInstance.takeTopCard();
+			ActionCard toResolve = this.playedPileInstance.takeTopCard();
 			if(toResolve != null) {
 				currentBandit = toResolve.getBelongsTo();
+				currentBandit.setToResolve(toResolve);
 			}
 			else { //played pile is empty
 				roundIndex++;
@@ -302,6 +303,15 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 			}
 		}
 		
+	}
+	
+	public void executeTurn() {
+		if(/*it's my turn*/true) {
+			if(this.gameStatus == GameStatus.SCHEMIN) {
+			}
+			else if(this.gameStatus == GameStatus.STEALIN) {
+			}			
+		}
 	}
 	
 	public GameManager() {};
