@@ -205,18 +205,33 @@ public class GameBoard : MonoBehaviour
                 bandits.Add(cheyenne, b);
                 trace("Cheyenne added!");
             }
-        }*/
+			if (b.strBanditName == "BELLE") {
+                bandits.Add(belle, b);
+                trace("Belle added!");
+            }
+			if (b.strBanditName == "TUCO") {
+                bandits.Add(tuco, b);
+                trace("Tuco added!");
+            }
+			if (b.strBanditName == "DOC") {
+                bandits.Add(doc, b);
+                trace("Doc added!");
+            }
+			if (b.strBanditName == "GHOST") {
+                bandits.Add(ghost, b);
+                trace("Ghost added!");
+            }
+			if (b.strBanditName == "DJANGO") {
+                bandits.Add(django, b);
+                trace("Django added!");
+            }
+        }
+
 
 		GameManager gm = (GameManager)responseParams.GetClass("gm");
 		Bandit b = (Bandit)gm.bandits[0];
 		trace(b.banditNameAsString + " YESSSS");
     }
-
-
-
-
-
-
 
 
     private void trace(string msg) {
@@ -365,31 +380,7 @@ public class GameBoard : MonoBehaviour
 	}
 
 
-}
-			if (b.strBanditName == "BELLE") {
-                bandits.Add(belle, b);
-                trace("Belle added!");
-            }
-			if (b.strBanditName == "TUCO") {
-                bandits.Add(tuco, b);
-                trace("Tuco added!");
-            }
-			if (b.strBanditName == "DOC") {
-                bandits.Add(doc, b);
-                trace("Doc added!");
-            }
-			if (b.strBanditName == "GHOST") {
-                bandits.Add(ghost, b);
-                trace("Ghost added!");
-            }
-			if (b.strBanditName == "DJANGO") {
-                bandits.Add(django, b);
-                trace("Django added!");
-            }
-        }
-    }
-
-	private void ChooseCharacter(Character c) {
+	/*private void ChooseCharacter(Character c) {
 		// **Assumption: Character has a function(getName) that returns the name of the character**
         ISFSObject obj = SFSObject.NewInstance();
 		string cName = c.getName; 
@@ -400,23 +391,12 @@ public class GameBoard : MonoBehaviour
         trace("chose"+cName);
     }
 
-
-	public static void trace(string msg) {
-		debugTextString += (debugTextString != "" ? "\n" : "") + msg;
-	}
-
-	void OnApplicationQuit() {
-		// Always disconnect before quitting
-		SFS.Disconnect();
-	}
-
-   /* private void Test() {
+    private void Test() {
         buttonLabel.text = "CONNECT+ENTER";
         button.onClick.AddListener(OnButtonClick);
 		extension.onClick.AddListener(SendNewGameState);//EnterChooseCharacterScene);
 		chooseChar.onClick.AddListener(ChooseCharacter);
     }
-
 
     private void trace(string msg) {
 		debugText.text += (debugText.text != "" ? "\n" : "") + msg;
