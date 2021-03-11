@@ -14,7 +14,7 @@ using Sfs2X.Protocol.Serialization;
 // using System.Reflection;
 //        DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
 namespace model {
-    public class ActionCard : SerializableSFSType
+    public class ActionCard : Card, SerializableSFSType
     {
         public string actionAsString; //public ActionKind action;
         public bool saveForNextRound;
