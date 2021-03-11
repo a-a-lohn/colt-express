@@ -249,16 +249,41 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	
 	public void endOfTurn() {
 		if(this.gameStatus == GameStatus.SCHEMIN) {
-			int index = this.bandits.indexOf(this.currentBandit);
-			index++;
-			if (index<this.bandits.size()) {
-			this.currentBandit = this.bandits.get(index);
+			
+			TurnType currentTurnType = this.currentRound.getCurrentTurn().getTurnType();
+			
+			if(currentTurnType == TurnType.STANDARD || currentTurnType == TurnType.TUNNEL) {
+				banditIndex = (banditIndex+1) % this.bandits.size();;
+				banditsPlayedThisTurn++;
+				//IF END OF TURN
+				if (banditsPlayedThisTurn>this.bandits.size()) { 
+					//IF THERE ARE MORE TURNS IN THE ROUND
+					if(this.currentRound.getNextTurn() != null) { //IMPORTANT: getNextTurn() also SETS to next turn
+						this.currentBandit = this.bandits.get(banditIndex);
+					}
+					//IF THERE ARE NO MORE TURNS IN THE ROUND
+					else {
+						banditsPlayedThisTurn = 0;
+						this.setGameStatus(GameStatus.STEALIN);						
+					}
+				}
+				//IF NOT END OF TURN
+				else {
+					this.currentBandit = this.bandits.get(banditIndex);
+				}
 			}
-			else {
-				this.setGameStatus(GameStatus.STEALIN);
+			
+			else if(currentTurnType == TurnType.SWITCHING) {
+				
 			}
+			
+			else if(currentTurnType == TurnType.SPEEDINGUP) {
+				
+			}
+			
+			
 		}
-		else if(this.gameStatus == GameStatus.STEALIN) {
+		else if(this.gameStatus == GameStatus.STEALIN) { //NOTE TO SELF: UPDATE ROUND TO NEXT ROUND AT THE END OF STEALIN
 			Card toResolve = this.playedPileInstance.takeTopCard();
 			if(toResolve != null) {
 				currentBandit = toResolve.getBelongsTo();

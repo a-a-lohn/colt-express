@@ -27,6 +27,7 @@ public class Bandit implements SerializableSFSType {
 	public ArrayList<Card> deck = new ArrayList<Card>(); //CONVENTION FOR DECK: POSITION DECK.SIZE() IS TOP OF DECK, POSITION 0 IS BOTTOM OF DECK
 	public ArrayList<Card> hand = new ArrayList<Card>();
 	public ArrayList<Card> discardPile = new ArrayList<Card>();
+	public ActionCard toResolve = null;
 
 	//--EMPTY CONSTRUCTOR FOR SERIALIZATION--
 	public Bandit() { }
@@ -281,6 +282,13 @@ public class Bandit implements SerializableSFSType {
 	}
 	public void setHostageAsString(String hostage) {
 		this.hostageAsString = hostage;
+	}
+	
+	public ActionCard getToResolve() {
+		return this.toResolve;
+	}
+	public void setToResolve(ActionCard ac) {
+		this.toResolve = ac;
 	}
 
 	public void createStartingCards() {
