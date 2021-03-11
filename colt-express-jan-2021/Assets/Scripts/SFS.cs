@@ -23,7 +23,7 @@ public static class SFS
     public static string zone;
     public static string debugText = "";
     public static bool moreText = false;
-    public static string username = "coltplayer"; //should be set to logged in user's name
+    public static string username = "coltplayer2"; //should be set to logged in user's name
 
     static SFS(){
         defaultHost = "127.0.0.1";  //"13.90.26.131";

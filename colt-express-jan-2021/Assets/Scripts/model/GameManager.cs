@@ -48,7 +48,7 @@ namespace model {
             if(/*currentBandit == MYBANDIT*/true) {
                 if(strGameStatus == "SCHEMIN") {
                     // calculateCardsAvailable()
-                    //promptChooseCardOrDrawCards(Arraylist of cards); -- Makes objects clickable (plus drawcard) (of class types from gm), can be implemented in a separate class
+                    //makeClickable(Arraylist of cards); -- Makes objects clickable (plus drawcard) (of class types from gm), can be implemented in a separate class
                 }
                 else if (strGameStatus == "STEALIN") {
                     if (/*playedPileInstance.Pop() == "PUNCH"*/true) {

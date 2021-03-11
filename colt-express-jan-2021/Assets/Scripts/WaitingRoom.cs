@@ -21,6 +21,7 @@ public class WaitingRoom : MonoBehaviour
     void Start()
     {
         token = PlayerPrefs.GetString("token", "No token found");
+        Debug.Log(token);
         username = PlayerPrefs.GetString("username", "No username found");
         NewGameButton.SetActive(false);
         // fToken.text = waitToken;
@@ -42,10 +43,10 @@ public class WaitingRoom : MonoBehaviour
         }
     }
 
-    public void GoToGame()
+    /*public void GoToGame()
     {
         SceneManager.LoadScene("ChooseYourCharacter");
-    }
+    }*/
 
     public void JoinGame()
     {
@@ -69,6 +70,8 @@ public class WaitingRoom : MonoBehaviour
         j.creator = username;
         j.game = "ColtExpress";
         j.savegame = "";
+
+        Debug.Log("creating session");
 
         var request = new RestRequest("api/sessions?access_token=" + token, Method.POST)
             //.AddParameter("access_token", token)

@@ -1644,11 +1644,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 762200936}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f7d74421dd9b44488d2770873723d30, type: 3}
+  m_Script: {fileID: 11500000, guid: 23ef03500ebc32a4286253aefc880549, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   selected: {fileID: 1599678048}
-  button: {fileID: 0}
+  button: {fileID: 1191876191}
   character: 
   BelleIsAvailable: 0
   CheyenneIsAvailable: 0
@@ -2099,7 +2099,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.0804443, y: 3.8044434}
+  m_AnchoredPosition: {x: 239, y: -186}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1191876191
@@ -2662,8 +2662,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -11.23, y: 187.82}
-  m_SizeDelta: {x: 620.87, y: 75.3}
+  m_AnchoredPosition: {x: -197.98, y: 19.235016}
+  m_SizeDelta: {x: 247.38, y: 412.47}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1599678048
 MonoBehaviour:
@@ -2687,8 +2687,8 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 28
-    m_FontStyle: 1
+    m_FontSize: 12
+    m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 50

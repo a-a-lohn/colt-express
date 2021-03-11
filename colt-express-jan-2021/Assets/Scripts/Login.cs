@@ -19,6 +19,7 @@ public class Login : MonoBehaviour {
     // public static string password;
 
     public void VerifyUser(){
+        Debug.Log(username.text);
         fText.text = "the username entered is:" + username.text + " and password is: " + password.text;
         //aaron's PutToken code
         // var request = new RestRequest("oauth/token", Method.POST)
@@ -34,7 +35,7 @@ public class Login : MonoBehaviour {
 
         // if verified: 
         // go to the WaitingRoom scene 
-        Invoke("GoToWR", 3); //this will happen after 2 seconds
+        Invoke("GoToWR", 2); //this will happen after 2 seconds
         // SceneManager.LoadScene("WaitingRoom");
 
 

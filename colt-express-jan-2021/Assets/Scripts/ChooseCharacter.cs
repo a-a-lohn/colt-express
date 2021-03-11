@@ -178,6 +178,7 @@ public class ChooseCharacter : MonoBehaviour
             ISFSArray a = responseParams.GetSFSArray("characterList");
             int size = responseParams.GetSFSArray("characterList").Size();
             trace("Characters to choose from: ");
+            var foundButtonObjects = FindObjectsOfType<Button>();
             for (int i = 0; i < size; i++) {
                 string banditName = (string)a.GetUtfString(i);
                 /*GET CHARACTER STRINGS HERE*/
@@ -194,10 +195,18 @@ public class ChooseCharacter : MonoBehaviour
                  trace((string)a.GetUtfString(i));
             }
 
-            //  ** print the names of all character buttons that have not been clicked 
-            var foundButtonObjects = FindObjectsOfType<Button>();
+            
             foreach(Button btn in foundButtonObjects){
-                // Debug.Log(btn);
+                for (int i = 0; i < size; i++) {
+                    string banditName = (string)a.GetUtfString(i);
+                    /*GET CHARACTER STRINGS HERE*/
+                    if (banditName == "TUCO") {
+                        
+
+
+                    }
+                    trace((string)a.GetUtfString(i));
+                }
                 if(btn.interactable == true){
                     trace(btn.name);
                 }
@@ -206,6 +215,11 @@ public class ChooseCharacter : MonoBehaviour
         } catch (Exception e) {
             SceneManager.LoadScene("GameBoard");
         }
+	}
+
+    void OnApplicationQuit() {
+		// Always disconnect before quitting
+		SFS.Disconnect();
 	}
 
 
