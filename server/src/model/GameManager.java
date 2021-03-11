@@ -50,50 +50,6 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	public int roundIndex;
 	public int banditIndex;
 
-	/*
-	 * --RUN GAME-- Moves the game forward between phases All methods are called
-	 * from here
-	 * 
-	 * @pre can only be called from chosenCharacter after game has been initialized
-	 */
-
-	/*
-	 * public void runGame() { for(Round round : rounds) { currentRound = round;
-	 * //ROUND CARD MUST BE DISPLAYED //NOTE TO HU: MAKE SURE EACH BANDIT'S DECK IS
-	 * INITIALIZED IN THE INITIALIZE GAME METHOD schemin(); stealin(); }
-	 * 
-	 * }
-	 */
-
-	/*
-	 * public void schemin() {
-	 * 
-	 * //DRAW CARDS for(Bandit b : this.bandits) { this.currentBandit = b; int
-	 * cardsToDraw = 6; if(currentBandit.getCharacter() == Character.DOC) {
-	 * cardsToDraw=7; } this.drawCards(cardsToDraw); }
-	 * 
-	 * //PLAY CARDS ArrayList<Turn> turns = this.currentRound.getTurns(); for(Turn t
-	 * : turns) { if(t.getTurnType() == TurnType.STANDARD || t.getTurnType() ==
-	 * TurnType.TUNNEL) { for(Bandit b : this.bandits) { this.currentBandit = b;
-	 * //PROMPT CHOICE OF DRAW OR PLAY CARD HERE //RECEIVE RESPONSE if(IF CHOICE IS
-	 * PLAY CARDtrue) { //PROMPT CHOICE OF ACTION CARD //RECEIVE RESPONSE ACTIONCARD
-	 * C //this.playActionCard(c); } else { //IF CHOICE IS DRAW int cardsToDraw = 3;
-	 * this.drawCards(cardsToDraw); } } }
-	 * 
-	 * else if(t.getTurnType() == TurnType.SWITCHING) { //TODO first player goes,
-	 * then last player, back down to second player this.currentBandit =
-	 * bandits.get(0); for(int i=bandits.size()-1; i>0; i--) { this.currentBandit =
-	 * bandits.get(i); } }
-	 * 
-	 * else if(t.getTurnType() == TurnType.SPEEDINGUP) { //TODO each player gets two
-	 * turns for(Bandit b : this.bandits) { this.currentBandit = b; } } } }
-	 */
-
-	/*
-	 * public void stealin() {
-	 * 
-	 * }
-	 */
 
 	public static void setHandler(ColtMultiHandler handle) {
 		handler = handle;
@@ -217,6 +173,96 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		this.currentBandit = this.bandits.get(0);
 	}
 
+	public void playTurn() {
+		if(/*currentBandit == me &&*/ this.gameStatus == GameStatus.SCHEMIN) {
+			promptDrawCardsOrPlayCard();
+		}
+		else if(/*currentBandit == me &&*/ this.gameStatus == GameStatus.STEALIN) {
+			resolveAction(currentBandit.getToResolve());
+		}
+		
+	}
+	
+	public void promptDrawCardsOrPlayCard(){
+		//TODO
+		/*
+		 * if(click draw cards){
+		 * 	drawCards(3);
+		 * }
+		 * else if(click ActionCard c){
+		 * 	playCard(c);
+		 * }
+		 */
+	}
+	
+	public void resolveAction(ActionCard toResolve) {
+		if(toResolve.getActionType() == ActionType.CHANGEFLOOR) {
+			changeFloor();
+		}
+		else if(toResolve.getActionType() == ActionType.MARSHAL) {
+			ArrayList<TrainUnit> possibilities = calculateMoveMarshal();
+			TrainUnit to = moveMarshalPrompt(possibilities);
+			moveMarshal(to);
+		}
+		else if(toResolve.getActionType() == ActionType.MOVE) {
+			ArrayList<TrainUnit> possibilities = calculateMove();
+			TrainUnit to = movePrompt(possibilities);
+			move(to);
+		}
+		else if(toResolve.getActionType() == ActionType.PUNCH) {
+			
+		}
+		else if(toResolve.getActionType() == ActionType.ROB) {
+			
+		}
+		else if(toResolve.getActionType() == ActionType.SHOOT) {
+			
+		}
+	}
+	
+	/**
+	 * @param c Card will be moved from bandit's hand to played pile and it's effect
+	 *          will be resolved
+	 *
+	 */
+	public void playCard(ActionCard c) {
+
+		// Remove card from bandit's hand
+		this.currentBandit = c.getBelongsTo();
+		this.currentBandit.removeHand(c);
+
+		// Prompt playing face down
+		if (currentBandit.getCharacter() == Character.GHOST && this.currentRound.getTurnCounter() == 0) {
+			// TODO: prompt choice;
+			// TODO: receive choice;
+		} else if (this.currentRound.getCurrentTurn().getTurnType() == TurnType.TUNNEL) {
+			// this.currentRound.getCurrentTurn().getTurnTypeAsString().equals("TUNNEL")
+			c.setFaceDown(true);
+		}
+
+		// Assign card to played pile
+		PlayedPile pile = PlayedPile.getInstance();
+		pile.addPlayedCards(c);
+		// TODO: graphical response
+		
+		endOfTurn(); //might have to put this in an if else block for cases like SpeedingUp/Whiskey
+	}
+
+	/**
+	 * 
+	 * @param cardsToDraw the number of cards to add to the Bandit's hand from the
+	 *                    top of their deck
+	 * @pre currentBandit must be set correctly
+	 */
+	public void drawCards(int cardsToDraw) {
+		for (int i = currentBandit.sizeOfDeck() - 1; i > currentBandit.sizeOfDeck() - cardsToDraw - 1; i--) {
+			Card toAdd = currentBandit.removeDeckAt(i);
+			currentBandit.addHand(toAdd);
+		}
+		
+		endOfTurn(); //might have to put this in an if else block for cases like SpeedingUp/Whiskey
+	}	
+	
 	public void endOfTurn() {
 		if (this.gameStatus == GameStatus.SCHEMIN) {
 
@@ -245,14 +291,13 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 			}
 
 			else if (currentTurnType == TurnType.SWITCHING) {
-
+				//TODO
 			}
 
 			else if (currentTurnType == TurnType.SPEEDINGUP) {
-
+				//TODO
 			}
-		} else if (this.gameStatus == GameStatus.STEALIN) { // NOTE TO SELF: UPDATE ROUND TO NEXT ROUND AT THE END OF
-															// STEALIN
+		} else if (this.gameStatus == GameStatus.STEALIN) { 
 			Card toResolve = this.playedPileInstance.takeTopCard();
 			if (toResolve != null) {
 				currentBandit = toResolve.getBelongsTo();
@@ -271,8 +316,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 
 	}
 
-	public GameManager() {
-	};
+	public GameManager() {}
 
 	public static GameManager getInstance() {
 		GameManager gm = null;
@@ -631,8 +675,6 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	 * this.currentBandit
 	 */
 
-	// SEND PROMPT
-	// RECEIVE RESPONSE
 
 	public Loot RobPrompt(Bandit b, HashSet<Loot> l) {
 		// TO DO
@@ -646,7 +688,8 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 			Loot l = RobPrompt(this.currentBandit, this.currentBandit.getPosition().lootHere);
 			this.currentBandit.addLoot(l);
 		}
-
+		
+		endOfTurn(); //might have to put this in an if else block for cases like SpeedingUp/Whiskey
 	}
 
 	public Bandit RoofShootPrompt(Bandit b, ArrayList<Bandit> ab) {
@@ -701,7 +744,8 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 				}
 			}
 		}
-
+		
+		endOfTurn(); //might have to put this in an if else block for cases like SpeedingUp/Whiskey
 	}
 
 	public Bandit punchBanditPrompt(Bandit b, ArrayList<Bandit> ab) {
@@ -745,7 +789,8 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 			target.setPosition(tu);
 
 		}
-
+		
+		endOfTurn(); //might have to put this in an if else block for cases like SpeedingUp/Whiskey
 	}
 
 	public void changeFloor() {
@@ -759,7 +804,8 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 			currentPosition.getAbove().addBandit(currentBandit);
 			currentBandit.setPosition(currentPosition.getAbove());
 		}
-		// TODO FRONT END RESPONSE/SEND TO CLIENTS
+
+		endOfTurn(); //might have to put this in an if else block for cases like SpeedingUp/Whiskey
 	}
 
 	public static ArrayList<TrainUnit> moveAlgorithm(Bandit b) { //use currentBandit instead of parameter //void method
@@ -789,7 +835,16 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		}
 		return possibleMoving; //call promptMoves(possibleMoving)
 	}
-
+	
+	public ArrayList<TrainUnit> calculateMove(){
+		return new ArrayList<TrainUnit>();
+	}
+	
+	public TrainUnit movePrompt(ArrayList<TrainUnit> possibilities) {
+		//TODO
+		return new TrainUnit();
+	}
+	
 	public void move(TrainUnit targetPosition) {
 		TrainUnit currentPosition = this.currentBandit.getPosition();
 		this.currentBandit.setPosition(targetPosition);
@@ -797,52 +852,25 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 			this.currentBandit.addDiscardPile(this.neutralBulletCard.remove(0));
 			this.currentBandit.setPosition(currentPosition);
 		}
-		// call endOfTurn()
+
+		endOfTurn(); //might have to put this in an if else block for cases like SpeedingUp/Whiskey
 	}
 
-	public void moveMarshal() {
-		// TODO SEND PROMPT
-		// TODO RECEIVE RESPONSE
+	public ArrayList<TrainUnit> calculateMoveMarshal(){
+		//TODO
+		return new ArrayList<TrainUnit>();
+	}
+	
+	public TrainUnit moveMarshalPrompt(ArrayList<TrainUnit> possibilities) {
+		//TODO
+		return new TrainUnit();
+	}
+	
+	public void moveMarshal(TrainUnit targetPosition) {
+		//TODO
+		endOfTurn(); //might have to put this in an if else block for cases like SpeedingUp/Whiskey
 	}
 
-	/**
-	 * @param c Card will be moved from bandit's hand to played pile and it's effect
-	 *          will be resolved
-	 *
-	 */
-	public void playActionCard(ActionCard c) {
 
-		// Remove card from bandit's hand
-		this.currentBandit = c.getBelongsTo();
-		this.currentBandit.removeHand(c);
-
-		// Prompt playing face down
-		if (currentBandit.getCharacter() == Character.GHOST && this.currentRound.getTurnCounter() == 0) {
-			// TODO: prompt choice;
-			// TODO: receive choice;
-		} else if (this.currentRound.getCurrentTurn().getTurnType() == TurnType.TUNNEL) {
-			// this.currentRound.getCurrentTurn().getTurnTypeAsString().equals("TUNNEL")
-			c.setFaceDown(true);
-		}
-
-		// Assign card to played pile
-		PlayedPile pile = PlayedPile.getInstance();
-		pile.addPlayedCards(c);
-		// TODO: graphical response
-
-	}
-
-	/**
-	 * 
-	 * @param cardsToDraw the number of cards to add to the Bandit's hand from the
-	 *                    top of their deck
-	 * @pre currentBandit must be set correctly
-	 */
-	public void drawCards(int cardsToDraw) {
-		for (int i = currentBandit.sizeOfDeck() - 1; i > currentBandit.sizeOfDeck() - cardsToDraw - 1; i--) {
-			Card toAdd = currentBandit.removeDeckAt(i);
-			currentBandit.addHand(toAdd);
-		}
-	}
 
 }
