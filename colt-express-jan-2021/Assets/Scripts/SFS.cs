@@ -57,7 +57,7 @@ public static class SFS
 		if (cmd == "remainingCharacters") {
 			ChooseCharacter.DisplayRemainingCharacters(evt);
 		} else if (cmd == "updateGameState") {
-            GameBoard.UpdateGameState(evt);
+            // GameBoard.UpdateGameState(evt);
         }
     }
 

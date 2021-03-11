@@ -1,3 +1,11 @@
+using model;
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,298 +22,182 @@ using Sfs2X.Requests;
 using System.Reflection;
 using Sfs2X.Protocol.Serialization;
 
-using model;
+using System.Collections;
 
 public class GameBoard : MonoBehaviour
 {
 
-    public GameObject cheyenne;
-    public Text debugText;
+	/*
+	Frontend team:
+	-attach choosecharacter strings to characters (attach character strings from
+		 DisplayRemainingCharacters() to characters in the scene 
+		 so that when the characters are clicked, CharacterChoice(character) is called that passes the chosen character to the server. This
+		 can be done by attaching scripts to each character game object, similar to how it will work for gameobjects on the game board)
+	-Assign all gameobjects in dictionary upon update game state call
+	-implement prompt method in Gamemanager (i.e. set action and clickable global variables)
+	-write scripts attached to each game object that checks if it is clickable, if so, checks action and calls action on clicked item
+	-assign locations on game board to each gameobject (should be in attached scripts in as a global variable that is reassigned every
+	   time updategamestate() is called, checks updated gm instance for new item's position)
+	-get login and other scripts --done
+	*/
+
+	//debug variables
+	public static Text debugText;
+	public static string debugTextString;
     public Button button;
 	public Button extension;
 	public Button chooseChar;
     public Text buttonLabel;
+	
     public Bandit b;
+
+	public static GameManager gm;
+
+	// LIST OF ALL GAME OBJECTS HERE
+    public static GameObject cheyenne;
+	public static GameObject belle; 
+	public static GameObject tuco; 
+	public static GameObject doc; 
+	public static GameObject ghost; 
+	public static GameObject django; 
+	
+	public static GameObject gem1; 
+	public static GameObject gem2; 
+	public static GameObject gem3; 
+	public static GameObject gem4;
+	public static GameObject gem5;
+
+	// public GameObject tuco;
+	// public GameObject doc; 
+	// public GameObject django; 
     
-    Dictionary<GameObject, Bandit> bandits = new Dictionary<GameObject, Bandit>();
+    public static Dictionary<GameObject, object> objects = new Dictionary<GameObject, object>();
+
+	// public Dictionary<T, GameObject> objects = new Dictionary<T, GameObject>();
+	// NOTE: INITIALIZE THE DICTIONARY FOR EVERY OBJECT HERE FIRST,
+	// ** THE DICTIONARIES ARE INITIALIZED(CLEARED) IN Start() ** 
+	// E.G. objects.Add(cheyenne, null), objects.Add(tuco, null), ...
+	// This way, update game state will simply be able to overwrite the values in the dictionary
+	// whenever it is called by the server
 
 
-    private SmartFox sfs;
-    private string defaultHost = "127.0.0.1"; //"13.90.26.131"; // 
-	private int defaultTcpPort = 9933;			// Default TCP port
-    private string zone = "TestZone"; //"ColtExpress"; //"NewZone"; //"BasicExamples";// "MyExt";
+	public static ArrayList clickable = new ArrayList();
+	public static string action = "";
 
-    // Start is called before the first frame update
+
+    //private static SmartFox sfs = SFS.sfs;
+   // private static string defaultHost = SFS.defaultHost;// = "127.0.0.1"; //"13.90.26.131"; // 
+	//private static int defaultTcpPort = SFS.defaultTcpPort;// = 9933;			// Default TCP port
+    //private static string zone = SFS.zone;// = "MergedExt"; //"ColtExpress"; //"NewZone"; //"BasicExamples";// "MyExt";
+
     void Start()
     {
-		
-        Test();
+		debugTextString = "";
+        debugText.text = "";
 
-        // Receive classes that were created on server upon game startup here
-        
+		//SendNewGameState();
+		// ** THE DICTIONARIES ARE INITIALIZED(CLEARED) IN Start() ** 
+		objects.Add(cheyenne, null);
+		objects.Add(belle, null);
+		objects.Add(tuco, null);
+		objects.Add(doc, null);
+		objects.Add(ghost, null);
+		objects.Add(django, null);
+
+		objects.Add(gem1, null);
+		objects.Add(gem2, null);
+		objects.Add(gem3, null);
+		objects.Add(gem4, null);
+		objects.Add(gem5, null);
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (sfs != null) {
-			sfs.ProcessEvents();
+        if (SFS.IsConnected()) {
+			SFS.ProcessEvents();
 		}
 
+		if (SFS.debugText != debugText.text) {
+            debugText.text = SFS.debugText;
+        }
 
-        // updateGameState method goes here and reassigns all game objects in dictionaries to received objects
-
-        // prompts come in here and indicate (e.g. with a log message what user should do/click).
-        // The prompt should send all the objects that are clickable
-        
-        // user clicks on a gameobject, we check that it is valid, i.e. is one of the available clickable objects
-        // received from prompt, and if so it is sent to the server
-
-        // have listener methods for different prompts that verifies if game object that user clicks
-        // is valid using dictionary
+		// for debugging
+		if (SFS.moreText) {
+            debugTextString += SFS.debugText;
+            SFS.moreText = false;
+        }
+        if (debugTextString != debugText.text) {
+            debugText.text = debugTextString;
+        }
     }
 
-    private void Test() {
-        buttonLabel.text = "CONNECT+ENTER";
-        button.onClick.AddListener(OnButtonClick);
-		extension.onClick.AddListener(SendNewGameState);//EnterChooseCharacterScene);
-		chooseChar.onClick.AddListener(ChooseCharacter);
-    }
-
-	private void EnterChooseCharacterScene() {
+	public static void SendNewGameState() {
 		ISFSObject obj = SFSObject.NewInstance();
-        ExtensionRequest req = new ExtensionRequest("gm.enterChooseCharacterScene",obj);
-        sfs.Send(req);
-        trace("Sent enter scene message");
-	}
-
-
-	// client side: receiving input from USER (for testing purposes it's called automatically upon login)
-    private void ChooseCharacter() {
-        ISFSObject obj = SFSObject.NewInstance();
-		obj.PutUtfString("chosenCharacter", "TUCO");
-        ExtensionRequest req = new ExtensionRequest("gm.chosenCharacter",obj);
-        sfs.Send(req);
-        trace("chose Tuco");
-    }
-
-
-	// client side: receiving feedback from SERVER
-    private void OnExtensionResponse(BaseEvent evt) {
-        String cmd = (String)evt.Params["cmd"];
-        trace("response received");
-        /*
-        * DELEGATE COMMANDS TO DIFFERENT METHODS HERE, BASED ON VALUE OF cmd
-        */
-		if (cmd == "updateGameState") {
-            UpdateGameState(evt);
-		} else if (cmd == "remainingCharacters") {
-			DisplayRemainingCharacters(evt);
-		}
-    }
-
-	private void DisplayRemainingCharacters(BaseEvent evt) {
-		ISFSObject responseParams = (SFSObject)evt.Params["params"];
-		int size = responseParams.GetSFSArray("characterList").Size();
-		trace("Characters to choose from: ");
-		for (int i = 0; i < size; i++) {
-			trace((string)responseParams.GetSFSArray("characterList").GetUtfString(i));
-		}
-	}
-
-	private void SendNewGameState() {
-		ISFSObject obj = SFSObject.NewInstance();
-		
-		GameManager gm = new GameManager();
-		ArrayList bandits = new ArrayList();
-		Bandit doc = new Bandit();
-		TrainUnit position = new TrainUnit();
-		position.carType = "LocomotiveRoof";
-		doc.position = position;
-		bandits.Add(doc);
-		gm.bandits = bandits;
 
 		obj.PutClass("gm", gm);
         ExtensionRequest req = new ExtensionRequest("gm.newGameState",obj);
-        sfs.Send(req);
+        SFS.Send(req);
         trace("sent game state");
 	}
-	// Changed Modifier !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    public void UpdateGameState(BaseEvent evt) {
-        trace("updategamestate called");
-        // REASSIGN ALL GAME OBJECTS -- CLEAR THEM FIRST
-        bandits = new Dictionary<GameObject, Bandit>();
-        //...
 
+	// THIS IS THE FIRST METHOD CALLED FOR RECEIVING NEW GAME STATE
+    public static void UpdateGameState(BaseEvent evt) {
+        trace("updategamestate called");
+        
         ISFSObject responseParams = (SFSObject)evt.Params["params"];
-        string resp = responseParams.GetUtfString("testStr");
-        trace(resp);
-		GameManager gm = (GameManager)responseParams.GetClass("gm");
-		GameManager.replaceInstance(gm);
-		Bandit b = (Bandit) gm.bandits[0];
-		trace(b.position.carType);
-		//trace(b.strBanditName);
-        // Extract expected parameters and reassign all game objects
-        /*ArrayList banditsArray = (ArrayList)responseParams.GetClass("bandits");
-        foreach (Bandit b in banditsArray) {
-            if (b.strBanditName == "CHEYENNE") {
-                bandits.Add(cheyenne, b);
+		gm = (GameManager)responseParams.GetClass("gm");
+		
+		// REASSIGN ALL GAME OBJECTS USING DICTIONARY
+		ArrayList banditsArray = gm.bandits;
+		foreach (Bandit b in banditsArray) {
+            if (b.banditNameAsString == "CHEYENNE") {
+				objects[cheyenne] = b;
                 trace("Cheyenne added!");
             }
-        }*/
+			if (b.banditNameAsString == "BELLE") {
+                objects[belle] = b;
+                trace("Belle added!");
+            }
+			if (b.banditNameAsString == "TUCO") {
+                objects[tuco] = b;
+                trace("Tuco added!");
+            }
+			if (b.banditNameAsString == "DOC") {
+                objects[doc] = b;
+                trace("Doc added!");
+            }
+			if (b.banditNameAsString == "GHOST") {
+                objects[ghost] = b;
+                trace("Ghost added!");
+            }
+			if (b.banditNameAsString == "DJANGO") {
+                objects[django] = b;
+                trace("Django added!");
+            }
+
+			gm.PlayTurn();
+        }
     }
 
+	/*private void ChooseCharacter() {
+        ISFSObject obj = SFSObject.NewInstance();
+		obj.PutUtfString("chosenCharacter", "TUCO");
+        ExtensionRequest req = new ExtensionRequest("gm.chosenCharacter",obj);
+        SFS.Send(req);
+        trace("chose Tuco");
+    }*/
 
-
-
-
-
-
-
-    private void trace(string msg) {
+    public static void trace(string msg) {
 		debugText.text += (debugText.text != "" ? "\n" : "") + msg;
 	}
 
-    public void OnButtonClick() {
-		if (sfs == null || !sfs.IsConnected) {
-
-			// CONNECT
-
-			// Clear console
-			debugText.text = "";
-			
-			trace("Now connecting...");
-			
-			// Initialize SFS2X client
-			sfs = new SmartFox();
-
-            // For C# serialization
-			DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
-			
-            // Add listeners
-			sfs.AddEventListener(SFSEvent.CONNECTION, OnConnection);
-			sfs.AddEventListener(SFSEvent.CONNECTION_LOST, OnConnectionLost);
-            sfs.AddEventListener(SFSEvent.LOGIN, OnLogin);
-		    sfs.AddEventListener(SFSEvent.LOGIN_ERROR, OnLoginError);
-            sfs.AddEventListener(SFSEvent.EXTENSION_RESPONSE, OnExtensionResponse);
-
-			sfs.AddLogListener(LogLevel.INFO, OnInfoMessage);
-			sfs.AddLogListener(LogLevel.WARN, OnWarnMessage);
-			sfs.AddLogListener(LogLevel.ERROR, OnErrorMessage);
-			
-			// Set connection parameters
-			ConfigData cfg = new ConfigData();
-			cfg.Host = defaultHost;
-			cfg.Port = Convert.ToInt32(defaultTcpPort.ToString());
-			cfg.Zone = zone;
-			//cfg.Debug = true;
-				
-			// Connect to SFS2X
-			sfs.Connect(cfg);
-		} else {
-			
-			// Disconnect from SFS2X
-			sfs.Disconnect();
-            trace("Disconnected");
-            buttonLabel.text = "CONNECT+ENTER";
-		}
-	}
-
-    private void reset() {
-		// Remove SFS2X listeners
-		sfs.RemoveEventListener(SFSEvent.CONNECTION, OnConnection);
-		sfs.RemoveEventListener(SFSEvent.CONNECTION_LOST, OnConnectionLost);
-        sfs.RemoveEventListener(SFSEvent.LOGIN, OnLogin);
-		sfs.RemoveEventListener(SFSEvent.LOGIN_ERROR, OnLoginError);
-        sfs.RemoveEventListener(SFSEvent.EXTENSION_RESPONSE, OnExtensionResponse);
-
-		sfs.RemoveLogListener(LogLevel.INFO, OnInfoMessage);
-		sfs.RemoveLogListener(LogLevel.WARN, OnWarnMessage);
-		sfs.RemoveLogListener(LogLevel.ERROR, OnErrorMessage);
-		
-		sfs = null;
-	}
-
-    private void OnConnection(BaseEvent evt) {
-		if ((bool)evt.Params["success"]) {
-			trace("Connection established successfully");
-			trace("Connection mode is: " + sfs.ConnectionMode);
-
-            // Login with some username after having made connection
-			sfs.Send(new Sfs2X.Requests.LoginRequest("coltplayer2"));
-
-            buttonLabel.text = "DISCONNECT";
-		} else {
-			trace("Connection failed; is the server running at all?");
-			
-			// Remove SFS2X listeners and re-enable interface
-			reset();
-		}
-	}
-	
-	private void OnConnectionLost(BaseEvent evt) {
-		trace("Connection was lost; reason is: " + (string)evt.Params["reason"]);
-		
-		// Remove SFS2X listeners and re-enable interface
-		reset();
-	}
-	
-	//----------------------------------------------------------
-	// SmartFoxServer log event listeners
-	//----------------------------------------------------------
-	
-	public void OnInfoMessage(BaseEvent evt) {
-		string message = (string)evt.Params["message"];
-		ShowLogMessage("INFO", message);
-	}
-	
-	public void OnWarnMessage(BaseEvent evt) {
-		string message = (string)evt.Params["message"];
-		ShowLogMessage("WARN", message);
-	}
-	
-	public void OnErrorMessage(BaseEvent evt) {
-		string message = (string)evt.Params["message"];
-		ShowLogMessage("ERROR", message);
-	}
-	
-	private void ShowLogMessage(string level, string message) {
-		message = "[SFS > " + level + "] " + message;
-		trace(message);
-		Debug.Log(message);
-	}
 
     void OnApplicationQuit() {
 		// Always disconnect before quitting
-		if (sfs != null && sfs.IsConnected)
-			sfs.Disconnect();
+		SFS.Disconnect();
 	}
-
-    //** LOGIN STUFF **//
-
-
-    private void OnLogin(BaseEvent evt) {
-		User user = (User) evt.Params["user"];
-
-		// Show system message
-		string msg = "Login successful!\n";
-		msg += "Logged in as " + user.Name;
-		trace(msg);
-
-		//EnterChooseCharacterScene();
-
-	}
-	
-	private void OnLoginError(BaseEvent evt) {
-		// Disconnect
-		sfs.Disconnect();
-
-		// Remove SFS2X listeners and re-enable interface
-		reset();
-		
-		// Show error message
-		debugText.text = "Login failed: " + (string) evt.Params["errorMessage"];
-	}
-
 
 }
