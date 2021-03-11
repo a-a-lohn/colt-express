@@ -33,11 +33,17 @@ public class loot : MonoBehaviour
         
     }
 
-    // private void Awake(){
-    //     gem = GameObject.Find("gem");
-    //     Debug.Log("position is: " + gem.transform.position);
-    // }
+// public class loot : MonoBehaviour
+// {
+//     public static GameManager gm;
+    
+//     public GameObject gem; 
 
+//     void OnMouseDown(){
+//         // gameObject.active = false; 
+//         // Destroy(gameObject);
+//         // gem = GameObject.Find("gem");
+//         // Debug.Log("position is: " + gem.transform.position);
 
     // Update is called once per frame
     void Update()

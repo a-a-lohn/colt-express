@@ -79,7 +79,7 @@ namespace model {
             // CARRY OUT THE PUNCH
             // CARRY OUT END OF MOVE / READY FOR NEXT MOVE (CHANGE BANDIT TO NEXT PLAYER, ETC.)
             GameBoard.SendNewGameState();
-        }       
-        
+        }
+
     }
 }

@@ -36,7 +36,11 @@ public class WaitingRoom : MonoBehaviour
             {
                 if (LaunchStatus())
                 {
+<<<<<<< HEAD
                     fToken.text = "A new game has been launched";
+=======
+                    fToken.text = "Launched!";
+>>>>>>> master
                 }
             }
         }
@@ -44,7 +48,11 @@ public class WaitingRoom : MonoBehaviour
 
     public void GoToGame()
     {
+<<<<<<< HEAD
         SceneManager.LoadScene("ChooseYourCharacter");
+=======
+        SceneManager.LoadScene("SampleScene");
+>>>>>>> master
     }
 
     public void JoinGame()

@@ -14,8 +14,9 @@ using Sfs2X.Protocol.Serialization;
 // using System.Reflection;
 //        DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
 namespace model {
-    public class Horse : SerializableSFSType {
-    
+    public class Horse : SerializableSFSType 
+    {
+
         public TrainUnit adjacentTo;
         //public Option<Bandit> riddenBy;
         public Bandit riddenBy;
@@ -63,7 +64,7 @@ namespace model {
         //     }
         // }
 
-
+        public Horse() { }
     }
 
 }
