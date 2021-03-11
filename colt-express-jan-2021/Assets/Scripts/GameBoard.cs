@@ -119,29 +119,12 @@ public class GameBoard : MonoBehaviour
         
         ISFSObject responseParams = (SFSObject)evt.Params["params"];
 		gm = (GameManager)responseParams.GetClass("gm");
-		//Bandit b = (Bandit) gm.bandits[0];
 		
-		// REASSIGN ALL GAME OBJECTS USING DICTIONARY -- CLEAR THEM FIRST
-		// all objects need identity
-		// 
-        //objects[cheyenne] = gm.ban...
-		//objects[tuco] = ...
-        //...
-
 		// assign new gm to all attached scripts here
 		loot.setGame(gm);
 
 		gm.PlayTurn();
 
-		//trace(b.strBanditName);
-        // Extract expected parameters and reassign all game objects
-        /*ArrayList banditsArray = (ArrayList)responseParams.GetClass("bandits");
-        foreach (Bandit b in banditsArray) {
-            if (b.strBanditName == "CHEYENNE") {
-                bandits.Add(cheyenne, b);
-                trace("Cheyenne added!");
-            }
-        }*/
     }
 
 	private void ChooseCharacter() {

@@ -86,9 +86,12 @@ public class Round implements SerializableSFSType {
     public Turn getNextTurn() {
     	
         for (int i = 0; i<this.turns.size(); i++) {
-        	if (this.currentTurn == this.turns.get(i)) {
+        	if (this.currentTurn == this.turns.get(i) && i+1<this.turns.size()) {
         		this.setCurrentTurn(this.turns.get(i+1));
         		break;
+        	}
+        	else if(this.currentTurn == this.turns.get(i) && i+1>=this.turns.size()) {
+        		return this.currentTurn = null;
         	}
         }
         return this.currentTurn;

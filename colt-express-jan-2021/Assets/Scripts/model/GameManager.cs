@@ -28,8 +28,21 @@ namespace model {
        //public ArrayList trainUnits;
         //public ArrayList stagecoach;
         public ArrayList bandits;
+        public static GameManager singleton;
 
         public GameManager() { }
+
+        static GameManager getInstance() {
+            if (singleton == null) {
+                singleton = new GameManager();
+            }
+            return singleton;
+        }
+
+        public static GameManager replaceInstance(GameManager gm){
+            singleton = gm;
+            return singleton;
+        }
 
         public void PlayTurn() {
             if(/*currentBandit == MYBANDIT*/true) {
@@ -66,7 +79,7 @@ namespace model {
             // CARRY OUT THE PUNCH
             // CARRY OUT END OF MOVE / READY FOR NEXT MOVE (CHANGE BANDIT TO NEXT PLAYER, ETC.)
             GameBoard.SendNewGameState();
-        }
+        }       
         
     }
 }
