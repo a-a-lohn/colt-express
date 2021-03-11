@@ -17,8 +17,8 @@ namespace model {
     public class ActionCard : Card, SerializableSFSType
     {
     
-        public ActionType actionType;      
-        public string actionTypeAsString;
+        public string actionType;      
+        //public string actionTypeAsString;
 
         // FOR NETWORKING
         public bool saveForNextRound;      
@@ -27,28 +27,28 @@ namespace model {
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public ActionCard() {}
         
-        public ActionCard(ActionType action) {
+        public ActionCard(string action) {
             this.actionType = action;
-            this.actionTypeAsString = action.ToString();
+            //this.actionTypeAsString = action;
         }
         
         // actionType
-        public ActionType getActionType() {
+        public string getActionType() {
             return this.actionType;
         }
         
-        public void setActionType(ActionType action) {
+        public void setActionType(string action) {
             this.actionType = action;
         }
         
-        // actionTypeAsString
-        public string getActionTypeAsString() {
-            return this.actionTypeAsString;
-        }
+        // // actionTypeAsString
+        // public string getActionTypeAsString() {
+        //     return this.actionTypeAsString;
+        // }
         
-        public void setActionTypeAsString(string action) {
-            this.actionTypeAsString = action;
-        }
+        // public void setActionTypeAsString(string action) {
+        //     this.actionTypeAsString = action;
+        // }
         
         // saveForNextRound
         public bool getSaveForNextRound() {

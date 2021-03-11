@@ -170,7 +170,11 @@ public static class SFS
 		Debug.Log(message);
 	}
 
+<<<<<<< HEAD
     /*public static void OnApplicationQuit() {
+=======
+    /*void OnApplicationQuit() {
+>>>>>>> a85e692a05bc960bb78a343e8db21c645f4fb5fe
 		// Always disconnect before quitting
 		if (sfs != null && sfs.IsConnected)
 			sfs.Disconnect();
