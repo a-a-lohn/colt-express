@@ -26,16 +26,18 @@ import com.smartfoxserver.v2.annotations.MultiHandler;
 
 //@Instantiation(InstantiationMode.SINGLE_INSTANCE)
 //@MultiHandler
-public class GameManager /*extends BaseClientRequestHandler */implements SerializableSFSType {
+public class GameManager /* extends BaseClientRequestHandler */ implements SerializableSFSType {
 
 	transient public static GameManager singleton;
 	transient public GameStatus gameStatus = GameStatus.SETUP;
 	public String strGameStatus = "SETUP";
 	public Round currentRound;
 	public Bandit currentBandit;
-	public ArrayList<Round> rounds = new ArrayList<Round>(); //CONVENTION FOR DECK: POSITION DECK.SIZE() IS TOP OF DECK, POSITION 0 IS BOTTOM OF DECK
+	public ArrayList<Round> rounds = new ArrayList<Round>(); // CONVENTION FOR DECK: POSITION DECK.SIZE() IS TOP OF
+																// DECK, POSITION 0 IS BOTTOM OF DECK
 	public Marshal marshalInstance;
-	public PlayedPile playedPileInstance; //CONVENTION FOR DECK: POSITION DECK.SIZE() IS TOP OF DECK, POSITION 0 IS BOTTOM OF DECK
+	public PlayedPile playedPileInstance; // CONVENTION FOR DECK: POSITION DECK.SIZE() IS TOP OF DECK, POSITION 0 IS
+											// BOTTOM OF DECK
 	public TrainUnit[] trainRoof;
 	public TrainUnit[] trainCabin;
 	// public TrainUnit[][] train; // change to 2 arrays
@@ -47,152 +49,120 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	public int banditsPlayedThisTurn;
 	public int roundIndex;
 	public int banditIndex;
-	
-	
+
 	/*
-	 * --RUN GAME--
-	 * Moves the game forward between phases
-	 * All methods are called from here
+	 * --RUN GAME-- Moves the game forward between phases All methods are called
+	 * from here
 	 * 
-	 * @pre
-	 *           can only be called from chosenCharacter after game has been initialized
+	 * @pre can only be called from chosenCharacter after game has been initialized
 	 */
-	
-	
-	/*public void runGame() {
-		for(Round round : rounds) {
-			currentRound = round; //ROUND CARD MUST BE DISPLAYED
-			//NOTE TO HU: MAKE SURE EACH BANDIT'S DECK IS INITIALIZED IN THE INITIALIZE GAME METHOD
-			schemin();
-			stealin();
-		}
-		
-	}*/
-	
+
 	/*
-	public void schemin() {
-		
-		//DRAW CARDS
-		for(Bandit b : this.bandits) {
-			this.currentBandit = b;
-			int cardsToDraw = 6;
-			if(currentBandit.getCharacter() == Character.DOC) { cardsToDraw=7; }
-			this.drawCards(cardsToDraw);
-		}
-		
-		//PLAY CARDS
-		ArrayList<Turn> turns = this.currentRound.getTurns();
-		for(Turn t : turns) {
-			if(t.getTurnType() == TurnType.STANDARD || t.getTurnType() == TurnType.TUNNEL) {
-				for(Bandit b : this.bandits) {
-					this.currentBandit = b;
-					//PROMPT CHOICE OF DRAW OR PLAY CARD HERE
-					//RECEIVE RESPONSE
-					if(IF CHOICE IS PLAY CARDtrue) {
-						//PROMPT CHOICE OF ACTION CARD
-						//RECEIVE RESPONSE ACTIONCARD C
-						//this.playActionCard(c);
-					}
-					else { //IF CHOICE IS DRAW
-						int cardsToDraw = 3;
-						this.drawCards(cardsToDraw);
-					}
-				}
-			}
-			
-			else if(t.getTurnType() == TurnType.SWITCHING) {
-				//TODO first player goes, then last player, back down to second player
-				this.currentBandit = bandits.get(0);
-				for(int i=bandits.size()-1; i>0; i--) {
-					this.currentBandit = bandits.get(i);
-				}
-			}
-			
-			else if(t.getTurnType() == TurnType.SPEEDINGUP) {
-				//TODO each player gets two turns
-				for(Bandit b : this.bandits) {
-					this.currentBandit = b;
-				}
-			}
-		}
-	}
-	*/
-	
+	 * public void runGame() { for(Round round : rounds) { currentRound = round;
+	 * //ROUND CARD MUST BE DISPLAYED //NOTE TO HU: MAKE SURE EACH BANDIT'S DECK IS
+	 * INITIALIZED IN THE INITIALIZE GAME METHOD schemin(); stealin(); }
+	 * 
+	 * }
+	 */
+
 	/*
-	public void stealin() {
-		
-	}
-	*/
-	
+	 * public void schemin() {
+	 * 
+	 * //DRAW CARDS for(Bandit b : this.bandits) { this.currentBandit = b; int
+	 * cardsToDraw = 6; if(currentBandit.getCharacter() == Character.DOC) {
+	 * cardsToDraw=7; } this.drawCards(cardsToDraw); }
+	 * 
+	 * //PLAY CARDS ArrayList<Turn> turns = this.currentRound.getTurns(); for(Turn t
+	 * : turns) { if(t.getTurnType() == TurnType.STANDARD || t.getTurnType() ==
+	 * TurnType.TUNNEL) { for(Bandit b : this.bandits) { this.currentBandit = b;
+	 * //PROMPT CHOICE OF DRAW OR PLAY CARD HERE //RECEIVE RESPONSE if(IF CHOICE IS
+	 * PLAY CARDtrue) { //PROMPT CHOICE OF ACTION CARD //RECEIVE RESPONSE ACTIONCARD
+	 * C //this.playActionCard(c); } else { //IF CHOICE IS DRAW int cardsToDraw = 3;
+	 * this.drawCards(cardsToDraw); } } }
+	 * 
+	 * else if(t.getTurnType() == TurnType.SWITCHING) { //TODO first player goes,
+	 * then last player, back down to second player this.currentBandit =
+	 * bandits.get(0); for(int i=bandits.size()-1; i>0; i--) { this.currentBandit =
+	 * bandits.get(i); } }
+	 * 
+	 * else if(t.getTurnType() == TurnType.SPEEDINGUP) { //TODO each player gets two
+	 * turns for(Bandit b : this.bandits) { this.currentBandit = b; } } } }
+	 */
+
+	/*
+	 * public void stealin() {
+	 * 
+	 * }
+	 */
+
 	public static void setHandler(ColtMultiHandler handle) {
 		handler = handle;
-		//ISFSObject rtn = SFSObject.newInstance();
-		//handler.updateGameState(rtn);
+		// ISFSObject rtn = SFSObject.newInstance();
+		// handler.updateGameState(rtn);
 	}
-		
-	/*@Override
-	public void handleClientRequest(User sender, ISFSObject params) {
-		//String command = params.getUtfString(SFSExtension.MULTIHANDLER_REQUEST_ID);
-		
-		ISFSObject gameState = SFSObject.newInstance();
-		
-//		if(truecommand.equals("test")) {
-			bandits.add(b);
-//			//ISFSArray banditsArray = SFSArray.newInstance();
-//			//gameState.putClass("bandits", bandits);
-//		}
-		gameState.putUtfString("testStr", "someData");
-		ColtExtension parentExt = (ColtExtension)getParentExtension();
-		Zone zone = parentExt.getParentZone();
-		//parentExt.send("updateGameState", gameState, (List<User>) zone.getUserList());
-		parentExt.send("updateGameState", gameState, sender);
-		
-	}*/
-	
-	// SOME OF THESE FIELDS SHOULD BE AUTOMATICALLY INITIALIZED, NOT PASSED AS PARAMS
 
-	/*private GameManager(ArrayList<Bandit> bandits, Bandit currentBandit, ArrayList<Round> rounds, Round currentRound,
-			GameStatus status, TrainUnit[][] trainUnits) {
-=======
-	
-	/**
+	/*
+	 * @Override public void handleClientRequest(User sender, ISFSObject params) {
+	 * //String command = params.getUtfString(SFSExtension.MULTIHANDLER_REQUEST_ID);
 	 * 
-	 * @param bandits
-	 *           ALL BANDITS MUST BE CREATED BEFORE THIS METHOD CAN BE CALLED 
+	 * ISFSObject gameState = SFSObject.newInstance();
+	 * 
+	 * // if(truecommand.equals("test")) { bandits.add(b); // //ISFSArray
+	 * banditsArray = SFSArray.newInstance(); // //gameState.putClass("bandits",
+	 * bandits); // } gameState.putUtfString("testStr", "someData"); ColtExtension
+	 * parentExt = (ColtExtension)getParentExtension(); Zone zone =
+	 * parentExt.getParentZone(); //parentExt.send("updateGameState", gameState,
+	 * (List<User>) zone.getUserList()); parentExt.send("updateGameState",
+	 * gameState, sender);
+	 * 
+	 * }
+	 */
+
+	// SOME OF THESE FIELDS SHOULD BE AUTOMATICALLY INITIALIZED, NOT PASSED AS
+	// PARAMS
+
+	/*
+	 * private GameManager(ArrayList<Bandit> bandits, Bandit currentBandit,
+	 * ArrayList<Round> rounds, Round currentRound, GameStatus status, TrainUnit[][]
+	 * trainUnits) { =======
+	 * 
+	 * /**
+	 * 
+	 * @param bandits ALL BANDITS MUST BE CREATED BEFORE THIS METHOD CAN BE CALLED
+	 * 
 	 * @param currentBandit
+	 * 
 	 * @param rounds
+	 * 
 	 * @param currentRound
+	 * 
 	 * @param status
 	 */
-	/*private GameManager(ArrayList<Bandit> bandits, Bandit currentBandit, ArrayList<Round> rounds, Round currentRound,
-			GameStatus status) {
-		
-		this.bandits = bandits;
-		this.train = TrainUnit.createTrain(this.bandits.size());
-		this.stagecoach = TrainUnit.createStagecoach();
-		
-		this.currentBandit = currentBandit;
-		this.rounds = rounds;
-		this.currentRound = currentRound;
-		this.gameStatus = status;
-		this.marshalInstance = Marshal.createMarshal();
-		this.playedPileInstance = PlayedPile.getInstance();
+	/*
+	 * private GameManager(ArrayList<Bandit> bandits, Bandit currentBandit,
+	 * ArrayList<Round> rounds, Round currentRound, GameStatus status) {
+	 * 
+	 * this.bandits = bandits; this.train =
+	 * TrainUnit.createTrain(this.bandits.size()); this.stagecoach =
+	 * TrainUnit.createStagecoach();
+	 * 
+	 * this.currentBandit = currentBandit; this.rounds = rounds; this.currentRound =
+	 * currentRound; this.gameStatus = status; this.marshalInstance =
+	 * Marshal.createMarshal(); this.playedPileInstance = PlayedPile.getInstance();
+	 * 
+	 * }
+	 */
 
-	}*/
-
-	
-	
-	
-	//this method should only be called from if-else block in chosenCharacter
+	// this method should only be called from if-else block in chosenCharacter
 	public void initializeGame() {
-		//set train-related attributes
-		//this.stagecoach = TrainUnit.createStagecoach();
-		//this.train = TrainUnit.createTrain(bandits.size());
+		// set train-related attributes
+		// this.stagecoach = TrainUnit.createStagecoach();
+		// this.train = TrainUnit.createTrain(bandits.size());
 		this.trainRoof = TrainUnit.createTrainRoof(this.getNumOfPlayers());
 		this.trainCabin = TrainUnit.createTrainCabin(this.getNumOfPlayers());
 		ArrayList<Bandit> bandits = this.getBandits();
-		for (Bandit b: bandits) {
-			//initialize each bandit cards, purse
+		for (Bandit b : bandits) {
+			// initialize each bandit cards, purse
 			b.createStartingCards(); // also the hand for bandits
 			b.createBulletCards();
 			b.createStartingPurse();
@@ -200,7 +170,7 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 		this.marshalInstance = Marshal.getInstance();
 		// initialize round cards, round attributes/create round constructor
 		this.rounds = this.createRoundCards(this.getNumOfPlayers());
-		Collections.shuffle(this.bandits); //<- to decide who goes first, shuffle bandit list
+		Collections.shuffle(this.bandits); // <- to decide who goes first, shuffle bandit list
 		this.currentBandit = this.bandits.get(0);
 		this.currentRound = this.rounds.get(0);
 		this.setUpPositions(this.bandits);
@@ -237,90 +207,81 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 		this.neutralBulletCard.add(NBullet11);
 		this.neutralBulletCard.add(NBullet12);
 		this.neutralBulletCard.add(NBullet13);
-		
+
 		this.roundIndex = 0;
-		//this.currentRound = this.rounds.get(roundIndex);
-		//currentRound and currentRound.currentTurn must be initialized
+		// this.currentRound = this.rounds.get(roundIndex);
+		// currentRound and currentRound.currentTurn must be initialized
 		this.banditsPlayedThisTurn = 0;
 		this.gameStatus = GameStatus.SCHEMIN;
 		this.strGameStatus = "SCHEMIN";
 		this.currentBandit = this.bandits.get(0);
 	}
-	
+
 	public void endOfTurn() {
-		if(this.gameStatus == GameStatus.SCHEMIN) {
-			
+		if (this.gameStatus == GameStatus.SCHEMIN) {
+
 			TurnType currentTurnType = this.currentRound.getCurrentTurn().getTurnType();
-			
-			if(currentTurnType == TurnType.STANDARD || currentTurnType == TurnType.TUNNEL) {
-				banditIndex = (banditIndex+1) % this.bandits.size();
+
+			if (currentTurnType == TurnType.STANDARD || currentTurnType == TurnType.TUNNEL) {
+				banditIndex = (banditIndex + 1) % this.bandits.size();
+				;
 				banditsPlayedThisTurn++;
-				//IF END OF TURN
-				if (banditsPlayedThisTurn>this.bandits.size()) { 
-					banditsPlayedThisTurn = 0;
-					//IF THERE ARE MORE TURNS IN THE ROUND
-					if(this.currentRound.getNextTurn() != null) { //IMPORTANT: getNextTurn() also SETS to next turn
+				// IF END OF TURN
+				if (banditsPlayedThisTurn > this.bandits.size()) {
+					// IF THERE ARE MORE TURNS IN THE ROUND
+					if (this.currentRound.getNextTurn() != null) { // IMPORTANT: getNextTurn() also SETS to next turn
 						this.currentBandit = this.bandits.get(banditIndex);
 					}
-					//IF THERE ARE NO MORE TURNS IN THE ROUND
+					// IF THERE ARE NO MORE TURNS IN THE ROUND
 					else {
-						this.setGameStatus(GameStatus.STEALIN);						
+						banditsPlayedThisTurn = 0;
+						this.setGameStatus(GameStatus.STEALIN);
 					}
 				}
-				//IF NOT END OF TURN
+				// IF NOT END OF TURN
 				else {
 					this.currentBandit = this.bandits.get(banditIndex);
 				}
 			}
-			
-			else if(currentTurnType == TurnType.SWITCHING) {
-				
+
+			else if (currentTurnType == TurnType.SWITCHING) {
+
 			}
-			
-			else if(currentTurnType == TurnType.SPEEDINGUP) {
-				
+
+			else if (currentTurnType == TurnType.SPEEDINGUP) {
+
 			}
-			
-			
-		}
-		else if(this.gameStatus == GameStatus.STEALIN) { //NOTE TO SELF: UPDATE ROUND TO NEXT ROUND AT THE END OF STEALIN
-			ActionCard toResolve = this.playedPileInstance.takeTopCard();
-			if(toResolve != null) {
+
+		} else if (this.gameStatus == GameStatus.STEALIN) { // NOTE TO SELF: UPDATE ROUND TO NEXT ROUND AT THE END OF
+															// STEALIN
+			Card toResolve = this.playedPileInstance.takeTopCard();
+			if (toResolve != null) {
 				currentBandit = toResolve.getBelongsTo();
-				currentBandit.setToResolve(toResolve);
-			}
-			else { //played pile is empty
+			} else { // played pile is empty
 				roundIndex++;
-				if(roundIndex == this.rounds.size()) {
+				if (roundIndex == this.rounds.size()) {
 					this.setGameStatus(GameStatus.COMPLETED);
-				}
-				else {
+				} else {
 					this.currentRound = this.rounds.get(roundIndex);
 					this.setGameStatus(GameStatus.SCHEMIN);
 					this.banditsPlayedThisTurn = 0;
 				}
-				
+
 			}
 		}
-		
+
 	}
-	
-	public void executeTurn() {
-		if(/*it's my turn*/true) {
-			if(this.gameStatus == GameStatus.SCHEMIN) {
-			}
-			else if(this.gameStatus == GameStatus.STEALIN) {
-			}			
-		}
-	}
-	
-	public GameManager() {};
+
+	public GameManager() {
+	};
 
 	public static GameManager getInstance() {
 		GameManager gm = null;
 		if (singleton == null) {
-			gm = new GameManager();/*new ArrayList<Bandit>(), null, new ArrayList<Round>(), null, GameStatus.SETUP,
-					TrainUnit.createTrain(0));*/
+			gm = new GameManager();/*
+									 * new ArrayList<Bandit>(), null, new ArrayList<Round>(), null,
+									 * GameStatus.SETUP, TrainUnit.createTrain(0));
+									 */
 		} else {
 			gm = singleton;
 		}
@@ -369,111 +330,114 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	public ArrayList<Round> getRounds() {
 		return this.rounds;
 	}
-	
+
 	public ArrayList<Round> createRoundCards(int numOfPlayers) {
-    	ArrayList<Round> RoundCards = new ArrayList<Round>();
-    	if (numOfPlayers == 2 || numOfPlayers == 3 || numOfPlayers == 4) {
-    		Round r1 = new Round(RoundType.AngryMarshal);
-    		r1.addTurn(new Turn(TurnType.STANDARD));
-    		r1.addTurn(new Turn(TurnType.STANDARD));
-    		r1.addTurn(new Turn(TurnType.TUNNEL));
-    		r1.addTurn(new Turn(TurnType.SWITCHING));
-    		RoundCards.add(r1);
-    		
-    		Round r2 = new Round(RoundType.SwivelArm);
-    		r2.addTurn(new Turn(TurnType.STANDARD));
-    		r2.addTurn(new Turn(TurnType.TUNNEL));
-    		r2.addTurn(new Turn(TurnType.STANDARD));
-    		r2.addTurn(new Turn(TurnType.STANDARD));
-    		RoundCards.add(r2);
-    		
-    		Round r3 = new Round(RoundType.Braking);
-    		r3.addTurn(new Turn(TurnType.STANDARD));
-    		r3.addTurn(new Turn(TurnType.STANDARD));
-    		r3.addTurn(new Turn(TurnType.STANDARD));
-    		r3.addTurn(new Turn(TurnType.STANDARD));
-    		RoundCards.add(r3);
-    		
-    		Round r4 = new Round(RoundType.TakeItAll);
-    		r4.addTurn(new Turn(TurnType.STANDARD));
-    		r4.addTurn(new Turn(TurnType.TUNNEL));
-    		r4.addTurn(new Turn(TurnType.SPEEDINGUP));
-    		r4.addTurn(new Turn(TurnType.STANDARD));
-    		RoundCards.add(r4);
-    		
-    		Round r5 = new Round(RoundType.PassengersRebellion);
-    		r5.addTurn(new Turn(TurnType.STANDARD));
-    		r5.addTurn(new Turn(TurnType.STANDARD));
-    		r5.addTurn(new Turn(TurnType.TUNNEL));
-    		r5.addTurn(new Turn(TurnType.STANDARD));
-    		r5.addTurn(new Turn(TurnType.STANDARD));
-    		RoundCards.add(r5);
-    		
-    		Round r6 = new Round(RoundType.SIX);
-    		r6.addTurn(new Turn(TurnType.STANDARD));
-    		r6.addTurn(new Turn(TurnType.SPEEDINGUP));
-    		r6.addTurn(new Turn(TurnType.STANDARD));
-    		RoundCards.add(r6);
-    		
-    		Round r7 = new Round(RoundType.SEVEN);
-    		r7.addTurn(new Turn(TurnType.STANDARD));
-    		r7.addTurn(new Turn(TurnType.TUNNEL));
-    		r7.addTurn(new Turn(TurnType.STANDARD));
-    		r7.addTurn(new Turn(TurnType.TUNNEL));
-    		r7.addTurn(new Turn(TurnType.STANDARD));
-    		RoundCards.add(r7);
-    		
-    	} else if (numOfPlayers == 5 || numOfPlayers == 6) {
-    		Round r1 = new Round(RoundType.AngryMarshal);
-    		r1.addTurn(new Turn(TurnType.STANDARD));
-    		r1.addTurn(new Turn(TurnType.STANDARD));
-    		r1.addTurn(new Turn(TurnType.SWITCHING));
-    		RoundCards.add(r1);
-    		
-    		Round r2 = new Round(RoundType.SwivelArm);
-    		r2.addTurn(new Turn(TurnType.STANDARD));
-    		r2.addTurn(new Turn(TurnType.TUNNEL));
-    		r2.addTurn(new Turn(TurnType.STANDARD));
-    		RoundCards.add(r2);
-    		
-    		Round r3 = new Round(RoundType.Braking);
-    		r3.addTurn(new Turn(TurnType.STANDARD));
-    		r3.addTurn(new Turn(TurnType.TUNNEL));
-    		r3.addTurn(new Turn(TurnType.STANDARD));
-    		r3.addTurn(new Turn(TurnType.STANDARD));
-    		RoundCards.add(r3);
-    		
-    		Round r4 = new Round(RoundType.TakeItAll);
-    		r4.addTurn(new Turn(TurnType.STANDARD));
-    		r4.addTurn(new Turn(TurnType.SPEEDINGUP));
-    		r4.addTurn(new Turn(TurnType.SWITCHING));
-    		RoundCards.add(r4);
-    		
-    		Round r5 = new Round(RoundType.PassengersRebellion);
-    		r5.addTurn(new Turn(TurnType.STANDARD));
-    		r5.addTurn(new Turn(TurnType.TUNNEL));
-    		r5.addTurn(new Turn(TurnType.STANDARD));
-    		r5.addTurn(new Turn(TurnType.SWITCHING));
-    		RoundCards.add(r5);
-    		
-    		Round r6 = new Round(RoundType.SIX);
-    		r6.addTurn(new Turn(TurnType.STANDARD));
-    		r6.addTurn(new Turn(TurnType.SPEEDINGUP));
-    		RoundCards.add(r6);
-    		
-    		Round r7 = new Round(RoundType.SEVEN);
-    		r7.addTurn(new Turn(TurnType.STANDARD));
-    		r7.addTurn(new Turn(TurnType.TUNNEL));
-    		r7.addTurn(new Turn(TurnType.STANDARD));
-    		r7.addTurn(new Turn(TurnType.TUNNEL));
-    		RoundCards.add(r7);
-    		
-    	} else {return null;};
-    	
-    	Collections.shuffle(RoundCards);
-    	
-    	return RoundCards;
-    }
+		ArrayList<Round> RoundCards = new ArrayList<Round>();
+		if (numOfPlayers == 2 || numOfPlayers == 3 || numOfPlayers == 4) {
+			Round r1 = new Round(RoundType.AngryMarshal);
+			r1.addTurn(new Turn(TurnType.STANDARD));
+			r1.addTurn(new Turn(TurnType.STANDARD));
+			r1.addTurn(new Turn(TurnType.TUNNEL));
+			r1.addTurn(new Turn(TurnType.SWITCHING));
+			RoundCards.add(r1);
+
+			Round r2 = new Round(RoundType.SwivelArm);
+			r2.addTurn(new Turn(TurnType.STANDARD));
+			r2.addTurn(new Turn(TurnType.TUNNEL));
+			r2.addTurn(new Turn(TurnType.STANDARD));
+			r2.addTurn(new Turn(TurnType.STANDARD));
+			RoundCards.add(r2);
+
+			Round r3 = new Round(RoundType.Braking);
+			r3.addTurn(new Turn(TurnType.STANDARD));
+			r3.addTurn(new Turn(TurnType.STANDARD));
+			r3.addTurn(new Turn(TurnType.STANDARD));
+			r3.addTurn(new Turn(TurnType.STANDARD));
+			RoundCards.add(r3);
+
+			Round r4 = new Round(RoundType.TakeItAll);
+			r4.addTurn(new Turn(TurnType.STANDARD));
+			r4.addTurn(new Turn(TurnType.TUNNEL));
+			r4.addTurn(new Turn(TurnType.SPEEDINGUP));
+			r4.addTurn(new Turn(TurnType.STANDARD));
+			RoundCards.add(r4);
+
+			Round r5 = new Round(RoundType.PassengersRebellion);
+			r5.addTurn(new Turn(TurnType.STANDARD));
+			r5.addTurn(new Turn(TurnType.STANDARD));
+			r5.addTurn(new Turn(TurnType.TUNNEL));
+			r5.addTurn(new Turn(TurnType.STANDARD));
+			r5.addTurn(new Turn(TurnType.STANDARD));
+			RoundCards.add(r5);
+
+			Round r6 = new Round(RoundType.SIX);
+			r6.addTurn(new Turn(TurnType.STANDARD));
+			r6.addTurn(new Turn(TurnType.SPEEDINGUP));
+			r6.addTurn(new Turn(TurnType.STANDARD));
+			RoundCards.add(r6);
+
+			Round r7 = new Round(RoundType.SEVEN);
+			r7.addTurn(new Turn(TurnType.STANDARD));
+			r7.addTurn(new Turn(TurnType.TUNNEL));
+			r7.addTurn(new Turn(TurnType.STANDARD));
+			r7.addTurn(new Turn(TurnType.TUNNEL));
+			r7.addTurn(new Turn(TurnType.STANDARD));
+			RoundCards.add(r7);
+
+		} else if (numOfPlayers == 5 || numOfPlayers == 6) {
+			Round r1 = new Round(RoundType.AngryMarshal);
+			r1.addTurn(new Turn(TurnType.STANDARD));
+			r1.addTurn(new Turn(TurnType.STANDARD));
+			r1.addTurn(new Turn(TurnType.SWITCHING));
+			RoundCards.add(r1);
+
+			Round r2 = new Round(RoundType.SwivelArm);
+			r2.addTurn(new Turn(TurnType.STANDARD));
+			r2.addTurn(new Turn(TurnType.TUNNEL));
+			r2.addTurn(new Turn(TurnType.STANDARD));
+			RoundCards.add(r2);
+
+			Round r3 = new Round(RoundType.Braking);
+			r3.addTurn(new Turn(TurnType.STANDARD));
+			r3.addTurn(new Turn(TurnType.TUNNEL));
+			r3.addTurn(new Turn(TurnType.STANDARD));
+			r3.addTurn(new Turn(TurnType.STANDARD));
+			RoundCards.add(r3);
+
+			Round r4 = new Round(RoundType.TakeItAll);
+			r4.addTurn(new Turn(TurnType.STANDARD));
+			r4.addTurn(new Turn(TurnType.SPEEDINGUP));
+			r4.addTurn(new Turn(TurnType.SWITCHING));
+			RoundCards.add(r4);
+
+			Round r5 = new Round(RoundType.PassengersRebellion);
+			r5.addTurn(new Turn(TurnType.STANDARD));
+			r5.addTurn(new Turn(TurnType.TUNNEL));
+			r5.addTurn(new Turn(TurnType.STANDARD));
+			r5.addTurn(new Turn(TurnType.SWITCHING));
+			RoundCards.add(r5);
+
+			Round r6 = new Round(RoundType.SIX);
+			r6.addTurn(new Turn(TurnType.STANDARD));
+			r6.addTurn(new Turn(TurnType.SPEEDINGUP));
+			RoundCards.add(r6);
+
+			Round r7 = new Round(RoundType.SEVEN);
+			r7.addTurn(new Turn(TurnType.STANDARD));
+			r7.addTurn(new Turn(TurnType.TUNNEL));
+			r7.addTurn(new Turn(TurnType.STANDARD));
+			r7.addTurn(new Turn(TurnType.TUNNEL));
+			RoundCards.add(r7);
+
+		} else {
+			return null;
+		}
+		;
+
+		Collections.shuffle(RoundCards);
+
+		return RoundCards;
+	}
 
 	/**
 	 * --GAME STATUS METHODS--
@@ -490,49 +454,30 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 	/**
 	 * --TRAIN UNIT METHODS--
 	 */
-	/*public void addTrainUnitsAt(int index, TrainUnit a) {
-		boolean contains = this.trainUnits.contains(a);
-		if (contains) {
-			return;
-		}
-		trainUnits.add(index, a);
-	}
-
-	public void removeTrainUnitsAt(int index) {
-		if (this.trainUnits.size >= index) {
-			this.trainUnits.remove(index);
-		}
-	}
-
-	public TrainUnit getTrainUnitsAt(int index) {
-		if (this.trainUnits.size >= index) {
-			return this.trainUnits.get(index);
-		}
-	}
-
-	public void addTrainUnit(TrainUnit a) {
-		this.trainUnits.add(a);
-	}
-
-	public void removeTrainUnits(TrainUnit a) {
-		if (this.trainUnits.contains(a)) {
-			this.trainUnits.remove(a);
-		}
-	}
-
-	public boolean trainUnitsContain(TrainUnit a) {
-		boolean contains = trainUnits.contains(a);
-		return contains;
-	}
-
-	public int sizeOfTrainUnits() {
-		int size = this.trainUnits.size();
-		return size;
-	}
-
-	public ArrayList<TrainUnit> getTrainUnits() {
-		return this.trainUnits;
-	}*/
+	/*
+	 * public void addTrainUnitsAt(int index, TrainUnit a) { boolean contains =
+	 * this.trainUnits.contains(a); if (contains) { return; } trainUnits.add(index,
+	 * a); }
+	 * 
+	 * public void removeTrainUnitsAt(int index) { if (this.trainUnits.size >=
+	 * index) { this.trainUnits.remove(index); } }
+	 * 
+	 * public TrainUnit getTrainUnitsAt(int index) { if (this.trainUnits.size >=
+	 * index) { return this.trainUnits.get(index); } }
+	 * 
+	 * public void addTrainUnit(TrainUnit a) { this.trainUnits.add(a); }
+	 * 
+	 * public void removeTrainUnits(TrainUnit a) { if (this.trainUnits.contains(a))
+	 * { this.trainUnits.remove(a); } }
+	 * 
+	 * public boolean trainUnitsContain(TrainUnit a) { boolean contains =
+	 * trainUnits.contains(a); return contains; }
+	 * 
+	 * public int sizeOfTrainUnits() { int size = this.trainUnits.size(); return
+	 * size; }
+	 * 
+	 * public ArrayList<TrainUnit> getTrainUnits() { return this.trainUnits; }
+	 */
 
 	/**
 	 * --BANDIT METHODS--
@@ -588,14 +533,13 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 		return b;
 	}
 
-
 	/**
 	 * --GAME MANAGER METHODS--
 	 */
 
 	boolean allPlayersChosen(int numPlayers) {
 		// TO DO
-		if(numPlayers == bandits.size()) {
+		if (numPlayers == bandits.size()) {
 			return true;
 		}
 		// for all players, return if they are all associated with a bandit or not.
@@ -607,7 +551,7 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 		// Here to get number of players
 		return 3;
 	}
-	
+
 	public void setUpPositions(ArrayList<Bandit> b) {
 		int numOfBandit = b.size();
 		if (numOfBandit == 2) {
@@ -635,10 +579,12 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 			b.get(3).setPosition(this.trainCabin[0]);
 			b.get(4).setPosition(this.trainCabin[1]);
 			b.get(4).setPosition(this.trainCabin[2]);
-		} else {return;}
+		} else {
+			return;
+		}
 	}
-	
-	//void chosenCharacter(int playerId, Character c) {
+
+	// void chosenCharacter(int playerId, Character c) {
 	public void chosenCharacter(User player, Character c, int numPlayers) {
 		Bandit newBandit = new Bandit(c);
 		this.bandits.add(newBandit);
@@ -652,67 +598,70 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 			this.initializeGame();
 			this.setGameStatus(GameStatus.SCHEMIN);
 		}
-			//this.setCurrentRound(this.rounds.get(0));
-			// set waiting for input to be true;
+		// this.setCurrentRound(this.rounds.get(0));
+		// set waiting for input to be true;
 	}
-	
+
 	public int getBanditsPlayedThisTurn() {
 		return this.banditsPlayedThisTurn;
 	}
+
 	public void setBanditsPlayedThisTurn(int bp) {
 		this.banditsPlayedThisTurn = bp;
 	}
-	
+
 	public int getRoundIndex() {
 		return this.roundIndex;
 	}
+
 	public void setRoundIndex(int ri) {
 		this.roundIndex = ri;
 	}
-	
+
 	public int getBanditIndex() {
 		return this.banditIndex;
 	}
+
 	public void setBanditIndex(int bi) {
 		this.banditIndex = bi;
 	}
-	
+
 	/**
-	 * --EXECUTE ACTIONS--
-	 * BEFORE CALLING ANY OF THESE METHODS, CURRENT BANDIT MUST BE ASSIGNED CORRECTLY
-	 * All actions will be called from POV of this.currentBandit
+	 * --EXECUTE ACTIONS-- BEFORE CALLING ANY OF THESE METHODS, CURRENT BANDIT MUST
+	 * BE ASSIGNED CORRECTLY All actions will be called from POV of
+	 * this.currentBandit
 	 */
-	
+
 	// SEND PROMPT
 	// RECEIVE RESPONSE
-	
+
 	public Loot RobPrompt(Bandit b, HashSet<Loot> l) {
 		// TO DO
 		// ask b to choose loot from l
 		return l.iterator().next();
 	}
-	
+
 	public void Rob() {
-		
+
 		if (!this.currentBandit.getPosition().lootHere.isEmpty()) {
 			Loot l = RobPrompt(this.currentBandit, this.currentBandit.getPosition().lootHere);
 			this.currentBandit.addLoot(l);
 		}
 
 	}
-	
+
 	public Bandit RoofShootPrompt(Bandit b, ArrayList<Bandit> ab) {
 		// TO DO
 		// ask b to choose one target from ab
 		return ab.get(0);
 	}
-	
+
 	public Bandit CarShootPrompt(Bandit b, ArrayList<Bandit> ab) {
 		// TO DO
 		// ask b to choose one target from ab
 		return ab.get(0);
 	}
-	
+
 	public void shoot() {
 
 		ArrayList<Bandit> roofShootTarget = new ArrayList<Bandit>();
@@ -761,19 +710,19 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 		// ask b to choose one target from ab
 		return ab.get(0);
 	}
-	
+
 	public Loot punchLootPrompt(Bandit b, Bandit b2) {
 		// TO DO
 		// ask b to choose one loot from b2
 		return b2.loot.get(0);
 	}
-	
+
 	public TrainUnit punchPositionPrompt(Bandit b, Bandit b2) {
 		// TO DO
 		// ask b to choose one position that b2 can be punched to
 		return b2.getPosition().left;
 	}
-	
+
 	public void punch() {
 		ArrayList<Bandit> otherBandits = new ArrayList<Bandit>();
 		for (Bandit b : this.currentBandit.getPosition().banditsHere) {
@@ -799,71 +748,98 @@ public class GameManager /*extends BaseClientRequestHandler */implements Seriali
 		}
 
 	}
-	
+
 	public void changeFloor() {
 		TrainUnit currentPosition = this.currentBandit.getPosition();
-		if(currentPosition.getAbove() == null && currentPosition.getBelow() != null) {
+		if (currentPosition.getAbove() == null && currentPosition.getBelow() != null) {
 			currentPosition.removeBandit(currentBandit);
 			currentPosition.getBelow().addBandit(currentBandit);
 			currentBandit.setPosition(currentPosition.getBelow());
-		}
-		else if(currentPosition.getBelow() == null && currentPosition.getAbove() != null) {
+		} else if (currentPosition.getBelow() == null && currentPosition.getAbove() != null) {
 			currentPosition.removeBandit(currentBandit);
 			currentPosition.getAbove().addBandit(currentBandit);
 			currentBandit.setPosition(currentPosition.getAbove());
 		}
-		//TODO FRONT END RESPONSE/SEND TO CLIENTS
+		// TODO FRONT END RESPONSE/SEND TO CLIENTS
 	}
-	
-	public void move() {
-		TrainUnit currentPosition = currentBandit.getPosition();
-		if(currentPosition.getCarFloor() == CarFloor.CABIN) {
-			//TODO prompt with currentPosition.getRight() and currentPosition.getLeft()
+
+	public static ArrayList<TrainUnit> moveAlgorithm(Bandit b) {
+		ArrayList<TrainUnit> possibleMoving = new ArrayList<TrainUnit>();
+		TrainUnit currentPosition = b.getPosition();
+		if (currentPosition.getLeft() != null) {
+			possibleMoving.add(currentPosition.getLeft());
 		}
-		//TODO RECEIVE RESPONSE
+		if (currentPosition.getRight() != null) {
+			possibleMoving.add(currentPosition.getLeft());
+		}
+		if (currentPosition.carFloor == CarFloor.ROOF) {
+
+			if (currentPosition.getLeft().getLeft() != null) {
+				possibleMoving.add(currentPosition.getLeft());
+			}
+			if (currentPosition.getRight().getRight() != null) {
+				possibleMoving.add(currentPosition.getLeft());
+			}
+			if (currentPosition.getLeft().getLeft().getLeft() != null) {
+				possibleMoving.add(currentPosition.getLeft());
+			}
+			if (currentPosition.getRight().getRight().getRight() != null) {
+				possibleMoving.add(currentPosition.getLeft());
+			}
+
+		}
+		return possibleMoving;
 	}
-	
+
+	public void move(TrainUnit targetPosition) {
+		TrainUnit currentPosition = this.currentBandit.getPosition();
+		this.currentBandit.setPosition(targetPosition);
+		if (targetPosition.isMarshalHere) {
+			this.currentBandit.addDiscardPile(this.neutralBulletCard.remove(0));
+			this.currentBandit.setPosition(currentPosition);
+		}
+	}
+
 	public void moveMarshal() {
-		//TODO SEND PROMPT
-		//TODO RECEIVE RESPONSE
+		// TODO SEND PROMPT
+		// TODO RECEIVE RESPONSE
 	}
 
 	/**
-     * @param c
-     *           Card will be moved from bandit's hand to played pile and it's effect will be resolved
-     *
-     */
-	public void playActionCard(ActionCard c){
+	 * @param c Card will be moved from bandit's hand to played pile and it's effect
+	 *          will be resolved
+	 *
+	 */
+	public void playActionCard(ActionCard c) {
 
-	    //Remove card from bandit's hand
-        this.currentBandit = c.getBelongsTo();
-        this.currentBandit.removeHand(c);
+		// Remove card from bandit's hand
+		this.currentBandit = c.getBelongsTo();
+		this.currentBandit.removeHand(c);
 
-        //Prompt playing face down
-        if(currentBandit.getCharacter() == Character.GHOST && this.currentRound.getTurnCounter() == 0){
-            //TODO: prompt choice;
-        	//TODO: receive choice;
-        }
-        else if(this.currentRound.getCurrentTurn().getTurnType() == TurnType.TUNNEL) {
-        	// this.currentRound.getCurrentTurn().getTurnTypeAsString().equals("TUNNEL")
-        	c.setFaceDown(true);
-        }
+		// Prompt playing face down
+		if (currentBandit.getCharacter() == Character.GHOST && this.currentRound.getTurnCounter() == 0) {
+			// TODO: prompt choice;
+			// TODO: receive choice;
+		} else if (this.currentRound.getCurrentTurn().getTurnType() == TurnType.TUNNEL) {
+			// this.currentRound.getCurrentTurn().getTurnTypeAsString().equals("TUNNEL")
+			c.setFaceDown(true);
+		}
 
-        //Assign card to played pile
-        PlayedPile pile = PlayedPile.getInstance();
-        pile.addPlayedCards(c);
-        //TODO: graphical response
+		// Assign card to played pile
+		PlayedPile pile = PlayedPile.getInstance();
+		pile.addPlayedCards(c);
+		// TODO: graphical response
 
-    }
-	
+	}
+
 	/**
 	 * 
-	 * @param cardsToDraw
-	 *           the number of cards to add to the Bandit's hand from the top of their deck
+	 * @param cardsToDraw the number of cards to add to the Bandit's hand from the
+	 *                    top of their deck
 	 * @pre currentBandit must be set correctly
 	 */
 	public void drawCards(int cardsToDraw) {
-		for(int i = currentBandit.sizeOfDeck()-1; i>currentBandit.sizeOfDeck()-cardsToDraw-1; i--) {
+		for (int i = currentBandit.sizeOfDeck() - 1; i > currentBandit.sizeOfDeck() - cardsToDraw - 1; i--) {
 			Card toAdd = currentBandit.removeDeckAt(i);
 			currentBandit.addHand(toAdd);
 		}
