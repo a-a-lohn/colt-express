@@ -19,7 +19,7 @@ namespace model {
     
         public bool getsAnotherAction;       
         public bool playedThisTurn;       
-        public Character banditName;       
+        public string banditName;       
         public string banditNameAsString;
         
         // FOR NETWORKING
@@ -44,16 +44,16 @@ namespace model {
             clickable = obj;
         }*/
 
-        public Bandit(Character c) {
+        public Bandit(string c) {
             this.banditName = c;
-            this.banditNameAsString = c.ToString();
+            //this.banditNameAsString = c.ToString();
             this.getsAnotherAction = false;
             this.playedThisTurn = false;
             this.position = null;
             this.hostage = null;
         }
         
-        public Character getCharacter() {
+        public string getCharacter() {
             return this.banditName;
         }
         
@@ -319,16 +319,16 @@ namespace model {
         }
         
         public void createStartingCards() {
-            ActionCard acMove1 = new ActionCard(ActionType.MOVE);
-            ActionCard acMove2 = new ActionCard(ActionType.MOVE);
-            ActionCard acChangeFloor1 = new ActionCard(ActionType.CHANGE_FLOOR);
-            ActionCard acChangeFloor2 = new ActionCard(ActionType.CHANGE_FLOOR);
-            ActionCard acMarshal = new ActionCard(ActionType.MOVE_MARSHAL);
-            ActionCard acPunch = new ActionCard(ActionType.PUNCH);
-            ActionCard acRob1 = new ActionCard(ActionType.ROB);
-            ActionCard acRob2 = new ActionCard(ActionType.ROB);
-            ActionCard acShoot1 = new ActionCard(ActionType.SHOOT);
-            ActionCard acShoot2 = new ActionCard(ActionType.SHOOT);
+            string acMove1 = "MOVE";
+            string acMove2 = "MOVE";
+            string acChangeFloor1 = "CHANGE_FLOOR";
+            string acChangeFloor2 = "CHANGE_FLOOR";
+            string acMarshal = "MOVE_MARSHAL";
+            string acPunch = "PUNCH";
+            string acRob1 = "ROB";
+            string acRob2 = "ROB";
+            string acShoot1 = "SHOOT";
+            string acShoot2 = "SHOOT";
             this.deck.Add(acMove1);
             this.deck.Add(acMove2);
             this.deck.Add(acChangeFloor1);
@@ -376,7 +376,7 @@ namespace model {
         }
         
         public void createStartingPurse() {
-            Money startingPurse = new Money(MoneyType.PURSE, 250); 
+            Money startingPurse = new Money("PURSE", 250); 
             this.loot.Add(startingPurse);
         }
 

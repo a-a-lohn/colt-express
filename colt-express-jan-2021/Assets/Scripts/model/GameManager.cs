@@ -32,14 +32,14 @@ namespace model {
 
         public GameManager() { }
 
-        public static getInstance() {
+        public static GameManager getInstance() {
             if (singleton == null) {
                 singleton = new GameManager();
             }
-            return singleton
+            return singleton;
         }
 
-        public static replaceInstance(GameManager gm){
+        public static void replaceInstance(GameManager gm){
             singleton = gm;
         }
 

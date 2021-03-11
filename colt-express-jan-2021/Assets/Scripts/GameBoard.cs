@@ -120,7 +120,7 @@ public class GameBoard : MonoBehaviour
 		ArrayList bandits = new ArrayList();
 		Bandit doc = new Bandit();
 		TrainUnit position = new TrainUnit();
-		position.carTypeAsString = "LocomotiveRoof";
+		position.carType = "LocomotiveRoof";
 		doc.position = position;
 		bandits.Add(doc);
 		gm.bandits = bandits;
@@ -130,8 +130,8 @@ public class GameBoard : MonoBehaviour
         sfs.Send(req);
         trace("sent game state");
 	}
-
-    private void UpdateGameState(BaseEvent evt) {
+	// Changed Modifier !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    public void UpdateGameState(BaseEvent evt) {
         trace("updategamestate called");
         // REASSIGN ALL GAME OBJECTS -- CLEAR THEM FIRST
         bandits = new Dictionary<GameObject, Bandit>();
@@ -143,7 +143,7 @@ public class GameBoard : MonoBehaviour
 		GameManager gm = (GameManager)responseParams.GetClass("gm");
 		GameManager.replaceInstance(gm);
 		Bandit b = (Bandit) gm.bandits[0];
-		trace(b.position.carTypeAsString);
+		trace(b.position.carType);
 		//trace(b.strBanditName);
         // Extract expected parameters and reassign all game objects
         /*ArrayList banditsArray = (ArrayList)responseParams.GetClass("bandits");

@@ -19,10 +19,10 @@ namespace model {
         public static int trainLength;
         public static TrainUnit[,] train;
         public static TrainUnit[] stagecoach;
-        public CarType carType;
-        public CarFloor carFloor;
-        public string carTypeAsString;
-        public string carFloorAsString;
+        public string carType;
+        public string carFloor;
+        //public string carTypeAsString;
+        //public string carFloorAsString;
         public TrainUnit above ;
         public TrainUnit below ;
         public TrainUnit left ;
@@ -38,11 +38,11 @@ namespace model {
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public TrainUnit() {}
         
-        private TrainUnit(CarType carType, CarFloor carFloor) {
+        private TrainUnit(string carType, string carFloor) {
             this.carType = carType;
             this.carFloor = carFloor;
-            this.carTypeAsString = carType.ToString();
-            this.carFloorAsString = carFloor.ToString();
+            //this.carTypeAsString = carType.ToString();
+            //this.carFloorAsString = carFloor.ToString();
             // TODO: createGraphic()
         }
         
@@ -50,8 +50,8 @@ namespace model {
             // Create one car for each player, +1 to account for the locomotive
             int trainLength = (numberOfBandits + 1);
             TrainUnit[,] train = new TrainUnit[2,trainLength];
-            TrainUnit locoCabin = new TrainUnit(CarType.LOCOMOTIVE, CarFloor.CABIN);
-            TrainUnit locoRoof = new TrainUnit(CarType.LOCOMOTIVE, CarFloor.ROOF);
+            TrainUnit locoCabin = new TrainUnit("LOCOMOTIVE", "CABIN");
+            TrainUnit locoRoof = new TrainUnit("LOCOMOTIVE", "ROOF");
             // Create locomotive
             locoCabin.above = locoRoof;
             locoCabin.isMarshalHere = true;
@@ -70,48 +70,48 @@ namespace model {
         
         public static TrainUnit[] createStagecoach() {
             TrainUnit[] stagecoach = new TrainUnit[2];
-            TrainUnit cabin = new TrainUnit(CarType.STAGECOACH, CarFloor.CABIN);
-            TrainUnit roof = new TrainUnit(CarType.STAGECOACH, CarFloor.ROOF);
+            TrainUnit cabin = new TrainUnit("STAGECOACH", "CABIN");
+            TrainUnit roof = new TrainUnit("STAGECOACH", "ROOF");
             stagecoach[0] = roof;
             stagecoach[1] = cabin;
             return stagecoach;
         }
         
         // carType
-        public CarType getCarType() {
+        public string getCarType() {
             return this.carType;
         }
         
-        public void setCarType(CarType type) {
+        public void setCarType(string type) {
             this.carType = type;
         }
         
-        // carTypeAsString
-        public string getCarTypeAsString() {
-            return this.carTypeAsString;
-        }
+        // // carTypeAsString
+        // public string getCarTypeAsString() {
+        //     return this.carTypeAsString;
+        // }
         
-        public void setCarTypeAsString(string type) {
-            this.carTypeAsString = type;
-        }
+        // public void setCarTypeAsString(string type) {
+        //     this.carTypeAsString = type;
+        // }
         
         // carFloor
-        public CarFloor getCarFloor() {
+        public string getCarFloor() {
             return this.carFloor;
         }
         
-        public void setCarFloor(CarFloor floor) {
+        public void setCarFloor(string floor) {
             this.carFloor = floor;
         }
         
-        // carFloorAsString
-        public string getCarFloorAsString() {
-            return this.getCarFloorAsString();
-        }
+        // // carFloorAsString
+        // public string getCarFloorAsString() {
+        //     return this.getCarFloorAsString();
+        // }
         
-        public void setCarFloorAsString(string floor) {
-            this.carFloorAsString = floor;
-        }
+        // public void setCarFloorAsString(string floor) {
+        //     this.carFloorAsString = floor;
+        // }
         
         // trainLength
         public static int getTrainLength() {

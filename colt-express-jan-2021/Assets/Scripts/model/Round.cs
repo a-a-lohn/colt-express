@@ -16,9 +16,9 @@ using Sfs2X.Protocol.Serialization;
 namespace model {
     public class Round : SerializableSFSType {
     
-        public RoundType roundType;  
+        public string roundType;  
         // = round.toString(); -- Not sure if this will work, may have to be done assigned after round is assigned
-        public string roundTypeAsString;  
+        //public string roundTypeAsString;  
         // FOR NETWORKING
         public Turn currentTurn;  
         public int turnCounter;

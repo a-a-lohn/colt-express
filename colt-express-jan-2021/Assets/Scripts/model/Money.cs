@@ -17,14 +17,14 @@ namespace model {
     public class Money : Loot, SerializableSFSType {
     
         public int value;    
-        public MoneyType moneyType;
-        public string moneyTypeAsString;
+        public string moneyType;
+        //public string moneyTypeAsString;
         
         // FOR NETWORKING
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public Money() {}
         
-        public Money(MoneyType mt, int value) {
+        public Money(string mt, int value) {
             this.moneyType = mt;
             this.value = value;
         }
@@ -39,21 +39,21 @@ namespace model {
         }
         
         // moneyType
-        public void setMoneyType(MoneyType p) {
+        public void setMoneyType(string p) {
             this.moneyType = p;
         }
         
-        public MoneyType getMoneyType() {
+        public string getMoneyType() {
             return this.moneyType;
         }
         
-        // moneyTypeAsString
-        public string getMoneyTypeAsString() {
-            return this.moneyTypeAsString;
-        }
+        // // moneyTypeAsString
+        // public string getMoneyTypeAsString() {
+        //     return this.moneyTypeAsString;
+        // }
         
-        public void setMoneyTypeAsString(string s) {
-            this.moneyTypeAsString = s;
-        }
+        // public void setMoneyTypeAsString(string s) {
+        //     this.moneyTypeAsString = s;
+        // }
     }
 }
