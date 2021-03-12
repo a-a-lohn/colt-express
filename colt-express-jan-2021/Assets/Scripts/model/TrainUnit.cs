@@ -19,10 +19,12 @@ namespace model {
         public static int trainLength;
         public static TrainUnit[,] train;
         public static TrainUnit[] stagecoach;
-        public string carType;
-        public string carFloor;
-        //public string carTypeAsString;
-        //public string carFloorAsString;
+        public static TrainUnit[] trainRoof;
+	    public static TrainUnit[] trainCabin;
+        //public string carType;
+        //public string carFloor;
+        public string carTypeAsString;
+        public string carFloorAsString;
         public TrainUnit above ;
         public TrainUnit below ;
         public TrainUnit left ;
@@ -39,10 +41,10 @@ namespace model {
         public TrainUnit() {}
         
         private TrainUnit(string carType, string carFloor) {
-            this.carType = carType;
-            this.carFloor = carFloor;
-            //this.carTypeAsString = carType.ToString();
-            //this.carFloorAsString = carFloor.ToString();
+            //this.carType = carType;
+            //this.carFloor = carFloor;
+            this.carTypeAsString = carType;
+            this.carFloorAsString = carFloor;
             // TODO: createGraphic()
         }
         
@@ -78,40 +80,40 @@ namespace model {
         }
         
         // carType
-        public string getCarType() {
-            return this.carType;
-        }
-        
-        public void setCarType(string type) {
-            this.carType = type;
-        }
-        
-        // // carTypeAsString
-        // public string getCarTypeAsString() {
-        //     return this.carTypeAsString;
+        // public string getCarType() {
+        //     return this.carType;
         // }
         
-        // public void setCarTypeAsString(string type) {
-        //     this.carTypeAsString = type;
+        // public void setCarType(string type) {
+        //     this.carType = type;
         // }
+        
+        // carTypeAsString
+        public string getCarTypeAsString() {
+            return this.carTypeAsString;
+        }
+        
+        public void setCarTypeAsString(string type) {
+            this.carTypeAsString = type;
+        }
         
         // carFloor
-        public string getCarFloor() {
-            return this.carFloor;
-        }
-        
-        public void setCarFloor(string floor) {
-            this.carFloor = floor;
-        }
-        
-        // // carFloorAsString
-        // public string getCarFloorAsString() {
-        //     return this.getCarFloorAsString();
+        // public string getCarFloor() {
+        //     return this.carFloor;
         // }
         
-        // public void setCarFloorAsString(string floor) {
-        //     this.carFloorAsString = floor;
+        // public void setCarFloor(string floor) {
+        //     this.carFloor = floor;
         // }
+        
+        // carFloorAsString
+        public string getCarFloorAsString() {
+            return this.getCarFloorAsString();
+        }
+        
+        public void setCarFloorAsString(string floor) {
+            this.carFloorAsString = floor;
+        }
         
         // trainLength
         public static int getTrainLength() {

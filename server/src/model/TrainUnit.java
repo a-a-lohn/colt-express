@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+
 import java.util.HashSet;
 
 import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
@@ -22,8 +23,8 @@ public class TrainUnit implements SerializableSFSType {
 	transient public static TrainUnit[] trainRoof;
 	transient public static TrainUnit[] trainCabin;
 	
-    public CarType carType;
-    public CarFloor carFloor;
+    transient public CarType carType;
+    transient public CarFloor carFloor;
     public String carTypeAsString;
     public String carFloorAsString;
     

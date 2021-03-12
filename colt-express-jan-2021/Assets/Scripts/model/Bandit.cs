@@ -19,12 +19,12 @@ namespace model {
     
         public bool getsAnotherAction;       
         public bool playedThisTurn;       
-        public string banditName;       
+        //public string banditName;       
         public string banditNameAsString;
         
         // FOR NETWORKING
         public TrainUnit position;   
-        public Hostage hostage;       
+        //public Hostage hostage;       
         public string hostageAsString;
         
         // FOR NETWORKING
@@ -33,21 +33,22 @@ namespace model {
         public ArrayList deck ;
         public ArrayList hand ;
         public ArrayList discardPile ;
+        public ActionCard toResolve;
         
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public Bandit() {}
 
         public Bandit(string c) {
-            this.banditName = c;
-            //this.banditNameAsString = c.ToString();
+            //this.banditName = c;
+            this.banditNameAsString = c;
             this.getsAnotherAction = false;
             this.playedThisTurn = false;
             this.position = null;
-            this.hostage = null;
+            this.hostageAsString = null;
         }
         
         public string getCharacter() {
-            return this.banditName;
+            return this.banditNameAsString;
         }
         
         public void setGetsAnotherAction(bool anotherAction) {
@@ -295,13 +296,13 @@ namespace model {
             return this.discardPile;
         }
         
-        public Hostage getHostage() {
-            return this.hostage;
-        }
+        // public Hostage getHostage() {
+        //     return this.hostage;
+        // }
         
-        public void setHostage(Hostage hostage) {
-            this.hostage = hostage;
-        }
+        // public void setHostage(Hostage hostage) {
+        //     this.hostage = hostage;
+        // }
         
         public string getHostageAsString() {
             return this.hostageAsString;
@@ -309,6 +310,14 @@ namespace model {
         
         public void setHostageAsString(string hostage) {
             this.hostageAsString = hostage;
+        }
+
+        public ActionCard getToResolve() {
+        return this.toResolve;
+        }
+    
+        public void setToResolve(ActionCard ac) {
+            this.toResolve = ac;
         }
         
         public void createStartingCards() {

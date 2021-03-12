@@ -20,9 +20,8 @@ namespace model {
            return this.belongsTo;
        }
         
-       public bool setBelongsTo(Bandit newObject) {
+       public void setBelongsTo(Bandit newObject) {
             this.belongsTo = newObject;
-            return true;
         }
     }
 }

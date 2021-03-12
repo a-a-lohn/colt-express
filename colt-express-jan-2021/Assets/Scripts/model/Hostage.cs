@@ -16,8 +16,8 @@ using Sfs2X.Protocol.Serialization;
 namespace model {
     public class Hostage : SerializableSFSType {
     
-        public string hostageType;
-        //public string hostageTypeAsString;
+        //public string hostageType;
+        public string hostageTypeAsString;
         
         /// /FOR NETWORKING
         //public Option<Bandit> capturedBy;
@@ -27,22 +27,22 @@ namespace model {
         public Hostage() {}
         
         // hostageType
-        public string getHostageType() {
-            return this.hostageType;
-        }
-        
-        public void setHostageType(string hostage) {
-            this.hostageType = hostage;
-        }
-        
-        // // hostageTypeAsString
-        // public string getHostageTypeAsString() {
-        //     return this.hostageTypeAsString;
+        // public string getHostageType() {
+        //     return this.hostageType;
         // }
         
-        // public void setHostageTypeAsString(string hostage) {
-        //     this.hostageTypeAsString = hostage;
+        // public void setHostageType(string hostage) {
+        //     this.hostageType = hostage;
         // }
+        
+        // hostageTypeAsString
+        public string getHostageTypeAsString() {
+            return this.hostageTypeAsString;
+        }
+        
+        public void setHostageTypeAsString(string hostage) {
+            this.hostageTypeAsString = hostage;
+        }
         
         // capturedBy
         public Bandit getCapturedBy() {
