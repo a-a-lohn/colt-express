@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using RestSharp;
+using Newtonsoft.Json.Linq;
+using System.Linq;
 
 using Sfs2X;
 using Sfs2X.Logging;
@@ -20,6 +23,9 @@ using model;
 
 public class ChooseCharacter : MonoBehaviour
 {
+
+    private static RestClient client = new RestClient("http://13.90.26.131:4242");
+    
     // debugging variables
     public Text selected;
     public static string debugText;
@@ -226,7 +232,29 @@ public class ChooseCharacter : MonoBehaviour
         }
 	}
 
+    void RemoveLaunchedSession() {
+        if (WaitingRoom.hosting) {
+            var request = new RestRequest("oauth/token", Method.POST)
+            .AddParameter("grant_type", "password")
+            .AddParameter("username", "admin")
+            .AddParameter("password", "admin")
+            .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+        IRestResponse response = client.Execute(request);
+        
+        var obj = JObject.Parse(response.Content);
+        string adminToken = (string)obj["access_token"];
+        adminToken = adminToken.Replace("+", "%2B");
+        PlayerPrefs.SetString("admintoken", adminToken);
+        PlayerPrefs.Save();
+
+        var request2 = new RestRequest("api/sessions/" + WaitingRoom.gameHash + "?access_token=" + adminToken, Method.DELETE)
+            .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+        IRestResponse response2 = client.Execute(request2);
+        }
+    }
+
     void OnApplicationQuit() {
+        RemoveLaunchedSession();
 		// Always disconnect before quitting
 		SFS.Disconnect();
 	}
