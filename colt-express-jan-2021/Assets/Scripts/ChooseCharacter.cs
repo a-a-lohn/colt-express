@@ -43,13 +43,13 @@ public class ChooseCharacter : MonoBehaviour
     {
 
         // testing 
-            //  var foundButtonObjects = FindObjectsOfType<Button>();
- 
-            //     foreach(Button btn in foundButtonObjects){
-            //         if(btn.name == "TucoBtn"){
-            //             btn.interactable = false; 
-            //         }
-            //     }
+             var foundButtonObjects = FindObjectsOfType<Button>();
+                foreach(Button btn in foundButtonObjects){
+                    if(btn.name == "TucoBtn"){
+                        btn.interactable = false; 
+                    }
+                   //  btn.interactable = false; 
+                }
         //////
 
             BelleIsAvailable = true;
@@ -196,22 +196,22 @@ public class ChooseCharacter : MonoBehaviour
                 foreach(Button btn in foundButtonObjects){
                     string banditName = (string)a.GetUtfString(i);
                     if(btn.name == "TucoBtn" && banditName == "TUCO"){
-                        btn.interactable = false; 
+                        btn.interactable = true; 
                     }
                     if(btn.name == "BelleBtn" && banditName == "BELLE"){
-                        btn.interactable = false; 
+                        btn.interactable = true; 
                     }
                     if(btn.name == "CheyenneBtn" && banditName == "CHEYENNE"){
-                        btn.interactable = false; 
+                        btn.interactable = true; 
                     }
                     if(btn.name == "DjangoBtn" && banditName == "DJANGO"){
-                        btn.interactable = false; 
+                        btn.interactable = true; 
                     }
                     if(btn.name == "GhostBtn" && banditName == "GHOST"){
-                        btn.interactable = false; 
+                        btn.interactable = true; 
                     }
                     if(btn.name == "DocBtn" && banditName == "DOC"){
-                        btn.interactable = false; 
+                        btn.interactable = true; 
                     }
                 }
             }
