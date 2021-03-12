@@ -557,7 +557,7 @@ GameObject:
   - component: {fileID: 151276976}
   - component: {fileID: 151276975}
   m_Layer: 5
-  m_Name: Tuco
+  m_Name: TucoBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

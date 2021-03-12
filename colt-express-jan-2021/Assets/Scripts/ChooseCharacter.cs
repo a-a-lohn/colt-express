@@ -41,6 +41,17 @@ public class ChooseCharacter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        // testing 
+            //  var foundButtonObjects = FindObjectsOfType<Button>();
+ 
+            //     foreach(Button btn in foundButtonObjects){
+            //         if(btn.name == "TucoBtn"){
+            //             btn.interactable = false; 
+            //         }
+            //     }
+        //////
+
             BelleIsAvailable = true;
             CheyenneIsAvailable = true; 
             TucoIsAvailable = true; 
@@ -178,28 +189,30 @@ public class ChooseCharacter : MonoBehaviour
             ISFSArray a = responseParams.GetSFSArray("characterList");
             int size = responseParams.GetSFSArray("characterList").Size();
             trace("Characters to choose from: ");
-            for (int i = 0; i < size; i++) {
-                string banditName = (string)a.GetUtfString(i);
-                /*GET CHARACTER STRINGS HERE*/
-                if (banditName == "TUCO") {
-                    // the tuco game object becomes clicked somehow (e.g. same way how it can be done for gameboard, by assigning a global
-                    // variable and then having scripts attached to each game object check if that global var is assigned, if so render 
-                    // the game object clicked)
-
-                    // ?? SET TUCO TO CLICKED ?? 
-                    // RETURN ALL THE CHARACTERS THAT HAVE NOT BEEN CLICKED ?? 
-
-
-                }
-                 trace((string)a.GetUtfString(i));
-            }
-
-            //  ** print the names of all character buttons that have not been clicked 
+            // loop through all the buttons
+            // if a character's name is in the input list -> active the button // otherwise deactive the btn 
             var foundButtonObjects = FindObjectsOfType<Button>();
-            foreach(Button btn in foundButtonObjects){
-                // Debug.Log(btn);
-                if(btn.interactable == true){
-                    trace(btn.name);
+            for (int i = 0; i < size; i++) {
+                foreach(Button btn in foundButtonObjects){
+                    string banditName = (string)a.GetUtfString(i);
+                    if(btn.name == "TucoBtn" && banditName == "TUCO"){
+                        btn.interactable = false; 
+                    }
+                    if(btn.name == "BelleBtn" && banditName == "BELLE"){
+                        btn.interactable = false; 
+                    }
+                    if(btn.name == "CheyenneBtn" && banditName == "CHEYENNE"){
+                        btn.interactable = false; 
+                    }
+                    if(btn.name == "DjangoBtn" && banditName == "DJANGO"){
+                        btn.interactable = false; 
+                    }
+                    if(btn.name == "GhostBtn" && banditName == "GHOST"){
+                        btn.interactable = false; 
+                    }
+                    if(btn.name == "DocBtn" && banditName == "DOC"){
+                        btn.interactable = false; 
+                    }
                 }
             }
 
