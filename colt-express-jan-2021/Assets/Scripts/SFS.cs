@@ -23,7 +23,7 @@ public static class SFS
     public static string zone;
     public static string debugText = "";
     public static bool moreText = false;
-    public static string username = "coltplayer2"; //should be set to logged in user's name
+    public static string username; //should be set to logged in user's name
 
     static SFS(){
         defaultHost = "127.0.0.1";  //"13.90.26.131";
@@ -61,9 +61,10 @@ public static class SFS
         }
     }
 
-    public static void Connect() {
+    public static void Connect(string uname) {
 		if (sfs == null || !sfs.IsConnected) {
-
+			
+			username = uname;
 			// CONNECT
 
 			// Clear console

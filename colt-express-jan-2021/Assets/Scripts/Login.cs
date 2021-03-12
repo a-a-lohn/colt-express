@@ -75,7 +75,7 @@ public class Login : MonoBehaviour {
         // For C# serialization
 		DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
         SFS.setSFS(sfs);
-        SFS.Connect();
+        SFS.Connect(PlayerPrefs.GetString("username", "No username found"));
 
         SceneManager.LoadScene("WaitingRoom");
     }
