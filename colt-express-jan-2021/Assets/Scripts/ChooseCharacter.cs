@@ -45,6 +45,9 @@ public class ChooseCharacter : MonoBehaviour
         if (SFS.IsConnected()) {
             alreadyCalled = true;
             EnterChooseCharacterScene();
+
+            //THIS LISTENER CAN BE REMOVED ONCE THE CHARACTERS THEMSELVES CAN BE CLICKED
+            //button.onClick.AddListener(CharacterChoice);
         }
 
         BelleIsAvailable = true;
@@ -72,9 +75,9 @@ public class ChooseCharacter : MonoBehaviour
         /*if (SFS.IsConnected() && !alreadyCalled) {
             alreadyCalled = true;
             Invoke("EnterChooseCharacterScene",2);
-            /*
-            THIS LISTENER CAN BE REMOVED ONCE THE CHARACTERS THEMSELVES CAN BE CLICKED
-            */
+            
+            //THIS LISTENER CAN BE REMOVED ONCE THE CHARACTERS THEMSELVES CAN BE CLICKED
+            
             // button.onClick.AddListener(CharacterChoice);
             //EnterChooseCharacterScene();
         }*/
