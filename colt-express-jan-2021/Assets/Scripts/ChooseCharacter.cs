@@ -41,29 +41,35 @@ public class ChooseCharacter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-            BelleIsAvailable = true;
-            CheyenneIsAvailable = true; 
-            TucoIsAvailable = true; 
-            DjangoIsAvailable = true; 
-            DocIsAvailable = true; 
 
-            // rend = GetComponent<Renderer>();
-            // name = this.GameObject;
-            debugText = "";
-            selected.text = "";
+        if (SFS.IsConnected()) {
+            alreadyCalled = true;
+            EnterChooseCharacterScene();
+        }
+
+        BelleIsAvailable = true;
+        CheyenneIsAvailable = true; 
+        TucoIsAvailable = true; 
+        DjangoIsAvailable = true; 
+        DocIsAvailable = true; 
+
+        // rend = GetComponent<Renderer>();
+        // name = this.GameObject;
+        debugText = "";
+        selected.text = "";
 
         // Initialize SFS2X client. This can be done in an earlier scene instead
-		SmartFox sfs = new SmartFox();
+		/*SmartFox sfs = new SmartFox();
         // For C# serialization
 		DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
         SFS.setSFS(sfs);
-        SFS.Connect();
+        SFS.Connect();*/
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (SFS.IsConnected() && !alreadyCalled) {
+        /*if (SFS.IsConnected() && !alreadyCalled) {
             alreadyCalled = true;
             Invoke("EnterChooseCharacterScene",2);
             /*
@@ -71,7 +77,7 @@ public class ChooseCharacter : MonoBehaviour
             */
             // button.onClick.AddListener(CharacterChoice);
             //EnterChooseCharacterScene();
-        }
+        }*/
         if (SFS.IsConnected()) {
 			SFS.ProcessEvents();
 		}
