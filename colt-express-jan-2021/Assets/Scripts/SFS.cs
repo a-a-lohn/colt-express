@@ -25,11 +25,17 @@ public static class SFS
     public static bool moreText = false;
     public static string username; //should be set to logged in user's name
 
+	public static GameBoard gb;
+
     static SFS(){
         defaultHost = "127.0.0.1";  //"13.90.26.131";
 	    defaultTcpPort = 9933;
         zone = "MergedExt";
     }
+
+	public static void setGameBoard(GameBoard Gb) {
+		gb = Gb;
+	}
 
     public static void setSFS(SmartFox Sfs) {
         sfs = Sfs;
@@ -57,7 +63,7 @@ public static class SFS
 		if (cmd == "remainingCharacters") {
 			ChooseCharacter.DisplayRemainingCharacters(evt);
 		} else if (cmd == "updateGameState") {
-            GameBoard.UpdateGameState(evt);
+            gb.UpdateGameState(evt);
         }
     }
 

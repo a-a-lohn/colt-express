@@ -3010,15 +3010,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 734506202}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eef9e68e7eea64a27b31ea3f2a703590, type: 3}
+  m_Script: {fileID: 11500000, guid: 9355319f82fbe4b82843df89af549c18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugText: {fileID: 2029698959}
-  button: {fileID: 508362078}
-  extension: {fileID: 2136415904}
-  chooseChar: {fileID: 2004750413}
-  buttonLabel: {fileID: 2056613378}
-  cheyenne: {fileID: 1258289863}
+  button: {fileID: 0}
+  extension: {fileID: 0}
+  chooseChar: {fileID: 0}
+  buttonLabel: {fileID: 0}
 --- !u!1 &791362999
 GameObject:
   m_ObjectHideFlags: 0

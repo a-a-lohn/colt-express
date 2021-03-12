@@ -7,7 +7,6 @@ using System;
 using RestSharp;
 using Newtonsoft.Json.Linq;
 using System.Linq;
-using TMPro;
 
 public class WaitingRoom : MonoBehaviour
 {
@@ -15,17 +14,17 @@ public class WaitingRoom : MonoBehaviour
 
     public Text fToken;
     public Button NewGameButton;
-    public Button GoToGameButton;
+    //public Button GoToGameButton;
     public Button LaunchGameButton;
+    public Button HostGameButton;
+    public Text InfoText;
 
-    private static string gameHash = null;
+    public static string gameHash = null;
     private static string token;
     private static string username;
 
-    public Text joinText;
-
     private static bool joined = false;
-    private static bool hosting = false;
+    public static bool hosting = false;
 
     private static Dictionary<Button, string> hashes = new Dictionary<Button, string>();
 
@@ -36,7 +35,7 @@ public class WaitingRoom : MonoBehaviour
         username = PlayerPrefs.GetString("username", "No username found");
 
         NewGameButton.interactable = false;
-        GoToGameButton.interactable = false;
+        //GoToGameButton.interactable = false;
         LaunchGameButton.interactable = false;
         // fToken.text = waitToken;
         GetSessions();
@@ -60,11 +59,11 @@ public class WaitingRoom : MonoBehaviour
         if(hosting && !LaunchGameButton.interactable) {
             ActivateLaunchGameButton();
         }
-        ActivateGoToGameButton();
+        GoToGame();
     }
 
-    public void ActivateGoToGameButton() {
-        if (gameHash != null && joined && !GoToGameButton.interactable) {
+    public void GoToGame() {
+        if (gameHash != null && joined)/* && !GoToGameButton.interactable) */{
             var request = new RestRequest("api/sessions/" + gameHash, Method.GET)
                 .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
             IRestResponse response = client.Execute(request);
@@ -72,7 +71,8 @@ public class WaitingRoom : MonoBehaviour
             Dictionary<string, object> sessionDetails = obj.ToObject<Dictionary<string, object>>();
 
             if (sessionDetails["launched"].ToString().ToLower() == "true") {
-                GoToGameButton.interactable = true;
+               // GoToGameButton.interactable = true;
+               SceneManager.LoadScene("ChooseYourCharacter");
             }
             
         }
@@ -93,13 +93,17 @@ public class WaitingRoom : MonoBehaviour
 
     public void JoinGame(Button gameToJoin)
     {
-        // replace this with the id present in the text of the clicked button
         gameHash = hashes[gameToJoin];
         var request = new RestRequest("api/sessions/" + gameHash + "/players/" + username + "?access_token=" + token, Method.PUT)
             .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
         IRestResponse response = client.Execute(request);
-        gameToJoin.interactable = false;
+        foreach(KeyValuePair<Button, string> entry in hashes){
+            entry.Key.interactable = false;
+        } 
+        LaunchGameButton.interactable = false;
+        HostGameButton.interactable = false;
         joined = true;
+        InfoText.text = "You will be brought to the next scene once the host launches the game!";
     }
 
     /*private static string ExtractHash()
@@ -124,7 +128,9 @@ public class WaitingRoom : MonoBehaviour
             .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
         IRestResponse response = client.Execute(request);
         gameHash = response.Content;
+        HostGameButton.interactable = false;
         hosting = true;
+        InfoText.text = "You will be brought to the next scene once you launch your game!";
     }
 
     private void GetSessions()
@@ -145,7 +151,7 @@ public class WaitingRoom : MonoBehaviour
                 if(!hosting) {
                     NewGameButton.interactable = true;
                 }
-                NewGameButton.onClick.AddListener(delegate{JoinGame(NewGameButton);});
+                //NewGameButton.onClick.AddListener(JoinGame);//delegate{JoinGame(NewGameButton);});
             }
             
             fToken.text = "\nSession ID: " + entry.Key;
@@ -217,8 +223,31 @@ public class WaitingRoom : MonoBehaviour
         }
     }*/
 
+    void RemoveLaunchedSession() {
+        if (hosting) {
+            var request = new RestRequest("oauth/token", Method.POST)
+            .AddParameter("grant_type", "password")
+            .AddParameter("username", "admin")
+            .AddParameter("password", "admin")
+            .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+        IRestResponse response = client.Execute(request);
+        
+        var obj = JObject.Parse(response.Content);
+        string adminToken = (string)obj["access_token"];
+        adminToken = adminToken.Replace("+", "%2B");
+        PlayerPrefs.SetString("admintoken", adminToken);
+        PlayerPrefs.Save();
+
+        var request2 = new RestRequest("api/sessions/" + gameHash + "?access_token=" + adminToken, Method.DELETE)
+            .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+        IRestResponse response2 = client.Execute(request2);
+        }
+    }
+
     void OnApplicationQuit() {
+        RemoveLaunchedSession();
 		// Always disconnect before quitting
 		SFS.Disconnect();
 	}
+
 }

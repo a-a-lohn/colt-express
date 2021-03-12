@@ -48,18 +48,18 @@ public class GameBoard : MonoBehaviour
 	public static GameManager gm;
 
 	// LIST OF ALL GAME OBJECTS HERE
-    public static GameObject cheyenne;
-	public static GameObject belle; 
-	public static GameObject tuco; 
-	public static GameObject doc; 
-	public static GameObject ghost; 
-	public static GameObject django; 
+    public GameObject cheyenne;
+	public GameObject belle; 
+	public GameObject tuco; 
+	public GameObject doc; 
+	public GameObject ghost; 
+	public GameObject django; 
 	
-	public static GameObject gem1; 
-	public static GameObject gem2; 
-	public static GameObject gem3; 
-	public static GameObject gem4;
-	public static GameObject gem5;
+	public GameObject gem1; 
+	public GameObject gem2; 
+	public GameObject gem3; 
+	public GameObject gem4;
+	public GameObject gem5;
 
 	// public GameObject tuco;
 	// public GameObject doc; 
@@ -86,6 +86,8 @@ public class GameBoard : MonoBehaviour
 
     void Start()
     {
+		SFS.setGameBoard(this);
+
 		debugTextString = "";
         debugText.text = "";
 
@@ -138,7 +140,7 @@ public class GameBoard : MonoBehaviour
 	}
 
 	// THIS IS THE FIRST METHOD CALLED FOR RECEIVING NEW GAME STATE
-    public static void UpdateGameState(BaseEvent evt) {
+    public void UpdateGameState(BaseEvent evt) {
         trace("updategamestate called");
         
         ISFSObject responseParams = (SFSObject)evt.Params["params"];
