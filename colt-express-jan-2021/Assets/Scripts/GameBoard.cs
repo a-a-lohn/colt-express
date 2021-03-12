@@ -118,22 +118,22 @@ public class GameBoard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (SFS.IsConnected()) {
-			SFS.ProcessEvents();
-		}
+        // if (SFS.IsConnected()) {
+		// 	SFS.ProcessEvents();
+		// }
 
-		if (SFS.debugText != debugText.text) {
-            debugText.text = SFS.debugText;
-        }
+		// if (SFS.debugText != debugText.text) {
+        //     debugText.text = SFS.debugText;
+        // }
 
-		// for debugging
-		if (SFS.moreText) {
-            debugTextString += SFS.debugText;
-            SFS.moreText = false;
-        }
-        if (debugTextString != debugText.text) {
-            debugText.text = debugTextString;
-        }
+		// // for debugging
+		// if (SFS.moreText) {
+        //     debugTextString += SFS.debugText;
+        //     SFS.moreText = false;
+        // }
+        // if (debugTextString != debugText.text) {
+        //     debugText.text = debugTextString;
+        // }
     }
 
 	public static void SendNewGameState() {
