@@ -1412,6 +1412,7 @@ GameObject:
   - component: {fileID: 367661731}
   - component: {fileID: 367661730}
   - component: {fileID: 367661733}
+  - component: {fileID: 367661734}
   m_Layer: 5
   m_Name: CardD
   m_TagString: Untagged
@@ -2359,6 +2360,7 @@ GameObject:
   - component: {fileID: 541298847}
   - component: {fileID: 541298846}
   - component: {fileID: 541298849}
+  - component: {fileID: 541298850}
   m_Layer: 5
   m_Name: CardB
   m_TagString: Untagged
@@ -3337,7 +3339,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 704473339}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 736, y: 692, z: 0}
+  m_LocalPosition: {x: 828, y: 701, z: 0}
   m_LocalScale: {x: 21.7778, y: 25.549383, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3562,8 +3564,8 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 2
-  m_MatchWidthOrHeight: 0
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -3656,6 +3658,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9355319f82fbe4b82843df89af549c18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  button: {fileID: 0}
+  extension: {fileID: 0}
+  chooseChar: {fileID: 0}
+  buttonLabel: {fileID: 0}
 --- !u!1 &749691587
 GameObject:
   m_ObjectHideFlags: 0
@@ -4498,7 +4504,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 893249881}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 735, y: 656, z: 0}
+  m_LocalPosition: {x: 833, y: 656, z: 0}
   m_LocalScale: {x: 21.7778, y: 25.549383, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -5183,6 +5189,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9355319f82fbe4b82843df89af549c18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  button: {fileID: 0}
+  extension: {fileID: 0}
+  chooseChar: {fileID: 0}
+  buttonLabel: {fileID: 0}
 --- !u!1 &1023083644
 GameObject:
   m_ObjectHideFlags: 0
@@ -5196,6 +5206,7 @@ GameObject:
   - component: {fileID: 1023083647}
   - component: {fileID: 1023083646}
   - component: {fileID: 1023083649}
+  - component: {fileID: 1023083650}
   m_Layer: 5
   m_Name: CardC
   m_TagString: Untagged
@@ -5488,6 +5499,7 @@ GameObject:
   - component: {fileID: 1135692234}
   - component: {fileID: 1135692233}
   - component: {fileID: 1135692236}
+  - component: {fileID: 1135692237}
   m_Layer: 5
   m_Name: CardE
   m_TagString: Untagged
@@ -7919,7 +7931,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1850414720}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 738, y: 743, z: 0}
+  m_LocalPosition: {x: 819, y: 745, z: 0}
   m_LocalScale: {x: 21.7778, y: 25.549383, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

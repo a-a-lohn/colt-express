@@ -28,7 +28,7 @@ public class ChooseCharacter : MonoBehaviour
     private static bool alreadyCalled = false;
 
     //SAVE THE CHOSEN CHARACTER IN THIS STRING SO IT CAN BE USED BY GAMEMANAGER
-    public string character;
+    public static string character = "";
 
     // BOOLEANS FOR CHARACTER AVAILABILITY
     public bool BelleIsAvailable; 
