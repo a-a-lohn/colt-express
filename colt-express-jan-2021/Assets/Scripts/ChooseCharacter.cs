@@ -25,7 +25,7 @@ public class ChooseCharacter : MonoBehaviour
 {
 
     private static RestClient client = new RestClient("http://13.90.26.131:4242");
-    
+
     // debugging variables
     public Text selected;
     public static string debugText;
@@ -47,13 +47,14 @@ public class ChooseCharacter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
 
         if (SFS.IsConnected()) {
             alreadyCalled = true;
             EnterChooseCharacterScene();
 
             //THIS LISTENER CAN BE REMOVED ONCE THE CHARACTERS THEMSELVES CAN BE CLICKED
-            //button.onClick.AddListener(CharacterChoice);
+            button.onClick.AddListener(CharacterChoice);
         }
 
         BelleIsAvailable = true;
@@ -72,7 +73,7 @@ public class ChooseCharacter : MonoBehaviour
         // For C# serialization
 		DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
         SFS.setSFS(sfs);
-        SFS.Connect();*/
+        SFS.Connect("aaron");*/
     }
 
     // Update is called once per frame
@@ -84,7 +85,7 @@ public class ChooseCharacter : MonoBehaviour
             
             //THIS LISTENER CAN BE REMOVED ONCE THE CHARACTERS THEMSELVES CAN BE CLICKED
             
-            // button.onClick.AddListener(CharacterChoice);
+             button.onClick.AddListener(CharacterChoice);
             //EnterChooseCharacterScene();
         }*/
         if (SFS.IsConnected()) {
@@ -99,7 +100,7 @@ public class ChooseCharacter : MonoBehaviour
              string name =  EventSystem.current.currentSelectedGameObject.name;
              // Debug.Log(name + " ahh"); 
              selected.text = "Your bandit is: " + name;
-             CharacterChoice(name.ToUpper());
+             //CharacterChoice(name.ToUpper());
 
              // SET AVAILABILITY OF THE CHOSEN CHARACTER TO FALSE 
              if(name == "Belle"){
@@ -179,12 +180,13 @@ public class ChooseCharacter : MonoBehaviour
     //     SFS.Send(req);
     //     trace("chose Belle");
     // }
-    private void CharacterChoice(string chosenCharacter) {
+    public void CharacterChoice(/*string chosenCharacter*/) {
+        string chosenCharacter = "TUCO";
         ISFSObject obj = SFSObject.NewInstance();
 		obj.PutUtfString("chosenCharacter", chosenCharacter);//hardcoded for now, replace "BELLE" with "chosen"
         ExtensionRequest req = new ExtensionRequest("gm.chosenCharacter",obj);
         SFS.Send(req);
-        trace("chose"+chosenCharacter);
+        trace("chose "+chosenCharacter);
     }
 
 	public static void DisplayRemainingCharacters(BaseEvent evt) {

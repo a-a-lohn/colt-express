@@ -7,17 +7,6 @@ using System.Text.RegularExpressions;
 using RestSharp; 
 using Newtonsoft.Json.Linq;
 
-using Sfs2X;
-using Sfs2X.Logging;
-using Sfs2X.Util;
-using Sfs2X.Core;
-using Sfs2X.Entities;
-using Sfs2X.Entities.Data;
-using Sfs2X.Requests;
-using System.Reflection;
-using Sfs2X.Protocol.Serialization;
-
-
 public class Login : MonoBehaviour {
     public InputField username; // used to store user info
     public InputField password; 
@@ -69,14 +58,7 @@ public class Login : MonoBehaviour {
         }
     }
 
-    public void GoToWR(){
-        // Initialize SFS2X client. This can be done in an earlier scene instead
-		/*SmartFox sfs = new SmartFox();
-        // For C# serialization
-		DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
-        SFS.setSFS(sfs);
-        SFS.Connect(PlayerPrefs.GetString("username", "No username found"));
-        */
+    public void GoToWR(){       
         SceneManager.LoadScene("WaitingRoom");
     }
 
