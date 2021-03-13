@@ -41,15 +41,15 @@ public class ChooseCharacter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        Screen.SetResolution(800, 600, true);
         // testing 
-             var foundButtonObjects = FindObjectsOfType<Button>();
-                foreach(Button btn in foundButtonObjects){
-                    if(btn.name == "TucoBtn"){
-                        btn.interactable = false; 
-                    }
-                   //  btn.interactable = false; 
-                }
+            //  var foundButtonObjects = FindObjectsOfType<Button>();
+            //     foreach(Button btn in foundButtonObjects){
+            //         if(btn.name == "TucoBtn"){
+            //             btn.interactable = false; 
+            //         }
+            //        //  btn.interactable = false; 
+            //     }
         //////
 
             BelleIsAvailable = true;
@@ -196,21 +196,28 @@ public class ChooseCharacter : MonoBehaviour
                 foreach(Button btn in foundButtonObjects){
                     string banditName = (string)a.GetUtfString(i);
                     if(btn.name == "TucoBtn" && banditName == "TUCO"){
+                        // save in a variable so we can use it later 
+                        character = "Tuco"; 
                         btn.interactable = true; 
                     }
                     if(btn.name == "BelleBtn" && banditName == "BELLE"){
+                        character = "Belle"; 
                         btn.interactable = true; 
                     }
                     if(btn.name == "CheyenneBtn" && banditName == "CHEYENNE"){
+                        character = "Cheyenne"; 
                         btn.interactable = true; 
                     }
                     if(btn.name == "DjangoBtn" && banditName == "DJANGO"){
+                        character = "Django"; 
                         btn.interactable = true; 
                     }
                     if(btn.name == "GhostBtn" && banditName == "GHOST"){
+                        character = "Ghost"; 
                         btn.interactable = true; 
                     }
                     if(btn.name == "DocBtn" && banditName == "DOC"){
+                        character = "Doc"; 
                         btn.interactable = true; 
                     }
                 }
