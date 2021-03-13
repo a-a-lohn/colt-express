@@ -28,6 +28,7 @@ public class Bandit implements SerializableSFSType {
 	public ArrayList<Card> hand = new ArrayList<Card>();
 	public ArrayList<Card> discardPile = new ArrayList<Card>();
 	public ActionCard toResolve = null;
+	public int consecutiveTurnCounter = 0;
 
 	//--EMPTY CONSTRUCTOR FOR SERIALIZATION--
 	public Bandit() { }
@@ -277,6 +278,13 @@ public class Bandit implements SerializableSFSType {
 	}
 	public void setToResolve(ActionCard ac) {
 		this.toResolve = ac;
+	}
+	
+	public int getConsecutiveTurnCounter() {
+		return this.consecutiveTurnCounter;
+	}
+	public void setConsecutiveTurnCounter(int i) {
+		this.consecutiveTurnCounter = i;
 	}
 
 	public void createStartingCards() {

@@ -206,14 +206,15 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 			calculateMove();
 		}
 		else if(toResolve.getActionType() == ActionType.PUNCH) {
-			
+			calculatePunch();
 		}
 		else if(toResolve.getActionType() == ActionType.ROB) {
-			
+			calculateRob();
 		}
 		else if(toResolve.getActionType() == ActionType.SHOOT) {
-			
+			calculateShoot();
 		}
+		
 	}
 	
 	/**
@@ -229,8 +230,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 
 		// Prompt playing face down
 		if (currentBandit.getCharacter() == Character.GHOST && this.currentRound.getTurnCounter() == 0) {
-			// TODO: prompt choice;
-			// TODO: receive choice;
+			promptFaceUpOrFaceDown(c);
 		} else if (this.currentRound.getCurrentTurn().getTurnType() == TurnType.TUNNEL) {
 			// this.currentRound.getCurrentTurn().getTurnTypeAsString().equals("TUNNEL")
 			c.setFaceDown(true);
@@ -242,8 +242,25 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		// TODO: graphical response
 		
 		endOfTurn(); //might have to put this in an if else block for cases like SpeedingUp/Whiskey
+		
 	}
 
+	public void promptFaceUpOrFaceDown(ActionCard c) {
+		//TODO
+		/*
+		 * if(click face down choice){
+		 * 	c.setFaceDown(true);
+		 * 	PlayedPile.getInstance().addPlayedCards(c);
+		 * 	TODO: graphical response
+		 * 	endOfTurn();
+		 * }
+		 * else if(click face up up choice){
+		 * 	PlayedPile.getInstance().addPlayedCards(c);
+		 *  TODO: graphical response
+		 *  endOfTurn();
+		 */
+	}
+	
 	/**
 	 * 
 	 * @param cardsToDraw the number of cards to add to the Bandit's hand from the
@@ -266,13 +283,14 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 
 			if (currentTurnType == TurnType.STANDARD || currentTurnType == TurnType.TUNNEL) {
 				banditIndex = (banditIndex + 1) % this.bandits.size();
-				;
 				banditsPlayedThisTurn++;
 				// IF END OF TURN
-				if (banditsPlayedThisTurn > this.bandits.size()) {
+				if (banditsPlayedThisTurn == this.bandits.size()) {
 					// IF THERE ARE MORE TURNS IN THE ROUND
-					if (this.currentRound.getNextTurn() != null) { // IMPORTANT: getNextTurn() also SETS to next turn
+					if (this.currentRound.hasNextTurn() == true) {
+						this.currentRound.setNextTurn();
 						this.currentBandit = this.bandits.get(banditIndex);
+						this.banditIndex++;
 					}
 					// IF THERE ARE NO MORE TURNS IN THE ROUND
 					else {
@@ -286,14 +304,59 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 				}
 			}
 
-			else if (currentTurnType == TurnType.SWITCHING) {
-				//TODO
+			else if (currentTurnType == TurnType.SPEEDINGUP) {
+				if(currentBandit.consecutiveTurnCounter == 0) {
+					currentBandit.setConsecutiveTurnCounter(1);
+					promptDrawCardsOrPlayCard();
+				}
+				else if(currentBandit.consecutiveTurnCounter == 1) {
+					banditIndex = (banditIndex + 1) % this.bandits.size();
+					banditsPlayedThisTurn++;
+					// IF END OF TURN
+					if(banditsPlayedThisTurn == this.bandits.size()) {
+						// IF THERE ARE MORE TURNS IN THE ROUND
+						if(this.currentRound.hasNextTurn() == true) {
+							this.currentRound.setNextTurn();
+							this.currentBandit = this.bandits.get(banditIndex);
+							this.banditIndex++;
+						}
+						// IF THERE ARE NO MORE TURNS IN THE ROUND
+						else {
+							banditsPlayedThisTurn = 0;
+							this.setGameStatus(GameStatus.STEALIN);
+						}
+					}
+					// IF NOT END OF TURN
+					else {
+						this.currentBandit = this.bandits.get(banditIndex);
+					}
+				}
 			}
 
-			else if (currentTurnType == TurnType.SPEEDINGUP) {
-				//TODO
+			else if (currentTurnType == TurnType.SWITCHING) {
+				banditIndex = (banditIndex - 1 + this.bandits.size()) % this.bandits.size();
+				banditsPlayedThisTurn++;
+				// IF END OF TURN
+				if (banditsPlayedThisTurn == this.bandits.size()) {
+					// IF THERE ARE MORE TURNS IN THE ROUND
+					if (this.currentRound.hasNextTurn() == true) {
+						this.currentRound.setNextTurn();
+						this.currentBandit = this.bandits.get(banditIndex);
+						this.banditIndex++;
+					}
+					// IF THERE ARE NO MORE TURNS IN THE ROUND
+					else {
+						banditsPlayedThisTurn = 0;
+						this.setGameStatus(GameStatus.STEALIN);
+					}
+				}
+				// IF NOT END OF TURN
+				else {
+					this.currentBandit = this.bandits.get(banditIndex);
+				}
 			}
-		} else if (this.gameStatus == GameStatus.STEALIN) { 
+		} 
+		else if (this.gameStatus == GameStatus.STEALIN) { 
 			Card toResolve = this.playedPileInstance.takeTopCard();
 			if (toResolve != null) {
 				currentBandit = toResolve.getBelongsTo();
@@ -306,10 +369,8 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 					this.setGameStatus(GameStatus.SCHEMIN);
 					this.banditsPlayedThisTurn = 0;
 				}
-
 			}
 		}
-
 	}
 
 	public GameManager() {}
@@ -700,7 +761,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	
 	
 	public Bandit calculateShoot() {
-		//TODO REMEMBER BELLE AND TUCO CASES
+		//TODO REMEMBER BELLE AND TUCO CASES, REMEMBER ROOF AND CABIN CASES
 		return new Bandit();
 	}
 	
