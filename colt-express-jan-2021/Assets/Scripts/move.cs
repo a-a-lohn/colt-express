@@ -1,21 +1,68 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using System.Collections;
+using System.Collections.Generic;
 
 public class Move : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public GameObject lootToMove; 
+    // public TrainUnit position;
+    // public string carTypeAsString; 
+    // public string carFloorAsString; 
 
     // map: key: object, value: (x,y) 
     public Dictionary<GameObject, List<float>> objectToPosition = new Dictionary<GameObject, List<float>>();
 
-    // predefined pos 
-    // private (float, float, float) cartZeroTop = (-0.14,0.55,0); // cart0 top 
+    // possible positions 
+    // we can check the cartTypeAsString and carFloorAsString received from GM and find the corresponding x,y,z 
     private List<float> cartZeroTop = new List<float>() {840.5F,878.4F,-364.9F};
+    private List<float> cartZeroBtm = new List<float>() {786.1F, 813.5F, -364.9F};
+
+    private List<float> cartOneTop = new List<float>() {1025.7F, 889.4F, -364.9F};
+    private List<float> cartOneBtm = new List<float>() {1027.9F, 806.4F, -364.9F};
+
+    private List<float> cartTwoTop = new List<float>() {1265.4F, 894.7F, -364.9F};
+    private List<float> cartTwoBtm = new List<float>() {1279.8F, 817.7F, -364.9F};
+
+    private List<float> cartLocoTop = new List<float>() {1410.5F, 893.4F, -364.9F};
+    private List<float> cartLocoBtm = new List<float>() {1390.0F, 824.9F, -364.9F};
+
+
+    // all movable gameobjects' position
+    private List<float> belPos; 
+    private List<float> chePos; 
+    private List<float> docPos; 
+    private List<float> djaPos; 
+    private List<float> tucPos; 
+    private List<float> ghoPos; 
+
+    // pos offsets (may need to update these later)
+    private List<float> belOffset = new List<float>() {1F, 0F, 0F}; 
+    private List<float> cheOffset = new List<float>() {5F, 0F, 0F}; 
+    private List<float> docOffset = new List<float>() {10F, 0F, 0F}; 
+    private List<float> djaOffset = new List<float>() {-5F, 0F, 0F}; 
+    private List<float> ghoOffset = new List<float>() {-3F, 0F, 0F}; 
+    private List<float> ghoPos = new List<float>() {-1F, 0F, 0F}; 
+
+    // getClicked returns the name of the GM that user clicks 
+    string getClicked(){
+        var goClicked = EventSystem.current.currentSelectedGameObject;
+        // Debug.Log(goClicked.name);
+        return goClicked;
+    }
+
+    // use the hashmap to map the GO to the desired type so we can pass it back to the GM 
 
     void Start()
     {
+        //  Debug.Log(zeroBtm.transform.position);
+        //  Debug.Log(oneTop.transform.position);
+        //  Debug.Log(oneBtm.transform.position);
+        // Debug.Log(twoTop.transform.position);
+        //  Debug.Log(twoBtm.transform.position);
+        // Debug.Log(locoTop.transform.position);
+        //  Debug.Log(locoBtm.transform.position);
         // transform.position = Vector3.Lerp(startPoint, endPoint, (Time.deltaTime));
 
     }
@@ -41,21 +88,20 @@ public class Move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-        // this wont move the object forwards but will reset it's position to 0, 0, 1
-        // Debug.Log("POSITIONNNN");
-        //     Debug.Log(lootToMove.transform.position);
-            // lootToMove.transform.position = new Vector3 (1219, 819, -364);
+        // if (Input.GetMouseButtonDown(0))
+        // {
+        // // this wont move the object forwards but will reset it's position to 0, 0, 1
+        // // Debug.Log("POSITIONNNN");
+        // //     Debug.Log(lootToMove.transform.position);
+        //     // lootToMove.transform.position = new Vector3 (1219, 819, -364);
 
-            // check if the obj being clicked on is the loot/bandit that we want to move 
-            
-            float posX = cartZeroTop[0]; 
-            float posY = cartZeroTop[1]; 
-            float posZ = cartZeroTop[2]; 
-            lootToMove.transform.position = new Vector3 (posX, posY, posZ);
-        // this code will do the trick
-            lootToMove.transform.position += lootToMove.transform.forward * Time.deltaTime * 5f; // can be any float number
-        }
+        //     // check if the obj being clicked on is the loot/bandit that we want to move 
+        //     float posX = cartZeroTop[0]; 
+        //     float posY = cartZeroTop[1]; 
+        //     float posZ = cartZeroTop[2]; 
+        //     lootToMove.transform.position = new Vector3 (posX, posY, posZ);
+        // THE FOLLOWING CODE MOVES THE LOOTTOMOVE TO THE NEW POSITION 
+        //     lootToMove.transform.position += lootToMove.transform.forward * Time.deltaTime * 5f; // can be any float number
+        // }
     }
 }

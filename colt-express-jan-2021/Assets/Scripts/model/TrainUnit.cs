@@ -18,7 +18,7 @@
 //     {
 
 //         public string carTypeAsString; //public CarType carType;
-//         public string carFloorAsString;
+//         public string carFloorAsString; // 
 //         //[ScriptIgnore]
 //         public CarType carType;
 //         //[ScriptIgnore]

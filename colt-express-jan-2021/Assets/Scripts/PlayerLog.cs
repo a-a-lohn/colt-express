@@ -1,8 +1,8 @@
 using UnityEngine;
- using UnityEngine.EventSystems;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
- using System.Collections;
- using System.Collections.Generic;
+using System.Collections;
+using System.Collections.Generic;
  
  public class PlayerLog : MonoBehaviour {
      // Private VARS
@@ -33,15 +33,7 @@ using UnityEngine.UI;
 //      }
 
      void Start(){
-       // log = GetComponent<Text>(); 
-     //     eventLog.AddEvent("Player Moves Left");
-     //     eventLog.AddEvent("Player Moves Right");
-          // string name =  EventSystem.current.currentSelectedGameObject.name;
-          // Debug.Log(name);
-         // AddEvent("added");
          log.text = guiText;
- 
- 
      }
 
      public void OnButtonClick()
@@ -51,7 +43,6 @@ using UnityEngine.UI;
              Debug.Log("Clicked on : "+ go.name);
          else
              Debug.Log("curr game obj is null :(");
-
           guiText += go.name;
           guiText += "\n";
      }
