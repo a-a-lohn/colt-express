@@ -76,6 +76,12 @@ namespace model {
             return this.playedCards;
         }
         
+        public ActionCard takeTopCard() {
+            ActionCard top = this.getPlayedCardsAt(this.playedCards.Count-1);
+    	    this.removePlayedCardsAt(this.playedCards.Count-1);
+            return top;
+        }
+
         public static PlayedPile getInstance() {
             if ((instance == null)) {
                 instance = new PlayedPile();

@@ -16,51 +16,51 @@ using Sfs2X.Protocol.Serialization;
 namespace model {
     public class Whiskey : Loot, SerializableSFSType {
     
-        public string whiskeyType;
-        //public string whiskeyTypeAsString;
+        //public string whiskeyType;
+        public string whiskeyTypeAsString;
         
         // FOR NETWORKING
-        public string whiskeyStatus;
-        //public string whiskeyStatusAsString;
+        //public string whiskeyStatus;
+        public string whiskeyStatusAsString;
         
         // FOR NETWORKING
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public Whiskey() {}
         
         // whiskeyType
-        public string getWhiskeyType() {
-            return this.whiskeyType;
-        }
-        
-        public void setWhiskeyType(string p) {
-            this.whiskeyType = p;
-        }
-        
-        // // whiskeyTypeAsString
-        // public string getWhiskeyTypeAsString() {
-        //     return this.whiskeyTypeAsString;
+        // public string getWhiskeyType() {
+        //     return this.whiskeyType;
         // }
         
-        // public void setWhiskeyTypeAsString(string s) {
-        //     this.whiskeyTypeAsString = s;
+        // public void setWhiskeyType(string p) {
+        //     this.whiskeyType = p;
         // }
+        
+        // whiskeyTypeAsString
+        public string getWhiskeyTypeAsString() {
+            return this.whiskeyTypeAsString;
+        }
+        
+        public void setWhiskeyTypeAsString(string s) {
+            this.whiskeyTypeAsString = s;
+        }
         
         // whiskeyStatus
-        public string getWhiskeyStatus() {
-            return this.whiskeyStatus;
-        }
-        
-        public void setWhiskeyStatus(string p) {
-            this.whiskeyStatus = p;
-        }
-        
-        // // whiskeyStatusAsString
-        // public string getWhiskeyStatusAsString() {
-        //     return this.whiskeyStatusAsString;
+        // public string getWhiskeyStatus() {
+        //     return this.whiskeyStatus;
         // }
         
-        // public void setWhiskeyStatusAsString(string s) {
-        //     this.whiskeyStatusAsString = s;
+        // public void setWhiskeyStatus(string p) {
+        //     this.whiskeyStatus = p;
         // }
+        
+        // whiskeyStatusAsString
+        public string getWhiskeyStatusAsString() {
+            return this.whiskeyStatusAsString;
+        }
+        
+        public void setWhiskeyStatusAsString(string s) {
+            this.whiskeyStatusAsString = s;
+        }
     }
 }

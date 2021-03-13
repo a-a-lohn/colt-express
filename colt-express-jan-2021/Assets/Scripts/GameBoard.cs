@@ -147,7 +147,8 @@ public class GameBoard : MonoBehaviour
 		gm = (GameManager)responseParams.GetClass("gm");
 		
 		// REASSIGN ALL GAME OBJECTS USING DICTIONARY
-		ArrayList banditsArray = gm.bandits;
+		//ArrayList banditsArray = gm.bandits;
+		ArrayList banditsArray = new ArrayList();
 		foreach (Bandit b in banditsArray) {
             if (b.banditNameAsString == "CHEYENNE") {
 				objects[cheyenne] = b;
@@ -174,7 +175,7 @@ public class GameBoard : MonoBehaviour
                 trace("Django added!");
             }
 
-			gm.PlayTurn();
+			//gm.PlayTurn();
         }
     }
 

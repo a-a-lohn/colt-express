@@ -40,8 +40,8 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 											// BOTTOM OF DECK
 	public TrainUnit[] trainRoof;
 	public TrainUnit[] trainCabin;
-	// public TrainUnit[][] train; // change to 2 arrays
-	// public TrainUnit[] stagecoach; // change to arraylist
+	public TrainUnit[][] train; 
+	public TrainUnit[] stagecoach;
 	public ArrayList<Bandit> bandits = new ArrayList<Bandit>();
 	transient public HashMap<Bandit, User> banditmap = new HashMap<Bandit, User>();
 	public static ColtMultiHandler handler;

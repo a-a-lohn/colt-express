@@ -18,8 +18,8 @@ import model.Bandit;
 public class TrainUnit implements SerializableSFSType {
     
 	transient public static int trainLength;
-	// transient public static TrainUnit[][] train;
-	// transient public static TrainUnit[] stagecoach;
+	transient public static TrainUnit[][] train;
+	transient public static TrainUnit[] stagecoach;
 	transient public static TrainUnit[] trainRoof;
 	transient public static TrainUnit[] trainCabin;
 	
@@ -181,7 +181,8 @@ public class TrainUnit implements SerializableSFSType {
      *           where i=0 is the caboose and i=number of cars is the locomotive
      * Does NOT contain the stagecoach. The GameManger must separately call createStagecoach().
      */
-     /*public static TrainUnit[][] createTrain(int numberOfBandits){
+     public static TrainUnit[][] createTrain(int numberOfBandits){
+    	 /*
     	//Create one car for each player, +1 to account for the locomotive
     	final int trainLength = numberOfBandits + 1;
     	
@@ -208,7 +209,9 @@ public class TrainUnit implements SerializableSFSType {
     	TrainUnit.train = train;
     	
     	return train;
-    }*/
+    	*/
+    	 return null; //Train
+    }
     
     /**
      * 
@@ -216,7 +219,8 @@ public class TrainUnit implements SerializableSFSType {
      *           stagecoach[0] = roof
      *           stagecoach[1] = cabin;
      */
-    /*public static TrainUnit[] createStagecoach() {
+     public static TrainUnit[] createStagecoach() {
+    	 /*
     	TrainUnit[] stagecoach = new TrainUnit[2];
     	
     	TrainUnit cabin = new TrainUnit(CarType.STAGECOACH, CarFloor.CABIN);
@@ -226,7 +230,9 @@ public class TrainUnit implements SerializableSFSType {
     	stagecoach[1] = cabin;
     	
     	return stagecoach;
-    }*/
+    	*/
+    	 return null; // stagecoach
+     }
 
 
     
