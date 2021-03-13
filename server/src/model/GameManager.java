@@ -200,14 +200,10 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 			changeFloor();
 		}
 		else if(toResolve.getActionType() == ActionType.MARSHAL) {
-			ArrayList<TrainUnit> possibilities = calculateMoveMarshal();
-			TrainUnit to = moveMarshalPrompt(possibilities);
-			moveMarshal(to);
+			calculateMoveMarshal();
 		}
 		else if(toResolve.getActionType() == ActionType.MOVE) {
-			ArrayList<TrainUnit> possibilities = calculateMove();
-			TrainUnit to = movePrompt(possibilities);
-			move(to);
+			calculateMove();
 		}
 		else if(toResolve.getActionType() == ActionType.PUNCH) {
 			
@@ -671,11 +667,18 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 
 	/**
 	 * --EXECUTE ACTIONS-- BEFORE CALLING ANY OF THESE METHODS, CURRENT BANDIT MUST
-	 * BE ASSIGNED CORRECTLY All actions will be called from POV of
-	 * this.currentBandit
+	 * BE ASSIGNED CORRECTLY All actions will be called from POV of this.currentBandit
 	 */
 
 
+	//          --ROB--
+	
+	
+	public ArrayList<Loot> calculateRob(){
+		//TODO
+		return new ArrayList<Loot>();
+	}
+	
 	public Loot RobPrompt(Bandit b, HashSet<Loot> l) {
 		// TO DO
 		// ask b to choose loot from l
@@ -692,62 +695,62 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		endOfTurn(); //might have to put this in an if else block for cases like SpeedingUp/Whiskey
 	}
 
-	public Bandit RoofShootPrompt(Bandit b, ArrayList<Bandit> ab) {
-		// TO DO
-		// ask b to choose one target from ab
-		return ab.get(0);
+	
+	//          --SHOOT--
+	
+	
+	public Bandit calculateShoot() {
+		//TODO REMEMBER BELLE AND TUCO CASES
+		return new Bandit();
 	}
-
-	public Bandit CarShootPrompt(Bandit b, ArrayList<Bandit> ab) {
-		// TO DO
-		// ask b to choose one target from ab
-		return ab.get(0);
+	
+	public Bandit shootPrompt(ArrayList<Bandit> possibilities) {
+		// TODO
+		return new Bandit();
 	}
 
 	public void shoot() {
 
-		ArrayList<Bandit> roofShootTarget = new ArrayList<Bandit>();
-		ArrayList<Bandit> carShootTarget = new ArrayList<Bandit>();
-		if (this.currentBandit.getPosition().carFloor == CarFloor.ROOF) {
-			for (Bandit b : this.bandits) {
-				if (b != this.currentBandit) {
-					if (b.getPosition().carFloor == CarFloor.ROOF) {
-						roofShootTarget.add(b);
-					}
+		Bandit toShoot = new Bandit(); //TODO <- replace with the target chosen by shootPrompt
+		if(!currentBandit.bulletsIsEmpty()) {
+			toShoot.addDeck(currentBandit.removeTopBullet()); //TODO <- graphical response
+		}
+		
+		if(currentBandit.getCharacter() == Character.DJANGO) {
+			TrainUnit left = currentBandit.getPosition().getLeft();
+			TrainUnit right = currentBandit.getPosition().getRight();
+			
+			//IF BANDIT IS TO DJANGO'S LEFT, PUSH BANDIT 1 CART TO DJANGO'S LEFT IF POSSIBLE
+			if(left.containsBandit(toShoot)) {
+				if(left.getLeft() != null) {
+					toShoot.setPosition(left.getLeft()); //TODO <- graphical response
+					left.removeBandit(toShoot);
+					left.getLeft().addBandit(toShoot);
 				}
 			}
-
-			if (roofShootTarget.get(0) != null) {
-				// ask the current player to choose which bandit to shoot
-				Bandit b = this.RoofShootPrompt(this.currentBandit, roofShootTarget);
-
-				BulletCard bc = this.currentBandit.bullets.remove(0);
-				if (bc != null) {
-					b.addDiscardPile(bc);
+			//IF BANDIT IS TO DJANGO'S RIGHT, PUSH BANDIT 1 CART TO DJANGO'S RIGHT IF POSSIBLE
+			else if(right.containsBandit(toShoot)) {
+				if(right.getRight() != null) {
+					toShoot.setPosition(right.getRight()); //TODO <- graphical response
+					right.removeBandit(toShoot);
+					right.getRight().addBandit(toShoot);
 				}
-			}
-
-		} else {
-			for (Bandit bl : this.currentBandit.getPosition().getLeft().banditsHere) {
-				carShootTarget.add(bl);
-			}
-			for (Bandit br : this.currentBandit.getPosition().getRight().banditsHere) {
-				carShootTarget.add(br);
-			}
-			if (carShootTarget.get(0) != null) {
-				// ask the current player to choose which bandit to shoot
-				Bandit b = this.CarShootPrompt(this.currentBandit, carShootTarget);
-
-				BulletCard bc = this.currentBandit.bullets.remove(0);
-				if (bc != null) {
-					b.addDiscardPile(bc);
-				}
+				
 			}
 		}
 		
 		endOfTurn(); //might have to put this in an if else block for cases like SpeedingUp/Whiskey
 	}
 
+	
+	//          --PUNCH--
+	
+	
+	public ArrayList<Bandit> calculatePunch(){
+		//TODO
+		return new ArrayList<Bandit>();
+	}
+	
 	public Bandit punchBanditPrompt(Bandit b, ArrayList<Bandit> ab) {
 		// TO DO
 		// ask b to choose one target from ab
@@ -793,6 +796,10 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		endOfTurn(); //might have to put this in an if else block for cases like SpeedingUp/Whiskey
 	}
 
+	
+	//          --CHANGE FLOOR--
+	
+	
 	public void changeFloor() {
 		TrainUnit currentPosition = this.currentBandit.getPosition();
 		if (currentPosition.getAbove() == null && currentPosition.getBelow() != null) {
@@ -808,9 +815,13 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		endOfTurn(); //might have to put this in an if else block for cases like SpeedingUp/Whiskey
 	}
 
-	public static ArrayList<TrainUnit> moveAlgorithm(Bandit b) { //use currentBandit instead of parameter //void method
+	
+	//          --MOVE--
+	
+	
+	public ArrayList<TrainUnit> calculateMove() { //use currentBandit instead of parameter //void method
 		ArrayList<TrainUnit> possibleMoving = new ArrayList<TrainUnit>();
-		TrainUnit currentPosition = b.getPosition();
+		TrainUnit currentPosition = this.currentBandit.getPosition();
 		if (currentPosition.getLeft() != null) {
 			possibleMoving.add(currentPosition.getLeft());
 		}
@@ -836,14 +847,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		return possibleMoving; //call promptMoves(possibleMoving)
 	}
 	
-	public ArrayList<TrainUnit> calculateMove(){
-		return new ArrayList<TrainUnit>();
-	}
-	
-	public TrainUnit movePrompt(ArrayList<TrainUnit> possibilities) {
-		//TODO
-		return new TrainUnit();
-	}
+	public TrainUnit movePrompt(ArrayList<TrainUnit> possibilities) {return new TrainUnit();} //PLACEHOLDER, WILL NOT BE IN GM
 	
 	public void move(TrainUnit targetPosition) {
 		TrainUnit currentPosition = this.currentBandit.getPosition();
@@ -856,15 +860,16 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		endOfTurn(); //might have to put this in an if else block for cases like SpeedingUp/Whiskey
 	}
 
+	
+	//          --MOVE MARSHAL--
+	
+	
 	public ArrayList<TrainUnit> calculateMoveMarshal(){
 		//TODO
 		return new ArrayList<TrainUnit>();
 	}
 	
-	public TrainUnit moveMarshalPrompt(ArrayList<TrainUnit> possibilities) {
-		//TODO
-		return new TrainUnit();
-	}
+	public TrainUnit moveMarshalPrompt(ArrayList<TrainUnit> possibilities) {return new TrainUnit();} //PLACEHOLDER, WILL NOT BE IN GM
 	
 	public void moveMarshal(TrainUnit targetPosition) {
 		//TODO

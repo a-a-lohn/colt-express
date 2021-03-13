@@ -141,17 +141,11 @@ public class Bandit implements SerializableSFSType {
 	}
 
 	public void addDeck(Card a) {
-		boolean contains = this.deck.contains(a);
-		if (contains) {
-			return;
-		}
 		this.deck.add(a);
 	}
 
 	public void removeDeck(Card a) {
-		if (this.deck.contains(a)) {
-			this.deck.remove(a);
-		}
+		this.deck.remove(a);
 	}
 
 	public boolean containsDeck(Card a) {
@@ -191,17 +185,11 @@ public class Bandit implements SerializableSFSType {
 	}
 
 	public void addHand(Card a) {
-		boolean contains = this.hand.contains(a);
-		if (contains) {
-			return;
-		}
 		this.hand.add(a);
 	}
 
 	public void removeHand(Card a) {
-		if (this.hand.contains(a)) {
-			this.hand.remove(a);
-		}
+		this.hand.remove(a);
 	}
 
 	public boolean containsHand(Card a) {
@@ -352,6 +340,14 @@ public class Bandit implements SerializableSFSType {
 
 	}
 
+	public BulletCard removeTopBullet() {
+		return this.bullets.remove(this.bullets.size()-1);
+	}
+	
+	public boolean bulletsIsEmpty() {
+		return this.bullets.isEmpty();
+	}
+	
 	public void createStartingPurse() {
 		Money startingPurse = new Money(MoneyType.PURSE, 250);
 		this.loot.add(startingPurse);
