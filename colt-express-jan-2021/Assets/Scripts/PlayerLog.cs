@@ -43,8 +43,11 @@ using System.Collections.Generic;
              Debug.Log("Clicked on : "+ go.name);
          else
              Debug.Log("curr game obj is null :(");
-          guiText += go.name;
-          guiText += "\n";
+
+          // guiText += go.name;
+          // guiText += "\n";
+
+          log.text += go.name; 
      }
 
 //      public void AddEvent(string eventString){
