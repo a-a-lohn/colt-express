@@ -5,9 +5,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
-using RestSharp;
-using Newtonsoft.Json.Linq;
-using System.Linq;
 
 using Sfs2X;
 using Sfs2X.Logging;
@@ -23,9 +20,6 @@ using model;
 
 public class ChooseCharacter : MonoBehaviour
 {
-
-    private static RestClient client = new RestClient("http://13.90.26.131:4242");
-
     // debugging variables
     public Text selected;
     public static string debugText;
@@ -33,8 +27,10 @@ public class ChooseCharacter : MonoBehaviour
 
     private static bool alreadyCalled = false;
 
+    private static RestClient client = new RestClient("http://13.90.26.131:4242");
+
     //SAVE THE CHOSEN CHARACTER IN THIS STRING SO IT CAN BE USED BY GAMEMANAGER
-    public string character;
+    public static string character = "";
 
     // BOOLEANS FOR CHARACTER AVAILABILITY
     public bool BelleIsAvailable; 
@@ -47,47 +43,48 @@ public class ChooseCharacter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Screen.SetResolution(800, 600, true);
+        // testing 
+            //  var foundButtonObjects = FindObjectsOfType<Button>();
+            //     foreach(Button btn in foundButtonObjects){
+            //         if(btn.name == "TucoBtn"){
+            //             btn.interactable = false; 
+            //         }
+            //        //  btn.interactable = false; 
+            //     }
+        //////
 
-        if (SFS.IsConnected()) {
-            alreadyCalled = true;
-            EnterChooseCharacterScene();
+            BelleIsAvailable = true;
+            CheyenneIsAvailable = true; 
+            TucoIsAvailable = true; 
+            DjangoIsAvailable = true; 
+            DocIsAvailable = true; 
 
-            //THIS LISTENER CAN BE REMOVED ONCE THE CHARACTERS THEMSELVES CAN BE CLICKED
-            button.onClick.AddListener(CharacterChoice);
-        }
-
-        BelleIsAvailable = true;
-        CheyenneIsAvailable = true; 
-        TucoIsAvailable = true; 
-        DjangoIsAvailable = true; 
-        DocIsAvailable = true; 
-
-        // rend = GetComponent<Renderer>();
-        // name = this.GameObject;
-        debugText = "";
-        selected.text = "";
+            // rend = GetComponent<Renderer>();
+            // name = this.GameObject;
+            debugText = "";
+            selected.text = "";
 
         // Initialize SFS2X client. This can be done in an earlier scene instead
-		/*SmartFox sfs = new SmartFox();
+		SmartFox sfs = new SmartFox();
         // For C# serialization
 		DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
         SFS.setSFS(sfs);
-        SFS.Connect("aaron");*/
+        SFS.Connect();
     }
 
     // Update is called once per frame
     void Update()
     {
-        /*if (SFS.IsConnected() && !alreadyCalled) {
+        if (SFS.IsConnected() && !alreadyCalled) {
             alreadyCalled = true;
             Invoke("EnterChooseCharacterScene",2);
-            
-            //THIS LISTENER CAN BE REMOVED ONCE THE CHARACTERS THEMSELVES CAN BE CLICKED
-            
-             button.onClick.AddListener(CharacterChoice);
+            /*
+            THIS LISTENER CAN BE REMOVED ONCE THE CHARACTERS THEMSELVES CAN BE CLICKED
+            */
+            // button.onClick.AddListener(CharacterChoice);
             //EnterChooseCharacterScene();
-        }*/
+        }
         if (SFS.IsConnected()) {
 			SFS.ProcessEvents();
 		}
@@ -100,7 +97,7 @@ public class ChooseCharacter : MonoBehaviour
              string name =  EventSystem.current.currentSelectedGameObject.name;
              // Debug.Log(name + " ahh"); 
              selected.text = "Your bandit is: " + name;
-             //CharacterChoice(name.ToUpper());
+             CharacterChoice(name);
 
              // SET AVAILABILITY OF THE CHOSEN CHARACTER TO FALSE 
              if(name == "Belle"){
@@ -180,13 +177,12 @@ public class ChooseCharacter : MonoBehaviour
     //     SFS.Send(req);
     //     trace("chose Belle");
     // }
-    public void CharacterChoice(/*string chosenCharacter*/) {
-        string chosenCharacter = "TUCO";
+    private void CharacterChoice(string chosenCharacter) {
         ISFSObject obj = SFSObject.NewInstance();
 		obj.PutUtfString("chosenCharacter", chosenCharacter);//hardcoded for now, replace "BELLE" with "chosen"
         ExtensionRequest req = new ExtensionRequest("gm.chosenCharacter",obj);
         SFS.Send(req);
-        trace("chose "+chosenCharacter);
+        trace("chose"+chosenCharacter);
     }
 
 	public static void DisplayRemainingCharacters(BaseEvent evt) {
@@ -195,37 +191,37 @@ public class ChooseCharacter : MonoBehaviour
             ISFSArray a = responseParams.GetSFSArray("characterList");
             int size = responseParams.GetSFSArray("characterList").Size();
             trace("Characters to choose from: ");
+            // loop through all the buttons
+            // if a character's name is in the input list -> active the button // otherwise deactive the btn 
             var foundButtonObjects = FindObjectsOfType<Button>();
             for (int i = 0; i < size; i++) {
-                string banditName = (string)a.GetUtfString(i);
-                /*GET CHARACTER STRINGS HERE*/
-                if (banditName == "TUCO") {
-                    // the tuco game object becomes clicked somehow (e.g. same way how it can be done for gameboard, by assigning a global
-                    // variable and then having scripts attached to each game object check if that global var is assigned, if so render 
-                    // the game object clicked)
-
-                    // ?? SET TUCO TO CLICKED ?? 
-                    // RETURN ALL THE CHARACTERS THAT HAVE NOT BEEN CLICKED ?? 
-
-
-                }
-                 trace((string)a.GetUtfString(i));
-            }
-
-            
-            foreach(Button btn in foundButtonObjects){
-                for (int i = 0; i < size; i++) {
+                foreach(Button btn in foundButtonObjects){
                     string banditName = (string)a.GetUtfString(i);
-                    /*GET CHARACTER STRINGS HERE*/
-                    if (banditName == "TUCO") {
-                        
-
-
+                    if(btn.name == "TucoBtn" && banditName == "TUCO"){
+                        // save in a variable so we can use it later 
+                        character = "Tuco"; 
+                        btn.interactable = true; 
                     }
-                    trace((string)a.GetUtfString(i));
-                }
-                if(btn.interactable == true){
-                    trace(btn.name);
+                    if(btn.name == "BelleBtn" && banditName == "BELLE"){
+                        character = "Belle"; 
+                        btn.interactable = true; 
+                    }
+                    if(btn.name == "CheyenneBtn" && banditName == "CHEYENNE"){
+                        character = "Cheyenne"; 
+                        btn.interactable = true; 
+                    }
+                    if(btn.name == "DjangoBtn" && banditName == "DJANGO"){
+                        character = "Django"; 
+                        btn.interactable = true; 
+                    }
+                    if(btn.name == "GhostBtn" && banditName == "GHOST"){
+                        character = "Ghost"; 
+                        btn.interactable = true; 
+                    }
+                    if(btn.name == "DocBtn" && banditName == "DOC"){
+                        character = "Doc"; 
+                        btn.interactable = true; 
+                    }
                 }
             }
 
@@ -260,6 +256,5 @@ public class ChooseCharacter : MonoBehaviour
 		// Always disconnect before quitting
 		SFS.Disconnect();
 	}
-
 
 }
