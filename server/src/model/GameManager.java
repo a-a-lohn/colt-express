@@ -38,10 +38,9 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	public Marshal marshalInstance;
 	public PlayedPile playedPileInstance; // CONVENTION FOR DECK: POSITION DECK.SIZE() IS TOP OF DECK, POSITION 0 IS
 											// BOTTOM OF DECK
-	public TrainUnit[] trainRoof;
-	public TrainUnit[] trainCabin;
-	public TrainUnit[][] train; 
-	public TrainUnit[] stagecoach;
+	public ArrayList<TrainUnit> trainRoof;
+	public ArrayList<TrainUnit> trainCabin; 
+	public ArrayList<TrainUnit> stagecoach;
 	public ArrayList<Bandit> bandits = new ArrayList<Bandit>();
 	transient public HashMap<Bandit, User> banditmap = new HashMap<Bandit, User>();
 	public static ColtMultiHandler handler;
@@ -117,6 +116,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		// this.train = TrainUnit.createTrain(bandits.size());
 		this.trainRoof = TrainUnit.createTrainRoof(this.getNumOfPlayers());
 		this.trainCabin = TrainUnit.createTrainCabin(this.getNumOfPlayers());
+		this.stagecoach = TrainUnit.createStagecoach();
 		ArrayList<Bandit> bandits = this.getBandits();
 		for (Bandit b : bandits) {
 			// initialize each bandit cards, purse
@@ -359,11 +359,13 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 			}
 		} 
 		else if (this.gameStatus == GameStatus.STEALIN) { 
-			Card toResolve = this.playedPileInstance.takeTopCard();
+			ActionCard toResolve = this.playedPileInstance.takeTopCard();
 			if (toResolve != null) {
 				currentBandit = toResolve.getBelongsTo();
+				currentBandit.setToResolve(toResolve);
 			} else { // played pile is empty
 				roundIndex++;
+				TrainUnit.moveStagecoach();
 				if (roundIndex == this.rounds.size()) {
 					this.setGameStatus(GameStatus.COMPLETED);
 				} else {
@@ -655,33 +657,51 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	public void setUpPositions(ArrayList<Bandit> b) {
 		int numOfBandit = b.size();
 		if (numOfBandit == 2) {
-			b.get(0).setPosition(this.trainCabin[0]);
-			b.get(1).setPosition(this.trainCabin[1]);
+			b.get(0).setPosition(this.trainCabin.get(0));
+			b.get(1).setPosition(this.trainCabin.get(1));
+			this.trainCabin.get(0).addBandit(b.get(0));
+			this.trainCabin.get(1).addBandit(b.get(1));
 		} else if (numOfBandit == 3) {
-			b.get(0).setPosition(this.trainCabin[0]);
-			b.get(1).setPosition(this.trainCabin[1]);
-			b.get(2).setPosition(this.trainCabin[0]);
+			b.get(0).setPosition(this.trainCabin.get(0));
+			b.get(1).setPosition(this.trainCabin.get(1));
+			b.get(2).setPosition(this.trainCabin.get(0));
+			this.trainCabin.get(0).addBandit(b.get(0));
+			this.trainCabin.get(1).addBandit(b.get(1));
+			this.trainCabin.get(0).addBandit(b.get(2));
 		} else if (numOfBandit == 4) {
-			b.get(0).setPosition(this.trainCabin[0]);
-			b.get(1).setPosition(this.trainCabin[1]);
-			b.get(2).setPosition(this.trainCabin[0]);
-			b.get(3).setPosition(this.trainCabin[1]);
+			b.get(0).setPosition(this.trainCabin.get(0));
+			b.get(1).setPosition(this.trainCabin.get(1));
+			b.get(2).setPosition(this.trainCabin.get(0));
+			b.get(3).setPosition(this.trainCabin.get(1));
+			this.trainCabin.get(0).addBandit(b.get(0));
+			this.trainCabin.get(1).addBandit(b.get(1));
+			this.trainCabin.get(0).addBandit(b.get(2));
+			this.trainCabin.get(1).addBandit(b.get(3));
 		} else if (numOfBandit == 5) {
-			b.get(0).setPosition(this.trainCabin[0]);
-			b.get(1).setPosition(this.trainCabin[1]);
-			b.get(2).setPosition(this.trainCabin[2]);
-			b.get(3).setPosition(this.trainCabin[0]);
-			b.get(4).setPosition(this.trainCabin[1]);
+			b.get(0).setPosition(this.trainCabin.get(0));
+			b.get(1).setPosition(this.trainCabin.get(1));
+			b.get(2).setPosition(this.trainCabin.get(0));
+			b.get(3).setPosition(this.trainCabin.get(1));
+			b.get(4).setPosition(this.trainCabin.get(0));
+			this.trainCabin.get(0).addBandit(b.get(0));
+			this.trainCabin.get(1).addBandit(b.get(1));
+			this.trainCabin.get(0).addBandit(b.get(2));
+			this.trainCabin.get(1).addBandit(b.get(3));
+			this.trainCabin.get(0).addBandit(b.get(4));
 		} else if (numOfBandit == 6) {
-			b.get(0).setPosition(this.trainCabin[0]);
-			b.get(1).setPosition(this.trainCabin[1]);
-			b.get(2).setPosition(this.trainCabin[2]);
-			b.get(3).setPosition(this.trainCabin[0]);
-			b.get(4).setPosition(this.trainCabin[1]);
-			b.get(4).setPosition(this.trainCabin[2]);
-		} else {
-			return;
-		}
+			b.get(0).setPosition(this.trainCabin.get(0));
+			b.get(1).setPosition(this.trainCabin.get(1));
+			b.get(2).setPosition(this.trainCabin.get(0));
+			b.get(3).setPosition(this.trainCabin.get(1));
+			b.get(4).setPosition(this.trainCabin.get(0));
+			b.get(4).setPosition(this.trainCabin.get(1));
+			this.trainCabin.get(0).addBandit(b.get(0));
+			this.trainCabin.get(1).addBandit(b.get(1));
+			this.trainCabin.get(0).addBandit(b.get(2));
+			this.trainCabin.get(1).addBandit(b.get(3));
+			this.trainCabin.get(0).addBandit(b.get(4));
+			this.trainCabin.get(1).addBandit(b.get(5));
+		} 
 	}
 
 	// void chosenCharacter(int playerId, Character c) {

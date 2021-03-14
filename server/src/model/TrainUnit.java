@@ -18,10 +18,9 @@ import model.Bandit;
 public class TrainUnit implements SerializableSFSType {
     
 	transient public static int trainLength;
-	transient public static TrainUnit[][] train;
-	transient public static TrainUnit[] stagecoach;
-	transient public static TrainUnit[] trainRoof;
-	transient public static TrainUnit[] trainCabin;
+	transient public static ArrayList<TrainUnit> stagecoach;
+	transient public static ArrayList<TrainUnit> trainRoof;
+	transient public static ArrayList<TrainUnit> trainCabin;
 	
     transient public CarType carType;
     transient public CarFloor carFloor;
@@ -47,187 +46,220 @@ public class TrainUnit implements SerializableSFSType {
     	this.carFloor = carFloor;
     	this.carTypeAsString = carType.toString();
     	this.carFloorAsString = carFloor.toString();
-    	//TODO: createGraphic()
     }
 	
-	public static TrainUnit[] createTrainRoof(int numberOfBandits) {
-		TrainUnit[] TrainRoof = new TrainUnit[numberOfBandits + 2];
+    
+    /**
+     * CREATE TRAIN METHODS
+     * MUST BE CALLED IN THE FOLLOWING ORDER
+     * 1. createTrainRoof(int numberOfBandits);
+     * 2. createTrainCabin(int numberOfBandits);
+     * 3. createStagecoach();
+     */
+    
+    
+	public static ArrayList<TrainUnit> createTrainRoof(int numberOfBandits) {
+		
+		final int lengthOfTrain = numberOfBandits;
+		
+		ArrayList<TrainUnit> TrainRoof = new ArrayList<TrainUnit>();
 		TrainUnit LocoRoof = new TrainUnit(CarType.LOCOMOTIVE, CarFloor.ROOF);
-		TrainUnit StagecoachRoof = new TrainUnit(CarType.STAGECOACH, CarFloor.ROOF);
-		TrainRoof[numberOfBandits+1] = StagecoachRoof;
-		TrainRoof[numberOfBandits] = LocoRoof;
-		if (numberOfBandits == 2) {
+		TrainRoof.add(lengthOfTrain,LocoRoof);
+		if (lengthOfTrain == 2) {
 			TrainUnit Car1Roof = new TrainUnit(CarType.CAR1, CarFloor.ROOF);
 			TrainUnit Car2Roof = new TrainUnit(CarType.CAR2, CarFloor.ROOF);
-			TrainRoof[0] = Car1Roof;
-			TrainRoof[1] = Car2Roof;
-		} else if (numberOfBandits == 3) {
+			Car1Roof.setRight(Car2Roof);
+			Car2Roof.setRight(LocoRoof);
+			TrainRoof.add(0,Car1Roof);
+			TrainRoof.add(1,Car2Roof);
+		} else if (lengthOfTrain == 3) {
 			TrainUnit Car1Roof = new TrainUnit(CarType.CAR1, CarFloor.ROOF);
 			TrainUnit Car2Roof = new TrainUnit(CarType.CAR2, CarFloor.ROOF);
 			TrainUnit Car3Roof = new TrainUnit(CarType.CAR3, CarFloor.ROOF);
-			TrainRoof[0] = Car1Roof;
-			TrainRoof[1] = Car2Roof;
-			TrainRoof[2] = Car3Roof;
-		} else if (numberOfBandits == 4) {
+			Car1Roof.setRight(Car2Roof);
+			Car2Roof.setRight(Car3Roof);
+			Car3Roof.setRight(LocoRoof);
+			TrainRoof.add(0,Car1Roof);
+			TrainRoof.add(1,Car2Roof);
+			TrainRoof.add(2,Car3Roof);
+		} else if (lengthOfTrain == 4) {
 			TrainUnit Car1Roof = new TrainUnit(CarType.CAR1, CarFloor.ROOF);
 			TrainUnit Car2Roof = new TrainUnit(CarType.CAR2, CarFloor.ROOF);
 			TrainUnit Car3Roof = new TrainUnit(CarType.CAR3, CarFloor.ROOF);
 			TrainUnit Car4Roof = new TrainUnit(CarType.CAR4, CarFloor.ROOF);
-			TrainRoof[0] = Car1Roof;
-			TrainRoof[1] = Car2Roof;
-			TrainRoof[2] = Car3Roof;
-			TrainRoof[3] = Car4Roof;
-		} else if (numberOfBandits == 5) {
+			Car1Roof.setRight(Car2Roof);
+			Car2Roof.setRight(Car3Roof);
+			Car3Roof.setRight(Car4Roof);
+			Car4Roof.setRight(LocoRoof);
+			TrainRoof.add(0,Car1Roof);
+			TrainRoof.add(1,Car2Roof);
+			TrainRoof.add(2,Car3Roof);
+			TrainRoof.add(3,Car4Roof);
+		} else if (lengthOfTrain == 5) {
 			TrainUnit Car1Roof = new TrainUnit(CarType.CAR1, CarFloor.ROOF);
 			TrainUnit Car2Roof = new TrainUnit(CarType.CAR2, CarFloor.ROOF);
 			TrainUnit Car3Roof = new TrainUnit(CarType.CAR3, CarFloor.ROOF);
 			TrainUnit Car4Roof = new TrainUnit(CarType.CAR4, CarFloor.ROOF);
 			TrainUnit Car5Roof = new TrainUnit(CarType.CAR5, CarFloor.ROOF);
-			TrainRoof[0] = Car1Roof;
-			TrainRoof[1] = Car2Roof;
-			TrainRoof[2] = Car3Roof;
-			TrainRoof[3] = Car4Roof;
-			TrainRoof[4] = Car5Roof;
-		} else if (numberOfBandits == 6) {
+			Car1Roof.setRight(Car2Roof);
+			Car2Roof.setRight(Car3Roof);
+			Car3Roof.setRight(Car4Roof);
+			Car4Roof.setRight(Car5Roof);
+			Car5Roof.setRight(LocoRoof);
+			TrainRoof.add(0,Car1Roof);
+			TrainRoof.add(1,Car2Roof);
+			TrainRoof.add(2,Car3Roof);
+			TrainRoof.add(3,Car4Roof);
+			TrainRoof.add(4,Car5Roof);
+		} else if (lengthOfTrain == 6) {
 			TrainUnit Car1Roof = new TrainUnit(CarType.CAR1, CarFloor.ROOF);
 			TrainUnit Car2Roof = new TrainUnit(CarType.CAR2, CarFloor.ROOF);
 			TrainUnit Car3Roof = new TrainUnit(CarType.CAR3, CarFloor.ROOF);
 			TrainUnit Car4Roof = new TrainUnit(CarType.CAR4, CarFloor.ROOF);
 			TrainUnit Car5Roof = new TrainUnit(CarType.CAR5, CarFloor.ROOF);
 			TrainUnit Car6Roof = new TrainUnit(CarType.CAR6, CarFloor.ROOF);
-			TrainRoof[0] = Car1Roof;
-			TrainRoof[1] = Car2Roof;
-			TrainRoof[2] = Car3Roof;
-			TrainRoof[3] = Car4Roof;
-			TrainRoof[4] = Car5Roof;
-			TrainRoof[5] = Car6Roof;
+			Car1Roof.setRight(Car2Roof);
+			Car2Roof.setRight(Car3Roof);
+			Car3Roof.setRight(Car4Roof);
+			Car4Roof.setRight(Car5Roof);
+			Car5Roof.setRight(Car6Roof);
+			Car6Roof.setRight(LocoRoof);
+			TrainRoof.add(0,Car1Roof);
+			TrainRoof.add(1,Car2Roof);
+			TrainRoof.add(2,Car3Roof);
+			TrainRoof.add(3,Car4Roof);
+			TrainRoof.add(4,Car5Roof);
+			TrainRoof.add(5,Car6Roof);
 		} else {
-			return null;
+			throw new IllegalArgumentException("Number of participating players must be between 2 and 6.");
 		}
 		
+		TrainUnit.trainLength = lengthOfTrain;
 		return TrainRoof;
 	}
 
-	public static TrainUnit[] createTrainCabin(int numberOfBandits) {
-		TrainUnit[] TrainCabin = new TrainUnit[numberOfBandits + 2];
-		TrainUnit LocoRoof = new TrainUnit(CarType.LOCOMOTIVE, CarFloor.CABIN);
-		TrainUnit StagecoachRoof = new TrainUnit(CarType.STAGECOACH, CarFloor.CABIN);
-		TrainCabin[numberOfBandits+1] = StagecoachRoof;
-		TrainCabin[numberOfBandits] = LocoRoof;
-		if (numberOfBandits == 2) {
-			TrainUnit Car1Roof = new TrainUnit(CarType.CAR1, CarFloor.CABIN);
-			TrainUnit Car2Roof = new TrainUnit(CarType.CAR2, CarFloor.CABIN);
-			TrainCabin[0] = Car1Roof;
-			TrainCabin[1] = Car2Roof;
-		} else if (numberOfBandits == 3) {
-			TrainUnit Car1Roof = new TrainUnit(CarType.CAR1, CarFloor.CABIN);
-			TrainUnit Car2Roof = new TrainUnit(CarType.CAR2, CarFloor.CABIN);
-			TrainUnit Car3Roof = new TrainUnit(CarType.CAR3, CarFloor.CABIN);
-			TrainCabin[0] = Car1Roof;
-			TrainCabin[1] = Car2Roof;
-			TrainCabin[2] = Car3Roof;
-		} else if (numberOfBandits == 4) {
-			TrainUnit Car1Roof = new TrainUnit(CarType.CAR1, CarFloor.CABIN);
-			TrainUnit Car2Roof = new TrainUnit(CarType.CAR2, CarFloor.CABIN);
-			TrainUnit Car3Roof = new TrainUnit(CarType.CAR3, CarFloor.CABIN);
-			TrainUnit Car4Roof = new TrainUnit(CarType.CAR4, CarFloor.CABIN);
-			TrainCabin[0] = Car1Roof;
-			TrainCabin[1] = Car2Roof;
-			TrainCabin[2] = Car3Roof;
-			TrainCabin[3] = Car4Roof;
-		} else if (numberOfBandits == 5) {
-			TrainUnit Car1Roof = new TrainUnit(CarType.CAR1, CarFloor.CABIN);
-			TrainUnit Car2Roof = new TrainUnit(CarType.CAR2, CarFloor.CABIN);
-			TrainUnit Car3Roof = new TrainUnit(CarType.CAR3, CarFloor.CABIN);
-			TrainUnit Car4Roof = new TrainUnit(CarType.CAR4, CarFloor.CABIN);
-			TrainUnit Car5Roof = new TrainUnit(CarType.CAR5, CarFloor.CABIN);
-			TrainCabin[0] = Car1Roof;
-			TrainCabin[1] = Car2Roof;
-			TrainCabin[2] = Car3Roof;
-			TrainCabin[3] = Car4Roof;
-			TrainCabin[4] = Car5Roof;
+	public static ArrayList<TrainUnit> createTrainCabin(int numberOfBandits) {
+		
+		assert TrainUnit.getTrainRoof() != null;
+		
+		final int lengthOfTrain = numberOfBandits;
+		
+		ArrayList<TrainUnit> TrainCabin = new ArrayList<TrainUnit>();
+		TrainUnit LocoCabin = new TrainUnit(CarType.LOCOMOTIVE, CarFloor.CABIN);
+		LocoCabin.setAbove(TrainUnit.getTrainRoof().get(trainLength-1));
+		TrainCabin.add(lengthOfTrain,LocoCabin);
+		if (lengthOfTrain == 2) {
+			TrainUnit Car1Cabin = new TrainUnit(CarType.CAR1, CarFloor.CABIN);
+			TrainUnit Car2Cabin = new TrainUnit(CarType.CAR2, CarFloor.CABIN);
+			Car1Cabin.setRight(Car2Cabin);
+			Car2Cabin.setRight(LocoCabin);
+			Car1Cabin.setAbove(TrainUnit.getTrainRoof().get(0));
+			Car2Cabin.setAbove(TrainUnit.getTrainRoof().get(1));
+			TrainCabin.add(0,Car1Cabin);
+			TrainCabin.add(1,Car2Cabin);
+		} else if (lengthOfTrain == 3) {
+			TrainUnit Car1Cabin = new TrainUnit(CarType.CAR1, CarFloor.CABIN);
+			TrainUnit Car2Cabin = new TrainUnit(CarType.CAR2, CarFloor.CABIN);
+			TrainUnit Car3Cabin = new TrainUnit(CarType.CAR3, CarFloor.CABIN);
+			Car1Cabin.setRight(Car2Cabin);
+			Car2Cabin.setRight(Car3Cabin);
+			Car3Cabin.setRight(LocoCabin);
+			Car1Cabin.setAbove(TrainUnit.getTrainRoof().get(0));
+			Car2Cabin.setAbove(TrainUnit.getTrainRoof().get(1));
+			Car3Cabin.setAbove(TrainUnit.getTrainRoof().get(2));
+			TrainCabin.add(0,Car1Cabin);
+			TrainCabin.add(1,Car2Cabin);
+			TrainCabin.add(2,Car3Cabin);
+		} else if (lengthOfTrain == 4) {
+			TrainUnit Car1Cabin = new TrainUnit(CarType.CAR1, CarFloor.CABIN);
+			TrainUnit Car2Cabin = new TrainUnit(CarType.CAR2, CarFloor.CABIN);
+			TrainUnit Car3Cabin = new TrainUnit(CarType.CAR3, CarFloor.CABIN);
+			TrainUnit Car4Cabin = new TrainUnit(CarType.CAR4, CarFloor.CABIN);
+			Car1Cabin.setRight(Car2Cabin);
+			Car2Cabin.setRight(Car3Cabin);
+			Car3Cabin.setRight(Car4Cabin);
+			Car4Cabin.setRight(LocoCabin);
+			Car1Cabin.setAbove(TrainUnit.getTrainRoof().get(0));
+			Car2Cabin.setAbove(TrainUnit.getTrainRoof().get(1));
+			Car3Cabin.setAbove(TrainUnit.getTrainRoof().get(2));
+			Car4Cabin.setAbove(TrainUnit.getTrainRoof().get(3));
+			TrainCabin.add(0,Car1Cabin);
+			TrainCabin.add(1,Car2Cabin);
+			TrainCabin.add(2,Car3Cabin);
+			TrainCabin.add(3,Car4Cabin);
+		} else if (lengthOfTrain == 5) {
+			TrainUnit Car1Cabin = new TrainUnit(CarType.CAR1, CarFloor.CABIN);
+			TrainUnit Car2Cabin = new TrainUnit(CarType.CAR2, CarFloor.CABIN);
+			TrainUnit Car3Cabin = new TrainUnit(CarType.CAR3, CarFloor.CABIN);
+			TrainUnit Car4Cabin = new TrainUnit(CarType.CAR4, CarFloor.CABIN);
+			TrainUnit Car5Cabin = new TrainUnit(CarType.CAR5, CarFloor.CABIN);
+			Car1Cabin.setRight(Car2Cabin);
+			Car2Cabin.setRight(Car3Cabin);
+			Car3Cabin.setRight(Car4Cabin);
+			Car4Cabin.setRight(Car5Cabin);
+			Car5Cabin.setRight(LocoCabin);
+			Car1Cabin.setAbove(TrainUnit.getTrainRoof().get(0));
+			Car2Cabin.setAbove(TrainUnit.getTrainRoof().get(1));
+			Car3Cabin.setAbove(TrainUnit.getTrainRoof().get(2));
+			Car4Cabin.setAbove(TrainUnit.getTrainRoof().get(3));
+			Car5Cabin.setAbove(TrainUnit.getTrainRoof().get(4));
+			TrainCabin.add(0,Car1Cabin);
+			TrainCabin.add(1,Car2Cabin);
+			TrainCabin.add(2,Car3Cabin);
+			TrainCabin.add(3,Car4Cabin);
+			TrainCabin.add(4,Car5Cabin);
 		} else if (numberOfBandits == 6) {
-			TrainUnit Car1Roof = new TrainUnit(CarType.CAR1, CarFloor.CABIN);
-			TrainUnit Car2Roof = new TrainUnit(CarType.CAR2, CarFloor.CABIN);
-			TrainUnit Car3Roof = new TrainUnit(CarType.CAR3, CarFloor.CABIN);
-			TrainUnit Car4Roof = new TrainUnit(CarType.CAR4, CarFloor.CABIN);
-			TrainUnit Car5Roof = new TrainUnit(CarType.CAR5, CarFloor.CABIN);
-			TrainUnit Car6Roof = new TrainUnit(CarType.CAR6, CarFloor.CABIN);
-			TrainCabin[0] = Car1Roof;
-			TrainCabin[1] = Car2Roof;
-			TrainCabin[2] = Car3Roof;
-			TrainCabin[3] = Car4Roof;
-			TrainCabin[4] = Car5Roof;
-			TrainCabin[5] = Car6Roof;
-		} else {
-			return null;
+			TrainUnit Car1Cabin = new TrainUnit(CarType.CAR1, CarFloor.CABIN);
+			TrainUnit Car2Cabin = new TrainUnit(CarType.CAR2, CarFloor.CABIN);
+			TrainUnit Car3Cabin = new TrainUnit(CarType.CAR3, CarFloor.CABIN);
+			TrainUnit Car4Cabin = new TrainUnit(CarType.CAR4, CarFloor.CABIN);
+			TrainUnit Car5Cabin = new TrainUnit(CarType.CAR5, CarFloor.CABIN);
+			TrainUnit Car6Cabin = new TrainUnit(CarType.CAR6, CarFloor.CABIN);
+			Car1Cabin.setRight(Car2Cabin);
+			Car2Cabin.setRight(Car3Cabin);
+			Car3Cabin.setRight(Car4Cabin);
+			Car4Cabin.setRight(Car5Cabin);
+			Car5Cabin.setRight(Car6Cabin);
+			Car6Cabin.setRight(LocoCabin);
+			Car1Cabin.setAbove(TrainUnit.getTrainRoof().get(0));
+			Car2Cabin.setAbove(TrainUnit.getTrainRoof().get(1));
+			Car3Cabin.setAbove(TrainUnit.getTrainRoof().get(2));
+			Car4Cabin.setAbove(TrainUnit.getTrainRoof().get(3));
+			Car5Cabin.setAbove(TrainUnit.getTrainRoof().get(4));
+			Car6Cabin.setAbove(TrainUnit.getTrainRoof().get(5));
+			TrainCabin.add(0,Car1Cabin);
+			TrainCabin.add(1,Car2Cabin);
+			TrainCabin.add(2,Car3Cabin);
+			TrainCabin.add(3,Car4Cabin);
+			TrainCabin.add(4,Car5Cabin);
+			TrainCabin.add(5,Car6Cabin);
 		}
 		
 		return TrainCabin;
 	}
-	
-	
-	
-	
-	
-
-    /**
-     * 
-     * @param numberOfBandits
-     *           the number of train cars to create is based on the number of bandits playing the game
-     * @return a 2D array laid out in the following configuration:
-     *           train[0][i] = roof units
-     *           train[1][i] = cabin units
-     *           where i=0 is the caboose and i=number of cars is the locomotive
-     * Does NOT contain the stagecoach. The GameManger must separately call createStagecoach().
-     */
-     public static TrainUnit[][] createTrain(int numberOfBandits){
-    	
-    	//Create one car for each player, +1 to account for the locomotive
-    	final int trainLength = numberOfBandits + 1;
-    	
-    	TrainUnit[][] train = new TrainUnit[2][trainLength];
-    	TrainUnit locoCabin = new TrainUnit(CarType.LOCOMOTIVE, CarFloor.CABIN);
-    	TrainUnit locoRoof = new TrainUnit(CarType.LOCOMOTIVE, CarFloor.ROOF);
-    	
-    	//Create locomotive
-    	locoCabin.above = locoRoof;
-    	locoCabin.isMarshalHere = true;
-    	Marshal m = Marshal.getInstance();
-    	m.setMarshalPosition(locoCabin);
-    	//TODO: put strongbox
-    	//locoRoof.below = Optional.of(locoCabin);
-    	locoRoof.below = locoCabin;
-    	
-    	//TODO: Add locomotive to array
-    	
-    	//TODO: Create rest of the cars, associate with each other, add to array
-    	
-    	//TODO: Associate locomotive to front car
-    	
-    	TrainUnit.trainLength = trainLength;
-    	TrainUnit.train = train;
-    	
-    	return train;
- 
-    	 //return Train;
-    }
     
     /**
      * 
-     * @return a 2D array laid out in the following configuration:
+     * @return an arraylist laid out in the following configuration:
      *           stagecoach[0] = roof
      *           stagecoach[1] = cabin;
      */
-     public static TrainUnit[] createStagecoach() {
+     public static ArrayList<TrainUnit> createStagecoach() {
     	
-    	TrainUnit[] stagecoach = new TrainUnit[2];
+    	 assert TrainUnit.getTrainRoof() != null && TrainUnit.getTrainCabin() != null;
+    	 
+    	ArrayList<TrainUnit> Stagecoach = new ArrayList<TrainUnit>();
     	
-    	TrainUnit cabin = new TrainUnit(CarType.STAGECOACH, CarFloor.CABIN);
-    	TrainUnit roof = new TrainUnit(CarType.STAGECOACH, CarFloor.ROOF);
+    	TrainUnit StagecoachRoof = new TrainUnit(CarType.STAGECOACH, CarFloor.ROOF);
+    	TrainUnit LocomotiveRoof = TrainUnit.getTrainRoof().get(trainLength-1);
+    	TrainUnit StagecoachCabin = new TrainUnit(CarType.STAGECOACH, CarFloor.CABIN);
+    	TrainUnit LocomotiveCabin = TrainUnit.getTrainCabin().get(trainLength-1);
     	
-    	stagecoach[0] = roof;
-    	stagecoach[1] = cabin;
+    	StagecoachRoof.setBeside(LocomotiveRoof);
+    	StagecoachCabin.setBeside(LocomotiveCabin);
+    	StagecoachCabin.setAbove(StagecoachRoof);
+    	Stagecoach.add(0,StagecoachRoof);
+    	Stagecoach.add(1,StagecoachCabin);
     	
     	return stagecoach;
      }
@@ -279,19 +311,19 @@ public class TrainUnit implements SerializableSFSType {
     }
     
     	// train roof
-	public static TrainUnit[] getTrainRoof() {
+	public static ArrayList<TrainUnit> getTrainRoof() {
 		return TrainUnit.trainRoof;
 	}
 	
 	// train cabin
-	public static TrainUnit[] getTrainCabin() {
+	public static ArrayList<TrainUnit> getTrainCabin() {
 		return TrainUnit.trainCabin;
 	}
     
     //stagecoach
-    //public static TrainUnit[] getStagecoach() {
-    //	return TrainUnit.stagecoach;
-    //}
+    public static ArrayList<TrainUnit> getStagecoach() {
+    	return TrainUnit.stagecoach;
+    }
     
     public TrainUnit getAbove() {
         return this.above;
@@ -328,6 +360,10 @@ public class TrainUnit implements SerializableSFSType {
     public TrainUnit getBeside() {
         return this.beside;
     }
+    public void setBeside(TrainUnit otherTrainUnit) { //SHOULD ONLY BE CALLED FROM THE STATIC CREATESTAGECOACH() AND MOVESTAGECOACH() METHODS
+    	this.beside = otherTrainUnit;
+    	otherTrainUnit.beside = this;
+    }
     
     public boolean isAdjacentTo(TrainUnit otherTrainUnit) {
         boolean adjacentTo = false;
@@ -349,6 +385,26 @@ public class TrainUnit implements SerializableSFSType {
         return adjacentTo;
     }
 
+    
+    /**
+     * STAGECOACH METHODS
+     */
+    
+    
+    public static void moveStagecoach() { //TODO SHOTGUN MUST MOVE WITH STAGECOACH
+    	TrainUnit stagecoachRoof = TrainUnit.getStagecoach().get(0);
+    	TrainUnit stagecoachCabin = TrainUnit.getStagecoach().get(1);
+    	TrainUnit roofCurrentlyBeside = stagecoachRoof.getBeside();
+    	TrainUnit cabinCurrentlyBeside = stagecoachCabin.getBeside();
+    	
+    	//IF NOT ALREADY BESIDE THE CABOOSE
+    	if(roofCurrentlyBeside.getCarType() != CarType.CAR1 && cabinCurrentlyBeside.getCarType() != CarType.CAR1) {
+    		roofCurrentlyBeside.setBeside(null);
+    		cabinCurrentlyBeside.setBeside(null);
+    		roofCurrentlyBeside.getLeft().setBeside(stagecoachRoof);
+    		cabinCurrentlyBeside.getLeft().setBeside(stagecoachCabin);
+    	}
+    }
     
     
     /**
