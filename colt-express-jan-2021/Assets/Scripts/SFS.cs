@@ -26,6 +26,7 @@ public static class SFS
     public static string username; //should be set to logged in user's name
 
 	public static GameBoard gb;
+	public static ChooseCharacter cc;
 
     static SFS(){
         defaultHost = "127.0.0.1";  //"13.90.26.131";
@@ -33,13 +34,17 @@ public static class SFS
         zone = "MergedExt";
     }
 
-	public static void setGameBoard(GameBoard Gb) {
-		gb = Gb;
-	}
-
     public static void setSFS(SmartFox Sfs) {
         sfs = Sfs;
     }
+
+	public static void setGameBoard() {
+		gb = GameObject.Find("GameBoardGO").GetComponent<GameBoard>();
+	}
+
+	public static void setChooseCharacter() {
+		cc = GameObject.Find("ChooseCharacterGO").GetComponent<ChooseCharacter>();
+	}
 
     public static void trace(string msg) {
 		//debugText += (debugText != "" ? "\n" : "") + msg;
@@ -61,7 +66,7 @@ public static class SFS
         String cmd = (String)evt.Params["cmd"];
         trace("response received: " + cmd); // shpows up after "in-class" debug message
 		if (cmd == "remainingCharacters") {
-			ChooseCharacter.DisplayRemainingCharacters(evt);
+			cc.DisplayRemainingCharacters(evt);
 		} else if (cmd == "updateGameState") {
             gb.UpdateGameState(evt);
         }

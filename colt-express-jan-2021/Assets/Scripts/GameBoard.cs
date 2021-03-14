@@ -92,7 +92,7 @@ public class GameBoard : MonoBehaviour
 
     void Start()
     {
-		SFS.setGameBoard(this);
+		SFS.setGameBoard();
 
 		//debugTextString = "";
         //debugText.text = "";

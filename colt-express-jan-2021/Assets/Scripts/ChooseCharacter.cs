@@ -24,10 +24,27 @@ using model;
 
 public class ChooseCharacter : MonoBehaviour
 {
+
+    /*static ChooseCharacter ccInstance;
+    public static ChooseCharacter Instance
+    {
+        get
+        {
+            if (ccInstance == null){
+                GameObject go = new GameObject();
+                mInstance = go.AddComponent<ChooseCharacter>();
+            }
+            return ccInstance;
+        }
+    }*/
+
+
     // debugging variables
     public Text selected;
     public static string debugText;
     public Button button;
+
+    public Text display;
 
     private static bool alreadyCalled = false;
 
@@ -42,7 +59,7 @@ public class ChooseCharacter : MonoBehaviour
     public bool TucoIsAvailable; 
     public bool DjangoIsAvailable; 
     public bool DocIsAvailable; 
-    public bool GhostIsAvailable; 
+    public bool GhostIsAvailable;
 
     // Start is called before the first frame update
     void Start()
@@ -58,22 +75,25 @@ public class ChooseCharacter : MonoBehaviour
             //     }
         //////
 
-            BelleIsAvailable = true;
-            CheyenneIsAvailable = true; 
-            TucoIsAvailable = true; 
-            DjangoIsAvailable = true; 
-            DocIsAvailable = true; 
+        BelleIsAvailable = true;
+        CheyenneIsAvailable = true; 
+        TucoIsAvailable = true; 
+        DjangoIsAvailable = true; 
+        DocIsAvailable = true; 
 
-            // rend = GetComponent<Renderer>();
-            // name = this.GameObject;
-            //debugText = "";
-           // selected.text = "";
+        // rend = GetComponent<Renderer>();
+        // name = this.GameObject;
+        //debugText = "";
+        // selected.text = "";
 
         // Initialize SFS2X client. This can be done in an earlier scene instead
 		SmartFox sfs = new SmartFox();
         // For C# serialization
 		DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
         SFS.setSFS(sfs);
+
+        SFS.setChooseCharacter();
+
         SFS.Connect("test2");
     }
 
@@ -193,40 +213,71 @@ public class ChooseCharacter : MonoBehaviour
         trace("chose"+character);
     }
 
-	public static void DisplayRemainingCharacters(BaseEvent evt) {
+	public void DisplayRemainingCharacters(BaseEvent evt) {
 		ISFSObject responseParams = (SFSObject)evt.Params["params"];
+        string player = responseParams.GetUtfString("player");
+        if(player != null) {
+            string chosen = responseParams.GetUtfString("chosenCharacter");
+            display.text += player + " chose " + chosen + "!";
+        }
         try {
             ISFSArray a = responseParams.GetSFSArray("characterList");
             int size = responseParams.GetSFSArray("characterList").Size();
-            trace("Characters to choose from: ");
+            Debug.Log("Characters to choose from: " + size);
             // loop through all the buttons
             // if a character's name is in the input list -> active the button // otherwise deactive the btn 
             var foundButtonObjects = FindObjectsOfType<Button>();
+            Debug.Log(foundButtonObjects.Length);
+            foreach(Button btn in foundButtonObjects){
+                if(btn.name == "Tuco"){
+                    Debug.Log("setting tuco btn to false");
+                    btn.interactable = false; 
+                }
+                if(btn.name == "Belle"){
+                    btn.interactable = false; 
+                }
+                if(btn.name == "Cheyenne"){
+                    Debug.Log("setting cheyenne btn to false");
+                    btn.interactable = false;
+                }
+                if(btn.name == "Django"){
+                    btn.interactable = false; 
+                }
+                if(btn.name == "Ghost"){
+                    btn.interactable = false; 
+                }
+                if(btn.name == "Doc"){
+                    btn.interactable = false; 
+                }
+            }
             for (int i = 0; i < size; i++) {
                 foreach(Button btn in foundButtonObjects){
                     string banditName = (string)a.GetUtfString(i);
-                    if(btn.name == "TucoBtn" && banditName == "TUCO"){
+                    //Debug.Log(banditName);
+                    if(btn.name == "Tuco" && banditName == "TUCO"){
+                        Debug.Log("setting tuco btn to true");
                         // save in a variable so we can use it later 
                         //character = "Tuco"; 
                         btn.interactable = true; 
                     }
-                    if(btn.name == "BelleBtn" && banditName == "BELLE"){
+                    if(btn.name == "Belle" && banditName == "BELLE"){
                         //character = "Belle"; 
                         btn.interactable = true; 
                     }
-                    if(btn.name == "CheyenneBtn" && banditName == "CHEYENNE"){
+                    if(btn.name == "Cheyenne" && banditName == "CHEYENNE"){
+                        Debug.Log("setting cheyenne btn to true");
                         //character = "Cheyenne"; 
                         btn.interactable = true; 
                     }
-                    if(btn.name == "DjangoBtn" && banditName == "DJANGO"){
+                    if(btn.name == "Django" && banditName == "DJANGO"){
                         //character = "Django"; 
                         btn.interactable = true; 
                     }
-                    if(btn.name == "GhostBtn" && banditName == "GHOST"){
+                    if(btn.name == "Ghost" && banditName == "GHOST"){
                         //character = "Ghost"; 
                         btn.interactable = true; 
                     }
-                    if(btn.name == "DocBtn" && banditName == "DOC"){
+                    if(btn.name == "Doc" && banditName == "DOC"){
                         //character = "Doc"; 
                         btn.interactable = true; 
                     }

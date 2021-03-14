@@ -107,6 +107,8 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 			//TODO: handle error
 		}
 		System.out.println("Calling chosenchar with " + character.toString());
+		rtn.putUtfString("player", sender.getName());
+		rtn.putUtfString("chosenCharacter", character.toString());
 		gm.chosenCharacter(sender, character, numPlayers);
 		int numChosen = gm.getBandits().size();
 		System.out.println("Num players: " + numPlayers + " numChosen: " + numChosen);
