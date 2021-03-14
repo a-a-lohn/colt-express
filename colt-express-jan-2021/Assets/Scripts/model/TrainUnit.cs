@@ -16,11 +16,11 @@ using Sfs2X.Protocol.Serialization;
 namespace model {
     public class TrainUnit : SerializableSFSType {
     
-        public static int trainLength;
-        public static TrainUnit[,] train;
-        public static TrainUnit[] stagecoach;
-        public static TrainUnit[] trainRoof;
-	    public static TrainUnit[] trainCabin;
+        //public static int trainLength;
+        //public ArrayList train;
+        //public static TrainUnit[] stagecoach;
+        //public static TrainUnit[] trainRoof;
+	    //public static TrainUnit[] trainCabin;
         //public string carType;
         //public string carFloor;
         public string carTypeAsString;
@@ -40,44 +40,44 @@ namespace model {
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public TrainUnit() {}
         
-        private TrainUnit(string carType, string carFloor) {
-            //this.carType = carType;
-            //this.carFloor = carFloor;
-            this.carTypeAsString = carType;
-            this.carFloorAsString = carFloor;
-            // TODO: createGraphic()
-        }
+        // private TrainUnit(string carType, string carFloor) {
+        //     //this.carType = carType;
+        //     //this.carFloor = carFloor;
+        //     this.carTypeAsString = carType;
+        //     this.carFloorAsString = carFloor;
+        //     // TODO: createGraphic()
+        // }
         
-        public static TrainUnit[,] createTrain(int numberOfBandits) {
-            // Create one car for each player, +1 to account for the locomotive
-            int trainLength = (numberOfBandits + 1);
-            TrainUnit[,] train = new TrainUnit[2,trainLength];
-            TrainUnit locoCabin = new TrainUnit("LOCOMOTIVE", "CABIN");
-            TrainUnit locoRoof = new TrainUnit("LOCOMOTIVE", "ROOF");
-            // Create locomotive
-            locoCabin.above = locoRoof;
-            locoCabin.isMarshalHere = true;
-            Marshal m = Marshal.getInstance();
-            m.setMarshalPosition(locoCabin);
-            // TODO: put strongbox
-            // locoRoof.below = Optional.of(locoCabin);
-            locoRoof.below = locoCabin;
-            // TODO: Add locomotive to array
-            // TODO: Create rest of the cars, associate with each other, add to array
-            // TODO: Associate locomotive to front car
-            TrainUnit.trainLength = trainLength;
-            TrainUnit.train = train;
-            return train;
-        }
+        // public static TrainUnit[,] createTrain(int numberOfBandits) {
+        //     // Create one car for each player, +1 to account for the locomotive
+        //     int trainLength = (numberOfBandits + 1);
+        //     TrainUnit[,] train = new TrainUnit[2,trainLength];
+        //     TrainUnit locoCabin = new TrainUnit("LOCOMOTIVE", "CABIN");
+        //     TrainUnit locoRoof = new TrainUnit("LOCOMOTIVE", "ROOF");
+        //     // Create locomotive
+        //     locoCabin.above = locoRoof;
+        //     locoCabin.isMarshalHere = true;
+        //     Marshal m = Marshal.getInstance();
+        //     m.setMarshalPosition(locoCabin);
+        //     // TODO: put strongbox
+        //     // locoRoof.below = Optional.of(locoCabin);
+        //     locoRoof.below = locoCabin;
+        //     // TODO: Add locomotive to array
+        //     // TODO: Create rest of the cars, associate with each other, add to array
+        //     // TODO: Associate locomotive to front car
+        //     TrainUnit.trainLength = trainLength;
+        //     TrainUnit.train = train;
+        //     return train;
+        // }
         
-        public static TrainUnit[] createStagecoach() {
-            TrainUnit[] stagecoach = new TrainUnit[2];
-            TrainUnit cabin = new TrainUnit("STAGECOACH", "CABIN");
-            TrainUnit roof = new TrainUnit("STAGECOACH", "ROOF");
-            stagecoach[0] = roof;
-            stagecoach[1] = cabin;
-            return stagecoach;
-        }
+        // public static TrainUnit[] createStagecoach() {
+        //     TrainUnit[] stagecoach = new TrainUnit[2];
+        //     TrainUnit cabin = new TrainUnit("STAGECOACH", "CABIN");
+        //     TrainUnit roof = new TrainUnit("STAGECOACH", "ROOF");
+        //     stagecoach[0] = roof;
+        //     stagecoach[1] = cabin;
+        //     return stagecoach;
+        // }
         
         // carType
         // public string getCarType() {
@@ -115,24 +115,24 @@ namespace model {
             this.carFloorAsString = floor;
         }
         
-        // trainLength
-        public static int getTrainLength() {
-            return TrainUnit.trainLength;
-        }
+        // // trainLength
+        // public static int getTrainLength() {
+        //     return TrainUnit.trainLength;
+        // }
         
-        public static void setTrainLength(int length) {
-            TrainUnit.trainLength = length;
-        }
+        // public static void setTrainLength(int length) {
+        //     TrainUnit.trainLength = length;
+        // }
         
-        // train
-        public static TrainUnit[,] getTrain() {
-            return TrainUnit.train;
-        }
+        // // train
+        // public ArrayList getTrain() {
+        //     return train;
+        // }
         
-        // stagecoach
-        public static TrainUnit[] getStagecoach() {
-            return TrainUnit.stagecoach;
-        }
+        // // stagecoach
+        // public static TrainUnit[] getStagecoach() {
+        //     return TrainUnit.stagecoach;
+        // }
         
         public TrainUnit getAbove() {
             return this.above;
