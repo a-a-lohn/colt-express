@@ -5,6 +5,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using RestSharp;
+using Newtonsoft.Json.Linq;
+using System.Linq;
+
 
 using Sfs2X;
 using Sfs2X.Logging;
@@ -27,8 +31,10 @@ public class ChooseCharacter : MonoBehaviour
 
     private static bool alreadyCalled = false;
 
+    private static RestClient client = new RestClient("http://13.90.26.131:4242");
+
     //SAVE THE CHOSEN CHARACTER IN THIS STRING SO IT CAN BE USED BY GAMEMANAGER
-    public string character;
+    public static string character = "";
 
     // BOOLEANS FOR CHARACTER AVAILABILITY
     public bool BelleIsAvailable; 
@@ -41,6 +47,17 @@ public class ChooseCharacter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Screen.SetResolution(800, 600, true);
+        // testing 
+            //  var foundButtonObjects = FindObjectsOfType<Button>();
+            //     foreach(Button btn in foundButtonObjects){
+            //         if(btn.name == "TucoBtn"){
+            //             btn.interactable = false; 
+            //         }
+            //        //  btn.interactable = false; 
+            //     }
+        //////
+
             BelleIsAvailable = true;
             CheyenneIsAvailable = true; 
             TucoIsAvailable = true; 
@@ -49,15 +66,15 @@ public class ChooseCharacter : MonoBehaviour
 
             // rend = GetComponent<Renderer>();
             // name = this.GameObject;
-            debugText = "";
-            selected.text = "";
+            //debugText = "";
+           // selected.text = "";
 
         // Initialize SFS2X client. This can be done in an earlier scene instead
 		SmartFox sfs = new SmartFox();
         // For C# serialization
 		DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
         SFS.setSFS(sfs);
-        SFS.Connect();
+        SFS.Connect("test2");
     }
 
     // Update is called once per frame
@@ -76,7 +93,7 @@ public class ChooseCharacter : MonoBehaviour
 			SFS.ProcessEvents();
 		}
 
-        if (Input.GetMouseButtonDown(0)){
+        /*if (Input.GetMouseButtonDown(0)){
             //string name =  EventSystem.current.currentSelectedGameObject.name;
             //  Debug.Log(name + "ahh"); 
             //selected.text = "Your bandit is: " + name;
@@ -84,7 +101,7 @@ public class ChooseCharacter : MonoBehaviour
              string name =  EventSystem.current.currentSelectedGameObject.name;
              // Debug.Log(name + " ahh"); 
              selected.text = "Your bandit is: " + name;
-             CharacterChoice(name);
+             CharacterChoice();
 
              // SET AVAILABILITY OF THE CHOSEN CHARACTER TO FALSE 
              if(name == "Belle"){
@@ -111,16 +128,16 @@ public class ChooseCharacter : MonoBehaviour
             // }
 
              // DisplayRemainingCharacters(evt);
-        }
+        }*/
 
         // for debugging
-        if (SFS.moreText) {
+        /*if (SFS.moreText) {
             debugText += SFS.debugText;
             SFS.moreText = false;
         }
         if (debugText != selected.text) {
             selected.text = debugText;
-        }
+        }*/
     }
 
 
@@ -164,12 +181,16 @@ public class ChooseCharacter : MonoBehaviour
     //     SFS.Send(req);
     //     trace("chose Belle");
     // }
-    private void CharacterChoice(string chosenCharacter) {
+    public void CharacterChoice(Button b) {
+        Debug.Log("called character choice");
+        //var go = EventSystem.current.currentSelectedGameObject;
+        character = b.name.ToUpper();
+        Debug.Log(character);
         ISFSObject obj = SFSObject.NewInstance();
-		obj.PutUtfString("chosenCharacter", chosenCharacter);//hardcoded for now, replace "BELLE" with "chosen"
+		obj.PutUtfString("chosenCharacter", character);//hardcoded for now, replace "BELLE" with "chosen"
         ExtensionRequest req = new ExtensionRequest("gm.chosenCharacter",obj);
         SFS.Send(req);
-        trace("chose"+chosenCharacter);
+        trace("chose"+character);
     }
 
 	public static void DisplayRemainingCharacters(BaseEvent evt) {
@@ -178,28 +199,37 @@ public class ChooseCharacter : MonoBehaviour
             ISFSArray a = responseParams.GetSFSArray("characterList");
             int size = responseParams.GetSFSArray("characterList").Size();
             trace("Characters to choose from: ");
-            for (int i = 0; i < size; i++) {
-                string banditName = (string)a.GetUtfString(i);
-                /*GET CHARACTER STRINGS HERE*/
-                if (banditName == "TUCO") {
-                    // the tuco game object becomes clicked somehow (e.g. same way how it can be done for gameboard, by assigning a global
-                    // variable and then having scripts attached to each game object check if that global var is assigned, if so render 
-                    // the game object clicked)
-
-                    // ?? SET TUCO TO CLICKED ?? 
-                    // RETURN ALL THE CHARACTERS THAT HAVE NOT BEEN CLICKED ?? 
-
-
-                }
-                 trace((string)a.GetUtfString(i));
-            }
-
-            //  ** print the names of all character buttons that have not been clicked 
+            // loop through all the buttons
+            // if a character's name is in the input list -> active the button // otherwise deactive the btn 
             var foundButtonObjects = FindObjectsOfType<Button>();
-            foreach(Button btn in foundButtonObjects){
-                // Debug.Log(btn);
-                if(btn.interactable == true){
-                    trace(btn.name);
+            for (int i = 0; i < size; i++) {
+                foreach(Button btn in foundButtonObjects){
+                    string banditName = (string)a.GetUtfString(i);
+                    if(btn.name == "TucoBtn" && banditName == "TUCO"){
+                        // save in a variable so we can use it later 
+                        //character = "Tuco"; 
+                        btn.interactable = true; 
+                    }
+                    if(btn.name == "BelleBtn" && banditName == "BELLE"){
+                        //character = "Belle"; 
+                        btn.interactable = true; 
+                    }
+                    if(btn.name == "CheyenneBtn" && banditName == "CHEYENNE"){
+                        //character = "Cheyenne"; 
+                        btn.interactable = true; 
+                    }
+                    if(btn.name == "DjangoBtn" && banditName == "DJANGO"){
+                        //character = "Django"; 
+                        btn.interactable = true; 
+                    }
+                    if(btn.name == "GhostBtn" && banditName == "GHOST"){
+                        //character = "Ghost"; 
+                        btn.interactable = true; 
+                    }
+                    if(btn.name == "DocBtn" && banditName == "DOC"){
+                        //character = "Doc"; 
+                        btn.interactable = true; 
+                    }
                 }
             }
 
@@ -208,5 +238,31 @@ public class ChooseCharacter : MonoBehaviour
         }
 	}
 
+    void RemoveLaunchedSession() {
+        if (WaitingRoom.hosting) {
+            var request = new RestRequest("oauth/token", Method.POST)
+            .AddParameter("grant_type", "password")
+            .AddParameter("username", "admin")
+            .AddParameter("password", "admin")
+            .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+        IRestResponse response = client.Execute(request);
+        
+        var obj = JObject.Parse(response.Content);
+        string adminToken = (string)obj["access_token"];
+        adminToken = adminToken.Replace("+", "%2B");
+        PlayerPrefs.SetString("admintoken", adminToken);
+        PlayerPrefs.Save();
+
+        var request2 = new RestRequest("api/sessions/" + WaitingRoom.gameHash + "?access_token=" + adminToken, Method.DELETE)
+            .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+        IRestResponse response2 = client.Execute(request2);
+        }
+    }
+
+    void OnApplicationQuit() {
+        RemoveLaunchedSession();
+		// Always disconnect before quitting
+		SFS.Disconnect();
+	}
 
 }

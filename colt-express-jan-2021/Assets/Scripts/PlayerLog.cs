@@ -1,18 +1,31 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
+ using System.Collections;
+ using System.Collections.Generic;
+
+using model;
  
  public class PlayerLog : MonoBehaviour {
      // Private VARS
      public List<string> Eventlog = new List<string>();
+
+     public static bool myTurnSchemin = false;
+
+     public static GameManager gm;
+
+     public static void setGame(GameManager newGm) {
+        gm = newGm;
+    }
+
+
+
       // public string guiText = "";
      public string guiText = "Player Played: ";
      private string logmsg; 
      public int maxLines = 3; 
-        public GameObject cardA; 
-        public Text log; 
+     public GameObject cardA; 
+     public Text log; 
      // public Text msg; 
 //      void OnGUI() {
 //         GUI.Label(new Rect(10,(Screen.height - 150),300f,150f), guiText,GUI.skin.textArea);     
@@ -36,6 +49,11 @@ using System.Collections.Generic;
          log.text = guiText;
      }
 
+     public static void promptDrawCardsOrPlayCard() {
+          Debug.Log("setting my turn to true");
+          myTurnSchemin = true;
+     }
+
      public void OnButtonClick()
      {
          var go = EventSystem.current.currentSelectedGameObject;
@@ -48,6 +66,17 @@ using System.Collections.Generic;
           // guiText += "\n";
 
           log.text += go.name; 
+          guiText += go.name;
+          guiText += "\n";
+
+          if(myTurnSchemin) {
+               Debug.Log("calling playcard");
+               ActionCard c = (ActionCard)GameBoard.objects[go];
+               myTurnSchemin = false;
+               gm.playCard(c);
+          }
+
+
      }
 
 //      public void AddEvent(string eventString){
