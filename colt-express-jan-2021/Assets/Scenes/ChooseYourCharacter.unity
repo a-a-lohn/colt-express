@@ -1649,7 +1649,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: {fileID: 1599678048}
   button: {fileID: 1191876191}
-  character: 
   BelleIsAvailable: 0
   CheyenneIsAvailable: 0
   TucoIsAvailable: 0
@@ -1702,9 +1701,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 827506899}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9495f5bc5758841d9905aa0179f3028c, type: 3}
+  m_Script: {fileID: 11500000, guid: 23ef03500ebc32a4286253aefc880549, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selected: {fileID: 0}
+  button: {fileID: 0}
+  BelleIsAvailable: 0
+  CheyenneIsAvailable: 0
+  TucoIsAvailable: 0
+  DjangoIsAvailable: 0
+  DocIsAvailable: 0
+  GhostIsAvailable: 0
 --- !u!1 &906614915
 GameObject:
   m_ObjectHideFlags: 0
@@ -2602,6 +2609,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 827506901}
+        m_TargetAssemblyTypeName: ChooseCharacter, Assembly-CSharp
+        m_MethodName: CharacterChoice
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1587889264}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1587889265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2674,7 +2693,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -285.24, y: -17}
+  m_AnchoredPosition: {x: 160.26, y: 27.765}
   m_SizeDelta: {x: 178.51, y: 412.47}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1599678048
@@ -3225,6 +3244,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 827506901}
+        m_TargetAssemblyTypeName: ChooseCharacter, Assembly-CSharp
+        m_MethodName: CharacterChoice
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2095048789}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

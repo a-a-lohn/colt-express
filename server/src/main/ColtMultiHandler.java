@@ -42,6 +42,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		case("chosenCharacter"):handleChosenCharacter(sender, params, rtn); break;
 		case("testSerial"): testSerial(sender, rtn); break;
 		case("newGameState"): handleNewGameState(params,rtn); break;
+		case("enterGameBoardScene"): handleEnterGameBoardScene(params,rtn); break;
 		default: trace("invalid command passed to multihandler");
 		}
 		
@@ -61,15 +62,20 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		
 	}
 	
+	public void handleEnterGameBoardScene(ISFSObject params, ISFSObject rtn) {
+		System.out.println("entering gb scene");
+		updateGameState(rtn);
+	}
+	
 	public void handleNewGameState(ISFSObject params, ISFSObject rtn) {
 		gm = (GameManager) params.getClass("gm");
 		System.out.println("received game state!");
-		System.out.println(gm.bandits.get(0).position.carTypeAsString);
+		//System.out.println(gm.bandits.get(0).position.carTypeAsString);
 		updateGameState(rtn);
 	}
 	
 	public void updateGameState(ISFSObject rtn) {
-		GameManager gm = GameManager.getInstance();
+		//GameManager gm = GameManager.getInstance();
 		rtn.putClass("gm", gm);
 		sendToAllUsers(rtn, "updateGameState");
 	}	
@@ -100,6 +106,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		} catch(IllegalArgumentException e) {
 			//TODO: handle error
 		}
+		System.out.println("Calling chosenchar with " + character.toString());
 		gm.chosenCharacter(sender, character, numPlayers);
 		int numChosen = gm.getBandits().size();
 		System.out.println("Num players: " + numPlayers + " numChosen: " + numChosen);
@@ -114,8 +121,8 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 				characters.addUtfString(c);
 			}
 		}
-		
 		sendToAllUsers(rtn, "remainingCharacters");
+		
 	}
 	
 	

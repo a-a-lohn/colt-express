@@ -111,6 +111,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 
 	// this method should only be called from if-else block in chosenCharacter
 	public void initializeGame() {
+		System.out.println("Initializing the game now!");
 		// set train-related attributes
 		// this.stagecoach = TrainUnit.createStagecoach();
 		// this.train = TrainUnit.createTrain(bandits.size());
@@ -377,16 +378,14 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	public GameManager() {}
 
 	public static GameManager getInstance() {
-		GameManager gm = null;
+		//GameManager gm = null;
 		if (singleton == null) {
-			gm = new GameManager();/*
+			singleton = new GameManager();/*
 									 * new ArrayList<Bandit>(), null, new ArrayList<Round>(), null,
 									 * GameStatus.SETUP, TrainUnit.createTrain(0));
 									 */
-		} else {
-			gm = singleton;
 		}
-		return gm;
+		return singleton;
 	}
 
 	/**
@@ -687,6 +686,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 
 	// void chosenCharacter(int playerId, Character c) {
 	public void chosenCharacter(User player, Character c, int numPlayers) {
+		System.out.println("received " + c.toString());
 		Bandit newBandit = new Bandit(c);
 		this.bandits.add(newBandit);
 		this.banditmap.put(newBandit, player);
@@ -696,6 +696,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		if (!ready) {
 			System.out.println("Not all players are ready!");
 		} else {
+			System.out.println("initializing game");
 			this.initializeGame();
 			this.setGameStatus(GameStatus.SCHEMIN);
 		}

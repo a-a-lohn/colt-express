@@ -61,6 +61,12 @@ public class GameBoard : MonoBehaviour
 	public GameObject gem4;
 	public GameObject gem5;
 
+	public GameObject cardA; 
+	public GameObject cardB; 
+	public GameObject cardC; 
+	public GameObject cardD;
+	public GameObject cardE;
+
 	// public GameObject tuco;
 	// public GameObject doc; 
 	// public GameObject django; 
@@ -88,24 +94,32 @@ public class GameBoard : MonoBehaviour
     {
 		SFS.setGameBoard(this);
 
-		debugTextString = "";
-        debugText.text = "";
+		//debugTextString = "";
+        //debugText.text = "";
 
 		//SendNewGameState();
 		// ** THE DICTIONARIES ARE INITIALIZED(CLEARED) IN Start() ** 
-		objects.Add(cheyenne, null);
-		objects.Add(belle, null);
-		objects.Add(tuco, null);
-		objects.Add(doc, null);
-		objects.Add(ghost, null);
-		objects.Add(django, null);
+		// Bandits
+		objects.Add(cheyenne, "null");
+		objects.Add(belle, "null");
+		/*objects.Add(tuco, "null");
+		objects.Add(doc, "null");
+		objects.Add(ghost, "null");
+		objects.Add(django, "null");
+		// Loot
+		objects.Add(gem1, "null");
+		objects.Add(gem2, "null");
+		objects.Add(gem3, "null");
+		objects.Add(gem4, "null");
+		objects.Add(gem5, "null");*/
+		// Cards
+		objects.Add(cardA, "null");
+		objects.Add(cardB, "null");
+		objects.Add(cardC, "null");
+		objects.Add(cardD, "null");
+		objects.Add(cardE, "null");
 
-		objects.Add(gem1, null);
-		objects.Add(gem2, null);
-		objects.Add(gem3, null);
-		objects.Add(gem4, null);
-		objects.Add(gem5, null);
-
+		EnterGameBoardScene();
 
     }
 
@@ -116,7 +130,7 @@ public class GameBoard : MonoBehaviour
 			SFS.ProcessEvents();
 		}
 
-		if (SFS.debugText != debugText.text) {
+		/*if (SFS.debugText != debugText.text) {
             debugText.text = SFS.debugText;
         }
 
@@ -127,12 +141,20 @@ public class GameBoard : MonoBehaviour
         }
         if (debugTextString != debugText.text) {
             debugText.text = debugTextString;
-        }
+        }*/
     }
+
+	public void EnterGameBoardScene() {
+		Debug.Log("entering scene");
+		ISFSObject obj = SFSObject.NewInstance();
+        ExtensionRequest req = new ExtensionRequest("gm.enterGameBoardScene",obj);
+        SFS.Send(req);
+        trace("Sent enter scene message");
+	}
 
 	public static void SendNewGameState() {
 		ISFSObject obj = SFSObject.NewInstance();
-
+		Debug.Log("sending new game state");
 		obj.PutClass("gm", gm);
         ExtensionRequest req = new ExtensionRequest("gm.newGameState",obj);
         SFS.Send(req);
@@ -141,14 +163,14 @@ public class GameBoard : MonoBehaviour
 
 	// THIS IS THE FIRST METHOD CALLED FOR RECEIVING NEW GAME STATE
     public void UpdateGameState(BaseEvent evt) {
-        trace("updategamestate called");
+        Debug.Log("updategamestate called");
         
         ISFSObject responseParams = (SFSObject)evt.Params["params"];
 		gm = (GameManager)responseParams.GetClass("gm");
 		
 		// REASSIGN ALL GAME OBJECTS USING DICTIONARY
-		//ArrayList banditsArray = gm.bandits;
-		ArrayList banditsArray = new ArrayList();
+		ArrayList banditsArray = gm.bandits;
+		//ArrayList banditsArray = new ArrayList();
 		foreach (Bandit b in banditsArray) {
             if (b.banditNameAsString == "CHEYENNE") {
 				objects[cheyenne] = b;
@@ -174,9 +196,23 @@ public class GameBoard : MonoBehaviour
                 objects[django] = b;
                 trace("Django added!");
             }
+		}
+		Debug.Log("bandits array size: " + banditsArray.Count);
+		ArrayList cards = new ArrayList();
+		foreach (Bandit ba in banditsArray) {
+			Debug.Log(ba.banditNameAsString +" "+ ChooseCharacter.character);
+			if(ba.banditNameAsString == ChooseCharacter.character) {
+				ArrayList hand = b.hand;
+				Debug.Log("adding cards");
+				objects[cardA] = hand[0];
+				objects[cardB] = hand[1];
+				objects[cardC] = hand[2];
+				objects[cardD] = hand[3];
+				objects[cardE] = hand[4];
+			}
+		}
 
-			//gm.PlayTurn();
-        }
+			gm.playTurn();
     }
 
 	/*private void ChooseCharacter() {
@@ -188,7 +224,7 @@ public class GameBoard : MonoBehaviour
     }*/
 
     public static void trace(string msg) {
-		debugText.text += (debugText.text != "" ? "\n" : "") + msg;
+	//	debugText.text += (debugText.text != "" ? "\n" : "") + msg;
 	}
 
 

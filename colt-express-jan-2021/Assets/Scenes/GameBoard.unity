@@ -3017,6 +3017,22 @@ MonoBehaviour:
   extension: {fileID: 0}
   chooseChar: {fileID: 0}
   buttonLabel: {fileID: 0}
+  cheyenne: {fileID: 1258289863}
+  belle: {fileID: 1276761316}
+  tuco: {fileID: 0}
+  doc: {fileID: 0}
+  ghost: {fileID: 0}
+  django: {fileID: 0}
+  gem1: {fileID: 1574924010}
+  gem2: {fileID: 1453433084}
+  gem3: {fileID: 0}
+  gem4: {fileID: 0}
+  gem5: {fileID: 0}
+  cardA: {fileID: 369979175}
+  cardB: {fileID: 541298844}
+  cardC: {fileID: 1023083644}
+  cardD: {fileID: 367661728}
+  cardE: {fileID: 1135692231}
 --- !u!1 &791362999
 GameObject:
   m_ObjectHideFlags: 0

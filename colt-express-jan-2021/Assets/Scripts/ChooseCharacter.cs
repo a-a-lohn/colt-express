@@ -5,6 +5,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using RestSharp;
+using Newtonsoft.Json.Linq;
+using System.Linq;
+
 
 using Sfs2X;
 using Sfs2X.Logging;
@@ -62,15 +66,15 @@ public class ChooseCharacter : MonoBehaviour
 
             // rend = GetComponent<Renderer>();
             // name = this.GameObject;
-            debugText = "";
-            selected.text = "";
+            //debugText = "";
+           // selected.text = "";
 
         // Initialize SFS2X client. This can be done in an earlier scene instead
 		SmartFox sfs = new SmartFox();
         // For C# serialization
 		DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
         SFS.setSFS(sfs);
-        SFS.Connect();
+        SFS.Connect("test2");
     }
 
     // Update is called once per frame
@@ -89,7 +93,7 @@ public class ChooseCharacter : MonoBehaviour
 			SFS.ProcessEvents();
 		}
 
-        if (Input.GetMouseButtonDown(0)){
+        /*if (Input.GetMouseButtonDown(0)){
             //string name =  EventSystem.current.currentSelectedGameObject.name;
             //  Debug.Log(name + "ahh"); 
             //selected.text = "Your bandit is: " + name;
@@ -97,7 +101,7 @@ public class ChooseCharacter : MonoBehaviour
              string name =  EventSystem.current.currentSelectedGameObject.name;
              // Debug.Log(name + " ahh"); 
              selected.text = "Your bandit is: " + name;
-             CharacterChoice(name);
+             CharacterChoice();
 
              // SET AVAILABILITY OF THE CHOSEN CHARACTER TO FALSE 
              if(name == "Belle"){
@@ -124,16 +128,16 @@ public class ChooseCharacter : MonoBehaviour
             // }
 
              // DisplayRemainingCharacters(evt);
-        }
+        }*/
 
         // for debugging
-        if (SFS.moreText) {
+        /*if (SFS.moreText) {
             debugText += SFS.debugText;
             SFS.moreText = false;
         }
         if (debugText != selected.text) {
             selected.text = debugText;
-        }
+        }*/
     }
 
 
@@ -177,12 +181,16 @@ public class ChooseCharacter : MonoBehaviour
     //     SFS.Send(req);
     //     trace("chose Belle");
     // }
-    private void CharacterChoice(string chosenCharacter) {
+    public void CharacterChoice(Button b) {
+        Debug.Log("called character choice");
+        //var go = EventSystem.current.currentSelectedGameObject;
+        character = b.name.ToUpper();
+        Debug.Log(character);
         ISFSObject obj = SFSObject.NewInstance();
-		obj.PutUtfString("chosenCharacter", chosenCharacter);//hardcoded for now, replace "BELLE" with "chosen"
+		obj.PutUtfString("chosenCharacter", character);//hardcoded for now, replace "BELLE" with "chosen"
         ExtensionRequest req = new ExtensionRequest("gm.chosenCharacter",obj);
         SFS.Send(req);
-        trace("chose"+chosenCharacter);
+        trace("chose"+character);
     }
 
 	public static void DisplayRemainingCharacters(BaseEvent evt) {
@@ -199,27 +207,27 @@ public class ChooseCharacter : MonoBehaviour
                     string banditName = (string)a.GetUtfString(i);
                     if(btn.name == "TucoBtn" && banditName == "TUCO"){
                         // save in a variable so we can use it later 
-                        character = "Tuco"; 
+                        //character = "Tuco"; 
                         btn.interactable = true; 
                     }
                     if(btn.name == "BelleBtn" && banditName == "BELLE"){
-                        character = "Belle"; 
+                        //character = "Belle"; 
                         btn.interactable = true; 
                     }
                     if(btn.name == "CheyenneBtn" && banditName == "CHEYENNE"){
-                        character = "Cheyenne"; 
+                        //character = "Cheyenne"; 
                         btn.interactable = true; 
                     }
                     if(btn.name == "DjangoBtn" && banditName == "DJANGO"){
-                        character = "Django"; 
+                        //character = "Django"; 
                         btn.interactable = true; 
                     }
                     if(btn.name == "GhostBtn" && banditName == "GHOST"){
-                        character = "Ghost"; 
+                        //character = "Ghost"; 
                         btn.interactable = true; 
                     }
                     if(btn.name == "DocBtn" && banditName == "DOC"){
-                        character = "Doc"; 
+                        //character = "Doc"; 
                         btn.interactable = true; 
                     }
                 }

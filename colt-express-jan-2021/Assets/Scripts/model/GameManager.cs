@@ -15,13 +15,13 @@ namespace model {
         
         public static GameManager singleton;
         
-        public string strGameStatus = "SETUP";
+        public string strGameStatus;
         
         public Round currentRound;
         
         public Bandit currentBandit;
         
-        public ArrayList rounds = new ArrayList();
+        public ArrayList rounds;
         
         //  CONVENTION FOR DECK: POSITION DECK.SIZE() IS TOP OF
         //  DECK, POSITION 0 IS BOTTOM OF DECK
@@ -37,13 +37,13 @@ namespace model {
         
         public TrainUnit[,] train;
         public TrainUnit[] stagecoach;
-        public ArrayList bandits = new ArrayList();
+        public ArrayList bandits;
         
-        public Hashtable banditmap = new Hashtable();
+        public Hashtable banditmap;
         
         //public static ColtMultiHandler handler; 
         
-        public ArrayList neutralBulletCard = new ArrayList();
+        public ArrayList neutralBulletCard;
         
         public int banditsPlayedThisTurn;
         
@@ -126,18 +126,22 @@ namespace model {
         // }
         
         public void playTurn() {
-            if ((this.strGameStatus == "SCHEMIN")) {
-                this.promptDrawCardsOrPlayCard();
-            }
-            else if ((this.strGameStatus == "STEALIN")) {
-                this.resolveAction(this.currentBandit.getToResolve());
+            Debug.Log("playing turn");
+            if(currentBandit.banditNameAsString == ChooseCharacter.character) {
+                if ((this.strGameStatus == "SCHEMIN")) {
+                    Debug.Log("calling prompt");
+                    PlayerLog.promptDrawCardsOrPlayCard();
+                }
+                else if ((this.strGameStatus == "STEALIN")) {
+                    this.resolveAction(this.currentBandit.getToResolve());
+                }
             }
             
         }
         
-        public void promptDrawCardsOrPlayCard() {
+        /*public void promptDrawCardsOrPlayCard() {
             // TODO
-        }
+        }*/
         
         public void resolveAction(ActionCard toResolve) {
             if ((toResolve.getActionTypeAsString() == "CHANGEFLOOR")) {
@@ -166,6 +170,7 @@ namespace model {
         }
         
         public void playCard(ActionCard c) {
+            Debug.Log("playing card");
             //  Remove card from bandit's hand
             this.currentBandit = c.getBelongsTo();
             this.currentBandit.removeHand(c);
@@ -255,7 +260,8 @@ namespace model {
                 }
                 
             }
-            
+            Debug.Log("sending new game state");
+            GameBoard.SendNewGameState();
         }
         
         public GameManager() {
@@ -744,6 +750,8 @@ namespace model {
             
             return possibleMoving;
             // call promptMoves(possibleMoving)
+           // GameBoard.clickable.Add(possibleMoving);
+            //GameBoard.action = "move()";
         }
         
         public ArrayList calculateMove() {
