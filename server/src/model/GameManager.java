@@ -310,6 +310,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 					promptDrawCardsOrPlayCard();
 				}
 				else if(currentBandit.consecutiveTurnCounter == 1) {
+					currentBandit.setConsecutiveTurnCounter(0);
 					banditIndex = (banditIndex + 1) % this.bandits.size();
 					banditsPlayedThisTurn++;
 					// IF END OF TURN
