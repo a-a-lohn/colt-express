@@ -41,7 +41,7 @@ public class GameBoard : MonoBehaviour
     public Button button;
 	public Button extension;
 	public Button chooseChar;
-    public Text buttonLabel;
+  
 	
     public Bandit b;
 
@@ -67,6 +67,12 @@ public class GameBoard : MonoBehaviour
 	public GameObject cardD;
 	public GameObject cardE;
 
+	// propmpt messages 
+	public Text promptDrawCardsOrPlayCardMsg;
+	public Text promptChooseLoot; 
+	public Text promptPunchTarget; 
+
+	// public Text promptDrawCardsOrPlayCardMsg;
 	// public GameObject tuco;
 	// public GameObject doc; 
 	// public GameObject django; 

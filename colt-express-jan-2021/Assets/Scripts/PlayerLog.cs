@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
- using System.Collections;
- using System.Collections.Generic;
+using System.Collections;
+using System.Collections.Generic;
 
 using model;
  
@@ -26,10 +26,40 @@ using model;
      public int maxLines = 3; 
      public GameObject cardA; 
      public Text log; 
-     // public Text msg; 
-//      void OnGUI() {
-//         GUI.Label(new Rect(10,(Screen.height - 150),300f,150f), guiText,GUI.skin.textArea);     
-//      }
+
+    public static void promptDrawCardsOrPlayCard() {
+          Debug.Log("setting my turn to true");
+          myTurnSchemin = true;
+          string msgCard = "PLEASE PLAY A CARD OR DRAW 3 CARDS";
+      
+          // GameObject.Find("promptDrawCardsOrPlayCardMsg").GetComponent<UnityEngine.UI.Text>().text = msg.ToString();
+          // setting the prompt message 
+          GameObject.Find("promptDrawCardsOrPlayCardMsg").GetComponent<Text>().text = msg.ToString();
+
+
+          // set clickable objects 
+     }
+
+     public static void promptChooseLoot() {
+          string msgLoot = "PLEASE CHOOSE A LOOT";
+      
+          // GameObject.Find("promptDrawCardsOrPlayCardMsg").GetComponent<UnityEngine.UI.Text>().text = msg.ToString();
+          // setting the prompt message 
+          GameObject.Find("promptChooseLoot").GetComponent<Text>().text = msgLoot.ToString();
+
+          // set clickable loots 
+     }
+
+     public static void promptPunchTarget() {
+          string msgPunch = "PLEASE CHOOSE A BANDIT TO PUNCH";
+      
+          // GameObject.Find("promptDrawCardsOrPlayCardMsg").GetComponent<UnityEngine.UI.Text>().text = msg.ToString();
+          // setting the prompt message 
+          GameObject.Find("promptPunchTarget").GetComponent<Text>().text = msgPunch.ToString();
+
+          // set clickable loots 
+     }
+
 
 //      public void AddEvent(string eventString){
 //          Eventlog.Add(eventString);
@@ -47,12 +77,9 @@ using model;
 
      void Start(){
          log.text = guiText;
-     }
 
-     public static void promptDrawCardsOrPlayCard() {
-          Debug.Log("setting my turn to true");
-          myTurnSchemin = true;
-     }
+         promptDrawCardsOrPlayCard();
+     }
 
      public void OnButtonClick()
      {
@@ -97,6 +124,7 @@ using model;
      void Update () 
      {
           log.text = guiText;
+     }
           // msg.text = guiText; 
           // if(Input.GetButtonDown("CardA")){
           //      Debug.Log("CARDA");
@@ -128,8 +156,6 @@ using model;
  
      //     if (Input.GetKey(KeyCode.RightArrow))
      //         eventLog.AddEvent("Player Moves Right");
-
-     }
 
      // void OnMouseDown(){
      //      // if (!Input.GetMouseButtonDown(0)) return;
