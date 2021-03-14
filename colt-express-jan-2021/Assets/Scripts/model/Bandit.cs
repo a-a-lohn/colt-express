@@ -34,6 +34,7 @@ namespace model {
         public ArrayList hand ;
         public ArrayList discardPile ;
         public ActionCard toResolve;
+        public int consecutiveTurnCounter;
         
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public Bandit() {}
@@ -319,6 +320,13 @@ namespace model {
         public void setToResolve(ActionCard ac) {
             this.toResolve = ac;
         }
+
+        public int getConsecutiveTurnCounter() {
+		    return this.consecutiveTurnCounter;
+	    }
+	    public void setConsecutiveTurnCounter(int i) {
+		    this.consecutiveTurnCounter = i;
+	    }
         
         public void createStartingCards() {
             string acMove1 = "MOVE";
