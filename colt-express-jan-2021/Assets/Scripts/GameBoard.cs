@@ -105,7 +105,7 @@ public class GameBoard : MonoBehaviour
 
 
 	private String[] logMessages = {
-		"blank message",
+		"Angry Marshal Round! 2 standard turns, 1 tunnel turn, and 1 switching turn",
 		"Ghost chose to draw cards",
 		"Cheyenne chose to draw cards",
 		"Django chose to draw cards",
@@ -251,7 +251,7 @@ public class GameBoard : MonoBehaviour
 				break;
 			case 13:
 			        ghost.transform.position = new Vector3 (cartOneBtm[0], cartOneBtm[1], cartOneBtm[2]);
-                                ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
+                        ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
 				break;
 			case 14:
 			        cheyenne.transform.position = new Vector3 (cartZeroTop[0], cartZeroTop[1], cartZeroTop[2]);
