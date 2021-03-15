@@ -215,103 +215,129 @@ public class GameBoard : MonoBehaviour
 		obj.PutInt("step", step);
 		ExtensionRequest req = new ExtensionRequest("gm.nextAction",obj);
 		SFS.Send(req);
+		
+		executeHardCoded(step);
+
 	}
 
 	public void executeHardCoded(int step) {
 		switch(step) {
 			case 1:
-				//Ghost plays move
+				//round/turn info 
 				break;
 			case 2:
-				//play a card;
+				//ghost draws 
 				break;
 			case 3: 
-
+				// chey draws
 				break; 
 			case 4: 
-
+				// dja draws 
 				break;
 			case 5: 
-
+				// ghost plays MOVE card
 				break;
 			case 6:
-			
+				// chey plays CHANGE FLOOR card
 				break;
 			case 7:
-			
+				// dja draws 
 				break;
 			case 8:
-			
+				// Ghost plays a hidden action card
 				break;
 			case 9:
-			
+				// chey plays a hidden action card
 				break;
 			case 10:
-			
+				// dja plays a hidden action card
 				break;
 			case 11:
-			
+				// Dja plays SHOOT // SHOT Ghost
+				// TODO: CLICK ON GHOST'S PROFILE PIC AT THE TOP 
+				shoot();  
 				break;
 			case 12:
-			
+				// chey draws 
 				break;
 			case 13:
-			        ghost.transform.position = new Vector3 (cartOneBtm[0], cartOneBtm[1], cartOneBtm[2]);
-                    ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
+				// ghost draws 
+			        // ghost.transform.position = new Vector3 (cartOneBtm[0], cartOneBtm[1], cartOneBtm[2]);
+                    // ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
 				break;
 			case 14:
-			        cheyenne.transform.position = new Vector3 (cartZeroTop[0], cartZeroTop[1], cartZeroTop[2]);
-                    cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;
+				// ghost move 
+				    ghost.transform.position = new Vector3 (cartOneBtm[0], cartOneBtm[1], cartOneBtm[2]);
+                    ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
+			        // cheyenne.transform.position = new Vector3 (cartZeroTop[0], cartZeroTop[1], cartZeroTop[2]);
+                    // cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;
 				break;
 			case 15:
-			        Destroy(gem3);
+				// chey moves 
+					cheyenne.transform.position = new Vector3 (cartZeroTop[0], cartZeroTop[1], cartZeroTop[2]);
+                    cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;
+			        // Destroy(gem3);
 				break;
 			case 16:
-			        marshal.transform.position = new Vector3 (cartTwoBtm[0], cartTwoBtm[1], cartTwoBtm[2]);
-                                marshal.transform.position += marshal.transform.forward * Time.deltaTime * 5f;
+				// ghost chooses gem3
+				// TODO: GHOST CLICK ON GEM 3 
+				Destroy(gem3);
 				break;
 			case 17:
-			        ghost.transform.position = new Vector3 (cartZeroBtm[0], cartZeroBtm[1], cartZeroBtm[2]);
-                                ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
+				// chey moves the marshal 
+				marshal.transform.position = new Vector3 (cartTwoBtm[0], cartTwoBtm[1], cartTwoBtm[2]);
+                marshal.transform.position += marshal.transform.forward * Time.deltaTime * 5f;
 				break;
 			case 18:
-			
+				// Dja PUNCH ghost, ghost drop gem2 
+				punch(); 
 				break;
 			case 19:
-			    
+			   // dj shots ghost 
+			   shoot();
 				break;
 			case 20:
-			
+				// chey plays MOVE  
 				break;
-			case 21:
-			
+			case 21:	
+				// chey draws
 				break;
 			case 22:
-			
+				// Dja plays CHANGE FLOOR  
 				break;
 			case 23:
-			
+				// Dja draws 
 				break;
 			case 24:
-			
+				// ghost played a CHANGE FLOOR card
 				break;
 			case 25:
+					// chey moves
 			        cheyenne.transform.position = new Vector3 (cartOneTop[0], cartOneTop[1], cartOneTop[2]);
                     cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;
 				break;
 			case 26:
+					// dj moves
 			        django.transform.position = new Vector3 (cartOneTop[0], cartOneTop[1], cartOneTop[2]);
                     django.transform.position += django.transform.forward * Time.deltaTime * 10f;
 				break;
 			case 27:
+					// ghost moves
 			        ghost.transform.position = new Vector3 (cartOneBtm[0], cartOneBtm[1], cartOneBtm[2]);
                     ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
 				break;
 			case 28:
-			
+				// announce winner 
 				break;
+			case 29: 
+				break; 
 		}
     }
+
+	public void rob(){
+		gem3.SetActive(false);
+		Destroy(gem3);
+	}
 
 	public void punch(){
 		// Django punches Ghost, Ghost is punched back to last train car and with 
@@ -325,6 +351,7 @@ public class GameBoard : MonoBehaviour
         ghost.transform.position = new Vector3 (posX, posY, posZ);
         ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f; // can be any float number
 		gem2.SetActive(true);
+		// shoot();  
 	}
 
 	public void shoot(){
