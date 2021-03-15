@@ -29,7 +29,8 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	
 	@Override
 	public void handleClientRequest(User sender, ISFSObject params) {
-				
+		
+		
 		String command = params.getUtfString(SFSExtension.MULTIHANDLER_REQUEST_ID);
 		ISFSObject rtn = SFSObject.newInstance();
 		
@@ -71,14 +72,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	}
 	
 	public void updateGameState(ISFSObject rtn) {
-		//GameManager gm = GameManager.getInstance();
-		//gm.bandits = null;
-		GameManager gm2 = new GameManager();
-		rtn.putClass("gm", gm2);
-		System.out.println("Sent empty gm");
-		Bandit b = gm.bandits.get(0);
-		System.out.println("serializing "+ b.banditNameAsString);
-		rtn.putClass("b", b);
+		rtn.putClass("gm", gm);
 		sendToAllUsers(rtn, "updateGameState");
 	}	
 	

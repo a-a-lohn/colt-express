@@ -108,9 +108,9 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		// this.stagecoach = TrainUnit.createStagecoach();
 		// this.train = TrainUnit.createTrain(bandits.size());
 		TrainUnit.setTrainLength(this.getNumOfPlayers());
-		this.trainRoof = TrainUnit.createTrainRoof(this.getNumOfPlayers()); //this.trainRoof = 
-		this.trainCabin = TrainUnit.createTrainCabin(this.getNumOfPlayers()); //this.trainCabin = 
-		this.stagecoach = TrainUnit.createStagecoach(); //this.stagecoach = 
+		this.trainRoof = TrainUnit.createTrainRoof(this.getNumOfPlayers());
+		this.trainCabin = TrainUnit.createTrainCabin(this.getNumOfPlayers());
+		this.stagecoach = TrainUnit.createStagecoach(); 
 		ArrayList<Bandit> bandits = this.getBandits();
 		for (Bandit b : bandits) {
 			// initialize each bandit cards, purse
@@ -167,14 +167,13 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		this.strGameStatus = "SCHEMIN";
 		this.currentBandit = this.bandits.get(0);
 		
-		rounds = null;
+		/*rounds = null;
 		this.trainRoof = null;
 		this.trainCabin = null;
 		this.stagecoach = null;
 		marshalInstance = null;
 		playedPileInstance = null;
-		//public ArrayList<Bandit> bandits = new ArrayList<Bandit>();
-		neutralBulletCard = null;
+		neutralBulletCard = null;*/
 		
 	}
 
