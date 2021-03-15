@@ -160,9 +160,26 @@ public class GameBoard : MonoBehaviour
 
     private List<float> iconPosition = new List<float>() {1285.9F, 1121.9F, -364.9F};
 
+	public void drawCards(){
+		// draws 3 cards randomly and put in the hand
+		drawnCard1.text = "MOVE";
+		drawnCard2.text = "ROB";
+		drawnCard3.text = "MARSHAL"; 
+		drawnCard4.text = "CHANGE FLOOR";
+		drawnCard5.text = "SHOOT"; 
+		drawnCard6.text = "PUNCH"; 
+		return;
+	}
+
     void Start(){
 		announcement.text = "";
 		SFS.setGameBoard();
+		drawnCard1.text = "MOVE";
+		drawnCard2.text = "ROB";
+		// drawnCard3.text = "MARSHAL"; 
+		drawnCard4.text = "CHANGE FLOOR";
+		drawnCard5.text = "SHOOT"; 
+		// drawnCard6.text = "PUNCH"; 
 
 		// announcement.text = "The current round is an Angry Marshal Round and the current turn is a Tunnel Turn!";
 		// drawnCard1.text="MOVE";
@@ -201,16 +218,16 @@ public class GameBoard : MonoBehaviour
 
     }
 
-	public void drawCards(){
-		// draws 3 cards randomly and put in the hand
-		drawnCard1.text = "MOVE";
-		drawnCard2.text = "ROB";
-		drawnCard3.text = "MARSHAL"; 
-		drawnCard4.text = "CHANGE FLOOR";
-		drawnCard5.text = "SHOOT"; 
-		drawnCard6.text = "PUNCH"; 
-		return;
-	}
+	// public void drawCards(){
+	// 	// draws 3 cards randomly and put in the hand
+	// 	drawnCard1.text = "MOVE";
+	// 	drawnCard2.text = "ROB";
+	// 	drawnCard3.text = "MARSHAL"; 
+	// 	drawnCard4.text = "CHANGE FLOOR";
+	// 	drawnCard5.text = "SHOOT"; 
+	// 	drawnCard6.text = "PUNCH"; 
+	// 	return;
+	// }
 	// draw3cards: 3 cards appear on click
 
 	void MouseDown() {
