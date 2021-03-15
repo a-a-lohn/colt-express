@@ -104,6 +104,20 @@ public class GameBoard : MonoBehaviour
 	private string announ2 = ""; 
 	private string announ5 = "Schemin' Phase!"; 
 
+    // possible positions 
+    // we can check the cartTypeAsString and carFloorAsString received from GM and find the corresponding x,y,z 
+    private List<float> cartZeroTop = new List<float>() {840.5F,878.4F,-364.9F};
+    private List<float> cartZeroBtm = new List<float>() {786.1F, 813.5F, -364.9F};
+
+    private List<float> cartOneTop = new List<float>() {1025.7F, 889.4F, -364.9F};
+    private List<float> cartOneBtm = new List<float>() {1027.9F, 806.4F, -364.9F};
+
+    private List<float> cartTwoTop = new List<float>() {1265.4F, 894.7F, -364.9F};
+    private List<float> cartTwoBtm = new List<float>() {1279.8F, 817.7F, -364.9F};
+
+    private List<float> cartLocoTop = new List<float>() {1410.5F, 893.4F, -364.9F};
+    private List<float> cartLocoBtm = new List<float>() {1390.0F, 824.9F, -364.9F};
+
     //private static SmartFox sfs = SFS.sfs;
    // private static string defaultHost = SFS.defaultHost;// = "127.0.0.1"; //"13.90.26.131"; // 
 	//private static int defaultTcpPort = SFS.defaultTcpPort;// = 9933;			// Default TCP port
@@ -114,6 +128,8 @@ public class GameBoard : MonoBehaviour
 		announcement.text = "The current round is an Angry Marshal Round and the current turn is a Tunnel Turn!";
 		// drawnCard1.text="MOVE";
 		SFS.setGameBoard(this);
+		
+		gem2.SetActive(false);
 
 		//debugTextString = "";
         //debugText.text = "";
@@ -187,6 +203,20 @@ public class GameBoard : MonoBehaviour
 
 		}
     }
+
+	public void punch(){
+		// Django punches Ghost, Ghost is punched back to last train car and with 
+		// his initial purse is left in the second last train car. 
+		// move ghost to the last train car
+		// check if the obj being clicked on is the loot/bandit that we want to move 
+		Debug.Log("GHOST IS PUNCHED");
+        float posX = cartTwoBtm[0]; 
+        float posY = cartTwoBtm[1]; 
+        float posZ = cartTwoBtm[2]; 
+        ghost.transform.position = new Vector3 (posX, posY, posZ);
+        ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f; // can be any float number
+		gem2.SetActive(true);
+	}
 
 
     // Update is called once per frame

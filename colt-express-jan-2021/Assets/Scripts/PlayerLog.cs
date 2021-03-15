@@ -13,7 +13,6 @@ using model;
      public static bool myTurnSchemin = false;
 
      public static GameManager gm;
-
      // public static Text announcement; 
 
      public static void setGame(GameManager newGm) {
