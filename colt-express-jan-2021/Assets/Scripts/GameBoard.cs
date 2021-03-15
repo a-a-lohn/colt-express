@@ -48,12 +48,13 @@ public class GameBoard : MonoBehaviour
 	public static GameManager gm;
 
 	// LIST OF ALL GAME OBJECTS HERE
-    public GameObject cheyenne;
+        public GameObject cheyenne;
 	public GameObject belle; 
 	public GameObject tuco; 
 	public GameObject doc; 
 	public GameObject ghost; 
 	public GameObject django; 
+	public GameObject marshal;
 	
 	public GameObject gem1; 
 	public GameObject gem2; 
@@ -108,12 +109,12 @@ public class GameBoard : MonoBehaviour
 		"Ghost chose to draw cards",
 		"Cheyenne chose to draw cards",
 		"Django chose to draw cards",
-		"Ghost played an action card. Card is hidden because it is a tunnel turn",
-		"Cheyenne played an action card. Card is hidden because it is a tunnel turn",
+		"Ghost played a MOVE card",
+		"Cheyenne played a CHANGEFLOOR card",
 		"Django chose to draw cards",
-		"Ghost played a ROB card",
-		"Cheyenne played a MOVEMARSHAL card",
-		"Django played a PUNCH card",
+		"Ghost played an action card which is hidden because its a tunnel turn",
+		"Cheyenne played an action card which is hidden because its a tunnel turn",
+		"Django played an action card which is hidden because its a tunnel turn",
 		"Django played a SHOOT card",
 		"Cheyenne chose to draw cards",
 		"Ghost chose to draw cards",
@@ -123,7 +124,7 @@ public class GameBoard : MonoBehaviour
 		"Cheyenne moved the Marshal",
 		"Django choose to punch Ghost, who drops his loot",
 		"Django shoots Ghost",
-		"Chayenne played a MOVE card",
+		"Cheyenne played a MOVE card",
 		"Cheyenne chose to draw cards",
 		"Django played a CHANGEFLOOR card",
 		"Django chose to draw cards",
@@ -249,19 +250,23 @@ public class GameBoard : MonoBehaviour
 			
 				break;
 			case 13:
-			        Ghost.transform.position = new Vector3(-218, -72, -0.16);
+			        ghost.transform.position = new Vector3 (cartOneBtm[0], cartOneBtm[1], cartOneBtm[2]);
+                                ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
 				break;
 			case 14:
-			        Cheyenne.transform.position = new Vector3(-418, 24, -0.16);
+			        cheyenne.transform.position = new Vector3 (cartZeroTop[0], cartZeroTop[1], cartZeroTop[2]);
+                                cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;
 				break;
 			case 15:
 			
 				break;
 			case 16:
-			        Marshal.transform.position = new Vector3(204, -72, -0.16);
+			        marshal.transform.position = new Vector3 (cartTwoBtm[0], cartTwoBtm[1], cartTwoBtm[2]);
+                                marshal.transform.position += marshal.transform.forward * Time.deltaTime * 5f;
 				break;
 			case 17:
-			        Ghost.transform.position = new Vector3(-418, -72, -0.16);
+			        ghost.transform.position = new Vector3 (cartZeroBtm[0], cartZeroBtm[1], cartZeroBtm[2]);
+                                ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
 				break;
 			case 18:
 			
@@ -285,13 +290,16 @@ public class GameBoard : MonoBehaviour
 			
 				break;
 			case 25:
-			        Cheyenne.transform.position = new Vector3(-218, 24, -0.16);
+			        cheyenne.transform.position = new Vector3 (cartOneTop[0], cartOneTop[1], cartOneTop[2]);
+                                cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;
 				break;
 			case 26:
-			        Django.transform.position = new Vector3(-200, 24, -0.16);
+			        django.transform.position = new Vector3 (cartOneTop[0], cartOneTop[1], cartOneTop[2]);
+                                django.transform.position += django.transform.forward * Time.deltaTime * 10f;
 				break;
 			case 27:
-			        Ghost.transform.position = new Vector3(-418, 24, -0.16);
+			        ghost.transform.position = new Vector3 (cartOneBtm[0], cartOneBtm[1], cartOneBtm[2]);
+                                ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
 				break;
 			case 28:
 			
