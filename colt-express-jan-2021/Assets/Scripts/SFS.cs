@@ -33,7 +33,7 @@ public static class SFS
 	public static ChooseCharacter cc;
 
     static SFS(){
-        defaultHost = "127.0.0.1";//"13.72.79.112";   //"13.90.26.131";
+        defaultHost = "13.72.79.112";//"127.0.0.1";
 	    defaultTcpPort = 9933;
         zone = "MergedExt";
     }

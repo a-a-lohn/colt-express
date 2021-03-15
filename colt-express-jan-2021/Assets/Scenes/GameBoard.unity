@@ -392,81 +392,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e23e2014e485b46308d0c1cec650bed2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &77504483
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 77504484}
-  - component: {fileID: 77504486}
-  - component: {fileID: 77504485}
-  m_Layer: 5
-  m_Name: bullet2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &77504484
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 77504483}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 734506206}
-  m_RootOrder: 17
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 448, y: -128}
-  m_SizeDelta: {x: 62.5093, y: 85.2715}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &77504485
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 77504483}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2cc159ddbf54b4ec78ef2ec12fc5023c, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &77504486
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 77504483}
-  m_CullTransparentMesh: 1
 --- !u!1 &90068766
 GameObject:
   m_ObjectHideFlags: 0
@@ -550,7 +475,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 734506208}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GameBoard, Assembly-CSharp
         m_MethodName: drawCards
         m_Mode: 1
@@ -1142,7 +1067,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 734506208}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GameBoard, Assembly-CSharp
         m_MethodName: shoot
         m_Mode: 1
@@ -1277,7 +1202,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1214098421}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerLog, Assembly-CSharp
         m_MethodName: OnButtonClick
         m_Mode: 1
@@ -1462,7 +1387,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1214098421}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerLog, Assembly-CSharp
         m_MethodName: OnButtonClick
         m_Mode: 1
@@ -2131,7 +2056,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 734506208}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GameBoard, Assembly-CSharp
         m_MethodName: punch
         m_Mode: 1
@@ -2275,7 +2200,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 734506208}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GameBoard, Assembly-CSharp
         m_MethodName: shoot
         m_Mode: 1
@@ -2641,7 +2566,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1214098421}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerLog, Assembly-CSharp
         m_MethodName: OnButtonClick
         m_Mode: 1
@@ -3051,7 +2976,6 @@ RectTransform:
   - {fileID: 29083460}
   - {fileID: 1832077490}
   - {fileID: 1838625226}
-  - {fileID: 77504484}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3071,50 +2995,32 @@ SortingGroup:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &734506208
-MonoBehaviour:
+--- !u!61 &734506208
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 734506202}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9355319f82fbe4b82843df89af549c18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button: {fileID: 90068768}
-  extension: {fileID: 90068768}
-  chooseChar: {fileID: 90068768}
-  cheyenne: {fileID: 442808384}
-  belle: {fileID: 0}
-  tuco: {fileID: 0}
-  doc: {fileID: 0}
-  ghost: {fileID: 488911556}
-  django: {fileID: 2061015342}
-  marshal: {fileID: 364579985}
-  gem1: {fileID: 1032197769}
-  gem2: {fileID: 1765836297}
-  gem3: {fileID: 1744056522}
-  gem4: {fileID: 0}
-  gem5: {fileID: 1311391924}
-  cardA: {fileID: 369979175}
-  cardB: {fileID: 541298844}
-  cardC: {fileID: 1023083644}
-  cardD: {fileID: 367661728}
-  cardE: {fileID: 1135692231}
-  bulletCard: {fileID: 1838625225}
-  promptDrawCardsOrPlayCardMsg: {fileID: 571799349}
-  promptChooseLoot: {fileID: 571799349}
-  promptPunchTarget: {fileID: 571799349}
-  announcement: {fileID: 1832077491}
-  drawnCard1: {fileID: 1932004671}
-  drawnCard2: {fileID: 8461049}
-  drawnCard3: {fileID: 397071379}
-  drawnCard4: {fileID: 452844222}
-  drawnCard5: {fileID: 469264866}
-  drawnCard6: {fileID: 1319462718}
-  playerE: {fileID: 0}
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &749691587
 GameObject:
   m_ObjectHideFlags: 0
@@ -3665,8 +3571,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1013407372}
   - component: {fileID: 1013407373}
+  - component: {fileID: 1013407374}
   m_Layer: 0
-  m_Name: GameBoardObjects
+  m_Name: GameBoardGO
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3706,13 +3613,14 @@ MonoBehaviour:
   button: {fileID: 0}
   extension: {fileID: 0}
   chooseChar: {fileID: 0}
+  canvas: {fileID: 1013407371}
   cheyenne: {fileID: 442808384}
   belle: {fileID: 0}
   tuco: {fileID: 0}
   doc: {fileID: 0}
   ghost: {fileID: 488911556}
   django: {fileID: 2061015342}
-  marshal: {fileID: 0}
+  marshal: {fileID: 364579985}
   gem1: {fileID: 1032197769}
   gem2: {fileID: 1765836297}
   gem3: {fileID: 1744056522}
@@ -3723,18 +3631,44 @@ MonoBehaviour:
   cardC: {fileID: 1023083644}
   cardD: {fileID: 367661728}
   cardE: {fileID: 1135692231}
-  bulletCard: {fileID: 0}
+  bulletCard: {fileID: 1838625225}
   promptDrawCardsOrPlayCardMsg: {fileID: 571799349}
-  promptChooseLoot: {fileID: 0}
-  promptPunchTarget: {fileID: 0}
-  announcement: {fileID: 0}
-  drawnCard1: {fileID: 0}
-  drawnCard2: {fileID: 0}
-  drawnCard3: {fileID: 0}
-  drawnCard4: {fileID: 0}
-  drawnCard5: {fileID: 0}
-  drawnCard6: {fileID: 0}
-  playerE: {fileID: 0}
+  promptChooseLoot: {fileID: 571799349}
+  promptPunchTarget: {fileID: 571799349}
+  announcement: {fileID: 1832077491}
+  drawnCard1: {fileID: 1932004671}
+  drawnCard2: {fileID: 8461049}
+  drawnCard3: {fileID: 397071379}
+  drawnCard4: {fileID: 452844222}
+  drawnCard5: {fileID: 469264866}
+  drawnCard6: {fileID: 1319462718}
+  playerE: {fileID: 496337515}
+--- !u!61 &1013407374
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1013407371}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &1023083644
 GameObject:
   m_ObjectHideFlags: 0
@@ -3820,7 +3754,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1214098421}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerLog, Assembly-CSharp
         m_MethodName: OnButtonClick
         m_Mode: 1
@@ -4125,7 +4059,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1214098421}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerLog, Assembly-CSharp
         m_MethodName: OnButtonClick
         m_Mode: 1
@@ -4275,7 +4209,6 @@ GameObject:
   - component: {fileID: 1214098418}
   - component: {fileID: 1214098420}
   - component: {fileID: 1214098419}
-  - component: {fileID: 1214098421}
   - component: {fileID: 1214098422}
   m_Layer: 5
   m_Name: Hand
@@ -4349,23 +4282,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1214098417}
   m_CullTransparentMesh: 1
---- !u!114 &1214098421
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1214098417}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a655f184792b3448d8ce2998b459b7a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Eventlog: []
-  guiText: 'Player Played: '
-  maxLines: 3
-  cardA: {fileID: 0}
-  log: {fileID: 250748598}
 --- !u!61 &1214098422
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5563,7 +5479,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 734506208}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GameBoard, Assembly-CSharp
         m_MethodName: rob
         m_Mode: 1
@@ -6044,8 +5960,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -31.9242, y: 79.2715}
-  m_SizeDelta: {x: 560.6111, y: 74.5816}
+  m_AnchoredPosition: {x: 322.70935, y: -1.2372}
+  m_SizeDelta: {x: 115.1076, y: 415.7357}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1832077491
 MonoBehaviour:
@@ -6069,16 +5985,16 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 12
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 1
     m_MaxSize: 40
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: announcement
 --- !u!222 &1832077492
@@ -6479,7 +6395,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 50.430054, y: 128.20248}
+  m_AnchoredPosition: {x: 223, y: 149}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1984338523
@@ -6702,7 +6618,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1214098421}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerLog, Assembly-CSharp
         m_MethodName: OnButtonClick
         m_Mode: 1

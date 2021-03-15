@@ -38,9 +38,11 @@ public class GameBoard : MonoBehaviour
 	//debug variables
 	public static Text debugText;
 	public static string debugTextString;
-        public Button button;
+    public Button button;
 	public Button extension;
 	public Button chooseChar;
+
+	public GameObject canvas;
   
 	
     public Bandit b;
@@ -48,7 +50,7 @@ public class GameBoard : MonoBehaviour
 	public static GameManager gm;
 
 	// LIST OF ALL GAME OBJECTS HERE
-        public GameObject cheyenne;
+    public GameObject cheyenne;
 	public GameObject belle; 
 	public GameObject tuco; 
 	public GameObject doc; 
@@ -93,7 +95,7 @@ public class GameBoard : MonoBehaviour
 	public static string action = "";
 
 
-    public Text announcement; 
+    public Text announcement;
 
 	/* For all the action cards */
 	public Text drawnCard1; 
@@ -159,11 +161,13 @@ public class GameBoard : MonoBehaviour
     private List<float> iconPosition = new List<float>() {1285.9F, 1121.9F, -364.9F};
 
     void Start(){
+		announcement.text = "";
 		SFS.setGameBoard();
 
 		// announcement.text = "The current round is an Angry Marshal Round and the current turn is a Tunnel Turn!";
 		// drawnCard1.text="MOVE";
 		// SFS.setGameBoard(this);
+		Debug.Log(SFS.step);
 		announcement.text = logMessages[SFS.step];
 		//debugTextString = "";
                 //debugText.text = "";
@@ -209,7 +213,7 @@ public class GameBoard : MonoBehaviour
 	}
 	// draw3cards: 3 cards appear on click
 
-	void OnMouseDown() {
+	void MouseDown() {
 		SFS.step += 1;
 		Debug.Log(SFS.step);
 		announcement.text += "\n";
@@ -218,14 +222,15 @@ public class GameBoard : MonoBehaviour
 		int step = SFS.step;
 		ISFSObject obj = SFSObject.NewInstance();
 		obj.PutInt("step", step);
-		ExtensionRequest req = new ExtensionRequest("gm.nextAction",obj);
-		SFS.Send(req);
+		//ExtensionRequest req = new ExtensionRequest("gm.nextAction",obj);
+		//SFS.Send(req);
 		
 		executeHardCoded(step);
 
 	}
 
 	public void executeHardCoded(int step) {
+		//SFS.step += 1;
 		switch(step) {
 			case 1:
 				//round/turn info 
@@ -378,6 +383,11 @@ public class GameBoard : MonoBehaviour
         bulletCard.transform.position += bulletCard.transform.forward * Time.deltaTime * 2f;
 	}
 
+	void OnMouseDown(){
+		MouseDown();
+		Debug.Log("Clicked");
+	}
+
 
     // Update is called once per frame
     void Update()
@@ -386,9 +396,10 @@ public class GameBoard : MonoBehaviour
 			SFS.ProcessEvents();
 		}
 
-		if (Input.GetMouseButtonDown(0)){
-			OnMouseDown(); 
-		}
+		/*if (Input.GetMouseButtonDown(0)){
+			MouseDown();
+			Debug.Log("Clicked");
+		}*/
 
 		/*if (SFS.debugText != debugText.text) {
             debugText.text = SFS.debugText;
