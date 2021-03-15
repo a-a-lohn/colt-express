@@ -91,6 +91,17 @@ public class GameBoard : MonoBehaviour
 	public static string action = "";
 
 
+    public Text announcement; 
+
+	/* For all the action cards */
+	public Text drawnCard1; 
+	public Text drawnCard2;
+	public Text drawnCard3; 
+	public Text drawnCard4;
+
+	private string announ2 = ""; 
+	private string announ5 = "Schemin' Phase!"; 
+
     //private static SmartFox sfs = SFS.sfs;
    // private static string defaultHost = SFS.defaultHost;// = "127.0.0.1"; //"13.90.26.131"; // 
 	//private static int defaultTcpPort = SFS.defaultTcpPort;// = 9933;			// Default TCP port
@@ -98,6 +109,7 @@ public class GameBoard : MonoBehaviour
 
     void Start()
     {
+		announcement.text = "The current round is an Angry Marshal Round and the current turn is a Tunnel Turn!";
 		SFS.setGameBoard(this);
 
 		//debugTextString = "";
@@ -154,6 +166,14 @@ public class GameBoard : MonoBehaviour
 
     }
 
+	public void drawCards(){
+		// draws 3 cards randomly and put in the hand
+		drawnCard1.text = "MOVE"; 
+		drawnCard2.text = "ROB";
+		drawnCard3.text = "Marshal"; 
+		drawnCard4.text = "CHANGE FLOOR";
+	}
+	
     // Update is called once per frame
     void Update()
     {

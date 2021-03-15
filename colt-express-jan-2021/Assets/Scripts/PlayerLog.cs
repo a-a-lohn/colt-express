@@ -14,6 +14,8 @@ using model;
 
      public static GameManager gm;
 
+     // public static Text announcement; 
+
      public static void setGame(GameManager newGm) {
         gm = newGm;
     }
@@ -34,7 +36,7 @@ using model;
       
           // GameObject.Find("promptDrawCardsOrPlayCardMsg").GetComponent<UnityEngine.UI.Text>().text = msg.ToString();
           // setting the prompt message 
-          GameObject.Find("promptDrawCardsOrPlayCardMsg").GetComponent<Text>().text = msg.ToString();
+          GameObject.Find("promptDrawCardsOrPlayCardMsg").GetComponent<Text>().text = msgCard.ToString();
 
 
           // set clickable objects 
@@ -52,11 +54,7 @@ using model;
 
      public static void promptPunchTarget() {
           string msgPunch = "PLEASE CHOOSE A BANDIT TO PUNCH";
-      
-          // GameObject.Find("promptDrawCardsOrPlayCardMsg").GetComponent<UnityEngine.UI.Text>().text = msg.ToString();
-          // setting the prompt message 
           GameObject.Find("promptPunchTarget").GetComponent<Text>().text = msgPunch.ToString();
-
           // set clickable loots 
      }
 
@@ -76,9 +74,9 @@ using model;
 //      }
 
      void Start(){
-         log.text = guiText;
-
-         promptDrawCardsOrPlayCard();
+          log.text = guiText;
+          
+          promptDrawCardsOrPlayCard();
      }
 
      public void OnButtonClick()
