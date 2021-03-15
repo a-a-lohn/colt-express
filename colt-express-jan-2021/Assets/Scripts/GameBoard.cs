@@ -156,10 +156,10 @@ public class GameBoard : MonoBehaviour
 		// announcement.text = "The current round is an Angry Marshal Round and the current turn is a Tunnel Turn!";
 		// drawnCard1.text="MOVE";
 		// SFS.setGameBoard(this);
-
 		announcement.text = logMessages[SFS.step];
 		//debugTextString = "";
         //debugText.text = "";
+		gem2.SetActive(false);
 
 		//SendNewGameState();
 		// ** THE DICTIONARIES ARE INITIALIZED(CLEARED) IN Start() ** 
@@ -291,15 +291,15 @@ public class GameBoard : MonoBehaviour
 				break;
 			case 25:
 			        cheyenne.transform.position = new Vector3 (cartOneTop[0], cartOneTop[1], cartOneTop[2]);
-                                cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;
+                    cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;
 				break;
 			case 26:
 			        django.transform.position = new Vector3 (cartOneTop[0], cartOneTop[1], cartOneTop[2]);
-                                django.transform.position += django.transform.forward * Time.deltaTime * 10f;
+                    django.transform.position += django.transform.forward * Time.deltaTime * 10f;
 				break;
 			case 27:
 			        ghost.transform.position = new Vector3 (cartOneBtm[0], cartOneBtm[1], cartOneBtm[2]);
-                                ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
+                    ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
 				break;
 			case 28:
 			
