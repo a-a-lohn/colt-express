@@ -76,6 +76,7 @@ public static class SFS
 		if (cmd == "remainingCharacters") {
 			ISFSObject responseParams = (SFSObject)evt.Params["params"];
 			string player = responseParams.GetUtfString("player");
+			//Debug.Log("PLAYER: " + player);
 			if(player != null) {
 				string chosen = responseParams.GetUtfString("chosenCharacter");
 				chosenCharText += "\n" + player + " chose " + chosen + "!";
@@ -86,6 +87,7 @@ public static class SFS
         } else if (cmd == "nextAction") {
 			ISFSObject responseParams = (SFSObject)evt.Params["params"];
 			step = responseParams.GetInt("step");
+			Debug.Log("received step " + step);
 			gb.executeHardCoded(step);
 		}
     }
