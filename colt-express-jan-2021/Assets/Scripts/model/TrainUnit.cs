@@ -25,13 +25,15 @@ namespace model {
         //public string carFloor;
         public string carTypeAsString;
         public string carFloorAsString;
+
+        /* removed for serialization
         public TrainUnit above ;
         public TrainUnit below ;
         public TrainUnit left ;
         public TrainUnit right ;
         public TrainUnit beside ;
+        */
         
-        // Used for stagecoach and it's adjacent car ONLY.
         public bool isMarshalHere ;
         public ArrayList banditsHere ;
         public ArrayList lootHere ;
@@ -138,6 +140,8 @@ namespace model {
             return this.above;
         }
         
+
+        // get above/get below logic: query the hashtable, find the element in the roof or cabin arraylists in the GM, and treat as 2D array
         public void setAbove(TrainUnit otherTrainUnit) {
             this.above = otherTrainUnit;
             otherTrainUnit.below = this;
@@ -174,6 +178,7 @@ namespace model {
             return this.beside;
         }
         
+        //similar logic as above, below, left right
         public bool isAdjacentTo(TrainUnit otherTrainUnit) {
             bool adjacentTo = false;
             if (((this.below == otherTrainUnit) 
@@ -200,6 +205,7 @@ namespace model {
             return adjacentTo;
         }
         
+        //change the hashmap for bandit stuff
         public void addBandit(Bandit b) {
             System.Diagnostics.Trace.Assert(!this.banditsHere.Contains(b));
             this.banditsHere.Add(b);
@@ -210,6 +216,7 @@ namespace model {
             this.banditsHere.Remove(b);
         }
         
+        //query hashmap
         public bool containsBandit(Bandit b) {
             return this.banditsHere.Contains(b);
         }
