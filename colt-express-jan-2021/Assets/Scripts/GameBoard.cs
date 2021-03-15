@@ -101,6 +101,8 @@ public class GameBoard : MonoBehaviour
 	public Text drawnCard5;
 	public Text drawnCard6;
 
+
+
 	private String[] logMessages = {
 		"blank message",
 		"Ghost chose to draw cards",
@@ -137,12 +139,22 @@ public class GameBoard : MonoBehaviour
    // private static string defaultHost = SFS.defaultHost;// = "127.0.0.1"; //"13.90.26.131"; // 
 	//private static int defaultTcpPort = SFS.defaultTcpPort;// = 9933;			// Default TCP port
     //private static string zone = SFS.zone;// = "MergedExt"; //"ColtExpress"; //"NewZone"; //"BasicExamples";// "MyExt";
+ 	private List<float> cartZeroTop = new List<float>() {840.5F,878.4F,-364.9F};
+    private List<float> cartZeroBtm = new List<float>() {786.1F, 813.5F, -364.9F};
 
-    void Start()
-    {
-		announcement.text = "The current round is an Angry Marshal Round and the current turn is a Tunnel Turn!";
+    private List<float> cartOneTop = new List<float>() {1025.7F, 889.4F, -364.9F};
+    private List<float> cartOneBtm = new List<float>() {1027.9F, 806.4F, -364.9F};
+
+    private List<float> cartTwoTop = new List<float>() {1265.4F, 894.7F, -364.9F};
+    private List<float> cartTwoBtm = new List<float>() {1279.8F, 817.7F, -364.9F};
+
+    private List<float> cartLocoTop = new List<float>() {1410.5F, 893.4F, -364.9F};
+    private List<float> cartLocoBtm = new List<float>() {1390.0F, 824.9F, -364.9F};
+
+    void Start(){
+		// announcement.text = "The current round is an Angry Marshal Round and the current turn is a Tunnel Turn!";
 		// drawnCard1.text="MOVE";
-		SFS.setGameBoard(this);
+		// SFS.setGameBoard(this);
 
 		announcement.text = logMessages[SFS.step];
 		//debugTextString = "";
