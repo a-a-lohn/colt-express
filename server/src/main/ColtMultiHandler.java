@@ -72,7 +72,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	}
 	
 	public void updateGameState(ISFSObject rtn) {
-		rtn.putClass("gm", gm);
+		rtn.putClass("gm", gm); // THIS IS THE PROBLEM
 		sendToAllUsers(rtn, "updateGameState");
 	}	
 	
