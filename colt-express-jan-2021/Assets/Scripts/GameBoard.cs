@@ -159,6 +159,8 @@ public class GameBoard : MonoBehaviour
     private List<float> iconPosition = new List<float>() {1285.9F, 1121.9F, -364.9F};
 
     void Start(){
+		SFS.setGameBoard();
+
 		// announcement.text = "The current round is an Angry Marshal Round and the current turn is a Tunnel Turn!";
 		// drawnCard1.text="MOVE";
 		// SFS.setGameBoard(this);
@@ -191,6 +193,7 @@ public class GameBoard : MonoBehaviour
 		// objects.Add(cardE, "null");
 
 		//EnterGameBoardScene();
+
 
     }
 
@@ -486,6 +489,7 @@ public class GameBoard : MonoBehaviour
 
 
     void OnApplicationQuit() {
+		ChooseCharacter.RemoveLaunchedSession();
 		// Always disconnect before quitting
 		SFS.Disconnect();
 	}

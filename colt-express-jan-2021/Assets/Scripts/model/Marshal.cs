@@ -22,13 +22,13 @@ namespace model {
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public Marshal() {}
         
-        public static Marshal createMarshal() {
-            Marshal.getInstance();
-            int x = TrainUnit.getTrainLength();
-            TrainUnit t = TrainUnit.getTrain()[1, (x - 1)];
-            instance.marshalPosition = t;
-            return instance;
-        }
+        // public static Marshal createMarshal() {
+        //     Marshal.getInstance();
+        //     int x = TrainUnit.getTrainLength();
+        //     TrainUnit t = TrainUnit.getTrain()[1, (x - 1)];
+        //     instance.marshalPosition = t;
+        //     return instance;
+        // }
         
         public TrainUnit getMarshalPosition() {
             return this.marshalPosition;
