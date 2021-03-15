@@ -21,7 +21,7 @@ namespace model {
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public BulletCard() {}
         
-        public BulletCard(Bandit belongsTo) {
+        public BulletCard(string belongsTo) {
             this.belongsTo = belongsTo;
             this.fired = false;
         }

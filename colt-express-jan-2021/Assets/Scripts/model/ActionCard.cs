@@ -27,9 +27,10 @@ namespace model {
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public ActionCard() {}
         
-        public ActionCard(string action) {
+        public ActionCard(string action, string belongsTo) {
             //this.actionType = action;
             this.actionTypeAsString = action;
+            this.belongsTo = belongsTo;
         }
         
         // // actionType

@@ -9,6 +9,7 @@ using Sfs2X.Core;
 using Sfs2X.Entities;
 using Sfs2X.Entities.Data;
 using Sfs2X.Protocol.Serialization;
+using Random = System.Random;
 
 //The following code is executed right after creating the SmartFox object:
 // using System.Reflection;
@@ -23,8 +24,6 @@ namespace model {
         public string banditNameAsString;
         
         // FOR NETWORKING
-        //remove position reference
-        public TrainUnit position;   
         //public Hostage hostage;       
         public string hostageAsString;
         
@@ -45,7 +44,6 @@ namespace model {
             this.banditNameAsString = c;
             this.getsAnotherAction = false;
             this.playedThisTurn = false;
-            this.position = null;
             this.hostageAsString = null;
         }
         
@@ -71,13 +69,14 @@ namespace model {
         
         public TrainUnit getPosition() {
             GameManager gm = GameManager.getInstance();
-            //query hashmap of bandit-position 
-            return this.position;
+            TrainUnit pos = (TrainUnit)gm.banditPositions[this];
+            return (TrainUnit)pos;
         }
         
         public void setPosition(TrainUnit newObject) {
             //change hashmap of bandit-position
-            this.position = newObject;
+            GameManager gm = GameManager.getInstance();
+            gm.banditPositions[this] = newObject;
         }
         
         public bool addLootAt(int index, Loot a) {
@@ -335,9 +334,8 @@ namespace model {
         public void createStartingCards() {
             string[] actions= {"MOVE", "MOVE", "CHANGE_FLOOR","CHANGE_FLOOR", "MOVE_MARSHAL", "PUNCH", "ROB", "ROB", "SHOOT","SHOOT"};
             for (int i = 0; i<actions.Length; i++) {
-                Card c = new ActionCard (actions[i]);
+                Card c = new ActionCard (actions[i], this.banditNameAsString);
                 this.deck.Add(c);
-                c.setBelongsTo(this);
             }
         }
         
@@ -346,28 +344,24 @@ namespace model {
             for (int i = 0; (i < 6); i++) {
                 Card c = (Card)this.deck[0];
                 this.hand.Add(c);
-                this.deck.remove(c);
+                this.deck.Remove(c);
             }
             
         }
         
         public void createBulletCards() {
-            BulletCard bc1 = new BulletCard();
-            BulletCard bc2 = new BulletCard();
-            BulletCard bc3 = new BulletCard();
-            BulletCard bc4 = new BulletCard();
-            BulletCard bc5 = new BulletCard();
-            BulletCard bc6 = new BulletCard();
+            BulletCard bc1 = new BulletCard(this.banditNameAsString);
+            BulletCard bc2 = new BulletCard(this.banditNameAsString);
+            BulletCard bc3 = new BulletCard(this.banditNameAsString);
+            BulletCard bc4 = new BulletCard(this.banditNameAsString);
+            BulletCard bc5 = new BulletCard(this.banditNameAsString);
+            BulletCard bc6 = new BulletCard(this.banditNameAsString);
             this.bullets.Add(bc1);
             this.bullets.Add(bc2);
             this.bullets.Add(bc3);
             this.bullets.Add(bc4);
             this.bullets.Add(bc5);
             this.bullets.Add(bc6);
-            foreach (BulletCard bc in this.bullets) {
-                bc.setBelongsTo(this);
-            }
-            
         }
         
         public void createStartingPurse() {
@@ -392,7 +386,7 @@ namespace model {
             Random RandomGen = new Random(DateTime.Now.Millisecond);
             ArrayList ScrambledList = new ArrayList();
             Int32 Index;
-            while (AList.Count > 0)
+            while (this.deck.Count > 0)
             {
                 Index = RandomGen.Next(this.deck.Count);
                 ScrambledList.Add(this.deck[Index]);
@@ -401,11 +395,12 @@ namespace model {
             this.deck = ScrambledList;
         } 
 
-        public static void shuffle(ArrayList c) {
+        public static ArrayList shuffle(ArrayList c) {
+            c = (ArrayList) c.Clone();
             Random RandomGen = new Random(DateTime.Now.Millisecond);
             ArrayList ScrambledList = new ArrayList();
             Int32 Index;
-            while (AList.Count > 0)
+            while (c.Count > 0)
             {
                 Index = RandomGen.Next(c.Count);
                 ScrambledList.Add(c[Index]);
@@ -415,26 +410,17 @@ namespace model {
         }
 
         //added these to clean up the gamemanager methods, there's some logic that can be handled here 
-        public void addToResolve(Card c){
-            if (this.hand.Contains(c)){
-                this.toResolve.Add(c);
-                this.hand.Remove(c);
-            }
-            else {
-                trace("card does not exist in hand");
-            }
-        }
 
         public void drawCards() {
             if (this.deck.Count < 3) {
                 return;
             }
-            for (int = 0; i<3; i++){
-                Card c = this.deck[i];
+            for (int i = 0; i<3; i++){
+                Card c = (Card) this.deck[i];
                 this.hand.Add(c);
             }
-            for (int = 0; i<3; i++){
-                Card c = this.deck[i];
+            for (int i = 0; i<3; i++){
+                Card c = (Card)this.deck[i];
                 this.deck.Remove(c);
             }
         }

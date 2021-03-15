@@ -12,7 +12,7 @@ using Sfs2X.Protocol.Serialization;
 namespace model {
     public abstract class Card : SerializableSFSType {
       
-        //public Bandit belongsTo;
+        public string belongsTo;
 
         public Card() {}
         
@@ -20,15 +20,22 @@ namespace model {
        public Bandit getBelongsTo() {
            GameManager gm = GameManager.getInstance();
            foreach (Bandit b in gm.bandits) {
-               Arraylist cards = b.toResolve.Clone();
-               cards.AddRange(b.deck.Clone());
-               cards.AddRange(b.hand.Clone());
-               cards.AddRange(b.discardPile.Clone());
-               foreach(Card c in cards) {
-                   if c.Equals(this);
+               if (b.banditNameAsString.Equals(this.belongsTo)) {
                    return b;
                }
            }
+           return null;
        }
     }
 }
+
+/* alternate method of querying cards - dont delete for now
+
+ArrayList cards = b.deck.Clone();
+               cards.AddRange(b.hand.Clone());
+               cards.AddRange(b.discardPile.Clone());
+               foreach(Card c in cards) {
+                    if (c.Equals(this)){
+                        return b;
+                    }
+               }*/

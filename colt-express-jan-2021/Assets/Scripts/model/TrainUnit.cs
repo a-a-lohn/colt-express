@@ -32,10 +32,10 @@ namespace model {
         public TrainUnit left ;
         public TrainUnit right ;
         public TrainUnit beside ;
+        public ArrayList banditsHere ;
         */
         
         public bool isMarshalHere ;
-        public ArrayList banditsHere ;
         public ArrayList lootHere ;
         public ArrayList horsesHere ;
         
@@ -137,97 +137,140 @@ namespace model {
         // }
         
         public TrainUnit getAbove() {
-            return this.above;
+            GameManager gm = GameManager.getInstance();
+            int index = gm.trainCabin.IndexOf(this);
+            if (index == -1) { return null; }
+            TrainUnit above = (TrainUnit) gm.trainRoof[index];
+            return above;
         }
         
 
         // get above/get below logic: query the hashtable, find the element in the roof or cabin arraylists in the GM, and treat as 2D array
-        public void setAbove(TrainUnit otherTrainUnit) {
+        /*public void setAbove(TrainUnit otherTrainUnit) {
             this.above = otherTrainUnit;
             otherTrainUnit.below = this;
-        }
+        }*/
         
         public TrainUnit getBelow() {
-            return this.below;
+            GameManager gm = GameManager.getInstance();
+            int index = gm.trainRoof.IndexOf(this);
+            if (index == -1) { return null; }
+            TrainUnit below = (TrainUnit) gm.trainCabin[index];
+            return below;
         }
         
-        public void setBelow(TrainUnit otherTrainUnit) {
+        /*public void setBelow(TrainUnit otherTrainUnit) {
             this.below = otherTrainUnit;
             otherTrainUnit.above = this;
-        }
+        }*/
         
         public TrainUnit getRight() {
-            return this.right;
+            GameManager gm = GameManager.getInstance();
+            int index = gm.trainCabin.IndexOf(this);
+            bool isRoof = false;
+            if (index == -1) {
+                index = gm.trainRoof.IndexOf(this);
+                if (index > -1) {
+                    isRoof = true;
+                }
+                else {
+                    return null;
+                }
+            }
+            int size = gm.trainCabin.Count;
+            if (index + 1 < size) {
+                if (isRoof) {
+                    return (TrainUnit)gm.trainRoof[index+1];
+                }
+                else {
+                    return (TrainUnit)gm.trainCabin[index+1];
+                }
+            }
+            return null;
         }
         
-        public void setRight(TrainUnit otherTrainUnit) {
+        /*public void setRight(TrainUnit otherTrainUnit) {
             this.right = otherTrainUnit;
             otherTrainUnit.left = this;
-        }
+        }*/
         
         public TrainUnit getLeft() {
-            return this.left;
+            GameManager gm = GameManager.getInstance();
+            int index = gm.trainCabin.IndexOf(this);
+            bool isRoof = false;
+            if (index == -1) {
+                index = gm.trainRoof.IndexOf(this);
+                if (index > -1) {
+                    isRoof = true;
+                }
+                else {
+                    return null;
+                }
+            }
+            int size = gm.trainCabin.Count;
+            if (index-1  >= 0) {
+                if (isRoof) {
+                    return (TrainUnit)gm.trainRoof[index-1];
+                }
+                else {
+                    return (TrainUnit)gm.trainCabin[index-1];
+                }
+            }
+            return null;
         }
         
-        public void setLeft(TrainUnit otherTrainUnit) {
+        /*public void setLeft(TrainUnit otherTrainUnit) {
             this.left = otherTrainUnit;
             otherTrainUnit.right = this;
-        }
+        }*/
         
-        public TrainUnit getBeside() {
-            return this.beside;
-        }
+        /*public TrainUnit getBeside() {
+            GameManager gm = GameManager.getInstance();
+            TrainUnit beside = 
+            return beside;
+        }*/
         
         //similar logic as above, below, left right
         public bool isAdjacentTo(TrainUnit otherTrainUnit) {
-            bool adjacentTo = false;
-            if (((this.below == otherTrainUnit) 
-                        && (otherTrainUnit.above == this))) {
-                adjacentTo = true;
+            if (otherTrainUnit == this.getAbove() || otherTrainUnit == this.getBelow() || otherTrainUnit == this.getLeft() || otherTrainUnit == this.getRight()) {
+                return true;
             }
-            else if (((this.above == otherTrainUnit) 
-                        && (otherTrainUnit.below == this))) {
-                adjacentTo = true;
-            }
-            else if (((this.right == otherTrainUnit) 
-                        && (otherTrainUnit.left == this))) {
-                adjacentTo = true;
-            }
-            else if (((this.left == otherTrainUnit) 
-                        && (otherTrainUnit.right == this))) {
-                adjacentTo = true;
-            }
-            else if (((this.beside == otherTrainUnit) 
-                        && (otherTrainUnit.beside == this))) {
-                adjacentTo = true;
-            }
-            
-            return adjacentTo;
+            return false;
         }
         
         //change the hashmap for bandit stuff
         public void addBandit(Bandit b) {
-            System.Diagnostics.Trace.Assert(!this.banditsHere.Contains(b));
-            this.banditsHere.Add(b);
+            GameManager gm = GameManager.getInstance();
+            gm.banditPositions[b] = this;
         }
         
-        public void removeBandit(Bandit b) {
+        /*public void removeBandit(Bandit b) {
             System.Diagnostics.Trace.Assert(banditsHere.Contains(b));
             this.banditsHere.Remove(b);
-        }
+        }*/
         
         //query hashmap
         public bool containsBandit(Bandit b) {
-            return this.banditsHere.Contains(b);
+            GameManager gm = GameManager.getInstance();
+            if (gm.banditPositions[b] == this) {
+                return true;
+            }
+            return false;
         }
         
         public int numOfBanditsHere() {
-            return this.banditsHere.Count;
+            return this.getBanditsHere().Count;
         }
         
         public ArrayList getBanditsHere() {
-            //query gm hashtable
-            return (ArrayList)banditsHere.Clone();
+            GameManager gm = GameManager.getInstance();
+            ArrayList bandits = new ArrayList();
+            foreach (Bandit b in gm.banditPositions) {
+                if (gm.banditPositions[b] == this) {
+                    bandits.Add(b);
+                }
+            }
+            return bandits;
         }
         
         public void addLoot(Loot a) {

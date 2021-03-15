@@ -44,6 +44,8 @@ namespace model {
         public ArrayList bandits;
         
         public Hashtable banditmap;
+
+        public Hashtable banditPositions; 
         
         //public static ColtMultiHandler handler; 
         
@@ -634,11 +636,11 @@ namespace model {
                 
             }
             else {
-                foreach (Bandit bl in this.currentBandit.getPosition().getLeft().banditsHere) {
+                foreach (Bandit bl in this.currentBandit.getPosition().getLeft().getBanditsHere()) {
                     carShootTarget.Add(bl);
                 }
                 
-                foreach (Bandit br in this.currentBandit.getPosition().getRight().banditsHere) {
+                foreach (Bandit br in this.currentBandit.getPosition().getRight().getBanditsHere()) {
                     carShootTarget.Add(br);
                 }
                 
@@ -674,12 +676,12 @@ namespace model {
         public TrainUnit punchPositionPrompt(Bandit b, Bandit b2) {
             //  TO DO
             //  ask b to choose one position that b2 can be punched to
-            return b2.getPosition().left;
+            return b2.getPosition().getLeft();
         }
         
         public void punch() {
             ArrayList otherBandits = new ArrayList();
-            foreach (Bandit b in this.currentBandit.getPosition().banditsHere) {
+            foreach (Bandit b in this.currentBandit.getPosition().getBanditsHere()) {
                 if ((b != this.currentBandit)) {
                     otherBandits.Add(b);
                 }
@@ -707,17 +709,17 @@ namespace model {
         
         public void changeFloor() {
             TrainUnit currentPosition = this.currentBandit.getPosition();
-            if (((currentPosition.getAbove() == null) 
-                        && (currentPosition.getBelow() != null))) {
-                currentPosition.removeBandit(this.currentBandit);
+            if (((currentPosition.getAbove() == null) && (currentPosition.getBelow() != null))) {
+                currentPosition.getBelow().addBandit(currentBandit);
+                /*currentPosition.removeBandit(this.currentBandit);
                 currentPosition.getBelow().addBandit(this.currentBandit);
-                this.currentBandit.setPosition(currentPosition.getBelow());
+                this.currentBandit.setPosition(currentPosition.getBelow());*/
             }
-            else if (((currentPosition.getBelow() == null) 
-                        && (currentPosition.getAbove() != null))) {
-                currentPosition.removeBandit(this.currentBandit);
+            else if (((currentPosition.getBelow() == null) && (currentPosition.getAbove() != null))) {
+                currentPosition.getAbove().addBandit(currentBandit);
+                /*currentPosition.removeBandit(this.currentBandit);
                 currentPosition.getAbove().addBandit(this.currentBandit);
-                this.currentBandit.setPosition(currentPosition.getAbove());
+                this.currentBandit.setPosition(currentPosition.getAbove());*/
             }
             
             this.endOfTurn();
