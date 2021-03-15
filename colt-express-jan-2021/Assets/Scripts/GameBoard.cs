@@ -101,37 +101,36 @@ public class GameBoard : MonoBehaviour
 	public Text drawnCard5;
 	public Text drawnCard6;
 
-	private string announ2 = ""; 
-	private string announ5 = "Schemin' Phase!"; 
-	private String[] logMessages = {"blank message",
-	"Ghost chose to draw cards",
-	"Cheyenne chose to draw cards",
-	"Django chose to draw cards",
-	"Ghost played an action card. Card is hidden because it is a tunnel turn",
-	"Cheyenne played an action card. Card is hidden because it is a tunnel turn",
-	"Django chose to draw cards",
-	"Ghost played a ROB card",
-	"Cheyenne played a MOVEMARSHAL card"
-	"Django played a PUNCH card",
-	"Django played a SHOOT card",
-	"Cheyenne chose to draw cards",
-	"Ghost chose to draw cards",
-	"Ghost moved to the adjacent car",
-	"Cheyenne moved to the top of the car"
-	"Ghost chooses one gem to add to his loot",
-	"Cheyenne moved the Marshal",
-	"Django choose to punch Ghost, who drops his purse",
-	"Django shoots Ghost",
-	"Chayenne played a MOVE card",
-	"Cheyenne chose to draw cards",
-	"Django played a CHANGEFLOOR card",
-	"Django chose to draw cards",
-	"Ghost chose to draw cards",
-	"Ghost played a CHANGEFLOOR card",
-	"Cheyenne moves to the adjacent train car",
-	"Django is moved to the top of the car",
-	"Ghost is moved to the top of the car",
-	"Game has ended. Django is the winner"
+	private String[] logMessages = {
+		"blank message",
+		"Ghost chose to draw cards",
+		"Cheyenne chose to draw cards",
+		"Django chose to draw cards",
+		"Ghost played an action card. Card is hidden because it is a tunnel turn",
+		"Cheyenne played an action card. Card is hidden because it is a tunnel turn",
+		"Django chose to draw cards",
+		"Ghost played a ROB card",
+		"Cheyenne played a MOVEMARSHAL card",
+		"Django played a PUNCH card",
+		"Django played a SHOOT card",
+		"Cheyenne chose to draw cards",
+		"Ghost chose to draw cards",
+		"Ghost moved to the adjacent car",
+		"Cheyenne moved to the top of the car",
+		"Ghost chooses one gem to add to his loot",
+		"Cheyenne moved the Marshal",
+		"Django choose to punch Ghost, who drops his loot",
+		"Django shoots Ghost",
+		"Chayenne played a MOVE card",
+		"Cheyenne chose to draw cards",
+		"Django played a CHANGEFLOOR card",
+		"Django chose to draw cards",
+		"Ghost chose to draw cards",
+		"Ghost played a CHANGEFLOOR card",
+		"Cheyenne moves to the adjacent train car",
+		"Django is moved to the top of the car",
+		"Ghost is moved to the top of the car",
+		"Game has ended. Django is the winner"
 	};
 
     // possible positions 
@@ -161,6 +160,7 @@ public class GameBoard : MonoBehaviour
 		
 		gem2.SetActive(false);
 
+		announcement.text = logMessages[SFS.step];
 		//debugTextString = "";
         //debugText.text = "";
 
@@ -203,6 +203,10 @@ public class GameBoard : MonoBehaviour
 
 	void OnMouseDown() {
 		SFS.step += 1;
+		Debug.Log(SFS.step);
+		announcement.text += "\n";
+		announcement.text += logMessages[SFS.step];
+
 		int step = SFS.step;
 		ISFSObject obj = SFSObject.NewInstance();
 		obj.PutInt("step", step);
@@ -240,9 +244,9 @@ public class GameBoard : MonoBehaviour
 		// move ghost to the last train car
 		// check if the obj being clicked on is the loot/bandit that we want to move 
 		Debug.Log("GHOST IS PUNCHED");
-        float posX = cartTwoBtm[0]; 
-        float posY = cartTwoBtm[1]; 
-        float posZ = cartTwoBtm[2]; 
+        float posX = cartZeroBtm[0]; 
+        float posY = cartZeroBtm[1]; 
+        float posZ = cartZeroBtm[2]; 
         ghost.transform.position = new Vector3 (posX, posY, posZ);
         ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f; // can be any float number
 		gem2.SetActive(true);
@@ -254,6 +258,10 @@ public class GameBoard : MonoBehaviour
     {
         if (SFS.IsConnected()) {
 			SFS.ProcessEvents();
+		}
+
+		if (Input.GetMouseButtonDown(0)){
+			OnMouseDown(); 
 		}
 
 		/*if (SFS.debugText != debugText.text) {
