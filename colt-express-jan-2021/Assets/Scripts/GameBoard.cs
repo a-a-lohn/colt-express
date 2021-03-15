@@ -215,22 +215,21 @@ public class GameBoard : MonoBehaviour
 
 	void MouseDown() {
 		SFS.step += 1;
-		Debug.Log(SFS.step);
-		announcement.text += "\n";
-		announcement.text += logMessages[SFS.step];
+		Debug.Log("Clicked on step " + SFS.step);
 
 		int step = SFS.step;
 		ISFSObject obj = SFSObject.NewInstance();
 		obj.PutInt("step", step);
-		//ExtensionRequest req = new ExtensionRequest("gm.nextAction",obj);
-		//SFS.Send(req);
+		ExtensionRequest req = new ExtensionRequest("gm.nextAction",obj);
+		SFS.Send(req);
 		
-		executeHardCoded(step);
-
+		//executeHardCoded(step);
 	}
 
 	public void executeHardCoded(int step) {
-		//SFS.step += 1;
+		Debug.Log("executing hardcoded");
+		announcement.text += "\n";
+		announcement.text += logMessages[step];
 		switch(step) {
 			case 1:
 				//round/turn info 

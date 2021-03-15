@@ -218,13 +218,13 @@ public class ChooseCharacter : MonoBehaviour
 
 	public void DisplayRemainingCharacters(BaseEvent evt) {
 		ISFSObject responseParams = (SFSObject)evt.Params["params"];
-        /*string player = responseParams.GetUtfString("player");
+        string player = responseParams.GetUtfString("player");
         if(player != null) {
             string chosen = responseParams.GetUtfString("chosenCharacter");
             display.text += "\n" + player + " chose " + chosen + "!";
-        }*/
-        display.text += SFS.chosenCharText;
-        SFS.chosenCharText = "";
+        }
+        //display.text += SFS.chosenCharText;
+        //SFS.chosenCharText = "";
         try {
             ISFSArray a = responseParams.GetSFSArray("characterList");
             int size = responseParams.GetSFSArray("characterList").Size();
