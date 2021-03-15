@@ -77,7 +77,7 @@ public static class SFS
             gb.UpdateGameState(evt);
         } else if (cmd == "nextAction") {
 			ISFSObject responseParams = (SFSObject)evt.Params["params"];
-			step = responseParams.GetInt("nextAction");
+			step = responseParams.GetInt("step");
 			gb.executeHardCoded(step);
 		}
     }

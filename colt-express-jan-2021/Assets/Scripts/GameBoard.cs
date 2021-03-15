@@ -125,14 +125,14 @@ public class GameBoard : MonoBehaviour
 
     }
 
-	void OnMouseDown() {
+	/*void OnMouseDown() {
 		SFS.step += 1;
 		int step = SFS.step;
 		ISFSObject obj = SFSObject.NewInstance();
 		obj.PutInt("step", step);
 		ExtensionRequest req = new ExtensionRequest("gm.nextAction",obj);
 		SFS.Send(req);
-	}
+	}*/
 
 	public void executeHardCoded(int step) {
 		switch(step) {
