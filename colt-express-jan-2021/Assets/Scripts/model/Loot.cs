@@ -15,9 +15,77 @@ using Sfs2X.Protocol.Serialization;
 //        DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
 namespace model {
     public abstract class Loot : SerializableSFSType {
-        public bool isWhiskey;
+    
+        // public Option<Bandit> belongsTo;       
+        // public Option<TrainUnit> position;
+        public Bandit belongsTo;       
+        public TrainUnit position;
+        
+        // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
+        public Loot() {}
+        
+        public Loot(Bandit b) {
+            this.belongsTo = b;
+            this.position = default;
+        }
+        
+        public Loot(TrainUnit pos) {
+            this.position = pos;
+            this.belongsTo = default;
+        }
+        
+        // belongsTo
+        public Bandit getBelongsTo() {
+            return this.belongsTo;
+        }
+        
+        public void setBelongsTo(Bandit b) {
+            System.Diagnostics.Trace.Assert(b != null);
+            this.position = default;
+            this.belongsTo = b;
+        }
+        
+        // position
+        public TrainUnit getPosition() {
+            return this.getPosition();
+        }
+        
+        public void setPosition(TrainUnit pos) {
+            System.Diagnostics.Trace.Assert(pos != null);
+            this.belongsTo = default;
+            this.position = pos;
+        }
+        
+        public void drop() {
+            // TODO
+        }
+        
+        public void pickup() {
+            // TODO
+        }
 
-        public Loot() { }
+        // Customized Optional type !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        // public struct Option<T>
+        // {
+        //     public static Option<T> None => default;
+        //     public static Option<T> Some(T value) => new Option<T>(value);
+
+        //     public readonly bool isSome;
+        //     public readonly T value;
+
+        //     Option(T value)
+        //     {
+        //         this.value = value;
+        //         isSome = this.value is { };
+        //     }
+
+        //     public bool IsSome(out T value)
+        //     {
+        //         value = this.value;
+        //         return isSome;
+        //     }
+        // }
 
     }
 }

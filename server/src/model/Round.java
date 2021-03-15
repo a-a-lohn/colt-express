@@ -19,13 +19,18 @@ public class Round implements SerializableSFSType {
 	public String roundTypeAsString; //FOR NETWORKING
 	
 	public Turn currentTurn;
-	public int turnCounter; //Tracks the current turn
+	public int turnCounter = 1; //Tracks the current turn
 	public ArrayList<Turn> turns = new ArrayList<Turn>();
     
 
 	//--EMPTY CONSTRUCTOR FOR SERIALIZATION--
     public Round() {  }
-
+    
+    public Round(RoundType Rt) {
+    	this.roundType = Rt;
+    	this.roundTypeAsString = Rt.toString();
+    }
+    
     public void addTurn(Turn a) {
         if (this.turns.contains(a)){
             return;
@@ -78,17 +83,31 @@ public class Round implements SerializableSFSType {
     public void setCurrentTurn(Turn newObject) {
         this.currentTurn = newObject;
     }
-    public Turn getNextTurn() {
-        /* TODO: implement this(?) */
-        return null;
+    
+    
+    public boolean hasNextTurn() {
+    	if(turnCounter < turns.size()) {
+    		return true;
+    	}
+    	else {
+    		return false;
+    	}
     }
+    
+    public Turn getNextTurn() {
+        return turns.get(turnCounter++);
+    }
+    
     public void setNextTurn() {
     	this.turnCounter++;
     	this.currentTurn = this.turns.get(turnCounter);
     }
+    
+    
     public int getTurnCounter() {
     	return this.turnCounter;
     }
+    //SHOULD NOT BE USED, AUTO INCREMENTED WITH SETNEXTTURN
     public void setTurnCounter(int i) {
     	this.turnCounter = i;
     }

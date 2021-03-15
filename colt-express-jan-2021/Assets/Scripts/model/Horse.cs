@@ -18,8 +18,28 @@ namespace model {
     {
 
         public TrainUnit adjacentTo;
+        //public Option<Bandit> riddenBy;
         public Bandit riddenBy;
-
-        public Horse() { }
+        
+        // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
+        public Horse(){}       
+        // adjacentTo
+        public TrainUnit getAdjacentTo() {
+            return this.adjacentTo;
+        }
+        
+        public void setAdjacentTo(TrainUnit adjacentTo) {
+            this.adjacentTo = adjacentTo;
+        }     
+        // riddenBy
+        public Bandit getRiddenBy() {
+            //return this.riddenBy.value;
+            return this.riddenBy;
+        }      
+        public void setRiddenBy(Bandit b) {
+            //this.riddenBy = Option<Bandit>.Some(b);
+            this.riddenBy = b;
+        }
     }
+
 }

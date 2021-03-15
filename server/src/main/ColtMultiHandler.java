@@ -37,12 +37,21 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		String command = params.getUtfString(SFSExtension.MULTIHANDLER_REQUEST_ID);
 		ISFSObject rtn = SFSObject.newInstance();
 		
-		if(command.equals("enterChooseCharacterScene")) {
+		switch(command) {
+		case("enterChooseCharacterScene"): handleEnterChooseCharacterScene(sender, params, rtn); break;
+		case("chosenCharacter"):handleChosenCharacter(sender, params, rtn); break;
+		case("testSerial"): testSerial(sender, rtn); break;
+		case("newGameState"): handleNewGameState(params,rtn); break;
+		case("enterGameBoardScene"): handleEnterGameBoardScene(params,rtn); break;
+		default: trace("invalid command passed to multihandler");
+		}
+		
+		/*if(command.equals("enterChooseCharacterScene")) {
 			 handleEnterChooseCharacterScene(sender, params, rtn);
 		}
 		else if(command.equals("chosenCharacter")) {
 			handleChosenCharacter(sender, params, rtn);
-		}
+		}*/
 		
 		//ISFSArray banditsArray = SFSArray.newInstance();
 		//banditsArray.addClass(b);
@@ -53,9 +62,20 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		
 	}
 	
+	public void handleEnterGameBoardScene(ISFSObject params, ISFSObject rtn) {
+		System.out.println("entering gb scene");
+		updateGameState(rtn);
+	}
 	
+	public void handleNewGameState(ISFSObject params, ISFSObject rtn) {
+		gm = (GameManager) params.getClass("gm");
+		System.out.println("received game state!");
+		//System.out.println(gm.bandits.get(0).position.carTypeAsString);
+		updateGameState(rtn);
+	}
 	
 	public void updateGameState(ISFSObject rtn) {
+		//GameManager gm = GameManager.getInstance();
 		rtn.putClass("gm", gm);
 		sendToAllUsers(rtn, "updateGameState");
 	}	
@@ -86,8 +106,8 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		} catch(IllegalArgumentException e) {
 			//TODO: handle error
 		}
+		System.out.println("Calling chosenchar with " + character.toString());
 		gm.chosenCharacter(sender, character, numPlayers);
-		
 		int numChosen = gm.getBandits().size();
 		System.out.println("Num players: " + numPlayers + " numChosen: " + numChosen);
 		if(numChosen == numPlayers) {
@@ -101,8 +121,8 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 				characters.addUtfString(c);
 			}
 		}
-		
 		sendToAllUsers(rtn, "remainingCharacters");
+		
 	}
 	
 	
@@ -134,6 +154,15 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 			}
 		}
 		return characterStrings;
+	}
+	
+	private void testSerial(User sender, ISFSObject rtn) {
+		GameManager gm = GameManager.getInstance();
+		Bandit b = new Bandit(Character.BELLE);
+		gm.bandits.add(b);
+		gm.initializeGame();
+		rtn.putClass("gm", gm);
+		sendToSender(sender, rtn, "testSerial");
 	}
 	
 }

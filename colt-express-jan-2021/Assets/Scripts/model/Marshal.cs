@@ -14,24 +14,36 @@ using Sfs2X.Protocol.Serialization;
 // using System.Reflection;
 //        DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
 namespace model {
-    public class Marshal : SerializableSFSType
-    {
-
+    public class Marshal : SerializableSFSType {
+    
         public TrainUnit marshalPosition;
-        // STATIC FIELDS ARE NOT SERIALIZED
         public static Marshal instance;
         
-        public Marshal() {
-            
+        // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
+        public Marshal() {}
+        
+        public static Marshal createMarshal() {
+            Marshal.getInstance();
+            int x = TrainUnit.getTrainLength();
+            TrainUnit t = TrainUnit.getTrain()[1, (x - 1)];
+            instance.marshalPosition = t;
+            return instance;
         }
         
-        TrainUnit getMarshalPosition() {
+        public TrainUnit getMarshalPosition() {
             return this.marshalPosition;
         }
         
-        bool setMarshalPosition(TrainUnit newObject) {
-            this.marshalPosition = newObject;
-            return true;
+        public void setMarshalPosition(TrainUnit pos) {
+            this.marshalPosition = pos;
+        }
+        
+        public static Marshal getInstance() {
+            if ((instance == null)) {
+                instance = new Marshal();
+            }
+            
+            return instance;
         }
     }
 }

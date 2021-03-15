@@ -1,11 +1,5 @@
 using model;
 
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -44,29 +38,43 @@ public class GameBoard : MonoBehaviour
 	//debug variables
 	public static Text debugText;
 	public static string debugTextString;
-    public Button button;
+        public Button button;
 	public Button extension;
 	public Button chooseChar;
-    public Text buttonLabel;
+  
 	
     public Bandit b;
 
 	public static GameManager gm;
 
 	// LIST OF ALL GAME OBJECTS HERE
-    public static GameObject cheyenne;
-	public static GameObject belle; 
-	public static GameObject tuco; 
-	public static GameObject doc; 
-	public static GameObject ghost; 
-	public static GameObject django; 
+        public GameObject cheyenne;
+	public GameObject belle; 
+	public GameObject tuco; 
+	public GameObject doc; 
+	public GameObject ghost; 
+	public GameObject django; 
+	public GameObject marshal;
 	
-	public static GameObject gem1; 
-	public static GameObject gem2; 
-	public static GameObject gem3; 
-	public static GameObject gem4;
-	public static GameObject gem5;
+	public GameObject gem1; 
+	public GameObject gem2; 
+	public GameObject gem3; 
+	public GameObject gem4;
+	public GameObject gem5;
 
+	public GameObject cardA; 
+	public GameObject cardB; 
+	public GameObject cardC; 
+	public GameObject cardD;
+	public GameObject cardE;
+	public GameObject bulletCard;
+
+	// propmpt messages 
+	public Text promptDrawCardsOrPlayCardMsg;
+	public Text promptChooseLoot; 
+	public Text promptPunchTarget; 
+
+	// public Text promptDrawCardsOrPlayCardMsg;
 	// public GameObject tuco;
 	// public GameObject doc; 
 	// public GameObject django; 
@@ -85,33 +93,288 @@ public class GameBoard : MonoBehaviour
 	public static string action = "";
 
 
-    //private static SmartFox sfs = SFS.sfs;
-   // private static string defaultHost = SFS.defaultHost;// = "127.0.0.1"; //"13.90.26.131"; // 
-	//private static int defaultTcpPort = SFS.defaultTcpPort;// = 9933;			// Default TCP port
-    //private static string zone = SFS.zone;// = "MergedExt"; //"ColtExpress"; //"NewZone"; //"BasicExamples";// "MyExt";
+    public Text announcement; 
 
-    void Start()
-    {
-		debugTextString = "";
-        debugText.text = "";
+	/* For all the action cards */
+	public Text drawnCard1; 
+	public Text drawnCard2;
+	public Text drawnCard3; 
+	public Text drawnCard4;
+	public Text drawnCard5;
+	public Text drawnCard6;
+
+
+	public GameObject playerE; 
+
+
+	private String[] logMessages = {
+		"Angry Marshal Round! 2 standard turns, 1 tunnel turn, and 1 switching turn",
+		"Ghost chose to draw cards",
+		"Cheyenne chose to draw cards",
+		"Django chose to draw cards",
+		"Ghost played a MOVE card",
+		"Cheyenne played a CHANGEFLOOR card",
+		"Django chose to draw cards",
+		"Ghost played an action card which is hidden because its a tunnel turn",
+		"Cheyenne played an action card which is hidden because its a tunnel turn",
+		"Django played an action card which is hidden because its a tunnel turn",
+		"Django played a SHOOT card",
+		"Cheyenne chose to draw cards",
+		"Ghost chose to draw cards",
+		"Ghost moved to the adjacent car",
+		"Cheyenne moved to the top of the car",
+		"Ghost chooses one gem to add to his loot",
+		"Cheyenne moved the Marshal",
+		"Django choose to punch Ghost, who drops his loot",
+		"Django shoots Ghost",
+		// Speeding up round starts
+		"Cheyenne played a MOVE card",
+		"Cheyenne chose to draw cards",
+		"Django played a CHANGEFLOOR card",
+		"Django chose to draw cards",
+		"Ghost chose to draw cards",
+		"Ghost played a CHANGEFLOOR card",
+		"Cheyenne moves to the adjacent train car",
+		"Django is moved to the top of the car",
+		"Ghost is moved to the top of the car",
+		"Game has ended. Django is the winner"
+	};
+
+    //private static SmartFox sfs = SFS.sfs;
+    // private static string defaultHost = SFS.defaultHost;// = "127.0.0.1"; //"13.90.26.131"; // 
+    //private static int defaultTcpPort = SFS.defaultTcpPort;// = 9933;			// Default TCP port
+    //private static string zone = SFS.zone;// = "MergedExt"; //"ColtExpress"; //"NewZone"; //"BasicExamples";// "MyExt";
+    private List<float> cartZeroTop = new List<float>() {840.5F,878.4F,-364.9F};
+    private List<float> cartZeroBtm = new List<float>() {786.1F, 813.5F, -364.9F};
+
+    private List<float> cartOneTop = new List<float>() {1025.7F, 889.4F, -364.9F};
+    private List<float> cartOneBtm = new List<float>() {1027.9F, 806.4F, -364.9F};
+
+    private List<float> cartTwoTop = new List<float>() {1265.4F, 894.7F, -364.9F};
+    private List<float> cartTwoBtm = new List<float>() {1279.8F, 817.7F, -364.9F};
+
+    private List<float> cartLocoTop = new List<float>() {1410.5F, 893.4F, -364.9F};
+    private List<float> cartLocoBtm = new List<float>() {1390.0F, 824.9F, -364.9F};
+
+    private List<float> iconPosition = new List<float>() {1285.9F, 1121.9F, -364.9F};
+
+    void Start(){
+		// announcement.text = "The current round is an Angry Marshal Round and the current turn is a Tunnel Turn!";
+		// drawnCard1.text="MOVE";
+		// SFS.setGameBoard(this);
+		announcement.text = logMessages[SFS.step];
+		//debugTextString = "";
+                //debugText.text = "";
+		gem2.SetActive(false);
+	
 
 		//SendNewGameState();
 		// ** THE DICTIONARIES ARE INITIALIZED(CLEARED) IN Start() ** 
-		objects.Add(cheyenne, null);
-		objects.Add(belle, null);
-		objects.Add(tuco, null);
-		objects.Add(doc, null);
-		objects.Add(ghost, null);
-		objects.Add(django, null);
+		// Bandits
+		// objects.Add(cheyenne, "null");
+		// objects.Add(belle, "null");
+		/*objects.Add(tuco, "null");
+		objects.Add(doc, "null");
+		objects.Add(ghost, "null");
+		objects.Add(django, "null");
+		// Loot
+		objects.Add(gem1, "null");
+		objects.Add(gem2, "null");
+		objects.Add(gem3, "null");
+		objects.Add(gem4, "null");
+		objects.Add(gem5, "null");*/
+		// Cards
+		// objects.Add(cardA, "null");
+		// objects.Add(cardB, "null");
+		// objects.Add(cardC, "null");
+		// objects.Add(cardD, "null");
+		// objects.Add(cardE, "null");
 
-		objects.Add(gem1, null);
-		objects.Add(gem2, null);
-		objects.Add(gem3, null);
-		objects.Add(gem4, null);
-		objects.Add(gem5, null);
-
+		//EnterGameBoardScene();
 
     }
+
+	public void drawCards(){
+		// draws 3 cards randomly and put in the hand
+		drawnCard1.text = "MOVE";
+		drawnCard2.text = "ROB";
+		drawnCard3.text = "MARSHAL"; 
+		drawnCard4.text = "CHANGE FLOOR";
+		drawnCard5.text = "SHOOT"; 
+		drawnCard6.text = "PUNCH"; 
+		return;
+	}
+	// draw3cards: 3 cards appear on click
+
+	void OnMouseDown() {
+		SFS.step += 1;
+		Debug.Log(SFS.step);
+		announcement.text += "\n";
+		announcement.text += logMessages[SFS.step];
+
+		int step = SFS.step;
+		ISFSObject obj = SFSObject.NewInstance();
+		obj.PutInt("step", step);
+		ExtensionRequest req = new ExtensionRequest("gm.nextAction",obj);
+		SFS.Send(req);
+		
+		executeHardCoded(step);
+
+	}
+
+	public void executeHardCoded(int step) {
+		switch(step) {
+			case 1:
+				//round/turn info 
+				break;
+			case 2:
+				//ghost draws 
+				// logmessage[2]
+				break;
+			case 3: 
+				// chey draws
+				break; 
+			case 4: 
+				// dja draws 
+				break;
+			case 5: 
+				// ghost plays MOVE card
+				break;
+			case 6:
+				// chey plays CHANGE FLOOR card
+				break;
+			case 7:
+				// dja draws 
+				break;
+			case 8:
+				// Ghost plays a hidden action card
+				break;
+			case 9:
+				// chey plays a hidden action card
+				break;
+			case 10:
+				// dja plays a hidden action card
+				break;
+			case 11:
+				// Dja plays SHOOT // SHOT Ghost
+				// TODO: CLICK ON GHOST'S PROFILE PIC AT THE TOP 
+				shoot();  
+				break;
+			case 12:
+				// chey draws 
+				break;
+			case 13:
+				// ghost draws 
+			        // ghost.transform.position = new Vector3 (cartOneBtm[0], cartOneBtm[1], cartOneBtm[2]);
+                    		// ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
+				break;
+			case 14:
+				// ghost move 
+				ghost.transform.position = new Vector3 (cartOneBtm[0], cartOneBtm[1], cartOneBtm[2]);
+                    		ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
+			        // cheyenne.transform.position = new Vector3 (cartZeroTop[0], cartZeroTop[1], cartZeroTop[2]);
+                    		// cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;
+				break;
+			case 15:
+				// chey moves 
+				cheyenne.transform.position = new Vector3 (cartZeroTop[0], cartZeroTop[1], cartZeroTop[2]);
+                    		cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;
+			        // Destroy(gem3);
+				break;
+			case 16:
+				// ghost chooses gem3
+				// TODO: GHOST CLICK ON GEM 3 
+				Destroy(gem3);
+				break;
+			case 17:
+				// chey moves the marshal 
+				marshal.transform.position = new Vector3 (cartTwoBtm[0], cartTwoBtm[1], cartTwoBtm[2]);
+                		marshal.transform.position += marshal.transform.forward * Time.deltaTime * 5f;
+				break;
+			case 18:
+				// Dja PUNCH ghost, ghost drop gem2 
+				punch(); 
+				break;
+			case 19:
+			   	// dj shots ghost 
+			   	shoot();
+				break;
+			case 20:
+				// chey plays MOVE  
+				break;
+			case 21:	
+				// chey draws
+				break;
+			case 22:
+				// Dja plays CHANGE FLOOR  
+				break;
+			case 23:
+				// Dja draws 
+				break;
+			case 24:
+				// ghost draws card
+				break;
+			case 25:
+				// ghost played a CHANGE FLOOR card	
+				break;
+			case 26:
+				// chey moves
+			        cheyenne.transform.position = new Vector3 (cartOneTop[0], cartOneTop[1], cartOneTop[2]);
+                    		cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;	
+				break;
+			case 27:
+				// dj moves
+			        django.transform.position = new Vector3 (cartOneTop[0], cartOneTop[1], cartOneTop[2]);
+                    		django.transform.position += django.transform.forward * Time.deltaTime * 10f;	
+				break;
+			case 28:
+				// ghost moves
+			        ghost.transform.position = new Vector3 (cartOneBtm[0], cartOneBtm[1], cartOneBtm[2]);
+                    		ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
+				break;
+			case 29: 
+				// announce winner 
+				break; 
+		}
+    }
+
+	public void rob(){
+		gem3.SetActive(false);
+		Destroy(gem3);
+	}
+
+	public void punch(){
+		// Django punches Ghost, Ghost is punched back to last train car and with 
+		// his initial purse is left in the second last train car. 
+		// move ghost to the last train car
+		// check if the obj being clicked on is the loot/bandit that we want to move 
+		Debug.Log("GHOST IS PUNCHED");
+        float posX = cartZeroBtm[0]; 
+        float posY = cartZeroBtm[1]; 
+        float posZ = cartZeroBtm[2]; 
+        ghost.transform.position = new Vector3 (posX, posY, posZ);
+        ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f; // can be any float number
+		gem2.SetActive(true);
+		// shoot();  
+	}
+
+	public void shoot(){
+		// Django punches Ghost, Ghost is punched back to last train car and with 
+		// his initial purse is left in the second last train car. 
+		// move ghost to the last train car
+		// check if the obj being clicked on is the loot/bandit that we want to move 
+		// Debug.Log("GHOST IS SHOT");
+        // float posX = cartZeroBtm[0]; 
+        // float posY = cartZeroBtm[1]; 
+        // float posZ = cartZeroBtm[2]; 
+        // ghost.transform.position = new Vector3 (posX, posY, posZ);
+        // ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f; // can be any float number
+		// gem2.SetActive(true);
+		Debug.Log("GHOST IS SHOT");
+		bulletCard.transform.position = new Vector3 (iconPosition[0], iconPosition[1], iconPosition[2]);
+        bulletCard.transform.position += bulletCard.transform.forward * Time.deltaTime * 2f;
+	}
+
 
     // Update is called once per frame
     void Update()
@@ -120,7 +383,11 @@ public class GameBoard : MonoBehaviour
 			SFS.ProcessEvents();
 		}
 
-		if (SFS.debugText != debugText.text) {
+		if (Input.GetMouseButtonDown(0)){
+			OnMouseDown(); 
+		}
+
+		/*if (SFS.debugText != debugText.text) {
             debugText.text = SFS.debugText;
         }
 
@@ -131,12 +398,20 @@ public class GameBoard : MonoBehaviour
         }
         if (debugTextString != debugText.text) {
             debugText.text = debugTextString;
-        }
+        }*/
     }
+
+	public void EnterGameBoardScene() {
+		Debug.Log("entering scene");
+		ISFSObject obj = SFSObject.NewInstance();
+        ExtensionRequest req = new ExtensionRequest("gm.enterGameBoardScene",obj);
+        SFS.Send(req);
+        trace("Sent enter scene message");
+	}
 
 	public static void SendNewGameState() {
 		ISFSObject obj = SFSObject.NewInstance();
-
+		Debug.Log("sending new game state");
 		obj.PutClass("gm", gm);
         ExtensionRequest req = new ExtensionRequest("gm.newGameState",obj);
         SFS.Send(req);
@@ -144,14 +419,15 @@ public class GameBoard : MonoBehaviour
 	}
 
 	// THIS IS THE FIRST METHOD CALLED FOR RECEIVING NEW GAME STATE
-    public static void UpdateGameState(BaseEvent evt) {
-        trace("updategamestate called");
+    public void UpdateGameState(BaseEvent evt) {
+        Debug.Log("updategamestate called");
         
         ISFSObject responseParams = (SFSObject)evt.Params["params"];
 		gm = (GameManager)responseParams.GetClass("gm");
 		
 		// REASSIGN ALL GAME OBJECTS USING DICTIONARY
 		ArrayList banditsArray = gm.bandits;
+		//ArrayList banditsArray = new ArrayList();
 		foreach (Bandit b in banditsArray) {
             if (b.banditNameAsString == "CHEYENNE") {
 				objects[cheyenne] = b;
@@ -177,9 +453,23 @@ public class GameBoard : MonoBehaviour
                 objects[django] = b;
                 trace("Django added!");
             }
+		}
+		Debug.Log("bandits array size: " + banditsArray.Count);
+		ArrayList cards = new ArrayList();
+		foreach (Bandit ba in banditsArray) {
+			Debug.Log(ba.banditNameAsString +" "+ ChooseCharacter.character);
+			if(ba.banditNameAsString == ChooseCharacter.character) {
+				ArrayList hand = b.hand;
+				Debug.Log("adding cards");
+				objects[cardA] = hand[0];
+				objects[cardB] = hand[1];
+				objects[cardC] = hand[2];
+				objects[cardD] = hand[3];
+				objects[cardE] = hand[4];
+			}
+		}
 
-			gm.PlayTurn();
-        }
+			gm.playTurn();
     }
 
 	/*private void ChooseCharacter() {
@@ -191,7 +481,7 @@ public class GameBoard : MonoBehaviour
     }*/
 
     public static void trace(string msg) {
-		debugText.text += (debugText.text != "" ? "\n" : "") + msg;
+	//	debugText.text += (debugText.text != "" ? "\n" : "") + msg;
 	}
 
 

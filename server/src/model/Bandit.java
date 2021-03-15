@@ -1,6 +1,9 @@
 package model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 
 import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
 
@@ -21,9 +24,11 @@ public class Bandit implements SerializableSFSType {
 	public String hostageAsString; //FOR NETWORKING
 	public ArrayList<Loot> loot = new ArrayList<Loot>();
 	public ArrayList<BulletCard> bullets = new ArrayList<BulletCard>();
-	public ArrayList<Card> deck = new ArrayList<Card>();
+	public ArrayList<Card> deck = new ArrayList<Card>(); //CONVENTION FOR DECK: POSITION DECK.SIZE() IS TOP OF DECK, POSITION 0 IS BOTTOM OF DECK
 	public ArrayList<Card> hand = new ArrayList<Card>();
 	public ArrayList<Card> discardPile = new ArrayList<Card>();
+	public ActionCard toResolve = null;
+	public int consecutiveTurnCounter = 0;
 
 	//--EMPTY CONSTRUCTOR FOR SERIALIZATION--
 	public Bandit() { }
@@ -124,10 +129,9 @@ public class Bandit implements SerializableSFSType {
 		this.deck.add(index, a);
 	}
 
-	public void removeDeckAt(int index) {
-		if (this.deck.size() > index) {
-			this.deck.remove(index);
-		}
+	public Card removeDeckAt(int index) {
+		assert this.deck.size() > index;
+		return this.deck.remove(index);
 	}
 
 	public Card getDeckAt(int index) {
@@ -138,17 +142,11 @@ public class Bandit implements SerializableSFSType {
 	}
 
 	public void addDeck(Card a) {
-		boolean contains = this.deck.contains(a);
-		if (contains) {
-			return;
-		}
 		this.deck.add(a);
 	}
 
 	public void removeDeck(Card a) {
-		if (this.deck.contains(a)) {
-			this.deck.remove(a);
-		}
+		this.deck.remove(a);
 	}
 
 	public boolean containsDeck(Card a) {
@@ -188,17 +186,11 @@ public class Bandit implements SerializableSFSType {
 	}
 
 	public void addHand(Card a) {
-		boolean contains = this.hand.contains(a);
-		if (contains) {
-			return;
-		}
 		this.hand.add(a);
 	}
 
 	public void removeHand(Card a) {
-		if (this.hand.contains(a)) {
-			this.hand.remove(a);
-		}
+		this.hand.remove(a);
 	}
 
 	public boolean containsHand(Card a) {
@@ -280,6 +272,20 @@ public class Bandit implements SerializableSFSType {
 	public void setHostageAsString(String hostage) {
 		this.hostageAsString = hostage;
 	}
+	
+	public ActionCard getToResolve() {
+		return this.toResolve;
+	}
+	public void setToResolve(ActionCard ac) {
+		this.toResolve = ac;
+	}
+	
+	public int getConsecutiveTurnCounter() {
+		return this.consecutiveTurnCounter;
+	}
+	public void setConsecutiveTurnCounter(int i) {
+		this.consecutiveTurnCounter = i;
+	}
 
 	public void createStartingCards() {
 
@@ -310,6 +316,15 @@ public class Bandit implements SerializableSFSType {
 		}
 
 	}
+	
+	public void createHand() {
+		Collections.shuffle(this.deck, new Random(System.currentTimeMillis()));
+		for (int i =0; i<6; i++) {
+			Card c = this.deck.get(0);
+			this.hand.add(c);
+			//this.deck.remove(c);
+		}
+	}
 
 	public void createBulletCards() {
 
@@ -333,6 +348,14 @@ public class Bandit implements SerializableSFSType {
 
 	}
 
+	public BulletCard removeTopBullet() {
+		return this.bullets.remove(this.bullets.size()-1);
+	}
+	
+	public boolean bulletsIsEmpty() {
+		return this.bullets.isEmpty();
+	}
+	
 	public void createStartingPurse() {
 		Money startingPurse = new Money(MoneyType.PURSE, 250);
 		this.loot.add(startingPurse);

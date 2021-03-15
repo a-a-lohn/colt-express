@@ -16,13 +16,12 @@ namespace model {
 
         public Card() {}
         
-        Bandit getBelongsTo() {
-          return this.belongsTo;
+       public Bandit getBelongsTo() {
+           return this.belongsTo;
        }
         
-        bool setBelongsTo(Bandit newObject) {
+       public void setBelongsTo(Bandit newObject) {
             this.belongsTo = newObject;
-            return true;
         }
     }
 }

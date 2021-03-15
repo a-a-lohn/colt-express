@@ -14,13 +14,46 @@ using Sfs2X.Protocol.Serialization;
 // using System.Reflection;
 //        DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
 namespace model {
-    public class Money : SerializableSFSType
-    {
-
-        public int value;
-        public string moneyTypeAsString; //public MoneyType moneyType;
-
-        public Money() { }
-
+    public class Money : Loot, SerializableSFSType {
+    
+        public int value;    
+        //public string moneyType;
+        public string moneyTypeAsString;
+        
+        // FOR NETWORKING
+        // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
+        public Money() {}
+        
+        public Money(string mt, int value) {
+            this.moneyTypeAsString = mt;
+            this.value = value;
+        }
+        
+        // value
+        public void setValue(int v) {
+            this.value = v;
+        }
+        
+        public int getValue() {
+            return this.value;
+        }
+        
+        // moneyType
+        // public void setMoneyType(string p) {
+        //     this.moneyType = p;
+        // }
+        
+        // public string getMoneyType() {
+        //     return this.moneyType;
+        // }
+        
+        // moneyTypeAsString
+        public string getMoneyTypeAsString() {
+            return this.moneyTypeAsString;
+        }
+        
+        public void setMoneyTypeAsString(string s) {
+            this.moneyTypeAsString = s;
+        }
     }
 }

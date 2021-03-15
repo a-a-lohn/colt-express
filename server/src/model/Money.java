@@ -12,7 +12,7 @@ import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
 public class Money extends Loot implements SerializableSFSType {
     
     public int value;
-    public MoneyType moneyType;
+    transient public MoneyType moneyType;
     public String moneyTypeAsString; //FOR NETWORKING
     
   //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
