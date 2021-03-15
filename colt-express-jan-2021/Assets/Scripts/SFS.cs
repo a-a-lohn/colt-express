@@ -24,7 +24,6 @@ public static class SFS
     public static string debugText = "";
     public static bool moreText = false;
     public static string username; //should be set to logged in user's name
-	public static int step = 0;
 
 	public static string chosenCharText = "";
 
