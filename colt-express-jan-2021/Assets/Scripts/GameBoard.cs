@@ -127,6 +127,7 @@ public class GameBoard : MonoBehaviour
 		"Cheyenne moved the Marshal",
 		"Django choose to punch Ghost, who drops his loot",
 		"Django shoots Ghost",
+		// Speeding up round starts
 		"Cheyenne played a MOVE card",
 		"Cheyenne chose to draw cards",
 		"Django played a CHANGEFLOOR card",
@@ -203,6 +204,7 @@ public class GameBoard : MonoBehaviour
 		drawnCard6.text = "PUNCH"; 
 		return;
 	}
+	// draw3cards: 3 cards appear on click
 
 	void OnMouseDown() {
 		SFS.step += 1;
@@ -227,6 +229,7 @@ public class GameBoard : MonoBehaviour
 				break;
 			case 2:
 				//ghost draws 
+				// logmessage[2]
 				break;
 			case 3: 
 				// chey draws
