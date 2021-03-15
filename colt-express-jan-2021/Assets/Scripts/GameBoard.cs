@@ -38,7 +38,7 @@ public class GameBoard : MonoBehaviour
 	//debug variables
 	public static Text debugText;
 	public static string debugTextString;
-    public Button button;
+        public Button button;
 	public Button extension;
 	public Button chooseChar;
   
@@ -141,10 +141,10 @@ public class GameBoard : MonoBehaviour
 	};
 
     //private static SmartFox sfs = SFS.sfs;
-   // private static string defaultHost = SFS.defaultHost;// = "127.0.0.1"; //"13.90.26.131"; // 
-	//private static int defaultTcpPort = SFS.defaultTcpPort;// = 9933;			// Default TCP port
+    // private static string defaultHost = SFS.defaultHost;// = "127.0.0.1"; //"13.90.26.131"; // 
+    //private static int defaultTcpPort = SFS.defaultTcpPort;// = 9933;			// Default TCP port
     //private static string zone = SFS.zone;// = "MergedExt"; //"ColtExpress"; //"NewZone"; //"BasicExamples";// "MyExt";
- 	private List<float> cartZeroTop = new List<float>() {840.5F,878.4F,-364.9F};
+    private List<float> cartZeroTop = new List<float>() {840.5F,878.4F,-364.9F};
     private List<float> cartZeroBtm = new List<float>() {786.1F, 813.5F, -364.9F};
 
     private List<float> cartOneTop = new List<float>() {1025.7F, 889.4F, -364.9F};
@@ -156,7 +156,7 @@ public class GameBoard : MonoBehaviour
     private List<float> cartLocoTop = new List<float>() {1410.5F, 893.4F, -364.9F};
     private List<float> cartLocoBtm = new List<float>() {1390.0F, 824.9F, -364.9F};
 
-	private List<float> iconPosition = new List<float>() {1285.9F, 1121.9F, -364.9F};
+    private List<float> iconPosition = new List<float>() {1285.9F, 1121.9F, -364.9F};
 
     void Start(){
 		// announcement.text = "The current round is an Angry Marshal Round and the current turn is a Tunnel Turn!";
@@ -164,7 +164,7 @@ public class GameBoard : MonoBehaviour
 		// SFS.setGameBoard(this);
 		announcement.text = logMessages[SFS.step];
 		//debugTextString = "";
-        //debugText.text = "";
+                //debugText.text = "";
 		gem2.SetActive(false);
 	
 
@@ -266,19 +266,19 @@ public class GameBoard : MonoBehaviour
 			case 13:
 				// ghost draws 
 			        // ghost.transform.position = new Vector3 (cartOneBtm[0], cartOneBtm[1], cartOneBtm[2]);
-                    // ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
+                    		// ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
 				break;
 			case 14:
 				// ghost move 
-				    ghost.transform.position = new Vector3 (cartOneBtm[0], cartOneBtm[1], cartOneBtm[2]);
-                    ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
+				ghost.transform.position = new Vector3 (cartOneBtm[0], cartOneBtm[1], cartOneBtm[2]);
+                    		ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
 			        // cheyenne.transform.position = new Vector3 (cartZeroTop[0], cartZeroTop[1], cartZeroTop[2]);
-                    // cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;
+                    		// cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;
 				break;
 			case 15:
 				// chey moves 
-					cheyenne.transform.position = new Vector3 (cartZeroTop[0], cartZeroTop[1], cartZeroTop[2]);
-                    cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;
+				cheyenne.transform.position = new Vector3 (cartZeroTop[0], cartZeroTop[1], cartZeroTop[2]);
+                    		cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;
 			        // Destroy(gem3);
 				break;
 			case 16:
@@ -289,15 +289,15 @@ public class GameBoard : MonoBehaviour
 			case 17:
 				// chey moves the marshal 
 				marshal.transform.position = new Vector3 (cartTwoBtm[0], cartTwoBtm[1], cartTwoBtm[2]);
-                marshal.transform.position += marshal.transform.forward * Time.deltaTime * 5f;
+                		marshal.transform.position += marshal.transform.forward * Time.deltaTime * 5f;
 				break;
 			case 18:
 				// Dja PUNCH ghost, ghost drop gem2 
 				punch(); 
 				break;
 			case 19:
-			   // dj shots ghost 
-			   shoot();
+			   	// dj shots ghost 
+			   	shoot();
 				break;
 			case 20:
 				// chey plays MOVE  
@@ -312,27 +312,28 @@ public class GameBoard : MonoBehaviour
 				// Dja draws 
 				break;
 			case 24:
-				// ghost played a CHANGE FLOOR card
+				// ghost draws card
 				break;
 			case 25:
-					// chey moves
-			        cheyenne.transform.position = new Vector3 (cartOneTop[0], cartOneTop[1], cartOneTop[2]);
-                    cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;
+				// ghost played a CHANGE FLOOR card	
 				break;
 			case 26:
-					// dj moves
-			        django.transform.position = new Vector3 (cartOneTop[0], cartOneTop[1], cartOneTop[2]);
-                    django.transform.position += django.transform.forward * Time.deltaTime * 10f;
+				// chey moves
+			        cheyenne.transform.position = new Vector3 (cartOneTop[0], cartOneTop[1], cartOneTop[2]);
+                    		cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;	
 				break;
 			case 27:
-					// ghost moves
-			        ghost.transform.position = new Vector3 (cartOneBtm[0], cartOneBtm[1], cartOneBtm[2]);
-                    ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
+				// dj moves
+			        django.transform.position = new Vector3 (cartOneTop[0], cartOneTop[1], cartOneTop[2]);
+                    		django.transform.position += django.transform.forward * Time.deltaTime * 10f;	
 				break;
 			case 28:
-				// announce winner 
+				// ghost moves
+			        ghost.transform.position = new Vector3 (cartOneBtm[0], cartOneBtm[1], cartOneBtm[2]);
+                    		ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
 				break;
 			case 29: 
+				// announce winner 
 				break; 
 		}
     }
