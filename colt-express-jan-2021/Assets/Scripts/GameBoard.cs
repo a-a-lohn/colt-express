@@ -258,7 +258,7 @@ public class GameBoard : MonoBehaviour
                                 cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;
 				break;
 			case 15:
-			
+			        Destroy(gem3);
 				break;
 			case 16:
 			        marshal.transform.position = new Vector3 (cartTwoBtm[0], cartTwoBtm[1], cartTwoBtm[2]);
