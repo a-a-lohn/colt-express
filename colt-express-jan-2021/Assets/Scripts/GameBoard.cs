@@ -67,6 +67,7 @@ public class GameBoard : MonoBehaviour
 	public GameObject cardC; 
 	public GameObject cardD;
 	public GameObject cardE;
+	public GameObject bulletCard;
 
 	// propmpt messages 
 	public Text promptDrawCardsOrPlayCardMsg;
@@ -102,6 +103,8 @@ public class GameBoard : MonoBehaviour
 	public Text drawnCard5;
 	public Text drawnCard6;
 
+
+	public GameObject playerE; 
 
 
 	private String[] logMessages = {
@@ -152,6 +155,8 @@ public class GameBoard : MonoBehaviour
     private List<float> cartLocoTop = new List<float>() {1410.5F, 893.4F, -364.9F};
     private List<float> cartLocoBtm = new List<float>() {1390.0F, 824.9F, -364.9F};
 
+	private List<float> iconPosition = new List<float>() {1285.9F, 1121.9F, -364.9F};
+
     void Start(){
 		// announcement.text = "The current round is an Angry Marshal Round and the current turn is a Tunnel Turn!";
 		// drawnCard1.text="MOVE";
@@ -160,6 +165,7 @@ public class GameBoard : MonoBehaviour
 		//debugTextString = "";
         //debugText.text = "";
 		gem2.SetActive(false);
+	
 
 		//SendNewGameState();
 		// ** THE DICTIONARIES ARE INITIALIZED(CLEARED) IN Start() ** 
@@ -251,11 +257,11 @@ public class GameBoard : MonoBehaviour
 				break;
 			case 13:
 			        ghost.transform.position = new Vector3 (cartOneBtm[0], cartOneBtm[1], cartOneBtm[2]);
-                        ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
+                    ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
 				break;
 			case 14:
 			        cheyenne.transform.position = new Vector3 (cartZeroTop[0], cartZeroTop[1], cartZeroTop[2]);
-                                cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;
+                    cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;
 				break;
 			case 15:
 			        Destroy(gem3);
@@ -319,6 +325,23 @@ public class GameBoard : MonoBehaviour
         ghost.transform.position = new Vector3 (posX, posY, posZ);
         ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f; // can be any float number
 		gem2.SetActive(true);
+	}
+
+	public void shoot(){
+		// Django punches Ghost, Ghost is punched back to last train car and with 
+		// his initial purse is left in the second last train car. 
+		// move ghost to the last train car
+		// check if the obj being clicked on is the loot/bandit that we want to move 
+		// Debug.Log("GHOST IS SHOT");
+        // float posX = cartZeroBtm[0]; 
+        // float posY = cartZeroBtm[1]; 
+        // float posZ = cartZeroBtm[2]; 
+        // ghost.transform.position = new Vector3 (posX, posY, posZ);
+        // ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f; // can be any float number
+		// gem2.SetActive(true);
+		Debug.Log("GHOST IS SHOT");
+		bulletCard.transform.position = new Vector3 (iconPosition[0], iconPosition[1], iconPosition[2]);
+        bulletCard.transform.position += bulletCard.transform.forward * Time.deltaTime * 2f;
 	}
 
 

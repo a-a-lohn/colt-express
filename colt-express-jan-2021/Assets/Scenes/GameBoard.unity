@@ -724,9 +724,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.82, y: 0.04}
+  m_AnchoredPosition: {x: -0.8199995, y: 0.15087192}
   m_SizeDelta: {x: 44.23696, y: 42.09468}
-  m_Pivot: {x: 0.50000036, y: 0.49999988}
+  m_Pivot: {x: 0.50000036, y: 0.65691984}
 --- !u!114 &186016431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1066,7 +1066,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 364579989}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 734506208}
+        m_TargetAssemblyTypeName: GameBoard, Assembly-CSharp
+        m_MethodName: shoot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &364579989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2831,6 +2843,7 @@ RectTransform:
   - {fileID: 1218673920}
   - {fileID: 29083460}
   - {fileID: 1832077490}
+  - {fileID: 1838625226}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2871,7 +2884,7 @@ MonoBehaviour:
   doc: {fileID: 0}
   ghost: {fileID: 488911556}
   django: {fileID: 2061015342}
-  marshal: {fileID: 0}
+  marshal: {fileID: 664343281}
   gem1: {fileID: 1032197769}
   gem2: {fileID: 1765836297}
   gem3: {fileID: 1744056522}
@@ -2882,6 +2895,7 @@ MonoBehaviour:
   cardC: {fileID: 1023083644}
   cardD: {fileID: 367661728}
   cardE: {fileID: 1135692231}
+  bulletCard: {fileID: 1838625225}
   promptDrawCardsOrPlayCardMsg: {fileID: 571799349}
   promptChooseLoot: {fileID: 571799349}
   promptPunchTarget: {fileID: 571799349}
@@ -2890,8 +2904,9 @@ MonoBehaviour:
   drawnCard2: {fileID: 8461049}
   drawnCard3: {fileID: 397071379}
   drawnCard4: {fileID: 452844222}
-  drawnCard5: {fileID: 0}
-  drawnCard6: {fileID: 0}
+  drawnCard5: {fileID: 469264866}
+  drawnCard6: {fileID: 1319462718}
+  playerE: {fileID: 0}
 --- !u!1 &749691587
 GameObject:
   m_ObjectHideFlags: 0
@@ -3587,6 +3602,7 @@ MonoBehaviour:
   cardC: {fileID: 1023083644}
   cardD: {fileID: 367661728}
   cardE: {fileID: 1135692231}
+  bulletCard: {fileID: 0}
   promptDrawCardsOrPlayCardMsg: {fileID: 571799349}
   promptChooseLoot: {fileID: 0}
   promptPunchTarget: {fileID: 0}
@@ -3597,6 +3613,7 @@ MonoBehaviour:
   drawnCard4: {fileID: 0}
   drawnCard5: {fileID: 0}
   drawnCard6: {fileID: 0}
+  playerE: {fileID: 0}
 --- !u!1 &1023083644
 GameObject:
   m_ObjectHideFlags: 0
@@ -5894,8 +5911,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 32.095, y: 70}
-  m_SizeDelta: {x: 446.8, y: 45.1246}
+  m_AnchoredPosition: {x: -31.9242, y: 79.2715}
+  m_SizeDelta: {x: 560.6111, y: 74.5816}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1832077491
 MonoBehaviour:
@@ -5938,6 +5955,81 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1832077489}
+  m_CullTransparentMesh: 1
+--- !u!1 &1838625225
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1838625226}
+  - component: {fileID: 1838625228}
+  - component: {fileID: 1838625227}
+  m_Layer: 5
+  m_Name: bullet
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1838625226
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1838625225}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 734506206}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 448, y: -239.78}
+  m_SizeDelta: {x: 62.5093, y: 85.2715}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1838625227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1838625225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 2cc159ddbf54b4ec78ef2ec12fc5023c, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1838625228
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1838625225}
   m_CullTransparentMesh: 1
 --- !u!1 &1846809311
 GameObject:
