@@ -69,6 +69,8 @@ public class GameBoard : MonoBehaviour
 	public GameObject cardC; 
 	public GameObject cardD;
 	public GameObject cardE;
+	public GameObject cardF;
+	public GameObject cardG;
 	public GameObject bulletCard;
 
 	// propmpt messages 
@@ -104,6 +106,7 @@ public class GameBoard : MonoBehaviour
 	public Text drawnCard4;
 	public Text drawnCard5;
 	public Text drawnCard6;
+	public Text drawnCard7;
 
 
 	public GameObject playerE; 
@@ -230,6 +233,7 @@ public class GameBoard : MonoBehaviour
 	// }
 	// draw3cards: 3 cards appear on click
 
+
 	void MouseDown() {
 		SFS.step += 1;
 		Debug.Log("Clicked on step " + SFS.step);
@@ -240,7 +244,17 @@ public class GameBoard : MonoBehaviour
 		ExtensionRequest req = new ExtensionRequest("gm.nextAction",obj);
 		SFS.Send(req);
 		
-		//executeHardCoded(step);
+		// executeHardCoded(step);
+	}
+
+	// replace the last three cards with new cards 
+	public void drawThreeCards(){
+		Debug.Log("DRAWS 3 CARDS");
+		// remove card 5,6,7 (CardE, CardF, CardG) 
+		// so that card 8,9,10 are visible
+		Destroy(cardE);
+		Destroy(cardF);
+		Destroy(cardG);
 	}
 
 	public void executeHardCoded(int step) {
@@ -250,6 +264,7 @@ public class GameBoard : MonoBehaviour
 		switch(step) {
 			case 1:
 				//round/turn info 
+				drawThreeCards();
 				break;
 			case 2:
 				//ghost draws 
