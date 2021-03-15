@@ -383,10 +383,10 @@ public class GameBoard : MonoBehaviour
         bulletCard.transform.position += bulletCard.transform.forward * Time.deltaTime * 2f;
 	}
 
-	void OnMouseDown(){
-		MouseDown();
-		Debug.Log("Clicked");
-	}
+	// public void OnMouseDown(){
+	// 	MouseDown();
+	// 	Debug.Log("Clicked");
+	// }
 
 
     // Update is called once per frame
@@ -396,10 +396,10 @@ public class GameBoard : MonoBehaviour
 			SFS.ProcessEvents();
 		}
 
-		/*if (Input.GetMouseButtonDown(0)){
+		if (Input.GetMouseButtonDown(0)){
 			MouseDown();
 			Debug.Log("Clicked");
-		}*/
+		}
 
 		/*if (SFS.debugText != debugText.text) {
             debugText.text = SFS.debugText;
