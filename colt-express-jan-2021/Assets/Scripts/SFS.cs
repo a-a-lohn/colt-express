@@ -33,7 +33,7 @@ public static class SFS
 	public static ChooseCharacter cc;
 
     static SFS(){
-        defaultHost = "13.72.79.112";//"127.0.0.1";
+        defaultHost = "127.0.0.1";//"13.72.79.112";
 	    defaultTcpPort = 9933;
         zone = "MergedExt";
     }
@@ -76,10 +76,10 @@ public static class SFS
 		if (cmd == "remainingCharacters") {
 			ISFSObject responseParams = (SFSObject)evt.Params["params"];
 			string player = responseParams.GetUtfString("player");
-			//Debug.Log("PLAYER: " + player);
 			if(player != null) {
 				string chosen = responseParams.GetUtfString("chosenCharacter");
 				chosenCharText += "\n" + player + " chose " + chosen + "!";
+				cc.UpdateDisplayText(chosenCharText);
 			}
 			cc.DisplayRemainingCharacters(evt);
 		} else if (cmd == "updateGameState") {
