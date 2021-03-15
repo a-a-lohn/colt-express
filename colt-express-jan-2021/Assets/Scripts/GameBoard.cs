@@ -103,6 +103,36 @@ public class GameBoard : MonoBehaviour
 
 	private string announ2 = ""; 
 	private string announ5 = "Schemin' Phase!"; 
+	private String[] logMessages = {"blank message",
+	"Ghost chose to draw cards",
+	"Cheyenne chose to draw cards",
+	"Django chose to draw cards",
+	"Ghost played an action card. Card is hidden because it is a tunnel turn",
+	"Cheyenne played an action card. Card is hidden because it is a tunnel turn",
+	"Django chose to draw cards",
+	"Ghost played a ROB card",
+	"Cheyenne played a MOVEMARSHAL card"
+	"Django played a PUNCH card",
+	"Django played a SHOOT card",
+	"Cheyenne chose to draw cards",
+	"Ghost chose to draw cards",
+	"Ghost moved to the adjacent car",
+	"Cheyenne moved to the top of the car"
+	"Ghost chooses one gem to add to his loot",
+	"Cheyenne moved the Marshal",
+	"Django choose to punch Ghost, who drops his purse",
+	"Django shoots Ghost",
+	"Chayenne played a MOVE card",
+	"Cheyenne chose to draw cards",
+	"Django played a CHANGEFLOOR card",
+	"Django chose to draw cards",
+	"Ghost chose to draw cards",
+	"Ghost played a CHANGEFLOOR card",
+	"Cheyenne moves to the adjacent train car",
+	"Django is moved to the top of the car",
+	"Ghost is moved to the top of the car",
+	"Game has ended. Django is the winner"
+	};
 
     //private static SmartFox sfs = SFS.sfs;
    // private static string defaultHost = SFS.defaultHost;// = "127.0.0.1"; //"13.90.26.131"; // 
