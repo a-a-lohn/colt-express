@@ -89,6 +89,21 @@ using model;
 
           // guiText += go.name;
           // guiText += "\n";
+          if(go.name == "CardA"){
+               log.text += "Ghost plays Move"+"\n";
+          }
+
+          if(go.name == "CardB"){
+               log.text += "Ghost plays Rob"+"\n";
+          }
+
+          if(go.name == "CardC"){
+                  log.text += "Cheyenne plays Marshal"+"\n";
+          }
+
+          if(go.name == "CardD"){
+               log.text += "Cheyenne plays ChangeFloor"+"\n";
+          }
 
           log.text += go.name; 
           guiText += go.name;
@@ -121,7 +136,7 @@ using model;
 
      void Update () 
      {
-          log.text = guiText;
+          // log.text = guiText;
      }
           // msg.text = guiText; 
           // if(Input.GetButtonDown("CardA")){

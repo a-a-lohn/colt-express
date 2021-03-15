@@ -98,6 +98,7 @@ public class GameBoard : MonoBehaviour
 	public Text drawnCard2;
 	public Text drawnCard3; 
 	public Text drawnCard4;
+	public Text drawnCard5;
 
 	private string announ2 = ""; 
 	private string announ5 = "Schemin' Phase!"; 
@@ -110,6 +111,7 @@ public class GameBoard : MonoBehaviour
     void Start()
     {
 		announcement.text = "The current round is an Angry Marshal Round and the current turn is a Tunnel Turn!";
+		// drawnCard1.text="MOVE";
 		SFS.setGameBoard(this);
 
 		//debugTextString = "";
@@ -158,22 +160,34 @@ public class GameBoard : MonoBehaviour
 			case 2:
 				//play a card;
 				break;
-			//...
+			case 3: 
+
+				break; 
+			case 4: 
+
+				break;
+			case 5: 
+
+				break;
 			case 6:
+			
 				break;
 
 		}
-
     }
 
+	
 	public void drawCards(){
 		// draws 3 cards randomly and put in the hand
-		drawnCard1.text = "MOVE"; 
+		drawnCard1.text = "MOVE";
 		drawnCard2.text = "ROB";
-		drawnCard3.text = "Marshal"; 
+		drawnCard3.text = "MARSHAL"; 
 		drawnCard4.text = "CHANGE FLOOR";
+		drawnCard5.text = "SHOOT"; 
+		return;
 	}
-	
+
+
     // Update is called once per frame
     void Update()
     {
