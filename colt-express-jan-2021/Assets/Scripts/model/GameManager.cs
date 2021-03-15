@@ -12,6 +12,7 @@ using Sfs2X.Protocol.Serialization;
 // @MultiHandler
 namespace model {
     public class GameManager : SerializableSFSType {
+        //public Hashtable banditLocation; 
         
         public static GameManager singleton;
         
@@ -38,7 +39,7 @@ namespace model {
         
         //public TrainUnit[,] train;
         
-        public ArrayList stagecoach;
+        //public ArrayList stagecoach;
 
         public ArrayList bandits;
         
@@ -228,6 +229,10 @@ namespace model {
                         }
                         
                         //  IF THERE ARE NO MORE TURNS IN THE ROUND
+                        //
+                        foreach (Bandit b in this.bandits) {
+                            b.endOfSchemin();
+                        }
                         this.banditsPlayedThisTurn = 0;
                         this.setGameStatus("STEALIN");
                     }
@@ -414,8 +419,7 @@ namespace model {
                 return null;
             }
             
-            //Collections.shuffle(RoundCards); !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            return RoundCards;
+            return Bandit.shuffle(RoundCards);
         }
         
         public void setGameStatus(string newStatus) {

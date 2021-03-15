@@ -219,6 +219,7 @@ namespace model {
         }
         
         public ArrayList getBanditsHere() {
+            //query gm hashtable
             return (ArrayList)banditsHere.Clone();
         }
         
