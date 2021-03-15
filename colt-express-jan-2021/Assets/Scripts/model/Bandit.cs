@@ -382,8 +382,9 @@ namespace model {
             this.createHand();
         }
 
+     // FIX THIS
         public void shuffle() {
-            Random RandomGen = new Random(DateTime.Now.Millisecond);
+            System.Random RandomGen = new System.Random(DateTime.Now.Millisecond);
             ArrayList ScrambledList = new ArrayList();
             Int32 Index;
             while (this.deck.Count > 0)

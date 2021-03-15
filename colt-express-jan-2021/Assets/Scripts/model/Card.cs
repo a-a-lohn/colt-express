@@ -26,6 +26,10 @@ namespace model {
            }
            return null;
        }
+
+       public void setBelongsTo(string belongsTo) {
+           this.belongsTo = belongsTo;
+       }
     }
 }
 
