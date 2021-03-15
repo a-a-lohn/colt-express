@@ -19,7 +19,7 @@ public class Bandit implements SerializableSFSType {
 	public boolean playedThisTurn;
 	transient public Character banditName;
 	public String banditNameAsString; //FOR NETWORKING
-	public TrainUnit position;
+	transient public TrainUnit position;
 	transient public Hostage hostage;
 	public String hostageAsString; //FOR NETWORKING
 	public ArrayList<Loot> loot = new ArrayList<Loot>();
@@ -312,7 +312,7 @@ public class Bandit implements SerializableSFSType {
 		this.deck.add(acShoot2);
 
 		for (Card c : this.deck) {
-			c.setBelongsTo(this);
+			//c.setBelongsTo(this);
 		}
 
 	}
@@ -343,7 +343,7 @@ public class Bandit implements SerializableSFSType {
 		this.bullets.add(bc6);
 
 		for (BulletCard bc : this.bullets) {
-			bc.setBelongsTo(this);
+			//bc.setBelongsTo(this);
 		}
 
 	}

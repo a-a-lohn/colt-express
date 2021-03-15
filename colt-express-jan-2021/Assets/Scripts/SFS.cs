@@ -38,6 +38,10 @@ public static class SFS
         sfs = Sfs;
     }
 
+	public static SmartFox getSFS() {
+        return sfs;
+    }
+
 	public static void setGameBoard() {
 		gb = GameObject.Find("GameBoardGO").GetComponent<GameBoard>();
 	}

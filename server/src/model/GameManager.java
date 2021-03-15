@@ -43,17 +43,11 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	public ArrayList<TrainUnit> stagecoach;
 	public ArrayList<Bandit> bandits = new ArrayList<Bandit>();
 	transient public HashMap<Bandit, User> banditmap = new HashMap<Bandit, User>();
-	public static ColtMultiHandler handler;
 	public ArrayList<Card> neutralBulletCard = new ArrayList<Card>();
 	public int banditsPlayedThisTurn;
 	public int roundIndex;
 	public int banditIndex;
 
-	public static void setHandler(ColtMultiHandler handle) {
-		handler = handle;
-		// ISFSObject rtn = SFSObject.newInstance();
-		// handler.updateGameState(rtn);
-	}
 
 	/*
 	 * @Override public void handleClientRequest(User sender, ISFSObject params) {
@@ -113,9 +107,10 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		// set train-related attributes
 		// this.stagecoach = TrainUnit.createStagecoach();
 		// this.train = TrainUnit.createTrain(bandits.size());
-		this.trainRoof = TrainUnit.createTrainRoof(this.getNumOfPlayers());
-		this.trainCabin = TrainUnit.createTrainCabin(this.getNumOfPlayers());
-		this.stagecoach = TrainUnit.createStagecoach();
+		TrainUnit.setTrainLength(this.getNumOfPlayers());
+		this.trainRoof = TrainUnit.createTrainRoof(this.getNumOfPlayers()); //this.trainRoof = 
+		this.trainCabin = TrainUnit.createTrainCabin(this.getNumOfPlayers()); //this.trainCabin = 
+		this.stagecoach = TrainUnit.createStagecoach(); //this.stagecoach = 
 		ArrayList<Bandit> bandits = this.getBandits();
 		for (Bandit b : bandits) {
 			// initialize each bandit cards, purse
@@ -130,13 +125,13 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		this.currentBandit = this.bandits.get(0);
 		this.currentRound = this.rounds.get(0);
 		this.setUpPositions(this.bandits);
-		//
+				
 		Marshal marshal = new Marshal();
 		Money strongbox = new Money(MoneyType.STRONGBOX, 1000);
 		// marshal.setMarshalPosition(this.trainCabin[this.getNumOfPlayers()]);
 		// strongbox.setPosition(this.trainCabin[this.getNumOfPlayers()]);
 		//
-		// create netural bullet card
+		// create neutral bullet card
 		Card NBullet1 = new BulletCard();
 		Card NBullet2 = new BulletCard();
 		Card NBullet3 = new BulletCard();
@@ -171,6 +166,16 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		this.gameStatus = GameStatus.SCHEMIN;
 		this.strGameStatus = "SCHEMIN";
 		this.currentBandit = this.bandits.get(0);
+		
+		rounds = null;
+		this.trainRoof = null;
+		this.trainCabin = null;
+		this.stagecoach = null;
+		marshalInstance = null;
+		playedPileInstance = null;
+		//public ArrayList<Bandit> bandits = new ArrayList<Bandit>();
+		neutralBulletCard = null;
+		
 	}
 
 	public void playTurn() {
@@ -634,7 +639,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	int getNumOfPlayers() {
 		// TO DO
 		// Here to get number of players
-		return 3;
+		return getBandits().size();
 	}
 
 	public void setUpPositions(ArrayList<Bandit> b) {

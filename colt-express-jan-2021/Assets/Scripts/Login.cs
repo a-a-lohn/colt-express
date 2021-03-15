@@ -12,13 +12,13 @@ public class Login : MonoBehaviour {
     public InputField password; 
     public Text fText; // used to put the username+password to the screen (for testing purposes)
 
-    public static RestClient client = new RestClient("http://13.90.26.131:4242");
+    public static RestClient client = new RestClient("http://13.72.79.112:4242");
     public static string token;
     // public static string username;
     // public static string password;
 
     public void VerifyUser(){
-        fText.text = "the username entered is:" + username.text + " and password is: " + password.text;
+        //fText.text = "the username entered is:" + username.text + " and password is: " + password.text;
         //aaron's PutToken code
         // var request = new RestRequest("oauth/token", Method.POST)
         //     .AddParameter("grant_type", "password")
@@ -51,7 +51,7 @@ public class Login : MonoBehaviour {
             PlayerPrefs.SetString("token", token);
             PlayerPrefs.SetString("username", username.text);
             PlayerPrefs.Save();
-            fText.text = token;
+            //fText.text = token;
             GoToWR();
         } catch (Exception e) {
             fText.text = "Invalid username or password";

@@ -20,7 +20,7 @@ using Sfs2X.Protocol.Serialization;
 
 public class WaitingRoom : MonoBehaviour
 {
-    private static RestClient client = new RestClient("http://13.90.26.131:4242");
+    private static RestClient client = new RestClient("http://13.72.79.112:4242");
 
     public Text fToken;
     public Button NewGameButton;
@@ -44,12 +44,14 @@ public class WaitingRoom : MonoBehaviour
         token = PlayerPrefs.GetString("token", "No token found");
         username = PlayerPrefs.GetString("username", "No username found");
         
-        // Initialize SFS2X client. This can be done in an earlier scene instead
-		SmartFox sfs = new SmartFox();
-        // For C# serialization
-		DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
-        SFS.setSFS(sfs);
-        SFS.Connect(username);
+        if (SFS.getSFS() == null) {
+            // Initialize SFS2X client. This can be done in an earlier scene instead
+            SmartFox sfs = new SmartFox();
+            // For C# serialization
+            DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
+            SFS.setSFS(sfs);
+            SFS.Connect(username);
+        }
 
         NewGameButton.interactable = false;
         //GoToGameButton.interactable = false;
@@ -77,6 +79,7 @@ public class WaitingRoom : MonoBehaviour
                 }
             }
         }*/
+        //Invoke("GetSessions", 1);
         GetSessions();
         if(hosting && !LaunchGameButton.interactable) {
             ActivateLaunchGameButton();

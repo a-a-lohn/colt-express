@@ -64,7 +64,7 @@ public class TrainUnit implements SerializableSFSType {
 		
 		ArrayList<TrainUnit> TrainRoof = new ArrayList<TrainUnit>();
 		TrainUnit LocoRoof = new TrainUnit(CarType.LOCOMOTIVE, CarFloor.ROOF);
-		TrainRoof.add(lengthOfTrain,LocoRoof);
+		//TrainRoof.add(lengthOfTrain,LocoRoof);
 		if (lengthOfTrain == 2) {
 			TrainUnit Car1Roof = new TrainUnit(CarType.CAR1, CarFloor.ROOF);
 			TrainUnit Car2Roof = new TrainUnit(CarType.CAR2, CarFloor.ROOF);
@@ -135,6 +135,7 @@ public class TrainUnit implements SerializableSFSType {
 		}
 		
 		TrainUnit.trainLength = lengthOfTrain;
+		trainRoof = TrainRoof;
 		return TrainRoof;
 	}
 
@@ -146,8 +147,10 @@ public class TrainUnit implements SerializableSFSType {
 		
 		ArrayList<TrainUnit> TrainCabin = new ArrayList<TrainUnit>();
 		TrainUnit LocoCabin = new TrainUnit(CarType.LOCOMOTIVE, CarFloor.CABIN);
+		System.out.println("trainroof length: " + getTrainRoof().size());
+		System.out.println("trainlength: " + trainLength);
 		LocoCabin.setAbove(TrainUnit.getTrainRoof().get(trainLength-1));
-		TrainCabin.add(lengthOfTrain,LocoCabin);
+		//TrainCabin.add(lengthOfTrain,LocoCabin);
 		if (lengthOfTrain == 2) {
 			TrainUnit Car1Cabin = new TrainUnit(CarType.CAR1, CarFloor.CABIN);
 			TrainUnit Car2Cabin = new TrainUnit(CarType.CAR2, CarFloor.CABIN);
@@ -234,6 +237,7 @@ public class TrainUnit implements SerializableSFSType {
 			TrainCabin.add(4,Car5Cabin);
 			TrainCabin.add(5,Car6Cabin);
 		}
+		trainCabin = TrainCabin;
 		
 		return TrainCabin;
 	}
@@ -246,7 +250,7 @@ public class TrainUnit implements SerializableSFSType {
      */
      public static ArrayList<TrainUnit> createStagecoach() {
     	
-    	 assert TrainUnit.getTrainRoof() != null && TrainUnit.getTrainCabin() != null;
+    	assert TrainUnit.getTrainRoof() != null && TrainUnit.getTrainCabin() != null;
     	 
     	ArrayList<TrainUnit> Stagecoach = new ArrayList<TrainUnit>();
     	
@@ -261,7 +265,8 @@ public class TrainUnit implements SerializableSFSType {
     	Stagecoach.add(0,StagecoachRoof);
     	Stagecoach.add(1,StagecoachCabin);
     	
-    	return stagecoach;
+    	stagecoach = Stagecoach;
+    	return Stagecoach;
      }
 
 

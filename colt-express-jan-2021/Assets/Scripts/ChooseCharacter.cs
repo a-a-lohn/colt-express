@@ -48,7 +48,7 @@ public class ChooseCharacter : MonoBehaviour
 
     private static bool alreadyCalled = false;
 
-    private static RestClient client = new RestClient("http://13.90.26.131:4242");
+    private static RestClient client = new RestClient("http://13.72.79.112:4242");
 
     //SAVE THE CHOSEN CHARACTER IN THIS STRING SO IT CAN BE USED BY GAMEMANAGER
     public static string character = "";
@@ -81,6 +81,8 @@ public class ChooseCharacter : MonoBehaviour
         DjangoIsAvailable = true; 
         DocIsAvailable = true; 
 
+        SFS.setChooseCharacter();
+
         // rend = GetComponent<Renderer>();
         // name = this.GameObject;
         //debugText = "";
@@ -92,9 +94,7 @@ public class ChooseCharacter : MonoBehaviour
 		DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
         SFS.setSFS(sfs);
 
-        SFS.setChooseCharacter();
-
-        SFS.Connect("test2");
+        SFS.Connect("test");
     }
 
     // Update is called once per frame
