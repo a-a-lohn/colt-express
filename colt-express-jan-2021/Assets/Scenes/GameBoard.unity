@@ -616,7 +616,7 @@ GameObject:
   - component: {fileID: 114423999}
   - component: {fileID: 114423998}
   m_Layer: 5
-  m_Name: CardGText
+  m_Name: CardE2Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7091,7 +7091,7 @@ GameObject:
   - component: {fileID: 1930937175}
   - component: {fileID: 1930937174}
   m_Layer: 5
-  m_Name: CardGText
+  m_Name: CardE1Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7383,7 +7383,7 @@ GameObject:
   - component: {fileID: 2022661596}
   - component: {fileID: 2022661595}
   m_Layer: 5
-  m_Name: CardGText
+  m_Name: CardE3Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

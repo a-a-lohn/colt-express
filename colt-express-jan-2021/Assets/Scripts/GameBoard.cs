@@ -221,6 +221,16 @@ public class GameBoard : MonoBehaviour
 
     }
 
+	// replace the last three cards with new cards 
+	public void drawThreeCards(){
+		// Debug.Log("DRAWS 3 CARDS");
+		// remove card 5,6,7 (CardE, CardF, CardG) 
+		// so that card 8,9,10 are visible
+		Destroy(cardE);
+		Destroy(cardF);
+		Destroy(cardG);
+	}
+
 	// public void drawCards(){
 	// 	// draws 3 cards randomly and put in the hand
 	// 	drawnCard1.text = "MOVE";
@@ -235,6 +245,7 @@ public class GameBoard : MonoBehaviour
 
 
 	void MouseDown() {
+		drawThreeCards();
 		SFS.step += 1;
 		Debug.Log("Clicked on step " + SFS.step);
 
@@ -244,17 +255,7 @@ public class GameBoard : MonoBehaviour
 		ExtensionRequest req = new ExtensionRequest("gm.nextAction",obj);
 		SFS.Send(req);
 		
-		// executeHardCoded(step);
-	}
-
-	// replace the last three cards with new cards 
-	public void drawThreeCards(){
-		Debug.Log("DRAWS 3 CARDS");
-		// remove card 5,6,7 (CardE, CardF, CardG) 
-		// so that card 8,9,10 are visible
-		Destroy(cardE);
-		Destroy(cardF);
-		Destroy(cardG);
+		executeHardCoded(step);
 	}
 
 	public void executeHardCoded(int step) {
