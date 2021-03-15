@@ -40,6 +40,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		case("testSerial"): testSerial(sender, rtn); break;
 		case("newGameState"): handleNewGameState(params,rtn); break;
 		case("enterGameBoardScene"): handleEnterGameBoardScene(params,rtn); break;
+		case("nextAction"): handleNextAction(params,rtn); break;
 		default: trace("invalid command passed to multihandler");
 		}
 		
@@ -57,6 +58,10 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		//String received = params.getUtfString("sentData");
 		//gameState.putUtfString("testStr", "evenbetterData");
 		
+	}
+	
+	public void handleNextAction(ISFSObject params, ISFSObject rtn) {
+		sendToAllUsers(params, "nextAction");
 	}
 	
 	public void handleEnterGameBoardScene(ISFSObject params, ISFSObject rtn) {
