@@ -99,6 +99,7 @@ public class GameBoard : MonoBehaviour
 	public Text drawnCard3; 
 	public Text drawnCard4;
 	public Text drawnCard5;
+	public Text drawnCard6;
 
 	private string announ2 = ""; 
 	private string announ5 = "Schemin' Phase!"; 
@@ -120,8 +121,8 @@ public class GameBoard : MonoBehaviour
 		//SendNewGameState();
 		// ** THE DICTIONARIES ARE INITIALIZED(CLEARED) IN Start() ** 
 		// Bandits
-		objects.Add(cheyenne, "null");
-		objects.Add(belle, "null");
+		// objects.Add(cheyenne, "null");
+		// objects.Add(belle, "null");
 		/*objects.Add(tuco, "null");
 		objects.Add(doc, "null");
 		objects.Add(ghost, "null");
@@ -133,15 +134,26 @@ public class GameBoard : MonoBehaviour
 		objects.Add(gem4, "null");
 		objects.Add(gem5, "null");*/
 		// Cards
-		objects.Add(cardA, "null");
-		objects.Add(cardB, "null");
-		objects.Add(cardC, "null");
-		objects.Add(cardD, "null");
-		objects.Add(cardE, "null");
+		// objects.Add(cardA, "null");
+		// objects.Add(cardB, "null");
+		// objects.Add(cardC, "null");
+		// objects.Add(cardD, "null");
+		// objects.Add(cardE, "null");
 
 		//EnterGameBoardScene();
 
     }
+
+	public void drawCards(){
+		// draws 3 cards randomly and put in the hand
+		drawnCard1.text = "MOVE";
+		drawnCard2.text = "ROB";
+		drawnCard3.text = "MARSHAL"; 
+		drawnCard4.text = "CHANGE FLOOR";
+		drawnCard5.text = "SHOOT"; 
+		drawnCard6.text = "PUNCH"; 
+		return;
+	}
 
 	void OnMouseDown() {
 		SFS.step += 1;
@@ -175,17 +187,6 @@ public class GameBoard : MonoBehaviour
 
 		}
     }
-
-	
-	public void drawCards(){
-		// draws 3 cards randomly and put in the hand
-		drawnCard1.text = "MOVE";
-		drawnCard2.text = "ROB";
-		drawnCard3.text = "MARSHAL"; 
-		drawnCard4.text = "CHANGE FLOOR";
-		drawnCard5.text = "SHOOT"; 
-		return;
-	}
 
 
     // Update is called once per frame
