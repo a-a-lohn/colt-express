@@ -5,7 +5,7 @@ using UnityEngine;
 public class banditScript : MonoBehaviour
 {
     // Start is called before the first frame update
-    public GameManager gmInstance; 
+   // public GameManager gmInstance; 
     void Start()
     {
         // get an instance the GM first
