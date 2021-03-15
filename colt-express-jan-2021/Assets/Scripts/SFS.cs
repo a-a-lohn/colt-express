@@ -24,6 +24,7 @@ public static class SFS
     public static string debugText = "";
     public static bool moreText = false;
     public static string username; //should be set to logged in user's name
+	public static int step = 0;
 
 	public static GameBoard gb;
 
@@ -64,7 +65,11 @@ public static class SFS
 			ChooseCharacter.DisplayRemainingCharacters(evt);
 		} else if (cmd == "updateGameState") {
             gb.UpdateGameState(evt);
-        }
+        } else if (cmd == "nextAction") {
+			ISFSObject responseParams = (SFSObject)evt.Params["params"];
+			step = responseParams.GetInt("step");
+			gb.executeHardCoded(step);
+		}
     }
 
     public static void Connect(string uname) {

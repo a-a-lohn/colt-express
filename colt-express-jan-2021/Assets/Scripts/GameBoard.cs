@@ -125,7 +125,32 @@ public class GameBoard : MonoBehaviour
 		objects.Add(cardD, "null");
 		objects.Add(cardE, "null");
 
-		EnterGameBoardScene();
+		//EnterGameBoardScene();
+
+    }
+
+	void OnMouseDown() {
+		SFS.step += 1;
+		int step = SFS.step;
+		ISFSObject obj = SFSObject.NewInstance();
+		obj.PutInt("step", step);
+		ExtensionRequest req = new ExtensionRequest("gm.nextAction",obj);
+		SFS.Send(req);
+	}
+
+	public void executeHardCoded(int step) {
+		switch(step) {
+			case 1:
+				//Ghost plays move
+				break;
+			case 2:
+				//play a card;
+				break;
+			//...
+			case 6:
+				break;
+
+		}
 
     }
 
