@@ -26,13 +26,13 @@ namespace model {
         public string carTypeAsString;
         public string carFloorAsString;
 
-        /* removed for serialization
+        // removed for serialization -- MAKE NECESSARY CHANGES BEFORE REMOVING
         public TrainUnit above ;
         public TrainUnit below ;
         public TrainUnit left ;
         public TrainUnit right ;
         public TrainUnit beside ;
-        */
+        
         
         public bool isMarshalHere ;
         public ArrayList banditsHere ;

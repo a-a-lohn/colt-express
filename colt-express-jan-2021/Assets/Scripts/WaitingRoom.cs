@@ -28,6 +28,8 @@ public class WaitingRoom : MonoBehaviour
     public Button LaunchGameButton;
     public Button HostGameButton;
     public Text InfoText;
+    public Text launchText;
+
 
     public static string gameHash = null;
     private static string token;
@@ -35,6 +37,7 @@ public class WaitingRoom : MonoBehaviour
 
     private static bool joined = false;
     public static bool hosting = false;
+    public static int numPlayers;
 
     private static Dictionary<Button, string> hashes = new Dictionary<Button, string>();
 
@@ -97,7 +100,7 @@ public class WaitingRoom : MonoBehaviour
             Dictionary<string, object> sessionDetails = obj.ToObject<Dictionary<string, object>>();
 
             if (sessionDetails["launched"].ToString().ToLower() == "true") {
-               // GoToGameButton.interactable = true;
+               numPlayers = 1 + sessionDetails["players"].ToString().ToCharArray().Count(c => c == ',');
                SceneManager.LoadScene("ChooseYourCharacter");
             }
             
@@ -110,7 +113,7 @@ public class WaitingRoom : MonoBehaviour
         IRestResponse response = client.Execute(request);
         var obj = JObject.Parse(response.Content);
         Dictionary<string, object> sessionDetails = obj.ToObject<Dictionary<string, object>>();
-        int numPlayers = 1 + sessionDetails["players"].ToString().ToCharArray().Count(c => c == ',');
+        numPlayers = 1 + sessionDetails["players"].ToString().ToCharArray().Count(c => c == ',');
 
         if (numPlayers >= 2) { //change to >2
             LaunchGameButton.interactable = true;
@@ -231,6 +234,7 @@ public class WaitingRoom : MonoBehaviour
                 .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
             IRestResponse response = client.Execute(request);
         joined = true;
+        launchText.text = "Your game is launching!";
     }
 
     /*private static Boolean LaunchStatus()
@@ -249,29 +253,8 @@ public class WaitingRoom : MonoBehaviour
         }
     }*/
 
-    void RemoveLaunchedSession() {
-        if (hosting) {
-            var request = new RestRequest("oauth/token", Method.POST)
-            .AddParameter("grant_type", "password")
-            .AddParameter("username", "admin")
-            .AddParameter("password", "admin")
-            .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
-        IRestResponse response = client.Execute(request);
-        
-        var obj = JObject.Parse(response.Content);
-        string adminToken = (string)obj["access_token"];
-        adminToken = adminToken.Replace("+", "%2B");
-        PlayerPrefs.SetString("admintoken", adminToken);
-        PlayerPrefs.Save();
-
-        var request2 = new RestRequest("api/sessions/" + gameHash + "?access_token=" + adminToken, Method.DELETE)
-            .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
-        IRestResponse response2 = client.Execute(request2);
-        }
-    }
-
     void OnApplicationQuit() {
-        RemoveLaunchedSession();
+        ChooseCharacter.RemoveLaunchedSession();
 		// Always disconnect before quitting
 		SFS.Disconnect();
 	}

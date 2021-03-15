@@ -25,6 +25,8 @@ public static class SFS
     public static bool moreText = false;
     public static string username; //should be set to logged in user's name
 
+	public static string chosenCharText = "";
+
 	public static int step = 0;
 
 	public static GameBoard gb;
@@ -72,6 +74,12 @@ public static class SFS
         String cmd = (String)evt.Params["cmd"];
         trace("response received: " + cmd); // shpows up after "in-class" debug message
 		if (cmd == "remainingCharacters") {
+			ISFSObject responseParams = (SFSObject)evt.Params["params"];
+			string player = responseParams.GetUtfString("player");
+			if(player != null) {
+				string chosen = responseParams.GetUtfString("chosenCharacter");
+				chosenCharText += "\n" + player + " chose " + chosen + "!";
+			}
 			cc.DisplayRemainingCharacters(evt);
 		} else if (cmd == "updateGameState") {
             gb.UpdateGameState(evt);

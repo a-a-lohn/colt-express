@@ -20,15 +20,16 @@ namespace model {
        public Bandit getBelongsTo() {
            GameManager gm = GameManager.getInstance();
            foreach (Bandit b in gm.bandits) {
-               Arraylist cards = b.toResolve.Clone();
-               cards.AddRange(b.deck.Clone());
-               cards.AddRange(b.hand.Clone());
-               cards.AddRange(b.discardPile.Clone());
+               ArrayList cards = null;// b.toResolve.Clone();
+               cards.AddRange(b.deck);//.Clone());
+               cards.AddRange(b.hand);//.Clone());
+               cards.AddRange(b.discardPile);//.Clone());
                foreach(Card c in cards) {
-                   if c.Equals(this);
+                   if (c.Equals(this));
                    return b;
                }
            }
+           return null;
        }
     }
 }

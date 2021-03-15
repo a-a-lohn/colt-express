@@ -419,7 +419,8 @@ namespace model {
                 return null;
             }
             
-            return Bandit.shuffle(RoundCards);
+            Bandit.shuffle(RoundCards);
+            return null; ////??
         }
         
         public void setGameStatus(string newStatus) {

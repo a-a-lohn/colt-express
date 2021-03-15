@@ -82,7 +82,9 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	}	
 	
 	private void handleEnterChooseCharacterScene(User sender, ISFSObject params, ISFSObject rtn) {
-		gm = new GameManager(); //GameManager.getInstance();
+		if (gm == null) {
+			gm = new GameManager(); //GameManager.getInstance();
+		}
 		ISFSArray characters = SFSArray.newInstance();
 		rtn.putSFSArray("characterList", characters);
 		

@@ -255,6 +255,7 @@ public class GameBoard : MonoBehaviour
 
 
     void OnApplicationQuit() {
+		ChooseCharacter.RemoveLaunchedSession();
 		// Always disconnect before quitting
 		SFS.Disconnect();
 	}

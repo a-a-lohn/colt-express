@@ -22,7 +22,7 @@ namespace model {
         public BulletCard() {}
         
         public BulletCard(Bandit belongsTo) {
-            this.belongsTo = belongsTo;
+            //this.belongsTo = belongsTo;
             this.fired = false;
         }
     }

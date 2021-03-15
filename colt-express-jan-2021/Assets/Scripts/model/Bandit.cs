@@ -337,7 +337,7 @@ namespace model {
             for (int i = 0; i<actions.Length; i++) {
                 Card c = new ActionCard (actions[i]);
                 this.deck.Add(c);
-                c.setBelongsTo(this);
+                //c.setBelongsTo(this);
             }
         }
         
@@ -346,7 +346,7 @@ namespace model {
             for (int i = 0; (i < 6); i++) {
                 Card c = (Card)this.deck[0];
                 this.hand.Add(c);
-                this.deck.remove(c);
+                this.deck.Remove(c);
             }
             
         }
@@ -365,7 +365,7 @@ namespace model {
             this.bullets.Add(bc5);
             this.bullets.Add(bc6);
             foreach (BulletCard bc in this.bullets) {
-                bc.setBelongsTo(this);
+                //bc.setBelongsTo(this);
             }
             
         }
@@ -388,40 +388,43 @@ namespace model {
             this.createHand();
         }
 
+     // FIX THIS
         public void shuffle() {
-            Random RandomGen = new Random(DateTime.Now.Millisecond);
+            System.Random RandomGen = new System.Random(DateTime.Now.Millisecond);
             ArrayList ScrambledList = new ArrayList();
             Int32 Index;
-            while (AList.Count > 0)
+            /*while (AList.Count > 0)
             {
                 Index = RandomGen.Next(this.deck.Count);
                 ScrambledList.Add(this.deck[Index]);
                 this.deck.RemoveAt(Index);
-            }
+            }*/
             this.deck = ScrambledList;
         } 
 
+    // FIX THIS
         public static void shuffle(ArrayList c) {
-            Random RandomGen = new Random(DateTime.Now.Millisecond);
+            System.Random RandomGen = new System.Random(DateTime.Now.Millisecond);
             ArrayList ScrambledList = new ArrayList();
             Int32 Index;
-            while (AList.Count > 0)
+            /*while (AList.Count > 0)
             {
                 Index = RandomGen.Next(c.Count);
                 ScrambledList.Add(c[Index]);
                 c.RemoveAt(Index);
-            }
-            return ScrambledList;
+            }*/
+            //return ScrambledList;
         }
 
+    // FIX THIS
         //added these to clean up the gamemanager methods, there's some logic that can be handled here 
         public void addToResolve(Card c){
             if (this.hand.Contains(c)){
-                this.toResolve.Add(c);
-                this.hand.Remove(c);
+                //this.toResolve.Add(c);
+               // this.hand.Remove(c);
             }
             else {
-                trace("card does not exist in hand");
+                Debug.Log("card does not exist in hand");
             }
         }
 
@@ -429,12 +432,12 @@ namespace model {
             if (this.deck.Count < 3) {
                 return;
             }
-            for (int = 0; i<3; i++){
-                Card c = this.deck[i];
+            for (int i = 0; i<3; i++){
+                Card c = (Card)this.deck[i];
                 this.hand.Add(c);
             }
-            for (int = 0; i<3; i++){
-                Card c = this.deck[i];
+            for (int i = 0; i<3; i++){
+                Card c = (Card)this.deck[i];
                 this.deck.Remove(c);
             }
         }
