@@ -133,20 +133,6 @@ public class GameBoard : MonoBehaviour
 		"Game has ended. Django is the winner"
 	};
 
-    // possible positions 
-    // we can check the cartTypeAsString and carFloorAsString received from GM and find the corresponding x,y,z 
-    private List<float> cartZeroTop = new List<float>() {840.5F,878.4F,-364.9F};
-    private List<float> cartZeroBtm = new List<float>() {786.1F, 813.5F, -364.9F};
-
-    private List<float> cartOneTop = new List<float>() {1025.7F, 889.4F, -364.9F};
-    private List<float> cartOneBtm = new List<float>() {1027.9F, 806.4F, -364.9F};
-
-    private List<float> cartTwoTop = new List<float>() {1265.4F, 894.7F, -364.9F};
-    private List<float> cartTwoBtm = new List<float>() {1279.8F, 817.7F, -364.9F};
-
-    private List<float> cartLocoTop = new List<float>() {1410.5F, 893.4F, -364.9F};
-    private List<float> cartLocoBtm = new List<float>() {1390.0F, 824.9F, -364.9F};
-
     //private static SmartFox sfs = SFS.sfs;
    // private static string defaultHost = SFS.defaultHost;// = "127.0.0.1"; //"13.90.26.131"; // 
 	//private static int defaultTcpPort = SFS.defaultTcpPort;// = 9933;			// Default TCP port
@@ -157,8 +143,6 @@ public class GameBoard : MonoBehaviour
 		announcement.text = "The current round is an Angry Marshal Round and the current turn is a Tunnel Turn!";
 		// drawnCard1.text="MOVE";
 		SFS.setGameBoard(this);
-		
-		gem2.SetActive(false);
 
 		announcement.text = logMessages[SFS.step];
 		//debugTextString = "";
@@ -234,7 +218,72 @@ public class GameBoard : MonoBehaviour
 			case 6:
 			
 				break;
-
+			case 7:
+			
+				break;
+			case 8:
+			
+				break;
+			case 9:
+			
+				break;
+			case 10:
+			
+				break;
+			case 11:
+			
+				break;
+			case 12:
+			
+				break;
+			case 13:
+			        Ghost.transform.position = new Vector3(-218, -72, -0.16);
+				break;
+			case 14:
+			        Cheyenne.transform.position = new Vector3(-418, 24, -0.16);
+				break;
+			case 15:
+			
+				break;
+			case 16:
+			        Marshal.transform.position = new Vector3(204, -72, -0.16);
+				break;
+			case 17:
+			        Ghost.transform.position = new Vector3(-418, -72, -0.16);
+				break;
+			case 18:
+			
+				break;
+			case 19:
+			    
+				break;
+			case 20:
+			
+				break;
+			case 21:
+			
+				break;
+			case 22:
+			
+				break;
+			case 23:
+			
+				break;
+			case 24:
+			
+				break;
+			case 25:
+			        Cheyenne.transform.position = new Vector3(-218, 24, -0.16);
+				break;
+			case 26:
+			        Django.transform.position = new Vector3(-200, 24, -0.16);
+				break;
+			case 27:
+			        Ghost.transform.position = new Vector3(-418, 24, -0.16);
+				break;
+			case 28:
+			
+				break;
 		}
     }
 
