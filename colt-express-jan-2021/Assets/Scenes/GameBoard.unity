@@ -4287,7 +4287,6 @@ MonoBehaviour:
   CardNewE: {fileID: 28853789}
   CardNewF: {fileID: 2033826064}
   playerE: {fileID: 496337515}
-  B_gem: {fileID: 1744056522}
 --- !u!1 &1023083644
 GameObject:
   m_ObjectHideFlags: 0
@@ -7021,8 +7020,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 223.54996, y: -45.999977}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -8.1623, y: -20.4166}
+  m_SizeDelta: {x: 512.3196, y: 198.1193}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1851350108
 MonoBehaviour:
@@ -7055,7 +7054,7 @@ MonoBehaviour:
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: .
 --- !u!222 &1851350109

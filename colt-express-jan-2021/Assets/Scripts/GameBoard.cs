@@ -163,7 +163,7 @@ public class GameBoard : MonoBehaviour
 		"Stealin, Resolving ChangeFloor: Django is moved to the top of the car\nGhost's card will now be resolved",
 		"Stealin, Resolving ChangeFloor: Ghost is moved to the top of the car\nCalculating Scores",
 		"Results: Game has ended. WINNER: Django $1,250 (Gunslinger); Ghost $500; Cheyenne $250", //27
-		"..."
+		""
 		}; // 
 
     //private static SmartFox sfs = SFS.sfs;
@@ -466,7 +466,7 @@ public class GameBoard : MonoBehaviour
 				break;
 			case 25:
 				// "Stealin, Resolving ChangeFloor: Ghost is moved to the top of the car",
-			        ghost.transform.position = new Vector3 (cartOneBtm[0] - 1F, cartOneBtm[1], cartOneBtm[2]);
+			        ghost.transform.position = new Vector3 (cartZeroTop[0] - 1F, cartZeroTop[1], cartZeroTop[2]);
                     		ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
 				break;
 			case 26: 
@@ -475,8 +475,7 @@ public class GameBoard : MonoBehaviour
 			case 27:
 				Debug.Log("Leaving room");
 				LeaveRoom();
-				break; 
-				
+				break;
 		}
     }
 
