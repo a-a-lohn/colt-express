@@ -321,7 +321,7 @@ public class GameBoard : MonoBehaviour
 				//"Standard Turn: Ghost played a MOVE card",
 				//Its xxx's turn to play a card or draw 3 cards.
 				if(ChooseCharacter.character == "GHOST"){
-					playCard(cardA); 
+					playCard(cardA);
 				}
 				break;
 			case 2:
@@ -341,7 +341,7 @@ public class GameBoard : MonoBehaviour
 			case 4:
 				//"Tunnel Turn: Ghost played an action card which is hidden",
 				if(ChooseCharacter.character == "GHOST"){
-					playCard(cardD);
+					playCard(cardB);
 				}
 				break;
 			case 5:
@@ -353,7 +353,7 @@ public class GameBoard : MonoBehaviour
 			case 6:
 				//"Tunnel Turn: Django played an action card which is hidden",
 				if(ChooseCharacter.character == "DJANGO"){
-					playCard(cardD);
+					playCard(cardF);
 				}
 				break;
 			case 7:

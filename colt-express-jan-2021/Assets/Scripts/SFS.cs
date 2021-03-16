@@ -359,8 +359,8 @@ public static class SFS
 	
 	private static void OnUserExitRoom(BaseEvent evt) {
 		User user = (User) evt.Params["user"];
-
-		if (user != sfs.MySelf) {
+		username = PlayerPrefs.GetString("username", "No username found");
+		if (user.Name != username) {
 			//Room room = (Room)evt.Params["room"];
 			
 			// Show system message
