@@ -3998,8 +3998,8 @@ MonoBehaviour:
   drawnCard4: {fileID: 452844222}
   drawnCard5: {fileID: 469264866}
   drawnCard6: {fileID: 1319462718}
-  drawnCard7: {fileID: 0}
-  playerE: {fileID: 2022661593}
+  drawnCard7: {fileID: 92293028}
+  playerE: {fileID: 496337515}
 --- !u!1 &1023083644
 GameObject:
   m_ObjectHideFlags: 0
@@ -6127,7 +6127,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.28, y: -0.15}
+  m_AnchoredPosition: {x: 0.33, y: -0.18}
   m_SizeDelta: {x: 69.46698, y: 57.836143}
   m_Pivot: {x: 0.49999982, y: 0.4999991}
 --- !u!114 &1765836299
