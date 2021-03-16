@@ -128,14 +128,14 @@ public class GameBoard : MonoBehaviour
 		"Switching Turn: Django played a SHOOT card	It is now Cheyenne's turn to play a card or draw 3 cards.",
 		"Switching Turn: Cheyenne chose to draw cards	It is now Ghost's turn to play a card or draw 3 cards.", //9
 		"Switching Turn: Ghost chose to draw cards	Time for Stealin! Time for Ghost to choose where to move",
-		"Stealin, Resolving Move: Ghost moved to the adjacent car	Cheyenne will now change floors",
+		"Stealin, Resolving Move: Ghost moved to the adjacent car\nCheyenne's card will now be resolved",
 		"Stealin, Resolving ChangeFloor: Cheyenne moved to the top of the car	Time for Ghost to choose to pick one loot",
-		"Stealin, Resolving Rob: Ghost chooses one gem to add to his loot	Time for Cheyenne choose where to move the Marshal",
-		"Stealin, Resolving MoveMarshal: Cheyenne moved the Marshal	 Time for Djando choose who to punch", //14
+		"Stealin, Resolving Rob: Ghost chooses one gem to add to his loot	Cheyenne's card will now be resolved",
+		"Stealin, Resolving MoveMarshal: Cheyenne moved the Marshal	 Time for Django choose who to punch", //14
 		"Stealin, Resolving Punch: Django choose to punch Ghost, who drops his loot	Time for Django to choose where to punch Ghost to",
 		"Punch: Django chooses to punch Ghost to the last train car	Time for Django to choose who to shoot",
-		"Stealin, Resolving Shoot: Django shoots Ghost",
-		"New Round, SpeedingUp! 1 SpeedingUp turn. New Player Order: Cheyenne, Django, Ghost	It is now Cheyenne's turn to play a card or draw 3 cards.",
+		"Stealin, Resolving Shoot: Django shoots Ghost\nNew Round, SpeedingUp! 1 SpeedingUp turn. New Player Order: Cheyenne, Django, Ghost\nIt is now Cheyenne's turn to play a card or draw 3 cards.",
+		"	",
 		"SpeedingUp Turn 1 (Cheyenne): Cheyenne played a MOVE card	It is now Cheyenne's turn to play a card or draw 3 cards.", //19
 		"SpeedingUp Turn 2 (Cheyenne): Cheyenne chose to draw cards	It is now Django's turn to play a card or draw 3 cards.",
 		"SpeedingUp Turn 1 (Django): Django played a CHANGEFLOOR card	It is now Django's turn to play a card or draw 3 cards.",
@@ -251,19 +251,16 @@ public class GameBoard : MonoBehaviour
 		Debug.Log(SFS.step);
 		announcement.text += "\n";
 
-		if(step == 5){
-			announcement.text = ""; 
-		}else if(step == 10){
-			announcement.text = ""; 
-		}else if(step == 15){
-			announcement.text = ""; 
-		}else if(step == 20){
-			announcement.text = ""; 
-		}else if(step == 25){
+		if(step % 4 == 0){
 			announcement.text = ""; 
 		}
 		announcement.text += logMessages[SFS.step];
 
+		/*drawCards(string char, int step) {
+			if(char == ChooseCharacter.character) {
+				//...
+			}
+		}*/
 
 		switch(step) {
 			case 0:
@@ -336,16 +333,16 @@ public class GameBoard : MonoBehaviour
 				break;
 			case 16:
 				//"Punch: Django chooses to punch Ghost to the last train car",
-				// TODO break up punch
+				gem2.SetActive(true);
 				break;
 			case 17:
 				// "Stealin, Resolving Shoot: Django shoots Ghost",
 			   	shoot();
+				Round.text = "ROUND 2:\n-SpeedingUp turn";
 				break;
 			case 18:
 				// round 2 info
 				// "New Round, SpeedingUp! 1 SpeedingUp turn",
-				Round.text = "ROUND 2:\n-SpeedingUp turn";
 				break;
 			case 19:
 				// "SpeedingUp Turn 1 (Cheyenne): Cheyenne played a MOVE card",  
@@ -408,7 +405,6 @@ public class GameBoard : MonoBehaviour
         float posZ = cartZeroBtm[2]; 
         ghost.transform.position = new Vector3 (posX, posY, posZ);
         ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f; // can be any float number
-		gem2.SetActive(true);
 		// shoot();  
 	}
 
