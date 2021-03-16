@@ -384,7 +384,7 @@ public class GameBoard : MonoBehaviour
 				// "Results: Game has ended. ADD SCORES Django is the winner!" 
 				break; 
 			case 29:
-				//LeaveRoom();
+				LeaveRoom();
 				break;
 		}
     }
