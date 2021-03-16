@@ -71,6 +71,9 @@ public class GameBoard : MonoBehaviour
 	public GameObject cardC; 
 	public GameObject cardD;
 	public GameObject cardE;
+	public GameObject cardF; 
+	public GameObject cardG;
+
 	public GameObject bulletCard;
 
 	// propmpt messages 
@@ -112,35 +115,35 @@ public class GameBoard : MonoBehaviour
 
 
 	private String[] logMessages = {
-		"Angry Marshal Round! 1 Standard turns, 1 Tunnel turn, and 1 Switching turn",
+		"Angry Marshal Round! 1 Standard turns, 1 Tunnel turn, and 1 Switching turn", //1
 		"Standard Turn: Ghost played a MOVE card",
 		"Standard Turn: Cheyenne played a CHANGEFLOOR card",
 		"Standard Turn: Django chose to draw cards",
-		"Tunnel Turn: Ghost played an action card which is hidden",
+		"Tunnel Turn: Ghost played an action card which is hidden", //5
 		"Tunnel Turn: Cheyenne played an action card which is hidden",
 		"Tunnel Turn: Django played an action card which is hidden",
 		"Switching Turn Player Order: Django, Cheyenne, Ghost",
 		"Switching Turn: Django played a SHOOT card",
-		"Switching Turn: Cheyenne chose to draw cards",
+		"Switching Turn: Cheyenne chose to draw cards", //10
 		"Switching Turn: Ghost chose to draw cards",
 		"Stealin, Resolving Move: Ghost moved to the adjacent car",
 		"Stealin, Resolving ChangeFloor: Cheyenne moved to the top of the car",
 		"Stealin, Resolving Rob: Ghost chooses one gem to add to his loot",
-		"Stealin, Resolving MoveMarshal: Cheyenne moved the Marshal",
+		"Stealin, Resolving MoveMarshal: Cheyenne moved the Marshal", //15
 		"Stealin, Resolving Punch: Django choose to punch Ghost, who drops his loot",
 		"Punch: Django chooses to punch Ghost to the last train car",
 		"Stealin, Resolving Shoot: Django shoots Ghost",
 		"New Round, SpeedingUp! 1 SpeedingUp turn. New Player Order: Cheyenne, Django, Ghost",
-		"SpeedingUp Turn 1 (Cheyenne): Cheyenne played a MOVE card",
+		"SpeedingUp Turn 1 (Cheyenne): Cheyenne played a MOVE card", //20
 		"SpeedingUp Turn 2 (Cheyenne): Cheyenne chose to draw cards",
 		"SpeedingUp Turn 1 (Django): Django played a CHANGEFLOOR card",
 		"SpeedingUp Turn 2 (Django): Django chose to draw cards",
 		"SpeedingUp Turn 1 (Ghost): Ghost chose to draw cards",
-		"SpeedingUp Turn 2 (Ghost): Ghost played a CHANGEFLOOR card",
+		"SpeedingUp Turn 2 (Ghost): Ghost played a CHANGEFLOOR card", //25
 		"Stealin, Resolving Move: Cheyenne moves to the adjacent train car",
 		"Stealin, Resolving ChangeFloor: Django is moved to the top of the car",
 		"Stealin, Resolving ChangeFloor: Ghost is moved to the top of the car",
-		"Results: Game has ended. ADD SCORES Django is the winner!"
+		"Results: Game has ended. ADD SCORES Django is the winner!" //29
 		};
 
     //private static SmartFox sfs = SFS.sfs;
@@ -512,6 +515,14 @@ public class GameBoard : MonoBehaviour
 
     public static void trace(string msg) {
 	//	debugText.text += (debugText.text != "" ? "\n" : "") + msg;
+	}
+
+	public void GoToWaitingRoom(){
+		Invoke("GoToWaitingRoom2",5);
+	}
+
+	void GoToWaitingRoom2(){
+		SceneManager.LoadScene("WaitingRoom");
 	}
 
 

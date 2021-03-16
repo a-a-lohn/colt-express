@@ -91,7 +91,7 @@ public class WaitingRoom : MonoBehaviour
             }
             GoToGame();
         }
-         GetSessions();
+        GetSessions();
         
     }
 

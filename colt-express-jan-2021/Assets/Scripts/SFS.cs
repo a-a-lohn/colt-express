@@ -371,17 +371,13 @@ public static class SFS
 			Debug.Log(user.Name + " left the game!");
 			gb.exit.text = user.Name + " left the game! You will now be redirected to the Waiting Room";
 			//Invoke("GoToWaitingRoom", 5);
-			GoToWaitingRoom();
+			gb.GoToWaitingRoom();
 		} else {
 			gb.exit.text = "You will now be redirected to the Waiting Room";
 			Debug.Log("Returning to waiting room");
 			//Invoke("GoToWaitingRoom", 5);
-			GoToWaitingRoom();
+			gb.GoToWaitingRoom();
 		}
-	}
-
-	static void GoToWaitingRoom(){
-		SceneManager.LoadScene("WaitingRoom");
 	}
 
 	/*private static void OnRoomAdd(BaseEvent evt) {
