@@ -68,6 +68,7 @@ public class GameBoard : MonoBehaviour
 	public GameObject gem4;
 	public GameObject gem5;
 
+	/* For all the action cards */
 	public GameObject cardA; 
 	public GameObject cardB; 
 	public GameObject cardC; 
@@ -104,14 +105,13 @@ public class GameBoard : MonoBehaviour
 
     public Text announcement;
 
-	/* For all the action cards */
-	public Text drawnCard1; 
-	public Text drawnCard2;
-	public Text drawnCard3; 
-	public Text drawnCard4;
-	public Text drawnCard5;
-	public Text drawnCard6;
-	public Text drawnCard7;
+	// public Text drawnCard1; 
+	// public Text drawnCard2;
+	// public Text drawnCard3; 
+	// public Text drawnCard4;
+	// public Text drawnCard5;
+	// public Text drawnCard6;
+	// public Text drawnCard7;
 
 	public GameObject playerE;
 
@@ -167,7 +167,7 @@ public class GameBoard : MonoBehaviour
     private List<float> iconPosition = new List<float>() {1285.9F, 1121.9F, -364.9F};
 
     void Start(){
-		drawCards();
+		initCards();
 		announcement.text = "";
 		Round.text = "ROUND 1:\n-Standard turn\n-Tunnel turn\n-Switching turn";
 		SFS.setGameBoard();
@@ -223,15 +223,20 @@ public class GameBoard : MonoBehaviour
 		Destroy(cardG);
 	}
 
-	public void drawCards(){
+	public void initCards(){
 		// draws 3 cards randomly and put in the hand
-		drawnCard1.text = "MOVE";
-		drawnCard2.text = "ROB";
-		drawnCard3.text = "MARSHAL"; 
-		drawnCard4.text = "CHANGE FLOOR";
-		drawnCard5.text = "SHOOT"; 
-		drawnCard6.text = "PUNCH"; 
-		drawnCard7.text = "PUNCH"; 
+		cardA.text = "MOVE";
+		cardB.text = "ROB";
+		cardC.text = "MARSHAL"; 
+		cardD.text = "CHANGE FLOOR";
+		cardE.text = "SHOOT"; 
+		cardF.text = "PUNCH"; 
+		return;
+	}
+
+	public void playCard(GameObject selectedCrad){
+		// draws 3 cards randomly and put in the hand
+		Destroy(selectedCrad);
 		return;
 	}
 
@@ -256,11 +261,11 @@ public class GameBoard : MonoBehaviour
 		}
 		announcement.text += logMessages[SFS.step];
 
-		/*drawCards(string char, int step) {
+		public void drawCards(string char, int step) {
 			if(char == ChooseCharacter.character) {
-				//...
+				// make three cards appear
 			}
-		}*/
+		}
 
 		switch(step) {
 			case 0:
@@ -272,12 +277,20 @@ public class GameBoard : MonoBehaviour
 			// yyyy played a ___ card / yyy chose to draw 3 cards
 				//"Standard Turn: Ghost played a MOVE card",
 				//Its xxx's turn to play a card or draw 3 cards.
+				if(ChooseCharacter.character == "GHOST"){
+					playCard(cardA);
+				}
 				break;
 			case 2:
 				//"Standard Turn: Cheyenne played a CHANGEFLOOR card",
+				if(ChooseCharacter.character == "CHEYENNE"){
+					playCard(cardD);
+				}
 				break;
 			case 3:
 				//Standard Turn: Django chose to draw cards",
+				drawCards("DJANGO", step);
+				// DRAW CARDS 
 				break;
 			case 4:
 				//"Tunnel Turn: Ghost played an action card which is hidden",
