@@ -62,6 +62,8 @@ public class WaitingRoom : MonoBehaviour
         // fToken.text = waitToken;
         GetSessions();
 
+        //Invoke("LeaveRoom",5);
+
     }
 
     // Update is called once per frame
@@ -83,12 +85,18 @@ public class WaitingRoom : MonoBehaviour
             }
         }*/
         //Invoke("GetSessions", 1);
-        GetSessions();
-        if(hosting && !LaunchGameButton.interactable) {
-            ActivateLaunchGameButton();
+        if(!SFS.enteredGame) {
+            if(hosting && !LaunchGameButton.interactable) {
+                ActivateLaunchGameButton();
+            }
+            GoToGame();
         }
+         GetSessions();
         
-        GoToGame();
+    }
+
+    public void LeaveRoom() {
+        SFS.LeaveRoom();
     }
 
     public void GoToGame() {

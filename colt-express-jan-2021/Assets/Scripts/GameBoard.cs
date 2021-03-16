@@ -43,6 +43,8 @@ public class GameBoard : MonoBehaviour
 	public Button chooseChar;
 
 	public GameObject canvas;
+
+	public Text exit;
   
 	
     public Bandit b;
@@ -189,7 +191,6 @@ public class GameBoard : MonoBehaviour
 		//debugTextString = "";
                 //debugText.text = "";
 		gem2.SetActive(false);
-	
 
 		//SendNewGameState();
 		// ** THE DICTIONARIES ARE INITIALIZED(CLEARED) IN Start() ** 
@@ -215,8 +216,14 @@ public class GameBoard : MonoBehaviour
 
 		//EnterGameBoardScene();
 
+		//Invoke("LeaveRoom",5);
 
     }
+
+	public void LeaveRoom() {
+        SFS.LeaveRoom();
+    }
+
 
 	// public void drawCards(){
 	// 	// draws 3 cards randomly and put in the hand
@@ -359,6 +366,9 @@ public class GameBoard : MonoBehaviour
 			case 29: 
 				// announce winner 
 				break; 
+			case 30:
+				LeaveRoom();
+				break;
 		}
     }
 

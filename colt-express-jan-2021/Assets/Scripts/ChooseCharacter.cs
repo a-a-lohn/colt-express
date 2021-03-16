@@ -305,6 +305,7 @@ public class ChooseCharacter : MonoBehaviour
     }
 
     private void NextScene() {
+        SFS.enteredGame = true;
         SceneManager.LoadScene("GameBoard");
     }
 
