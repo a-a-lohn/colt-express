@@ -73,7 +73,7 @@ public class GameBoard : MonoBehaviour
 	public GameObject cardE;
 	public GameObject cardF;
 	public GameObject cardG;
-	
+
 	public GameObject bulletCard;
 
 	// propmpt messages 
@@ -339,32 +339,32 @@ public class GameBoard : MonoBehaviour
 				drawThreeCards();
 				// "SpeedingUp Turn 2 (Django): Django chose to draw cards",
 				break;
-			case 22:
+			case 23:
 				// "SpeedingUp Turn 1 (Ghost): Ghost chose to draw cards",
 				break;
-			case 23:
+			case 24:
 				drawThreeCards();
 				// "SpeedingUp Turn 2 (Ghost): Ghost played a CHANGEFLOOR card",
 				break;
-			case 24:
+			case 25:
 				// "Stealin, Resolving Move: Cheyenne moves to the adjacent train car",
 			        cheyenne.transform.position = new Vector3 (cartOneTop[0] + 5F, cartOneTop[1], cartOneTop[2]);
                     cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;	
 				break;
-			case 25:
+			case 26:
 				// "Stealin, Resolving ChangeFloor: Django is moved to the top of the car",
 			        django.transform.position = new Vector3 (cartOneTop[0] - 5F, cartOneTop[1], cartOneTop[2]);
                     django.transform.position += django.transform.forward * Time.deltaTime * 10f;	
 				break;
-			case 26: 
+			case 27: 
 				// "Stealin, Resolving ChangeFloor: Ghost is moved to the top of the car",
 			        ghost.transform.position = new Vector3 (cartOneBtm[0] - 1F, cartOneBtm[1], cartOneBtm[2]);
                     ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
 				break;
-			case 27:
+			case 28:
 				// "Results: Game has ended. ADD SCORES Django is the winner!" 
 				break; 
-			case 30:
+			case 29:
 				LeaveRoom();
 				break;
 		}
