@@ -196,7 +196,7 @@ public class GameBoard : MonoBehaviour
 
     void Start(){
 		//Debug.Log(B_gem.transform.position);// = new Vector3 (gemPosition[0], gemPosition[1], gemPosition[2]);
-        //gem3.transform.position += gem3.transform.forward * Time.deltaTime * 2f;)
+        gem4.SetActive(false);
 		initCards();
 		// set extra cards to false 
 		CardNewA.SetActive(false);
@@ -400,6 +400,7 @@ public class GameBoard : MonoBehaviour
 				//"Stealin, Resolving Rob: Ghost chooses one gem to add to his loot",
 				// TODO: GHOST CLICK ON GEM 3 
 				Destroy(gem3);
+				gem4.SetActive(true);
 				break;
 			case 13:
 				//"Stealin, Resolving MoveMarshal: Cheyenne moved the Marshal",
