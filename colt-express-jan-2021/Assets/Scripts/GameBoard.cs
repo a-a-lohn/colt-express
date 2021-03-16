@@ -136,39 +136,39 @@ public class GameBoard : MonoBehaviour
 
 
 	private String[] logMessages = {
-		"Angry Marshal Round! 1 Standard turns, 1 Tunnel turn, and 1 Switching turn\nIt is now Ghost's turn to play a card or draw 3 cards.", //0
-		"Standard Turn: Ghost played a MOVE card\nIt is now Cheyenne's turn to play a card or draw 3 cards.",
-		"Standard Turn: Cheyenne played a CHANGEFLOOR card\nIt is now Django's turn to play a card or draw 3 cards.",
-		"Standard Turn: Django chose to draw cards\nNext turn!\nIt is now Ghost's turn to play a card or draw 3 cards.",
-		"Tunnel Turn: Ghost played an action card which is hidden\nIt is now Cheyenne's turn to play a card or draw 3 cards.", //4
-		"Tunnel Turn: Cheyenne played an action card which is hidden\nIt is now Django's turn to play a card or draw 3 cards.",
+		"Angry Marshal Round! 1 Standard turns, 1 Tunnel turn, and 1 Switching turn\nIt is now Ghost's turn to play a card or draw 3 cards.\n", //0
+		"Standard Turn: Ghost played a MOVE card\nIt is now Cheyenne's turn to play a card or draw 3 cards.\n",
+		"Standard Turn: Cheyenne played a CHANGEFLOOR card\nIt is now Django's turn to play a card or draw 3 cards.\n",
+		"Standard Turn: Django chose to draw cards\nNext turn!\nIt is now Ghost's turn to play a card or draw 3 cards.\n",
+		"Tunnel Turn: Ghost played an action card which is hidden\nIt is now Cheyenne's turn to play a card or draw 3 cards.\n", //4
+		"Tunnel Turn: Cheyenne played an action card which is hidden\nIt is now Django's turn to play a card or draw 3 cards.\n",
 		/*"Tunnel Turn: Django played an action card which is hidden\nSwitching Turn Player Order: Django, Cheyenne, Ghost\nIt is now Django's turn to play a card or draw 3 cards.",
 		"Switching Turn: Django played a SHOOT card\nIt is now Cheyenne's turn to play a card or draw 3 cards.",
 		"Switching Turn: Cheyenne chose to draw cards\nIt is now Ghost's turn to play a card or draw 3 cards.", 
 		"Switching Turn: Ghost chose to draw cards\nTime for Stealin!\nGhost's card will now be resolved",//9*/
 
-		"Tunnel Turn: Django played an action card which is hidden\nSwitching Turn Player Order: Ghost, Django, Cheyenne\nIt is now Ghost's turn to play a card or draw 3 cards.",
-		"Switching Turn: Ghost chose to draw cards\nIt is now Django's turn to play a card or draw 3 cards.",
-		"Switching Turn: Django played a SHOOT card\nIt is now Cheyenne's turn to play a card or draw 3 cards.",
-		"Switching Turn: Cheyenne chose to draw cards\nTime for Stealin!\nThe cards will now be resolved starting with Ghost.",//9
+		"Tunnel Turn: Django played an action card which is hidden\nSwitching Turn Player Order: Ghost, Django, Cheyenne\nIt is now Ghost's turn to play a card or draw 3 cards.\n",
+		"Switching Turn: Ghost chose to draw cards\nIt is now Django's turn to play a card or draw 3 cards.\n",
+		"Switching Turn: Django played a SHOOT card\nIt is now Cheyenne's turn to play a card or draw 3 cards.\n",
+		"Switching Turn: Cheyenne chose to draw cards\nTime for Stealin!\nThe cards will now be resolved starting with Ghost.\n",//9
 
-		"Stealin, Resolving Move: Ghost moved to the adjacent car\nCheyenne's card will now be resolved",
-		"Stealin, Resolving ChangeFloor: Cheyenne moved to the top of the car\nTime for Ghost to choose to pick one loot",
-		"Stealin, Resolving Rob: Ghost chooses one gem to add to his loot\nCheyenne's card will now be resolved",
-		"Stealin, Resolving MoveMarshal: Cheyenne moved the Marshal\nDjango's card will now be resolved", 
-		"Stealin, Resolving Punch: Django choose to punch Ghost, who drops his loot\nTime for Django to choose where to punch Ghost to",//14
-		"Punch: Django chooses to punch Ghost to the last train car\nTime for Django to choose who to shoot",
-		"Stealin, Resolving Shoot: Django shoots Ghost\nNew Round, SpeedingUp! 1 SpeedingUp turn. New Player Order: Cheyenne, Django, Ghost\nIt is now Cheyenne's turn to play a card or draw 3 cards.",
-		"SpeedingUp Turn 1 (Cheyenne): Cheyenne played a MOVE card\nIt is now Cheyenne's turn to play a card or draw 3 cards.", 
-		"SpeedingUp Turn 2 (Cheyenne): Cheyenne chose to draw cards\nIt is now Django's turn to play a card or draw 3 cards.",
-		"SpeedingUp Turn 1 (Django): Django played a CHANGEFLOOR card\nIt is now Django's turn to play a card or draw 3 cards.",//19
-		"SpeedingUp Turn 2 (Django): Django chose to draw cards\nIt is now Ghost's turn to play a card or draw 3 cards.",
-		"SpeedingUp Turn 1 (Ghost): Ghost chose to draw cards\nIt is now Ghost's turn to play a card or draw 3 cards.",
-		"SpeedingUp Turn 2 (Ghost): Ghost played a CHANGEFLOOR card\nStealin Time!\nCheyenne's card will now be resolved",
-		"Stealin, Resolving Move: Cheyenne moves to the adjacent train car\nDjango's card will now be resolved", //24
-		"Stealin, Resolving ChangeFloor: Django is moved to the top of the car\nGhost's card will now be resolved",
-		"Stealin, Resolving ChangeFloor: Ghost is moved to the top of the car\nCalculating Scores",
-		"Results: Game has ended. WINNER: Django $1,250 (Gunslinger); Ghost $500; Cheyenne $250", //27
+		"Stealin, Resolving Move: Ghost moved to the adjacent car\nCheyenne's card will now be resolved\n",
+		"Stealin, Resolving ChangeFloor: Cheyenne moved to the top of the car\nTime for Ghost to choose to pick one loot\n",
+		"Stealin, Resolving Rob: Ghost chooses one gem to add to his loot\nCheyenne's card will now be resolved\n",
+		"Stealin, Resolving MoveMarshal: Cheyenne moved the Marshal\nDjango's card will now be resolved\n", 
+		"Stealin, Resolving Punch: Django choose to punch Ghost, who drops his loot\nTime for Django to choose where to punch Ghost to\n",//14
+		"Punch: Django chooses to punch Ghost to the last train car\nTime for Django to choose who to shoot\n",
+		"Stealin, Resolving Shoot: Django shoots Ghost\nNew Round, SpeedingUp! 1 SpeedingUp turn. New Player Order: Cheyenne, Django, Ghost\nIt is now Cheyenne's turn to play a card or draw 3 cards.\n",
+		"SpeedingUp Turn 1 (Cheyenne): Cheyenne played a MOVE card\nIt is now Cheyenne's turn to play a card or draw 3 cards.\n", 
+		"SpeedingUp Turn 2 (Cheyenne): Cheyenne chose to draw cards\nIt is now Django's turn to play a card or draw 3 cards.\n",
+		"SpeedingUp Turn 1 (Django): Django played a CHANGEFLOOR card\nIt is now Django's turn to play a card or draw 3 cards.\n",//19
+		"SpeedingUp Turn 2 (Django): Django chose to draw cards\nIt is now Ghost's turn to play a card or draw 3 cards.\n",
+		"SpeedingUp Turn 1 (Ghost): Ghost chose to draw cards\nIt is now Ghost's turn to play a card or draw 3 cards.\n",
+		"SpeedingUp Turn 2 (Ghost): Ghost played a CHANGEFLOOR card\nStealin Time!\nCheyenne's card will now be resolved\n",
+		"Stealin, Resolving Move: Cheyenne moves to the adjacent train car\nDjango's card will now be resolved\n", //24
+		"Stealin, Resolving ChangeFloor: Django is moved to the top of the car\nGhost's card will now be resolved\n",
+		"Stealin, Resolving ChangeFloor: Ghost is moved to the top of the car\nCalculating Scores\n",
+		"Results: Game has ended. WINNER: Django $1,250 (Gunslinger); Ghost $500; Cheyenne $250\n", //27
 		""
 		}; // 
 
