@@ -144,9 +144,9 @@ public class GameBoard : MonoBehaviour
 		"Stealin, Resolving Move: Cheyenne moves to the adjacent train car\nDjango's card will now be resolved", //24
 		"Stealin, Resolving ChangeFloor: Django is moved to the top of the car\nGhost's card will now be resolved",
 		"Stealin, Resolving ChangeFloor: Ghost is moved to the top of the car\nCalculating Scores",
-		"Results: Game has ended. ADD SCORES Django is the winner!", //27
+		"Results: Game has ended. WINNER: Django $1,250 (Gunslinger); Ghost $500; Cheyenne $250", //27
 		"..."
-		};
+		}; // 
 
     //private static SmartFox sfs = SFS.sfs;
     // private static string defaultHost = SFS.defaultHost;// = "127.0.0.1"; //"13.90.26.131"; // 
