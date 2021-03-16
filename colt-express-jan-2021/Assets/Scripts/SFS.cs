@@ -253,9 +253,9 @@ public static class SFS
 		}*/
 	}
 
-	/*public static void LeaveRoom() {
+	public static void LeaveRoom() {
 		sfs.Send(new Sfs2X.Requests.LeaveRoomRequest());
-	}*/
+	}
 	
 	private static void OnLoginError(BaseEvent evt) {
 		// Disconnect
