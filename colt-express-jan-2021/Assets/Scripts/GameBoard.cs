@@ -71,6 +71,9 @@ public class GameBoard : MonoBehaviour
 	public GameObject cardC; 
 	public GameObject cardD;
 	public GameObject cardE;
+	public GameObject cardF;
+	public GameObject cardG;
+	
 	public GameObject bulletCard;
 
 	// propmpt messages 
@@ -228,7 +231,7 @@ public class GameBoard : MonoBehaviour
 	// }
 
 	void MouseDown() {
-		drawThreeCards();
+		// drawThreeCards();
 		SFS.step += 1;
 		Debug.Log(SFS.step);
 		announcement.text += "\n";
@@ -274,9 +277,11 @@ public class GameBoard : MonoBehaviour
 				//"Switching Turn: Django played a SHOOT card",
 				break;
 			case 9:
+				drawThreeCards();
 				//"Switching Turn: Cheyenne chose to draw cards",
 				break;
 			case 10:
+				drawThreeCards();
 				//"Switching Turn: Ghost chose to draw cards",
 			        // ghost.transform.position = new Vector3 (cartOneBtm[0], cartOneBtm[1], cartOneBtm[2]);
                     		// ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
@@ -284,14 +289,14 @@ public class GameBoard : MonoBehaviour
 			case 11:
 				//"Stealin, Resolving Move: Ghost moved to the adjacent car",
 				ghost.transform.position = new Vector3 (cartOneBtm[0] - 1F, cartOneBtm[1], cartOneBtm[2]);
-                    		ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
+                ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
 			        // cheyenne.transform.position = new Vector3 (cartZeroTop[0], cartZeroTop[1], cartZeroTop[2]);
                     		// cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;
 				break;
 			case 12:
 				//"Stealin, Resolving ChangeFloor: Cheyenne moved to the top of the car",
 				cheyenne.transform.position = new Vector3 (cartZeroTop[0] + 5F, cartZeroTop[1], cartZeroTop[2]);
-                    		cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;
+                cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;
 			        // Destroy(gem3);
 				break;
 			case 13:
@@ -302,7 +307,7 @@ public class GameBoard : MonoBehaviour
 			case 14:
 				//"Stealin, Resolving MoveMarshal: Cheyenne moved the Marshal",
 				marshal.transform.position = new Vector3 (cartTwoBtm[0], cartTwoBtm[1], cartTwoBtm[2]);
-                		marshal.transform.position += marshal.transform.forward * Time.deltaTime * 5f;
+                marshal.transform.position += marshal.transform.forward * Time.deltaTime * 5f;
 				break;
 			case 15:
 				// "Stealin, Resolving Punch: Django choose to punch Ghost, who drops his loot",
@@ -324,34 +329,37 @@ public class GameBoard : MonoBehaviour
 				// "SpeedingUp Turn 1 (Cheyenne): Cheyenne played a MOVE card",  
 				break;
 			case 20:
+				drawThreeCards();
 				// "SpeedingUp Turn 2 (Cheyenne): Cheyenne chose to draw cards",
 				break;
 			case 21:
 				// "SpeedingUp Turn 1 (Django): Django played a CHANGEFLOOR card", 
 				break;
 			case 22:
+				drawThreeCards();
 				// "SpeedingUp Turn 2 (Django): Django chose to draw cards",
 				break;
 			case 22:
 				// "SpeedingUp Turn 1 (Ghost): Ghost chose to draw cards",
 				break;
 			case 23:
+				drawThreeCards();
 				// "SpeedingUp Turn 2 (Ghost): Ghost played a CHANGEFLOOR card",
 				break;
 			case 24:
 				// "Stealin, Resolving Move: Cheyenne moves to the adjacent train car",
 			        cheyenne.transform.position = new Vector3 (cartOneTop[0] + 5F, cartOneTop[1], cartOneTop[2]);
-                    		cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;	
+                    cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;	
 				break;
 			case 25:
 				// "Stealin, Resolving ChangeFloor: Django is moved to the top of the car",
 			        django.transform.position = new Vector3 (cartOneTop[0] - 5F, cartOneTop[1], cartOneTop[2]);
-                    		django.transform.position += django.transform.forward * Time.deltaTime * 10f;	
+                    django.transform.position += django.transform.forward * Time.deltaTime * 10f;	
 				break;
 			case 26: 
 				// "Stealin, Resolving ChangeFloor: Ghost is moved to the top of the car",
 			        ghost.transform.position = new Vector3 (cartOneBtm[0] - 1F, cartOneBtm[1], cartOneBtm[2]);
-                    		ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
+                    ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
 				break;
 			case 27:
 				// "Results: Game has ended. ADD SCORES Django is the winner!" 
