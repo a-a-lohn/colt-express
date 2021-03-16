@@ -209,9 +209,9 @@ public class GameBoard : MonoBehaviour
 
     }
 
-	/*public void LeaveRoom() {
+	public void LeaveRoom() {
         SFS.LeaveRoom();
-    }*/
+    }
 
 	// replace the last three cards with new cards 
 	public void drawThreeCards(){
