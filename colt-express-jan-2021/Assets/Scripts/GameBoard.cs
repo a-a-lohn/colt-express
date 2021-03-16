@@ -183,10 +183,14 @@ public class GameBoard : MonoBehaviour
     private List<float> cartLocoBtm = new List<float>() {1390.0F, 824.9F, -364.9F};
 
     private List<float> iconPosition = new List<float>() {1285.9F, 1121.9F, -364.9F};
-	private List<float> gemPosition = new List<float>() {1025.7F, 1121.9F, -364.9F};
+	private List<float> gemPosition = new List<float>() {1224.1F, 1077.2F, -364.9F}; //{1025.7F, 1121.9F, -364.9F};
+
+	//public GameObject B_gem;
 
 
     void Start(){
+		//Debug.Log(B_gem.transform.position);// = new Vector3 (gemPosition[0], gemPosition[1], gemPosition[2]);
+        //gem3.transform.position += gem3.transform.forward * Time.deltaTime * 2f;)
 		initCards();
 		// set extra cards to false 
 		CardNewA.SetActive(false);
@@ -211,6 +215,8 @@ public class GameBoard : MonoBehaviour
 
 		//exit.SetActive(false);
 		exitText.text ="";
+
+		//ChooseCharacter.character = "GHOST";
 
 		//SendNewGameState();
 		// ** THE DICTIONARIES ARE INITIALIZED(CLEARED) IN Start() ** 
@@ -258,7 +264,6 @@ public class GameBoard : MonoBehaviour
 	public void playCard(GameObject selectedCard){
 		// draws 3 cards randomly and put in the hand
 		Destroy(selectedCard);
-		return;
 	}
 
 	public void MouseDown() {
@@ -300,7 +305,7 @@ public class GameBoard : MonoBehaviour
 		Debug.Log(SFS.step);
 		announcement.text += "\n";
 
-		if(step % 4 == 0){
+		if(step % 3 == 0){
 			announcement.text = ""; 
 		}
 		announcement.text += logMessages[SFS.step];
@@ -315,9 +320,15 @@ public class GameBoard : MonoBehaviour
 				// yyyy played a ___ card / yyy chose to draw 3 cards
 				//"Standard Turn: Ghost played a MOVE card",
 				//Its xxx's turn to play a card or draw 3 cards.
+				if(ChooseCharacter.character == "GHOST"){
+					playCard(cardA); 
+				}
 				break;
 			case 2:
 				//"Standard Turn: Cheyenne played a CHANGEFLOOR card",
+				if(ChooseCharacter.character == "CHEYENNE"){
+					playCard(cardD);
+				}
 				break;
 			case 3:
 				//Standard Turn: Django chose to draw cards",
@@ -336,7 +347,7 @@ public class GameBoard : MonoBehaviour
 			case 5:
 				//"Tunnel Turn: Cheyenne played an action card which is hidden",
 				if(ChooseCharacter.character == "CHEYENNE"){
-					playCard(cardD);
+					playCard(cardC);
 				}
 				break;
 			case 6:
@@ -346,22 +357,21 @@ public class GameBoard : MonoBehaviour
 				}
 				break;
 			case 7:
-				//"Switching Turn Player Order: Django, Cheyenne, Ghost",
-				break;
-			case 7:
 				//"Switching Turn: Django played a SHOOT card",
 				if(ChooseCharacter.character == "DJANGO"){
 					playCard(cardE);
 				}
 				break;
-			case 9:
+			case 8:
 				if(ChooseCharacter.character == "CHEYENNE"){
 					drawCards();
 				}
 				//"Switching Turn: Cheyenne chose to draw cards",
 				break;
-			case 10:
-				drawCards();
+			case 9:
+				if(ChooseCharacter.character == "GHOST"){
+					drawCards();
+				}
 				//"Switching Turn: Ghost chose to draw cards",
 				break;
 			case 10:
@@ -399,26 +409,49 @@ public class GameBoard : MonoBehaviour
 				// "Stealin, Resolving Shoot: Django shoots Ghost",// "New Round, SpeedingUp! 1 SpeedingUp turn",
 			   	shoot();
 				Round.text = "ROUND 2:\n-SpeedingUp turn";
+				if(ChooseCharacter.character == "DJANGO"){
+					Destroy(cardA);
+				}
+				else if(ChooseCharacter.character == "CHEYENNE"){
+					Destroy(CardNewC);
+				} else if(ChooseCharacter.character == "GHOST") {
+					Destroy(cardE);
+				}
 				break;
 			case 17:	
 				// "SpeedingUp Turn 1 (Cheyenne): Cheyenne played a MOVE card",  
+				if(ChooseCharacter.character == "CHEYENNE"){
+					playCard(cardA);
+				}
 				break;
-			case 20:
-				drawCards();
+			case 18:
 				// "SpeedingUp Turn 2 (Cheyenne): Cheyenne chose to draw cards",
+				if(ChooseCharacter.character == "CHEYENNE"){
+					drawCardsSecond();
+				}
 				break;
 			case 19:
+				if(ChooseCharacter.character == "DJANGO"){
+							playCard(CardNewB);
+				}
 				// "SpeedingUp Turn 1 (Django): Django played a CHANGEFLOOR card", 
 				break;
-			case 22:
-				drawCards();
+			case 20:
+				if(ChooseCharacter.character == "DJANGO"){
+					drawCardsSecond();
+				}
 				// "SpeedingUp Turn 2 (Django): Django chose to draw cards",
 				break;
 			case 21:
+				if(ChooseCharacter.character == "GHOST"){
+						drawCardsSecond();
+				}
 				// "SpeedingUp Turn 1 (Ghost): Ghost chose to draw cards",
 				break;
-			case 24:
-				drawCards();
+			case 22:
+				if(ChooseCharacter.character == "GHOST"){
+					playCard(CardNewB);
+				}
 				// "SpeedingUp Turn 2 (Ghost): Ghost played a CHANGEFLOOR card",
 				break;
 			case 23:
@@ -449,8 +482,8 @@ public class GameBoard : MonoBehaviour
 
 
 	public void rob(){
-		gem3.transform.position = new Vector3 (gemPosition[0], gemPosition[1], gemPosition[2]);
-        gem3.transform.position += gem3.transform.forward * Time.deltaTime * 2f;
+		gem3.transform.position = new Vector3 (gemPosition[0], gemPosition[1], gemPosition[2]); //(1224.1, 1077.2, -364.9)
+        gem3.transform.position += gem3.transform.forward * Time.deltaTime * 5f;
 	}
 
 	public void punch(){
