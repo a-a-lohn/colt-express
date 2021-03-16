@@ -37,7 +37,7 @@ public static class SFS
 	public static ChooseCharacter cc;
 
     static SFS(){
-        defaultHost = "127.0.0.1";//"13.72.79.112";
+        defaultHost = "13.72.79.112";//"127.0.0.1";
 	    defaultTcpPort = 9933;
         zone = "MergedExt";
     }
@@ -248,14 +248,14 @@ public static class SFS
 		populateRoomList(sfs.RoomList);*/
 
 		// Join first Room in Zone
-		if (sfs.RoomList.Count > 0) {
+		/*if (sfs.RoomList.Count > 0) {
 			sfs.Send(new Sfs2X.Requests.JoinRoomRequest(sfs.RoomList[0].Name));
-		}
+		}*/
 	}
 
-	public static void LeaveRoom() {
+	/*public static void LeaveRoom() {
 		sfs.Send(new Sfs2X.Requests.LeaveRoomRequest());
-	}
+	}*/
 	
 	private static void OnLoginError(BaseEvent evt) {
 		// Disconnect

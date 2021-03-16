@@ -95,9 +95,9 @@ public class WaitingRoom : MonoBehaviour
         
     }
 
-    public void LeaveRoom() {
+    /*public void LeaveRoom() {
         SFS.LeaveRoom();
-    }
+    }*/
 
     public void GoToGame() {
         if (gameHash != null && joined)/* && !GoToGameButton.interactable) */{
