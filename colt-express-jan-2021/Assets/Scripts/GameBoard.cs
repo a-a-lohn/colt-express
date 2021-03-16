@@ -46,7 +46,8 @@ public class GameBoard : MonoBehaviour
 	public GameObject canvas;
 
 	public Text Round;
-	public Text exit;
+	public GameObject exit;
+	public Text exitText;
   
 	
     public Bandit b;
@@ -172,6 +173,9 @@ public class GameBoard : MonoBehaviour
 		Round.text = "ROUND 1:\n-Standard turn\n-Tunnel turn\n-Switching turn";
 		SFS.setGameBoard();
 
+		exit.SetActive(false);
+		exitText.text = "";
+
 		// announcement.text = "The current round is an Angry Marshal Round and the current turn is a Tunnel Turn!";
 		// drawnCard1.text="MOVE";
 		// SFS.setGameBoard(this);
@@ -225,12 +229,12 @@ public class GameBoard : MonoBehaviour
 
 	public void initCards(){
 		// draws 3 cards randomly and put in the hand
-		cardA.text = "MOVE";
+		/*cardA.text = "MOVE";
 		cardB.text = "ROB";
 		cardC.text = "MARSHAL"; 
 		cardD.text = "CHANGE FLOOR";
 		cardE.text = "SHOOT"; 
-		cardF.text = "PUNCH"; 
+		cardF.text = "PUNCH"; */
 		return;
 	}
 
@@ -261,11 +265,11 @@ public class GameBoard : MonoBehaviour
 		}
 		announcement.text += logMessages[SFS.step];
 
-		public void drawCards(string char, int step) {
+		/*public void drawCards(string char, int step) {
 			if(char == ChooseCharacter.character) {
 				// make three cards appear
 			}
-		}
+		}*/
 
 		switch(step) {
 			case 0:
@@ -289,7 +293,7 @@ public class GameBoard : MonoBehaviour
 				break;
 			case 3:
 				//Standard Turn: Django chose to draw cards",
-				drawCards("DJANGO", step);
+				//drawCards("DJANGO", step);
 				// DRAW CARDS 
 				break;
 			case 4:

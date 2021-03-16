@@ -369,11 +369,13 @@ public static class SFS
 			// Populate users list
 			//populateUserList(room.UserList);
 			Debug.Log(user.Name + " left the game!");
-			gb.exit.text = user.Name + " left the game! You will now be redirected to the Waiting Room";
+			gb.exit.SetActive(true);
+			gb.exitText.text = user.Name + " left the game! You will now be redirected to the Waiting Room"; 
 			//Invoke("GoToWaitingRoom", 5);
 			gb.GoToWaitingRoom();
 		} else {
-			gb.exit.text = "You will now be redirected to the Waiting Room";
+			gb.exit.SetActive(true);
+			gb.exitText.text = "You will now be redirected to the Waiting Room";
 			Debug.Log("Returning to waiting room");
 			//Invoke("GoToWaitingRoom", 5);
 			gb.GoToWaitingRoom();
