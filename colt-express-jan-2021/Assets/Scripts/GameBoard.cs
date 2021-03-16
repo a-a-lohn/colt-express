@@ -69,6 +69,8 @@ public class GameBoard : MonoBehaviour
 	public GameObject gem4;
 	public GameObject gem5;
 
+	public GameObject ghoLoot;
+
 	/* For all the action cards */
 	// public GameObject cardA; 
 	// public GameObject cardB; 
@@ -142,10 +144,6 @@ public class GameBoard : MonoBehaviour
 		"Standard Turn: Django chose to draw cards\nNext turn!\nIt is now Ghost's turn to play a card or draw 3 cards.\n",
 		"Tunnel Turn: Ghost played an action card which is hidden\nIt is now Cheyenne's turn to play a card or draw 3 cards.\n", //4
 		"Tunnel Turn: Cheyenne played an action card which is hidden\nIt is now Django's turn to play a card or draw 3 cards.\n",
-		/*"Tunnel Turn: Django played an action card which is hidden\nSwitching Turn Player Order: Django, Cheyenne, Ghost\nIt is now Django's turn to play a card or draw 3 cards.",
-		"Switching Turn: Django played a SHOOT card\nIt is now Cheyenne's turn to play a card or draw 3 cards.",
-		"Switching Turn: Cheyenne chose to draw cards\nIt is now Ghost's turn to play a card or draw 3 cards.", 
-		"Switching Turn: Ghost chose to draw cards\nTime for Stealin!\nGhost's card will now be resolved",//9*/
 
 		"Tunnel Turn: Django played an action card which is hidden\nSwitching Turn Player Order: Ghost, Django, Cheyenne\nIt is now Ghost's turn to play a card or draw 3 cards.\n",
 		"Switching Turn: Ghost chose to draw cards\nIt is now Django's turn to play a card or draw 3 cards.\n",
@@ -155,8 +153,8 @@ public class GameBoard : MonoBehaviour
 		"Stealin, Resolving Move: Ghost moved to the adjacent car\nCheyenne's card will now be resolved\n",
 		"Stealin, Resolving ChangeFloor: Cheyenne moved to the top of the car\nTime for Ghost to choose to pick one loot\n",
 		"Stealin, Resolving Rob: Ghost chooses one gem to add to his loot\nCheyenne's card will now be resolved\n",
-		"Stealin, Resolving MoveMarshal: Cheyenne moved the Marshal\nDjango's card will now be resolved\n", 
-		"Stealin, Resolving Punch: Django choose to punch Ghost, who drops his loot\nTime for Django to choose where to punch Ghost to\n",//14
+		"Stealin, Resolving MoveMarshal: Cheyenne moved the Marshal\nDjango's card will now be resolved.\nDjango must punch Ghost.Time for Django to choose which loot to force Ghost to drop\n", 
+		"Stealin, Resolving Punch: Django chose the loot\nTime for Django to choose where to punch Ghost to\n",
 		"Punch: Django chooses to punch Ghost to the last train car\nTime for Django to choose who to shoot\n",
 		"Stealin, Resolving Shoot: Django shoots Ghost\nNew Round, SpeedingUp! 1 SpeedingUp turn. New Player Order: Cheyenne, Django, Ghost\nIt is now Cheyenne's turn to play a card or draw 3 cards.\n",
 		"SpeedingUp Turn 1 (Cheyenne): Cheyenne played a MOVE card\nIt is now Cheyenne's turn to play a card or draw 3 cards.\n", 
@@ -280,7 +278,7 @@ public class GameBoard : MonoBehaviour
 		ExtensionRequest req = new ExtensionRequest("gm.nextAction",obj);
 		SFS.Send(req);
 		//executeHardCoded(step);
-		if (SFS.step == 27){
+		if (SFS.step == 28){
 			LeaveRoom();
 		}
 	}
@@ -408,14 +406,17 @@ public class GameBoard : MonoBehaviour
                 		marshal.transform.position += marshal.transform.forward * Time.deltaTime * 5f;
 				break;
 			case 14:
-				// "Stealin, Resolving Punch: Django choose to punch Ghost, who drops his loot",
-				gem2.SetActive(true);
+				// "Stealin, Resolving Punch: Django must punch Ghost,Time for Django to choose which loot to force Ghost to drop"
+				gem2.SetActive(true); //purse appears
+				Destroy(ghoLoot);
 				break;
 			case 15:
+				//"Stealin, Resolving Punch: Django chose the loot.\nTime for Django to choose where to punch Ghost to\n",//15
 				//"Punch: Django chooses to punch Ghost to the last train car",
-				punch(); 
+				punch(); //moves ghost
 				break;
 			case 16:
+			//"Punch: Django chooses to punch Ghost to the last train car\nTime for Django to choose who to shoot\n",
 				// "Stealin, Resolving Shoot: Django shoots Ghost",// "New Round, SpeedingUp! 1 SpeedingUp turn",
 			   	shoot();
 				Round.text = "ROUND 2:\n-SpeedingUp turn";

@@ -4342,6 +4342,7 @@ MonoBehaviour:
   gem3: {fileID: 1744056522}
   gem4: {fileID: 1869831086}
   gem5: {fileID: 1311391924}
+  ghoLoot: {fileID: 925013540}
   cardA: {fileID: 369979175}
   cardB: {fileID: 541298844}
   cardC: {fileID: 1023083644}
