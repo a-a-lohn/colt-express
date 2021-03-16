@@ -361,6 +361,8 @@ public static class SFS
 		User user = (User) evt.Params["user"];
 		username = PlayerPrefs.GetString("username", "No username found");
 		if (user.Name != username) {
+			Debug.Log(username);
+			Debug.Log(user.Name);
 			//Room room = (Room)evt.Params["room"];
 			
 			// Show system message

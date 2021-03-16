@@ -142,10 +142,16 @@ public class GameBoard : MonoBehaviour
 		"Standard Turn: Django chose to draw cards\nNext turn!\nIt is now Ghost's turn to play a card or draw 3 cards.",
 		"Tunnel Turn: Ghost played an action card which is hidden\nIt is now Cheyenne's turn to play a card or draw 3 cards.", //4
 		"Tunnel Turn: Cheyenne played an action card which is hidden\nIt is now Django's turn to play a card or draw 3 cards.",
-		"Tunnel Turn: Django played an action card which is hidden\nSwitching Turn Player Order: Django, Cheyenne, Ghost\nIt is now Django's turn to play a card or draw 3 cards.",
+		/*"Tunnel Turn: Django played an action card which is hidden\nSwitching Turn Player Order: Django, Cheyenne, Ghost\nIt is now Django's turn to play a card or draw 3 cards.",
 		"Switching Turn: Django played a SHOOT card\nIt is now Cheyenne's turn to play a card or draw 3 cards.",
 		"Switching Turn: Cheyenne chose to draw cards\nIt is now Ghost's turn to play a card or draw 3 cards.", 
-		"Switching Turn: Ghost chose to draw cards\nTime for Stealin!\nGhost's card will now be resolved",//9
+		"Switching Turn: Ghost chose to draw cards\nTime for Stealin!\nGhost's card will now be resolved",//9*/
+
+		"Tunnel Turn: Django played an action card which is hidden\nSwitching Turn Player Order: Ghost, Django, Cheyenne\nIt is now Ghost's turn to play a card or draw 3 cards.",
+		"Switching Turn: Ghost chose to draw cards\nIt is now Django's turn to play a card or draw 3 cards.",
+		"Switching Turn: Django played a SHOOT card\nIt is now Cheyenne's turn to play a card or draw 3 cards.",
+		"Switching Turn: Cheyenne chose to draw cards\nTime for Stealin!\nThe cards will now be resolved starting with Ghost.",//9
+
 		"Stealin, Resolving Move: Ghost moved to the adjacent car\nCheyenne's card will now be resolved",
 		"Stealin, Resolving ChangeFloor: Cheyenne moved to the top of the car\nTime for Ghost to choose to pick one loot",
 		"Stealin, Resolving Rob: Ghost chooses one gem to add to his loot\nCheyenne's card will now be resolved",
@@ -357,22 +363,22 @@ public class GameBoard : MonoBehaviour
 				}
 				break;
 			case 7:
-				//"Switching Turn: Django played a SHOOT card",
-				if(ChooseCharacter.character == "DJANGO"){
-					playCard(cardE);
-				}
-				break;
-			case 8:
-				if(ChooseCharacter.character == "CHEYENNE"){
-					drawCards();
-				}
-				//"Switching Turn: Cheyenne chose to draw cards",
-				break;
-			case 9:
+				//"Switching Turn: ",
 				if(ChooseCharacter.character == "GHOST"){
 					drawCards();
 				}
 				//"Switching Turn: Ghost chose to draw cards",
+				break;
+			case 8:
+				if(ChooseCharacter.character == "DJANGO"){
+					playCard(cardE);
+				}
+				break;
+			case 9:
+				if(ChooseCharacter.character == "CHEYENNE"){
+					drawCards();
+				}
+				//"Switching Turn: Cheyenne chose to draw cards",
 				break;
 			case 10:
 				//"Stealin, Resolving Move: Ghost moved to the adjacent car",
