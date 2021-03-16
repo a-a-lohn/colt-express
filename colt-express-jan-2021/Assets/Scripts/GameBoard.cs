@@ -236,20 +236,19 @@ public class GameBoard : MonoBehaviour
 	void MouseDown() {
 		// drawThreeCards();
 		SFS.step += 1;
-		Debug.Log(SFS.step);
-		announcement.text += "\n";
-		announcement.text += logMessages[SFS.step];
-
 		int step = SFS.step;
 		ISFSObject obj = SFSObject.NewInstance();
 		obj.PutInt("step", step);
-		//ExtensionRequest req = new ExtensionRequest("gm.nextAction",obj);
-		//SFS.Send(req);
+		ExtensionRequest req = new ExtensionRequest("gm.nextAction",obj);
+		SFS.Send(req);
 		
-		executeHardCoded(step);
+		//executeHardCoded(step);
 	}
 
 	public void executeHardCoded(int step) {
+		Debug.Log(SFS.step);
+		announcement.text += "\n";
+		announcement.text += logMessages[SFS.step];
 		switch(step) {
 			case 0:
 				//round,turn info
