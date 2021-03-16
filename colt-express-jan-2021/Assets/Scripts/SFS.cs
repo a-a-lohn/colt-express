@@ -80,7 +80,7 @@ public static class SFS
 		if (cmd == "remainingCharacters") {
 			ISFSObject responseParams = (SFSObject)evt.Params["params"];
 			string player = responseParams.GetUtfString("player");
-			if(player != null) {
+			if(player != null){// && chosenCharText != "") {
 				string chosen = responseParams.GetUtfString("chosenCharacter");
 				chosenCharText += "\n" + player + " chose " + chosen + "!";
 				cc.UpdateDisplayText(chosenCharText);
@@ -248,9 +248,9 @@ public static class SFS
 		populateRoomList(sfs.RoomList);*/
 
 		// Join first Room in Zone
-		/*if (sfs.RoomList.Count > 0) {
+		if (sfs.RoomList.Count > 0) {
 			sfs.Send(new Sfs2X.Requests.JoinRoomRequest(sfs.RoomList[0].Name));
-		}*/
+		}
 	}
 
 	public static void LeaveRoom() {
@@ -369,11 +369,13 @@ public static class SFS
 			// Populate users list
 			//populateUserList(room.UserList);
 			Debug.Log(user.Name + " left the game!");
-			gb.exit.text = user.Name + " left the game! You will now be redirected to the Waiting Room";
+			//gb.exit.SetActive(true);
+			gb.exitText.text = user.Name + " left the game! You will now be redirected to the Waiting Room"; 
 			//Invoke("GoToWaitingRoom", 5);
 			gb.GoToWaitingRoom();
 		} else {
-			gb.exit.text = "You will now be redirected to the Waiting Room";
+			//gb.exit.SetActive(true);
+			gb.exitText.text = "You will now be redirected to the Waiting Room";
 			Debug.Log("Returning to waiting room");
 			//Invoke("GoToWaitingRoom", 5);
 			gb.GoToWaitingRoom();
