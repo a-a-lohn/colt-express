@@ -248,7 +248,21 @@ public class GameBoard : MonoBehaviour
 	public void executeHardCoded(int step) {
 		Debug.Log(SFS.step);
 		announcement.text += "\n";
+
+		if(step == 5){
+			announcement.text = ""; 
+		}else if(step == 10){
+			announcement.text = ""; 
+		}else if(step == 15){
+			announcement.text = ""; 
+		}else if(step == 20){
+			announcement.text = ""; 
+		}else if(step == 25){
+			announcement.text = ""; 
+		}
 		announcement.text += logMessages[SFS.step];
+
+
 		switch(step) {
 			case 0:
 				//round,turn info
