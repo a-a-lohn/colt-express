@@ -80,7 +80,7 @@ public static class SFS
 		if (cmd == "remainingCharacters") {
 			ISFSObject responseParams = (SFSObject)evt.Params["params"];
 			string player = responseParams.GetUtfString("player");
-			if(player != null && chosenCharText != "") {
+			if(player != null){// && chosenCharText != "") {
 				string chosen = responseParams.GetUtfString("chosenCharacter");
 				chosenCharText += "\n" + player + " chose " + chosen + "!";
 				cc.UpdateDisplayText(chosenCharText);

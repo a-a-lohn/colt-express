@@ -144,7 +144,8 @@ public class GameBoard : MonoBehaviour
 		"Stealin, Resolving Move: Cheyenne moves to the adjacent train car\nDjango's card will now be resolved", //24
 		"Stealin, Resolving ChangeFloor: Django is moved to the top of the car\nGhost's card will now be resolved",
 		"Stealin, Resolving ChangeFloor: Ghost is moved to the top of the car\nCalculating Scores",
-		"Results: Game has ended. ADD SCORES Django is the winner!" //27
+		"Results: Game has ended. ADD SCORES Django is the winner!", //27
+		"..."
 		};
 
     //private static SmartFox sfs = SFS.sfs;
@@ -379,6 +380,7 @@ public class GameBoard : MonoBehaviour
 				// "Results: Game has ended. ADD SCORES Django is the winner!" 
 				break;
 			case 27:
+				Debug.Log("Leaving room");
 				LeaveRoom();
 				break; 
 				
