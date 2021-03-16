@@ -83,8 +83,8 @@ public static class SFS
 			if(player != null){// && chosenCharText != "") {
 				string chosen = responseParams.GetUtfString("chosenCharacter");
 				chosenCharText += "\n" + player + " chose " + chosen + "!";
-				cc.UpdateDisplayText(chosenCharText);
 			}
+			cc.UpdateDisplayText(chosenCharText);//LENGTH TEXTBOX
 			cc.DisplayRemainingCharacters(evt);
 		} else if (cmd == "updateGameState") {
             gb.UpdateGameState(evt);
@@ -360,9 +360,9 @@ public static class SFS
 	private static void OnUserExitRoom(BaseEvent evt) {
 		User user = (User) evt.Params["user"];
 		username = PlayerPrefs.GetString("username", "No username found");
+		Debug.Log(username);
+		Debug.Log(user.Name);
 		if (user.Name != username) {
-			Debug.Log(username);
-			Debug.Log(user.Name);
 			//Room room = (Room)evt.Params["room"];
 			
 			// Show system message

@@ -280,6 +280,9 @@ public class GameBoard : MonoBehaviour
 		ExtensionRequest req = new ExtensionRequest("gm.nextAction",obj);
 		SFS.Send(req);
 		//executeHardCoded(step);
+		if (SFS.step == 27){
+			LeaveRoom();
+		}
 	}
 
 	// public void drawCards(string char, int step) {
@@ -480,7 +483,7 @@ public class GameBoard : MonoBehaviour
 				break;
 			case 27:
 				Debug.Log("Leaving room");
-				LeaveRoom();
+				//LeaveRoom();
 				break;
 		}
     }
