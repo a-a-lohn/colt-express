@@ -69,6 +69,15 @@ public class GameBoard : MonoBehaviour
 	public GameObject gem4;
 	public GameObject gem5;
 
+	/* For all the action cards */
+	// public GameObject cardA; 
+	// public GameObject cardB; 
+	// public GameObject cardC; 
+	// public GameObject cardD;
+	// public GameObject cardE;
+	// public GameObject cardF; 
+	// public GameObject cardG;
+
 	public GameObject cardA; 
 	public GameObject cardB; 
 	public GameObject cardC; 
@@ -105,14 +114,23 @@ public class GameBoard : MonoBehaviour
 
     public Text announcement;
 
-	/* For all the action cards */
-	public Text drawnCard1; 
-	public Text drawnCard2;
-	public Text drawnCard3; 
-	public Text drawnCard4;
-	public Text drawnCard5;
-	public Text drawnCard6;
-	public Text drawnCard7;
+	public Text cardAText; 
+	public Text cardBText;
+	public Text cardCText; 
+	public Text cardDText;
+	public Text cardEText;
+	public Text cardFText;
+
+	public Text cardNewAText;
+	public Text cardNewABext;
+	public Text cardNewCText;
+
+	public GameObject CardNewA; 
+	public GameObject CardNewB; 
+	public GameObject CardNewC; 
+	public GameObject CardNewD; 
+	public GameObject CardNewE; 
+	public GameObject CardNewF; 
 
 	public GameObject playerE;
 
@@ -165,9 +183,19 @@ public class GameBoard : MonoBehaviour
     private List<float> cartLocoBtm = new List<float>() {1390.0F, 824.9F, -364.9F};
 
     private List<float> iconPosition = new List<float>() {1285.9F, 1121.9F, -364.9F};
+	private List<float> gemPosition = new List<float>() {1025.7F, 1121.9F, -364.9F};
+
 
     void Start(){
-		drawCards();
+		initCards();
+		// set extra cards to false 
+		CardNewA.SetActive(false);
+		CardNewB.SetActive(false);
+		CardNewC.SetActive(false);
+		CardNewD.SetActive(false);
+		CardNewE.SetActive(false);
+		CardNewF.SetActive(false);
+
 		announcement.text = "";
 		Round.text = "ROUND 1:\n-Standard turn\n-Tunnel turn\n-Switching turn";
 		SFS.setGameBoard();
@@ -216,38 +244,56 @@ public class GameBoard : MonoBehaviour
         SFS.LeaveRoom();
     }
 
-	// replace the last three cards with new cards 
-	public void drawThreeCards(){
-		// Debug.Log("DRAWS 3 CARDS");
-		// remove card 5,6,7 (CardE, CardF, CardG) 
-		// so that card 8,9,10 are visible
-		Destroy(cardE);
-		Destroy(cardF);
-		Destroy(cardG);
-	}
-
-	public void drawCards(){
-		// draws 3 cards randomly and put in the hand
-		/*drawnCard1.text = "MOVE";
-		drawnCard2.text = "ROB";
-		drawnCard3.text = "MARSHAL"; 
-		drawnCard4.text = "CHANGE FLOOR";
-		drawnCard5.text = "SHOOT"; 
-		drawnCard6.text = "PUNCH"; 
-		drawnCard7.text = "PUNCH"; */
+	public void initCards(){
+		// draws 6 cards randomly and put in the hand
+		cardAText.text = "MOVE";
+		cardBText.text = "ROB";
+		cardCText.text = "MARSHAL"; 
+		cardDText.text = "CHANGE FLOOR";
+		cardEText.text = "SHOOT"; 
+		cardFText.text = "PUNCH"; 
 		return;
 	}
 
-	void MouseDown() {
-		// drawThreeCards();
+	public void playCard(GameObject selectedCard){
+		// draws 3 cards randomly and put in the hand
+		Destroy(selectedCard);
+		return;
+	}
+
+	public void MouseDown() {
 		SFS.step += 1;
 		int step = SFS.step;
 		ISFSObject obj = SFSObject.NewInstance();
 		obj.PutInt("step", step);
 		ExtensionRequest req = new ExtensionRequest("gm.nextAction",obj);
 		SFS.Send(req);
-		
 		//executeHardCoded(step);
+	}
+
+	// public void drawCards(string char, int step) {
+	// 	if(char == ChooseCharacter.character) {
+	// 		// make three cards appear
+	// 		Destroy(cardA);
+	// 	}
+	// 	return; 
+	// }
+	public void drawCards(/*string currentChar*/){
+		// make three cards appear 
+		// if(ChooseCharacter.character == currentChar){
+			CardNewA.SetActive(true);
+			CardNewB.SetActive(true);
+			CardNewC.SetActive(true);
+		// }
+	}
+
+	public void drawCardsSecond(/*string currentChar*/){
+		// make three cards appear 
+		// if(ChooseCharacter.character == currentChar){
+			CardNewD.SetActive(true);
+			CardNewE.SetActive(true);
+			CardNewF.SetActive(true);
+		// }
 	}
 
 	public void executeHardCoded(int step) {
@@ -258,12 +304,6 @@ public class GameBoard : MonoBehaviour
 			announcement.text = ""; 
 		}
 		announcement.text += logMessages[SFS.step];
-
-		/*drawCards(string char, int step) {
-			if(char == ChooseCharacter.character) {
-				//...
-			}
-		}*/
 
 		switch(step) {
 			case 0:
@@ -281,27 +321,47 @@ public class GameBoard : MonoBehaviour
 				break;
 			case 3:
 				//Standard Turn: Django chose to draw cards",
-				drawThreeCards();
+				// drawCards("DJANGO", step);
+				// DRAW CARDS 
+				if(ChooseCharacter.character == "DJANGO"){
+					drawCards(); 
+				}
 				break;
 			case 4:
 				//"Tunnel Turn: Ghost played an action card which is hidden",
+				if(ChooseCharacter.character == "GHOST"){
+					playCard(cardD);
+				}
 				break;
 			case 5:
 				//"Tunnel Turn: Cheyenne played an action card which is hidden",
+				if(ChooseCharacter.character == "CHEYENNE"){
+					playCard(cardD);
+				}
 				break;
 			case 6:
 				//"Tunnel Turn: Django played an action card which is hidden",
+				if(ChooseCharacter.character == "DJANGO"){
+					playCard(cardD);
+				}
+				break;
+			case 7:
 				//"Switching Turn Player Order: Django, Cheyenne, Ghost",
 				break;
 			case 7:
 				//"Switching Turn: Django played a SHOOT card",
-				break;
-			case 8:
-				drawThreeCards();
-				//"Switching Turn: Cheyenne chose to draw cards",
+				if(ChooseCharacter.character == "DJANGO"){
+					playCard(cardE);
+				}
 				break;
 			case 9:
-				drawThreeCards();
+				if(ChooseCharacter.character == "CHEYENNE"){
+					drawCards();
+				}
+				//"Switching Turn: Cheyenne chose to draw cards",
+				break;
+			case 10:
+				drawCards();
 				//"Switching Turn: Ghost chose to draw cards",
 				break;
 			case 10:
@@ -343,22 +403,22 @@ public class GameBoard : MonoBehaviour
 			case 17:	
 				// "SpeedingUp Turn 1 (Cheyenne): Cheyenne played a MOVE card",  
 				break;
-			case 18:
-				drawThreeCards();
+			case 20:
+				drawCards();
 				// "SpeedingUp Turn 2 (Cheyenne): Cheyenne chose to draw cards",
 				break;
 			case 19:
 				// "SpeedingUp Turn 1 (Django): Django played a CHANGEFLOOR card", 
 				break;
-			case 20:
-				drawThreeCards();
+			case 22:
+				drawCards();
 				// "SpeedingUp Turn 2 (Django): Django chose to draw cards",
 				break;
 			case 21:
 				// "SpeedingUp Turn 1 (Ghost): Ghost chose to draw cards",
 				break;
-			case 22:
-				drawThreeCards();
+			case 24:
+				drawCards();
 				// "SpeedingUp Turn 2 (Ghost): Ghost played a CHANGEFLOOR card",
 				break;
 			case 23:
@@ -387,9 +447,10 @@ public class GameBoard : MonoBehaviour
 		}
     }
 
+
 	public void rob(){
-		gem3.SetActive(false);
-		Destroy(gem3);
+		gem3.transform.position = new Vector3 (gemPosition[0], gemPosition[1], gemPosition[2]);
+        gem3.transform.position += gem3.transform.forward * Time.deltaTime * 2f;
 	}
 
 	public void punch(){
