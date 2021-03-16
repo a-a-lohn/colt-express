@@ -109,7 +109,7 @@ public class GameBoard : MonoBehaviour
 	public Text drawnCard4;
 	public Text drawnCard5;
 	public Text drawnCard6;
-
+	public Text drawnCard7;
 
 	public GameObject playerE; 
 
@@ -165,6 +165,7 @@ public class GameBoard : MonoBehaviour
     private List<float> iconPosition = new List<float>() {1285.9F, 1121.9F, -364.9F};
 
     void Start(){
+		drawCards();
 		announcement.text = "";
 		SFS.setGameBoard();
 
@@ -219,16 +220,17 @@ public class GameBoard : MonoBehaviour
 		Destroy(cardG);
 	}
 
-	// public void drawCards(){
-	// 	// draws 3 cards randomly and put in the hand
-	// 	drawnCard1.text = "MOVE";
-	// 	drawnCard2.text = "ROB";
-	// 	drawnCard3.text = "MARSHAL"; 
-	// 	drawnCard4.text = "CHANGE FLOOR";
-	// 	drawnCard5.text = "SHOOT"; 
-	// 	drawnCard6.text = "PUNCH"; 
-	// 	return;
-	// }
+	public void drawCards(){
+		// draws 3 cards randomly and put in the hand
+		drawnCard1.text = "MOVE";
+		drawnCard2.text = "ROB";
+		drawnCard3.text = "MARSHAL"; 
+		drawnCard4.text = "CHANGE FLOOR";
+		drawnCard5.text = "SHOOT"; 
+		drawnCard6.text = "PUNCH"; 
+		drawnCard7.text = "PUNCH"; 
+		return;
+	}
 
 	void MouseDown() {
 		// drawThreeCards();

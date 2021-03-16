@@ -3967,7 +3967,7 @@ MonoBehaviour:
   extension: {fileID: 0}
   chooseChar: {fileID: 0}
   canvas: {fileID: 1013407371}
-  exit: {fileID: 771972496}
+  exit: {fileID: 0}
   cheyenne: {fileID: 442808384}
   belle: {fileID: 0}
   tuco: {fileID: 0}
@@ -3999,7 +3999,7 @@ MonoBehaviour:
   drawnCard5: {fileID: 469264866}
   drawnCard6: {fileID: 1319462718}
   drawnCard7: {fileID: 0}
-  playerE: {fileID: 496337515}
+  playerE: {fileID: 2022661593}
 --- !u!1 &1023083644
 GameObject:
   m_ObjectHideFlags: 0
