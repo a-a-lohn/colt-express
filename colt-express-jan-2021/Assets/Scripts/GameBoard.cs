@@ -46,8 +46,7 @@ public class GameBoard : MonoBehaviour
 	public GameObject canvas;
 
 	public Text Round;
-	public GameObject exit;
-	public Text exitText;
+	public Text exit;
   
 	
     public Bandit b;
@@ -69,7 +68,6 @@ public class GameBoard : MonoBehaviour
 	public GameObject gem4;
 	public GameObject gem5;
 
-	/* For all the action cards */
 	public GameObject cardA; 
 	public GameObject cardB; 
 	public GameObject cardC; 
@@ -106,47 +104,46 @@ public class GameBoard : MonoBehaviour
 
     public Text announcement;
 
-	// public Text drawnCard1; 
-	// public Text drawnCard2;
-	// public Text drawnCard3; 
-	// public Text drawnCard4;
-	// public Text drawnCard5;
-	// public Text drawnCard6;
-	// public Text drawnCard7;
+	/* For all the action cards */
+	public Text drawnCard1; 
+	public Text drawnCard2;
+	public Text drawnCard3; 
+	public Text drawnCard4;
+	public Text drawnCard5;
+	public Text drawnCard6;
+	public Text drawnCard7;
 
 	public GameObject playerE;
 
 
-	private String[] logMessages = {
-		"Angry Marshal Round! 1 Standard turns, 1 Tunnel turn, and 1 Switching turn	It is now Ghost's turn to play a card or draw 3 cards.", //0
-		"Standard Turn: Ghost played a MOVE card	It is now Cheyenne's turn to play a card or draw 3 cards.",
-		"Standard Turn: Cheyenne played a CHANGEFLOOR card	It is now Django's turn to play a card or draw 3 cards.",
-		"Standard Turn: Django chose to draw cards	Next turn!	It is now Ghost's turn to play a card or draw 3 cards.",
-		"Tunnel Turn: Ghost played an action card which is hidden	It is now Cheyenne's turn to play a card or draw 3 cards.", //4
-		"Tunnel Turn: Cheyenne played an action card which is hidden	It is now Django's turn to play a card or draw 3 cards.",
-		"Tunnel Turn: Django played an action card which is hidden",
-		"Switching Turn Player Order: Django, Cheyenne, Ghost	It is now Django's turn to play a card or draw 3 cards.",
-		"Switching Turn: Django played a SHOOT card	It is now Cheyenne's turn to play a card or draw 3 cards.",
-		"Switching Turn: Cheyenne chose to draw cards	It is now Ghost's turn to play a card or draw 3 cards.", //9
-		"Switching Turn: Ghost chose to draw cards	Time for Stealin! Time for Ghost to choose where to move",
+	private String[] logMessages = 
+		"Angry Marshal Round! 1 Standard turns, 1 Tunnel turn, and 1 Switching turn\nIt is now Ghost's turn to play a card or draw 3 cards.", //0
+		"Standard Turn: Ghost played a MOVE card\nIt is now Cheyenne's turn to play a card or draw 3 cards.",
+		"Standard Turn: Cheyenne played a CHANGEFLOOR card\nIt is now Django's turn to play a card or draw 3 cards.",
+		"Standard Turn: Django chose to draw cards\nNext turn!\nIt is now Ghost's turn to play a card or draw 3 cards.",
+		"Tunnel Turn: Ghost played an action card which is hidden\nIt is now Cheyenne's turn to play a card or draw 3 cards.", //4
+		"Tunnel Turn: Cheyenne played an action card which is hidden\nIt is now Django's turn to play a card or draw 3 cards.",
+		"Tunnel Turn: Django played an action card which is hidden\nSwitching Turn Player Order: Django, Cheyenne, Ghost\nIt is now Django's turn to play a card or draw 3 cards.",
+		"Switching Turn: Django played a SHOOT card\nIt is now Cheyenne's turn to play a card or draw 3 cards.",
+		"Switching Turn: Cheyenne chose to draw cards\nIt is now Ghost's turn to play a card or draw 3 cards.", 
+		"Switching Turn: Ghost chose to draw cards\nTime for Stealin!\nGhost's card will now be resolved",//9
 		"Stealin, Resolving Move: Ghost moved to the adjacent car\nCheyenne's card will now be resolved",
-		"Stealin, Resolving ChangeFloor: Cheyenne moved to the top of the car	Time for Ghost to choose to pick one loot",
-		"Stealin, Resolving Rob: Ghost chooses one gem to add to his loot	Cheyenne's card will now be resolved",
-		"Stealin, Resolving MoveMarshal: Cheyenne moved the Marshal	 Time for Django choose who to punch", //14
-		"Stealin, Resolving Punch: Django choose to punch Ghost, who drops his loot	Time for Django to choose where to punch Ghost to",
-		"Punch: Django chooses to punch Ghost to the last train car	Time for Django to choose who to shoot",
+		"Stealin, Resolving ChangeFloor: Cheyenne moved to the top of the car\nTime for Ghost to choose to pick one loot",
+		"Stealin, Resolving Rob: Ghost chooses one gem to add to his loot\nCheyenne's card will now be resolved",
+		"Stealin, Resolving MoveMarshal: Cheyenne moved the Marshal\nDjango's card will now be resolved", 
+		"Stealin, Resolving Punch: Django choose to punch Ghost, who drops his loot\nTime for Django to choose where to punch Ghost to",//14
+		"Punch: Django chooses to punch Ghost to the last train car\nTime for Django to choose who to shoot",
 		"Stealin, Resolving Shoot: Django shoots Ghost\nNew Round, SpeedingUp! 1 SpeedingUp turn. New Player Order: Cheyenne, Django, Ghost\nIt is now Cheyenne's turn to play a card or draw 3 cards.",
-		"	",
-		"SpeedingUp Turn 1 (Cheyenne): Cheyenne played a MOVE card	It is now Cheyenne's turn to play a card or draw 3 cards.", //19
-		"SpeedingUp Turn 2 (Cheyenne): Cheyenne chose to draw cards	It is now Django's turn to play a card or draw 3 cards.",
-		"SpeedingUp Turn 1 (Django): Django played a CHANGEFLOOR card	It is now Django's turn to play a card or draw 3 cards.",
-		"SpeedingUp Turn 2 (Django): Django chose to draw cards		It is now Ghost's turn to play a card or draw 3 cards.",
-		"SpeedingUp Turn 1 (Ghost): Ghost chose to draw cards	It is now Ghost's turn to play a card or draw 3 cards.",
-		"SpeedingUp Turn 2 (Ghost): Ghost played a CHANGEFLOOR card	Time for Cheyenne to choose where to move", //24
-		"Stealin, Resolving Move: Cheyenne moves to the adjacent train car	Django will now change floors",
-		"Stealin, Resolving ChangeFloor: Django is moved to the top of the car	Ghost will now change floor",
-		"Stealin, Resolving ChangeFloor: Ghost is moved to the top of the car	Calculating Scores",
-		"Results: Game has ended. ADD SCORES Django is the winner!" //28
+		"SpeedingUp Turn 1 (Cheyenne): Cheyenne played a MOVE card\nIt is now Cheyenne's turn to play a card or draw 3 cards.", 
+		"SpeedingUp Turn 2 (Cheyenne): Cheyenne chose to draw cards\nIt is now Django's turn to play a card or draw 3 cards.",
+		"SpeedingUp Turn 1 (Django): Django played a CHANGEFLOOR card\nIt is now Django's turn to play a card or draw 3 cards.",//19
+		"SpeedingUp Turn 2 (Django): Django chose to draw cards\nIt is now Ghost's turn to play a card or draw 3 cards.",
+		"SpeedingUp Turn 1 (Ghost): Ghost chose to draw cards\nIt is now Ghost's turn to play a card or draw 3 cards.",
+		"SpeedingUp Turn 2 (Ghost): Ghost played a CHANGEFLOOR card\nStealin Time!\nCheyenne's card will now be resolved",
+		"Stealin, Resolving Move: Cheyenne moves to the adjacent train car\nDjango's card will now be resolved", //24
+		"Stealin, Resolving ChangeFloor: Django is moved to the top of the car\Ghost's card will now be resolved",
+		"Stealin, Resolving ChangeFloor: Ghost is moved to the top of the car\nCalculating Scores",
+		"Results: Game has ended. ADD SCORES Django is the winner!" //27
 		};
 
     //private static SmartFox sfs = SFS.sfs;
@@ -168,13 +165,10 @@ public class GameBoard : MonoBehaviour
     private List<float> iconPosition = new List<float>() {1285.9F, 1121.9F, -364.9F};
 
     void Start(){
-		initCards();
+		drawCards();
 		announcement.text = "";
 		Round.text = "ROUND 1:\n-Standard turn\n-Tunnel turn\n-Switching turn";
 		SFS.setGameBoard();
-
-		exit.SetActive(false);
-		exitText.text = "";
 
 		// announcement.text = "The current round is an Angry Marshal Round and the current turn is a Tunnel Turn!";
 		// drawnCard1.text="MOVE";
@@ -213,9 +207,9 @@ public class GameBoard : MonoBehaviour
 
     }
 
-	public void LeaveRoom() {
+	/*public void LeaveRoom() {
         SFS.LeaveRoom();
-    }
+    }*/
 
 	// replace the last three cards with new cards 
 	public void drawThreeCards(){
@@ -227,20 +221,15 @@ public class GameBoard : MonoBehaviour
 		Destroy(cardG);
 	}
 
-	public void initCards(){
+	public void drawCards(){
 		// draws 3 cards randomly and put in the hand
-		/*cardA.text = "MOVE";
-		cardB.text = "ROB";
-		cardC.text = "MARSHAL"; 
-		cardD.text = "CHANGE FLOOR";
-		cardE.text = "SHOOT"; 
-		cardF.text = "PUNCH"; */
-		return;
-	}
-
-	public void playCard(GameObject selectedCrad){
-		// draws 3 cards randomly and put in the hand
-		Destroy(selectedCrad);
+		drawnCard1.text = "MOVE";
+		drawnCard2.text = "ROB";
+		drawnCard3.text = "MARSHAL"; 
+		drawnCard4.text = "CHANGE FLOOR";
+		drawnCard5.text = "SHOOT"; 
+		drawnCard6.text = "PUNCH"; 
+		drawnCard7.text = "PUNCH"; 
 		return;
 	}
 
@@ -265,9 +254,9 @@ public class GameBoard : MonoBehaviour
 		}
 		announcement.text += logMessages[SFS.step];
 
-		/*public void drawCards(string char, int step) {
+		/*drawCards(string char, int step) {
 			if(char == ChooseCharacter.character) {
-				// make three cards appear
+				//...
 			}
 		}*/
 
@@ -278,23 +267,16 @@ public class GameBoard : MonoBehaviour
 				//Its yyy's turn to play a card or draw 3 cards.
 				break;
 			case 1: 
-			// yyyy played a ___ card / yyy chose to draw 3 cards
+				// yyyy played a ___ card / yyy chose to draw 3 cards
 				//"Standard Turn: Ghost played a MOVE card",
 				//Its xxx's turn to play a card or draw 3 cards.
-				if(ChooseCharacter.character == "GHOST"){
-					playCard(cardA);
-				}
 				break;
 			case 2:
 				//"Standard Turn: Cheyenne played a CHANGEFLOOR card",
-				if(ChooseCharacter.character == "CHEYENNE"){
-					playCard(cardD);
-				}
 				break;
 			case 3:
 				//Standard Turn: Django chose to draw cards",
-				//drawCards("DJANGO", step);
-				// DRAW CARDS 
+				drawThreeCards();
 				break;
 			case 4:
 				//"Tunnel Turn: Ghost played an action card which is hidden",
@@ -304,105 +286,98 @@ public class GameBoard : MonoBehaviour
 				break;
 			case 6:
 				//"Tunnel Turn: Django played an action card which is hidden",
-				break;
-			case 7:
 				//"Switching Turn Player Order: Django, Cheyenne, Ghost",
 				break;
-			case 8:
+			case 7:
 				//"Switching Turn: Django played a SHOOT card",
 				break;
-			case 9:
+			case 8:
 				drawThreeCards();
 				//"Switching Turn: Cheyenne chose to draw cards",
 				break;
-			case 10:
+			case 9:
 				drawThreeCards();
 				//"Switching Turn: Ghost chose to draw cards",
-			        // ghost.transform.position = new Vector3 (cartOneBtm[0], cartOneBtm[1], cartOneBtm[2]);
-                    		// ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
 				break;
-			case 11:
+			case 10:
 				//"Stealin, Resolving Move: Ghost moved to the adjacent car",
 				ghost.transform.position = new Vector3 (cartOneBtm[0] - 1F, cartOneBtm[1], cartOneBtm[2]);
-                ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
+                		ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
 			        // cheyenne.transform.position = new Vector3 (cartZeroTop[0], cartZeroTop[1], cartZeroTop[2]);
                     		// cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;
 				break;
-			case 12:
+			case 11:
 				//"Stealin, Resolving ChangeFloor: Cheyenne moved to the top of the car",
 				cheyenne.transform.position = new Vector3 (cartZeroTop[0] + 5F, cartZeroTop[1], cartZeroTop[2]);
-                cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;
+                		cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;
 			        // Destroy(gem3);
 				break;
-			case 13:
+			case 12:
 				//"Stealin, Resolving Rob: Ghost chooses one gem to add to his loot",
 				// TODO: GHOST CLICK ON GEM 3 
 				Destroy(gem3);
 				break;
-			case 14:
+			case 13:
 				//"Stealin, Resolving MoveMarshal: Cheyenne moved the Marshal",
 				marshal.transform.position = new Vector3 (cartTwoBtm[0], cartTwoBtm[1], cartTwoBtm[2]);
-                marshal.transform.position += marshal.transform.forward * Time.deltaTime * 5f;
+                		marshal.transform.position += marshal.transform.forward * Time.deltaTime * 5f;
+				break;
+			case 14:
+				// "Stealin, Resolving Punch: Django choose to punch Ghost, who drops his loot",
+				gem2.SetActive(true);
 				break;
 			case 15:
-				// "Stealin, Resolving Punch: Django choose to punch Ghost, who drops his loot",
+				//"Punch: Django chooses to punch Ghost to the last train car",
 				punch(); 
 				break;
 			case 16:
-				//"Punch: Django chooses to punch Ghost to the last train car",
-				gem2.SetActive(true);
-				break;
-			case 17:
-				// "Stealin, Resolving Shoot: Django shoots Ghost",
+				// "Stealin, Resolving Shoot: Django shoots Ghost",// "New Round, SpeedingUp! 1 SpeedingUp turn",
 			   	shoot();
 				Round.text = "ROUND 2:\n-SpeedingUp turn";
 				break;
-			case 18:
-				// round 2 info
-				// "New Round, SpeedingUp! 1 SpeedingUp turn",
-				break;
-			case 19:
+			case 17:	
 				// "SpeedingUp Turn 1 (Cheyenne): Cheyenne played a MOVE card",  
 				break;
-			case 20:
+			case 18:
 				drawThreeCards();
 				// "SpeedingUp Turn 2 (Cheyenne): Cheyenne chose to draw cards",
 				break;
-			case 21:
+			case 19:
 				// "SpeedingUp Turn 1 (Django): Django played a CHANGEFLOOR card", 
 				break;
-			case 22:
+			case 20:
 				drawThreeCards();
 				// "SpeedingUp Turn 2 (Django): Django chose to draw cards",
 				break;
-			case 23:
+			case 21:
 				// "SpeedingUp Turn 1 (Ghost): Ghost chose to draw cards",
 				break;
-			case 24:
+			case 22:
 				drawThreeCards();
 				// "SpeedingUp Turn 2 (Ghost): Ghost played a CHANGEFLOOR card",
 				break;
-			case 25:
+			case 23:
 				// "Stealin, Resolving Move: Cheyenne moves to the adjacent train car",
 			        cheyenne.transform.position = new Vector3 (cartOneTop[0] + 5F, cartOneTop[1], cartOneTop[2]);
-                    cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;	
+                   		cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;	
 				break;
-			case 26:
+			case 24:
 				// "Stealin, Resolving ChangeFloor: Django is moved to the top of the car",
 			        django.transform.position = new Vector3 (cartOneTop[0] - 5F, cartOneTop[1], cartOneTop[2]);
-                    django.transform.position += django.transform.forward * Time.deltaTime * 10f;	
+                    		django.transform.position += django.transform.forward * Time.deltaTime * 10f;	
 				break;
-			case 27: 
+			case 25:
 				// "Stealin, Resolving ChangeFloor: Ghost is moved to the top of the car",
 			        ghost.transform.position = new Vector3 (cartOneBtm[0] - 1F, cartOneBtm[1], cartOneBtm[2]);
-                    ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
+                    		ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
 				break;
-			case 28:
+			case 26: 
 				// "Results: Game has ended. ADD SCORES Django is the winner!" 
-				break; 
-			case 29:
-				LeaveRoom();
 				break;
+			case 27:
+				//LeaveRoom();
+				break; 
+				
 		}
     }
 
@@ -558,7 +533,7 @@ public class GameBoard : MonoBehaviour
 	}
 
 	public void GoToWaitingRoom(){
-		Invoke("GoToWaitingRoom2",5);
+		//Invoke("GoToWaitingRoom2",5);
 	}
 
 	void GoToWaitingRoom2(){
