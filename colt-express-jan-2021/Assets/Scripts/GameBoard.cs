@@ -46,7 +46,8 @@ public class GameBoard : MonoBehaviour
 	public GameObject canvas;
 
 	public Text Round;
-	public Text exit;
+	public GameObject exit;
+	public Text exitText;
   
 	
     public Bandit b;
@@ -116,7 +117,7 @@ public class GameBoard : MonoBehaviour
 	public GameObject playerE;
 
 
-	private String[] logMessages = 
+	private String[] logMessages = {
 		"Angry Marshal Round! 1 Standard turns, 1 Tunnel turn, and 1 Switching turn\nIt is now Ghost's turn to play a card or draw 3 cards.", //0
 		"Standard Turn: Ghost played a MOVE card\nIt is now Cheyenne's turn to play a card or draw 3 cards.",
 		"Standard Turn: Cheyenne played a CHANGEFLOOR card\nIt is now Django's turn to play a card or draw 3 cards.",
@@ -141,7 +142,7 @@ public class GameBoard : MonoBehaviour
 		"SpeedingUp Turn 1 (Ghost): Ghost chose to draw cards\nIt is now Ghost's turn to play a card or draw 3 cards.",
 		"SpeedingUp Turn 2 (Ghost): Ghost played a CHANGEFLOOR card\nStealin Time!\nCheyenne's card will now be resolved",
 		"Stealin, Resolving Move: Cheyenne moves to the adjacent train car\nDjango's card will now be resolved", //24
-		"Stealin, Resolving ChangeFloor: Django is moved to the top of the car\Ghost's card will now be resolved",
+		"Stealin, Resolving ChangeFloor: Django is moved to the top of the car\nGhost's card will now be resolved",
 		"Stealin, Resolving ChangeFloor: Ghost is moved to the top of the car\nCalculating Scores",
 		"Results: Game has ended. ADD SCORES Django is the winner!" //27
 		};
