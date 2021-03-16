@@ -165,6 +165,8 @@ public class GameBoard : MonoBehaviour
     private List<float> cartLocoBtm = new List<float>() {1390.0F, 824.9F, -364.9F};
 
     private List<float> iconPosition = new List<float>() {1285.9F, 1121.9F, -364.9F};
+	private List<float> gemPosition = new List<float>() {1025.7F, 1121.9F, -364.9F};
+
 
     void Start(){
 		drawCards();
@@ -388,8 +390,8 @@ public class GameBoard : MonoBehaviour
     }
 
 	public void rob(){
-		gem3.SetActive(false);
-		Destroy(gem3);
+		gem3.transform.position = new Vector3 (gemPosition[0], gemPosition[1], gemPosition[2]);
+        gem3.transform.position += gem3.transform.forward * Time.deltaTime * 2f;
 	}
 
 	public void punch(){
