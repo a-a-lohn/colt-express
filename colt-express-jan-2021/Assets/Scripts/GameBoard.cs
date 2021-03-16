@@ -45,6 +45,7 @@ public class GameBoard : MonoBehaviour
 
 	public GameObject canvas;
 
+	public Text Round;
 	public Text exit;
   
 	
@@ -112,7 +113,7 @@ public class GameBoard : MonoBehaviour
 	public Text drawnCard6;
 	public Text drawnCard7;
 
-	public GameObject playerE; 
+	public GameObject playerE;
 
 
 	private String[] logMessages = {
@@ -168,6 +169,7 @@ public class GameBoard : MonoBehaviour
     void Start(){
 		drawCards();
 		announcement.text = "";
+		Round.text = "ROUND 1:\n-Standard turn\n-Tunnel turn\n-Switching turn";
 		SFS.setGameBoard();
 
 		// announcement.text = "The current round is an Angry Marshal Round and the current turn is a Tunnel Turn!";
@@ -253,9 +255,12 @@ public class GameBoard : MonoBehaviour
 			case 0:
 				//round,turn info
 				//"Angry Marshal Round! 1 Standard turns, 1 Tunnel turn, and 1 Switching turn",
+				//Its yyy's turn to play a card or draw 3 cards.
 				break;
 			case 1: 
+			// yyyy played a ___ card / yyy chose to draw 3 cards
 				//"Standard Turn: Ghost played a MOVE card",
+				//Its xxx's turn to play a card or draw 3 cards.
 				break;
 			case 2:
 				//"Standard Turn: Cheyenne played a CHANGEFLOOR card",
@@ -326,6 +331,7 @@ public class GameBoard : MonoBehaviour
 			case 18:
 				// round 2 info
 				// "New Round, SpeedingUp! 1 SpeedingUp turn",
+				Round.text = "ROUND 2:\n-SpeedingUp turn";
 				break;
 			case 19:
 				// "SpeedingUp Turn 1 (Cheyenne): Cheyenne played a MOVE card",  

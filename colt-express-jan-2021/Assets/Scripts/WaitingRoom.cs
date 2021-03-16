@@ -123,7 +123,7 @@ public class WaitingRoom : MonoBehaviour
         Dictionary<string, object> sessionDetails = obj.ToObject<Dictionary<string, object>>();
         numPlayers = 1 + sessionDetails["players"].ToString().ToCharArray().Count(c => c == ',');
 
-        if (numPlayers >= 2) { //change to >2
+        if (numPlayers > 2) { //change to >2
             LaunchGameButton.interactable = true;
         }
     }
