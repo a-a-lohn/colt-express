@@ -384,7 +384,4 @@ public static class SFS
 		// Re-populate Room list
 		populateRoomList(sfs.RoomList);
 	}*/
-	public static void LeaveRoom(){
-		sfs.Send( new LeaveRoomRequest() );
-	}
 }

@@ -541,7 +541,7 @@ public class GameBoard : MonoBehaviour
 	}
 
 	public void GoToWaitingRoom(){
-		//Invoke("GoToWaitingRoom2",5);
+		Invoke("GoToWaitingRoom2",5);
 	}
 
 	void GoToWaitingRoom2(){
