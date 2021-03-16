@@ -46,7 +46,7 @@ public class GameBoard : MonoBehaviour
 	public GameObject canvas;
 
 	public Text Round;
-	public GameObject exit;
+	//public GameObject exit;
 	public Text exitText;
   
 	
@@ -180,6 +180,9 @@ public class GameBoard : MonoBehaviour
                 //debugText.text = "";
 		gem2.SetActive(false);
 
+		//exit.SetActive(false);
+		exitText.text ="";
+
 		//SendNewGameState();
 		// ** THE DICTIONARIES ARE INITIALIZED(CLEARED) IN Start() ** 
 		// Bandits
@@ -208,9 +211,9 @@ public class GameBoard : MonoBehaviour
 
     }
 
-	/*public void LeaveRoom() {
+	public void LeaveRoom() {
         SFS.LeaveRoom();
-    }*/
+    }
 
 	// replace the last three cards with new cards 
 	public void drawThreeCards(){
@@ -224,13 +227,13 @@ public class GameBoard : MonoBehaviour
 
 	public void drawCards(){
 		// draws 3 cards randomly and put in the hand
-		drawnCard1.text = "MOVE";
+		/*drawnCard1.text = "MOVE";
 		drawnCard2.text = "ROB";
 		drawnCard3.text = "MARSHAL"; 
 		drawnCard4.text = "CHANGE FLOOR";
 		drawnCard5.text = "SHOOT"; 
 		drawnCard6.text = "PUNCH"; 
-		drawnCard7.text = "PUNCH"; 
+		drawnCard7.text = "PUNCH"; */
 		return;
 	}
 
@@ -376,7 +379,7 @@ public class GameBoard : MonoBehaviour
 				// "Results: Game has ended. ADD SCORES Django is the winner!" 
 				break;
 			case 27:
-				//LeaveRoom();
+				LeaveRoom();
 				break; 
 				
 		}
@@ -534,7 +537,7 @@ public class GameBoard : MonoBehaviour
 	}
 
 	public void GoToWaitingRoom(){
-		//Invoke("GoToWaitingRoom2",5);
+		Invoke("GoToWaitingRoom2",5);
 	}
 
 	void GoToWaitingRoom2(){
