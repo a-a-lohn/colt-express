@@ -25,7 +25,6 @@ namespace model {
         //public string carFloor;
         public string carTypeAsString;
         public string carFloorAsString;
-
         /* removed for serialization 
         public TrainUnit above ;
         public TrainUnit below ;
