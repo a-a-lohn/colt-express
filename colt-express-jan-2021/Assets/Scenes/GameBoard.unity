@@ -4340,7 +4340,7 @@ MonoBehaviour:
   gem1: {fileID: 1032197769}
   gem2: {fileID: 1765836297}
   gem3: {fileID: 1744056522}
-  gem4: {fileID: 0}
+  gem4: {fileID: 1869831086}
   gem5: {fileID: 1311391924}
   cardA: {fileID: 369979175}
   cardB: {fileID: 541298844}
@@ -6617,7 +6617,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.16, y: -0.32}
+  m_AnchoredPosition: {x: -0.12, y: -0.35}
   m_SizeDelta: {x: 44.23696, y: 42.09468}
   m_Pivot: {x: 0.49999982, y: 0.4999991}
 --- !u!1 &1765836297
@@ -7266,7 +7266,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.09, y: -0.15}
+  m_AnchoredPosition: {x: -2.16, y: 2.66}
   m_SizeDelta: {x: 44.23696, y: 42.09468}
   m_Pivot: {x: 0.50000036, y: 0.49999988}
 --- !u!114 &1869831088
