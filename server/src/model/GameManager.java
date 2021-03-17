@@ -125,6 +125,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		this.currentRound = this.rounds.get(0);
 		this.setUpPositions(this.bandits);
 		Money strongbox = new Money(MoneyType.STRONGBOX, 1000);
+		this.trainCabin.get(0).setIsMarshalHere(true);
 		this.trainCabin.get(0).addLoot(strongbox);
 		// create neutral bullet card
 		Card NBullet1 = new BulletCard();
