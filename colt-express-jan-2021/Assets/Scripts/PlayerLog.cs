@@ -1,8 +1,8 @@
 using UnityEngine;
- using UnityEngine.EventSystems;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
- using System.Collections;
- using System.Collections.Generic;
+using System.Collections;
+using System.Collections.Generic;
 
 using model;
  
@@ -13,6 +13,7 @@ using model;
      public static bool myTurnSchemin = false;
 
      public static GameManager gm;
+     // public static Text announcement; 
 
      public static void setGame(GameManager newGm) {
         gm = newGm;
@@ -26,10 +27,36 @@ using model;
      public int maxLines = 3; 
      public GameObject cardA; 
      public Text log; 
-     // public Text msg; 
-//      void OnGUI() {
-//         GUI.Label(new Rect(10,(Screen.height - 150),300f,150f), guiText,GUI.skin.textArea);     
-//      }
+
+    public static void promptDrawCardsOrPlayCard() {
+          Debug.Log("setting my turn to true");
+          myTurnSchemin = true;
+          string msgCard = "PLEASE PLAY A CARD OR DRAW 3 CARDS";
+      
+          // GameObject.Find("promptDrawCardsOrPlayCardMsg").GetComponent<UnityEngine.UI.Text>().text = msg.ToString();
+          // setting the prompt message 
+          GameObject.Find("promptDrawCardsOrPlayCardMsg").GetComponent<Text>().text = msgCard.ToString();
+
+
+          // set clickable objects 
+     }
+
+     public static void promptChooseLoot() {
+          string msgLoot = "PLEASE CHOOSE A LOOT";
+      
+          // GameObject.Find("promptDrawCardsOrPlayCardMsg").GetComponent<UnityEngine.UI.Text>().text = msg.ToString();
+          // setting the prompt message 
+          GameObject.Find("promptChooseLoot").GetComponent<Text>().text = msgLoot.ToString();
+
+          // set clickable loots 
+     }
+
+     public static void promptPunchTarget() {
+          string msgPunch = "PLEASE CHOOSE A BANDIT TO PUNCH";
+          GameObject.Find("promptPunchTarget").GetComponent<Text>().text = msgPunch.ToString();
+          // set clickable loots 
+     }
+
 
 //      public void AddEvent(string eventString){
 //          Eventlog.Add(eventString);
@@ -46,21 +73,10 @@ using model;
 //      }
 
      void Start(){
-       // log = GetComponent<Text>(); 
-     //     eventLog.AddEvent("Player Moves Left");
-     //     eventLog.AddEvent("Player Moves Right");
-          // string name =  EventSystem.current.currentSelectedGameObject.name;
-          // Debug.Log(name);
-         // AddEvent("added");
-         log.text = guiText;
- 
- 
+          log.text = guiText;
+          
+          promptDrawCardsOrPlayCard();
      }
-
-     public static void promptDrawCardsOrPlayCard() {
-          Debug.Log("setting my turn to true");
-          myTurnSchemin = true;
-     }
 
      public void OnButtonClick()
      {
@@ -70,6 +86,25 @@ using model;
          else
              Debug.Log("curr game obj is null :(");
 
+          // guiText += go.name;
+          // guiText += "\n";
+          if(go.name == "CardA"){
+               log.text += "Ghost plays Move"+"\n";
+          }
+
+          if(go.name == "CardB"){
+               log.text += "Ghost plays Rob"+"\n";
+          }
+
+          if(go.name == "CardC"){
+                  log.text += "Cheyenne plays Marshal"+"\n";
+          }
+
+          if(go.name == "CardD"){
+               log.text += "Cheyenne plays ChangeFloor"+"\n";
+          }
+
+          log.text += go.name; 
           guiText += go.name;
           guiText += "\n";
 
@@ -100,7 +135,8 @@ using model;
 
      void Update () 
      {
-          log.text = guiText;
+          // log.text = guiText;
+     }
           // msg.text = guiText; 
           // if(Input.GetButtonDown("CardA")){
           //      Debug.Log("CARDA");
@@ -132,8 +168,6 @@ using model;
  
      //     if (Input.GetKey(KeyCode.RightArrow))
      //         eventLog.AddEvent("Player Moves Right");
-
-     }
 
      // void OnMouseDown(){
      //      // if (!Input.GetMouseButtonDown(0)) return;

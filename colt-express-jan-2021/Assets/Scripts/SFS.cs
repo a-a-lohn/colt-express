@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
+
+//using System.Windows;
 
 using Sfs2X;
 using Sfs2X.Logging;
@@ -24,6 +27,7 @@ public static class SFS
     public static string debugText = "";
     public static bool moreText = false;
     public static string username; //should be set to logged in user's name
+	public static bool enteredGame = false;
 
 	public static string chosenCharText = "";
 
@@ -33,7 +37,7 @@ public static class SFS
 	public static ChooseCharacter cc;
 
     static SFS(){
-        defaultHost = "127.0.0.1";//"13.72.79.112";   //"13.90.26.131";
+        defaultHost = "13.72.79.112";//"127.0.0.1";
 	    defaultTcpPort = 9933;
         zone = "MergedExt";
     }
@@ -76,16 +80,18 @@ public static class SFS
 		if (cmd == "remainingCharacters") {
 			ISFSObject responseParams = (SFSObject)evt.Params["params"];
 			string player = responseParams.GetUtfString("player");
-			if(player != null) {
+			if(player != null){// && chosenCharText != "") {
 				string chosen = responseParams.GetUtfString("chosenCharacter");
-				chosenCharText += "\n" + player + " chose " + chosen + "!";
+				chosenCharText += player + " chose " + chosen + "!\n";
 			}
+			cc.UpdateDisplayText(chosenCharText);
 			cc.DisplayRemainingCharacters(evt);
 		} else if (cmd == "updateGameState") {
             gb.UpdateGameState(evt);
         } else if (cmd == "nextAction") {
 			ISFSObject responseParams = (SFSObject)evt.Params["params"];
 			step = responseParams.GetInt("step");
+			Debug.Log("received step " + step);
 			gb.executeHardCoded(step);
 		}
     }
@@ -111,6 +117,13 @@ public static class SFS
 			sfs.AddLogListener(LogLevel.INFO, OnInfoMessage);
 			sfs.AddLogListener(LogLevel.WARN, OnWarnMessage);
 			sfs.AddLogListener(LogLevel.ERROR, OnErrorMessage);
+
+			//sfs.AddEventListener(SFSEvent.ROOM_JOIN, OnRoomJoin);
+			sfs.AddEventListener(SFSEvent.ROOM_JOIN_ERROR, OnRoomJoinError);
+			//sfs.AddEventListener(SFSEvent.PUBLIC_MESSAGE, OnPublicMessage);
+			//sfs.AddEventListener(SFSEvent.USER_ENTER_ROOM, OnUserEnterRoom);
+			sfs.AddEventListener(SFSEvent.USER_EXIT_ROOM, OnUserExitRoom);
+			//sfs.AddEventListener(SFSEvent.ROOM_ADD, OnRoomAdd);
 			
 			// Set connection parameters
 			ConfigData cfg = new ConfigData();
@@ -148,8 +161,17 @@ public static class SFS
 		sfs.RemoveLogListener(LogLevel.INFO, OnInfoMessage);
 		sfs.RemoveLogListener(LogLevel.WARN, OnWarnMessage);
 		sfs.RemoveLogListener(LogLevel.ERROR, OnErrorMessage);
+
+		//sfs.RemoveEventListener(SFSEvent.ROOM_JOIN, OnRoomJoin);
+		sfs.RemoveEventListener(SFSEvent.ROOM_JOIN_ERROR, OnRoomJoinError);
+		//sfs.RemoveEventListener(SFSEvent.PUBLIC_MESSAGE, OnPublicMessage);
+		//sfs.RemoveEventListener(SFSEvent.USER_ENTER_ROOM, OnUserEnterRoom);
+		sfs.RemoveEventListener(SFSEvent.USER_EXIT_ROOM, OnUserExitRoom);
+		//sfs.RemoveEventListener(SFSEvent.ROOM_ADD, OnRoomAdd);
 		
 		sfs = null;
+
+		//clearRoomList();
 	}
 
     private static void OnConnection(BaseEvent evt) {
@@ -215,13 +237,24 @@ public static class SFS
 
 
     private static void OnLogin(BaseEvent evt) {
-		User user = (User) evt.Params["user"];
+		/*User user = (User) evt.Params["user"];
 
 		// Show system message
 		string msg = "Login successful!\n";
 		msg += "Logged in as " + user.Name;
 		trace(msg);
 
+		// Populate Room list
+		populateRoomList(sfs.RoomList);*/
+
+		// Join first Room in Zone
+		if (sfs.RoomList.Count > 0) {
+			sfs.Send(new Sfs2X.Requests.JoinRoomRequest(sfs.RoomList[0].Name));
+		}
+	}
+
+	public static void LeaveRoom() {
+		sfs.Send(new Sfs2X.Requests.LeaveRoomRequest());
 	}
 	
 	private static void OnLoginError(BaseEvent evt) {
@@ -234,4 +267,125 @@ public static class SFS
 		// Show error message
 		debugText = "Login failed: " + (string) evt.Params["errorMessage"];
 	}
+
+
+	/*private static void populateRoomList(List<Room> rooms) {
+		// Clear current Room list
+		clearRoomList();
+
+		// For the roomlist we use a scrollable area containing a separate prefab button for each Room
+		// Buttons are clickable to join Rooms
+		foreach (Room room in rooms) {
+			int roomId = room.Id;
+
+			GameObject newListItem = Instantiate(roomListItem) as GameObject;
+			RoomItem roomItem = newListItem.GetComponent<RoomItem>();
+			roomItem.nameLabel.text = room.Name;
+			roomItem.maxUsersLabel.text = "[max " + room.MaxUsers + " users]";
+			roomItem.roomId = roomId;
+
+			roomItem.button.onClick.AddListener(() => OnRoomItemClick(roomId));
+
+			newListItem.transform.SetParent(roomListContent, false);
+		}
+	}
+
+	private static void clearRoomList() {
+		foreach (Transform child in roomListContent.transform) {
+			GameObject.Destroy(child.gameObject);
+		}
+	}
+
+	private static void populateUserList(List<User> users) {
+		// For the userlist we use a simple text area, with a user name in each row
+		// No interaction is possible in this example
+
+		// Get user names
+		List<string> userNames = new List<string>();
+
+		foreach (User user in users) {
+
+			string name = user.Name;
+
+			if (user == sfs.MySelf)
+				name += " <color=#808080ff>(you)</color>";
+
+			userNames.Add(name);
+		}
+
+		// Sort list
+		userNames.Sort();
+
+		// Display list
+		userListText.text = "";
+		userListText.text = String.Join("\n", userNames.ToArray());
+	}
+
+
+	private static void OnRoomJoin(BaseEvent evt) {
+		Room room = (Room) evt.Params["room"];
+
+		// Clear chat (uless this is the first time a Room is joined - or the initial system message would be deleted)
+		if (!firstJoin)
+			chatText.text = "";
+
+		firstJoin = false;
+		
+		// Show system message
+		printSystemMessage("\nYou joined room '" + room.Name + "'\n");
+
+		// Enable chat controls
+		chatControls.interactable = true;
+
+		// Populate users list
+		populateUserList(room.UserList);
+	}*/
+	
+	private static void OnRoomJoinError(BaseEvent evt) {
+		// Show error message
+		Debug.Log("Room join failed: " + (string) evt.Params["errorMessage"]);
+	}
+	
+	/*private static void OnUserEnterRoom(BaseEvent evt) {
+		User user = (User) evt.Params["user"];
+		Room room = (Room) evt.Params["room"];
+
+		// Show system message
+		printSystemMessage("User " + user.Name + " entered the room");
+
+		// Populate users list
+		populateUserList(room.UserList);
+	}*/
+	
+	private static void OnUserExitRoom(BaseEvent evt) {
+		User user = (User) evt.Params["user"];
+		username = PlayerPrefs.GetString("username", "No username found");
+		Debug.Log(username);
+		Debug.Log(user.Name);
+		if (user.Name != username) {
+			//Room room = (Room)evt.Params["room"];
+			
+			// Show system message
+			//printSystemMessage("User " + user.Name + " left the room");
+			
+			// Populate users list
+			//populateUserList(room.UserList);
+			Debug.Log(user.Name + " left the game!");
+			//gb.exit.SetActive(true);
+			gb.exitText.text = user.Name + " left the game! You will now be redirected to the Waiting Room"; 
+			//Invoke("GoToWaitingRoom", 5);
+			gb.GoToWaitingRoom();
+		} else {
+			//gb.exit.SetActive(true);
+			gb.exitText.text = "You will now be redirected to the Waiting Room";
+			Debug.Log("Returning to waiting room");
+			//Invoke("GoToWaitingRoom", 5);
+			gb.GoToWaitingRoom();
+		}
+	}
+
+	/*private static void OnRoomAdd(BaseEvent evt) {
+		// Re-populate Room list
+		populateRoomList(sfs.RoomList);
+	}*/
 }
