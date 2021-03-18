@@ -278,7 +278,7 @@ public class GameBoard : MonoBehaviour
 		ExtensionRequest req = new ExtensionRequest("gm.nextAction",obj);
 		SFS.Send(req);
 		//executeHardCoded(step);
-		if (SFS.step == 28){
+		if (SFS.step == 27){
 			LeaveRoom();
 		}
 	}

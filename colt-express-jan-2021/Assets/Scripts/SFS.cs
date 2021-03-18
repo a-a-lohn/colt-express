@@ -82,9 +82,9 @@ public static class SFS
 			string player = responseParams.GetUtfString("player");
 			if(player != null){// && chosenCharText != "") {
 				string chosen = responseParams.GetUtfString("chosenCharacter");
-				chosenCharText += "\n" + player + " chose " + chosen + "!";
+				chosenCharText += player + " chose " + chosen + "!\n";
 			}
-			cc.UpdateDisplayText(chosenCharText);//LENGTH TEXTBOX
+			cc.UpdateDisplayText(chosenCharText);
 			cc.DisplayRemainingCharacters(evt);
 		} else if (cmd == "updateGameState") {
             gb.UpdateGameState(evt);
