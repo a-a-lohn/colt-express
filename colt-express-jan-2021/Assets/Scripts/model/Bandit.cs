@@ -1,4 +1,5 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Sfs2X;
@@ -8,7 +9,6 @@ using Sfs2X.Core;
 using Sfs2X.Entities;
 using Sfs2X.Entities.Data;
 using Sfs2X.Protocol.Serialization;
-
 
 //The following code is executed right after creating the SmartFox object:
 // using System.Reflection;
@@ -23,6 +23,7 @@ namespace model {
         public string banditNameAsString;
         
         // FOR NETWORKING
+        //remove position reference
         public TrainUnit position;   
         //public Hostage hostage;       
         public string hostageAsString;
@@ -34,6 +35,7 @@ namespace model {
         public ArrayList hand ;
         public ArrayList discardPile ;
         public ActionCard toResolve;
+        public int consecutiveTurnCounter;
         
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public Bandit() {}
@@ -68,10 +70,13 @@ namespace model {
         }
         
         public TrainUnit getPosition() {
+            GameManager gm = GameManager.getInstance();
+            //query hashmap of bandit-position 
             return this.position;
         }
         
         public void setPosition(TrainUnit newObject) {
+            //change hashmap of bandit-position
             this.position = newObject;
         }
         
@@ -319,41 +324,29 @@ namespace model {
         public void setToResolve(ActionCard ac) {
             this.toResolve = ac;
         }
+
+        public int getConsecutiveTurnCounter() {
+		    return this.consecutiveTurnCounter;
+	    }
+	    public void setConsecutiveTurnCounter(int i) {
+		    this.consecutiveTurnCounter = i;
+	    }
         
         public void createStartingCards() {
-            string acMove1 = "MOVE";
-            string acMove2 = "MOVE";
-            string acChangeFloor1 = "CHANGE_FLOOR";
-            string acChangeFloor2 = "CHANGE_FLOOR";
-            string acMarshal = "MOVE_MARSHAL";
-            string acPunch = "PUNCH";
-            string acRob1 = "ROB";
-            string acRob2 = "ROB";
-            string acShoot1 = "SHOOT";
-            string acShoot2 = "SHOOT";
-            this.deck.Add(acMove1);
-            this.deck.Add(acMove2);
-            this.deck.Add(acChangeFloor1);
-            this.deck.Add(acChangeFloor2);
-            this.deck.Add(acMarshal);
-            this.deck.Add(acPunch);
-            this.deck.Add(acRob1);
-            this.deck.Add(acRob2);
-            this.deck.Add(acShoot1);
-            this.deck.Add(acShoot2);
-            foreach (Card c in this.deck) {
-                c.setBelongsTo(this);
+            string[] actions= {"MOVE", "MOVE", "CHANGE_FLOOR","CHANGE_FLOOR", "MOVE_MARSHAL", "PUNCH", "ROB", "ROB", "SHOOT","SHOOT"};
+            for (int i = 0; i<actions.Length; i++) {
+                Card c = new ActionCard (actions[i]);
+                this.deck.Add(c);
+                //c.setBelongsTo(this);
             }
-            
         }
         
         public void createHand() {
-            //this.deck = this.deck.Shuffle(); !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            //Collections.shuffle(this.deck, new Random(System.currentTimeMillis()));
+            this.shuffle();
             for (int i = 0; (i < 6); i++) {
                 Card c = (Card)this.deck[0];
                 this.hand.Add(c);
-                // this.deck.remove(c);
+                this.deck.Remove(c);
             }
             
         }
@@ -372,7 +365,7 @@ namespace model {
             this.bullets.Add(bc5);
             this.bullets.Add(bc6);
             foreach (BulletCard bc in this.bullets) {
-                bc.setBelongsTo(this);
+                //bc.setBelongsTo(this);
             }
             
         }
@@ -382,39 +375,76 @@ namespace model {
             this.loot.Add(startingPurse);
         }
 
+        public void endOfSchemin(){
+            foreach (Card c in this.hand){
+                this.deck.Add(c);
+            }
+            foreach (Card c in this.discardPile){
+                this.deck.Add(c);
+            }
+            this.hand.Clear();
+            this.discardPile.Clear();
+            //HAND FOR NEXT ROUND IS CREATED AT END OF SCHEMIN PHASE - MUST NOT BE VISIBLE DURING STEALING PHASE
+            this.createHand();
+        }
+
+     // FIX THIS
+        public void shuffle() {
+            System.Random RandomGen = new System.Random(DateTime.Now.Millisecond);
+            ArrayList ScrambledList = new ArrayList();
+            Int32 Index;
+            /*while (AList.Count > 0)
+            {
+                Index = RandomGen.Next(this.deck.Count);
+                ScrambledList.Add(this.deck[Index]);
+                this.deck.RemoveAt(Index);
+            }*/
+            this.deck = ScrambledList;
+        } 
+
+    // FIX THIS
+        public static void shuffle(ArrayList c) {
+            System.Random RandomGen = new System.Random(DateTime.Now.Millisecond);
+            ArrayList ScrambledList = new ArrayList();
+            Int32 Index;
+            /*while (AList.Count > 0)
+            {
+                Index = RandomGen.Next(c.Count);
+                ScrambledList.Add(c[Index]);
+                c.RemoveAt(Index);
+            }*/
+            //return ScrambledList;
+        }
+
+    // FIX THIS
+        //added these to clean up the gamemanager methods, there's some logic that can be handled here 
+        public void addToResolve(Card c){
+            if (this.hand.Contains(c)){
+                //this.toResolve.Add(c);
+               // this.hand.Remove(c);
+            }
+            else {
+                Debug.Log("card does not exist in hand");
+            }
+        }
+
+        public void drawCards() {
+            if (this.deck.Count < 3) {
+                return;
+            }
+            for (int i = 0; i<3; i++){
+                Card c = (Card)this.deck[i];
+                this.hand.Add(c);
+            }
+            for (int i = 0; i<3; i++){
+                Card c = (Card)this.deck[i];
+                this.deck.Remove(c);
+            }
+        }
+
+
+
+
     }
 
 }
-// using System.Collections;
-// using System.Collections.Generic;
-// using UnityEngine;
-// using Sfs2X;
-// using Sfs2X.Logging;
-// using Sfs2X.Util;
-// using Sfs2X.Core;
-// using Sfs2X.Entities;
-// using Sfs2X.Entities.Data;
-// using Sfs2X.Protocol.Serialization;
-
-
-// //The following code is executed right after creating the SmartFox object:
-// // using System.Reflection;
-// //        DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
-// namespace model {
-//     public class Bandit : SerializableSFSType
-//     {
-
-//         public bool getsAnotherAction;
-//         public bool playedThisTurn;
-//         public string banditNameAsString; //public Character banditName;
-//         public TrainUnit position;
-//         public Hostage hostage;
-//         public ArrayList loot = new ArrayList();
-//         public ArrayList hand = new ArrayList();
-//         public ArrayList discardPile = new ArrayList();
-
-//         public Bandit() { }
-
-
-//     }
-// }

@@ -24,14 +24,32 @@ using model;
 
 public class ChooseCharacter : MonoBehaviour
 {
+
+    /*static ChooseCharacter ccInstance;
+    public static ChooseCharacter Instance
+    {
+        get
+        {
+            if (ccInstance == null){
+                GameObject go = new GameObject();
+                mInstance = go.AddComponent<ChooseCharacter>();
+            }
+            return ccInstance;
+        }
+    }*/
+
+
     // debugging variables
     public Text selected;
     public static string debugText;
     public Button button;
 
+    public Text display;
+    public Text info;
+
     private static bool alreadyCalled = false;
 
-    private static RestClient client = new RestClient("http://13.90.26.131:4242");
+    private static RestClient client = new RestClient("http://13.72.79.112:4242");
 
     //SAVE THE CHOSEN CHARACTER IN THIS STRING SO IT CAN BE USED BY GAMEMANAGER
     public static string character = "";
@@ -42,7 +60,7 @@ public class ChooseCharacter : MonoBehaviour
     public bool TucoIsAvailable; 
     public bool DjangoIsAvailable; 
     public bool DocIsAvailable; 
-    public bool GhostIsAvailable; 
+    public bool GhostIsAvailable;
 
     // Start is called before the first frame update
     void Start()
@@ -58,23 +76,28 @@ public class ChooseCharacter : MonoBehaviour
             //     }
         //////
 
-            BelleIsAvailable = true;
-            CheyenneIsAvailable = true; 
-            TucoIsAvailable = true; 
-            DjangoIsAvailable = true; 
-            DocIsAvailable = true; 
+        info.text = "You will be brought to the game once all " + WaitingRoom.numPlayers + " players have chosen a character!";
 
-            // rend = GetComponent<Renderer>();
-            // name = this.GameObject;
-            //debugText = "";
-           // selected.text = "";
+        BelleIsAvailable = true;
+        CheyenneIsAvailable = true; 
+        TucoIsAvailable = true; 
+        DjangoIsAvailable = true; 
+        DocIsAvailable = true; 
+
+        SFS.setChooseCharacter();
+
+        // rend = GetComponent<Renderer>();
+        // name = this.GameObject;
+        //debugText = "";
+        // selected.text = "";
 
         // Initialize SFS2X client. This can be done in an earlier scene instead
-		SmartFox sfs = new SmartFox();
+		/*SmartFox sfs = new SmartFox();
         // For C# serialization
 		DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
         SFS.setSFS(sfs);
-        SFS.Connect("test2");
+
+        SFS.Connect("test");*/
     }
 
     // Update is called once per frame
@@ -82,12 +105,12 @@ public class ChooseCharacter : MonoBehaviour
     {
         if (SFS.IsConnected() && !alreadyCalled) {
             alreadyCalled = true;
-            Invoke("EnterChooseCharacterScene",2);
+            EnterChooseCharacterScene();// IF RUNNING TESTS STARTING FROM THIS SCENE,
+                                        // MUST DELAY CALLING OF THIS METHOD BY 1-2 SECONDS
             /*
             THIS LISTENER CAN BE REMOVED ONCE THE CHARACTERS THEMSELVES CAN BE CLICKED
             */
             // button.onClick.AddListener(CharacterChoice);
-            //EnterChooseCharacterScene();
         }
         if (SFS.IsConnected()) {
 			SFS.ProcessEvents();
@@ -186,59 +209,107 @@ public class ChooseCharacter : MonoBehaviour
         //var go = EventSystem.current.currentSelectedGameObject;
         character = b.name.ToUpper();
         Debug.Log(character);
+        SetAllNotInteractable();
         ISFSObject obj = SFSObject.NewInstance();
-		obj.PutUtfString("chosenCharacter", character);//hardcoded for now, replace "BELLE" with "chosen"
+		obj.PutUtfString("chosenCharacter", character);
         ExtensionRequest req = new ExtensionRequest("gm.chosenCharacter",obj);
         SFS.Send(req);
-        trace("chose"+character);
+        //trace("chose"+character);
     }
 
-	public static void DisplayRemainingCharacters(BaseEvent evt) {
+    public void UpdateDisplayText(string ut) {
+        display.text = ut;
+    }
+
+	public void DisplayRemainingCharacters(BaseEvent evt) {
 		ISFSObject responseParams = (SFSObject)evt.Params["params"];
+        //string player = responseParams.GetUtfString("player");
+        /*if(player != null) {
+            string chosen = responseParams.GetUtfString("chosenCharacter");
+            display.text += "\n" + player + " chose " + chosen + "!";
+        }*/
+        //display.text += SFS.chosenCharText;
+        //SFS.chosenCharText = "";
         try {
             ISFSArray a = responseParams.GetSFSArray("characterList");
             int size = responseParams.GetSFSArray("characterList").Size();
-            trace("Characters to choose from: ");
+            Debug.Log("Characters to choose from: " + size);
             // loop through all the buttons
             // if a character's name is in the input list -> active the button // otherwise deactive the btn 
-            var foundButtonObjects = FindObjectsOfType<Button>();
-            for (int i = 0; i < size; i++) {
-                foreach(Button btn in foundButtonObjects){
-                    string banditName = (string)a.GetUtfString(i);
-                    if(btn.name == "TucoBtn" && banditName == "TUCO"){
-                        // save in a variable so we can use it later 
-                        //character = "Tuco"; 
-                        btn.interactable = true; 
-                    }
-                    if(btn.name == "BelleBtn" && banditName == "BELLE"){
-                        //character = "Belle"; 
-                        btn.interactable = true; 
-                    }
-                    if(btn.name == "CheyenneBtn" && banditName == "CHEYENNE"){
-                        //character = "Cheyenne"; 
-                        btn.interactable = true; 
-                    }
-                    if(btn.name == "DjangoBtn" && banditName == "DJANGO"){
-                        //character = "Django"; 
-                        btn.interactable = true; 
-                    }
-                    if(btn.name == "GhostBtn" && banditName == "GHOST"){
-                        //character = "Ghost"; 
-                        btn.interactable = true; 
-                    }
-                    if(btn.name == "DocBtn" && banditName == "DOC"){
-                        //character = "Doc"; 
-                        btn.interactable = true; 
+            SetAllNotInteractable();
+            if(character == "") { // only let buttons be interactable if you haven't chosen yet
+                var foundButtonObjects = FindObjectsOfType<Button>();
+                for (int i = 0; i < size; i++) {
+                    foreach(Button btn in foundButtonObjects){
+                        string banditName = (string)a.GetUtfString(i);
+                        //Debug.Log(banditName);
+                        if(btn.name == "Tuco" && banditName == "TUCO"){
+                            Debug.Log("setting tuco btn to true");
+                            // save in a variable so we can use it later 
+                            //character = "Tuco"; 
+                            btn.interactable = true; 
+                        }
+                        if(btn.name == "Belle" && banditName == "BELLE"){
+                            //character = "Belle"; 
+                            btn.interactable = true; 
+                        }
+                        if(btn.name == "Cheyenne" && banditName == "CHEYENNE"){
+                            Debug.Log("setting cheyenne btn to true");
+                            //character = "Cheyenne"; 
+                            btn.interactable = true; 
+                        }
+                        if(btn.name == "Django" && banditName == "DJANGO"){
+                            //character = "Django"; 
+                            btn.interactable = true; 
+                        }
+                        if(btn.name == "Ghost" && banditName == "GHOST"){
+                            //character = "Ghost"; 
+                            btn.interactable = true; 
+                        }
+                        if(btn.name == "Doc" && banditName == "DOC"){
+                            //character = "Doc"; 
+                            btn.interactable = true; 
+                        }
                     }
                 }
             }
-
         } catch (Exception e) {
-            SceneManager.LoadScene("GameBoard");
+            Invoke("NextScene",3);
         }
 	}
 
-    void RemoveLaunchedSession() {
+    private void SetAllNotInteractable() {
+        var foundButtonObjects = FindObjectsOfType<Button>();
+        Debug.Log(foundButtonObjects.Length);
+        foreach(Button btn in foundButtonObjects){
+            if(btn.name == "Tuco"){
+                Debug.Log("setting tuco btn to false");
+                btn.interactable = false; 
+            }
+            if(btn.name == "Belle"){
+                btn.interactable = false; 
+            }
+            if(btn.name == "Cheyenne"){
+                btn.interactable = false;
+            }
+            if(btn.name == "Django"){
+                btn.interactable = false; 
+            }
+            if(btn.name == "Ghost"){
+                btn.interactable = false; 
+            }
+            if(btn.name == "Doc"){
+                btn.interactable = false; 
+            }
+        }
+    }
+
+    private void NextScene() {
+        SFS.enteredGame = true;
+        SceneManager.LoadScene("GameBoard");
+    }
+
+    public static void RemoveLaunchedSession() {
         if (WaitingRoom.hosting) {
             var request = new RestRequest("oauth/token", Method.POST)
             .AddParameter("grant_type", "password")
@@ -250,8 +321,8 @@ public class ChooseCharacter : MonoBehaviour
         var obj = JObject.Parse(response.Content);
         string adminToken = (string)obj["access_token"];
         adminToken = adminToken.Replace("+", "%2B");
-        PlayerPrefs.SetString("admintoken", adminToken);
-        PlayerPrefs.Save();
+        //PlayerPrefs.SetString("admintoken", adminToken);
+        //PlayerPrefs.Save();
 
         var request2 = new RestRequest("api/sessions/" + WaitingRoom.gameHash + "?access_token=" + adminToken, Method.DELETE)
             .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");

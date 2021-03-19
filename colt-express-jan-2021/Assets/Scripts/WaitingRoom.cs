@@ -20,7 +20,7 @@ using Sfs2X.Protocol.Serialization;
 
 public class WaitingRoom : MonoBehaviour
 {
-    private static RestClient client = new RestClient("http://13.90.26.131:4242");
+    private static RestClient client = new RestClient("http://13.72.79.112:4242");
 
     public Text fToken;
     public Button NewGameButton;
@@ -28,6 +28,8 @@ public class WaitingRoom : MonoBehaviour
     public Button LaunchGameButton;
     public Button HostGameButton;
     public Text InfoText;
+    public Text launchText;
+
 
     public static string gameHash = null;
     private static string token;
@@ -35,6 +37,7 @@ public class WaitingRoom : MonoBehaviour
 
     private static bool joined = false;
     public static bool hosting = false;
+    public static int numPlayers;
 
     private static Dictionary<Button, string> hashes = new Dictionary<Button, string>();
 
@@ -44,18 +47,22 @@ public class WaitingRoom : MonoBehaviour
         token = PlayerPrefs.GetString("token", "No token found");
         username = PlayerPrefs.GetString("username", "No username found");
         
-        // Initialize SFS2X client. This can be done in an earlier scene instead
-		SmartFox sfs = new SmartFox();
-        // For C# serialization
-		DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
-        SFS.setSFS(sfs);
-        SFS.Connect(username);
+        if (SFS.getSFS() == null) {
+            // Initialize SFS2X client. This can be done in an earlier scene instead
+            SmartFox sfs = new SmartFox();
+            // For C# serialization
+            DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
+            SFS.setSFS(sfs);
+            SFS.Connect(username);
+        }
 
         NewGameButton.interactable = false;
         //GoToGameButton.interactable = false;
         LaunchGameButton.interactable = false;
         // fToken.text = waitToken;
         GetSessions();
+
+        //Invoke("LeaveRoom",5);
 
     }
 
@@ -77,13 +84,20 @@ public class WaitingRoom : MonoBehaviour
                 }
             }
         }*/
-        GetSessions();
-        if(hosting && !LaunchGameButton.interactable) {
-            ActivateLaunchGameButton();
+        //Invoke("GetSessions", 1);
+        if(!SFS.enteredGame) {
+            if(hosting && !LaunchGameButton.interactable) {
+                ActivateLaunchGameButton();
+            }
+            GoToGame();
         }
+        GetSessions();
         
-        GoToGame();
     }
+
+    /*public void LeaveRoom() {
+        SFS.LeaveRoom();
+    }*/
 
     public void GoToGame() {
         if (gameHash != null && joined)/* && !GoToGameButton.interactable) */{
@@ -94,7 +108,7 @@ public class WaitingRoom : MonoBehaviour
             Dictionary<string, object> sessionDetails = obj.ToObject<Dictionary<string, object>>();
 
             if (sessionDetails["launched"].ToString().ToLower() == "true") {
-               // GoToGameButton.interactable = true;
+               numPlayers = 1 + sessionDetails["players"].ToString().ToCharArray().Count(c => c == ',');
                SceneManager.LoadScene("ChooseYourCharacter");
             }
             
@@ -107,9 +121,9 @@ public class WaitingRoom : MonoBehaviour
         IRestResponse response = client.Execute(request);
         var obj = JObject.Parse(response.Content);
         Dictionary<string, object> sessionDetails = obj.ToObject<Dictionary<string, object>>();
-        int numPlayers = 1 + sessionDetails["players"].ToString().ToCharArray().Count(c => c == ',');
+        numPlayers = 1 + sessionDetails["players"].ToString().ToCharArray().Count(c => c == ',');
 
-        if (numPlayers >= 2) { //change to >2
+        if (numPlayers > 2) { //change to >2
             LaunchGameButton.interactable = true;
         }
     }
@@ -228,6 +242,7 @@ public class WaitingRoom : MonoBehaviour
                 .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
             IRestResponse response = client.Execute(request);
         joined = true;
+        launchText.text = "Your game is launching!";
     }
 
     /*private static Boolean LaunchStatus()
@@ -246,29 +261,8 @@ public class WaitingRoom : MonoBehaviour
         }
     }*/
 
-    void RemoveLaunchedSession() {
-        if (hosting) {
-            var request = new RestRequest("oauth/token", Method.POST)
-            .AddParameter("grant_type", "password")
-            .AddParameter("username", "admin")
-            .AddParameter("password", "admin")
-            .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
-        IRestResponse response = client.Execute(request);
-        
-        var obj = JObject.Parse(response.Content);
-        string adminToken = (string)obj["access_token"];
-        adminToken = adminToken.Replace("+", "%2B");
-        PlayerPrefs.SetString("admintoken", adminToken);
-        PlayerPrefs.Save();
-
-        var request2 = new RestRequest("api/sessions/" + gameHash + "?access_token=" + adminToken, Method.DELETE)
-            .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
-        IRestResponse response2 = client.Execute(request2);
-        }
-    }
-
     void OnApplicationQuit() {
-        RemoveLaunchedSession();
+        ChooseCharacter.RemoveLaunchedSession();
 		// Always disconnect before quitting
 		SFS.Disconnect();
 	}

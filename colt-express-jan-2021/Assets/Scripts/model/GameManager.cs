@@ -12,6 +12,7 @@ using Sfs2X.Protocol.Serialization;
 // @MultiHandler
 namespace model {
     public class GameManager : SerializableSFSType {
+        //public Hashtable banditLocation; 
         
         public static GameManager singleton;
         
@@ -31,12 +32,15 @@ namespace model {
         
         //  CONVENTION FOR DECK: POSITION DECK.SIZE() IS TOP OF DECK, POSITION 0 IS
         //  BOTTOM OF DECK
-        public TrainUnit[] trainRoof;
+        //public TrainUnit[] trainRoof;
+        public ArrayList trainRoof ;
         
-        public TrainUnit[] trainCabin;
+        public ArrayList trainCabin;
         
-        public TrainUnit[,] train;
-        public TrainUnit[] stagecoach;
+        //public TrainUnit[,] train;
+        
+        //public ArrayList stagecoach;
+
         public ArrayList bandits;
         
         public Hashtable banditmap;
@@ -225,6 +229,10 @@ namespace model {
                         }
                         
                         //  IF THERE ARE NO MORE TURNS IN THE ROUND
+                        //
+                        foreach (Bandit b in this.bandits) {
+                            b.endOfSchemin();
+                        }
                         this.banditsPlayedThisTurn = 0;
                         this.setGameStatus("STEALIN");
                     }
@@ -411,8 +419,8 @@ namespace model {
                 return null;
             }
             
-            //Collections.shuffle(RoundCards); !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            return RoundCards;
+            Bandit.shuffle(RoundCards);
+            return null; ////??
         }
         
         public void setGameStatus(string newStatus) {
@@ -492,34 +500,34 @@ namespace model {
         public void setUpPositions(ArrayList b) {
             int numOfBandit = b.Count;
             if ((numOfBandit == 2)) {
-                ((Bandit)b[0]).setPosition(this.trainCabin[0]);
-                ((Bandit)b[1]).setPosition(this.trainCabin[1]);
+                ((Bandit)b[0]).setPosition((TrainUnit) this.trainCabin[0]);
+                ((Bandit)b[1]).setPosition((TrainUnit) this.trainCabin[1]);
             }
             else if ((numOfBandit == 3)) {
-                ((Bandit)b[0]).setPosition(this.trainCabin[0]);
-                ((Bandit)b[1]).setPosition(this.trainCabin[1]);
-                ((Bandit)b[2]).setPosition(this.trainCabin[0]);
+                ((Bandit)b[0]).setPosition((TrainUnit) this.trainCabin[0]);
+                ((Bandit)b[1]).setPosition((TrainUnit) this.trainCabin[1]);
+                ((Bandit)b[2]).setPosition((TrainUnit) this.trainCabin[0]);
             }
             else if ((numOfBandit == 4)) {
-                ((Bandit)b[0]).setPosition(this.trainCabin[0]);
-                ((Bandit)b[1]).setPosition(this.trainCabin[1]);
-                ((Bandit)b[2]).setPosition(this.trainCabin[0]);
-                ((Bandit)b[3]).setPosition(this.trainCabin[1]);
+                ((Bandit)b[0]).setPosition((TrainUnit) this.trainCabin[0]);
+                ((Bandit)b[1]).setPosition((TrainUnit) this.trainCabin[1]);
+                ((Bandit)b[2]).setPosition((TrainUnit) this.trainCabin[0]);
+                ((Bandit)b[3]).setPosition((TrainUnit) this.trainCabin[1]);
             }
             else if ((numOfBandit == 5)) {
-                ((Bandit)b[0]).setPosition(this.trainCabin[0]);
-                ((Bandit)b[1]).setPosition(this.trainCabin[1]);
-                ((Bandit)b[2]).setPosition(this.trainCabin[2]);
-                ((Bandit)b[3]).setPosition(this.trainCabin[0]);
-                ((Bandit)b[4]).setPosition(this.trainCabin[1]);
+                ((Bandit)b[0]).setPosition((TrainUnit) this.trainCabin[0]);
+                ((Bandit)b[1]).setPosition((TrainUnit) this.trainCabin[1]);
+                ((Bandit)b[2]).setPosition((TrainUnit) this.trainCabin[2]);
+                ((Bandit)b[3]).setPosition((TrainUnit) this.trainCabin[0]);
+                ((Bandit)b[4]).setPosition((TrainUnit) this.trainCabin[1]);
             }
             else if ((numOfBandit == 6)) {
-                ((Bandit)b[0]).setPosition(this.trainCabin[0]);
-                ((Bandit)b[1]).setPosition(this.trainCabin[1]);
-                ((Bandit)b[2]).setPosition(this.trainCabin[2]);
-                ((Bandit)b[3]).setPosition(this.trainCabin[0]);
-                ((Bandit)b[4]).setPosition(this.trainCabin[1]);
-                ((Bandit)b[4]).setPosition(this.trainCabin[2]);
+                ((Bandit)b[0]).setPosition((TrainUnit) this.trainCabin[0]);
+                ((Bandit)b[1]).setPosition((TrainUnit) this.trainCabin[1]);
+                ((Bandit)b[2]).setPosition((TrainUnit) this.trainCabin[2]);
+                ((Bandit)b[3]).setPosition((TrainUnit) this.trainCabin[0]);
+                ((Bandit)b[4]).setPosition((TrainUnit) this.trainCabin[1]);
+                ((Bandit)b[4]).setPosition((TrainUnit) this.trainCabin[2]);
             }
             else {
                 return;

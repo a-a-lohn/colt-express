@@ -42,15 +42,15 @@ public class Move : MonoBehaviour
     private List<float> cheOffset = new List<float>() {5F, 0F, 0F}; 
     private List<float> docOffset = new List<float>() {10F, 0F, 0F}; 
     private List<float> djaOffset = new List<float>() {-5F, 0F, 0F}; 
-    private List<float> ghoOffset = new List<float>() {-3F, 0F, 0F}; 
-    private List<float> tucOffset = new List<float>() {-1F, 0F, 0F}; 
+    private List<float> tucOffset = new List<float>() {-3F, 0F, 0F}; 
+    private List<float> ghoOffset = new List<float>() {-1F, 0F, 0F}; 
 
     // getClicked returns the name of the GM that user clicks 
-    string getClicked(){
+    /*string getClicked(){
         var goClicked = EventSystem.current.currentSelectedGameObject;
         // Debug.Log(goClicked.name);
-        return goClicked.name;
-    }
+        return goClicked;
+    }*/
 
     // use the hashmap to map the GO to the desired type so we can pass it back to the GM 
 
