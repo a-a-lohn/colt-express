@@ -62,4 +62,8 @@ public class Login : MonoBehaviour {
         SceneManager.LoadScene("WaitingRoom");
     }
 
+    public void GoToMM() {
+        SceneManager.LoadScene("MainMenu");
+    }
+
 }

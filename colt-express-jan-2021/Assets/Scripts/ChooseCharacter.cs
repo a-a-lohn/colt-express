@@ -316,17 +316,17 @@ public class ChooseCharacter : MonoBehaviour
             .AddParameter("username", "admin")
             .AddParameter("password", "admin")
             .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
-        IRestResponse response = client.Execute(request);
-        
-        var obj = JObject.Parse(response.Content);
-        string adminToken = (string)obj["access_token"];
-        adminToken = adminToken.Replace("+", "%2B");
-        //PlayerPrefs.SetString("admintoken", adminToken);
-        //PlayerPrefs.Save();
+            IRestResponse response = client.Execute(request);
+            
+            var obj = JObject.Parse(response.Content);
+            string adminToken = (string)obj["access_token"];
+            adminToken = adminToken.Replace("+", "%2B");
+            //PlayerPrefs.SetString("admintoken", adminToken);
+            //PlayerPrefs.Save();
 
-        var request2 = new RestRequest("api/sessions/" + WaitingRoom.gameHash + "?access_token=" + adminToken, Method.DELETE)
-            .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
-        IRestResponse response2 = client.Execute(request2);
+            var request2 = new RestRequest("api/sessions/" + WaitingRoom.gameHash + "?access_token=" + adminToken, Method.DELETE)
+                .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+            IRestResponse response2 = client.Execute(request2);
         }
     }
 

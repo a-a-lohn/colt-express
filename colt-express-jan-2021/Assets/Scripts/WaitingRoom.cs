@@ -45,7 +45,7 @@ public class WaitingRoom : MonoBehaviour
     void Start()
     {
         token = PlayerPrefs.GetString("token", "No token found");
-        username = PlayerPrefs.GetString("username", "No username found");
+        username = PlayerPrefs.GetString("username", "noUser");
         
         if (SFS.getSFS() == null) {
             // Initialize SFS2X client. This can be done in an earlier scene instead
@@ -53,6 +53,8 @@ public class WaitingRoom : MonoBehaviour
             // For C# serialization
             DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
             SFS.setSFS(sfs);
+        }
+        if (!SFS.IsConnected()) {
             SFS.Connect(username);
         }
 
@@ -106,13 +108,25 @@ public class WaitingRoom : MonoBehaviour
             IRestResponse response = client.Execute(request);
             var obj = JObject.Parse(response.Content);
             Dictionary<string, object> sessionDetails = obj.ToObject<Dictionary<string, object>>();
-
-            if (sessionDetails["launched"].ToString().ToLower() == "true") {
+            
+            if (Launched(gameHash)) {
                numPlayers = 1 + sessionDetails["players"].ToString().ToCharArray().Count(c => c == ',');
                SceneManager.LoadScene("ChooseYourCharacter");
             }
             
         }
+    }
+
+    private bool Launched(string hash) {
+        var request = new RestRequest("api/sessions/" + hash, Method.GET)
+                .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+        IRestResponse response = client.Execute(request);
+        var obj = JObject.Parse(response.Content);
+        Dictionary<string, object> sessionDetails = obj.ToObject<Dictionary<string, object>>();
+        if (sessionDetails["launched"].ToString().ToLower() == "true") {
+            return true;
+        }
+        return false;
     }
 
     public void ActivateLaunchGameButton() {
@@ -123,7 +137,7 @@ public class WaitingRoom : MonoBehaviour
         Dictionary<string, object> sessionDetails = obj.ToObject<Dictionary<string, object>>();
         numPlayers = 1 + sessionDetails["players"].ToString().ToCharArray().Count(c => c == ',');
 
-        if (numPlayers > 2) { //change to >2
+        if (numPlayers >= 2) { //change to >2
             LaunchGameButton.interactable = true;
         }
     }
@@ -143,15 +157,6 @@ public class WaitingRoom : MonoBehaviour
         InfoText.text = "You will be brought to the next scene once the host launches the game!";
     }
 
-    /*private static string ExtractHash()
-    {
-        var request = new RestRequest("api/sessions", Method.GET);
-        IRestResponse response = client.Execute(request);
-        string content = response.Content;
-        int index = content.IndexOf('"', 15);
-        return content.Substring(14, index - 14);
-    }*/
-
     public void CreateSession()
     {
         dynamic j = new JObject();
@@ -167,6 +172,7 @@ public class WaitingRoom : MonoBehaviour
         gameHash = response.Content;
         HostGameButton.interactable = false;
         hosting = true;
+        joined = true;
         InfoText.text = "You will be brought to the next scene once you launch your game!";
     }
 
@@ -212,29 +218,19 @@ public class WaitingRoom : MonoBehaviour
 
     }
 
-    /*private static Boolean SessionCreated()
-    {
-        var request = new RestRequest("api/sessions", Method.GET);
-        IRestResponse response = client.Execute(request);
-        string content = response.Content;
-
-        if (content.Contains("sessions\":{}"))
-        {
-            return false;
-        }
-
-        return true;
-    }*/
-
-    /*public void IntentToJoinSession() {
-        if(intentToJoin) {
-            intentToJoin = false;
-            joinText.text = "Don't join";
-        } else {
-            intentToJoin = true;
-            joinText.text = "Join a game";
-        }
-    }*/
+    private void LeaveSession() {
+        if(joined && !Launched(gameHash)) {
+            if(!hosting) {
+                var request = new RestRequest("api/sessions/" + gameHash + "/players/" + username + "?access_token=" + token, Method.DELETE)
+                    .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+                IRestResponse response = client.Execute(request);
+            } else {
+                DeleteSession();
+                hosting = false;
+            }
+        } 
+        joined = false;
+    }
 
     public void LaunchSession()
     {
@@ -260,6 +256,33 @@ public class WaitingRoom : MonoBehaviour
             return false;
         }
     }*/
+
+    /*private string GetAdminToken() {
+        var request = new RestRequest("oauth/token", Method.POST)
+            .AddParameter("grant_type", "password")
+            .AddParameter("username", "admin")
+            .AddParameter("password", "admin")
+            .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+            IRestResponse response = client.Execute(request);
+            
+            var obj = JObject.Parse(response.Content);
+            string adminToken = (string)obj["access_token"];
+            return adminToken.Replace("+", "%2B");
+    }*/
+
+    private void DeleteSession() {
+        var request = new RestRequest("api/sessions/" + gameHash + "?access_token=" + token, Method.DELETE)
+                .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+        IRestResponse response = client.Execute(request);
+    }
+
+    public void Logout() {
+        ChooseCharacter.RemoveLaunchedSession();
+        LeaveSession();
+        SFS.Disconnect();
+        SFS.setSFS(null);
+        SceneManager.LoadScene("Login");
+    }
 
     void OnApplicationQuit() {
         ChooseCharacter.RemoveLaunchedSession();
