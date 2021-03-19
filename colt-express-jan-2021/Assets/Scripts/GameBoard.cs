@@ -95,7 +95,7 @@ public class GameBoard : MonoBehaviour
 	// This way, update game state will simply be able to overwrite the values in the dictionary
 	// whenever it is called by the server
 
-	public static ArrayList clickable = new ArrayList();
+	// public static ArrayList clickable = new ArrayList();
 	// public static ArrayList clickable = new ArrayList();
 	public static string action = "";
 
@@ -109,7 +109,6 @@ public class GameBoard : MonoBehaviour
 	public Text cardEText;
 	public Text cardFText;
 
-	public Text cardNewAText;
 	public Text cardNewABext;
 	public Text cardNewCText;
 
@@ -122,17 +121,10 @@ public class GameBoard : MonoBehaviour
 
 	public GameObject playerE;
 
+	public Text clickableGOsText;
+
 	// a list of clickable items
 	private List<GameObject> clickableGOs; 
-
-	public GameObject CardNewA; 
-	public GameObject CardNewB; 
-	public GameObject CardNewC; 
-	public GameObject CardNewD; 
-	public GameObject CardNewE; 
-	public GameObject CardNewF; 
-
-	public GameObject playerE;
 
 	private String[] logMessages = {
 		"Angry Marshal Round! 1 Standard turns, 1 Tunnel turn, and 1 Switching turn\nIt is now Ghost's turn to play a card or draw 3 cards.\n", //0
@@ -181,9 +173,6 @@ public class GameBoard : MonoBehaviour
 
     private List<float> iconPosition = new List<float>() {1285.9F, 1121.9F, -364.9F};
 	private List<float> gemPosition = new List<float>() {1224.1F, 1077.2F, -364.9F};
-
-	// a list of clickable items
-	private List<GameObject> clickableGOs; 
 
     void Start(){
         gem4.SetActive(false);
@@ -263,6 +252,25 @@ public class GameBoard : MonoBehaviour
 
 	public void LeaveRoom() {
         SFS.LeaveRoom();
+    }
+
+    public void initClickables(){
+        Debug.Log("initClickables CALLS YOU TO WORK HARDER, GM!!!");
+        GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+        foreach(GameObject go in allObjects){
+            // clickableGOsText.text += go.name;
+            // https://docs.unity3d.com/ScriptReference/GameObject.SetActive.html
+            if(go.activeSelf == true){
+                clickableGOsText.text += go.name;
+            }
+        }
+        clickableGOsText.text += "==== NOW GHOST IS SET TO NONACTIVE ===";
+        ghost.SetActive(false);
+        foreach(GameObject go in allObjects){
+            if(go.activeSelf == true){
+                clickableGOsText.text += go.name;
+            }
+        }
     }
 
 	public void initCards(){
