@@ -71,15 +71,6 @@ public class GameBoard : MonoBehaviour
 
 	public GameObject ghoLoot;
 
-	/* For all the action cards */
-	// public GameObject cardA; 
-	// public GameObject cardB; 
-	// public GameObject cardC; 
-	// public GameObject cardD;
-	// public GameObject cardE;
-	// public GameObject cardF; 
-	// public GameObject cardG;
-
 	public GameObject cardA; 
 	public GameObject cardB; 
 	public GameObject cardC; 
@@ -94,11 +85,6 @@ public class GameBoard : MonoBehaviour
 	public Text promptDrawCardsOrPlayCardMsg;
 	public Text promptChooseLoot; 
 	public Text promptPunchTarget; 
-
-	// public Text promptDrawCardsOrPlayCardMsg;
-	// public GameObject tuco;
-	// public GameObject doc; 
-	// public GameObject django; 
     
     public static Dictionary<GameObject, object> objects = new Dictionary<GameObject, object>();
 
@@ -108,7 +94,6 @@ public class GameBoard : MonoBehaviour
 	// E.G. objects.Add(cheyenne, null), objects.Add(tuco, null), ...
 	// This way, update game state will simply be able to overwrite the values in the dictionary
 	// whenever it is called by the server
-
 
 	public static ArrayList clickable = new ArrayList();
 	public static string action = "";
@@ -135,6 +120,9 @@ public class GameBoard : MonoBehaviour
 	public GameObject CardNewF; 
 
 	public GameObject playerE;
+
+	// a list of clickable items
+	private List<GameObject> clickableGOs; 
 
 
 	private String[] logMessages = {
@@ -170,10 +158,6 @@ public class GameBoard : MonoBehaviour
 		""
 		}; // 
 
-    //private static SmartFox sfs = SFS.sfs;
-    // private static string defaultHost = SFS.defaultHost;// = "127.0.0.1"; //"13.90.26.131"; // 
-    //private static int defaultTcpPort = SFS.defaultTcpPort;// = 9933;			// Default TCP port
-    //private static string zone = SFS.zone;// = "MergedExt"; //"ColtExpress"; //"NewZone"; //"BasicExamples";// "MyExt";
     private List<float> cartZeroTop = new List<float>() {840.5F,878.4F,-364.9F};
     private List<float> cartZeroBtm = new List<float>() {786.1F, 813.5F, -364.9F};
 
@@ -187,13 +171,9 @@ public class GameBoard : MonoBehaviour
     private List<float> cartLocoBtm = new List<float>() {1390.0F, 824.9F, -364.9F};
 
     private List<float> iconPosition = new List<float>() {1285.9F, 1121.9F, -364.9F};
-	private List<float> gemPosition = new List<float>() {1224.1F, 1077.2F, -364.9F}; //{1025.7F, 1121.9F, -364.9F};
-
-	//public GameObject B_gem;
-
+	private List<float> gemPosition = new List<float>() {1224.1F, 1077.2F, -364.9F};
 
     void Start(){
-		//Debug.Log(B_gem.transform.position);// = new Vector3 (gemPosition[0], gemPosition[1], gemPosition[2]);
         gem4.SetActive(false);
 		initCards();
 		// set extra cards to false 
@@ -203,51 +183,65 @@ public class GameBoard : MonoBehaviour
 		CardNewD.SetActive(false);
 		CardNewE.SetActive(false);
 		CardNewF.SetActive(false);
-
 		announcement.text = "";
 		Round.text = "ROUND 1:\n-Standard turn\n-Tunnel turn\n-Switching turn";
 		SFS.setGameBoard();
-
-		// announcement.text = "The current round is an Angry Marshal Round and the current turn is a Tunnel Turn!";
-		// drawnCard1.text="MOVE";
-		// SFS.setGameBoard(this);
-		Debug.Log(SFS.step);
 		announcement.text = logMessages[SFS.step];
-		//debugTextString = "";
-                //debugText.text = "";
 		gem2.SetActive(false);
 
-		//exit.SetActive(false);
-		exitText.text ="";
+		exitText.text =""; 
+    }
 
-		//ChooseCharacter.character = "GHOST";
-
-		//SendNewGameState();
-		// ** THE DICTIONARIES ARE INITIALIZED(CLEARED) IN Start() ** 
-		// Bandits
-		// objects.Add(cheyenne, "null");
-		// objects.Add(belle, "null");
-		/*objects.Add(tuco, "null");
-		objects.Add(doc, "null");
-		objects.Add(ghost, "null");
-		objects.Add(django, "null");
-		// Loot
-		objects.Add(gem1, "null");
-		objects.Add(gem2, "null");
-		objects.Add(gem3, "null");
-		objects.Add(gem4, "null");
-		objects.Add(gem5, "null");*/
-		// Cards
-		// objects.Add(cardA, "null");
-		// objects.Add(cardB, "null");
-		// objects.Add(cardC, "null");
-		// objects.Add(cardD, "null");
-		// objects.Add(cardE, "null");
-
-		//EnterGameBoardScene();
-
-		//Invoke("LeaveRoom",5);
-
+	// THIS IS THE FIRST METHOD CALLED FOR RECEIVING NEW GAME STATE
+    public void UpdateGameState(BaseEvent evt) {
+        Debug.Log("updategamestate called");
+        
+        ISFSObject responseParams = (SFSObject)evt.Params["params"];
+		gm = (GameManager)responseParams.GetClass("gm");
+		
+		// REASSIGN ALL GAME OBJECTS USING DICTIONARY
+		ArrayList banditsArray = gm.bandits;
+		foreach (Bandit b in banditsArray) {
+            if (b.banditNameAsString == "CHEYENNE") {
+				objects[cheyenne] = b;
+                trace("Cheyenne added!");
+            }
+			if (b.banditNameAsString == "BELLE") {
+                objects[belle] = b;
+                trace("Belle added!");
+            }
+			if (b.banditNameAsString == "TUCO") {
+                objects[tuco] = b;
+                trace("Tuco added!");
+            }
+			if (b.banditNameAsString == "DOC") {
+                objects[doc] = b;
+                trace("Doc added!");
+            }
+			if (b.banditNameAsString == "GHOST") {
+                objects[ghost] = b;
+                trace("Ghost added!");
+            }
+			if (b.banditNameAsString == "DJANGO") {
+                objects[django] = b;
+                trace("Django added!");
+            }
+		}
+		Debug.Log("bandits array size: " + banditsArray.Count);
+		ArrayList cards = new ArrayList();
+		foreach (Bandit ba in banditsArray) {
+			Debug.Log(ba.banditNameAsString +" "+ ChooseCharacter.character);
+			if(ba.banditNameAsString == ChooseCharacter.character) {
+				ArrayList hand = b.hand;
+				Debug.Log("adding cards");
+				objects[cardA] = hand[0];
+				objects[cardB] = hand[1];
+				objects[cardC] = hand[2];
+				objects[cardD] = hand[3];
+				objects[cardE] = hand[4];
+			}
+		}
+			gm.playTurn();
     }
 
 	public void LeaveRoom() {
@@ -278,38 +272,24 @@ public class GameBoard : MonoBehaviour
 		ExtensionRequest req = new ExtensionRequest("gm.nextAction",obj);
 		SFS.Send(req);
 		//executeHardCoded(step);
-		if (SFS.step == 28){
+		if (SFS.step == 27){
 			LeaveRoom();
 		}
 	}
 
-	// public void drawCards(string char, int step) {
-	// 	if(char == ChooseCharacter.character) {
-	// 		// make three cards appear
-	// 		Destroy(cardA);
-	// 	}
-	// 	return; 
-	// }
 	public void drawCards(/*string currentChar*/){
-		// make three cards appear 
-		// if(ChooseCharacter.character == currentChar){
-			CardNewA.SetActive(true);
-			CardNewB.SetActive(true);
-			CardNewC.SetActive(true);
-		// }
+		CardNewA.SetActive(true);
+		CardNewB.SetActive(true);
+		CardNewC.SetActive(true);
 	}
 
 	public void drawCardsSecond(/*string currentChar*/){
-		// make three cards appear 
-		// if(ChooseCharacter.character == currentChar){
-			CardNewD.SetActive(true);
-			CardNewE.SetActive(true);
-			CardNewF.SetActive(true);
-		// }
+		CardNewD.SetActive(true);
+		CardNewE.SetActive(true);
+		CardNewF.SetActive(true);
 	}
 
 	public void executeHardCoded(int step) {
-		Debug.Log(SFS.step);
 		announcement.text += "\n";
 
 		if(step % 3 == 0){
@@ -324,9 +304,6 @@ public class GameBoard : MonoBehaviour
 				//Its yyy's turn to play a card or draw 3 cards.
 				break;
 			case 1: 
-				// yyyy played a ___ card / yyy chose to draw 3 cards
-				//"Standard Turn: Ghost played a MOVE card",
-				//Its xxx's turn to play a card or draw 3 cards.
 				if(ChooseCharacter.character == "GHOST"){
 					playCard(cardA);
 				}
@@ -385,8 +362,6 @@ public class GameBoard : MonoBehaviour
 				//"Stealin, Resolving Move: Ghost moved to the adjacent car",
 				ghost.transform.position = new Vector3 (cartOneBtm[0] - 1F, cartOneBtm[1], cartOneBtm[2]);
                 		ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
-			        // cheyenne.transform.position = new Vector3 (cartZeroTop[0], cartZeroTop[1], cartZeroTop[2]);
-                    		// cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;
 				break;
 			case 11:
 				//"Stealin, Resolving ChangeFloor: Cheyenne moved to the top of the car",
@@ -395,8 +370,7 @@ public class GameBoard : MonoBehaviour
 			        // Destroy(gem3);
 				break;
 			case 12:
-				//"Stealin, Resolving Rob: Ghost chooses one gem to add to his loot",
-				// TODO: GHOST CLICK ON GEM 3 
+				//"Stealin, Resolving Rob: Ghost chooses one gem to add to his loot"
 				Destroy(gem3);
 				gem4.SetActive(true);
 				break;
@@ -417,7 +391,7 @@ public class GameBoard : MonoBehaviour
 				break;
 			case 16:
 			//"Punch: Django chooses to punch Ghost to the last train car\nTime for Django to choose who to shoot\n",
-				// "Stealin, Resolving Shoot: Django shoots Ghost",// "New Round, SpeedingUp! 1 SpeedingUp turn",
+			// "Stealin, Resolving Shoot: Django shoots Ghost",// "New Round, SpeedingUp! 1 SpeedingUp turn",
 			   	shoot();
 				Round.text = "ROUND 2:\n-SpeedingUp turn";
 				if(ChooseCharacter.character == "DJANGO"){
@@ -497,10 +471,6 @@ public class GameBoard : MonoBehaviour
 	}
 
 	public void punch(){
-		// Django punches Ghost, Ghost is punched back to last train car and with 
-		// his initial purse is left in the second last train car. 
-		// move ghost to the last train car
-		// check if the obj being clicked on is the loot/bandit that we want to move 
 		Debug.Log("GHOST IS PUNCHED");
         float posX = cartZeroBtm[0]; 
         float posY = cartZeroBtm[1]; 
@@ -511,31 +481,13 @@ public class GameBoard : MonoBehaviour
 	}
 
 	public void shoot(){
-		// Django punches Ghost, Ghost is punched back to last train car and with 
-		// his initial purse is left in the second last train car. 
-		// move ghost to the last train car
-		// check if the obj being clicked on is the loot/bandit that we want to move 
-		// Debug.Log("GHOST IS SHOT");
-        // float posX = cartZeroBtm[0]; 
-        // float posY = cartZeroBtm[1]; 
-        // float posZ = cartZeroBtm[2]; 
-        // ghost.transform.position = new Vector3 (posX, posY, posZ);
-        // ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f; // can be any float number
-		// gem2.SetActive(true);
 		Debug.Log("GHOST IS SHOT");
 		bulletCard.transform.position = new Vector3 (iconPosition[0], iconPosition[1], iconPosition[2]);
         bulletCard.transform.position += bulletCard.transform.forward * Time.deltaTime * 2f;
 	}
 
-	// public void OnMouseDown(){
-	// 	MouseDown();
-	// 	Debug.Log("Clicked");
-	// }
 
-
-    // Update is called once per frame
-    void Update()
-    {
+    void Update(){
         if (SFS.IsConnected()) {
 			SFS.ProcessEvents();
 		}
@@ -544,19 +496,6 @@ public class GameBoard : MonoBehaviour
 			MouseDown();
 			Debug.Log("Clicked");
 		}
-
-		/*if (SFS.debugText != debugText.text) {
-            debugText.text = SFS.debugText;
-        }
-
-		// for debugging
-		if (SFS.moreText) {
-            debugTextString += SFS.debugText;
-            SFS.moreText = false;
-        }
-        if (debugTextString != debugText.text) {
-            debugText.text = debugTextString;
-        }*/
     }
 
 	public void EnterGameBoardScene() {
@@ -576,68 +515,6 @@ public class GameBoard : MonoBehaviour
         trace("sent game state");
 	}
 
-	// THIS IS THE FIRST METHOD CALLED FOR RECEIVING NEW GAME STATE
-    public void UpdateGameState(BaseEvent evt) {
-        Debug.Log("updategamestate called");
-        
-        ISFSObject responseParams = (SFSObject)evt.Params["params"];
-		gm = (GameManager)responseParams.GetClass("gm");
-		
-		// REASSIGN ALL GAME OBJECTS USING DICTIONARY
-		ArrayList banditsArray = gm.bandits;
-		//ArrayList banditsArray = new ArrayList();
-		foreach (Bandit b in banditsArray) {
-            if (b.banditNameAsString == "CHEYENNE") {
-				objects[cheyenne] = b;
-                trace("Cheyenne added!");
-            }
-			if (b.banditNameAsString == "BELLE") {
-                objects[belle] = b;
-                trace("Belle added!");
-            }
-			if (b.banditNameAsString == "TUCO") {
-                objects[tuco] = b;
-                trace("Tuco added!");
-            }
-			if (b.banditNameAsString == "DOC") {
-                objects[doc] = b;
-                trace("Doc added!");
-            }
-			if (b.banditNameAsString == "GHOST") {
-                objects[ghost] = b;
-                trace("Ghost added!");
-            }
-			if (b.banditNameAsString == "DJANGO") {
-                objects[django] = b;
-                trace("Django added!");
-            }
-		}
-		Debug.Log("bandits array size: " + banditsArray.Count);
-		ArrayList cards = new ArrayList();
-		foreach (Bandit ba in banditsArray) {
-			Debug.Log(ba.banditNameAsString +" "+ ChooseCharacter.character);
-			if(ba.banditNameAsString == ChooseCharacter.character) {
-				ArrayList hand = b.hand;
-				Debug.Log("adding cards");
-				objects[cardA] = hand[0];
-				objects[cardB] = hand[1];
-				objects[cardC] = hand[2];
-				objects[cardD] = hand[3];
-				objects[cardE] = hand[4];
-			}
-		}
-
-			gm.playTurn();
-    }
-
-	/*private void ChooseCharacter() {
-        ISFSObject obj = SFSObject.NewInstance();
-		obj.PutUtfString("chosenCharacter", "TUCO");
-        ExtensionRequest req = new ExtensionRequest("gm.chosenCharacter",obj);
-        SFS.Send(req);
-        trace("chose Tuco");
-    }*/
-
     public static void trace(string msg) {
 	//	debugText.text += (debugText.text != "" ? "\n" : "") + msg;
 	}
@@ -650,11 +527,9 @@ public class GameBoard : MonoBehaviour
 		SceneManager.LoadScene("WaitingRoom");
 	}
 
-
     void OnApplicationQuit() {
 		ChooseCharacter.RemoveLaunchedSession();
 		// Always disconnect before quitting
 		SFS.Disconnect();
 	}
-
 }
