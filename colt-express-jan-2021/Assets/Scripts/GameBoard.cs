@@ -90,6 +90,7 @@ public class GameBoard : MonoBehaviour
 
 
 	public static ArrayList clickable = new ArrayList();
+	// public static ArrayList clickable = new ArrayList();
 	public static string action = "";
 
 
@@ -105,6 +106,16 @@ public class GameBoard : MonoBehaviour
 
 
 	public GameObject playerE; 
+	public Text clickableGOsText;
+
+	public GameObject CardNewA; 
+	public GameObject CardNewB; 
+	public GameObject CardNewC; 
+	public GameObject CardNewD; 
+	public GameObject CardNewE; 
+	public GameObject CardNewF; 
+
+	public GameObject playerE;
 
 	private String[] logMessages = {
 		"Angry Marshal Round! 1 Standard turns, 1 Tunnel turn, and 1 Switching turn",
@@ -155,6 +166,9 @@ public class GameBoard : MonoBehaviour
 
     private List<float> iconPosition = new List<float>() {1285.9F, 1121.9F, -364.9F};
 
+	// a list of clickable items
+	private List<GameObject> clickableGOs; 
+
     void Start(){
 		// announcement.text = "The current round is an Angry Marshal Round and the current turn is a Tunnel Turn!";
 		// drawnCard1.text="MOVE";
@@ -165,6 +179,7 @@ public class GameBoard : MonoBehaviour
 		gem2.SetActive(false);
 	
 
+<<<<<<< Updated upstream
 		//SendNewGameState();
 		// ** THE DICTIONARIES ARE INITIALIZED(CLEARED) IN Start() ** 
 		// Bandits
@@ -188,10 +203,50 @@ public class GameBoard : MonoBehaviour
 		// objects.Add(cardE, "null");
 
 		//EnterGameBoardScene();
+		exitText.text = ""; 
+		clickableGOsText.text = "";
+		// init clickables should be called on update
+		initClickables();
+    }
 
     }
 
 	public void drawCards(){
+	public void LeaveRoom() {
+        SFS.LeaveRoom();
+    }
+
+	public void initClickables(){
+		Debug.Log("initClickables CALLS YOU TO WORK HARDER, GM!!!");
+		GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+		foreach(GameObject go in allObjects){
+			// clickableGOsText.text += go.name;
+			// https://docs.unity3d.com/ScriptReference/GameObject.SetActive.html
+			if(go.activeSelf == true){
+				clickableGOsText.text += go.name;
+			}
+		}
+		clickableGOsText.text += "==== NOW GHOST IS SET TO NONACTIVE ===";
+		ghost.SetActive(false);
+		foreach(GameObject go in allObjects){
+			if(go.activeSelf == true){
+				clickableGOsText.text += go.name;
+			}
+		}
+	}
+
+	public void initCards(){
+		// draws 6 cards randomly and put in the hand
+		cardAText.text = "MOVE";
+		cardBText.text = "ROB";
+		cardCText.text = "MARSHAL"; 
+		cardDText.text = "CHANGE FLOOR";
+		cardEText.text = "SHOOT"; 
+		cardFText.text = "PUNCH"; 
+		return;
+	}
+
+	public void playCard(GameObject selectedCard){
 		// draws 3 cards randomly and put in the hand
 		drawnCard1.text = "MOVE";
 		drawnCard2.text = "ROB";
