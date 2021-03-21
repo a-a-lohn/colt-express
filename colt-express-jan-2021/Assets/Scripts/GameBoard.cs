@@ -28,11 +28,16 @@ public class GameBoard : MonoBehaviour
 		 DisplayRemainingCharacters() to characters in the scene 
 		 so that when the characters are clicked, CharacterChoice(character) is called that passes the chosen character to the server. This
 		 can be done by attaching scripts to each character game object, similar to how it will work for gameobjects on the game board)
+	
 	-Assign all gameobjects in dictionary upon update game state call
-	-implement prompt method in Gamemanager (i.e. set action and clickable global variables)
+	
+	-implement prompt method in Gamemanager (i.e. set action and clickable global variables) --initClickable() 
+	
 	-write scripts attached to each game object that checks if it is clickable, if so, checks action and calls action on clicked item
+	
 	-assign locations on game board to each gameobject (should be in attached scripts in as a global variable that is reassigned every
 	   time updategamestate() is called, checks updated gm instance for new item's position)
+	
 	-get login and other scripts --done
 	*/
 
@@ -97,8 +102,7 @@ public class GameBoard : MonoBehaviour
 
 	// public static ArrayList clickable = new ArrayList();
 	// public static ArrayList clickable = new ArrayList();
-	public static string action = "";
-
+	public static string action = ""; // i.e. PUNCH, SHOOT etc. 
 
     public Text announcement;
 
@@ -122,7 +126,11 @@ public class GameBoard : MonoBehaviour
 	public GameObject playerE;
 
 	public Text clickableGOsText;
+	public Text currentRound; 
+	public Text currentBandit; 
 
+
+	
 	// a list of clickable items
 	private List<GameObject> clickableGOs; 
 
@@ -175,6 +183,7 @@ public class GameBoard : MonoBehaviour
 	private List<float> gemPosition = new List<float>() {1224.1F, 1077.2F, -364.9F};
 
     void Start(){
+		// UpdateGameState(); 
         gem4.SetActive(false);
 		initCards();
 		// set extra cards to false 
@@ -185,7 +194,9 @@ public class GameBoard : MonoBehaviour
 		CardNewE.SetActive(false);
 		CardNewF.SetActive(false);
 		announcement.text = "";
-		Round.text = "ROUND 1:\n-Standard turn\n-Tunnel turn\n-Switching turn";
+		// Round.text = "ROUND 1:\n-Standard turn\n-Tunnel turn\n-Switching turn";
+
+		
 		SFS.setGameBoard();
 		announcement.text = logMessages[SFS.step];
 		gem2.SetActive(false);
@@ -248,6 +259,10 @@ public class GameBoard : MonoBehaviour
 			}
 		}
 			gm.playTurn();
+
+		// assign currRound and currPlayer 
+		currentRound.text += gm.currentRound.roundTypeAsString; 
+		currentBandit.text += gm.currentBandit.banditNameAsString; 
     }
 
 	public void LeaveRoom() {
