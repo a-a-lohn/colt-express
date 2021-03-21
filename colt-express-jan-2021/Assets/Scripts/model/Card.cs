@@ -12,7 +12,7 @@ using Sfs2X.Protocol.Serialization;
 namespace model {
     public abstract class Card : SerializableSFSType {
       
-        public string belongsTo;
+        public string belongsToAsString;
 
         public Card() {}
         
@@ -28,7 +28,13 @@ namespace model {
        }
 
        public void setBelongsTo(string belongsTo) {
-           this.belongsTo = belongsTo;
+           if(belongsTo.Equals("GHOST")||belongsTo.Equals("DOC")||belongsTo.Equals("TUCO")||belongsTo.Equals("CHEYENNE")||belongsTo.Equals("BELLE")||belongsTo.Equals("DJANGO")){
+               this.belongsTo = belongsTo;
+           }
+           else{
+               Debug.Log("CARD SET TO INVALID CHARACTER");
+           }
+               
        }
     }
 }

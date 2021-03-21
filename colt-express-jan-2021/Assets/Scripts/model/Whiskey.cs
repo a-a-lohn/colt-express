@@ -16,25 +16,16 @@ using Sfs2X.Protocol.Serialization;
 namespace model {
     public class Whiskey : Loot, SerializableSFSType {
     
-        //public string whiskeyType;
         public string whiskeyTypeAsString;
-        
-        // FOR NETWORKING
-        //public string whiskeyStatus;
         public string whiskeyStatusAsString;
         
-        // FOR NETWORKING
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public Whiskey() {}
         
-        // whiskeyType
-        // public string getWhiskeyType() {
-        //     return this.whiskeyType;
-        // }
-        
-        // public void setWhiskeyType(string p) {
-        //     this.whiskeyType = p;
-        // }
+        public Whiskey(string whiskeyTypeAsString){
+            this.whiskeyTypeAsString = whiskeyTypeAsString;
+            this.whiskeyStatusAsString = "UNFLIPPED";
+        }
         
         // whiskeyTypeAsString
         public string getWhiskeyTypeAsString() {
@@ -42,17 +33,13 @@ namespace model {
         }
         
         public void setWhiskeyTypeAsString(string s) {
-            this.whiskeyTypeAsString = s;
+            if(s.equals("NORMAL")) || (s.equals("OLD")){
+                this.whiskeyTypeAsString = s;
+            }
+            else{
+                Debug.Log("INVALID WHISKEY TYPE SET");
+            }
         }
-        
-        // whiskeyStatus
-        // public string getWhiskeyStatus() {
-        //     return this.whiskeyStatus;
-        // }
-        
-        // public void setWhiskeyStatus(string p) {
-        //     this.whiskeyStatus = p;
-        // }
         
         // whiskeyStatusAsString
         public string getWhiskeyStatusAsString() {
@@ -60,7 +47,12 @@ namespace model {
         }
         
         public void setWhiskeyStatusAsString(string s) {
-            this.whiskeyStatusAsString = s;
+            if(s.equals("FLIPPED")) || (s.equals("UNFLIPPED")){
+                this.whiskeyStatusAsString = s;
+            }
+            else{
+                Debug.Log("INVALID WHISKEY STATUS SET")
+            }
         }
     }
 }
