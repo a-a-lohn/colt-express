@@ -32,12 +32,10 @@ namespace model {
         
         //  CONVENTION FOR DECK: POSITION DECK.SIZE() IS TOP OF DECK, POSITION 0 IS
         //  BOTTOM OF DECK
-        //public TrainUnit[] trainRoof;
         public ArrayList trainRoof ;
         
         public ArrayList trainCabin;
         
-        //public TrainUnit[,] train;
         
         //public ArrayList stagecoach;
 
@@ -133,7 +131,7 @@ namespace model {
         
         public void playTurn() {
             Debug.Log("playing turn");
-            if(currentBandit.banditNameAsString == ChooseCharacter.character) {
+            if(currentBandit.getCharacter() == ChooseCharacter.character) {
                 if ((this.strGameStatus == "SCHEMIN")) {
                     Debug.Log("calling prompt");
                     PlayerLog.promptDrawCardsOrPlayCard();
@@ -145,31 +143,37 @@ namespace model {
             
         }
         
-        /*public void promptDrawCardsOrPlayCard() {
+        public void promptDrawCardsOrPlayCard() {
             // TODO
-        }*/
-        
+        }
+
         public void resolveAction(ActionCard toResolve) {
             if ((toResolve.getActionTypeAsString() == "CHANGEFLOOR")) {
+                currentBandit.setToResolve(null);
                 this.changeFloor();
             }
             else if ((toResolve.getActionTypeAsString() == "MARSHAL")) {
+                currentBandit.setToResolve(null);
                 ArrayList possibilities = this.calculateMoveMarshal();
                 TrainUnit to = this.moveMarshalPrompt(possibilities);
                 this.moveMarshal(to);
             }
             else if ((toResolve.getActionTypeAsString() == "MOVE")) {
+                currentBandit.setToResolve(null);
                 ArrayList possibilities = this.calculateMove();
                 TrainUnit to = this.movePrompt(possibilities);
                 this.move(to);
             }
             else if ((toResolve.getActionTypeAsString() == "PUNCH")) {
+                currentBandit.setToResolve(null);
                 
             }
             else if ((toResolve.getActionTypeAsString() == "ROB")) {
+                currentBandit.setToResolve(null);
                 
             }
             else if ((toResolve.getActionTypeAsString() == "SHOOT")) {
+                currentBandit.setToResolve(null);
                 
             }
             
@@ -179,12 +183,10 @@ namespace model {
             Debug.Log("playing card");
             //  Remove card from bandit's hand
             this.currentBandit = c.getBelongsTo();
-            this.currentBandit.removeHand(c);
-            //  Prompt playing face down
+            this.currentBandit.removeFromHand(c);
             if (((this.currentBandit.getCharacter() == "GHOST") 
                         && (this.currentRound.getTurnCounter() == 0))) {
-                //  TODO: prompt choice;
-                //  TODO: receive choice;
+                promptPlayFaceUpOrFaceDown(c);
             }
             else if ((this.currentRound.getCurrentTurn().getTurnTypeAsString() == "TUNNEL")) {
                 //  this.currentRound.getCurrentTurn().getTurnTypeAsString().equals("TUNNEL")
@@ -200,19 +202,27 @@ namespace model {
         }
         
         public void drawCards(int cardsToDraw) {
-            for (int i = (this.currentBandit.sizeOfDeck() - 1); (i 
-                        > (this.currentBandit.sizeOfDeck() 
-                        - (cardsToDraw - 1))); i--) {
-                //Card toAdd = this.currentBandit.removeDeckAt(i);
-                Card toAdd = this.currentBandit.getDeckAt(i);
-                this.currentBandit.removeDeckAt(i);
-                this.currentBandit.addHand(toAdd);
+            for (int i = this.currentBandit.sizeOfDeck()-1; i  >this.currentBandit.sizeOfDeck()-cardsToDraw-1; i--) {
+                Card toAdd = this.currentBandit.getFromDeckAt(i);
+                this.currentBandit.removeFromDeckAt(i);
+                this.currentBandit.addToHand(toAdd);
             }
             
             this.endOfTurn();
             // might have to put this in an if else block for cases like SpeedingUp/Whiskey
         }
-        
+
+        public void promptPlayFaceUpOrFaceDown(ActionCard c){
+            //TODO
+            /**
+            * if(chooses face up){
+                PlayedPile pike = PlayedPile.getInstance();
+                pileaddPlayedCards(c);
+                
+            }
+            */
+        }
+
         public void endOfTurn() {
             if ((this.strGameStatus == "SCHEMIN")) {
                 string currentTurnType = this.currentRound.getCurrentTurn().getTurnTypeAsString();
@@ -787,7 +797,13 @@ namespace model {
         }
         
         public ArrayList calculateMoveMarshal() {
-            // TODO
+            TrainUnit marshalPos;
+            foreach (TrainUnit cabin in this.trainCabin){
+                if(cabin.getIsMarshalHere()){
+                    marshalPos = cabin;
+                }
+            }
+            
             return new ArrayList();
         }
         
@@ -802,4 +818,6 @@ namespace model {
             // might have to put this in an if else block for cases like SpeedingUp/Whiskey
         }
     }
+
+
 }
