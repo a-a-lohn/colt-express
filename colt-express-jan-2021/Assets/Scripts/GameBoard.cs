@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 using Sfs2X;
 using Sfs2X.Logging;
@@ -183,7 +184,8 @@ public class GameBoard : MonoBehaviour
 	private List<float> gemPosition = new List<float>() {1224.1F, 1077.2F, -364.9F};
 
     void Start(){
-		// UpdateGameState(); 
+		makeAllClickable();
+
         gem4.SetActive(false);
 		initCards();
 		// set extra cards to false 
@@ -208,6 +210,14 @@ public class GameBoard : MonoBehaviour
 		initClickables();
 		exitText.text =""; 
     }
+
+	// makeAllClickable makes all clickable objects clickable 
+	public void makeAllClickable(){
+		GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+		foreach(GameObject go in allObjects){
+			go.SetActive(true);
+		}
+	}
 
 	// THIS IS THE FIRST METHOD CALLED FOR RECEIVING NEW GAME STATE
     public void UpdateGameState(BaseEvent evt) {
@@ -270,7 +280,7 @@ public class GameBoard : MonoBehaviour
     }
 
     public void initClickables(){
-        Debug.Log("initClickables CALLS YOU TO WORK HARDER, GM!!!");
+        // Debug.Log("initClickables CALLS YOU TO WORK HARDER, GM!!!");
         GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
         foreach(GameObject go in allObjects){
             // clickableGOsText.text += go.name;
@@ -533,8 +543,19 @@ public class GameBoard : MonoBehaviour
 		}
 
 		if (Input.GetMouseButtonDown(0)){
-			MouseDown();
-			Debug.Log("Clicked");
+			// Debug.Log(this.gameObject.name);
+			var clickedObjectName = this.gameObject.name; 
+			// check if this obj is clickable using the List<obj>
+			foreach(GameObject go in clickableGOs){
+				if(go.name == clickedObjectName){
+					// curr GO is clickable
+					object clickableObj = objects[go];
+					// pass clickableObj back! 
+					// TODO: @Backend Team : action is the name, all caps, of the next method 
+					gm.action(clickableObj);
+				}
+			}
+
 		}
     }
 
