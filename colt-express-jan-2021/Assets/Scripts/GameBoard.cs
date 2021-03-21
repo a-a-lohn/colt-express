@@ -248,6 +248,8 @@ public class GameBoard : MonoBehaviour
 
 		//Invoke("LeaveRoom",5);
 
+		Invoke("GoToChat",2);
+
     }
 
 	public void LeaveRoom() {
@@ -648,6 +650,10 @@ public class GameBoard : MonoBehaviour
 
 	void GoToWaitingRoom2(){
 		SceneManager.LoadScene("WaitingRoom");
+	}
+
+	public void GoToChat(){
+		SceneManager.LoadScene("Chat");
 	}
 
 

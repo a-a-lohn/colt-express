@@ -77,6 +77,7 @@ public class ChooseCharacter : MonoBehaviour
         //////
 
         info.text = "You will be brought to the game once all " + WaitingRoom.numPlayers + " players have chosen a character!";
+        display.text = "";
 
         BelleIsAvailable = true;
         CheyenneIsAvailable = true; 
@@ -218,7 +219,8 @@ public class ChooseCharacter : MonoBehaviour
     }
 
     public void UpdateDisplayText(string ut) {
-        display.text = ut;
+        display.text += ut;
+        SFS.chosenCharText = "";
     }
 
 	public void DisplayRemainingCharacters(BaseEvent evt) {

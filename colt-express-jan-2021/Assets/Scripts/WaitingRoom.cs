@@ -64,8 +64,9 @@ public class WaitingRoom : MonoBehaviour
         // fToken.text = waitToken;
         GetSessions();
 
-        //Invoke("LeaveRoom",5);
-
+        //TODO:
+        // make enter room functionality only occur when entered gameboard
+        // do not allow the same user to log in from multiple machines
     }
 
     // Update is called once per frame
@@ -176,6 +177,7 @@ public class WaitingRoom : MonoBehaviour
         InfoText.text = "You will be brought to the next scene once you launch your game!";
     }
 
+    // FIX, ATTACH TO BUTTONS, ALLOW FOR MAX 3 SESSIONS
     private void GetSessions()
     {
         var request = new RestRequest("api/sessions", Method.GET);
