@@ -140,8 +140,16 @@ public class GameBoard : MonoBehaviour
 	public Text currentRound; 
 	public Text currentBandit; 
 
+	private List<GameObject> goNeutralBulletCards;
 
-	
+	// a list of bullet cards for each and every bandit 
+	private List<GameObject> goBELLEBulletCards; 
+	private List<GameObject> goCheyenneBulletCards; 
+	private List<GameObject> goDocBulletCards; 
+	private List<GameObject> goTucoBulletCards; 
+	private List<GameObject> goDocBulletCards; 
+	private List<GameObject> goDjangoBulletCards; 
+
 	// a list of clickable items
 	private List<GameObject> clickableGOs; 
 
@@ -297,12 +305,36 @@ public class GameBoard : MonoBehaviour
 			// check if a loot belongs to TrainUnit and assign it 
 		}
 
-		ArrayList bulletCards = gm.neutralBulletCard;
+		// map the 13 neutral bullet cards
+		ArrayList neuturalBulletCards = gm.neutralBulletCard; 
+		for(int i=1; i<14; i++){
+			GameObject goBulletCard = goNeutralBulletCards.get(i);
+			objects[goBulletCard] = neuturalBulletCards.get(i);
+		}
+
+		// map each bandit's bullet cards 
+		ArrayList bulletCards = currentBandit.getBulletCards();
+		// @TODO: please add a getBulletCards() mthod in Bandit that returns a list of all bullet cards of the bandit
+		if(currentBandit.banditNameAsString == "BELLE"){
+			foreach(BulletCard currBC in bulletCards){
+				int bulletSize = currBC.sizeOfBullet
+				objects[goBelleBulletCards[bulletSize]] = currBC; 
+			}
+		}
+		
+		foreach(Bandit b in banditsArray){
+			
+		}
+
+
 		foreach(BulletCard bc in bulletCards){
-			// get the owner of the bullet card 
-			string owner = bc.getOwner(); 
+			// get the owner of the bullet card
+			string owner = bc.getOwner();
+			// Bandit.sizeOfBullets() returns the bandit's sizeOfBullet 
 			if(owner == "BELLE"){
-				objects[BelleBulletCard1] = bc; 
+				int bulletSize = currentBandit.sizeOfBullets();
+				string goName = "BulletCard" + bulletSize.ToString(); 
+				objects[goName] = bc; 
 				// @TODO: Do we distinguish the difference between number of bullets? 
 
 			}
