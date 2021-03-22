@@ -33,7 +33,7 @@ namespace model {
         }
         
         public void setWhiskeyTypeAsString(string s) {
-            if(s.equals("NORMAL") ^ s.equals("OLD")) {
+            if(s.Equals("NORMAL") ^ s.Equals("OLD")) {
                 this.whiskeyTypeAsString = s;
             }
             else{
@@ -47,7 +47,7 @@ namespace model {
         }
         
         public void setWhiskeyStatusAsString(string s) {
-            if(s.equals("FLIPPED") ^ s.equals("UNFLIPPED")){
+            if(s.Equals("FLIPPED") ^ s.Equals("UNFLIPPED")){
                 this.whiskeyStatusAsString = s;
             }
             else{

@@ -640,7 +640,7 @@ namespace model {
                     BulletCard bc = (BulletCard) this.currentBandit.bullets[0];
                     this.currentBandit.bullets.Remove(0);
                     if ((bc != null)) {
-                        b.addDiscardPile(bc);
+                        b.addToDeck(bc);
                     }
                     
                 }
@@ -661,7 +661,7 @@ namespace model {
                     BulletCard bc =(BulletCard) this.currentBandit.bullets[0];
                     this.currentBandit.bullets.Remove(0);
                     if ((bc != null)) {
-                        b.addDiscardPile(bc);
+                        b.addToDeck(bc);
                     }
                     
                 }
@@ -787,7 +787,7 @@ namespace model {
             TrainUnit currentPosition = this.currentBandit.getPosition();
             this.currentBandit.setPosition(targetPosition);
             if (targetPosition.isMarshalHere) {
-                this.currentBandit.addDiscardPile((Card) this.neutralBulletCard[0]);
+                this.currentBandit.addToDeck((Card) this.neutralBulletCard[0]);
                 this.neutralBulletCard.Remove(0);
                 this.currentBandit.setPosition(currentPosition);
             }

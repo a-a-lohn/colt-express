@@ -32,13 +32,13 @@ namespace model {
         }
         
         public void setHostageTypeAsString(string hostage) {
-            if(hostage.equals("POODLE") ||
-            hostage.equals("MINISTER") ||
-            hostage.equals("TEACHER") ||
-            hostage.equals("ZEALOT") ||
-            hostage.equals("OLDLADY") ||
-            hostage.equals("POKERPLAYER") ||
-            hostage.equals("PHOTOGRAPHER")){
+            if(hostage.Equals("POODLE") ||
+            hostage.Equals("MINISTER") ||
+            hostage.Equals("TEACHER") ||
+            hostage.Equals("ZEALOT") ||
+            hostage.Equals("OLDLADY") ||
+            hostage.Equals("POKERPLAYER") ||
+            hostage.Equals("PHOTOGRAPHER")){
                 this.hostageTypeAsString = hostage;
             }
             else{

@@ -589,27 +589,27 @@ public class GameBoard : MonoBehaviour
 		ArrayList banditsArray = gm.bandits;
 		//ArrayList banditsArray = new ArrayList();
 		foreach (Bandit b in banditsArray) {
-            if (b.banditNameAsString == "CHEYENNE") {
+            if (b.characterAsString == "CHEYENNE") {
 				objects[cheyenne] = b;
                 trace("Cheyenne added!");
             }
-			if (b.banditNameAsString == "BELLE") {
+			if (b.characterAsString == "BELLE") {
                 objects[belle] = b;
                 trace("Belle added!");
             }
-			if (b.banditNameAsString == "TUCO") {
+			if (b.characterAsString == "TUCO") {
                 objects[tuco] = b;
                 trace("Tuco added!");
             }
-			if (b.banditNameAsString == "DOC") {
+			if (b.characterAsString == "DOC") {
                 objects[doc] = b;
                 trace("Doc added!");
             }
-			if (b.banditNameAsString == "GHOST") {
+			if (b.characterAsString == "GHOST") {
                 objects[ghost] = b;
                 trace("Ghost added!");
             }
-			if (b.banditNameAsString == "DJANGO") {
+			if (b.characterAsString == "DJANGO") {
                 objects[django] = b;
                 trace("Django added!");
             }
@@ -617,8 +617,8 @@ public class GameBoard : MonoBehaviour
 		Debug.Log("bandits array size: " + banditsArray.Count);
 		ArrayList cards = new ArrayList();
 		foreach (Bandit ba in banditsArray) {
-			Debug.Log(ba.banditNameAsString +" "+ ChooseCharacter.character);
-			if(ba.banditNameAsString == ChooseCharacter.character) {
+			Debug.Log(ba.characterAsString +" "+ ChooseCharacter.character);
+			if(ba.characterAsString == ChooseCharacter.character) {
 				ArrayList hand = b.hand;
 				Debug.Log("adding cards");
 				objects[cardA] = hand[0];
