@@ -12,7 +12,7 @@ using Sfs2X.Protocol.Serialization;
 namespace model {
     public abstract class Card : SerializableSFSType {
       
-        public string belongsTo;
+        public string belongsToAsString;
 
         public Card() {}
         
@@ -20,7 +20,7 @@ namespace model {
        public Bandit getBelongsTo() {
            GameManager gm = GameManager.getInstance();
            foreach (Bandit b in gm.bandits) {
-               if (b.banditNameAsString.Equals(this.belongsTo)) {
+               if (b.characterAsString.Equals(this.belongsToAsString)) {
                    return b;
                }
            }
@@ -28,7 +28,13 @@ namespace model {
        }
 
        public void setBelongsTo(string belongsTo) {
-           this.belongsTo = belongsTo;
+           if(belongsTo.Equals("GHOST")||belongsTo.Equals("DOC")||belongsTo.Equals("TUCO")||belongsTo.Equals("CHEYENNE")||belongsTo.Equals("BELLE")||belongsTo.Equals("DJANGO")){
+               this.belongsToAsString = belongsTo;
+           }
+           else{
+               Debug.Log("CARD SET TO INVALID CHARACTER");
+           }
+               
        }
     }
 }

@@ -45,6 +45,7 @@ public class ChooseCharacter : MonoBehaviour
     public Button button;
 
     public Text display;
+    public Text info;
 
     private static bool alreadyCalled = false;
 
@@ -75,7 +76,8 @@ public class ChooseCharacter : MonoBehaviour
             //     }
         //////
 
-        display.text = "You will be brought to the game once all " + WaitingRoom.numPlayers + " players have chosen a character!";
+        info.text = "You will be brought to the game once all " + WaitingRoom.numPlayers + " players have chosen a character!";
+        display.text = "";
 
         BelleIsAvailable = true;
         CheyenneIsAvailable = true; 
@@ -216,15 +218,20 @@ public class ChooseCharacter : MonoBehaviour
         //trace("chose"+character);
     }
 
+    public void UpdateDisplayText(string ut) {
+        display.text += ut;
+        SFS.chosenCharText = "";
+    }
+
 	public void DisplayRemainingCharacters(BaseEvent evt) {
 		ISFSObject responseParams = (SFSObject)evt.Params["params"];
-        /*string player = responseParams.GetUtfString("player");
-        if(player != null) {
+        //string player = responseParams.GetUtfString("player");
+        /*if(player != null) {
             string chosen = responseParams.GetUtfString("chosenCharacter");
             display.text += "\n" + player + " chose " + chosen + "!";
         }*/
-        display.text += SFS.chosenCharText;
-        SFS.chosenCharText = "";
+        //display.text += SFS.chosenCharText;
+        //SFS.chosenCharText = "";
         try {
             ISFSArray a = responseParams.GetSFSArray("characterList");
             int size = responseParams.GetSFSArray("characterList").Size();
@@ -300,6 +307,7 @@ public class ChooseCharacter : MonoBehaviour
     }
 
     private void NextScene() {
+        SFS.enteredGame = true;
         SceneManager.LoadScene("GameBoard");
     }
 
@@ -310,17 +318,17 @@ public class ChooseCharacter : MonoBehaviour
             .AddParameter("username", "admin")
             .AddParameter("password", "admin")
             .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
-        IRestResponse response = client.Execute(request);
-        
-        var obj = JObject.Parse(response.Content);
-        string adminToken = (string)obj["access_token"];
-        adminToken = adminToken.Replace("+", "%2B");
-        //PlayerPrefs.SetString("admintoken", adminToken);
-        //PlayerPrefs.Save();
+            IRestResponse response = client.Execute(request);
+            
+            var obj = JObject.Parse(response.Content);
+            string adminToken = (string)obj["access_token"];
+            adminToken = adminToken.Replace("+", "%2B");
+            //PlayerPrefs.SetString("admintoken", adminToken);
+            //PlayerPrefs.Save();
 
-        var request2 = new RestRequest("api/sessions/" + WaitingRoom.gameHash + "?access_token=" + adminToken, Method.DELETE)
-            .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
-        IRestResponse response2 = client.Execute(request2);
+            var request2 = new RestRequest("api/sessions/" + WaitingRoom.gameHash + "?access_token=" + adminToken, Method.DELETE)
+                .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+            IRestResponse response2 = client.Execute(request2);
         }
     }
 

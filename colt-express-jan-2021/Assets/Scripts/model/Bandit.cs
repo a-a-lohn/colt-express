@@ -18,21 +18,12 @@ namespace model {
 
     public class Bandit : SerializableSFSType {
     
-        public bool getsAnotherAction;       
-        public bool playedThisTurn;       
-        //public string banditName;       
-        public string banditNameAsString;
-        
-        // FOR NETWORKING
-        //public Hostage hostage;       
+        public string characterAsString;     
         public string hostageAsString;
-        
-        // FOR NETWORKING
-        public ArrayList loot ;      
-        public ArrayList bullets ;        
-        public ArrayList deck ;
-        public ArrayList hand ;
-        public ArrayList discardPile ;
+        public ArrayList loot;      
+        public ArrayList bullets;        
+        public ArrayList deck;
+        public ArrayList hand;
         public ActionCard toResolve;
         public int consecutiveTurnCounter;
         
@@ -40,274 +31,133 @@ namespace model {
         public Bandit() {}
 
         public Bandit(string c) {
-            //this.banditName = c;
-            this.banditNameAsString = c;
-            this.getsAnotherAction = false;
-            this.playedThisTurn = false;
+            this.characterAsString = c;
             this.hostageAsString = null;
+            this.loot = new ArrayList();
+            this.bullets = new ArrayList();
+            this.deck = new ArrayList();
+            this.hand = new ArrayList();
+            this.toResolve = null;
+            this.consecutiveTurnCounter = 0;
         }
         
+        /**
+        *  --GETTERS AND SETTERS--
+        */
+
+        //character
         public string getCharacter() {
-            return this.banditNameAsString;
+            return this.characterAsString;
         }
         
-        public void setGetsAnotherAction(bool anotherAction) {
-            this.getsAnotherAction = anotherAction;
-        }
-        
-        public bool getGetsAnotherAction() {
-            return this.getsAnotherAction;
-        }
-        
-        public bool getPlayedThisTurn() {
-            return this.playedThisTurn;
-        }
-        
-        public void setPlayedThisTurn(bool played) {
-            this.playedThisTurn = played;
-        }
-        
+        //position
         public TrainUnit getPosition() {
             GameManager gm = GameManager.getInstance();
             TrainUnit pos = (TrainUnit)gm.banditPositions[this];
             return (TrainUnit)pos;
         }
-        
         public void setPosition(TrainUnit newObject) {
             //change hashmap of bandit-position
             GameManager gm = GameManager.getInstance();
             gm.banditPositions[this] = newObject;
         }
         
-        public bool addLootAt(int index, Loot a) {
-            bool contains = this.loot.Contains(a);
-            if (contains) {
-                return false;
-            }
-            
-            this.loot.Insert(index, a);
-            return true;
-        }
-        
-        public void removeLootAt(int index) {
-            if ((this.loot.Count > index)) {
-                this.loot.Remove(index);
-            }
-            
-        }
-        
+        //loot
         public Loot getLootAt(int index) {
             if ((this.loot.Count > index)) {
                 Loot a = (Loot)this.loot[index];
                 return a;
             }
-            
             return null;
         }
-        
         public void addLoot(Loot a) {
             bool contains = this.loot.Contains(a);
             if (contains) {
                 return;
             }
-            
             this.loot.Add(a);
         }
-        
         public void removeLoot(Loot a) {
             if (this.loot.Contains(a)) {
                 this.loot.Remove(a);
             }
-            
         }
-        
-        public bool containsLoot(Loot a) {
-            bool contains = this.loot.Contains(a);
-            return contains;
-        }
-        
-        public int sizeOfLoot() {
-            int size = this.loot.Count;
-            return size;
-        }
-        
         public ArrayList getLoot() {
             return this.loot;
         }
         
-        public void addDeckAt(int index, Card a) {
+        //deck
+        public void addToDeckAt(int index, Card a) {
             bool contains = this.deck.Contains(a);
             if (contains) {
                 return;
             }
-            
             this.deck.Insert(index, a);
         }
-        
-        public void removeDeckAt(int index) {
+        public void removeFromDeckAt(int index) {
             if ((this.deck.Count > index)) {
                 this.deck.Remove(index);
             }
-            
         }
-        
-        public Card getDeckAt(int index) {
+        public Card getFromDeckAt(int index) {
             if ((this.deck.Count > index)) {
                 return (Card)this.deck[index];
             }
-            
             return null;
         }
-        
-        public void addDeck(Card a) {
+        public void addToDeck(Card a) {
             bool contains = this.deck.Contains(a);
             if (contains) {
                 return;
             }
-            
             this.deck.Add(a);
         }
-        
-        public void removeDeck(Card a) {
+        public void removeFromDeck(Card a) {
             if (this.deck.Contains(a)) {
                 this.deck.Remove(a);
             }
-            
         }
-        
-        public bool containsDeck(Card a) {
-            bool contains = this.deck.Contains(a);
-            return contains;
-        }
-        
         public int sizeOfDeck() {
             int size = this.deck.Count;
             return size;
         }
-        
         public ArrayList getDeck() {
             return this.deck;
         }
         
-        public void addHandAt(int index, Card a) {
+        //hand
+        public void addToHand(Card a) {
             bool contains = this.hand.Contains(a);
             if (contains) {
                 return;
             }
-            
-            this.hand.Insert(index, a);
-        }
-        
-        public void removeHandAt(int index) {
-            if ((this.hand.Count > index)) {
-                this.hand.Remove(index);
-            }
-            
-        }
-        
-        public Card getHandAt(int index) {
-            if ((this.hand.Count > index)) {
-                Card a = (Card)this.hand[index];
-                return a;
-            }
-            
-            return null;
-        }
-        
-        public void addHand(Card a) {
-            bool contains = this.hand.Contains(a);
-            if (contains) {
-                return;
-            }
-            
             this.hand.Add(a);
         }
-        
-        public void removeHand(Card a) {
+        public void removeFromHand(Card a) {
             if (this.hand.Contains(a)) {
                 this.hand.Remove(a);
             }
-            
         }
-        
-        public bool containsHand(Card a) {
-            bool contains = this.hand.Contains(a);
-            return contains;
-        }
-        
         public int sizeOfHand() {
             int size = this.hand.Count;
             return size;
         }
-        
         public ArrayList getHand() {
             return this.hand;
         }
         
-        public void addDiscardPileAt(int index, Card a) {
-            bool contains = this.discardPile.Contains(a);
-            if (contains) {
-                return;
-            }
-            
-            this.discardPile.Insert(index, a);
+        //bullets
+        public void add(BulletCard b){
+            this.bullets.Add(b);
+        }
+        public void pop(){
+            this.bullets.Remove(this.bullets.Count-1);
+        }
+        public int getSizeOfBullets(){
+            return this.bullets.Count;
         }
         
-        public void removeDiscardPileAt(int index) {
-            if ((this.discardPile.Count > index)) {
-                this.discardPile.Remove(index);
-            }
-            
-        }
-        
-        public Card getDiscardPileAt(int index) {
-            if ((this.discardPile.Count > index)) {
-                Card associated = (Card)this.discardPile[index];
-                return associated;
-            }
-            else {
-                return null;
-            }
-            
-        }
-        
-        public void addDiscardPile(Card a) {
-            bool contains = this.discardPile.Contains(a);
-            if (!contains) {
-                this.discardPile.Add(a);
-            }
-            
-        }
-        
-        public void removeDiscardPile(Card a) {
-            if (this.discardPile.Contains(a)) {
-                this.discardPile.Remove(a);
-            }
-            
-        }
-        
-        public bool containsDiscardPile(Card a) {
-            bool contains = this.discardPile.Contains(a);
-            return contains;
-        }
-        
-        public int sizeOfDiscardPile() {
-            int size = this.discardPile.Count;
-            return size;
-        }
-        
-        public ArrayList getDiscardPile() {
-            return this.discardPile;
-        }
-        
-        // public Hostage getHostage() {
-        //     return this.hostage;
-        // }
-        
-        // public void setHostage(Hostage hostage) {
-        //     this.hostage = hostage;
-        // }
-        
+        //hostage
         public string getHostageAsString() {
             return this.hostageAsString;
         }
@@ -316,14 +166,15 @@ namespace model {
             this.hostageAsString = hostage;
         }
 
+        //toResolve
         public ActionCard getToResolve() {
         return this.toResolve;
         }
-    
         public void setToResolve(ActionCard ac) {
             this.toResolve = ac;
         }
 
+        //consecutiveTurnCounter
         public int getConsecutiveTurnCounter() {
 		    return this.consecutiveTurnCounter;
 	    }
@@ -331,10 +182,12 @@ namespace model {
 		    this.consecutiveTurnCounter = i;
 	    }
         
+
+        //initializing methods
         public void createStartingCards() {
             string[] actions= {"MOVE", "MOVE", "CHANGE_FLOOR","CHANGE_FLOOR", "MOVE_MARSHAL", "PUNCH", "ROB", "ROB", "SHOOT","SHOOT"};
             for (int i = 0; i<actions.Length; i++) {
-                Card c = new ActionCard (actions[i], this.banditNameAsString);
+                Card c = new ActionCard (actions[i], this.characterAsString);
                 this.deck.Add(c);
             }
         }
@@ -350,12 +203,12 @@ namespace model {
         }
         
         public void createBulletCards() {
-            BulletCard bc1 = new BulletCard(this.banditNameAsString);
-            BulletCard bc2 = new BulletCard(this.banditNameAsString);
-            BulletCard bc3 = new BulletCard(this.banditNameAsString);
-            BulletCard bc4 = new BulletCard(this.banditNameAsString);
-            BulletCard bc5 = new BulletCard(this.banditNameAsString);
-            BulletCard bc6 = new BulletCard(this.banditNameAsString);
+            BulletCard bc1 = new BulletCard(this.characterAsString);
+            BulletCard bc2 = new BulletCard(this.characterAsString);
+            BulletCard bc3 = new BulletCard(this.characterAsString);
+            BulletCard bc4 = new BulletCard(this.characterAsString);
+            BulletCard bc5 = new BulletCard(this.characterAsString);
+            BulletCard bc6 = new BulletCard(this.characterAsString);
             this.bullets.Add(bc1);
             this.bullets.Add(bc2);
             this.bullets.Add(bc3);
@@ -369,15 +222,12 @@ namespace model {
             this.loot.Add(startingPurse);
         }
 
+        //TODO: combine this game manager
         public void endOfSchemin(){
             foreach (Card c in this.hand){
                 this.deck.Add(c);
             }
-            foreach (Card c in this.discardPile){
-                this.deck.Add(c);
-            }
             this.hand.Clear();
-            this.discardPile.Clear();
             //HAND FOR NEXT ROUND IS CREATED AT END OF SCHEMIN PHASE - MUST NOT BE VISIBLE DURING STEALING PHASE
             this.createHand();
         }

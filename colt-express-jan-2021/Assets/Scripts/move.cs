@@ -46,11 +46,11 @@ public class Move : MonoBehaviour
     private List<float> ghoOffset = new List<float>() {-1F, 0F, 0F}; 
 
     // getClicked returns the name of the GM that user clicks 
-    string getClicked(){
+    /*string getClicked(){
         var goClicked = EventSystem.current.currentSelectedGameObject;
         // Debug.Log(goClicked.name);
-        return goClicked.name;
-    }
+        return goClicked;
+    }*/
 
     // use the hashmap to map the GO to the desired type so we can pass it back to the GM 
 

@@ -49,37 +49,6 @@ namespace model {
         //     // TODO: createGraphic()
         // }
         
-        // public static TrainUnit[,] createTrain(int numberOfBandits) {
-        //     // Create one car for each player, +1 to account for the locomotive
-        //     int trainLength = (numberOfBandits + 1);
-        //     TrainUnit[,] train = new TrainUnit[2,trainLength];
-        //     TrainUnit locoCabin = new TrainUnit("LOCOMOTIVE", "CABIN");
-        //     TrainUnit locoRoof = new TrainUnit("LOCOMOTIVE", "ROOF");
-        //     // Create locomotive
-        //     locoCabin.above = locoRoof;
-        //     locoCabin.isMarshalHere = true;
-        //     Marshal m = Marshal.getInstance();
-        //     m.setMarshalPosition(locoCabin);
-        //     // TODO: put strongbox
-        //     // locoRoof.below = Optional.of(locoCabin);
-        //     locoRoof.below = locoCabin;
-        //     // TODO: Add locomotive to array
-        //     // TODO: Create rest of the cars, associate with each other, add to array
-        //     // TODO: Associate locomotive to front car
-        //     TrainUnit.trainLength = trainLength;
-        //     TrainUnit.train = train;
-        //     return train;
-        // }
-        
-        // public static TrainUnit[] createStagecoach() {
-        //     TrainUnit[] stagecoach = new TrainUnit[2];
-        //     TrainUnit cabin = new TrainUnit("STAGECOACH", "CABIN");
-        //     TrainUnit roof = new TrainUnit("STAGECOACH", "ROOF");
-        //     stagecoach[0] = roof;
-        //     stagecoach[1] = cabin;
-        //     return stagecoach;
-        // }
-        
         // carType
         // public string getCarType() {
         //     return this.carType;
@@ -290,6 +259,10 @@ namespace model {
             return this.lootHere.Count;
         }
         
+        public ArrayList getLootHere(){
+            return this.lootHere;
+        }
+
         public bool getIsMarshalHere() {
             return this.isMarshalHere;
         }
