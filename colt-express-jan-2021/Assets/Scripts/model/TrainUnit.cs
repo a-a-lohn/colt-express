@@ -49,15 +49,6 @@ namespace model {
         //     // TODO: createGraphic()
         // }
         
-        // public static TrainUnit[] createStagecoach() {
-        //     TrainUnit[] stagecoach = new TrainUnit[2];
-        //     TrainUnit cabin = new TrainUnit("STAGECOACH", "CABIN");
-        //     TrainUnit roof = new TrainUnit("STAGECOACH", "ROOF");
-        //     stagecoach[0] = roof;
-        //     stagecoach[1] = cabin;
-        //     return stagecoach;
-        // }
-        
         // carType
         // public string getCarType() {
         //     return this.carType;
@@ -268,6 +259,10 @@ namespace model {
             return this.lootHere.Count;
         }
         
+        public ArrayList getLootHere(){
+            return this.lootHere;
+        }
+
         public bool getIsMarshalHere() {
             return this.isMarshalHere;
         }

@@ -537,7 +537,7 @@ namespace model {
         //rob
         public ArrayList calculateRob(){
             TrainUnit currentPosition = currentBandit.getPosition();
-            return currentPosition.getLoot();
+            return currentPosition.getLootHere();
         }
         public void robPrompt(ArrayList possibilities){
             if(possibilities.Count > 0 ){
@@ -545,86 +545,56 @@ namespace model {
             }
             else{
                 //TODO make possibilities clickable
-                Loot clicked = new Loot();
+                Loot clicked = new Money();
                 rob(clicked);
             }
         }
-        public void Rob(Loot chosen) {
+        public void rob(Loot chosen) {
             this.currentBandit.addLoot(chosen);
-            currentBandit.getPosition.removeLoot(chosen);
+            currentBandit.getPosition().removeLoot(chosen);
             this.endOfTurn();
             // might have to put this in an if else block for cases like SpeedingUp/Whiskey
         }
         
         //shoot
-        public Bandit RoofShootPrompt(Bandit b, ArrayList ab) {
-            //  TO DO
-            //  ask b to choose one target from ab
-            return (Bandit) ab[0];
+        public ArrayList calculateShoot(){
+            ArrayList possibilities = new ArrayList();
+            return possibilities;
+        }
+
+        public void shootPrompt(ArrayList possibilities){
+            //TODO make possibilities clickable
+            Bandit clicked = new Bandit();
+            shoot(clicked);
         }
         
-        public Bandit CarShootPrompt(Bandit b, ArrayList ab) {
-            //  TO DO
-            //  ask b to choose one target from ab
-            return (Bandit) ab[0];
-        }
-        
-        public void shoot() {
-            ArrayList roofShootTarget = new ArrayList();
-            ArrayList carShootTarget = new ArrayList();
-            if (this.currentBandit.getPosition().carFloorAsString == "ROOF") {
-                foreach (Bandit b in this.bandits) {
-                    if ((b != this.currentBandit)) {
-                        if ((b.getPosition().carFloorAsString == "ROOF")) {
-                            roofShootTarget.Add(b);
-                        }
-                        
-                    }
-                    
-                }
-                
-                if ((roofShootTarget[0] != null)) {
-                    //  ask the current player to choose which bandit to shoot
-                    Bandit b = this.RoofShootPrompt(this.currentBandit, roofShootTarget);
-                    BulletCard bc = (BulletCard) this.currentBandit.bullets[0];
-                    this.currentBandit.bullets.Remove(0);
-                    if ((bc != null)) {
-                        b.addToDeck(bc);
-                    }
-                    
-                }
-                
+        public void shoot(Bandit b) {
+            if(b == null){
+                this.endOfTurn();
             }
-            else {
-                foreach (Bandit bl in this.currentBandit.getPosition().getLeft().getBanditsHere()) {
-                    carShootTarget.Add(bl);
-                }
-                
-                foreach (Bandit br in this.currentBandit.getPosition().getRight().getBanditsHere()) {
-                    carShootTarget.Add(br);
-                }
-                
-                if ((carShootTarget[0] != null)) {
-                    //  ask the current player to choose which bandit to shoot
-                    Bandit b = this.CarShootPrompt(this.currentBandit, carShootTarget);
-                    BulletCard bc =(BulletCard) this.currentBandit.bullets[0];
-                    this.currentBandit.bullets.Remove(0);
-                    if ((bc != null)) {
-                        b.addToDeck(bc);
-                    }
-                    
-                }
-                
+            else{
+                //TODO
+                this.endOfTurn();
             }
-            
-            this.endOfTurn();
-            // might have to put this in an if else block for cases like SpeedingUp/Whiskey
         }
         
-        public Bandit punchBanditPrompt(Bandit b, ArrayList ab) {
-            //  TO DO
-            //  ask b to choose one target from ab
-            return (Bandit) ab[0];
+        //punch
+        public ArrayList calculatePunch(){
+            return currentBandit.getPosition().getBanditsHere();
+        }
+
+        public void punchPrompt(ArrayList possibilities) {
+            if(possibilities.Count == 0){
+                this.endOfTurn();
+            }
+            else if(possibilities.Count == 1){
+                punch((Bandit)possibilities[0]);
+            }
+            else{
+                //TODO make possibilities clickable
+                Bandit clicked = new Bandit();
+                punch(clicked);
+            }
         }
         
         public Loot punchLootPrompt(Bandit b, Bandit b2) {
@@ -639,29 +609,7 @@ namespace model {
             return b2.getPosition().getLeft();
         }
         
-        public void punch() {
-            ArrayList otherBandits = new ArrayList();
-            foreach (Bandit b in this.currentBandit.getPosition().getBanditsHere()) {
-                if ((b != this.currentBandit)) {
-                    otherBandits.Add(b);
-                }
-                
-            }
-            
-            if ((otherBandits[0] != null)) {
-                //  ask the player to choose target
-                Bandit target = this.punchBanditPrompt(this.currentBandit, otherBandits);
-                if (target.getLoot().Count>0) {
-                    //  ask the player to choose 1 loot
-                    Loot l = this.punchLootPrompt(this.currentBandit, target);
-                    target.removeLoot(l);
-                    this.currentBandit.addLoot(l);
-                }
-                
-                //  ask where to punch to
-                TrainUnit tu = this.punchPositionPrompt(this.currentBandit, target);
-                target.setPosition(tu);
-            }
+        public void punch(Bandit b) {
             
             this.endOfTurn();
             // might have to put this in an if else block for cases like SpeedingUp/Whiskey
@@ -686,10 +634,10 @@ namespace model {
             // might have to put this in an if else block for cases like SpeedingUp/Whiskey
         }
         
-        public static ArrayList moveAlgorithm(Bandit b) {
+        public ArrayList calculateMove() {
             // use currentBandit instead of parameter //void method
             ArrayList possibleMoving = new ArrayList();
-            TrainUnit currentPosition = b.getPosition();
+            TrainUnit currentPosition = currentBandit.getPosition();
             if ((currentPosition.getLeft() != null)) {
                 possibleMoving.Add(currentPosition.getLeft());
             }
@@ -721,10 +669,6 @@ namespace model {
             // call promptMoves(possibleMoving)
            // GameBoard.clickable.Add(possibleMoving);
             //GameBoard.action = "move()";
-        }
-        
-        public ArrayList calculateMove() {
-            return new ArrayList();
         }
         
         public TrainUnit movePrompt(ArrayList possibilities) {
@@ -770,8 +714,10 @@ namespace model {
             //TODO
             return new ArrayList();
         }
-        public void ridePrompt(){
-
+        public void ridePrompt(ArrayList possibilities){
+            //TODO make possibilities clickable
+            TrainUnit clicked = new TrainUnit();
+            ride(clicked);
         }
         public void ride(TrainUnit dest){
             this.endOfTurn();
