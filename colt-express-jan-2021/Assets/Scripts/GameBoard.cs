@@ -337,8 +337,10 @@ public class GameBoard : MonoBehaviour
 			}
 		}
 		
-		foreach(Bandit b in banditsArray){
-			
+		// @TODO: add a method getBulletSize() in BulletCard that returns the number of bullets indicated on the card
+		ArrayList bBullets = currentBandit.getBulletCards(); 
+		for(int i=0; i<bBullets.size(); i++){
+			mapBulletCards(b.banditNameAsString, bBullets[i].getBulletSize(), bBullets[i]);
 		}
 
 
@@ -366,40 +368,6 @@ public class GameBoard : MonoBehaviour
 			}			
 		}
 
-		ArrayList bulletCards = gm.neutralBulletCard;
-		foreach(BulletCard bc in bulletCards){
-			// get the owner of the bullet card
-			string owner = bc.getOwner();
-			// Bandit.sizeOfBullets() returns the bandit's sizeOfBullet 
-			if(owner == "BELLE"){
-				int bulletSize = currentBandit.sizeOfBullets();
-				string goName = "BulletCard" + bulletSize.ToString(); 
-				objects[goName] = bc; 
-				// @TODO: Do we distinguish the difference between number of bullets? 
-
-			}
-
-			if(owner == "CHEYENNE"){
-
-			}
-
-			if(owner == "DOC"){
-				
-			}
-
-			if(owner == "DJANGO"){
-				
-			}
-
-			if(owner == "GHOST"){
-				
-			}
-
-			if(owner == "TUCO"){
-				
-			}
-		}
-
 		Debug.Log("bandits array size: " + banditsArray.Count);
 		ArrayList cards = new ArrayList();
 		foreach (Bandit ba in banditsArray) {
@@ -420,6 +388,22 @@ public class GameBoard : MonoBehaviour
 		currentRound.text += gm.currentRound.roundTypeAsString; 
 		currentBandit.text += gm.currentBandit.banditNameAsString; 
     }
+	
+	public void mapBulletCards(string bName, int buSize, BulletCard bc){
+		if(bName == "BELLE"){
+			objects[goBELLEBulletCards[buSize]] = bc;
+		}else if(bName == "CHEYENNE"){
+			objects[goCHEYENNEBulletCards[buSize]] = bc;
+		}else if(bName == "DOC"){
+			objects[goDOCBulletCards[buSize]] = bc;
+		}else if(bName == "TUCO"){
+			objects[goTUCOBulletCards[buSize]] = bc;
+		}else if(bName == "DJANGO"){
+			objects[goDJANGOBulletCards[buSize]] = bc;
+		}else if(bName == "GHOST"){
+			objects[goGHOSTBulletCards[buSize]] = bc;
+		}
+	}
 
 	public void LeaveRoom() {
         SFS.LeaveRoom();
