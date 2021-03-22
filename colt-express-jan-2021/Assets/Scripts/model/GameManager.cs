@@ -289,6 +289,10 @@ namespace model {
             
             return gm;
         }
+
+        public static void replaceInstance(GameManager gm) {
+            singleton = gm;
+        } 
         
         public Round getCurrentRound() {
             return this.currentRound;
