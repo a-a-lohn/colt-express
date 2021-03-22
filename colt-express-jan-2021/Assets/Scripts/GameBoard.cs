@@ -126,6 +126,13 @@ public class GameBoard : MonoBehaviour
 	public GameObject CardNewE; 
 	public GameObject CardNewF; 
 
+	public GameObject BelleCard1; 
+	public GameObject BelleCard2; 
+	public GameObject BelleCard3; 
+	public GameObject BelleCard4; 
+	public GameObject BelleCard5; 
+	public GameObject BelleCard6; 
+
 	public GameObject playerE;
 
 	public GameObject BelleBulletCard1; 
@@ -149,6 +156,14 @@ public class GameBoard : MonoBehaviour
 	private List<GameObject> goTucoBulletCards; 
 	private List<GameObject> goDocBulletCards; 
 	private List<GameObject> goDjangoBulletCards; 
+
+	// a list of action cards for each and every bandit's hand 
+	private List<GameObject> goBELLEHand; 
+	private List<GameObject> goCHEYENNEHand; 
+	private List<GameObject> goDOCHand; 
+	private List<GameObject> goGHOSTHand; 
+	private List<GameObject> goTUCOHand; 
+	private List<GameObject> goDJANGOHand; 
 
 	// a list of clickable items
 	private List<GameObject> clickableGOs; 
