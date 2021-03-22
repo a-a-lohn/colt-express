@@ -128,12 +128,12 @@ public class GameBoard : MonoBehaviour
 
 	public GameObject playerE;
 
-	public GameObject BulletCard1; 
-	public GameObject BulletCard2;
-	public GameObject BulletCard3;
-	public GameObject BulletCard4;
-	public GameObject BulletCard5;
-	public GameObject BulletCard6;      
+	public GameObject BelleBulletCard1; 
+	public GameObject BelleBulletCard2;
+	public GameObject BelleBulletCard3;
+	public GameObject BelleBulletCard4;
+	public GameObject BelleBulletCard5;
+	public GameObject BelleBulletCard6;      
 
 
 	public Text clickableGOsText;
@@ -195,6 +195,9 @@ public class GameBoard : MonoBehaviour
 
     void Start(){
 		makeAllClickable();
+		Debug.Log(gm.currentRound.roundTypeAsString);
+		currentRound.text = gm.currentRound.roundTypeAsString; 
+		currentBandit.text = gm.currentBandit.banditNameAsString; 
 
         gem4.SetActive(false);
 		initCards();
@@ -265,7 +268,7 @@ public class GameBoard : MonoBehaviour
             }
 		}
 
-		ArrayList lootArray = gm.loot;
+		ArrayList lootArray = gm.loots;
 		foreach (Loot l in lootArray) {
             if (l.belongsTo.banditNameAsString == "CHEYENNE") {
 				objects[gem1] = l;
@@ -299,7 +302,29 @@ public class GameBoard : MonoBehaviour
 			// get the owner of the bullet card 
 			string owner = bc.getOwner(); 
 			if(owner == "BELLE"){
-				objects[BulletCard1] = bc; 
+				objects[BelleBulletCard1] = bc; 
+				// @TODO: Do we distinguish the difference between number of bullets? 
+
+			}
+
+			if(owner == "CHEYENNE"){
+
+			}
+
+			if(owner == "DOC"){
+				
+			}
+
+			if(owner == "DJANGO"){
+				
+			}
+
+			if(owner == "GHOST"){
+				
+			}
+
+			if(owner == "TUCO"){
+				
 			}
 		}
 

@@ -42,6 +42,7 @@ namespace model {
         //public ArrayList stagecoach;
 
         public ArrayList bandits;
+        public ArrayList loots; // added 
         
         public Hashtable banditmap;
         
