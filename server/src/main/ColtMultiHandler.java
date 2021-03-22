@@ -164,7 +164,9 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	private void testSerial(User sender, ISFSObject rtn) {
 		GameManager gm = GameManager.getInstance();
 		Bandit b = new Bandit(Character.BELLE);
+		Bandit c = new Bandit(Character.DJANGO);
 		gm.bandits.add(b);
+		gm.bandits.add(c);
 		gm.initializeGame();
 		rtn.putClass("gm", gm);
 		sendToSender(sender, rtn, "testSerial");

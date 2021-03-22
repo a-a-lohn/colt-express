@@ -17,6 +17,7 @@ using Sfs2X.Entities.Data;
 using Sfs2X.Requests;
 using System.Reflection;
 using Sfs2X.Protocol.Serialization;
+using model;
 
 public static class SFS
 {
@@ -104,6 +105,13 @@ public static class SFS
 			step = responseParams.GetInt("step");
 			Debug.Log("received step " + step);
 			gb.executeHardCoded(step);
+		} else if (cmd == "testSerial") {
+			ISFSObject responseParams = (SFSObject)evt.Params["params"];
+			GameManager gm = (GameManager) responseParams.GetClass("gm");
+			GameManager.replaceInstance(gm);
+			TrainUnit t = (TrainUnit) gm.trainRoof[0];
+			trace(t.carTypeAsString);
+			GameBoard.SendNewGameState();
 		}
     }
 
