@@ -30,9 +30,9 @@ public class GameBoard : MonoBehaviour
 		 so that when the characters are clicked, CharacterChoice(character) is called that passes the chosen character to the server. This
 		 can be done by attaching scripts to each character game object, similar to how it will work for gameobjects on the game board)
 	
-	-Assign all gameobjects in dictionary upon update game state call
+	-Assign all gameobjects in dictionary upon update game state call --loots
 	
-	-implement prompt method in Gamemanager (i.e. set action and clickable global variables) --initClickable() 
+	-implement prompt method in Gamemanager (i.e. set action and clickable global variables) --done // makeallclickable() and update()
 	
 	-write scripts attached to each game object that checks if it is clickable, if so, checks action and calls action on clicked item
 	
@@ -94,6 +94,7 @@ public class GameBoard : MonoBehaviour
 	public Text promptPunchTarget; 
     
     public static Dictionary<GameObject, object> objects = new Dictionary<GameObject, object>();
+	// public static Dictionary<GameObject, object> bulletCards = new Dictionary<GameObject, object>();
 
 	// public Dictionary<T, GameObject> objects = new Dictionary<T, GameObject>();
 	// NOTE: INITIALIZE THE DICTIONARY FOR EVERY OBJECT HERE FIRST,
@@ -126,6 +127,14 @@ public class GameBoard : MonoBehaviour
 	public GameObject CardNewF; 
 
 	public GameObject playerE;
+
+	public GameObject BulletCard1; 
+	public GameObject BulletCard2;
+	public GameObject BulletCard3;
+	public GameObject BulletCard4;
+	public GameObject BulletCard5;
+	public GameObject BulletCard6;      
+
 
 	public Text clickableGOsText;
 	public Text currentRound; 
@@ -258,30 +267,40 @@ public class GameBoard : MonoBehaviour
 
 		ArrayList lootArray = gm.loot;
 		foreach (Loot l in lootArray) {
-            if (l.belongsTo == "CHEYENNE") {
+            if (l.belongsTo.banditNameAsString == "CHEYENNE") {
 				objects[gem1] = l;
                 trace("Gem 1 added!");
             }
-            if (l.belongsTo == "BELLE") {
+            if (l.belongsTo.banditNameAsString == "BELLE") {
 				objects[gem2] = l;
                 trace("Gem 2 added!");
             }
-            if (l.belongsTo == "TUCO") {
+            if (l.belongsTo.banditNameAsString == "TUCO") {
 				objects[gem3] = l;
                 trace("Gem 3 added!");
             }
-            if (l.belongsTo == "DOC") {
+            if (l.belongsTo.banditNameAsString == "DOC") {
 				objects[gem4] = l;
                 trace("Gem 4 added!");
             }
-            if (l.belongsTo == "GHOST") {
+            if (l.belongsTo.banditNameAsString == "GHOST") {
 				objects[gem5] = l;
                 trace("Gem 5 added!");
             }
-			if (l.belongsTo == "DJANGO") {
+			if (l.belongsTo.banditNameAsString == "DJANGO") {
 				objects[gem6] = l;
                 trace("Gem 6 added!");
             }
+			// check if a loot belongs to TrainUnit and assign it 
+		}
+
+		ArrayList bulletCards = gm.neutralBulletCard;
+		foreach(BulletCard bc in bulletCards){
+			// get the owner of the bullet card 
+			string owner = bc.getOwner(); 
+			if(owner == "BELLE"){
+				objects[BulletCard1] = bc; 
+			}
 		}
 
 		Debug.Log("bandits array size: " + banditsArray.Count);
@@ -581,8 +600,8 @@ public class GameBoard : MonoBehaviour
 					// curr GO is clickable
 					object clickableObj = objects[go];
 					// pass clickableObj back! 
-					// TODO: @Backend Team : action is the name, all caps, of the next method 
-					gm.action(clickableObj);
+					// TODO: @Backend Team : action is the name(all caps) of the next method 
+					// gm.action(clickableObj);
 				}
 			}
 

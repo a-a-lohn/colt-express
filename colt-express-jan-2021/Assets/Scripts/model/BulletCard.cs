@@ -17,7 +17,8 @@ namespace model {
     public class BulletCard : Card, SerializableSFSType {
     
         public bool fired;
-        
+        public string owner; // added 
+
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public BulletCard() {}
         
@@ -25,5 +26,11 @@ namespace model {
             //this.belongsTo = belongsTo;
             this.fired = false;
         }
+
+        /* added by annie */
+        public string getOwner(){
+            return this.owner;
+        }
+        /********/
     }
 }
