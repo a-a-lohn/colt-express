@@ -270,31 +270,55 @@ public class GameBoard : MonoBehaviour
 
 		ArrayList lootArray = gm.loots;
 		foreach (Loot l in lootArray) {
-            if (l.belongsTo.banditNameAsString == "CHEYENNE") {
+            if (l.getBelongsTo().getCharacter() == gem1.transform.parent.name.ToUpper()) {
 				objects[gem1] = l;
                 trace("Gem 1 added!");
             }
-            if (l.belongsTo.banditNameAsString == "BELLE") {
+            if (l.getBelongsTo().getCharacter() == gem2.transform.parent.name.ToUpper()) {
 				objects[gem2] = l;
                 trace("Gem 2 added!");
             }
-            if (l.belongsTo.banditNameAsString == "TUCO") {
+            if (l.getBelongsTo().getCharacter() == gem3.transform.parent.name.ToUpper()) {
 				objects[gem3] = l;
                 trace("Gem 3 added!");
             }
-            if (l.belongsTo.banditNameAsString == "DOC") {
+            if (l.getBelongsTo().getCharacter() == gem4.transform.parent.name.ToUpper()) {
 				objects[gem4] = l;
                 trace("Gem 4 added!");
             }
-            if (l.belongsTo.banditNameAsString == "GHOST") {
+            if (l.getBelongsTo().getCharacter() == gem5.transform.parent.name.ToUpper()) {
 				objects[gem5] = l;
                 trace("Gem 5 added!");
             }
-			if (l.belongsTo.banditNameAsString == "DJANGO") {
+			if (l.getBelongsTo().getCharacter() == gem6.transform.parent.name.ToUpper()) {
 				objects[gem6] = l;
                 trace("Gem 6 added!");
             }
 			// check if a loot belongs to TrainUnit and assign it 
+		}
+
+		foreach (Bandit b in banditsArray) {
+           ArrayList bHand = b.getHand();
+			foreach(ActionCard c in bHand){
+				if(c.getActionTypeAsString() == CardNewA.name.ToUpper()){
+            	objects[CardNewA] = c;
+				}
+				if(c.getActionTypeAsString() == CardNewB.name.ToUpper()){
+            	objects[CardNewB] = c;
+				}
+				if(c.getActionTypeAsString() == CardNewC.name.ToUpper()){
+            	objects[CardNewC] = c;
+				}
+				if(c.getActionTypeAsString() == CardNewD.name.ToUpper()){
+            	objects[CardNewD] = c;
+				}
+				if(c.getActionTypeAsString() == CardNewE.name.ToUpper()){
+            	objects[CardNewE] = c;
+				}
+				if(c.getActionTypeAsString() == CardNewF.name.ToUpper()){
+            	objects[CardNewF] = c;
+				}
+			}			
 		}
 
 		ArrayList bulletCards = gm.neutralBulletCard;
