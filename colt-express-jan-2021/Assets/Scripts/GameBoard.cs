@@ -74,6 +74,7 @@ public class GameBoard : MonoBehaviour
 	public GameObject gem3; 
 	public GameObject gem4;
 	public GameObject gem5;
+	public GameObject gem6;
 
 	public GameObject ghoLoot;
 
@@ -254,6 +255,35 @@ public class GameBoard : MonoBehaviour
                 trace("Django added!");
             }
 		}
+
+		ArrayList lootArray = gm.loot;
+		foreach (Loot l in lootArray) {
+            if (l.belongsTo == "CHEYENNE") {
+				objects[gem1] = l;
+                trace("Gem 1 added!");
+            }
+            if (l.belongsTo == "BELLE") {
+				objects[gem2] = l;
+                trace("Gem 2 added!");
+            }
+            if (l.belongsTo == "TUCO") {
+				objects[gem3] = l;
+                trace("Gem 3 added!");
+            }
+            if (l.belongsTo == "DOC") {
+				objects[gem4] = l;
+                trace("Gem 4 added!");
+            }
+            if (l.belongsTo == "GHOST") {
+				objects[gem5] = l;
+                trace("Gem 5 added!");
+            }
+			if (l.belongsTo == "DJANGO") {
+				objects[gem6] = l;
+                trace("Gem 6 added!");
+            }
+		}
+
 		Debug.Log("bandits array size: " + banditsArray.Count);
 		ArrayList cards = new ArrayList();
 		foreach (Bandit ba in banditsArray) {
