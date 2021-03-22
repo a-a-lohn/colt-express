@@ -52,36 +52,34 @@ public class TrainUnit implements SerializableSFSType {
      */
     
     
-	public static ArrayList<TrainUnit> createTrainRoof(int numberOfBandits) {
-		if (numberOfBandits <= 1) {
+	public static ArrayList<TrainUnit> createTrainRoof() {
+		if (TrainUnit.trainLength <= 2) {
 			throw new IllegalArgumentException("Number of participating players must be between 2 and 6.");
 		}
-		GameManager gm = GameManager.getInstance();
 		int i = 0; 
 		ArrayList<TrainUnit> response = new ArrayList<TrainUnit>();
 		for (CarType cr : CarType.values()) {
 			i++;
 			TrainUnit tu = new TrainUnit(cr, CarFloor.ROOF);
 			response.add(tu);
-			if (i == (numberOfBandits + 1)) { 
+			if (i == (TrainUnit.trainLength + 1)) { 
 				break; 
 			}
 		}
 		return response;
 	}
 
-	public static ArrayList<TrainUnit> createTrainCabin(int numberOfBandits) {
-		if (numberOfBandits <= 1) {
+	public static ArrayList<TrainUnit> createTrainCabin() {
+		if (TrainUnit.trainLength <= 2) {
 			throw new IllegalArgumentException("Number of participating players must be between 2 and 6.");
 		}
-		GameManager gm = GameManager.getInstance();
 		int i = 0; 
 		ArrayList<TrainUnit> response = new ArrayList<TrainUnit>();
 		for (CarType cr : CarType.values()) {
 			i++;
 			TrainUnit tu = new TrainUnit(cr, CarFloor.CABIN);
 			response.add(tu);
-			if (i == (numberOfBandits + 1)) { 
+			if (i == (TrainUnit.trainLength + 1)) { 
 				break; 
 			}
 		}
@@ -95,7 +93,12 @@ public class TrainUnit implements SerializableSFSType {
      *           stagecoach[1] = cabin;
      */
      public static ArrayList<TrainUnit> createStagecoach() {
-    	 return new ArrayList<TrainUnit>();
+    	 TrainUnit c = new TrainUnit(CarType.STAGECOACH, CarFloor.CABIN);
+    	 TrainUnit r = new TrainUnit(CarType.STAGECOACH, CarFloor.ROOF);
+    	 ArrayList<TrainUnit> response = new ArrayList<TrainUnit>();
+    	 response.add(r);
+    	 response.add(c);
+    	 return response;
      }
 
 

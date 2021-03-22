@@ -36,8 +36,9 @@ namespace model {
         
         public ArrayList trainCabin;
         
-        
-        //public ArrayList stagecoach;
+        public ArrayList horses;
+
+        public ArrayList stagecoach;
 
         public ArrayList bandits;
         
@@ -61,73 +62,6 @@ namespace model {
         //     //  handler.updateGameState(rtn);
         // }
         
-        //  SOME OF THESE FIELDS SHOULD BE AUTOMATICALLY INITIALIZED, NOT PASSED AS
-        //  PARAMS
-        //  this method should only be called from if-else block in chosenCharacter
-        // public void initializeGame() {
-        //     //  set train-related attributes
-        //     //  this.stagecoach = TrainUnit.createStagecoach();
-        //     //  this.train = TrainUnit.createTrain(bandits.size());
-        //     this.trainRoof = TrainUnit.createTrainRoof(this.getNumOfPlayers());
-        //     this.trainCabin = TrainUnit.createTrainCabin(this.getNumOfPlayers());
-        //     ArrayList bandits = this.getBandits();
-        //     foreach (Bandit b in this.bandits) {
-        //         //  initialize each bandit cards, purse
-        //         b.createStartingCards();
-        //         //  also the hand for bandits
-        //         b.createBulletCards();
-        //         b.createStartingPurse();
-        //     }
-            
-        //     this.marshalInstance = Marshal.getInstance();
-        //     //  initialize round cards, round attributes/create round constructor
-        //     this.rounds = this.createRoundCards(this.getNumOfPlayers());
-        //     //System.Collections.shuffle(this.bandits); 
-        //     //  <- to decide who goes first, shuffle bandit list
-        //     this.currentBandit = (Bandit) this.bandits[0];
-        //     this.currentRound = (Round) this.rounds[0];
-        //     this.setUpPositions(this.bandits);
-        //     // 
-        //     Marshal marshal = new Marshal();
-        //     Money strongbox = new Money("STRONGBOX", 1000);
-        //     // marshal.setMarshalPosition(this.trainCabin[this.getNumOfPlayers()]);
-        //     // strongbox.setPosition(this.trainCabin[this.getNumOfPlayers()]);
-        //     // 
-        //     //  create netural bullet card
-        //     Card NBullet1 = new BulletCard();
-        //     Card NBullet2 = new BulletCard();
-        //     Card NBullet3 = new BulletCard();
-        //     Card NBullet4 = new BulletCard();
-        //     Card NBullet5 = new BulletCard();
-        //     Card NBullet6 = new BulletCard();
-        //     Card NBullet7 = new BulletCard();
-        //     Card NBullet8 = new BulletCard();
-        //     Card NBullet9 = new BulletCard();
-        //     Card NBullet10 = new BulletCard();
-        //     Card NBullet11 = new BulletCard();
-        //     Card NBullet12 = new BulletCard();
-        //     Card NBullet13 = new BulletCard();
-        //     this.neutralBulletCard.Add(NBullet1);
-        //     this.neutralBulletCard.Add(NBullet2);
-        //     this.neutralBulletCard.Add(NBullet3);
-        //     this.neutralBulletCard.Add(NBullet4);
-        //     this.neutralBulletCard.Add(NBullet5);
-        //     this.neutralBulletCard.Add(NBullet6);
-        //     this.neutralBulletCard.Add(NBullet7);
-        //     this.neutralBulletCard.Add(NBullet8);
-        //     this.neutralBulletCard.Add(NBullet9);
-        //     this.neutralBulletCard.Add(NBullet10);
-        //     this.neutralBulletCard.Add(NBullet11);
-        //     this.neutralBulletCard.Add(NBullet12);
-        //     this.neutralBulletCard.Add(NBullet13);
-        //     this.roundIndex = 0;
-        //     //  this.currentRound = this.rounds.get(roundIndex);
-        //     //  currentRound and currentRound.currentTurn must be initialized
-        //     this.banditsPlayedThisTurn = 0;
-        //     //this.gameStatus = GameStatus.SCHEMIN;
-        //     this.strGameStatus = "SCHEMIN";
-        //     this.currentBandit = (Bandit) this.bandits[0];
-        // }
         
         public void playTurn() {
             Debug.Log("playing turn");
@@ -148,35 +82,34 @@ namespace model {
         }
 
         public void resolveAction(ActionCard toResolve) {
-            if ((toResolve.getActionTypeAsString() == "CHANGEFLOOR")) {
+            if (toResolve.getActionTypeAsString().Equals("CHANGEFLOOR")) {
                 currentBandit.setToResolve(null);
                 this.changeFloor();
             }
-            else if ((toResolve.getActionTypeAsString() == "MARSHAL")) {
+            else if (toResolve.getActionTypeAsString().Equals("MARSHAL")) {
                 currentBandit.setToResolve(null);
-                ArrayList possibilities = this.calculateMoveMarshal();
-                TrainUnit to = this.moveMarshalPrompt(possibilities);
-                this.moveMarshal(to);
+                moveMarshalPrompt(calculateMoveMarshal());
             }
-            else if ((toResolve.getActionTypeAsString() == "MOVE")) {
+            else if (toResolve.getActionTypeAsString().Equals("MOVE")) {
                 currentBandit.setToResolve(null);
-                ArrayList possibilities = this.calculateMove();
-                TrainUnit to = this.movePrompt(possibilities);
-                this.move(to);
+                movePrompt(calculateMove());
             }
-            else if ((toResolve.getActionTypeAsString() == "PUNCH")) {
+            else if (toResolve.getActionTypeAsString().Equals("PUNCH")) {
                 currentBandit.setToResolve(null);
-                
+                punchPrompt(calculatePunch());
             }
-            else if ((toResolve.getActionTypeAsString() == "ROB")) {
+            else if (toResolve.getActionTypeAsString().Equals("ROB")) {
                 currentBandit.setToResolve(null);
-                
+                robPrompt(calculateRob());
             }
-            else if ((toResolve.getActionTypeAsString() == "SHOOT")) {
+            else if (toResolve.getActionTypeAsString().Equals("SHOOT")) {
                 currentBandit.setToResolve(null);
-                
+                shootPrompt(calculateShoot());
             }
-            
+            else if(toResolve.getActionTypeAsString().Equals("RIDE")){
+                currentBandit.setToResolve(null);
+                ridePrompt(calculateRide());
+            }
         }
         
         public void playCard(ActionCard c) {
@@ -598,16 +531,32 @@ namespace model {
             return null;
         }
         
-        public void Rob() {
-            if (!(this.currentBandit.getPosition().lootHere.Count == 0)) {
-                Loot l = this.RobPrompt(this.currentBandit, this.currentBandit.getPosition().lootHere);
-                this.currentBandit.addLoot(l);
+
+        //--ACTIONS--
+
+        //rob
+        public ArrayList calculateRob(){
+            TrainUnit currentPosition = currentBandit.getPosition();
+            return currentPosition.getLoot();
+        }
+        public void robPrompt(ArrayList possibilities){
+            if(possibilities.Count > 0 ){
+                this.endOfTurn();
             }
-            
+            else{
+                //TODO make possibilities clickable
+                Loot clicked = new Loot();
+                rob(clicked);
+            }
+        }
+        public void Rob(Loot chosen) {
+            this.currentBandit.addLoot(chosen);
+            currentBandit.getPosition.removeLoot(chosen);
             this.endOfTurn();
             // might have to put this in an if else block for cases like SpeedingUp/Whiskey
         }
         
+        //shoot
         public Bandit RoofShootPrompt(Bandit b, ArrayList ab) {
             //  TO DO
             //  ask b to choose one target from ab
@@ -803,7 +752,6 @@ namespace model {
                     marshalPos = cabin;
                 }
             }
-            
             return new ArrayList();
         }
         
@@ -816,6 +764,17 @@ namespace model {
             // TODO
             this.endOfTurn();
             // might have to put this in an if else block for cases like SpeedingUp/Whiskey
+        }
+
+        public ArrayList calculateRide(){
+            //TODO
+            return new ArrayList();
+        }
+        public void ridePrompt(){
+
+        }
+        public void ride(TrainUnit dest){
+            this.endOfTurn();
         }
     }
 

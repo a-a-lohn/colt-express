@@ -40,7 +40,8 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 											// BOTTOM OF DECK
 	public ArrayList<TrainUnit> trainRoof;
 	public ArrayList<TrainUnit> trainCabin;
-	//public ArrayList<TrainUnit> stagecoach;
+	public ArrayList<TrainUnit> stagecoach;
+	public ArrayList<Horse> horses;
 	public ArrayList<Bandit> bandits = new ArrayList<Bandit>();
 	transient public HashMap<Bandit, User> banditmap = new HashMap<Bandit, User>();
 	public HashMap<Bandit, TrainUnit> banditPositions = new HashMap<Bandit,TrainUnit>();
@@ -106,17 +107,19 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	public void initializeGame() {
 		System.out.println("Initializing the game now!");
 		// set train-related attributes
-		TrainUnit.trainLength = this.getNumOfPlayers();
-		this.trainRoof = TrainUnit.createTrainRoof(this.getNumOfPlayers());
-		this.trainCabin = TrainUnit.createTrainCabin(this.getNumOfPlayers());
+		TrainUnit.trainLength = this.getNumOfPlayers() + 1;
+		this.trainRoof = TrainUnit.createTrainRoof();
+		this.trainCabin = TrainUnit.createTrainCabin();
+		this.stagecoach = TrainUnit.createStagecoach();
 		ArrayList<Bandit> bandits = this.getBandits();
+		// initialize each bandit cards, purse
 		for (Bandit b : bandits) {
-			// initialize each bandit cards, purse
-			b.createStartingCards(); // also the hand for bandits
+			b.createStartingCards();
 			b.createHand();
 			b.createBulletCards();
 			b.createStartingPurse();
 		}
+		this.horses = Horse.createHorses();
 		this.marshalInstance = Marshal.getInstance();
 		// initialize round cards, round attributes/create round constructor
 		this.rounds = this.createRoundCards(this.getNumOfPlayers());
@@ -154,7 +157,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		this.neutralBulletCard.add(NBullet11);
 		this.neutralBulletCard.add(NBullet12);
 		this.neutralBulletCard.add(NBullet13);
-
+		
 		this.roundIndex = 0;
 		this.banditsPlayedThisTurn = 0;
 		this.gameStatus = GameStatus.SCHEMIN;
@@ -188,15 +191,12 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	public Round getCurrentRound() {
 		return this.currentRound;
 	}
-
 	public void setCurrentRound(Round newObject) {
 		this.currentRound = newObject;
 	}
-
 	public Round getRoundAt(int index) {
 		return this.rounds.get(index);
 	}
-
 	public void addRound(Round a) {
 		int size = rounds.size();
 		/*
@@ -204,27 +204,22 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		 */
 		this.rounds.add(a);
 	}
-
 	public void removeRound(Round a) {
 		if (this.rounds.contains(a)) {
 			this.rounds.remove(a);
 		}
 	}
-
 	public boolean roundsContains(Round a) {
 		boolean contains = rounds.contains(a);
 		return contains;
 	}
-
 	public int sizeOfRounds() {
 		int size = rounds.size();
 		return size;
 	}
-
 	public ArrayList<Round> getRounds() {
 		return this.rounds;
 	}
-
 	public ArrayList<Round> createRoundCards(int numOfPlayers) {
 		ArrayList<Round> RoundCards = new ArrayList<Round>();
 		if (numOfPlayers == 2 || numOfPlayers == 3 || numOfPlayers == 4) {
@@ -348,30 +343,37 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	/**
 	 * --TRAIN UNIT METHODS--
 	 */
-	/*
-	 * public void addTrainUnitsAt(int index, TrainUnit a) { boolean contains =
-	 * this.trainUnits.contains(a); if (contains) { return; } trainUnits.add(index,
-	 * a); }
-	 * 
-	 * public void removeTrainUnitsAt(int index) { if (this.trainUnits.size >=
-	 * index) { this.trainUnits.remove(index); } }
-	 * 
-	 * public TrainUnit getTrainUnitsAt(int index) { if (this.trainUnits.size >=
-	 * index) { return this.trainUnits.get(index); } }
-	 * 
-	 * public void addTrainUnit(TrainUnit a) { this.trainUnits.add(a); }
-	 * 
-	 * public void removeTrainUnits(TrainUnit a) { if (this.trainUnits.contains(a))
-	 * { this.trainUnits.remove(a); } }
-	 * 
-	 * public boolean trainUnitsContain(TrainUnit a) { boolean contains =
-	 * trainUnits.contains(a); return contains; }
-	 * 
-	 * public int sizeOfTrainUnits() { int size = this.trainUnits.size(); return
-	 * size; }
-	 * 
-	 * public ArrayList<TrainUnit> getTrainUnits() { return this.trainUnits; }
-	 */
+	 public TrainUnit getTrainCabinAt(int index) {
+		if (index >= this.trainCabin.size()) {
+			 return this.trainCabin.get(index);
+		} 
+		else {
+			 return null;
+		}
+	 }
+	 
+	 public TrainUnit getTrainRoofAt(int index) {
+		 if(index >= this.trainRoof.size()) {
+			 return this.trainRoof.get(index);
+		 }
+		 else {
+			 return null;
+		 }
+	 }
+	 
+	 public int sizeOfTrainUnits() {
+		 int size = this.trainCabin.size();
+		 return size;
+	 }
+	 
+	 public ArrayList<TrainUnit> getTrainCabin() {
+		 return this.trainCabin;
+	 }
+	 
+	 public ArrayList<TrainUnit> getTrainRoof(){
+		 return this.trainRoof;
+	 }
+	 
 
 	/**
 	 * --BANDIT METHODS--
@@ -379,54 +381,46 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	public Bandit getCurrentBandit() {
 		return this.currentBandit;
 	}
-
 	public void setCurrentBandit(Bandit newObject) {
 		this.currentBandit = newObject;
 	}
-
 	/*
 	 * boolean addBanditsAt(int index, Bandit a) { int size = bandits.size(); if
 	 * (size == maximum) { return false; } bandits.add(index, a); return true; }
 	 */
-
 	public void removeBanditsAt(int index) {
 		if (this.bandits.size() >= index) {
 			this.bandits.remove(index);
 		}
 	}
-
 	public Bandit getBanditsAt(int index) {
 		if (this.bandits.size() >= index) {
 			return this.bandits.get(index);
 		}
 		return null;
 	}
-
 	public void addBandit(Bandit a) {
 		bandits.add(a);
 	}
-
 	public void removeBandits(Bandit a) {
 		if (this.bandits.contains(a)) {
 			this.bandits.remove(a);
 		}
 	}
-
 	public boolean containsBandits(Bandit a) {
 		boolean contains = this.bandits.contains(a);
 		return contains;
 	}
-
 	public int sizeOfBandits() {
 		int size = this.bandits.size();
 		return size;
 	}
-
 	public ArrayList<Bandit> getBandits() {
 		ArrayList<Bandit> b = (ArrayList<Bandit>) this.bandits.clone();
 		return b;
 	}
-
+	
+	
 	/**
 	 * --GAME MANAGER METHODS--
 	 */

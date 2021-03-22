@@ -146,6 +146,16 @@ namespace model {
             return this.hand;
         }
         
+        //bullets
+        public void add(BulletCard b){
+            this.bullets.Add(b);
+        }
+        public void pop(){
+            this.bullets.Remove(this.bullets.Count-1);
+        }
+        public int getSizeOfBullets(){
+            return this.bullets.Count;
+        }
         
         //hostage
         public string getHostageAsString() {
