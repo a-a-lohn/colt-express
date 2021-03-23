@@ -109,9 +109,17 @@ public static class SFS
 			ISFSObject responseParams = (SFSObject)evt.Params["params"];
 			GameManager gm = (GameManager) responseParams.GetClass("gm");
 			GameManager.replaceInstance(gm);
-			TrainUnit t = (TrainUnit) gm.trainRoof[0];
-			trace(t.carTypeAsString);
-			GameBoard.SendNewGameState();
+			GameManager newgm = GameManager.getInstance();
+			TrainUnit t = (TrainUnit) newgm.trainRoof[0];
+			Debug.Log(t.carTypeAsString);
+			Debug.Log("test");
+			Hashtable ht = newgm.banditPositions;
+			foreach(Bandit key in ht.Keys)
+			{			
+				TrainUnit m = (TrainUnit) ht[key];
+   				Debug.Log(String.Format("{0}: {1}", key.characterAsString, m.carTypeAsString));
+			}
+			//GameBoard.SendNewGameState();
 		}
     }
 
