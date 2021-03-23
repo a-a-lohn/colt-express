@@ -22,7 +22,7 @@ public class ActionCard extends Card implements SerializableSFSType {
     public ActionCard(ActionType action, String belongsTo) {
 		this.actionType = action;
 		this.actionTypeAsString = action.name();
-		this.belongsTo = belongsTo;
+		this.belongsToAsString = belongsTo;
 	}    
     
     /**

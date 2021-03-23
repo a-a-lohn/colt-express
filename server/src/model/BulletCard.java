@@ -13,7 +13,7 @@ public class BulletCard extends Card implements SerializableSFSType {
 	public BulletCard() {}
 	
 	public BulletCard(String belongsTo) {
-		this.belongsTo = belongsTo;
+		this.belongsToAsString = belongsTo;
 		this.fired = false;
 	}
 }

@@ -278,10 +278,10 @@ public class WaitingRoom : MonoBehaviour
         } else {
             HostGameButton.interactable = false;
             DeleteButton.interactable = false;
+            SavedSessionButtonA.interactable = false;
+            SavedSessionButtonB.interactable = false;
             if(joined) {
                 NewGameButton.interactable = false;
-                SavedSessionButtonA.interactable = false;
-                SavedSessionButtonB.interactable = false;
             }
         }
 
@@ -306,11 +306,15 @@ public class WaitingRoom : MonoBehaviour
             // create a gamebutton for each game here
 
             if (gameNo == 0) {
-                SavedSessionButtonA.interactable = true;
+                if(numSessions == 0) {
+                    SavedSessionButtonA.interactable = true;
+                }
                 saveGameText = SavedSessionButtonAText;
                 saveGameIDText = SavedSessionIDButtonAText;
             } else if (gameNo == 1) {
-                SavedSessionButtonB.interactable = true;
+                if(numSessions == 0) {
+                    SavedSessionButtonB.interactable = true;
+                }
                 saveGameText = SavedSessionButtonBText;
                 saveGameIDText = SavedSessionIDButtonBText;
             } else {

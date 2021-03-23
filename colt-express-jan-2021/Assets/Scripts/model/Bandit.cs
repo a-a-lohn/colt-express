@@ -18,7 +18,8 @@ namespace model {
 
     public class Bandit : SerializableSFSType {
     
-        public string characterAsString;     
+        public string banditNameAsString; 
+        public string characterAsString; //    GET RID OF THIS
         public string hostageAsString;
         public ArrayList loot;      
         public ArrayList bullets;        
@@ -31,7 +32,7 @@ namespace model {
         public Bandit() {}
 
         public Bandit(string c) {
-            this.characterAsString = c;
+            this.banditNameAsString = c;
             this.hostageAsString = null;
             this.loot = new ArrayList();
             this.bullets = new ArrayList();
@@ -47,7 +48,7 @@ namespace model {
 
         //character
         public string getCharacter() {
-            return this.characterAsString;
+            return this.banditNameAsString;
         }
         
         //position
