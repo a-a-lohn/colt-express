@@ -151,11 +151,11 @@ public class GameBoard : MonoBehaviour
 
 	// a list of bullet cards for each and every bandit 
 	private List<GameObject> goBELLEBulletCards; 
-	private List<GameObject> goCheyenneBulletCards; 
-	private List<GameObject> goDocBulletCards; 
-	private List<GameObject> goTucoBulletCards; 
-	private List<GameObject> goDocBulletCards; 
-	private List<GameObject> goDjangoBulletCards; 
+	private List<GameObject> goCHEYENNEBulletCards; 
+	private List<GameObject> goDOCBulletCards; 
+	private List<GameObject> goTUCOBulletCards; 
+	private List<GameObject> goDJANGOBulletCards; 
+	private List<GameObject> goGHOSTBulletCards; 
 
 	// a list of action cards for each and every bandit's hand 
 	private List<GameObject> goBELLEHand; 
@@ -327,15 +327,15 @@ public class GameBoard : MonoBehaviour
 			objects[goBulletCard] = neuturalBulletCards.get(i);
 		}
 
-		// map each bandit's bullet cards 
-		ArrayList bulletCards = currentBandit.getBulletCards();
-		// @TODO: please add a getBulletCards() mthod in Bandit that returns a list of all bullet cards of the bandit
-		if(currentBandit.banditNameAsString == "BELLE"){
-			foreach(BulletCard currBC in bulletCards){
-				int bulletSize = currBC.sizeOfBullet
-				objects[goBelleBulletCards[bulletSize]] = currBC; 
-			}
-		}
+		// // map each bandit's bullet cards 
+		// ArrayList bulletCards = currentBandit.getBulletCards();
+		// // @TODO: please add a getBulletCards() mthod in Bandit that returns a list of all bullet cards of the bandit
+		// if(currentBandit.banditNameAsString == "BELLE"){
+		// 	foreach(BulletCard currBC in bulletCards){
+		// 		int bulletSize = currBC.sizeOfBullet
+		// 		objects[goBelleBulletCards[bulletSize]] = currBC; 
+		// 	}
+		// }
 		
 		// @TODO: add a method getBulletSize() in BulletCard that returns the number of bullets indicated on the card
 		ArrayList bBullets = currentBandit.getBulletCards(); 
