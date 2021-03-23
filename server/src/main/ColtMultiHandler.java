@@ -162,6 +162,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	}
 	
 	private void testSerial(User sender, ISFSObject rtn) {
+		GameManager.singleton = null;
 		GameManager gm = GameManager.getInstance();
 		Bandit b = new Bandit(Character.BELLE);
 		Bandit c = new Bandit(Character.DJANGO);

@@ -247,10 +247,27 @@ public class GameBoard : MonoBehaviour
 		//EnterGameBoardScene();
 
 		//Invoke("LeaveRoom",5);
+		if (SFS.getSFS() == null) {
+            // Initialize SFS2X client. This can be done in an earlier scene instead
+            SmartFox sfs = new SmartFox();
+            // For C# serialization
+            DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
+            SFS.setSFS(sfs);
+        }
+        if (!SFS.IsConnected()) {
+            SFS.Connect("test");
+        }
 
-		Invoke("GoToChat",2);
+		//Invoke("GoToChat",2);
 
     }
+
+	public static void testSerial() {
+		ISFSObject obj = SFSObject.NewInstance();
+		ExtensionRequest req = new ExtensionRequest("gm.testSerial",obj);
+		SFS.Send(req);
+
+	}
 
 	public void LeaveRoom() {
         SFS.LeaveRoom();
@@ -273,16 +290,17 @@ public class GameBoard : MonoBehaviour
 	}
 
 	public void MouseDown() {
-		SFS.step += 1;
-		int step = SFS.step;
-		ISFSObject obj = SFSObject.NewInstance();
-		obj.PutInt("step", step);
-		ExtensionRequest req = new ExtensionRequest("gm.nextAction",obj);
-		SFS.Send(req);
+		testSerial();
+		//SFS.step += 1;
+		//int step = SFS.step;
+		//ISFSObject obj = SFSObject.NewInstance();
+		//obj.PutInt("step", step);
+		//ExtensionRequest req = new ExtensionRequest("gm.nextAction",obj);
+		//SFS.Send(req);
 		//executeHardCoded(step);
-		if (SFS.step == 27){
-			LeaveRoom();
-		}
+		//if (SFS.step == 27){
+		//	LeaveRoom();
+		//}
 	}
 
 	// public void drawCards(string char, int step) {
