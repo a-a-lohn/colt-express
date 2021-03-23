@@ -344,7 +344,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	 * --TRAIN UNIT METHODS--
 	 */
 	 public TrainUnit getTrainCabinAt(int index) {
-		if (index >= this.trainCabin.size()) {
+		if (index < this.trainCabin.size()) {
 			 return this.trainCabin.get(index);
 		} 
 		else {
