@@ -528,17 +528,12 @@ namespace model {
             this.banditIndex = bi;
         }
         
-        public Loot RobPrompt(Bandit b, ArrayList l) {
-            //  TO DO
-            //  ask b to choose loot from l
-            //return l.IEnumerator.MoveNext; !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            return null;
-        }
-        
 
-        //--ACTIONS--
+        //--EXECUTE ACTIONS-- BEFORE CALLING ANY OF THESE METHODS, CURRENT BANDIT MUST
+	    // BE ASSIGNED CORRECTLY All actions will be called from POV of this.currentBandit
 
-        //rob
+        //--ROB--
+
         public ArrayList calculateRob(){
             TrainUnit currentPosition = currentBandit.getPosition();
             return currentPosition.getLootHere();
@@ -554,16 +549,101 @@ namespace model {
             }
         }
         public void rob(Loot chosen) {
+            this.currentBandit.getPosition().removeLoot(chosen);
             this.currentBandit.addLoot(chosen);
-            currentBandit.getPosition().removeLoot(chosen);
             this.endOfTurn();
-            // might have to put this in an if else block for cases like SpeedingUp/Whiskey
         }
         
-        //shoot
+        //--SHOOT--
+
         public ArrayList calculateShoot(){
-            ArrayList possibilities = new ArrayList();
-            return possibilities;
+            // TODO REMEMBER BELLE AND TUCO CASES, REMEMBER ROOF AND CABIN CASES
+            
+		    
+		    //ROOF CASE:
+		    if (this.currentBandit.getPosition().getCarFloorAsString().Equals("ROOF")) {
+                ArrayList possibilities = new ArrayList();
+                TrainUnit currentCabin = currentBandit.getPosition();
+                if(currentCabin.numOfBanditsHere() > 1){
+                    foreach(Bandit b in currentCabin.getBanditsHere()){
+                        if(!b.getCharacter().Equals(currentBandit.getCharacter())){
+                            possibilities.Add(b);
+                        }
+                    }
+                }
+                else{
+                    TrainUnit toLeft = currentCabin.getLeft();
+                    while(toLeft != null){
+                        if(toLeft.numOfBanditsHere()>0){
+                            break;
+                        }
+                        else{
+                            toLeft = toLeft.getLeft();
+                        }
+                    }
+                    TrainUnit toRight = currentCabin.getRight();
+                    while(toRight != null){
+                        if(toRight.numOfBanditsHere()>0){
+                            break;
+                        }
+                        else{
+                            toRight = toRight.getRight();
+                        }
+                    }
+                    if(toLeft != null){
+                        foreach(Bandit b in toLeft.getBanditsHere()){
+                            possibilities.Add(b);
+                        }
+                    }
+                    if(toRight != null){
+                        foreach(Bandit b in toRight.getBanditsHere()){
+                            possibilities.Add(b);
+                        }
+                    }
+                }
+                //TUCO ABILITY
+                if(currentBandit.getCharacter().Equals("TUCO")){
+                    TrainUnit belowCabin = this.currentBandit.getPosition().getBelow();
+                    foreach(Bandit bb in belowCabin.getBanditsHere()){
+                        possibilities.Add(bb);
+                    }
+                }
+                //BELLE ABILITY
+                foreach (Bandit b in possibilities){
+                    if(b.getCharacter().Equals("BELLE") && possibilities.Count > 1){
+                        possibilities.Remove(b);
+                    }
+                }
+                return possibilities;
+		    } 
+
+            //CABIN CASE:
+            else {
+                ArrayList possibilities = new ArrayList();
+                TrainUnit leftCabin = this.currentBandit.getPosition().getLeft();
+                TrainUnit rightCabin = this.currentBandit.getPosition().getRight();
+			    foreach (Bandit bl in leftCabin.getBanditsHere()) {
+				    possibilities.Add(bl);
+			    }
+			    foreach (Bandit br in rightCabin.getBanditsHere()) {
+				    possibilities.Add(br);
+			    }
+                //TUCO ABILITY
+                if(currentBandit.getCharacter().Equals("TUCO")){
+                    TrainUnit aboveCabin = this.currentBandit.getPosition().getAbove();
+                    foreach(Bandit ba in aboveCabin.getBanditsHere()){
+                        possibilities.Add(ba);
+                    }
+                }
+                //BELLE ABILITY
+                foreach (Bandit b in possibilities){
+                    if(b.getCharacter().Equals("BELLE") && possibilities.Count > 1){
+                        possibilities.Remove(b);
+                    }
+                }
+                return possibilities;
+		    }
+
         }
 
         public void shootPrompt(ArrayList possibilities){
@@ -572,53 +652,82 @@ namespace model {
             shoot(clicked);
         }
         
-        public void shoot(Bandit b) {
-            if(b == null){
-                this.endOfTurn();
-            }
-            else{
-                //TODO
-                this.endOfTurn();
-            }
-        }
+	    public void shoot(Bandit toShoot) {
+
+		    // Bandit toShoot = new Bandit(); // TODO <- replace with the target chosen by
+		    // shootPrompt
+		    if (currentBandit.getSizeOfBullets() > 0) {
+		    	toShoot.addToDeck(currentBandit.popBullet()); // TODO <- graphical response
+		    }
+
+		    if (currentBandit.getCharacter().Equals("DJANGO")) {
+			    TrainUnit left = currentBandit.getPosition().getLeft();
+			    TrainUnit right = currentBandit.getPosition().getRight();
+
+			    // IF BANDIT IS TO DJANGO'S LEFT, PUSH BANDIT 1 CART TO DJANGO'S LEFT IF
+			    // POSSIBLE
+			    if (left.containsBandit(toShoot)) {
+				    if (left.getLeft() != null) {
+				    	toShoot.setPosition(left.getLeft()); // TODO <- graphical response
+				    }
+			    }
+			    // IF BANDIT IS TO DJANGO'S RIGHT, PUSH BANDIT 1 CART TO DJANGO'S RIGHT IF
+			    // POSSIBLE
+			    else if (right.containsBandit(toShoot)) {
+			    	if (right.getRight() != null) {
+				    	toShoot.setPosition(right.getRight()); // TODO <- graphical response
+				    }
+
+			    }
+		    }
+		    endOfTurn(); // might have to put this in an if else block for cases like SpeedingUp/Whiskey
+	    }
         
-        //punch
-        public ArrayList calculatePunch(){
-            return currentBandit.getPosition().getBanditsHere();
-        }
+        //--PUNCH--
+
+        public ArrayList calculatePunch() {
+		    ArrayList possibilities = new ArrayList();
+		    foreach (Bandit b in this.currentBandit.getPosition().getBanditsHere()) {
+		    	if (!b.getCharacter().Equals(this.currentBandit.getCharacter())) {
+		    		possibilities.Add(b);
+		    	}
+		    }
+            return possibilities;
+	    }
 
         public void punchPrompt(ArrayList possibilities) {
             if(possibilities.Count == 0){
                 this.endOfTurn();
             }
             else if(possibilities.Count == 1){
-                punch((Bandit)possibilities[0]);
+                //punch((Bandit)possibilities[0]);
             }
             else{
                 //TODO make possibilities clickable
                 Bandit clicked = new Bandit();
-                punch(clicked);
+                //punch(clicked);
             }
         }
         
-        public Loot punchLootPrompt(Bandit b, Bandit b2) {
-            //  TO DO
-            //  ask b to choose one loot from b2
-            return (Loot) b2.loot[0];
-        }
+        public void punch(Bandit target, Loot l, TrainUnit tu) {
+		    if (target != null) {
+			    if (l != null) {
+				    target.removeLoot(l);
+				    this.currentBandit.addLoot(l);
+			    }
+			    tu.addBandit(target);
+			    if (tu.isMarshalHere) {
+			    	target.addToDeck((BulletCard)this.neutralBulletCard[0]);
+                    this.neutralBulletCard.Remove(0);
+			    	this.currentBandit.setPosition(target.getPosition().getAbove());
+			    	target.getPosition().getAbove().addBandit(this.currentBandit);
+			    }
+		    }
+		    endOfTurn(); // might have to put this in an if else block for cases like SpeedingUp/Whiskey
+	    }
         
-        public TrainUnit punchPositionPrompt(Bandit b, Bandit b2) {
-            //  TO DO
-            //  ask b to choose one position that b2 can be punched to
-            return b2.getPosition().getLeft();
-        }
-        
-        public void punch(Bandit b) {
-            
-            this.endOfTurn();
-            // might have to put this in an if else block for cases like SpeedingUp/Whiskey
-        }
-        
+        //--CHANGE FLOOR--
+
         public void changeFloor() {
             TrainUnit currentPosition = this.currentBandit.getPosition();
             if (((currentPosition.getAbove() == null) && (currentPosition.getBelow() != null))) {
@@ -638,8 +747,9 @@ namespace model {
             // might have to put this in an if else block for cases like SpeedingUp/Whiskey
         }
         
+        //--MOVE--
+
         public ArrayList calculateMove() {
-            // use currentBandit instead of parameter //void method
             ArrayList possibleMoving = new ArrayList();
             TrainUnit currentPosition = currentBandit.getPosition();
             if ((currentPosition.getLeft() != null)) {
@@ -680,39 +790,51 @@ namespace model {
             return new TrainUnit();
         }
         
-        public void move(TrainUnit targetPosition) {
-            TrainUnit currentPosition = this.currentBandit.getPosition();
-            this.currentBandit.setPosition(targetPosition);
-            if (targetPosition.isMarshalHere) {
-                this.currentBandit.addToDeck((Card) this.neutralBulletCard[0]);
+	    public void move(TrainUnit targetPosition) {
+		    TrainUnit currentPosition = this.currentBandit.getPosition();
+		    currentPosition.addBandit(this.currentBandit);
+		    if (targetPosition.isMarshalHere) {
+			    this.currentBandit.addToDeck((BulletCard)this.neutralBulletCard[0]);
                 this.neutralBulletCard.Remove(0);
-                this.currentBandit.setPosition(currentPosition);
-            }
-            
-            this.endOfTurn();
-            // might have to put this in an if else block for cases like SpeedingUp/Whiskey
+			    currentPosition.addBandit(this.currentBandit);
+			    this.currentBandit.setPosition(currentPosition);
+		    }
+		    endOfTurn(); // might have to put this in an if else block for cases like SpeedingUp/Whiskey
+	    }
+        
+        //--MOVE MARSHAL--
+
+	    public ArrayList calculateMoveMarshal() {
+		    Marshal marshal = Marshal.getInstance();
+		    ArrayList possibilities = new ArrayList();
+		    if (marshal.getMarshalPosition().getLeft() != null) {
+		    	possibilities.Add(marshal.getMarshalPosition().getLeft());
+		    }
+		    if (marshal.getMarshalPosition().getRight() != null) {
+		    	possibilities.Add(marshal.getMarshalPosition().getRight());
+		    }
+		    return possibilities;
+	    }
+        
+        public void moveMarshalPrompt(ArrayList possibilities) {
         }
         
-        public ArrayList calculateMoveMarshal() {
-            TrainUnit marshalPos;
-            foreach (TrainUnit cabin in this.trainCabin){
-                if(cabin.getIsMarshalHere()){
-                    marshalPos = cabin;
-                }
-            }
-            return new ArrayList();
-        }
-        
-        public TrainUnit moveMarshalPrompt(ArrayList possibilities) {
-            // TODO
-            return new TrainUnit();
-        }
-        
-        public void moveMarshal(TrainUnit targetPosition) {
-            // TODO
-            this.endOfTurn();
-            // might have to put this in an if else block for cases like SpeedingUp/Whiskey
-        }
+	    public void moveMarshal(TrainUnit targetPosition) {
+		    Marshal marshal = Marshal.getInstance();
+		    marshal.setMarshalPosition(targetPosition);
+		    foreach (Bandit b in this.getBandits()) {
+		    	if (b.getPosition() == targetPosition) {
+			    	if (this.neutralBulletCard[0] != null) {
+                        b.addToDeck((BulletCard)neutralBulletCard[0]);
+				    	this.neutralBulletCard.Remove(0);
+					    targetPosition.getAbove().addBandit(b);
+				    }
+			    }
+		    }
+		    endOfTurn(); // might have to put this in an if else block for cases like SpeedingUp/Whiskey
+	    }
+
+        //--RIDE--
 
         public ArrayList calculateRide(){
             //TODO
