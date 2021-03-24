@@ -50,6 +50,13 @@ public class GameBoard : MonoBehaviour
 	public Button extension;
 	public Button chooseChar;
 
+	public static bool works = false;
+	public Text doesItWork;
+
+	public static void setWorks(bool status) {
+		works = true;
+	}
+
 	public GameObject canvas;
 
 	public Text Round;
@@ -226,6 +233,7 @@ public class GameBoard : MonoBehaviour
 
 		//exit.SetActive(false);
 		exitText.text ="";
+		doesItWork.text = "";
 
 		//ChooseCharacter.character = "GHOST";
 
@@ -254,7 +262,7 @@ public class GameBoard : MonoBehaviour
 		//EnterGameBoardScene();
 
 		//Invoke("LeaveRoom",5);
-		if (SFS.getSFS() == null) {
+		/*if (SFS.getSFS() == null) {
             // Initialize SFS2X client. This can be done in an earlier scene instead
             SmartFox sfs = new SmartFox();
             // For C# serialization
@@ -263,9 +271,11 @@ public class GameBoard : MonoBehaviour
         }
         if (!SFS.IsConnected()) {
             SFS.Connect("test");
-        }
+        }*/
 
 		//Invoke("GoToChat",2);
+
+		EnterGameBoardScene();
 
     }
 
@@ -273,7 +283,6 @@ public class GameBoard : MonoBehaviour
 		ISFSObject obj = SFSObject.NewInstance();
 		ExtensionRequest req = new ExtensionRequest("gm.testSerial",obj);
 		SFS.Send(req);
-
 	}
 
 	public void LeaveRoom() {
@@ -297,7 +306,7 @@ public class GameBoard : MonoBehaviour
 	}
 
 	public void MouseDown() {
-		testSerial();
+		//testSerial();
 		//SFS.step += 1;
 		//int step = SFS.step;
 		//ISFSObject obj = SFSObject.NewInstance();
@@ -369,12 +378,14 @@ public class GameBoard : MonoBehaviour
 				// drawCards("DJANGO", step);
 				// DRAW CARDS 
 				if(ChooseCharacter.character == "DJANGO"){
+					GoToChat();
 					drawCards(); 
 				}
 				break;
 			case 4:
 				//"Tunnel Turn: Ghost played an action card which is hidden",
 				if(ChooseCharacter.character == "GHOST"){
+					GoToChat();
 					playCard(cardB);
 				}
 				break;
@@ -570,6 +581,24 @@ public class GameBoard : MonoBehaviour
 		if (Input.GetMouseButtonDown(0)){
 			MouseDown();
 			Debug.Log("Clicked");
+			works = false;
+			Debug.Log("currentbandit on mouse: "+ gm.currentBandit.getCharacter());
+			if(gm != null && gm.currentBandit.getCharacter() == ChooseCharacter.character) {
+				Debug.Log("ending my turn");
+				Bandit b = (Bandit) gm.bandits[0];
+				if (b.getCharacter() == gm.currentBandit.getCharacter()) {
+					gm.currentBandit = (Bandit) gm.bandits[1];
+				} else {
+					gm.currentBandit = (Bandit) gm.bandits[0];
+				}
+				SendNewGameState();
+			}
+		}
+
+		if(works) {
+			doesItWork.text = "it works!";
+		} else {
+			doesItWork.text = "";
 		}
 
 		/*if (SFS.debugText != debugText.text) {
@@ -591,16 +620,16 @@ public class GameBoard : MonoBehaviour
 		ISFSObject obj = SFSObject.NewInstance();
         ExtensionRequest req = new ExtensionRequest("gm.enterGameBoardScene",obj);
         SFS.Send(req);
-        trace("Sent enter scene message");
+        Debug.Log("Sent enter scene message");
 	}
 
 	public static void SendNewGameState() {
 		ISFSObject obj = SFSObject.NewInstance();
-		Debug.Log("sending new game state");
+		//Debug.Log("sending new game state");
 		obj.PutClass("gm", gm);
         ExtensionRequest req = new ExtensionRequest("gm.newGameState",obj);
         SFS.Send(req);
-        trace("sent game state");
+        Debug.Log("sent game state");
 	}
 
 	// THIS IS THE FIRST METHOD CALLED FOR RECEIVING NEW GAME STATE
@@ -609,38 +638,38 @@ public class GameBoard : MonoBehaviour
         
         ISFSObject responseParams = (SFSObject)evt.Params["params"];
 		gm = (GameManager)responseParams.GetClass("gm");
-		
+		//replace instance
 		// REASSIGN ALL GAME OBJECTS USING DICTIONARY
 		ArrayList banditsArray = gm.bandits;
 		//ArrayList banditsArray = new ArrayList();
 		foreach (Bandit b in banditsArray) {
-            if (b.characterAsString == "CHEYENNE") {
+            if (b.banditNameAsString == "CHEYENNE") {
 				objects[cheyenne] = b;
-                trace("Cheyenne added!");
+                Debug.Log("Cheyenne added!");
             }
-			if (b.characterAsString == "BELLE") {
+			if (b.banditNameAsString == "BELLE") {
                 objects[belle] = b;
-                trace("Belle added!");
+                Debug.Log("Belle added!");
             }
-			if (b.characterAsString == "TUCO") {
+			if (b.banditNameAsString == "TUCO") {
                 objects[tuco] = b;
-                trace("Tuco added!");
+                Debug.Log("Tuco added!");
             }
-			if (b.characterAsString == "DOC") {
+			if (b.banditNameAsString == "DOC") {
                 objects[doc] = b;
-                trace("Doc added!");
+                Debug.Log("Doc added!");
             }
-			if (b.characterAsString == "GHOST") {
+			if (b.banditNameAsString == "GHOST") {
                 objects[ghost] = b;
-                trace("Ghost added!");
+                Debug.Log("Ghost added!");
             }
-			if (b.characterAsString == "DJANGO") {
+			if (b.banditNameAsString == "DJANGO") {
                 objects[django] = b;
-                trace("Django added!");
+                Debug.Log("Django added!");
             }
 		}
 		Debug.Log("bandits array size: " + banditsArray.Count);
-		ArrayList cards = new ArrayList();
+		/*ArrayList cards = new ArrayList();
 		foreach (Bandit ba in banditsArray) {
 			Debug.Log(ba.characterAsString +" "+ ChooseCharacter.character);
 			if(ba.characterAsString == ChooseCharacter.character) {
@@ -652,7 +681,7 @@ public class GameBoard : MonoBehaviour
 				objects[cardD] = hand[3];
 				objects[cardE] = hand[4];
 			}
-		}
+		}*/
 
 			gm.playTurn();
     }

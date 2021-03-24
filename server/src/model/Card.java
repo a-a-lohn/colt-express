@@ -4,16 +4,16 @@ import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
 
 public abstract class Card implements SerializableSFSType {
 	
-	public String belongsTo;
+	public String belongsToAsString;
 	
 	//--EMPTY CONSTRUCTOR FOR SERIALIZATION--
 	public Card() { }
 	
     public String getBelongsTo() {
-        return this.belongsTo;
+        return this.belongsToAsString;
     }
 
     public void setBelongsTo(String belongsTo) {
-        this.belongsTo = belongsTo;
+        this.belongsToAsString = belongsTo;
     }
 }

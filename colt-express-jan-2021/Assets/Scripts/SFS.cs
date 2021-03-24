@@ -40,7 +40,7 @@ public static class SFS
 	public static Chat chat;
 
     static SFS(){
-        defaultHost = "13.72.79.112";//"127.0.0.1";
+        defaultHost = "127.0.0.1";//"13.72.79.112";//
 	    defaultTcpPort = 9933;
         zone = "MergedExt";
     }
@@ -96,8 +96,10 @@ public static class SFS
 				string chosen = responseParams.GetUtfString("chosenCharacter");
 				chosenCharText += player + " chose " + chosen + "!\n";
 			}
-			cc.UpdateDisplayText(chosenCharText);
-			cc.DisplayRemainingCharacters(evt);
+			if (cc != null) {
+				cc.UpdateDisplayText(chosenCharText);
+				cc.DisplayRemainingCharacters(evt);
+			}
 		} else if (cmd == "updateGameState") {
             gb.UpdateGameState(evt);
         } else if (cmd == "nextAction") {

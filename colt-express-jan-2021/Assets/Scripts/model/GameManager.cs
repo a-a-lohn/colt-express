@@ -36,6 +36,8 @@ namespace model {
         
         public ArrayList trainCabin;
         
+        public int trainLength;
+
         public ArrayList horses;
 
         public ArrayList stagecoach;
@@ -54,7 +56,7 @@ namespace model {
         
         public int roundIndex;
         
-        public int banditIndex;
+        public int banditIndex; // NEVER INITIALIZED IN GM.JAVA
         
         // public static void setHandler(ColtMultiHandler handle) {  
         //     handler = handle;
@@ -65,10 +67,12 @@ namespace model {
         
         public void playTurn() {
             Debug.Log("playing turn");
+            Debug.Log("currentbandit: "+ currentBandit.getCharacter());
             if(currentBandit.getCharacter() == ChooseCharacter.character) {
+                Debug.Log("my turn");
                 if ((this.strGameStatus == "SCHEMIN")) {
                     Debug.Log("calling prompt");
-                    PlayerLog.promptDrawCardsOrPlayCard();
+                    promptDrawCardsOrPlayCard();
                 }
                 else if ((this.strGameStatus == "STEALIN")) {
                     this.resolveAction(this.currentBandit.getToResolve());
@@ -78,7 +82,7 @@ namespace model {
         }
         
         public void promptDrawCardsOrPlayCard() {
-            // TODO
+            GameBoard.setWorks(true);
         }
 
         public void resolveAction(ActionCard toResolve) {
