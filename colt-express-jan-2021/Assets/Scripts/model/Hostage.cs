@@ -16,24 +16,15 @@ using Sfs2X.Protocol.Serialization;
 namespace model {
     public class Hostage : SerializableSFSType {
     
-        //public string hostageType;
         public string hostageTypeAsString;
-        
-        /// /FOR NETWORKING
-        //public Option<Bandit> capturedBy;
-        public Bandit capturedBy;
+        public Bandit capturedBy = null;
         
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public Hostage() {}
         
-        // hostageType
-        // public string getHostageType() {
-        //     return this.hostageType;
-        // }
-        
-        // public void setHostageType(string hostage) {
-        //     this.hostageType = hostage;
-        // }
+        public Hostage(string hostageTypeAsString){
+            this.hostageTypeAsString = hostageTypeAsString;
+        }
         
         // hostageTypeAsString
         public string getHostageTypeAsString() {
@@ -41,7 +32,18 @@ namespace model {
         }
         
         public void setHostageTypeAsString(string hostage) {
-            this.hostageTypeAsString = hostage;
+            if(hostage.Equals("POODLE") ||
+            hostage.Equals("MINISTER") ||
+            hostage.Equals("TEACHER") ||
+            hostage.Equals("ZEALOT") ||
+            hostage.Equals("OLDLADY") ||
+            hostage.Equals("POKERPLAYER") ||
+            hostage.Equals("PHOTOGRAPHER")){
+                this.hostageTypeAsString = hostage;
+            }
+            else{
+                Debug.Log("INVALID HOSTAGE TYPE SET");
+            }
         }
         
         // capturedBy
@@ -51,33 +53,12 @@ namespace model {
         }
         
         public void setCapturedBy(Bandit capturedBy) {
-            //this.capturedBy = Option<Bandit>.Some(capturedBy);
-            this.capturedBy = capturedBy;
+            if(this.capturedBy == null){
+                this.capturedBy = capturedBy;
+            }
+            else{
+                Debug.Log("THIS HOSTAGE HAS ALREADY BEEN CAPTURED BY A BANDIT");
+            }
         }
-
-        // Customized Optional type 
-
-        // public struct Option<T>
-        // {
-        //     public static Option<T> None => default;
-        //     public static Option<T> Some(T value) => new Option<T>(value);
-
-        //     public readonly bool isSome;
-        //     public readonly T value;
-
-        //     Option(T value)
-        //     {
-        //         this.value = value;
-        //         isSome = this.value is { };
-        //     }
-
-        //     public bool IsSome(out T value)
-        //     {
-        //         value = this.value;
-        //         return isSome;
-        //     }
-        // }
-
     }
-
 }

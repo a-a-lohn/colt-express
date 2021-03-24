@@ -17,6 +17,7 @@ using Sfs2X.Entities.Data;
 using Sfs2X.Requests;
 using System.Reflection;
 using Sfs2X.Protocol.Serialization;
+using model;
 
 public static class SFS
 {
@@ -28,13 +29,15 @@ public static class SFS
     public static bool moreText = false;
     public static string username; //should be set to logged in user's name
 	public static bool enteredGame = false;
-
+	
+	public static string chatText = "";
 	public static string chosenCharText = "";
 
 	public static int step = 0;
 
 	public static GameBoard gb;
 	public static ChooseCharacter cc;
+	public static Chat chat;
 
     static SFS(){
         defaultHost = "13.72.79.112";//"127.0.0.1";
@@ -58,6 +61,10 @@ public static class SFS
 		cc = GameObject.Find("ChooseCharacterGO").GetComponent<ChooseCharacter>();
 	}
 
+	public static void setChat() {
+		chat = GameObject.Find("ChatGO").GetComponent<Chat>();
+	}
+
     public static void trace(string msg) {
 		//debugText += (debugText != "" ? "\n" : "") + msg;
         debugText = msg;
@@ -73,6 +80,11 @@ public static class SFS
         sfs.Send(req);
     }
 
+	public static void Send(PublicMessageRequest req) {
+		Debug.Log("sending message");
+        sfs.Send(req);
+    }
+
     // client side: receiving feedback from SERVER
     private static void OnExtensionResponse(BaseEvent evt) {
         String cmd = (String)evt.Params["cmd"];
@@ -80,7 +92,7 @@ public static class SFS
 		if (cmd == "remainingCharacters") {
 			ISFSObject responseParams = (SFSObject)evt.Params["params"];
 			string player = responseParams.GetUtfString("player");
-			if(player != null){// && chosenCharText != "") {
+			if(player != null){
 				string chosen = responseParams.GetUtfString("chosenCharacter");
 				chosenCharText += player + " chose " + chosen + "!\n";
 			}
@@ -93,6 +105,13 @@ public static class SFS
 			step = responseParams.GetInt("step");
 			Debug.Log("received step " + step);
 			gb.executeHardCoded(step);
+		} else if (cmd == "testSerial") {
+			ISFSObject responseParams = (SFSObject)evt.Params["params"];
+			GameManager gm = (GameManager) responseParams.GetClass("gm");
+			GameManager.replaceInstance(gm);
+			TrainUnit t = (TrainUnit) gm.trainRoof[0];
+			trace(t.carTypeAsString);
+			GameBoard.SendNewGameState();
 		}
     }
 
@@ -120,7 +139,7 @@ public static class SFS
 
 			//sfs.AddEventListener(SFSEvent.ROOM_JOIN, OnRoomJoin);
 			sfs.AddEventListener(SFSEvent.ROOM_JOIN_ERROR, OnRoomJoinError);
-			//sfs.AddEventListener(SFSEvent.PUBLIC_MESSAGE, OnPublicMessage);
+			sfs.AddEventListener(SFSEvent.PUBLIC_MESSAGE, OnPublicMessage);
 			//sfs.AddEventListener(SFSEvent.USER_ENTER_ROOM, OnUserEnterRoom);
 			sfs.AddEventListener(SFSEvent.USER_EXIT_ROOM, OnUserExitRoom);
 			//sfs.AddEventListener(SFSEvent.ROOM_ADD, OnRoomAdd);
@@ -164,7 +183,7 @@ public static class SFS
 
 		//sfs.RemoveEventListener(SFSEvent.ROOM_JOIN, OnRoomJoin);
 		sfs.RemoveEventListener(SFSEvent.ROOM_JOIN_ERROR, OnRoomJoinError);
-		//sfs.RemoveEventListener(SFSEvent.PUBLIC_MESSAGE, OnPublicMessage);
+		sfs.RemoveEventListener(SFSEvent.PUBLIC_MESSAGE, OnPublicMessage);
 		//sfs.RemoveEventListener(SFSEvent.USER_ENTER_ROOM, OnUserEnterRoom);
 		sfs.RemoveEventListener(SFSEvent.USER_EXIT_ROOM, OnUserExitRoom);
 		//sfs.RemoveEventListener(SFSEvent.ROOM_ADD, OnRoomAdd);
@@ -388,4 +407,16 @@ public static class SFS
 		// Re-populate Room list
 		populateRoomList(sfs.RoomList);
 	}*/
+
+    private static void OnPublicMessage(BaseEvent evt) {
+		User sender = (User) evt.Params["sender"];
+		string message = (string) evt.Params["message"];
+		
+		printUserMessage(sender, message);
+		chat.printUserMessage();
+	}
+
+	private static void printUserMessage(User user, string message) {
+		chatText += "<b>" + (user == sfs.MySelf ? "You" : user.Name) + ":</b> " + message + "\n";
+	}
 }

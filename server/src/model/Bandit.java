@@ -63,11 +63,12 @@ public class Bandit implements SerializableSFSType {
 	}
 
 	public TrainUnit getPosition() {
-		return this.position;
+		TrainUnit pos = GameManager.getInstance().banditPositions.get(this);
+		return pos;
 	}
 
 	public void setPosition(TrainUnit newObject) {
-		this.position = newObject;
+		GameManager.getInstance().banditPositions.replace(this, newObject);
 	}
 
 	public boolean addLootAt(int index, Loot a) {
@@ -289,16 +290,16 @@ public class Bandit implements SerializableSFSType {
 
 	public void createStartingCards() {
 
-		ActionCard acMove1 = new ActionCard(ActionType.MOVE);
-		ActionCard acMove2 = new ActionCard(ActionType.MOVE);
-		ActionCard acChangeFloor1 = new ActionCard(ActionType.CHANGEFLOOR);
-		ActionCard acChangeFloor2 = new ActionCard(ActionType.CHANGEFLOOR);
-		ActionCard acMarshal = new ActionCard(ActionType.MARSHAL);
-		ActionCard acPunch = new ActionCard(ActionType.PUNCH);
-		ActionCard acRob1 = new ActionCard(ActionType.ROB);
-		ActionCard acRob2 = new ActionCard(ActionType.ROB);
-		ActionCard acShoot1 = new ActionCard(ActionType.SHOOT);
-		ActionCard acShoot2 = new ActionCard(ActionType.SHOOT);
+		ActionCard acMove1 = new ActionCard(ActionType.MOVE, this.banditNameAsString);
+		ActionCard acMove2 = new ActionCard(ActionType.MOVE, this.banditNameAsString);
+		ActionCard acChangeFloor1 = new ActionCard(ActionType.CHANGEFLOOR, this.banditNameAsString);
+		ActionCard acChangeFloor2 = new ActionCard(ActionType.CHANGEFLOOR, this.banditNameAsString);
+		ActionCard acMarshal = new ActionCard(ActionType.MARSHAL, this.banditNameAsString);
+		ActionCard acPunch = new ActionCard(ActionType.PUNCH, this.banditNameAsString);
+		ActionCard acRob1 = new ActionCard(ActionType.ROB, this.banditNameAsString);
+		ActionCard acRob2 = new ActionCard(ActionType.ROB, this.banditNameAsString);
+		ActionCard acShoot1 = new ActionCard(ActionType.SHOOT, this.banditNameAsString);
+		ActionCard acShoot2 = new ActionCard(ActionType.SHOOT, this.banditNameAsString);
 
 		this.deck.add(acMove1);
 		this.deck.add(acMove2);
@@ -310,11 +311,6 @@ public class Bandit implements SerializableSFSType {
 		this.deck.add(acRob2);
 		this.deck.add(acShoot1);
 		this.deck.add(acShoot2);
-
-		for (Card c : this.deck) {
-			//c.setBelongsTo(this);
-		}
-
 	}
 	
 	public void createHand() {
@@ -328,12 +324,12 @@ public class Bandit implements SerializableSFSType {
 
 	public void createBulletCards() {
 
-		BulletCard bc1 = new BulletCard();
-		BulletCard bc2 = new BulletCard();
-		BulletCard bc3 = new BulletCard();
-		BulletCard bc4 = new BulletCard();
-		BulletCard bc5 = new BulletCard();
-		BulletCard bc6 = new BulletCard();
+		BulletCard bc1 = new BulletCard(this.banditNameAsString);
+		BulletCard bc2 = new BulletCard(this.banditNameAsString);
+		BulletCard bc3 = new BulletCard(this.banditNameAsString);
+		BulletCard bc4 = new BulletCard(this.banditNameAsString);
+		BulletCard bc5 = new BulletCard(this.banditNameAsString);
+		BulletCard bc6 = new BulletCard(this.banditNameAsString);
 
 		this.bullets.add(bc1);
 		this.bullets.add(bc2);
@@ -341,11 +337,6 @@ public class Bandit implements SerializableSFSType {
 		this.bullets.add(bc4);
 		this.bullets.add(bc5);
 		this.bullets.add(bc6);
-
-		for (BulletCard bc : this.bullets) {
-			//bc.setBelongsTo(this);
-		}
-
 	}
 
 	public BulletCard removeTopBullet() {

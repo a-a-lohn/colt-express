@@ -41,8 +41,10 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	public ArrayList<TrainUnit> trainRoof;
 	public ArrayList<TrainUnit> trainCabin;
 	public ArrayList<TrainUnit> stagecoach;
+	public ArrayList<Horse> horses;
 	public ArrayList<Bandit> bandits = new ArrayList<Bandit>();
 	transient public HashMap<Bandit, User> banditmap = new HashMap<Bandit, User>();
+	public HashMap<Bandit, TrainUnit> banditPositions = new HashMap<Bandit,TrainUnit>();
 	public ArrayList<Card> neutralBulletCard = new ArrayList<Card>();
 	public int banditsPlayedThisTurn;
 	public int roundIndex;
@@ -105,19 +107,19 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	public void initializeGame() {
 		System.out.println("Initializing the game now!");
 		// set train-related attributes
-		// this.stagecoach = TrainUnit.createStagecoach();
-		// this.train = TrainUnit.createTrain(bandits.size());
-		TrainUnit.setTrainLength(this.getNumOfPlayers());
-		this.trainRoof = TrainUnit.createTrainRoof(this.getNumOfPlayers());
-		this.trainCabin = TrainUnit.createTrainCabin(this.getNumOfPlayers());
-		this.stagecoach = TrainUnit.createStagecoach(); 
+		TrainUnit.trainLength = this.getNumOfPlayers() + 1;
+		this.trainRoof = TrainUnit.createTrainRoof();
+		this.trainCabin = TrainUnit.createTrainCabin();
+		this.stagecoach = TrainUnit.createStagecoach();
 		ArrayList<Bandit> bandits = this.getBandits();
+		// initialize each bandit cards, purse
 		for (Bandit b : bandits) {
-			// initialize each bandit cards, purse
-			b.createStartingCards(); // also the hand for bandits
+			b.createStartingCards();
+			b.createHand();
 			b.createBulletCards();
 			b.createStartingPurse();
 		}
+		this.horses = Horse.createHorses();
 		this.marshalInstance = Marshal.getInstance();
 		// initialize round cards, round attributes/create round constructor
 		this.rounds = this.createRoundCards(this.getNumOfPlayers());
@@ -125,12 +127,9 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		this.currentBandit = this.bandits.get(0);
 		this.currentRound = this.rounds.get(0);
 		this.setUpPositions(this.bandits);
-				
-		Marshal marshal = new Marshal();
 		Money strongbox = new Money(MoneyType.STRONGBOX, 1000);
-		// marshal.setMarshalPosition(this.trainCabin[this.getNumOfPlayers()]);
-		// strongbox.setPosition(this.trainCabin[this.getNumOfPlayers()]);
-		//
+		this.trainCabin.get(0).setIsMarshalHere(true);
+		this.trainCabin.get(0).addLoot(strongbox);
 		// create neutral bullet card
 		Card NBullet1 = new BulletCard();
 		Card NBullet2 = new BulletCard();
@@ -158,210 +157,19 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		this.neutralBulletCard.add(NBullet11);
 		this.neutralBulletCard.add(NBullet12);
 		this.neutralBulletCard.add(NBullet13);
-
+		
 		this.roundIndex = 0;
-		// this.currentRound = this.rounds.get(roundIndex);
-		// currentRound and currentRound.currentTurn must be initialized
 		this.banditsPlayedThisTurn = 0;
 		this.gameStatus = GameStatus.SCHEMIN;
 		this.strGameStatus = "SCHEMIN";
 		this.currentBandit = this.bandits.get(0);
 		
-		/*rounds = null;
-		this.trainRoof = null;
-		this.trainCabin = null;
-		this.stagecoach = null;
-		marshalInstance = null;
-		playedPileInstance = null;
-		neutralBulletCard = null;*/
-		
 	}
-
-	public void playTurn() {
-		if (/* currentBandit == me && */ this.gameStatus == GameStatus.SCHEMIN) {
-			promptDrawCardsOrPlayCard();
-		} else if (/* currentBandit == me && */ this.gameStatus == GameStatus.STEALIN) {
-			resolveAction(currentBandit.getToResolve());
-		}
-
-	}
-
-	public void promptDrawCardsOrPlayCard() {
-		// TODO
-		/*
-		 * if(click draw cards){ drawCards(3); } else if(click ActionCard c){
-		 * playCard(c); }
-		 */
-	}
-
-	public void resolveAction(ActionCard toResolve) {
-		if (toResolve.getActionType() == ActionType.CHANGEFLOOR) {
-			changeFloor();
-		} else if (toResolve.getActionType() == ActionType.MARSHAL) {
-			calculateMoveMarshal();
-		} else if (toResolve.getActionType() == ActionType.MOVE) {
-			calculateMove();
-		} else if (toResolve.getActionType() == ActionType.PUNCH) {
-			calculatePunch();
-		} else if (toResolve.getActionType() == ActionType.ROB) {
-			calculateRob();
-		} else if (toResolve.getActionType() == ActionType.SHOOT) {
-			calculateShoot();
-		}
-
-	}
-
 	/**
 	 * @param c Card will be moved from bandit's hand to played pile and it's effect
 	 *          will be resolved
 	 *
 	 */
-	public void playCard(ActionCard c) {
-
-		// Remove card from bandit's hand
-		this.currentBandit = c.getBelongsTo();
-		this.currentBandit.removeHand(c);
-
-		// Prompt playing face down
-		if (currentBandit.getCharacter() == Character.GHOST && this.currentRound.getTurnCounter() == 0) {
-			promptFaceUpOrFaceDown(c);
-		} else if (this.currentRound.getCurrentTurn().getTurnType() == TurnType.TUNNEL) {
-			// this.currentRound.getCurrentTurn().getTurnTypeAsString().equals("TUNNEL")
-			c.setFaceDown(true);
-		}
-
-		// Assign card to played pile
-		PlayedPile pile = PlayedPile.getInstance();
-		pile.addPlayedCards(c);
-		// TODO: graphical response
-
-		endOfTurn(); // might have to put this in an if else block for cases like SpeedingUp/Whiskey
-
-	}
-
-	public void promptFaceUpOrFaceDown(ActionCard c) {
-		// TODO
-		/*
-		 * if(click face down choice){ c.setFaceDown(true);
-		 * PlayedPile.getInstance().addPlayedCards(c); TODO: graphical response
-		 * endOfTurn(); } else if(click face up up choice){
-		 * PlayedPile.getInstance().addPlayedCards(c); TODO: graphical response
-		 * endOfTurn();
-		 */
-	}
-
-	/**
-	 * 
-	 * @param cardsToDraw the number of cards to add to the Bandit's hand from the
-	 *                    top of their deck
-	 * @pre currentBandit must be set correctly
-	 */
-	public void drawCards(int cardsToDraw) {
-		for (int i = currentBandit.sizeOfDeck() - 1; i > currentBandit.sizeOfDeck() - cardsToDraw - 1; i--) {
-			Card toAdd = currentBandit.removeDeckAt(i);
-			currentBandit.addHand(toAdd);
-		}
-
-		endOfTurn(); // might have to put this in an if else block for cases like SpeedingUp/Whiskey
-	}
-
-	public void endOfTurn() {
-		if (this.gameStatus == GameStatus.SCHEMIN) {
-
-			TurnType currentTurnType = this.currentRound.getCurrentTurn().getTurnType();
-
-			if (currentTurnType == TurnType.STANDARD || currentTurnType == TurnType.TUNNEL) {
-				banditIndex = (banditIndex + 1) % this.bandits.size();
-				banditsPlayedThisTurn++;
-				// IF END OF TURN
-				if (banditsPlayedThisTurn == this.bandits.size()) {
-					// IF THERE ARE MORE TURNS IN THE ROUND
-					if (this.currentRound.hasNextTurn() == true) {
-						this.currentRound.setNextTurn();
-						this.currentBandit = this.bandits.get(banditIndex);
-						this.banditIndex++;
-					}
-					// IF THERE ARE NO MORE TURNS IN THE ROUND
-					else {
-						banditsPlayedThisTurn = 0;
-						this.setGameStatus(GameStatus.STEALIN);
-					}
-				}
-				// IF NOT END OF TURN
-				else {
-					this.currentBandit = this.bandits.get(banditIndex);
-				}
-			}
-
-			else if (currentTurnType == TurnType.SPEEDINGUP) {
-				if (currentBandit.consecutiveTurnCounter == 0) {
-					currentBandit.setConsecutiveTurnCounter(1);
-					promptDrawCardsOrPlayCard();
-				} else if (currentBandit.consecutiveTurnCounter == 1) {
-					currentBandit.setConsecutiveTurnCounter(0);
-					banditIndex = (banditIndex + 1) % this.bandits.size();
-					banditsPlayedThisTurn++;
-					// IF END OF TURN
-					if (banditsPlayedThisTurn == this.bandits.size()) {
-						// IF THERE ARE MORE TURNS IN THE ROUND
-						if (this.currentRound.hasNextTurn() == true) {
-							this.currentRound.setNextTurn();
-							this.currentBandit = this.bandits.get(banditIndex);
-							this.banditIndex++;
-						}
-						// IF THERE ARE NO MORE TURNS IN THE ROUND
-						else {
-							banditsPlayedThisTurn = 0;
-							this.setGameStatus(GameStatus.STEALIN);
-						}
-					}
-					// IF NOT END OF TURN
-					else {
-						this.currentBandit = this.bandits.get(banditIndex);
-					}
-				}
-			}
-
-			else if (currentTurnType == TurnType.SWITCHING) {
-				banditIndex = (banditIndex - 1 + this.bandits.size()) % this.bandits.size();
-				banditsPlayedThisTurn++;
-				// IF END OF TURN
-				if (banditsPlayedThisTurn == this.bandits.size()) {
-					// IF THERE ARE MORE TURNS IN THE ROUND
-					if (this.currentRound.hasNextTurn() == true) {
-						this.currentRound.setNextTurn();
-						this.currentBandit = this.bandits.get(banditIndex);
-						this.banditIndex++;
-					}
-					// IF THERE ARE NO MORE TURNS IN THE ROUND
-					else {
-						banditsPlayedThisTurn = 0;
-						this.setGameStatus(GameStatus.STEALIN);
-					}
-				}
-				// IF NOT END OF TURN
-				else {
-					this.currentBandit = this.bandits.get(banditIndex);
-				}
-			}
-		} else if (this.gameStatus == GameStatus.STEALIN) {
-			ActionCard toResolve = this.playedPileInstance.takeTopCard();
-			if (toResolve != null) {
-				currentBandit = toResolve.getBelongsTo();
-				currentBandit.setToResolve(toResolve);
-			} else { // played pile is empty
-				roundIndex++;
-				TrainUnit.moveStagecoach();
-				if (roundIndex == this.rounds.size()) {
-					this.setGameStatus(GameStatus.COMPLETED);
-				} else {
-					this.currentRound = this.rounds.get(roundIndex);
-					this.setGameStatus(GameStatus.SCHEMIN);
-					this.banditsPlayedThisTurn = 0;
-				}
-			}
-		}
-	}
 
 	public GameManager() {
 	}
@@ -383,15 +191,12 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	public Round getCurrentRound() {
 		return this.currentRound;
 	}
-
 	public void setCurrentRound(Round newObject) {
 		this.currentRound = newObject;
 	}
-
 	public Round getRoundAt(int index) {
 		return this.rounds.get(index);
 	}
-
 	public void addRound(Round a) {
 		int size = rounds.size();
 		/*
@@ -399,27 +204,22 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		 */
 		this.rounds.add(a);
 	}
-
 	public void removeRound(Round a) {
 		if (this.rounds.contains(a)) {
 			this.rounds.remove(a);
 		}
 	}
-
 	public boolean roundsContains(Round a) {
 		boolean contains = rounds.contains(a);
 		return contains;
 	}
-
 	public int sizeOfRounds() {
 		int size = rounds.size();
 		return size;
 	}
-
 	public ArrayList<Round> getRounds() {
 		return this.rounds;
 	}
-
 	public ArrayList<Round> createRoundCards(int numOfPlayers) {
 		ArrayList<Round> RoundCards = new ArrayList<Round>();
 		if (numOfPlayers == 2 || numOfPlayers == 3 || numOfPlayers == 4) {
@@ -543,30 +343,37 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	/**
 	 * --TRAIN UNIT METHODS--
 	 */
-	/*
-	 * public void addTrainUnitsAt(int index, TrainUnit a) { boolean contains =
-	 * this.trainUnits.contains(a); if (contains) { return; } trainUnits.add(index,
-	 * a); }
-	 * 
-	 * public void removeTrainUnitsAt(int index) { if (this.trainUnits.size >=
-	 * index) { this.trainUnits.remove(index); } }
-	 * 
-	 * public TrainUnit getTrainUnitsAt(int index) { if (this.trainUnits.size >=
-	 * index) { return this.trainUnits.get(index); } }
-	 * 
-	 * public void addTrainUnit(TrainUnit a) { this.trainUnits.add(a); }
-	 * 
-	 * public void removeTrainUnits(TrainUnit a) { if (this.trainUnits.contains(a))
-	 * { this.trainUnits.remove(a); } }
-	 * 
-	 * public boolean trainUnitsContain(TrainUnit a) { boolean contains =
-	 * trainUnits.contains(a); return contains; }
-	 * 
-	 * public int sizeOfTrainUnits() { int size = this.trainUnits.size(); return
-	 * size; }
-	 * 
-	 * public ArrayList<TrainUnit> getTrainUnits() { return this.trainUnits; }
-	 */
+	 public TrainUnit getTrainCabinAt(int index) {
+		if (index >= this.trainCabin.size()) {
+			 return this.trainCabin.get(index);
+		} 
+		else {
+			 return null;
+		}
+	 }
+	 
+	 public TrainUnit getTrainRoofAt(int index) {
+		 if(index >= this.trainRoof.size()) {
+			 return this.trainRoof.get(index);
+		 }
+		 else {
+			 return null;
+		 }
+	 }
+	 
+	 public int sizeOfTrainUnits() {
+		 int size = this.trainCabin.size();
+		 return size;
+	 }
+	 
+	 public ArrayList<TrainUnit> getTrainCabin() {
+		 return this.trainCabin;
+	 }
+	 
+	 public ArrayList<TrainUnit> getTrainRoof(){
+		 return this.trainRoof;
+	 }
+	 
 
 	/**
 	 * --BANDIT METHODS--
@@ -574,54 +381,46 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	public Bandit getCurrentBandit() {
 		return this.currentBandit;
 	}
-
 	public void setCurrentBandit(Bandit newObject) {
 		this.currentBandit = newObject;
 	}
-
 	/*
 	 * boolean addBanditsAt(int index, Bandit a) { int size = bandits.size(); if
 	 * (size == maximum) { return false; } bandits.add(index, a); return true; }
 	 */
-
 	public void removeBanditsAt(int index) {
 		if (this.bandits.size() >= index) {
 			this.bandits.remove(index);
 		}
 	}
-
 	public Bandit getBanditsAt(int index) {
 		if (this.bandits.size() >= index) {
 			return this.bandits.get(index);
 		}
 		return null;
 	}
-
 	public void addBandit(Bandit a) {
 		bandits.add(a);
 	}
-
 	public void removeBandits(Bandit a) {
 		if (this.bandits.contains(a)) {
 			this.bandits.remove(a);
 		}
 	}
-
 	public boolean containsBandits(Bandit a) {
 		boolean contains = this.bandits.contains(a);
 		return contains;
 	}
-
 	public int sizeOfBandits() {
 		int size = this.bandits.size();
 		return size;
 	}
-
 	public ArrayList<Bandit> getBandits() {
 		ArrayList<Bandit> b = (ArrayList<Bandit>) this.bandits.clone();
 		return b;
 	}
-
+	
+	
 	/**
 	 * --GAME MANAGER METHODS--
 	 */
@@ -641,53 +440,14 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		return getBandits().size();
 	}
 
-	public void setUpPositions(ArrayList<Bandit> b) {
+	public void setUpPositions(ArrayList<Bandit> b) { //<-- fix this
 		int numOfBandit = b.size();
-		if (numOfBandit == 2) {
-			b.get(0).setPosition(this.trainCabin.get(0));
-			b.get(1).setPosition(this.trainCabin.get(1));
-			this.trainCabin.get(0).addBandit(b.get(0));
-			this.trainCabin.get(1).addBandit(b.get(1));
-		} else if (numOfBandit == 3) {
-			b.get(0).setPosition(this.trainCabin.get(0));
-			b.get(1).setPosition(this.trainCabin.get(1));
-			b.get(2).setPosition(this.trainCabin.get(0));
-			this.trainCabin.get(0).addBandit(b.get(0));
-			this.trainCabin.get(1).addBandit(b.get(1));
-			this.trainCabin.get(0).addBandit(b.get(2));
-		} else if (numOfBandit == 4) {
-			b.get(0).setPosition(this.trainCabin.get(0));
-			b.get(1).setPosition(this.trainCabin.get(1));
-			b.get(2).setPosition(this.trainCabin.get(0));
-			b.get(3).setPosition(this.trainCabin.get(1));
-			this.trainCabin.get(0).addBandit(b.get(0));
-			this.trainCabin.get(1).addBandit(b.get(1));
-			this.trainCabin.get(0).addBandit(b.get(2));
-			this.trainCabin.get(1).addBandit(b.get(3));
-		} else if (numOfBandit == 5) {
-			b.get(0).setPosition(this.trainCabin.get(0));
-			b.get(1).setPosition(this.trainCabin.get(1));
-			b.get(2).setPosition(this.trainCabin.get(0));
-			b.get(3).setPosition(this.trainCabin.get(1));
-			b.get(4).setPosition(this.trainCabin.get(0));
-			this.trainCabin.get(0).addBandit(b.get(0));
-			this.trainCabin.get(1).addBandit(b.get(1));
-			this.trainCabin.get(0).addBandit(b.get(2));
-			this.trainCabin.get(1).addBandit(b.get(3));
-			this.trainCabin.get(0).addBandit(b.get(4));
-		} else if (numOfBandit == 6) {
-			b.get(0).setPosition(this.trainCabin.get(0));
-			b.get(1).setPosition(this.trainCabin.get(1));
-			b.get(2).setPosition(this.trainCabin.get(0));
-			b.get(3).setPosition(this.trainCabin.get(1));
-			b.get(4).setPosition(this.trainCabin.get(0));
-			b.get(4).setPosition(this.trainCabin.get(1));
-			this.trainCabin.get(0).addBandit(b.get(0));
-			this.trainCabin.get(1).addBandit(b.get(1));
-			this.trainCabin.get(0).addBandit(b.get(2));
-			this.trainCabin.get(1).addBandit(b.get(3));
-			this.trainCabin.get(0).addBandit(b.get(4));
-			this.trainCabin.get(1).addBandit(b.get(5));
+		int tracker=0;
+		for (int i=0; i<numOfBandit; i++) {
+			Bandit tbp = this.bandits.get(i);
+			TrainUnit tu = this.trainCabin.get(tracker + numOfBandit - 1);
+			this.banditPositions.put(tbp, tu);
+			tracker = (tracker + 1) % 2;
 		}
 	}
 
@@ -709,296 +469,13 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		}
 		// this.setCurrentRound(this.rounds.get(0));
 		// set waiting for input to be true;
+	
 	}
+}
 
-	public int getBanditsPlayedThisTurn() {
-		return this.banditsPlayedThisTurn;
-	}
-
-	public void setBanditsPlayedThisTurn(int bp) {
-		this.banditsPlayedThisTurn = bp;
-	}
-
-	public int getRoundIndex() {
-		return this.roundIndex;
-	}
-
-	public void setRoundIndex(int ri) {
-		this.roundIndex = ri;
-	}
-
-	public int getBanditIndex() {
-		return this.banditIndex;
-	}
-
-	public void setBanditIndex(int bi) {
-		this.banditIndex = bi;
-	}
 
 	/**
 	 * --EXECUTE ACTIONS-- BEFORE CALLING ANY OF THESE METHODS, CURRENT BANDIT MUST
 	 * BE ASSIGNED CORRECTLY All actions will be called from POV of
 	 * this.currentBandit
 	 */
-
-	// --ROB--
-
-	public void calculateRob() {
-		HashSet<Loot> Loots = new HashSet<Loot>();
-		for (Loot l : this.currentBandit.getPosition().lootHere) {
-			Loots.add(l);
-		}
-		RobPrompt(this.currentBandit, Loots); // call RobPrompt(Bandit b, HashSet<Loot> l)
-	}
-
-	public Loot RobPrompt(Bandit b, HashSet<Loot> l) {
-		// TODO
-		return l.iterator().next();
-	} // PLACEHOLDER, WILL NOT BE IN GM
-
-	public void Rob(Loot loot) {
-
-		this.currentBandit.getPosition().removeLoot(loot);
-		this.currentBandit.addLoot(loot);
-
-		if (!this.currentBandit.getPosition().lootHere.isEmpty()) {
-			Loot l = RobPrompt(this.currentBandit, this.currentBandit.getPosition().lootHere);
-			this.currentBandit.addLoot(l);
-		}
-
-		endOfTurn(); // might have to put this in an if else block for cases like SpeedingUp/Whiskey
-	}
-
-	// --SHOOT--
-
-	public void calculateShoot() {
-		// TODO REMEMBER BELLE AND TUCO CASES, REMEMBER ROOF AND CABIN CASES
-		ArrayList<Bandit> roofShootTarget = new ArrayList<Bandit>();
-		ArrayList<Bandit> carShootTarget = new ArrayList<Bandit>();
-		if (this.currentBandit.getPosition().carFloor == CarFloor.ROOF) {
-			for (Bandit b : this.bandits) {
-				if (b != this.currentBandit) {
-					if (b.getPosition().carFloor == CarFloor.ROOF) {
-						roofShootTarget.add(b);
-					}
-				}
-			}
-		} else {
-			for (Bandit bl : this.currentBandit.getPosition().getLeft().banditsHere) {
-				carShootTarget.add(bl);
-			}
-			for (Bandit br : this.currentBandit.getPosition().getRight().banditsHere) {
-				carShootTarget.add(br);
-			}
-		}
-
-		// call shootPrompt(ArrayList<Bandit> possibilities)
-		if (this.currentBandit.getPosition().carFloor == CarFloor.ROOF) {
-			shootPrompt(roofShootTarget);
-		} else {
-			shootPrompt(carShootTarget);
-		}
-	}
-
-	public Bandit shootPrompt(ArrayList<Bandit> possibilities) {
-		// TODO
-		return new Bandit();
-	} // PLACEHOLDER, WILL NOT BE IN GM
-
-	public void shoot(Bandit toShoot) {
-
-		// Bandit toShoot = new Bandit(); // TODO <- replace with the target chosen by
-		// shootPrompt
-		if (!currentBandit.bulletsIsEmpty()) {
-			toShoot.addDeck(currentBandit.removeTopBullet()); // TODO <- graphical response
-		}
-
-		if (currentBandit.getCharacter() == Character.DJANGO) {
-			TrainUnit left = currentBandit.getPosition().getLeft();
-			TrainUnit right = currentBandit.getPosition().getRight();
-
-			// IF BANDIT IS TO DJANGO'S LEFT, PUSH BANDIT 1 CART TO DJANGO'S LEFT IF
-			// POSSIBLE
-			if (left.containsBandit(toShoot)) {
-				if (left.getLeft() != null) {
-					toShoot.setPosition(left.getLeft()); // TODO <- graphical response
-					left.removeBandit(toShoot);
-					left.getLeft().addBandit(toShoot);
-				}
-			}
-			// IF BANDIT IS TO DJANGO'S RIGHT, PUSH BANDIT 1 CART TO DJANGO'S RIGHT IF
-			// POSSIBLE
-			else if (right.containsBandit(toShoot)) {
-				if (right.getRight() != null) {
-					toShoot.setPosition(right.getRight()); // TODO <- graphical response
-					right.removeBandit(toShoot);
-					right.getRight().addBandit(toShoot);
-				}
-
-			}
-		}
-
-		endOfTurn(); // might have to put this in an if else block for cases like SpeedingUp/Whiskey
-	}
-
-	// --PUNCH--
-
-	public void calculatePunch() {
-		ArrayList<Bandit> otherBandits = new ArrayList<Bandit>();
-		for (Bandit b : this.currentBandit.getPosition().banditsHere) {
-			if (b != this.currentBandit) {
-				otherBandits.add(b);
-			}
-		}
-
-		Bandit target = punchBanditPrompt(otherBandits); // call punchBanditPrompt(ArrayList<Bandit> bandits)
-
-		punchLootPrompt(target.getLoot()); // call punchLootPrompt(ArrayList<Loot> loots)
-
-		ArrayList<TrainUnit> positions = new ArrayList<TrainUnit>();
-		if (target.getPosition().getLeft() != null) {
-			positions.add(target.getPosition().getLeft());
-		}
-		if (target.getPosition().getRight() != null) {
-			positions.add(target.getPosition().getRight());
-		}
-
-		punchPositionPrompt(positions); // call punchPositionPrompt(ArrayList<TrainUnit> positions)
-
-	}
-
-	public Bandit punchBanditPrompt(ArrayList<Bandit> bandits) {
-		return bandits.get(0);// PLACEHOLDER, WILL NOT BE IN GM
-	}
-
-	public Loot punchLootPrompt(ArrayList<Loot> loots) {
-		return loots.get(0);// PLACEHOLDER, WILL NOT BE IN GM
-	}
-
-	public TrainUnit punchPositionPrompt(ArrayList<TrainUnit> positions) {
-		return positions.get(0);// PLACEHOLDER, WILL NOT BE IN GM
-	}
-
-	public void punch(Bandit target, Loot l, TrainUnit tu) {
-
-		if (target != null) {
-			if (l != null) {
-				target.removeLoot(l);
-				this.currentBandit.addLoot(l);
-			}
-			this.currentBandit.getPosition().removeBandit(target);
-			target.setPosition(tu);
-			tu.addBandit(target);
-			if (tu.isMarshalHere) {
-				target.addDiscardPile(this.neutralBulletCard.remove(0));
-				this.currentBandit.setPosition(target.getPosition().getAbove());
-				target.getPosition().getAbove().addBandit(this.currentBandit);
-			}
-		}
-
-		endOfTurn(); // might have to put this in an if else block for cases like SpeedingUp/Whiskey
-	}
-
-	// --CHANGE FLOOR--
-
-	public void changeFloor() {
-		TrainUnit currentPosition = this.currentBandit.getPosition();
-		if (currentPosition.getAbove() == null && currentPosition.getBelow() != null) {
-			currentPosition.removeBandit(currentBandit);
-			currentPosition.getBelow().addBandit(currentBandit);
-			currentBandit.setPosition(currentPosition.getBelow());
-		} else if (currentPosition.getBelow() == null && currentPosition.getAbove() != null) {
-			currentPosition.removeBandit(currentBandit);
-			currentPosition.getAbove().addBandit(currentBandit);
-			currentBandit.setPosition(currentPosition.getAbove());
-		}
-		if (this.currentBandit.getPosition().isMarshalHere) {
-			this.currentBandit.addDiscardPile(this.neutralBulletCard.remove(0));
-			currentPosition.addBandit(this.currentBandit);
-			this.currentBandit.setPosition(currentPosition);
-		}
-		endOfTurn(); // might have to put this in an if else block for cases like SpeedingUp/Whiskey
-	}
-
-	// --MOVE--
-
-	public void calculateMove() { // use currentBandit instead of parameter //void method
-		ArrayList<TrainUnit> possibleMoving = new ArrayList<TrainUnit>();
-		TrainUnit currentPosition = this.currentBandit.getPosition();
-		if (currentPosition.getLeft() != null) {
-			possibleMoving.add(currentPosition.getLeft());
-		}
-		if (currentPosition.getRight() != null) {
-			possibleMoving.add(currentPosition.getLeft());
-		}
-		if (currentPosition.carFloor == CarFloor.ROOF) {
-			if (currentPosition.getLeft().getLeft() != null) {
-				possibleMoving.add(currentPosition.getLeft());
-			}
-			if (currentPosition.getRight().getRight() != null) {
-				possibleMoving.add(currentPosition.getLeft());
-			}
-			if (currentPosition.getLeft().getLeft().getLeft() != null) {
-				possibleMoving.add(currentPosition.getLeft());
-			}
-			if (currentPosition.getRight().getRight().getRight() != null) {
-				possibleMoving.add(currentPosition.getLeft());
-			}
-		}
-		movePrompt(possibleMoving); // call promptMoves(possibleMoving)
-	}
-
-	public TrainUnit movePrompt(ArrayList<TrainUnit> possibilities) {
-		// TODO
-		return new TrainUnit();
-	} // PLACEHOLDER, WILL NOT BE IN GM
-
-	public void move(TrainUnit targetPosition) {
-		TrainUnit currentPosition = this.currentBandit.getPosition();
-		currentPosition.removeBandit(this.currentBandit);
-		this.currentBandit.setPosition(targetPosition);
-		if (targetPosition.isMarshalHere) {
-			this.currentBandit.addDiscardPile(this.neutralBulletCard.remove(0));
-			currentPosition.addBandit(this.currentBandit);
-			this.currentBandit.setPosition(currentPosition);
-		}
-		endOfTurn(); // might have to put this in an if else block for cases like SpeedingUp/Whiskey
-	}
-
-	// --MOVE MARSHAL--
-
-	public void calculateMoveMarshal() {
-		Marshal marshal = Marshal.getInstance();
-		ArrayList<TrainUnit> possibilities = new ArrayList<TrainUnit>();
-		if (marshal.getMarshalPosition().getLeft() != null) {
-			possibilities.add(marshal.getMarshalPosition().getLeft());
-		}
-		if (marshal.getMarshalPosition().getRight() != null) {
-			possibilities.add(marshal.getMarshalPosition().getRight());
-		}
-
-		moveMarshalPrompt(possibilities); // call moveMarshalPrompt(ArrayList<TrainUnit> possibilities)
-	}
-
-	public TrainUnit moveMarshalPrompt(ArrayList<TrainUnit> possibilities) {
-		return new TrainUnit();
-	} // PLACEHOLDER, WILL NOT BE IN GM
-
-	public void moveMarshal(TrainUnit targetPosition) {
-		Marshal marshal = Marshal.getInstance();
-		marshal.setMarshalPosition(targetPosition);
-		for (Bandit b : this.getBandits()) {
-			if (b.getPosition() == targetPosition) {
-				if (this.neutralBulletCard.get(0) != null) {
-					this.neutralBulletCard.remove(0);
-					b.discardPile.add(this.neutralBulletCard.get(0));
-					targetPosition.removeBandit(b);
-					targetPosition.getAbove().addBandit(b);
-				}
-			}
-		}
-
-		endOfTurn(); // might have to put this in an if else block for cases like SpeedingUp/Whiskey
-	}
-
-}

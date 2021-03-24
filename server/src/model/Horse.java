@@ -3,6 +3,7 @@ package model;
 import java.util.Optional;
 
 import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
+import java.util.ArrayList;
 
 // Start of user code for imports
 // End of user code
@@ -14,11 +15,17 @@ import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
 public class Horse implements SerializableSFSType {
 	
 	public TrainUnit adjacentTo;
-	public Optional<Bandit> riddenBy;
+	public Bandit riddenBy;
 	
 	//--EMPTY CONSTRUCTOR FOR SERIALIZATION--
     public Horse() { }
     
+    public Horse(Bandit b) {
+    	GameManager gm = GameManager.getInstance();
+    	
+    	this.adjacentTo = gm.getTrainCabinAt(TrainUnit.trainLength-1);
+    	this.riddenBy = b;
+    }
     
     /**
      * --GETTERS AND SETTERS--
@@ -34,9 +41,20 @@ public class Horse implements SerializableSFSType {
     
     //riddenBy
     public Bandit getRiddenBy() {
-    	return this.riddenBy.get();
+    	return this.riddenBy;
     }
     public void setRiddenBy(Bandit b) {
-    	this.riddenBy = Optional.ofNullable(b);
+    	this.riddenBy = b;
+    }
+    
+    public static ArrayList<Horse> createHorses(){
+    	GameManager gm = GameManager.getInstance();
+    	final int horsesToCreate = gm.getNumOfPlayers();
+    	ArrayList<Horse> response = new ArrayList<Horse>();
+    	for(int i=0; i<horsesToCreate; i++) {
+    		Horse horse = new Horse(gm.getBandits().get(i));
+    		response.add(horse);
+    	}
+    	return response;
     }
 }

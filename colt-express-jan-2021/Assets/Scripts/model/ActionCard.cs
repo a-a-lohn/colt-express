@@ -16,30 +16,20 @@ using Sfs2X.Protocol.Serialization;
 namespace model {
     public class ActionCard : Card, SerializableSFSType
     {
-    
-        //public string actionType;      
+       
         public string actionTypeAsString;
-
-        // FOR NETWORKING
         public bool saveForNextRound;      
         public bool faceDown;
         
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public ActionCard() {}
         
-        public ActionCard(string action) {
-            //this.actionType = action;
+        public ActionCard(string action, string belongsTo) {
             this.actionTypeAsString = action;
+            this.belongsToAsString = belongsTo;
+            this.saveForNextRound = false;
+            this.faceDown = false;
         }
-        
-        // // actionType
-        // public string getActionType() {
-        //     return this.actionType;
-        // }
-        
-        // public void setActionType(string action) {
-        //     this.actionType = action;
-        // }
         
         // actionTypeAsString
         public string getActionTypeAsString() {
