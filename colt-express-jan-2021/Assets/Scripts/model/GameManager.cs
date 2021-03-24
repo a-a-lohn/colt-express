@@ -482,7 +482,6 @@ namespace model {
             else {
                 return;
             }
-            
         }
         
         //  void chosenCharacter(int playerId, Character c) {

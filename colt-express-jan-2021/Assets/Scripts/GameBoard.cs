@@ -142,6 +142,10 @@ public class GameBoard : MonoBehaviour
 	public GameObject BelleBulletCard5;
 	public GameObject BelleBulletCard6;      
 
+	public GameObject BelleActionMove; 
+	public GameObject BelleActionChangeFloor; 
+	public GameObject BelleActionPunch; 
+	public GameObject BelleActionShoot; 
 
 	public Text clickableGOsText;
 	public Text currentRound; 
@@ -398,11 +402,8 @@ public class GameBoard : MonoBehaviour
     }
 
     public void initClickables(){
-        // Debug.Log("initClickables CALLS YOU TO WORK HARDER, GM!!!");
         GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
         foreach(GameObject go in allObjects){
-            // clickableGOsText.text += go.name;
-            // https://docs.unity3d.com/ScriptReference/GameObject.SetActive.html
             if(go.activeSelf == true){
                 clickableGOsText.text += go.name;
             }
@@ -694,60 +695,6 @@ public class GameBoard : MonoBehaviour
         trace("sent game state");
 	}
 
-	// THIS IS THE FIRST METHOD CALLED FOR RECEIVING NEW GAME STATE
-    public void UpdateGameState(BaseEvent evt) {
-        Debug.Log("updategamestate called");
-        
-        ISFSObject responseParams = (SFSObject)evt.Params["params"];
-		gm = (GameManager)responseParams.GetClass("gm");
-		
-		// REASSIGN ALL GAME OBJECTS USING DICTIONARY
-		ArrayList banditsArray = gm.bandits;
-		//ArrayList banditsArray = new ArrayList();
-		foreach (Bandit b in banditsArray) {
-            if (b.characterAsString == "CHEYENNE") {
-				objects[cheyenne] = b;
-                trace("Cheyenne added!");
-            }
-			if (b.characterAsString == "BELLE") {
-                objects[belle] = b;
-                trace("Belle added!");
-            }
-			if (b.characterAsString == "TUCO") {
-                objects[tuco] = b;
-                trace("Tuco added!");
-            }
-			if (b.characterAsString == "DOC") {
-                objects[doc] = b;
-                trace("Doc added!");
-            }
-			if (b.characterAsString == "GHOST") {
-                objects[ghost] = b;
-                trace("Ghost added!");
-            }
-			if (b.characterAsString == "DJANGO") {
-                objects[django] = b;
-                trace("Django added!");
-            }
-		}
-		Debug.Log("bandits array size: " + banditsArray.Count);
-		ArrayList cards = new ArrayList();
-		foreach (Bandit ba in banditsArray) {
-			Debug.Log(ba.characterAsString +" "+ ChooseCharacter.character);
-			if(ba.characterAsString == ChooseCharacter.character) {
-				ArrayList hand = b.hand;
-				Debug.Log("adding cards");
-				objects[cardA] = hand[0];
-				objects[cardB] = hand[1];
-				objects[cardC] = hand[2];
-				objects[cardD] = hand[3];
-				objects[cardE] = hand[4];
-			}
-		}
-
-			gm.playTurn();
-    }
-
 	/*private void ChooseCharacter() {
         ISFSObject obj = SFSObject.NewInstance();
 		obj.PutUtfString("chosenCharacter", "TUCO");
@@ -755,6 +702,12 @@ public class GameBoard : MonoBehaviour
         SFS.Send(req);
         trace("chose Tuco");
     }*/
+
+	/* Using the prompt methods from GM */
+ 	// public TrainUnit moveMarshalPrompt(ArrayList possibilities)
+	// public void ridePrompt(ArrayList possibilities) 
+	// public void move(TrainUnit targetPosition) 
+	// public TrainUnit punchPositionPrompt(Bandit b, Bandit b2)
 
     public static void trace(string msg) {
 	//	debugText.text += (debugText.text != "" ? "\n" : "") + msg;
