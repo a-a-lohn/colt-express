@@ -353,30 +353,49 @@ public class GameBoard : MonoBehaviour
 			mapBulletCards(b.characterAsString, currBC.getSize(), currBC);
 		}
 
-
 		foreach (Bandit b in banditsArray) {
-           ArrayList bHand = b.getHand();
-			foreach(ActionCard c in bHand){
-				if(c.getActionTypeAsString() == CardNewA.name.ToUpper()){
-            	objects[CardNewA] = c;
-				}
-				if(c.getActionTypeAsString() == CardNewB.name.ToUpper()){
-            	objects[CardNewB] = c;
-				}
-				if(c.getActionTypeAsString() == CardNewC.name.ToUpper()){
-            	objects[CardNewC] = c;
-				}
-				if(c.getActionTypeAsString() == CardNewD.name.ToUpper()){
-            	objects[CardNewD] = c;
-				}
-				if(c.getActionTypeAsString() == CardNewE.name.ToUpper()){
-            	objects[CardNewE] = c;
-				}
-				if(c.getActionTypeAsString() == CardNewF.name.ToUpper()){
-            	objects[CardNewF] = c;
-				}
-			}			
+         ArrayList bHand = b.getHand();
+         String bName = b.getCharacter();
+		 
+			if(bName == "BELLE"){
+				for(int i=0; i<b.sizeOfHand(); i++){
+				ActionCard a = (ActionCard)bHand[i];
+				string actionName = a.getActionTypeAsString();
+				mapActionCards(goBELLEHand, actionName, a, bName);
+				}	
+		 	}else if(bName == "CHEYENNE"){
+				for(int i=0; i<b.sizeOfHand(); i++){
+				ActionCard a = (ActionCard)bHand[i];
+				string actionName = a.getActionTypeAsString();
+				mapActionCards(goCHEYENNEHand, actionName, a, bName);
+				}	
+		 	}else if(bName == "DOC"){
+				for(int i=0; i<b.sizeOfHand(); i++){
+				ActionCard a = (ActionCard)bHand[i];
+				string actionName = a.getActionTypeAsString();
+				mapActionCards(goDOCHand, actionName, a, bName);
+				}	
+		 	}else if(bName == "TUCO"){
+				for(int i=0; i<b.sizeOfHand(); i++){
+				ActionCard a = (ActionCard)bHand[i];
+				string actionName = a.getActionTypeAsString();
+				mapActionCards(goTUCOHand, actionName, a, bName);
+				}	
+		 	}else if(bName == "DJANGO"){
+				for(int i=0; i<b.sizeOfHand(); i++){
+				ActionCard a = (ActionCard)bHand[i];
+				string actionName = a.getActionTypeAsString();
+				mapActionCards(goDJANGOHand, actionName, a, bName);
+				}	
+		 	}else if(bName == "GHOST"){
+				for(int i=0; i<b.sizeOfHand(); i++){
+				ActionCard a = (ActionCard)bHand[i];
+				string actionName = a.getActionTypeAsString();
+				mapActionCards(goGHOSTHand, actionName, a, bName);
+				}	
+			}
 		}
+
 		
 			gm.playTurn();
 
@@ -386,7 +405,18 @@ public class GameBoard : MonoBehaviour
 		Invoke("GoToChat",2);
 
     }
-	
+
+
+	public void mapActionCards(List<GameObject> goHand, string actionName, Card c, string banditName){
+		foreach(GameObject g in goHand){
+			string goName = banditName + g.name;
+			if(actionName == goName.ToUpper()){
+            	objects[g] = c;
+			}
+		}
+	}
+
+
 	public void mapBulletCards(string bName, int buSize, BulletCard bc){
 		if(bName == "BELLE"){
 			objects[goBELLEBulletCards[buSize]] = bc;
