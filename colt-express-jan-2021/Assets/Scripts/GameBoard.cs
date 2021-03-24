@@ -21,6 +21,8 @@ using Sfs2X.Protocol.Serialization;
 using System.Collections;
 // using System.Random;
 using Random=System.Random;
+// using UnityEngine.Color;
+
 public class GameBoard : MonoBehaviour
 {
 
@@ -225,10 +227,11 @@ public class GameBoard : MonoBehaviour
 	private List<float> gemPosition = new List<float>() {1224.1F, 1077.2F, -364.9F};
 
     void Start(){
+		Color newCol = new Color(255,0,0);
 		makeAllClickable();
 		// Debug.Log(gm.currentRound.roundTypeAsString);
-		currentRound.text = gm.currentRound.roundTypeAsString; 
-		currentBandit.text = gm.currentBandit.characterAsString; 
+		// currentRound.text = gm.currentRound.roundTypeAsString; 
+		// currentBandit.text = gm.currentBandit.characterAsString; 
 
         gem4.SetActive(false);
 		initCards();
@@ -442,6 +445,8 @@ public class GameBoard : MonoBehaviour
         foreach(GameObject go in allObjects){
             if(go.activeSelf == true){
                 clickableGOsText.text += go.name;
+				// highlight the clickable go 
+
             }
         }
         clickableGOsText.text += "==== NOW GHOST IS SET TO NONACTIVE ===";
@@ -713,21 +718,21 @@ public class GameBoard : MonoBehaviour
 			SFS.ProcessEvents();
 		}
 
-		if (Input.GetMouseButtonDown(0)){
-			// Debug.Log(this.gameObject.name);
-			var clickedObjectName = this.gameObject.name; 
-			// check if this obj is clickable using the List<obj>
-			foreach(GameObject go in clickableGOs){
-				if(go.name == clickedObjectName){
-					// curr GO is clickable
-					object clickableObj = objects[go];
-					// pass clickableObj back! 
-					// TODO: @Backend Team : action is the name(all caps) of the next method 
-					// gm.action(clickableObj);
-				}
-			}
+		// if (Input.GetMouseButtonDown(0)){
+		// 	// Debug.Log(this.gameObject.name);
+		// 	var clickedObjectName = this.gameObject.name; 
+		// 	// check if this obj is clickable using the List<obj>
+		// 	foreach(GameObject go in clickableGOs){
+		// 		if(go.name == clickedObjectName){
+		// 			// curr GO is clickable
+		// 			object clickableObj = objects[go];
+		// 			// pass clickableObj back! 
+		// 			// TODO: @Backend Team : action is the name(all caps) of the next method 
+		// 			// gm.action(clickableObj);
+		// 		}
+		// 	}
 
-		}
+		// }
     }
 
 	public void EnterGameBoardScene() {
