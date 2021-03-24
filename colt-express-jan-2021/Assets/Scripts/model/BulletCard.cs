@@ -18,6 +18,7 @@ namespace model {
     
         public bool fired;
         public string owner; // added 
+        public int size; // added by annie
 
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public BulletCard() {}
@@ -34,6 +35,11 @@ namespace model {
 
         public void setFired(bool b){
             this.fired = b;
+        }
+
+        // added by annie
+        public int getSize(){
+            return this.size; 
         }
     }
 }
