@@ -346,9 +346,11 @@ public class GameBoard : MonoBehaviour
 		// }
 		
 		// @TODO: add a method getBulletSize() in BulletCard that returns the number of bullets indicated on the card
-		ArrayList bBullets = currentBandit.getBulletCards(); 
+		var currBandit = gm.currentBandit; 
+		var bBullets = currBandit.getBulletCards(); 
 		for(int i=0; i<bBullets.Count; i++){
-			mapBulletCards(b.characterAsString, bBullets[i].getBulletSize(), bBullets[i]);
+			BulletCard currBC = (BulletCard)bBullets[i];
+			mapBulletCards(b.characterAsString, currBC.getSize(), currBC);
 		}
 
 
@@ -469,7 +471,7 @@ public class GameBoard : MonoBehaviour
 		List<Card> threeRandomCards = new List<Card>(); 
 
 		for(int i=0; i<2; i++){
-			Card randomCard = rand.Next(currDeck.Count);
+			Card randomCard = (Card)currDeck[rand.Next(currDeck.Count)];
 			threeRandomCards.Insert(i, randomCard); 
 			currDeck.Remove(randomCard); 
 		}
