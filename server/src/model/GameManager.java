@@ -41,15 +41,14 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	public ArrayList<TrainUnit> trainRoof;
 	public ArrayList<TrainUnit> trainCabin;
 	public ArrayList<TrainUnit> stagecoach;
-	public ArrayList<Horse> horses;
+	public ArrayList<Horse> horses = new ArrayList<Horse>();
 	public ArrayList<Bandit> bandits = new ArrayList<Bandit>();
 	transient public HashMap<Bandit, User> banditmap = new HashMap<Bandit, User>();
-	public HashMap<Bandit, TrainUnit> banditPositions = new HashMap<Bandit,TrainUnit>();
+	public HashMap<Bandit, TrainUnit> banditPositions = new HashMap<Bandit, TrainUnit>();
 	public ArrayList<Card> neutralBulletCard = new ArrayList<Card>();
 	public int banditsPlayedThisTurn;
 	public int roundIndex;
 	public int banditIndex;
-
 
 	/*
 	 * @Override public void handleClientRequest(User sender, ISFSObject params) {
@@ -119,7 +118,12 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 			b.createBulletCards();
 			b.createStartingPurse();
 		}
-		this.horses = Horse.createHorses();
+
+		//this.horses = Horse.createHorses();
+		
+		// Horse Attack
+		this.horseAttack();
+
 		this.marshalInstance = Marshal.getInstance();
 		// initialize round cards, round attributes/create round constructor
 		this.rounds = this.createRoundCards(this.getNumOfPlayers());
@@ -157,14 +161,85 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		this.neutralBulletCard.add(NBullet11);
 		this.neutralBulletCard.add(NBullet12);
 		this.neutralBulletCard.add(NBullet13);
-		
+
 		this.roundIndex = 0;
 		this.banditsPlayedThisTurn = 0;
 		this.gameStatus = GameStatus.SCHEMIN;
 		this.strGameStatus = "SCHEMIN";
 		this.currentBandit = this.bandits.get(0);
-		
+
 	}
+
+	public void horseAttack() {
+		int turns = 1; // start with the first turn
+
+		ArrayList<Bandit> banditList = new ArrayList<Bandit>();
+		// copy bandits list
+		for (Bandit b : this.bandits) {
+			banditList.add(b);
+		}
+
+		int trainUnitLength = TrainUnit.trainLength;
+
+		while (banditList.size() > 1) {
+			TrainUnit currentTrain = this.getTrainCabinAt(trainUnitLength - turns);
+			if (currentTrain == this.getTrainCabinAt(1)) {
+				break;
+			} else {
+				for (Bandit b : banditList) {
+					boolean continueToRide = promptHorseAttack1(b, turns);
+					if (!continueToRide) {
+						banditList.remove(b);
+						b.setPosition(currentTrain);
+						Horse newHorse = new Horse(null); // not belong to any bandit
+						newHorse.setAdjacentTo(currentTrain); // set adjacent to current train
+						this.horses.add(newHorse);
+						banditList.remove(b);
+					}
+				}
+				turns++;
+			}
+		}
+
+		// case 1, banditList size > 1
+		if (banditList.size() > 1) {
+			for (Bandit b : banditList) {
+				b.setPosition(this.getTrainCabinAt(1));
+				Horse newHorse = new Horse(null); // not belong to any bandit
+				newHorse.setAdjacentTo(this.getTrainCabinAt(1)); // set adjacent to current train
+				this.horses.add(newHorse);
+			}
+		}
+
+		// case 2, banditList size == 1
+		if (banditList.size() == 1) {
+			calculateHorseAttack(banditList.get(0), turns);
+		}
+
+	}
+
+	public void calculateHorseAttack(Bandit bandit, int turns) {
+		ArrayList<TrainUnit> target = new ArrayList<TrainUnit>();
+		for (int i = turns; i < TrainUnit.trainLength; i++) {
+			target.add(this.getTrainCabinAt(TrainUnit.trainLength - turns));
+		}
+		TrainUnit currentTrain = promptHorseAttack2(bandit, target);
+		bandit.setPosition(currentTrain);
+		Horse newHorse = new Horse(null); // not belong to any bandit
+		newHorse.setAdjacentTo(currentTrain); // set adjacent to current train
+		this.horses.add(newHorse);
+	}
+	
+	public TrainUnit promptHorseAttack2(Bandit b, ArrayList<TrainUnit> target) {
+		// TO DO : ask the client to choose one place to start
+		return target.get(0);
+	}
+	
+	public boolean promptHorseAttack1(Bandit b, int turns) {
+		// TO DO : ask the client to stay at current position or ride horse to move on
+		return true;
+	}
+
 	/**
 	 * @param c Card will be moved from bandit's hand to played pile and it's effect
 	 *          will be resolved
@@ -191,12 +266,15 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	public Round getCurrentRound() {
 		return this.currentRound;
 	}
+
 	public void setCurrentRound(Round newObject) {
 		this.currentRound = newObject;
 	}
+
 	public Round getRoundAt(int index) {
 		return this.rounds.get(index);
 	}
+
 	public void addRound(Round a) {
 		int size = rounds.size();
 		/*
@@ -204,22 +282,27 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		 */
 		this.rounds.add(a);
 	}
+
 	public void removeRound(Round a) {
 		if (this.rounds.contains(a)) {
 			this.rounds.remove(a);
 		}
 	}
+
 	public boolean roundsContains(Round a) {
 		boolean contains = rounds.contains(a);
 		return contains;
 	}
+
 	public int sizeOfRounds() {
 		int size = rounds.size();
 		return size;
 	}
+
 	public ArrayList<Round> getRounds() {
 		return this.rounds;
 	}
+
 	public ArrayList<Round> createRoundCards(int numOfPlayers) {
 		ArrayList<Round> RoundCards = new ArrayList<Round>();
 		if (numOfPlayers == 2 || numOfPlayers == 3 || numOfPlayers == 4) {
@@ -343,37 +426,34 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	/**
 	 * --TRAIN UNIT METHODS--
 	 */
-	 public TrainUnit getTrainCabinAt(int index) {
+	public TrainUnit getTrainCabinAt(int index) {
 		if (index >= this.trainCabin.size()) {
-			 return this.trainCabin.get(index);
-		} 
-		else {
-			 return null;
+			return this.trainCabin.get(index);
+		} else {
+			return null;
 		}
-	 }
-	 
-	 public TrainUnit getTrainRoofAt(int index) {
-		 if(index >= this.trainRoof.size()) {
-			 return this.trainRoof.get(index);
-		 }
-		 else {
-			 return null;
-		 }
-	 }
-	 
-	 public int sizeOfTrainUnits() {
-		 int size = this.trainCabin.size();
-		 return size;
-	 }
-	 
-	 public ArrayList<TrainUnit> getTrainCabin() {
-		 return this.trainCabin;
-	 }
-	 
-	 public ArrayList<TrainUnit> getTrainRoof(){
-		 return this.trainRoof;
-	 }
-	 
+	}
+
+	public TrainUnit getTrainRoofAt(int index) {
+		if (index >= this.trainRoof.size()) {
+			return this.trainRoof.get(index);
+		} else {
+			return null;
+		}
+	}
+
+	public int sizeOfTrainUnits() {
+		int size = this.trainCabin.size();
+		return size;
+	}
+
+	public ArrayList<TrainUnit> getTrainCabin() {
+		return this.trainCabin;
+	}
+
+	public ArrayList<TrainUnit> getTrainRoof() {
+		return this.trainRoof;
+	}
 
 	/**
 	 * --BANDIT METHODS--
@@ -381,9 +461,11 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	public Bandit getCurrentBandit() {
 		return this.currentBandit;
 	}
+
 	public void setCurrentBandit(Bandit newObject) {
 		this.currentBandit = newObject;
 	}
+
 	/*
 	 * boolean addBanditsAt(int index, Bandit a) { int size = bandits.size(); if
 	 * (size == maximum) { return false; } bandits.add(index, a); return true; }
@@ -393,34 +475,39 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 			this.bandits.remove(index);
 		}
 	}
+
 	public Bandit getBanditsAt(int index) {
 		if (this.bandits.size() >= index) {
 			return this.bandits.get(index);
 		}
 		return null;
 	}
+
 	public void addBandit(Bandit a) {
 		bandits.add(a);
 	}
+
 	public void removeBandits(Bandit a) {
 		if (this.bandits.contains(a)) {
 			this.bandits.remove(a);
 		}
 	}
+
 	public boolean containsBandits(Bandit a) {
 		boolean contains = this.bandits.contains(a);
 		return contains;
 	}
+
 	public int sizeOfBandits() {
 		int size = this.bandits.size();
 		return size;
 	}
+
 	public ArrayList<Bandit> getBandits() {
 		ArrayList<Bandit> b = (ArrayList<Bandit>) this.bandits.clone();
 		return b;
 	}
-	
-	
+
 	/**
 	 * --GAME MANAGER METHODS--
 	 */
@@ -440,10 +527,10 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		return getBandits().size();
 	}
 
-	public void setUpPositions(ArrayList<Bandit> b) { //<-- fix this
+	public void setUpPositions(ArrayList<Bandit> b) { // <-- fix this
 		int numOfBandit = b.size();
-		int tracker=0;
-		for (int i=0; i<numOfBandit; i++) {
+		int tracker = 0;
+		for (int i = 0; i < numOfBandit; i++) {
 			Bandit tbp = this.bandits.get(i);
 			TrainUnit tu = this.trainCabin.get(tracker + numOfBandit - 1);
 			this.banditPositions.put(tbp, tu);
@@ -469,13 +556,12 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		}
 		// this.setCurrentRound(this.rounds.get(0));
 		// set waiting for input to be true;
-	
+
 	}
 }
 
-
-	/**
-	 * --EXECUTE ACTIONS-- BEFORE CALLING ANY OF THESE METHODS, CURRENT BANDIT MUST
-	 * BE ASSIGNED CORRECTLY All actions will be called from POV of
-	 * this.currentBandit
-	 */
+/**
+ * --EXECUTE ACTIONS-- BEFORE CALLING ANY OF THESE METHODS, CURRENT BANDIT MUST
+ * BE ASSIGNED CORRECTLY All actions will be called from POV of
+ * this.currentBandit
+ */
