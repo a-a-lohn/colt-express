@@ -226,7 +226,7 @@ public class GameBoard : MonoBehaviour
 
     void Start(){
 		makeAllClickable();
-		Debug.Log(gm.currentRound.roundTypeAsString);
+		// Debug.Log(gm.currentRound.roundTypeAsString);
 		currentRound.text = gm.currentRound.roundTypeAsString; 
 		currentBandit.text = gm.currentBandit.characterAsString; 
 
@@ -465,6 +465,7 @@ public class GameBoard : MonoBehaviour
 	}
 
 	public void drawThreeCards(){
+		Debug.Log("DRAW THREE CARDS IS CALLED");
 		// 3 cards from the current player's deck are added to the player's hand 
 		var currDeck = gm.currentBandit.deck;
 		Random rand = new Random();
