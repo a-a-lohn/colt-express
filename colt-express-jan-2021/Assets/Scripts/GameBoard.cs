@@ -71,7 +71,7 @@ public class GameBoard : MonoBehaviour
 	public GameObject belle; 
 	public GameObject tuco; 
 	public GameObject doc; 
-	public GameObject ghost; 
+	public Button ghost; 
 	public GameObject django; 
 	public GameObject marshal;
 	
@@ -227,7 +227,7 @@ public class GameBoard : MonoBehaviour
 	private List<float> gemPosition = new List<float>() {1224.1F, 1077.2F, -364.9F};
 
     void Start(){
-		Color newCol = new Color(255,0,0);
+		ghost.interactable = false;
 		makeAllClickable();
 		// Debug.Log(gm.currentRound.roundTypeAsString);
 		// currentRound.text = gm.currentRound.roundTypeAsString; 
@@ -292,10 +292,10 @@ public class GameBoard : MonoBehaviour
                 objects[doc] = b;
                 trace("Doc added!");
             }
-			if (b.characterAsString == "GHOST") {
-                objects[ghost] = b;
-                trace("Ghost added!");
-            }
+			// if (b.characterAsString == "GHOST") {
+            //     objects[ghost] = b;
+            //     trace("Ghost added!");
+            // }
 			if (b.characterAsString == "DJANGO") {
                 objects[django] = b;
                 trace("Django added!");
@@ -450,7 +450,7 @@ public class GameBoard : MonoBehaviour
             }
         }
         clickableGOsText.text += "==== NOW GHOST IS SET TO NONACTIVE ===";
-        ghost.SetActive(false);
+        // ghost.SetActive(false);
         foreach(GameObject go in allObjects){
             if(go.activeSelf == true){
                 clickableGOsText.text += go.name;
