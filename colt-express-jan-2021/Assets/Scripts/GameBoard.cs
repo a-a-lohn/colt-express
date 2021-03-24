@@ -347,30 +347,37 @@ public class GameBoard : MonoBehaviour
 			mapBulletCards(b.banditNameAsString, bBullets[i].getBulletSize(), bBullets[i]);
 		}
 
-
 		foreach (Bandit b in banditsArray) {
-           ArrayList bHand = b.getHand();
-			foreach(ActionCard c in bHand){
-				if(c.getActionTypeAsString() == CardNewA.name.ToUpper()){
-            	objects[CardNewA] = c;
-				}
-				if(c.getActionTypeAsString() == CardNewB.name.ToUpper()){
-            	objects[CardNewB] = c;
-				}
-				if(c.getActionTypeAsString() == CardNewC.name.ToUpper()){
-            	objects[CardNewC] = c;
-				}
-				if(c.getActionTypeAsString() == CardNewD.name.ToUpper()){
-            	objects[CardNewD] = c;
-				}
-				if(c.getActionTypeAsString() == CardNewE.name.ToUpper()){
-            	objects[CardNewE] = c;
-				}
-				if(c.getActionTypeAsString() == CardNewF.name.ToUpper()){
-            	objects[CardNewF] = c;
-				}
-			}			
+         ArrayList bHand = b.getHand();
+         String bName = b.banditNameAsString;
+		 
+			if(bName == "BELLE"){
+				for(int i=0; i<bHand.sizeOfHand(); i++){
+				mapActionCards(goBELLEHand, bHand[i].getActionTypeAsString(), bHand[i], bName);
+				}	
+		 	}else if(bName == "CHEYENNE"){
+				for(int i=0; i<bHand.sizeOfHand(); i++){
+				mapActionCards(goCHEYENNEHand, bHand[i].getActionTypeAsString(), bHand[i], bName);
+				}	
+		 	}else if(bName == "DOC"){
+				for(int i=0; i<bHand.sizeOfHand(); i++){
+				mapActionCards(goDOCHand, bHand[i].getActionTypeAsString(), bHand[i], bName);
+				}	
+		 	}else if(bName == "TUCO"){
+				for(int i=0; i<bHand.sizeOfHand(); i++){
+				mapActionCards(goTUCOHand, bHand[i].getActionTypeAsString(), bHand[i], bName);
+				}	
+		 	}else if(bName == "DJANGO"){
+				for(int i=0; i<bHand.sizeOfHand(); i++){
+				mapActionCards(goDJANGOHand, bHand[i].getActionTypeAsString(), bHand[i], bName);
+				}	
+		 	}else if(bName == "GHOST"){
+				for(int i=0; i<bHand.sizeOfHand(); i++){
+				mapActionCards(goGHOSTHand, bHand[i].getActionTypeAsString(), bHand[i], bName);
+				}	
+			}
 		}
+
 		
 			gm.playTurn();
 
@@ -380,7 +387,18 @@ public class GameBoard : MonoBehaviour
 		Invoke("GoToChat",2);
 
     }
-	
+
+
+	public void mapActionCards(ArrayList goHand, string actionName, Card c, string banditName){
+		foreach(GameObject g in goHand){
+			string goName = banditName + g.name;
+			if(actionName == goName.ToUpper()){
+            	objects[g] = c;
+			}
+		}
+	}
+
+
 	public void mapBulletCards(string bName, int buSize, BulletCard bc){
 		if(bName == "BELLE"){
 			objects[goBELLEBulletCards[buSize]] = bc;
