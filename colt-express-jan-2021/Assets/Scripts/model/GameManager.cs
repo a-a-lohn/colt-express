@@ -36,6 +36,8 @@ namespace model {
         
         public ArrayList trainCabin;
         
+        public int trainLength;
+
         public ArrayList horses;
 
         public ArrayList stagecoach;

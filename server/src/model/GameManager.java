@@ -40,6 +40,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 											// BOTTOM OF DECK
 	public ArrayList<TrainUnit> trainRoof;
 	public ArrayList<TrainUnit> trainCabin;
+	public int trainLength;
 	public ArrayList<TrainUnit> stagecoach;
 	public ArrayList<Horse> horses;
 	public ArrayList<Bandit> bandits = new ArrayList<Bandit>();
@@ -107,7 +108,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	public void initializeGame() {
 		System.out.println("Initializing the game now!");
 		// set train-related attributes
-		TrainUnit.trainLength = this.getNumOfPlayers() + 1;
+		this.trainLength = this.getNumOfPlayers() + 1;
 		this.trainRoof = TrainUnit.createTrainRoof();
 		this.trainCabin = TrainUnit.createTrainCabin();
 		this.stagecoach = TrainUnit.createStagecoach();

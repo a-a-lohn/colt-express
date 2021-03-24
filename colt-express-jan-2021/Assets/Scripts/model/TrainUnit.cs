@@ -16,24 +16,8 @@ using Sfs2X.Protocol.Serialization;
 namespace model {
     public class TrainUnit : SerializableSFSType {
     
-        //public static int trainLength;
-        //public ArrayList train;
-        //public static TrainUnit[] stagecoach;
-        //public static TrainUnit[] trainRoof;
-	    //public static TrainUnit[] trainCabin;
-        //public string carType;
-        //public string carFloor;
         public string carTypeAsString;
         public string carFloorAsString;
-        /* removed for serialization 
-        public TrainUnit above ;
-        public TrainUnit below ;
-        public TrainUnit left ;
-        public TrainUnit right ;
-        public TrainUnit beside ;
-        public ArrayList banditsHere ;
-        */
-        
         public bool isMarshalHere ;
         public ArrayList lootHere ;
         public ArrayList horsesHere ;

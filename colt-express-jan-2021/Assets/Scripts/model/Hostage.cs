@@ -17,7 +17,6 @@ namespace model {
     public class Hostage : SerializableSFSType {
     
         public string hostageTypeAsString;
-        public Bandit capturedBy = null;
         
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public Hostage() {}
@@ -43,21 +42,6 @@ namespace model {
             }
             else{
                 Debug.Log("INVALID HOSTAGE TYPE SET");
-            }
-        }
-        
-        // capturedBy
-        public Bandit getCapturedBy() {
-            //return this.capturedBy.value;
-            return this.capturedBy;
-        }
-        
-        public void setCapturedBy(Bandit capturedBy) {
-            if(this.capturedBy == null){
-                this.capturedBy = capturedBy;
-            }
-            else{
-                Debug.Log("THIS HOSTAGE HAS ALREADY BEEN CAPTURED BY A BANDIT");
             }
         }
     }
