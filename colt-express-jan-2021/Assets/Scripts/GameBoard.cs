@@ -355,31 +355,43 @@ public class GameBoard : MonoBehaviour
 
 		foreach (Bandit b in banditsArray) {
          ArrayList bHand = b.getHand();
-         String bName = b.banditNameAsString;
+         String bName = b.getCharacter();
 		 
 			if(bName == "BELLE"){
-				for(int i=0; i<bHand.sizeOfHand(); i++){
-				mapActionCards(goBELLEHand, bHand[i].getActionTypeAsString(), bHand[i], bName);
+				for(int i=0; i<b.sizeOfHand(); i++){
+				ActionCard a = (ActionCard)bHand[i];
+				string actionName = a.getActionTypeAsString();
+				mapActionCards(goBELLEHand, actionName, a, bName);
 				}	
 		 	}else if(bName == "CHEYENNE"){
-				for(int i=0; i<bHand.sizeOfHand(); i++){
-				mapActionCards(goCHEYENNEHand, bHand[i].getActionTypeAsString(), bHand[i], bName);
+				for(int i=0; i<b.sizeOfHand(); i++){
+				ActionCard a = (ActionCard)bHand[i];
+				string actionName = a.getActionTypeAsString();
+				mapActionCards(goCHEYENNEHand, actionName, a, bName);
 				}	
 		 	}else if(bName == "DOC"){
-				for(int i=0; i<bHand.sizeOfHand(); i++){
-				mapActionCards(goDOCHand, bHand[i].getActionTypeAsString(), bHand[i], bName);
+				for(int i=0; i<b.sizeOfHand(); i++){
+				ActionCard a = (ActionCard)bHand[i];
+				string actionName = a.getActionTypeAsString();
+				mapActionCards(goDOCHand, actionName, a, bName);
 				}	
 		 	}else if(bName == "TUCO"){
-				for(int i=0; i<bHand.sizeOfHand(); i++){
-				mapActionCards(goTUCOHand, bHand[i].getActionTypeAsString(), bHand[i], bName);
+				for(int i=0; i<b.sizeOfHand(); i++){
+				ActionCard a = (ActionCard)bHand[i];
+				string actionName = a.getActionTypeAsString();
+				mapActionCards(goTUCOHand, actionName, a, bName);
 				}	
 		 	}else if(bName == "DJANGO"){
-				for(int i=0; i<bHand.sizeOfHand(); i++){
-				mapActionCards(goDJANGOHand, bHand[i].getActionTypeAsString(), bHand[i], bName);
+				for(int i=0; i<b.sizeOfHand(); i++){
+				ActionCard a = (ActionCard)bHand[i];
+				string actionName = a.getActionTypeAsString();
+				mapActionCards(goDJANGOHand, actionName, a, bName);
 				}	
 		 	}else if(bName == "GHOST"){
-				for(int i=0; i<bHand.sizeOfHand(); i++){
-				mapActionCards(goGHOSTHand, bHand[i].getActionTypeAsString(), bHand[i], bName);
+				for(int i=0; i<b.sizeOfHand(); i++){
+				ActionCard a = (ActionCard)bHand[i];
+				string actionName = a.getActionTypeAsString();
+				mapActionCards(goGHOSTHand, actionName, a, bName);
 				}	
 			}
 		}
@@ -395,7 +407,7 @@ public class GameBoard : MonoBehaviour
     }
 
 
-	public void mapActionCards(ArrayList goHand, string actionName, Card c, string banditName){
+	public void mapActionCards(List<GameObject> goHand, string actionName, Card c, string banditName){
 		foreach(GameObject g in goHand){
 			string goName = banditName + g.name;
 			if(actionName == goName.ToUpper()){
