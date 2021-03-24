@@ -14,10 +14,14 @@ public class Hostage implements SerializableSFSType {
     
     transient public HostageType hostageType;
     public String hostageTypeAsString; ////FOR NETWORKING
-    public Optional<Bandit> capturedBy;
     
   //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
     public Hostage() { }
+    
+    public Hostage(HostageType hostageType) {
+    	this.hostageType = hostageType;
+    	this.hostageTypeAsString = hostageType.name();
+    }
     
     /**
      * --GETTERS AND SETTERS--
@@ -38,15 +42,6 @@ public class Hostage implements SerializableSFSType {
     }
     public void setHostageTypeAsString(String hostage) {
     	this.hostageTypeAsString = hostage;
-    }
-    
-    //capturedBy
-    public Bandit getCapturedBy() {
-        return this.capturedBy.get();
-    }
-
-    public void setCapturedBy(Bandit capturedBy) {
-        this.capturedBy = Optional.ofNullable(capturedBy);
     }
     
 }
