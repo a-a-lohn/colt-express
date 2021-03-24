@@ -19,7 +19,8 @@ using System.Reflection;
 using Sfs2X.Protocol.Serialization;
 
 using System.Collections;
-
+// using System.Random;
+using Random=System.Random;
 public class GameBoard : MonoBehaviour
 {
 
@@ -59,6 +60,9 @@ public class GameBoard : MonoBehaviour
     public Bandit b;
 
 	public static GameManager gm;
+
+	// public Card[] currDeck = gm.currentBandit.deck;
+	// public Card[] currHand = gm.currentBandit.hand; 
 
 	// LIST OF ALL GAME OBJECTS HERE
     public GameObject cheyenne;
@@ -224,7 +228,7 @@ public class GameBoard : MonoBehaviour
 		makeAllClickable();
 		Debug.Log(gm.currentRound.roundTypeAsString);
 		currentRound.text = gm.currentRound.roundTypeAsString; 
-		currentBandit.text = gm.currentBandit.banditNameAsString; 
+		currentBandit.text = gm.currentBandit.characterAsString; 
 
         gem4.SetActive(false);
 		initCards();
@@ -269,27 +273,27 @@ public class GameBoard : MonoBehaviour
 		// REASSIGN ALL GAME OBJECTS USING DICTIONARY
 		ArrayList banditsArray = gm.bandits;
 		foreach (Bandit b in banditsArray) {
-            if (b.banditNameAsString == "CHEYENNE") {
+            if (b.characterAsString == "CHEYENNE") {
 				objects[cheyenne] = b;
                 trace("Cheyenne added!");
             }
-			if (b.banditNameAsString == "BELLE") {
+			if (b.characterAsString == "BELLE") {
                 objects[belle] = b;
                 trace("Belle added!");
             }
-			if (b.banditNameAsString == "TUCO") {
+			if (b.characterAsString == "TUCO") {
                 objects[tuco] = b;
                 trace("Tuco added!");
             }
-			if (b.banditNameAsString == "DOC") {
+			if (b.characterAsString == "DOC") {
                 objects[doc] = b;
                 trace("Doc added!");
             }
-			if (b.banditNameAsString == "GHOST") {
+			if (b.characterAsString == "GHOST") {
                 objects[ghost] = b;
                 trace("Ghost added!");
             }
-			if (b.banditNameAsString == "DJANGO") {
+			if (b.characterAsString == "DJANGO") {
                 objects[django] = b;
                 trace("Django added!");
             }
@@ -327,14 +331,14 @@ public class GameBoard : MonoBehaviour
 		// map the 13 neutral bullet cards
 		ArrayList neuturalBulletCards = gm.neutralBulletCard; 
 		for(int i=1; i<14; i++){
-			GameObject goBulletCard = goNeutralBulletCards.get(i);
-			objects[goBulletCard] = neuturalBulletCards.get(i);
+			GameObject goBulletCard = goNeutralBulletCards[i];
+			objects[goBulletCard] = neuturalBulletCards[i];
 		}
 
 		// // map each bandit's bullet cards 
 		// ArrayList bulletCards = currentBandit.getBulletCards();
 		// // @TODO: please add a getBulletCards() mthod in Bandit that returns a list of all bullet cards of the bandit
-		// if(currentBandit.banditNameAsString == "BELLE"){
+		// if(currentBandit.characterAsString == "BELLE"){
 		// 	foreach(BulletCard currBC in bulletCards){
 		// 		int bulletSize = currBC.sizeOfBullet
 		// 		objects[goBelleBulletCards[bulletSize]] = currBC; 
@@ -343,8 +347,8 @@ public class GameBoard : MonoBehaviour
 		
 		// @TODO: add a method getBulletSize() in BulletCard that returns the number of bullets indicated on the card
 		ArrayList bBullets = currentBandit.getBulletCards(); 
-		for(int i=0; i<bBullets.size(); i++){
-			mapBulletCards(b.banditNameAsString, bBullets[i].getBulletSize(), bBullets[i]);
+		for(int i=0; i<bBullets.Count; i++){
+			mapBulletCards(b.characterAsString, bBullets[i].getBulletSize(), bBullets[i]);
 		}
 
 
@@ -376,7 +380,7 @@ public class GameBoard : MonoBehaviour
 
 		// assign currRound and currPlayer 
 		currentRound.text += gm.currentRound.roundTypeAsString; 
-		currentBandit.text += gm.currentBandit.banditNameAsString; 
+		currentBandit.text += gm.currentBandit.characterAsString; 
 		Invoke("GoToChat",2);
 
     }
@@ -456,6 +460,21 @@ public class GameBoard : MonoBehaviour
 		CardNewD.SetActive(true);
 		CardNewE.SetActive(true);
 		CardNewF.SetActive(true);
+	}
+
+	public void drawThreeCards(){
+		// 3 cards from the current player's deck are added to the player's hand 
+		var currDeck = gm.currentBandit.deck;
+		Random rand = new Random();
+		List<Card> threeRandomCards = new List<Card>(); 
+
+		for(int i=0; i<2; i++){
+			Card randomCard = rand.Next(currDeck.Count);
+			threeRandomCards.Insert(i, randomCard); 
+			currDeck.Remove(randomCard); 
+		}
+		var currHand = gm.currentBandit.hand; 
+		currHand.AddRange(threeRandomCards);
 	}
 
 	public void executeHardCoded(int step) {

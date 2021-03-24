@@ -63,7 +63,6 @@ namespace model {
         //     //  handler.updateGameState(rtn);
         // }
         
-        
         public void playTurn() {
             Debug.Log("playing turn");
             if(currentBandit.getCharacter() == ChooseCharacter.character) {
@@ -80,6 +79,7 @@ namespace model {
         
         public void promptDrawCardsOrPlayCard() {
             // TODO
+
         }
 
         public void resolveAction(ActionCard toResolve) {
