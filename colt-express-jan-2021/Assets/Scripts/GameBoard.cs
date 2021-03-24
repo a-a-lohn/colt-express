@@ -6,6 +6,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using RestSharp;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using System.Linq;
 
 using Sfs2X;
 using Sfs2X.Logging;
@@ -22,6 +26,9 @@ using System.Collections;
 public class GameBoard : MonoBehaviour
 {
 
+
+	private static RestClient client = new RestClient("http://13.72.79.112:4242");
+	public static string gameHash = WaitingRoom.gameHash;
 	/*
 	Frontend team:
 	-attach choosecharacter strings to characters (attach character strings from
@@ -680,5 +687,61 @@ public class GameBoard : MonoBehaviour
 		// Always disconnect before quitting
 		SFS.Disconnect();
 	}
+
+
+	/*
+	 The methods below implements the save game and launch saved game features
+	
+	*/
+
+	private static string GetAdminToken() {
+        var request = new RestRequest("oauth/token", Method.POST)
+            .AddParameter("grant_type", "password")
+            .AddParameter("username", "admin")
+            .AddParameter("password", "admin")
+            .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+        IRestResponse response = client.Execute(request);
+            
+        var obj = JObject.Parse(response.Content);
+        string adminToken = (string)obj["access_token"];
+        adminToken = adminToken.Replace("+", "%2B");
+
+		return adminToken;
+    }
+
+	public static void SaveGameState(string savegameID) {
+
+		var request = new RestRequest("api/sessions/" + gameHash, Method.GET)
+            .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+        IRestResponse response = client.Execute(request);
+        var JObj = JObject.Parse(response.Content);
+        Dictionary<string, object> sessionDetails = JObj.ToObject<Dictionary<string, object>>();
+
+		dynamic j = new JObject();
+		var temp = JsonConvert.SerializeObject(sessionDetails["gameParameters"]);
+		var gameParameters = JsonConvert.DeserializeObject<Dictionary<string, string>>(temp);
+
+		string gameName = gameParameters["name"];
+		j.gamename = gameName;
+		j.players = sessionDetails["players"].ToString().ToCharArray();
+		j.savegameid = savegameID;
+
+		request = new RestRequest("api/gameservices/" + gameName + "/savegames/" + savegameID + "?access_token=" + GetAdminToken(), Method.POST)
+            .AddParameter("application/json", j.ToString(), ParameterType.RequestBody)
+            .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+
+        response = client.Execute(request);
+
+		// After saving the game, store the information to the server
+
+		ISFSObject obj = SFSObject.NewInstance();
+		Debug.Log("saving the current game state on the server");
+		obj.PutUtfString("gameId", savegameID);
+		obj.PutUtfString("gameName", gameName);
+        ExtensionRequest req = new ExtensionRequest("gm.saveGameState",obj);
+        SFS.Send(req);
+	}
+
+
 
 }
