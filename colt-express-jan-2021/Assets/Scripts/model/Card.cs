@@ -12,7 +12,7 @@ using Sfs2X.Protocol.Serialization;
 namespace model {
     public abstract class Card : SerializableSFSType {
       
-        //public Bandit belongsTo;
+        public string belongsToAsString;
 
         public Card() {}
         
@@ -20,16 +20,32 @@ namespace model {
        public Bandit getBelongsTo() {
            GameManager gm = GameManager.getInstance();
            foreach (Bandit b in gm.bandits) {
-               ArrayList cards = null;// b.toResolve.Clone();
-               cards.AddRange(b.deck);//.Clone());
-               cards.AddRange(b.hand);//.Clone());
-               cards.AddRange(b.discardPile);//.Clone());
-               foreach(Card c in cards) {
-                   if (c.Equals(this));
+               if (b.characterAsString.Equals(this.belongsToAsString)) {
                    return b;
                }
            }
            return null;
        }
+
+       public void setBelongsTo(string belongsTo) {
+           if(belongsTo.Equals("GHOST")||belongsTo.Equals("DOC")||belongsTo.Equals("TUCO")||belongsTo.Equals("CHEYENNE")||belongsTo.Equals("BELLE")||belongsTo.Equals("DJANGO")){
+               this.belongsToAsString = belongsTo;
+           }
+           else{
+               Debug.Log("CARD SET TO INVALID CHARACTER");
+           }
+               
+       }
     }
 }
+
+/* alternate method of querying cards - dont delete for now
+
+ArrayList cards = b.deck.Clone();
+               cards.AddRange(b.hand.Clone());
+               cards.AddRange(b.discardPile.Clone());
+               foreach(Card c in cards) {
+                    if (c.Equals(this)){
+                        return b;
+                    }
+               }*/

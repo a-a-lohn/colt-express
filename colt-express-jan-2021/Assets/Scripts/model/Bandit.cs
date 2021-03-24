@@ -9,6 +9,7 @@ using Sfs2X.Core;
 using Sfs2X.Entities;
 using Sfs2X.Entities.Data;
 using Sfs2X.Protocol.Serialization;
+using Random = System.Random;
 
 //The following code is executed right after creating the SmartFox object:
 // using System.Reflection;
@@ -17,23 +18,12 @@ namespace model {
 
     public class Bandit : SerializableSFSType {
     
-        public bool getsAnotherAction;       
-        public bool playedThisTurn;       
-        //public string banditName;       
-        public string banditNameAsString;
-        
-        // FOR NETWORKING
-        //remove position reference
-        public TrainUnit position;   
-        //public Hostage hostage;       
+        public string characterAsString;     
         public string hostageAsString;
-        
-        // FOR NETWORKING
-        public ArrayList loot ;      
-        public ArrayList bullets ;        
-        public ArrayList deck ;
-        public ArrayList hand ;
-        public ArrayList discardPile ;
+        public ArrayList loot;      
+        public ArrayList bullets;        
+        public ArrayList deck;
+        public ArrayList hand;
         public ActionCard toResolve;
         public int consecutiveTurnCounter;
         
@@ -41,274 +31,133 @@ namespace model {
         public Bandit() {}
 
         public Bandit(string c) {
-            //this.banditName = c;
-            this.banditNameAsString = c;
-            this.getsAnotherAction = false;
-            this.playedThisTurn = false;
-            this.position = null;
+            this.characterAsString = c;
             this.hostageAsString = null;
+            this.loot = new ArrayList();
+            this.bullets = new ArrayList();
+            this.deck = new ArrayList();
+            this.hand = new ArrayList();
+            this.toResolve = null;
+            this.consecutiveTurnCounter = 0;
         }
         
+        /**
+        *  --GETTERS AND SETTERS--
+        */
+
+        //character
         public string getCharacter() {
-            return this.banditNameAsString;
+            return this.characterAsString;
         }
         
-        public void setGetsAnotherAction(bool anotherAction) {
-            this.getsAnotherAction = anotherAction;
-        }
-        
-        public bool getGetsAnotherAction() {
-            return this.getsAnotherAction;
-        }
-        
-        public bool getPlayedThisTurn() {
-            return this.playedThisTurn;
-        }
-        
-        public void setPlayedThisTurn(bool played) {
-            this.playedThisTurn = played;
-        }
-        
+        //position
         public TrainUnit getPosition() {
             GameManager gm = GameManager.getInstance();
-            //query hashmap of bandit-position 
-            return this.position;
+            TrainUnit pos = (TrainUnit)gm.banditPositions[this];
+            return (TrainUnit)pos;
         }
-        
         public void setPosition(TrainUnit newObject) {
             //change hashmap of bandit-position
-            this.position = newObject;
+            GameManager gm = GameManager.getInstance();
+            gm.banditPositions[this] = newObject;
         }
         
-        public bool addLootAt(int index, Loot a) {
-            bool contains = this.loot.Contains(a);
-            if (contains) {
-                return false;
-            }
-            
-            this.loot.Insert(index, a);
-            return true;
-        }
-        
-        public void removeLootAt(int index) {
-            if ((this.loot.Count > index)) {
-                this.loot.Remove(index);
-            }
-            
-        }
-        
+        //loot
         public Loot getLootAt(int index) {
             if ((this.loot.Count > index)) {
                 Loot a = (Loot)this.loot[index];
                 return a;
             }
-            
             return null;
         }
-        
         public void addLoot(Loot a) {
             bool contains = this.loot.Contains(a);
             if (contains) {
                 return;
             }
-            
             this.loot.Add(a);
         }
-        
         public void removeLoot(Loot a) {
             if (this.loot.Contains(a)) {
                 this.loot.Remove(a);
             }
-            
         }
-        
-        public bool containsLoot(Loot a) {
-            bool contains = this.loot.Contains(a);
-            return contains;
-        }
-        
-        public int sizeOfLoot() {
-            int size = this.loot.Count;
-            return size;
-        }
-        
         public ArrayList getLoot() {
             return this.loot;
         }
         
-        public void addDeckAt(int index, Card a) {
+        //deck
+        public void addToDeckAt(int index, Card a) {
             bool contains = this.deck.Contains(a);
             if (contains) {
                 return;
             }
-            
             this.deck.Insert(index, a);
         }
-        
-        public void removeDeckAt(int index) {
+        public void removeFromDeckAt(int index) {
             if ((this.deck.Count > index)) {
                 this.deck.Remove(index);
             }
-            
         }
-        
-        public Card getDeckAt(int index) {
+        public Card getFromDeckAt(int index) {
             if ((this.deck.Count > index)) {
                 return (Card)this.deck[index];
             }
-            
             return null;
         }
-        
-        public void addDeck(Card a) {
+        public void addToDeck(Card a) {
             bool contains = this.deck.Contains(a);
             if (contains) {
                 return;
             }
-            
             this.deck.Add(a);
         }
-        
-        public void removeDeck(Card a) {
+        public void removeFromDeck(Card a) {
             if (this.deck.Contains(a)) {
                 this.deck.Remove(a);
             }
-            
         }
-        
-        public bool containsDeck(Card a) {
-            bool contains = this.deck.Contains(a);
-            return contains;
-        }
-        
         public int sizeOfDeck() {
             int size = this.deck.Count;
             return size;
         }
-        
         public ArrayList getDeck() {
             return this.deck;
         }
         
-        public void addHandAt(int index, Card a) {
+        //hand
+        public void addToHand(Card a) {
             bool contains = this.hand.Contains(a);
             if (contains) {
                 return;
             }
-            
-            this.hand.Insert(index, a);
-        }
-        
-        public void removeHandAt(int index) {
-            if ((this.hand.Count > index)) {
-                this.hand.Remove(index);
-            }
-            
-        }
-        
-        public Card getHandAt(int index) {
-            if ((this.hand.Count > index)) {
-                Card a = (Card)this.hand[index];
-                return a;
-            }
-            
-            return null;
-        }
-        
-        public void addHand(Card a) {
-            bool contains = this.hand.Contains(a);
-            if (contains) {
-                return;
-            }
-            
             this.hand.Add(a);
         }
-        
-        public void removeHand(Card a) {
+        public void removeFromHand(Card a) {
             if (this.hand.Contains(a)) {
                 this.hand.Remove(a);
             }
-            
         }
-        
-        public bool containsHand(Card a) {
-            bool contains = this.hand.Contains(a);
-            return contains;
-        }
-        
         public int sizeOfHand() {
             int size = this.hand.Count;
             return size;
         }
-        
         public ArrayList getHand() {
             return this.hand;
         }
         
-        public void addDiscardPileAt(int index, Card a) {
-            bool contains = this.discardPile.Contains(a);
-            if (contains) {
-                return;
-            }
-            
-            this.discardPile.Insert(index, a);
+        //bullets
+        public void add(BulletCard b){
+            this.bullets.Add(b);
+        }
+        public void pop(){
+            this.bullets.Remove(this.bullets.Count-1);
+        }
+        public int getSizeOfBullets(){
+            return this.bullets.Count;
         }
         
-        public void removeDiscardPileAt(int index) {
-            if ((this.discardPile.Count > index)) {
-                this.discardPile.Remove(index);
-            }
-            
-        }
-        
-        public Card getDiscardPileAt(int index) {
-            if ((this.discardPile.Count > index)) {
-                Card associated = (Card)this.discardPile[index];
-                return associated;
-            }
-            else {
-                return null;
-            }
-            
-        }
-        
-        public void addDiscardPile(Card a) {
-            bool contains = this.discardPile.Contains(a);
-            if (!contains) {
-                this.discardPile.Add(a);
-            }
-            
-        }
-        
-        public void removeDiscardPile(Card a) {
-            if (this.discardPile.Contains(a)) {
-                this.discardPile.Remove(a);
-            }
-            
-        }
-        
-        public bool containsDiscardPile(Card a) {
-            bool contains = this.discardPile.Contains(a);
-            return contains;
-        }
-        
-        public int sizeOfDiscardPile() {
-            int size = this.discardPile.Count;
-            return size;
-        }
-        
-        public ArrayList getDiscardPile() {
-            return this.discardPile;
-        }
-        
-        // public Hostage getHostage() {
-        //     return this.hostage;
-        // }
-        
-        // public void setHostage(Hostage hostage) {
-        //     this.hostage = hostage;
-        // }
-        
+        //hostage
         public string getHostageAsString() {
             return this.hostageAsString;
         }
@@ -317,14 +166,15 @@ namespace model {
             this.hostageAsString = hostage;
         }
 
+        //toResolve
         public ActionCard getToResolve() {
         return this.toResolve;
         }
-    
         public void setToResolve(ActionCard ac) {
             this.toResolve = ac;
         }
 
+        //consecutiveTurnCounter
         public int getConsecutiveTurnCounter() {
 		    return this.consecutiveTurnCounter;
 	    }
@@ -332,12 +182,13 @@ namespace model {
 		    this.consecutiveTurnCounter = i;
 	    }
         
+
+        //initializing methods
         public void createStartingCards() {
             string[] actions= {"MOVE", "MOVE", "CHANGE_FLOOR","CHANGE_FLOOR", "MOVE_MARSHAL", "PUNCH", "ROB", "ROB", "SHOOT","SHOOT"};
             for (int i = 0; i<actions.Length; i++) {
-                Card c = new ActionCard (actions[i]);
+                Card c = new ActionCard (actions[i], this.characterAsString);
                 this.deck.Add(c);
-                //c.setBelongsTo(this);
             }
         }
         
@@ -352,22 +203,18 @@ namespace model {
         }
         
         public void createBulletCards() {
-            BulletCard bc1 = new BulletCard();
-            BulletCard bc2 = new BulletCard();
-            BulletCard bc3 = new BulletCard();
-            BulletCard bc4 = new BulletCard();
-            BulletCard bc5 = new BulletCard();
-            BulletCard bc6 = new BulletCard();
+            BulletCard bc1 = new BulletCard(this.characterAsString);
+            BulletCard bc2 = new BulletCard(this.characterAsString);
+            BulletCard bc3 = new BulletCard(this.characterAsString);
+            BulletCard bc4 = new BulletCard(this.characterAsString);
+            BulletCard bc5 = new BulletCard(this.characterAsString);
+            BulletCard bc6 = new BulletCard(this.characterAsString);
             this.bullets.Add(bc1);
             this.bullets.Add(bc2);
             this.bullets.Add(bc3);
             this.bullets.Add(bc4);
             this.bullets.Add(bc5);
             this.bullets.Add(bc6);
-            foreach (BulletCard bc in this.bullets) {
-                //bc.setBelongsTo(this);
-            }
-            
         }
         
         public void createStartingPurse() {
@@ -375,15 +222,12 @@ namespace model {
             this.loot.Add(startingPurse);
         }
 
+        //TODO: combine this game manager
         public void endOfSchemin(){
             foreach (Card c in this.hand){
                 this.deck.Add(c);
             }
-            foreach (Card c in this.discardPile){
-                this.deck.Add(c);
-            }
             this.hand.Clear();
-            this.discardPile.Clear();
             //HAND FOR NEXT ROUND IS CREATED AT END OF SCHEMIN PHASE - MUST NOT BE VISIBLE DURING STEALING PHASE
             this.createHand();
         }
@@ -393,47 +237,37 @@ namespace model {
             System.Random RandomGen = new System.Random(DateTime.Now.Millisecond);
             ArrayList ScrambledList = new ArrayList();
             Int32 Index;
-            /*while (AList.Count > 0)
+            while (this.deck.Count > 0)
             {
                 Index = RandomGen.Next(this.deck.Count);
                 ScrambledList.Add(this.deck[Index]);
                 this.deck.RemoveAt(Index);
-            }*/
+            }
             this.deck = ScrambledList;
         } 
 
-    // FIX THIS
-        public static void shuffle(ArrayList c) {
-            System.Random RandomGen = new System.Random(DateTime.Now.Millisecond);
+        public static ArrayList shuffle(ArrayList c) {
+            c = (ArrayList) c.Clone();
+            Random RandomGen = new Random(DateTime.Now.Millisecond);
             ArrayList ScrambledList = new ArrayList();
             Int32 Index;
-            /*while (AList.Count > 0)
+            while (c.Count > 0)
             {
                 Index = RandomGen.Next(c.Count);
                 ScrambledList.Add(c[Index]);
                 c.RemoveAt(Index);
-            }*/
-            //return ScrambledList;
+            }
+            return ScrambledList;
         }
 
-    // FIX THIS
         //added these to clean up the gamemanager methods, there's some logic that can be handled here 
-        public void addToResolve(Card c){
-            if (this.hand.Contains(c)){
-                //this.toResolve.Add(c);
-               // this.hand.Remove(c);
-            }
-            else {
-                Debug.Log("card does not exist in hand");
-            }
-        }
 
         public void drawCards() {
             if (this.deck.Count < 3) {
                 return;
             }
             for (int i = 0; i<3; i++){
-                Card c = (Card)this.deck[i];
+                Card c = (Card) this.deck[i];
                 this.hand.Add(c);
             }
             for (int i = 0; i<3; i++){

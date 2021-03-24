@@ -19,9 +19,10 @@ public class ActionCard extends Card implements SerializableSFSType {
     //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
     public ActionCard() {}
     
-    public ActionCard(ActionType action) {
+    public ActionCard(ActionType action, String belongsTo) {
 		this.actionType = action;
 		this.actionTypeAsString = action.name();
+		this.belongsTo = belongsTo;
 	}    
     
     /**

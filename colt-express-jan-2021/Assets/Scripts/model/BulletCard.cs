@@ -21,16 +21,19 @@ namespace model {
 
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public BulletCard() {}
-        
-        public BulletCard(Bandit belongsTo) {
-            //this.belongsTo = belongsTo;
+
+        public BulletCard(string belongsToAsString) {
+            this.belongsToAsString = belongsToAsString;
             this.fired = false;
         }
 
-        /* added by annie */
-        public string getOwner(){
-            return this.owner;
+        //fired
+        public bool getFired(){
+            return this.fired;
         }
-        /********/
+
+        public void setFired(bool b){
+            this.fired = b;
+        }
     }
 }

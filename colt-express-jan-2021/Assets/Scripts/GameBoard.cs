@@ -367,26 +367,14 @@ public class GameBoard : MonoBehaviour
 				}
 			}			
 		}
-
-		Debug.Log("bandits array size: " + banditsArray.Count);
-		ArrayList cards = new ArrayList();
-		foreach (Bandit ba in banditsArray) {
-			Debug.Log(ba.banditNameAsString +" "+ ChooseCharacter.character);
-			if(ba.banditNameAsString == ChooseCharacter.character) {
-				ArrayList hand = b.hand;
-				Debug.Log("adding cards");
-				objects[cardA] = hand[0];
-				objects[cardB] = hand[1];
-				objects[cardC] = hand[2];
-				objects[cardD] = hand[3];
-				objects[cardE] = hand[4];
-			}
-		}
+		
 			gm.playTurn();
 
 		// assign currRound and currPlayer 
 		currentRound.text += gm.currentRound.roundTypeAsString; 
 		currentBandit.text += gm.currentBandit.banditNameAsString; 
+		Invoke("GoToChat",2);
+
     }
 	
 	public void mapBulletCards(string bName, int buSize, BulletCard bc){
@@ -706,6 +694,68 @@ public class GameBoard : MonoBehaviour
         trace("sent game state");
 	}
 
+	// THIS IS THE FIRST METHOD CALLED FOR RECEIVING NEW GAME STATE
+    public void UpdateGameState(BaseEvent evt) {
+        Debug.Log("updategamestate called");
+        
+        ISFSObject responseParams = (SFSObject)evt.Params["params"];
+		gm = (GameManager)responseParams.GetClass("gm");
+		
+		// REASSIGN ALL GAME OBJECTS USING DICTIONARY
+		ArrayList banditsArray = gm.bandits;
+		//ArrayList banditsArray = new ArrayList();
+		foreach (Bandit b in banditsArray) {
+            if (b.characterAsString == "CHEYENNE") {
+				objects[cheyenne] = b;
+                trace("Cheyenne added!");
+            }
+			if (b.characterAsString == "BELLE") {
+                objects[belle] = b;
+                trace("Belle added!");
+            }
+			if (b.characterAsString == "TUCO") {
+                objects[tuco] = b;
+                trace("Tuco added!");
+            }
+			if (b.characterAsString == "DOC") {
+                objects[doc] = b;
+                trace("Doc added!");
+            }
+			if (b.characterAsString == "GHOST") {
+                objects[ghost] = b;
+                trace("Ghost added!");
+            }
+			if (b.characterAsString == "DJANGO") {
+                objects[django] = b;
+                trace("Django added!");
+            }
+		}
+		Debug.Log("bandits array size: " + banditsArray.Count);
+		ArrayList cards = new ArrayList();
+		foreach (Bandit ba in banditsArray) {
+			Debug.Log(ba.characterAsString +" "+ ChooseCharacter.character);
+			if(ba.characterAsString == ChooseCharacter.character) {
+				ArrayList hand = b.hand;
+				Debug.Log("adding cards");
+				objects[cardA] = hand[0];
+				objects[cardB] = hand[1];
+				objects[cardC] = hand[2];
+				objects[cardD] = hand[3];
+				objects[cardE] = hand[4];
+			}
+		}
+
+			gm.playTurn();
+    }
+
+	/*private void ChooseCharacter() {
+        ISFSObject obj = SFSObject.NewInstance();
+		obj.PutUtfString("chosenCharacter", "TUCO");
+        ExtensionRequest req = new ExtensionRequest("gm.chosenCharacter",obj);
+        SFS.Send(req);
+        trace("chose Tuco");
+    }*/
+
     public static void trace(string msg) {
 	//	debugText.text += (debugText.text != "" ? "\n" : "") + msg;
 	}
@@ -717,6 +767,11 @@ public class GameBoard : MonoBehaviour
 	void GoToWaitingRoom2(){
 		SceneManager.LoadScene("WaitingRoom");
 	}
+
+	public void GoToChat(){
+		SceneManager.LoadScene("Chat");
+	}
+
 
     void OnApplicationQuit() {
 		ChooseCharacter.RemoveLaunchedSession();

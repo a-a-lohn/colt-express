@@ -16,5 +16,6 @@
 
 // namespace model {
 //     public enum HostageType {
+//          POODLE, BANKER, MINISTER, TEACHER, ZEALOT, OLDLADY, POKERPLAYER, PHOTOGRAPHER
 //     }
 // }

@@ -18,25 +18,6 @@ public class Login : MonoBehaviour {
     // public static string password;
 
     public void VerifyUser(){
-        //fText.text = "the username entered is:" + username.text + " and password is: " + password.text;
-        //aaron's PutToken code
-        // var request = new RestRequest("oauth/token", Method.POST)
-        //     .AddParameter("grant_type", "password")
-        //     .AddParameter("username", username.text)
-        //     .AddParameter("password", password.text)
-        //     .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
-        // IRestResponse response = client.Execute(request);
-        // var obj = JObject.Parse(response.Content);
-        // // string str = (string)obj;
-        // // Debug.Log(str);
-        // fText.text = (string)obj["access_token"];
-
-        // if verified: 
-        // go to the WaitingRoom scene 
-       // Invoke("GoToWR", 2); //this will happen after 2 seconds
-        // SceneManager.LoadScene("WaitingRoom");
-
-
         var request = new RestRequest("oauth/token", Method.POST)
             .AddParameter("grant_type", "password")
             .AddParameter("username", username.text)
@@ -60,6 +41,10 @@ public class Login : MonoBehaviour {
 
     public void GoToWR(){       
         SceneManager.LoadScene("WaitingRoom");
+    }
+
+    public void GoToMM() {
+        SceneManager.LoadScene("MainMenu");
     }
 
 }

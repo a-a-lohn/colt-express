@@ -22,7 +22,12 @@ namespace model {
         public Bandit riddenBy;
         
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
-        public Horse(){}       
+        public Horse(){}
+
+        public Horse(TrainUnit adjacentTo){
+            this.adjacentTo = adjacentTo;
+        }
+
         // adjacentTo
         public TrainUnit getAdjacentTo() {
             return this.adjacentTo;
@@ -37,7 +42,7 @@ namespace model {
             return this.riddenBy;
         }      
         public void setRiddenBy(Bandit b) {
-            //this.riddenBy = Option<Bandit>.Some(b);
+            //TODO: whenever a Bandit is set to a horse their sprite needs to be moved onto the horse
             this.riddenBy = b;
         }
     }
