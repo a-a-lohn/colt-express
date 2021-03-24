@@ -47,7 +47,7 @@ public class Horse implements SerializableSFSType {
     	this.riddenBy = b;
     }
     
-    public static ArrayList<Horse> createHorses(){
+    /*public static ArrayList<Horse> createHorses(){
     	GameManager gm = GameManager.getInstance();
     	final int horsesToCreate = gm.getNumOfPlayers();
     	ArrayList<Horse> response = new ArrayList<Horse>();
@@ -56,5 +56,5 @@ public class Horse implements SerializableSFSType {
     		response.add(horse);
     	}
     	return response;
-    }
+    }*/
 }
