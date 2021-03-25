@@ -16,29 +16,103 @@ using Sfs2X.Protocol.Serialization;
 namespace model {
     public class Round : SerializableSFSType {
     
-        //public string roundType;  
-        // = round.toString(); -- Not sure if this will work, may have to be done assigned after round is assigned
         public string roundTypeAsString;  
-        // FOR NETWORKING
         public Turn currentTurn;  
-        public int turnCounter;
-        
-        // Tracks the current turn
+        public int turnCounter; // Tracks the current turn
         public ArrayList turns ;
         
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public Round() {}
 
-        public Round(string Rt) {
-    	    //this.roundType = Rt;
-    	    this.roundTypeAsString = Rt;
+        public Round(string rt) {
+            int numOfBandits = GameManager.getInstance().bandits.Count;
+            Debug.Assert(numOfBandits >= 2 && numOfBandits <= 6);
+    	    this.roundTypeAsString = rt;
+            this.turnCounter = 0;
+            this.turns = new ArrayList();
+            if(rt.Equals("AngryMarshal") && numOfBandits <= 4){
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("TUNNEL"));
+                turns.Add(new Turn("SWITCHING"));
+            }
+            else if(rt.Equals("SwivelArm") && numOfBandits <= 4){
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("TUNNEL"));
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("STANDARD"));
+            }
+            else if(rt.Equals("Braking") && numOfBandits <= 4){
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("STANDARD"));
+            }
+            else if(rt.Equals("TakeItAll") && numOfBandits <= 4){
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("TUNNEL"));
+                turns.Add(new Turn("SPEEDINGUP"));
+                turns.Add(new Turn("STANDARD"));
+            }
+            else if(rt.Equals("PaasengersRebellion") && numOfBandits <= 4){
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("TUNNEL"));
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("STANDARD"));
+            }
+            else if(rt.Equals("Bridge") && numOfBandits <= 4){
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("SPEEDINGUP"));
+                turns.Add(new Turn("STANDARD"));
+            }
+            else if(rt.Equals("Cave") && numOfBandits <= 4){
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("TUNNEL"));
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("TUNNEL"));
+                turns.Add(new Turn("STANDARD"));
+            }
+            else if(rt.Equals("AngryMarshal")){
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("SWITCHING"));
+            }
+            else if(rt.Equals("SwivelArm")){
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("TUNNEL"));
+                turns.Add(new Turn("STANDARD"));
+            }
+            else if(rt.Equals("Braking")){
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("TUNNEL"));
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("STANDARD"));
+            }
+            else if(rt.Equals("TakeItAll")){
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("SPEEDINGUP"));
+                turns.Add(new Turn("SWITCHING"));
+            }
+            else if(rt.Equals("PassengersRebellion")){
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("TUNNEL"));
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("SWITCHING"));
+            }   
+            else if(rt.Equals("Bridge")){
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("SPEEDINGUP"));
+            }
+            else if(rt.Equals("Cave")){
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("TUNNEL"));
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("TUNNEL"));
+            }
         }
         
         public void addTurn(Turn a) {
-            if (this.turns.Contains(a)) {
-                return;
-            }
-            
             this.turns.Add(a);
         }
         
