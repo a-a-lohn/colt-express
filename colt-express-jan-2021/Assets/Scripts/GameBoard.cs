@@ -6,6 +6,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using RestSharp;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using System.Linq;
 
 using Sfs2X;
 using Sfs2X.Logging;
@@ -22,6 +26,9 @@ using System.Collections;
 public class GameBoard : MonoBehaviour
 {
 
+
+	private static RestClient client = new RestClient("http://13.72.79.112:4242");
+	public static string gameHash = WaitingRoom.gameHash;
 	/*
 	Frontend team:
 	-attach choosecharacter strings to characters (attach character strings from
@@ -42,6 +49,13 @@ public class GameBoard : MonoBehaviour
     public Button button;
 	public Button extension;
 	public Button chooseChar;
+
+	public static bool works = false;
+	public Text doesItWork;
+
+	public static void setWorks() {
+		works = true;
+	}
 
 	public GameObject canvas;
 
@@ -190,77 +204,59 @@ public class GameBoard : MonoBehaviour
 		announcement.text = logMessages[SFS.step];
 		gem2.SetActive(false);
 
-		exitText.text =""; 
-    }
+		//exit.SetActive(false);
+		exitText.text ="";
+		doesItWork.text = "";
 
-	// THIS IS THE FIRST METHOD CALLED FOR RECEIVING NEW GAME STATE
-    public void UpdateGameState(BaseEvent evt) {
-        Debug.Log("updategamestate called");
-        
-        ISFSObject responseParams = (SFSObject)evt.Params["params"];
-		gm = (GameManager)responseParams.GetClass("gm");
-		
-		// REASSIGN ALL GAME OBJECTS USING DICTIONARY
-		ArrayList banditsArray = gm.bandits;
-		foreach (Bandit b in banditsArray) {
-            if (b.banditNameAsString == "CHEYENNE") {
-				objects[cheyenne] = b;
-                trace("Cheyenne added!");
-            }
-			if (b.banditNameAsString == "BELLE") {
-                objects[belle] = b;
-                trace("Belle added!");
-            }
-			if (b.banditNameAsString == "TUCO") {
-                objects[tuco] = b;
-                trace("Tuco added!");
-            }
-			if (b.banditNameAsString == "DOC") {
-                objects[doc] = b;
-                trace("Doc added!");
-            }
-			if (b.banditNameAsString == "GHOST") {
-                objects[ghost] = b;
-                trace("Ghost added!");
-            }
-			if (b.banditNameAsString == "DJANGO") {
-                objects[django] = b;
-                trace("Django added!");
-            }
-		}
+		//ChooseCharacter.character = "GHOST";
 
-		ArrayList lootArray = gm.loot;
-		foreach (Loot l in lootArray) {
-            if (l.belongsTo == "CHEYENNE") {
-				objects[gem1] = l;
-                trace("Gem 1 added!");
-            }
-            if (l.belongsTo == "BELLE") {
-				objects[gem2] = l;
-                trace("Gem 2 added!");
-            }
-            if (l.belongsTo == "TUCO") {
-				objects[gem3] = l;
-                trace("Gem 3 added!");
-            }
-            if (l.belongsTo == "DOC") {
-				objects[gem4] = l;
-                trace("Gem 4 added!");
-            }
-            if (l.belongsTo == "GHOST") {
-				objects[gem5] = l;
-                trace("Gem 5 added!");
-            }
-			if (l.belongsTo == "DJANGO") {
-				objects[gem6] = l;
-                trace("Gem 6 added!");
-            }
-		}
-		
-			gm.playTurn();
-		Invoke("GoToChat",2);
+		//SendNewGameState();
+		// ** THE DICTIONARIES ARE INITIALIZED(CLEARED) IN Start() ** 
+		// Bandits
+		// objects.Add(cheyenne, "null");
+		// objects.Add(belle, "null");
+		/*objects.Add(tuco, "null");
+		objects.Add(doc, "null");
+		objects.Add(ghost, "null");
+		objects.Add(django, "null");
+		// Loot
+		objects.Add(gem1, "null");
+		objects.Add(gem2, "null");
+		objects.Add(gem3, "null");
+		objects.Add(gem4, "null");
+		objects.Add(gem5, "null");*/
+		// Cards
+		// objects.Add(cardA, "null");
+		// objects.Add(cardB, "null");
+		// objects.Add(cardC, "null");
+		// objects.Add(cardD, "null");
+		// objects.Add(cardE, "null");
+
+		//EnterGameBoardScene();
+
+		//Invoke("LeaveRoom",5);
+		/*if (SFS.getSFS() == null) {
+            // Initialize SFS2X client. This can be done in an earlier scene instead
+            SmartFox sfs = new SmartFox();
+            // For C# serialization
+            DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
+            SFS.setSFS(sfs);
+        }
+        if (!SFS.IsConnected()) {
+            SFS.Connect("test");
+        }*/
+
+		//Invoke("GoToChat",2);
+
+		EnterGameBoardScene();
 
     }
+
+	public static void testSerial() {
+		ISFSObject obj = SFSObject.NewInstance();
+		ExtensionRequest req = new ExtensionRequest("gm.testSerial",obj);
+		SFS.Send(req);
+	}
 
 	public void LeaveRoom() {
         SFS.LeaveRoom();
@@ -283,16 +279,17 @@ public class GameBoard : MonoBehaviour
 	}
 
 	public void MouseDown() {
-		SFS.step += 1;
-		int step = SFS.step;
-		ISFSObject obj = SFSObject.NewInstance();
-		obj.PutInt("step", step);
-		ExtensionRequest req = new ExtensionRequest("gm.nextAction",obj);
-		SFS.Send(req);
+		//testSerial();
+		//SFS.step += 1;
+		//int step = SFS.step;
+		//ISFSObject obj = SFSObject.NewInstance();
+		//obj.PutInt("step", step);
+		//ExtensionRequest req = new ExtensionRequest("gm.nextAction",obj);
+		//SFS.Send(req);
 		//executeHardCoded(step);
-		if (SFS.step == 27){
-			LeaveRoom();
-		}
+		//if (SFS.step == 27){
+		//	LeaveRoom();
+		//}
 	}
 
 	public void drawCards(/*string currentChar*/){
@@ -337,12 +334,14 @@ public class GameBoard : MonoBehaviour
 				// drawCards("DJANGO", step);
 				// DRAW CARDS 
 				if(ChooseCharacter.character == "DJANGO"){
+					GoToChat();
 					drawCards(); 
 				}
 				break;
 			case 4:
 				//"Tunnel Turn: Ghost played an action card which is hidden",
 				if(ChooseCharacter.character == "GHOST"){
+					GoToChat();
 					playCard(cardB);
 				}
 				break;
@@ -513,6 +512,25 @@ public class GameBoard : MonoBehaviour
 		if (Input.GetMouseButtonDown(0)){
 			MouseDown();
 			Debug.Log("Clicked");
+			works = false;
+			Debug.Log("currentbandit on mouse: "+ gm.currentBandit.getCharacter());
+			if(gm != null && gm.currentBandit.getCharacter() == ChooseCharacter.character) {
+				Debug.Log("ending my turn");
+				Bandit b = (Bandit) gm.bandits[0];
+				if (b.getCharacter() == gm.currentBandit.getCharacter()) {
+					gm.currentBandit = (Bandit) gm.bandits[1];
+				} else {
+					gm.currentBandit = (Bandit) gm.bandits[0];
+				}
+				SendNewGameState();
+				//gm.endOfTurn();
+			}
+		}
+
+		if(works) {
+			doesItWork.text = "it works!";
+		} else {
+			doesItWork.text = "";
 		}
     }
 
@@ -521,16 +539,16 @@ public class GameBoard : MonoBehaviour
 		ISFSObject obj = SFSObject.NewInstance();
         ExtensionRequest req = new ExtensionRequest("gm.enterGameBoardScene",obj);
         SFS.Send(req);
-        trace("Sent enter scene message");
+        Debug.Log("Sent enter scene message");
 	}
 
 	public static void SendNewGameState() {
 		ISFSObject obj = SFSObject.NewInstance();
-		Debug.Log("sending new game state");
+		//Debug.Log("sending new game state");
 		obj.PutClass("gm", gm);
         ExtensionRequest req = new ExtensionRequest("gm.newGameState",obj);
         SFS.Send(req);
-        trace("sent game state");
+        Debug.Log("sent game state");
 	}
 
 	// THIS IS THE FIRST METHOD CALLED FOR RECEIVING NEW GAME STATE
@@ -539,38 +557,38 @@ public class GameBoard : MonoBehaviour
         
         ISFSObject responseParams = (SFSObject)evt.Params["params"];
 		gm = (GameManager)responseParams.GetClass("gm");
-		
+		//replace instance
 		// REASSIGN ALL GAME OBJECTS USING DICTIONARY
 		ArrayList banditsArray = gm.bandits;
 		//ArrayList banditsArray = new ArrayList();
 		foreach (Bandit b in banditsArray) {
             if (b.characterAsString == "CHEYENNE") {
 				objects[cheyenne] = b;
-                trace("Cheyenne added!");
+                Debug.Log("Cheyenne added!");
             }
 			if (b.characterAsString == "BELLE") {
                 objects[belle] = b;
-                trace("Belle added!");
+                Debug.Log("Belle added!");
             }
 			if (b.characterAsString == "TUCO") {
                 objects[tuco] = b;
-                trace("Tuco added!");
+                Debug.Log("Tuco added!");
             }
 			if (b.characterAsString == "DOC") {
                 objects[doc] = b;
-                trace("Doc added!");
+                Debug.Log("Doc added!");
             }
 			if (b.characterAsString == "GHOST") {
                 objects[ghost] = b;
-                trace("Ghost added!");
+                Debug.Log("Ghost added!");
             }
 			if (b.characterAsString == "DJANGO") {
                 objects[django] = b;
-                trace("Django added!");
+                Debug.Log("Django added!");
             }
 		}
 		Debug.Log("bandits array size: " + banditsArray.Count);
-		ArrayList cards = new ArrayList();
+		/*ArrayList cards = new ArrayList();
 		foreach (Bandit ba in banditsArray) {
 			Debug.Log(ba.characterAsString +" "+ ChooseCharacter.character);
 			if(ba.characterAsString == ChooseCharacter.character) {
@@ -582,7 +600,7 @@ public class GameBoard : MonoBehaviour
 				objects[cardD] = hand[3];
 				objects[cardE] = hand[4];
 			}
-		}
+		}*/
 
 			gm.playTurn();
     }
@@ -617,4 +635,63 @@ public class GameBoard : MonoBehaviour
 		// Always disconnect before quitting
 		SFS.Disconnect();
 	}
+
+
+	/*
+	 The methods below implements the save game and launch saved game features
+	
+	*/
+
+	private static string GetAdminToken() {
+        var request = new RestRequest("oauth/token", Method.POST)
+            .AddParameter("grant_type", "password")
+            .AddParameter("username", "admin")
+            .AddParameter("password", "admin")
+            .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+        IRestResponse response = client.Execute(request);
+            
+        var obj = JObject.Parse(response.Content);
+        string adminToken = (string)obj["access_token"];
+        adminToken = adminToken.Replace("+", "%2B");
+
+		return adminToken;
+    }
+
+	public static void SaveGameState(string savegameID) {
+
+		//ONLY NEED TO SEND THE SAVEGAME REQUEST TO THE LS ONCE
+		var request = new RestRequest("api/sessions/" + gameHash, Method.GET)
+            .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+        IRestResponse response = client.Execute(request);
+        var JObj = JObject.Parse(response.Content);
+        Dictionary<string, object> sessionDetails = JObj.ToObject<Dictionary<string, object>>();
+
+		dynamic j = new JObject();
+		var temp = JsonConvert.SerializeObject(sessionDetails["gameParameters"]);
+		var gameParameters = JsonConvert.DeserializeObject<Dictionary<string, string>>(temp);
+
+		string gameName = gameParameters["name"];
+		j.gamename = gameName; // can replace with "ColtExpress"
+		j.players = sessionDetails["players"].ToString();//.ToCharArray(); -- convert the string of players to an string array of players
+		j.savegameid = savegameID;
+
+		request = new RestRequest("api/gameservices/" + gameName + "/savegames/" + savegameID + "?access_token=" + GetAdminToken(), Method.POST)
+            .AddParameter("application/json", j.ToString(), ParameterType.RequestBody)
+            .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+
+        response = client.Execute(request);
+
+
+		// After saving the game, store the information to the server
+
+		ISFSObject obj = SFSObject.NewInstance();
+		Debug.Log("saving the current game state on the server");
+		obj.PutUtfString("savegameId", savegameID);
+		obj.PutClass("gm", gm);
+        ExtensionRequest req = new ExtensionRequest("gm.saveGameState",obj);
+        SFS.Send(req);
+	}
+
+
+
 }

@@ -40,6 +40,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 											// BOTTOM OF DECK
 	public ArrayList<TrainUnit> trainRoof;
 	public ArrayList<TrainUnit> trainCabin;
+	public int trainLength;
 	public ArrayList<TrainUnit> stagecoach;
 	public ArrayList<Horse> horses = new ArrayList<Horse>();
 	public ArrayList<Bandit> bandits = new ArrayList<Bandit>();
@@ -103,20 +104,35 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	 */
 
 	// this method should only be called from if-else block in chosenCharacter
+	
+	/**
+	 * --INITIALIZING THE GAME--
+	 * 1. Create locomotive, stagecoach and 1 train car for each bandit
+	 * 2. Give each bandit a $250 purse, 11 action cards, and 6 bullet cards
+	 * 3. Create 4 purses, 1 gem, and 1 whiskey for each car
+	 * 4. Place marshal and strongbox in locomotive
+	 * 5. Place shotgun and strongbox on roof of stagecoach
+	 * 6. Create number of bandits minus 1 hostages
+	 * 7. Create 16 neutral bullet cards
+	 * 8. Create 4 round cards and 1 train station card
+	 * 9. Create a horse for each bandit
+	 */
 	public void initializeGame() {
 		System.out.println("Initializing the game now!");
-		// set train-related attributes
-		TrainUnit.trainLength = this.getNumOfPlayers() + 1;
+		// 1. Create locomotive and 1 train car for each bandit
+		this.trainLength = this.getNumOfPlayers() + 1;
+		System.out.println("trainlength: " + trainLength);
 		this.trainRoof = TrainUnit.createTrainRoof();
 		this.trainCabin = TrainUnit.createTrainCabin();
 		this.stagecoach = TrainUnit.createStagecoach();
+		
+		// 2. Give each bandit a $250 purse, 11 action cards, and 6 bullet cards
 		ArrayList<Bandit> bandits = this.getBandits();
 		// initialize each bandit cards, purse
 		for (Bandit b : bandits) {
-			b.createStartingCards();
-			b.createHand();
-			b.createBulletCards();
 			b.createStartingPurse();
+			b.createStartingCards();
+			b.createBulletCards();
 		}
 
 		//this.horses = Horse.createHorses();
@@ -161,7 +177,8 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		this.neutralBulletCard.add(NBullet11);
 		this.neutralBulletCard.add(NBullet12);
 		this.neutralBulletCard.add(NBullet13);
-
+		this.horses = Horse.createHorses();
+		
 		this.roundIndex = 0;
 		this.banditsPlayedThisTurn = 0;
 		this.gameStatus = GameStatus.SCHEMIN;
@@ -266,15 +283,12 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	public Round getCurrentRound() {
 		return this.currentRound;
 	}
-
 	public void setCurrentRound(Round newObject) {
 		this.currentRound = newObject;
 	}
-
 	public Round getRoundAt(int index) {
 		return this.rounds.get(index);
 	}
-
 	public void addRound(Round a) {
 		int size = rounds.size();
 		/*
@@ -282,27 +296,22 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		 */
 		this.rounds.add(a);
 	}
-
 	public void removeRound(Round a) {
 		if (this.rounds.contains(a)) {
 			this.rounds.remove(a);
 		}
 	}
-
 	public boolean roundsContains(Round a) {
 		boolean contains = rounds.contains(a);
 		return contains;
 	}
-
 	public int sizeOfRounds() {
 		int size = rounds.size();
 		return size;
 	}
-
 	public ArrayList<Round> getRounds() {
 		return this.rounds;
 	}
-
 	public ArrayList<Round> createRoundCards(int numOfPlayers) {
 		ArrayList<Round> RoundCards = new ArrayList<Round>();
 		if (numOfPlayers == 2 || numOfPlayers == 3 || numOfPlayers == 4) {
@@ -311,6 +320,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 			r1.addTurn(new Turn(TurnType.STANDARD));
 			r1.addTurn(new Turn(TurnType.TUNNEL));
 			r1.addTurn(new Turn(TurnType.SWITCHING));
+			r1.setCurrentTurn(r1.getTurnAt(0));
 			RoundCards.add(r1);
 
 			Round r2 = new Round(RoundType.SwivelArm);
@@ -318,6 +328,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 			r2.addTurn(new Turn(TurnType.TUNNEL));
 			r2.addTurn(new Turn(TurnType.STANDARD));
 			r2.addTurn(new Turn(TurnType.STANDARD));
+			r2.setCurrentTurn(r2.getTurnAt(0));
 			RoundCards.add(r2);
 
 			Round r3 = new Round(RoundType.Braking);
@@ -342,13 +353,13 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 			r5.addTurn(new Turn(TurnType.STANDARD));
 			RoundCards.add(r5);
 
-			Round r6 = new Round(RoundType.SIX);
+			Round r6 = new Round(RoundType.Bridge);
 			r6.addTurn(new Turn(TurnType.STANDARD));
 			r6.addTurn(new Turn(TurnType.SPEEDINGUP));
 			r6.addTurn(new Turn(TurnType.STANDARD));
 			RoundCards.add(r6);
 
-			Round r7 = new Round(RoundType.SEVEN);
+			Round r7 = new Round(RoundType.Cave);
 			r7.addTurn(new Turn(TurnType.STANDARD));
 			r7.addTurn(new Turn(TurnType.TUNNEL));
 			r7.addTurn(new Turn(TurnType.STANDARD));
@@ -389,12 +400,12 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 			r5.addTurn(new Turn(TurnType.SWITCHING));
 			RoundCards.add(r5);
 
-			Round r6 = new Round(RoundType.SIX);
+			Round r6 = new Round(RoundType.Bridge);
 			r6.addTurn(new Turn(TurnType.STANDARD));
 			r6.addTurn(new Turn(TurnType.SPEEDINGUP));
 			RoundCards.add(r6);
 
-			Round r7 = new Round(RoundType.SEVEN);
+			Round r7 = new Round(RoundType.Cave);
 			r7.addTurn(new Turn(TurnType.STANDARD));
 			r7.addTurn(new Turn(TurnType.TUNNEL));
 			r7.addTurn(new Turn(TurnType.STANDARD));
@@ -404,7 +415,6 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		} else {
 			return null;
 		}
-		;
 
 		Collections.shuffle(RoundCards);
 
@@ -426,34 +436,36 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	/**
 	 * --TRAIN UNIT METHODS--
 	 */
-	public TrainUnit getTrainCabinAt(int index) {
-		if (index >= this.trainCabin.size()) {
-			return this.trainCabin.get(index);
-		} else {
-			return null;
+	 public TrainUnit getTrainCabinAt(int index) {
+		if (index < this.trainLength) {
+			 return this.trainCabin.get(index);
+		} 
+		else {
+			 return null;
 		}
-	}
-
-	public TrainUnit getTrainRoofAt(int index) {
-		if (index >= this.trainRoof.size()) {
-			return this.trainRoof.get(index);
-		} else {
-			return null;
-		}
-	}
-
-	public int sizeOfTrainUnits() {
-		int size = this.trainCabin.size();
-		return size;
-	}
-
-	public ArrayList<TrainUnit> getTrainCabin() {
-		return this.trainCabin;
-	}
-
-	public ArrayList<TrainUnit> getTrainRoof() {
-		return this.trainRoof;
-	}
+	 }
+	 
+	 public TrainUnit getTrainRoofAt(int index) {
+		 if(index >= this.trainLength) {
+			 return this.trainRoof.get(index);
+		 }
+		 else {
+			 return null;
+		 }
+	 }
+	 
+	 public int sizeOfTrainUnits() {
+		 return this.trainLength;
+	 }
+	 
+	 public ArrayList<TrainUnit> getTrainCabin() {
+		 return this.trainCabin;
+	 }
+	 
+	 public ArrayList<TrainUnit> getTrainRoof(){
+		 return this.trainRoof;
+	 }
+	 
 
 	/**
 	 * --BANDIT METHODS--
@@ -461,11 +473,9 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	public Bandit getCurrentBandit() {
 		return this.currentBandit;
 	}
-
 	public void setCurrentBandit(Bandit newObject) {
 		this.currentBandit = newObject;
 	}
-
 	/*
 	 * boolean addBanditsAt(int index, Bandit a) { int size = bandits.size(); if
 	 * (size == maximum) { return false; } bandits.add(index, a); return true; }
@@ -475,39 +485,34 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 			this.bandits.remove(index);
 		}
 	}
-
 	public Bandit getBanditsAt(int index) {
 		if (this.bandits.size() >= index) {
 			return this.bandits.get(index);
 		}
 		return null;
 	}
-
 	public void addBandit(Bandit a) {
 		bandits.add(a);
 	}
-
 	public void removeBandits(Bandit a) {
 		if (this.bandits.contains(a)) {
 			this.bandits.remove(a);
 		}
 	}
-
 	public boolean containsBandits(Bandit a) {
 		boolean contains = this.bandits.contains(a);
 		return contains;
 	}
-
 	public int sizeOfBandits() {
 		int size = this.bandits.size();
 		return size;
 	}
-
 	public ArrayList<Bandit> getBandits() {
 		ArrayList<Bandit> b = (ArrayList<Bandit>) this.bandits.clone();
 		return b;
 	}
-
+	
+	
 	/**
 	 * --GAME MANAGER METHODS--
 	 */
@@ -527,10 +532,10 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		return getBandits().size();
 	}
 
-	public void setUpPositions(ArrayList<Bandit> b) { // <-- fix this
+	public void setUpPositions(ArrayList<Bandit> b) { //<-- fix this
 		int numOfBandit = b.size();
-		int tracker = 0;
-		for (int i = 0; i < numOfBandit; i++) {
+		int tracker=0;
+		for (int i=0; i<numOfBandit; i++) {
 			Bandit tbp = this.bandits.get(i);
 			TrainUnit tu = this.trainCabin.get(tracker + numOfBandit - 1);
 			this.banditPositions.put(tbp, tu);
@@ -556,12 +561,13 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		}
 		// this.setCurrentRound(this.rounds.get(0));
 		// set waiting for input to be true;
-
+	
 	}
 }
 
-/**
- * --EXECUTE ACTIONS-- BEFORE CALLING ANY OF THESE METHODS, CURRENT BANDIT MUST
- * BE ASSIGNED CORRECTLY All actions will be called from POV of
- * this.currentBandit
- */
+
+	/**
+	 * --EXECUTE ACTIONS-- BEFORE CALLING ANY OF THESE METHODS, CURRENT BANDIT MUST
+	 * BE ASSIGNED CORRECTLY All actions will be called from POV of
+	 * this.currentBandit
+	 */

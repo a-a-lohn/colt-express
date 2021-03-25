@@ -13,67 +13,11 @@ import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
  */
 public abstract class Loot implements SerializableSFSType {
     
-	public Optional<Bandit> belongsTo;
-	public Optional<TrainUnit> position;
+//	public Optional<Bandit> belongsTo;
+//	public Optional<TrainUnit> position;
     
     //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
     public Loot() { }
-
-    
-    /**
-     * --CONSTRUCTORS--
-     */
-    
-    
-    public Loot(Bandit b) {
-    	this.belongsTo = Optional.of(b);
-    	this.position = Optional.empty();
-    }
-    
-    public Loot(TrainUnit pos) {
-    	this.position = Optional.of(pos);
-    	this.belongsTo = Optional.empty();
-    }
-    
-    
-    /**
-     * --GETTERS AND SETTERS--
-     */
-    
-    
-    //belongsTo
-    public Bandit getBelongsTo() {
-    	return this.belongsTo.get();
-    }
-    /**
-     * @invariable only one of the fields (belongsTo or position) can be non-empty
-     * @param b
-     *            the Bandit this loot will belong to after the operation; cannot be null
-     *            
-     * @post this Loot object belongs to a Bandit and is no longer associated with a TrainUnit
-     */
-    public void setBelongsTo(Bandit b) {
-    	assert b != null;
-    	this.position = Optional.empty();
-    	this.belongsTo = Optional.of(b);
-    }
-    
-    //position
-    public TrainUnit getPosition() {
-    	return this.getPosition();
-    }
-    /**
-     * @invariable only one of the fields (belongsTo or position) can be non-empty
-     * @param pos
-     *            the TrainUnit where this loot will be after the operation; cannot be null
-     *            
-     * @post this Loot object is associated with a TrainUnit and no longer belongs to a Bandit
-     */
-    public void setPosition(TrainUnit pos) {
-    	assert pos != null;
-    	this.belongsTo = Optional.empty();
-    	this.position = Optional.of(pos);
-    }
     
     /**
      * --LOOT METHODS--

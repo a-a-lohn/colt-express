@@ -18,7 +18,7 @@ namespace model {
 
     public class Bandit : SerializableSFSType {
     
-        public string characterAsString;     
+        public string characterAsString;
         public string hostageAsString;
         public ArrayList loot;      
         public ArrayList bullets;        
@@ -147,11 +147,13 @@ namespace model {
         }
         
         //bullets
-        public void add(BulletCard b){
+        public void addBullet(BulletCard b){
             this.bullets.Add(b);
         }
-        public void pop(){
-            this.bullets.Remove(this.bullets.Count-1);
+        public BulletCard popBullet(){
+            BulletCard popped = (BulletCard) this.bullets[this.bullets.Count-1];
+            this.bullets.Remove(popped);
+            return popped;
         }
         public int getSizeOfBullets(){
             return this.bullets.Count;

@@ -40,7 +40,7 @@ public static class SFS
 	public static Chat chat;
 
     static SFS(){
-        defaultHost = "13.72.79.112";//"127.0.0.1";
+        defaultHost = "127.0.0.1";//"13.72.79.112";//
 	    defaultTcpPort = 9933;
         zone = "MergedExt";
     }
@@ -96,8 +96,10 @@ public static class SFS
 				string chosen = responseParams.GetUtfString("chosenCharacter");
 				chosenCharText += player + " chose " + chosen + "!\n";
 			}
-			cc.UpdateDisplayText(chosenCharText);
-			cc.DisplayRemainingCharacters(evt);
+			if (cc != null) {
+				cc.UpdateDisplayText(chosenCharText);
+				cc.DisplayRemainingCharacters(evt);
+			}
 		} else if (cmd == "updateGameState") {
             gb.UpdateGameState(evt);
         } else if (cmd == "nextAction") {
@@ -105,13 +107,23 @@ public static class SFS
 			step = responseParams.GetInt("step");
 			Debug.Log("received step " + step);
 			gb.executeHardCoded(step);
+		} else if (false/*cmd == incoming character name from save game*/) {
+			// 	assign this client to be the character as specified by the incoming string
 		} else if (cmd == "testSerial") {
 			ISFSObject responseParams = (SFSObject)evt.Params["params"];
 			GameManager gm = (GameManager) responseParams.GetClass("gm");
 			GameManager.replaceInstance(gm);
-			TrainUnit t = (TrainUnit) gm.trainRoof[0];
-			trace(t.carTypeAsString);
-			GameBoard.SendNewGameState();
+			GameManager newgm = GameManager.getInstance();
+			TrainUnit t = (TrainUnit) newgm.trainRoof[0];
+			Debug.Log(t.carTypeAsString);
+			Debug.Log("test");
+			Hashtable ht = newgm.banditPositions;
+			foreach(Bandit key in ht.Keys)
+			{			
+				TrainUnit m = (TrainUnit) ht[key];
+   				Debug.Log(String.Format("{0}: {1}", key.characterAsString, m.carTypeAsString));
+			}
+			//GameBoard.SendNewGameState();
 		}
     }
 
@@ -377,6 +389,10 @@ public static class SFS
 	}*/
 	
 	private static void OnUserExitRoom(BaseEvent evt) {
+		ISFSObject obj = SFSObject.NewInstance();
+		ExtensionRequest req = new ExtensionRequest("gm.removeGame",obj);
+        Send(req);
+
 		User user = (User) evt.Params["user"];
 		username = PlayerPrefs.GetString("username", "No username found");
 		Debug.Log(username);

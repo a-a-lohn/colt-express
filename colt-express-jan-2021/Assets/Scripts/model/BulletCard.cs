@@ -22,7 +22,7 @@ namespace model {
         public BulletCard() {}
 
         public BulletCard(string belongsToAsString) {
-            this.belongsToAsString = belongsToAsString;
+            base.belongsToAsString = belongsToAsString;
             this.fired = false;
         }
 

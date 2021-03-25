@@ -22,8 +22,7 @@ public class Horse implements SerializableSFSType {
     
     public Horse(Bandit b) {
     	GameManager gm = GameManager.getInstance();
-    	
-    	this.adjacentTo = gm.getTrainCabinAt(TrainUnit.trainLength-1);
+       	this.adjacentTo = gm.getTrainCabinAt(gm.trainLength-1);
     	this.riddenBy = b;
     }
     
@@ -45,6 +44,17 @@ public class Horse implements SerializableSFSType {
     }
     public void setRiddenBy(Bandit b) {
     	this.riddenBy = b;
+    }
+    
+    public static ArrayList<Horse> createHorses(){
+    	GameManager gm = GameManager.getInstance();
+    	final int horsesToCreate = gm.getNumOfPlayers();
+    	ArrayList<Horse> response = new ArrayList<Horse>();
+    	for(int i=0; i<horsesToCreate; i++) {
+    		Horse horse = new Horse(gm.getBandits().get(i));
+    		response.add(horse);
+    	}
+    	return response;
     }
     
     /*public static ArrayList<Horse> createHorses(){
