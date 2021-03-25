@@ -129,12 +129,13 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		// 2. Give each bandit a $250 purse, 11 action cards, and 6 bullet cards
 		ArrayList<Bandit> bandits = this.getBandits();
 		for (Bandit b : bandits) {
-			b.createStartingCards();
-			b.createHand();
-			b.createBulletCards();
 			b.createStartingPurse();
+			b.createStartingCards();
+			b.createBulletCards();
 		}
-		this.horses = Horse.createHorses();
+		
+		// 3. Place marshal and strongbox in locomotive
+		
 		this.marshalInstance = Marshal.getInstance();
 		// initialize round cards, round attributes/create round constructor
 		this.rounds = this.createRoundCards(this.getNumOfPlayers());
@@ -172,6 +173,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		this.neutralBulletCard.add(NBullet11);
 		this.neutralBulletCard.add(NBullet12);
 		this.neutralBulletCard.add(NBullet13);
+		this.horses = Horse.createHorses();
 		
 		this.roundIndex = 0;
 		this.banditsPlayedThisTurn = 0;
