@@ -82,7 +82,7 @@ namespace model {
         }
         
         public void promptDrawCardsOrPlayCard() {
-            GameBoard.setWorks(true);
+            GameBoard.setWorks();
         }
 
         public void resolveAction(ActionCard toResolve) {

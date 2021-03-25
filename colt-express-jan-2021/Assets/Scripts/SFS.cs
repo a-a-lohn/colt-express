@@ -387,6 +387,10 @@ public static class SFS
 	}*/
 	
 	private static void OnUserExitRoom(BaseEvent evt) {
+		ISFSObject obj = SFSObject.NewInstance();
+		ExtensionRequest req = new ExtensionRequest("gm.removeGame",obj);
+        Send(req);
+
 		User user = (User) evt.Params["user"];
 		username = PlayerPrefs.GetString("username", "No username found");
 		Debug.Log(username);

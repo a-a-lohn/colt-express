@@ -18,9 +18,9 @@ public class Marshal implements SerializableSFSType {
     public Marshal() {}
     
     public static Marshal createMarshal() {
-    	getInstance();
-    	final int x = TrainUnit.trainLength;
-    	TrainUnit t = TrainUnit.trainCabin.get(GameManager.getInstance().getNumOfPlayers());
+    	GameManager gm = GameManager.getInstance();
+    	final int x = gm.trainLength;
+    	TrainUnit t = gm.trainCabin.get(GameManager.getInstance().getNumOfPlayers());
     	instance.marshalPosition = t;
     	return instance;
     }

@@ -109,6 +109,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		System.out.println("Initializing the game now!");
 		// set train-related attributes
 		this.trainLength = this.getNumOfPlayers() + 1;
+		System.out.println("trainlength: " + trainLength);
 		this.trainRoof = TrainUnit.createTrainRoof();
 		this.trainCabin = TrainUnit.createTrainCabin();
 		this.stagecoach = TrainUnit.createStagecoach();

@@ -41,6 +41,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		case("newGameState"): handleNewGameState(params,rtn); break;
 		case("enterGameBoardScene"): handleEnterGameBoardScene(params,rtn); break;
 		case("nextAction"): handleNextAction(params,rtn); break;
+		case("removeGame"): handleRemoveGame(params,rtn); break;
 		default: trace("invalid command passed to multihandler");
 		}
 		
@@ -60,6 +61,10 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		
 	}
 	
+	public void handleRemoveGame(ISFSObject params, ISFSObject rtn) {
+		GameManager.singleton = null;
+	}
+	
 	public void handleNextAction(ISFSObject params, ISFSObject rtn) {
 		sendToAllUsers(params, "nextAction");
 	}
@@ -71,6 +76,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	
 	public void handleNewGameState(ISFSObject params, ISFSObject rtn) {
 		gm = (GameManager) params.getClass("gm");
+		GameManager.singleton = gm;
 		System.out.println("received game state!");
 		//System.out.println(gm.bandits.get(0).position.carTypeAsString);
 		updateGameState(rtn);
@@ -82,9 +88,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	}	
 	
 	private void handleEnterChooseCharacterScene(User sender, ISFSObject params, ISFSObject rtn) {
-		if (gm == null) {
-			gm = new GameManager(); //GameManager.getInstance();
-		}
+		gm = GameManager.getInstance();
 		ISFSArray characters = SFSArray.newInstance();
 		rtn.putSFSArray("characterList", characters);
 		
