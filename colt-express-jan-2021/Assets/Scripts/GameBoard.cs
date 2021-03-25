@@ -592,6 +592,7 @@ public class GameBoard : MonoBehaviour
 					gm.currentBandit = (Bandit) gm.bandits[0];
 				}
 				SendNewGameState();
+				//gm.endOfTurn();
 			}
 		}
 
@@ -740,6 +741,7 @@ public class GameBoard : MonoBehaviour
 
 	public static void SaveGameState(string savegameID) {
 
+		//ONLY NEED TO SEND THE SAVEGAME REQUEST TO THE LS ONCE
 		var request = new RestRequest("api/sessions/" + gameHash, Method.GET)
             .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
         IRestResponse response = client.Execute(request);
@@ -751,8 +753,8 @@ public class GameBoard : MonoBehaviour
 		var gameParameters = JsonConvert.DeserializeObject<Dictionary<string, string>>(temp);
 
 		string gameName = gameParameters["name"];
-		j.gamename = gameName;
-		j.players = sessionDetails["players"].ToString().ToCharArray();
+		j.gamename = gameName; // can replace with "ColtExpress"
+		j.players = sessionDetails["players"].ToString();//.ToCharArray(); -- convert the string of players to an string array of players
 		j.savegameid = savegameID;
 
 		request = new RestRequest("api/gameservices/" + gameName + "/savegames/" + savegameID + "?access_token=" + GetAdminToken(), Method.POST)
@@ -761,12 +763,13 @@ public class GameBoard : MonoBehaviour
 
         response = client.Execute(request);
 
+
 		// After saving the game, store the information to the server
 
 		ISFSObject obj = SFSObject.NewInstance();
 		Debug.Log("saving the current game state on the server");
-		obj.PutUtfString("gameId", savegameID);
-		obj.PutUtfString("gameName", gameName);
+		obj.PutUtfString("savegameId", savegameID);
+		obj.PutClass("gm", gm);
         ExtensionRequest req = new ExtensionRequest("gm.saveGameState",obj);
         SFS.Send(req);
 	}

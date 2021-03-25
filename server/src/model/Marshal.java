@@ -14,17 +14,26 @@ public class Marshal implements SerializableSFSType {
     public TrainUnit marshalPosition;
     public static Marshal instance;
 
-  //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
+    //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
     public Marshal() {}
     
-    public static Marshal createMarshal() {
-    	GameManager gm = GameManager.getInstance();
-    	final int x = gm.trainLength;
-    	TrainUnit t = gm.trainCabin.get(GameManager.getInstance().getNumOfPlayers());
-    	instance.marshalPosition = t;
-    	return instance;
+    public Marshal(TrainUnit position) {
+    	this.marshalPosition = position;
+    	Marshal.instance = this;
     }
     
+    public static Marshal createMarshal() {
+    	assert Marshal.instance == null;
+    	TrainUnit t = GameManager.getInstance().trainCabin.get(0);
+    	return new Marshal(t);
+    }
+    
+    public static Marshal getInstance(){
+        if (instance==null){
+            instance = createMarshal();
+        }
+        return instance;
+    }    
     public TrainUnit getMarshalPosition() {
         return this.marshalPosition;
     }
@@ -33,10 +42,5 @@ public class Marshal implements SerializableSFSType {
         this.marshalPosition = pos;
     }
 
-    public static Marshal getInstance(){
-        if (instance==null){
-            instance = new Marshal();
-        }
-        return instance;
-    }
+
 }

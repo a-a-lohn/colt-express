@@ -2,6 +2,8 @@ package main;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +28,8 @@ import com.smartfoxserver.v2.annotations.Instantiation.InstantiationMode;
 public class ColtMultiHandler extends BaseClientRequestHandler {
 	
 	GameManager gm;
+	HashMap<String, GameManager> saveGames = new HashMap<String, GameManager>();
+	int numCallsToLoadSaveGame = 0;
 	
 	@Override
 	public void handleClientRequest(User sender, ISFSObject params) {
@@ -41,7 +45,9 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		case("newGameState"): handleNewGameState(params,rtn); break;
 		case("enterGameBoardScene"): handleEnterGameBoardScene(params,rtn); break;
 		case("nextAction"): handleNextAction(params,rtn); break;
+		case("saveGameState"): handleSaveGameState(params,rtn); break;
 		case("removeGame"): handleRemoveGame(params,rtn); break;
+		//case(load old game)
 		default: trace("invalid command passed to multihandler");
 		}
 		
@@ -59,6 +65,33 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		//String received = params.getUtfString("sentData");
 		//gameState.putUtfString("testStr", "evenbetterData");
 		
+	}
+	
+	public void handleLoadSavedGame(ISFSObject params, ISFSObject rtn) {
+		numCallsToLoadSaveGame++;
+		String id = params.getUtfString("savegameId");
+		gm = saveGames.get(id);
+		gm.singleton = gm;
+		ArrayList<Bandit> bandits = gm.getBandits();
+		
+		ColtExtension parentExt = (ColtExtension)getParentExtension();
+		Zone zone = parentExt.getParentZone();
+		Collection<User> users = zone.getUserList();
+		if(numCallsToLoadSaveGame == users.size()) {
+			int i = 0;
+			for(User user : users) {
+				String banditName = bandits.get(i).getCharacterAsString();
+				rtn.putUtfString("character", banditName);
+				sendToSender(user, rtn, "saveGameBandit");
+				i++;
+			}
+		}
+	}
+	
+	public void handleSaveGameState(ISFSObject params, ISFSObject rtn) {
+		String id = params.getUtfString("savegameId");
+		GameManager saveGame = (GameManager) params.getClass("gm");
+		saveGames.put(id, saveGame);
 	}
 	
 	public void handleRemoveGame(ISFSObject params, ISFSObject rtn) {

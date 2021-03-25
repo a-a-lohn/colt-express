@@ -34,6 +34,10 @@ public class Bandit implements SerializableSFSType {
 		this.characterAsString = c.toString();
 		this.hostage = null;
 	}
+	
+	public String getCharacterAsString() {
+		return this.characterAsString;
+	}
 
 	public Character getCharacter(){
 		return this.character;
@@ -217,7 +221,6 @@ public class Bandit implements SerializableSFSType {
 	}
 
 	public void createStartingCards() {
-
 		ActionCard acMove1 = new ActionCard(ActionType.MOVE, this.characterAsString);
 		ActionCard acMove2 = new ActionCard(ActionType.MOVE, this.characterAsString);
 		ActionCard acChangeFloor1 = new ActionCard(ActionType.CHANGEFLOOR, this.characterAsString);
@@ -228,6 +231,7 @@ public class Bandit implements SerializableSFSType {
 		ActionCard acRob2 = new ActionCard(ActionType.ROB, this.characterAsString);
 		ActionCard acShoot1 = new ActionCard(ActionType.SHOOT, this.characterAsString);
 		ActionCard acShoot2 = new ActionCard(ActionType.SHOOT, this.characterAsString);
+		ActionCard acRide = new ActionCard(ActionType.RIDE, this.characterAsString);
 
 		this.deck.add(acMove1);
 		this.deck.add(acMove2);
@@ -239,6 +243,7 @@ public class Bandit implements SerializableSFSType {
 		this.deck.add(acRob2);
 		this.deck.add(acShoot1);
 		this.deck.add(acShoot2);
+		this.deck.add(acRide);
 	}
 	
 	public void createHand() {

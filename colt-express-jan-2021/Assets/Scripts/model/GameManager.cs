@@ -83,6 +83,8 @@ namespace model {
         
         public void promptDrawCardsOrPlayCard() {
             GameBoard.setWorks();
+            GameBoard.clickable = currentBandit.getHand();
+            GameBoard.action = "playcard";
         }
 
         public void resolveAction(ActionCard toResolve) {
@@ -162,12 +164,18 @@ namespace model {
 
         public void endOfTurn() {
             if ((this.strGameStatus == "SCHEMIN")) {
+                if (currentRound == null){
+                     Debug.Log("curr round is null");
+                }
+                if (currentRound.getCurrentTurn() == null){
+                     Debug.Log("curr turn is null");
+                }
+                if (currentRound.getCurrentTurn().getTurnTypeAsString() == null){
+                     Debug.Log("curr turn as string is null");
+                }
                 string currentTurnType = this.currentRound.getCurrentTurn().getTurnTypeAsString();
-                if (((currentTurnType == "STANDARD") 
-                            || (currentTurnType == "TUNNEL"))) {
-                    this.banditIndex = ((this.banditIndex + 1) 
-                                % this.bandits.Count);
-                    
+                if (((currentTurnType == "STANDARD") || (currentTurnType == "TUNNEL"))) {
+                    this.banditIndex = ((this.banditIndex + 1) % this.bandits.Count);
                     this.banditsPlayedThisTurn++;
                     //  IF END OF TURN
                     if ((this.banditsPlayedThisTurn > this.bandits.Count)) {
@@ -198,7 +206,7 @@ namespace model {
                 
             }
             else if ((this.strGameStatus == "STEALIN")) {
-                Card toResolve = this.playedPileInstance.takeTopCard();
+                ActionCard toResolve = this.playedPileInstance.takeTopCard();
                 if ((toResolve != null)) {
                     this.currentBandit = toResolve.getBelongsTo();
                 }
@@ -281,97 +289,22 @@ namespace model {
         
         public ArrayList createRoundCards(int numOfPlayers) {
             ArrayList RoundCards = new ArrayList();
-            if (((numOfPlayers == 2) 
-                        || ((numOfPlayers == 3) 
-                        || (numOfPlayers == 4)))) {
+            if (numOfPlayers >=2 && numOfPlayers <= 6) {
                 Round r1 = new Round("AngryMarshal");
-                r1.addTurn(new Turn("STANDARD"));
-                r1.addTurn(new Turn("STANDARD"));
-                r1.addTurn(new Turn("TUNNEL"));
-                r1.addTurn(new Turn("SWITCHING"));
                 RoundCards.Add(r1);
                 Round r2 = new Round("SwivelArm");
-                r2.addTurn(new Turn("STANDARD"));
-                r2.addTurn(new Turn("TUNNEL"));
-                r2.addTurn(new Turn("STANDARD"));
-                r2.addTurn(new Turn("STANDARD"));
                 RoundCards.Add(r2);
                 Round r3 = new Round("Braking");
-                r3.addTurn(new Turn("STANDARD"));
-                r3.addTurn(new Turn("STANDARD"));
-                r3.addTurn(new Turn("STANDARD"));
-                r3.addTurn(new Turn("STANDARD"));
                 RoundCards.Add(r3);
                 Round r4 = new Round("TakeItAll");
-                r4.addTurn(new Turn("STANDARD"));
-                r4.addTurn(new Turn("TUNNEL"));
-                r4.addTurn(new Turn("SPEEDINGUP"));
-                r4.addTurn(new Turn("STANDARD"));
                 RoundCards.Add(r4);
                 Round r5 = new Round("PassengersRebellion");
-                r5.addTurn(new Turn("STANDARD"));
-                r5.addTurn(new Turn("STANDARD"));
-                r5.addTurn(new Turn("TUNNEL"));
-                r5.addTurn(new Turn("STANDARD"));
-                r5.addTurn(new Turn("STANDARD"));
                 RoundCards.Add(r5);
-                Round r6 = new Round("SIX");
-                r6.addTurn(new Turn("STANDARD"));
-                r6.addTurn(new Turn("SPEEDINGUP"));
-                r6.addTurn(new Turn("STANDARD"));
+                Round r6 = new Round("Bridge");
                 RoundCards.Add(r6);
-                Round r7 = new Round("SEVEN");
-                r7.addTurn(new Turn("STANDARD"));
-                r7.addTurn(new Turn("TUNNEL"));
-                r7.addTurn(new Turn("STANDARD"));
-                r7.addTurn(new Turn("TUNNEL"));
-                r7.addTurn(new Turn("STANDARD"));
+                Round r7 = new Round("Cave");
                 RoundCards.Add(r7);
             }
-            else if (((numOfPlayers == 5) 
-                        || (numOfPlayers == 6))) {
-                Round r1 = new Round("AngryMarshal");
-                r1.addTurn(new Turn("STANDARD"));
-                r1.addTurn(new Turn("STANDARD"));
-                r1.addTurn(new Turn("SWITCHING"));
-                RoundCards.Add(r1);
-                Round r2 = new Round("SwivelArm");
-                r2.addTurn(new Turn("STANDARD"));
-                r2.addTurn(new Turn("TUNNEL"));
-                r2.addTurn(new Turn("STANDARD"));
-                RoundCards.Add(r2);
-                Round r3 = new Round("Braking");
-                r3.addTurn(new Turn("STANDARD"));
-                r3.addTurn(new Turn("TUNNEL"));
-                r3.addTurn(new Turn("STANDARD"));
-                r3.addTurn(new Turn("STANDARD"));
-                RoundCards.Add(r3);
-                Round r4 = new Round("TakeItAll");
-                r4.addTurn(new Turn("STANDARD"));
-                r4.addTurn(new Turn("SPEEDINGUP"));
-                r4.addTurn(new Turn("SWITCHING"));
-                RoundCards.Add(r4);
-                Round r5 = new Round("PassengersRebellion");
-                r5.addTurn(new Turn("STANDARD"));
-                r5.addTurn(new Turn("TUNNEL"));
-                r5.addTurn(new Turn("STANDARD"));
-                r5.addTurn(new Turn("SWITCHING"));
-                RoundCards.Add(r5);
-                Round r6 = new Round("SIX");
-                r6.addTurn(new Turn("STANDARD"));
-                r6.addTurn(new Turn("SPEEDINGUP"));
-                RoundCards.Add(r6);
-                Round r7 = new Round("SEVEN");
-                r7.addTurn(new Turn("STANDARD"));
-                r7.addTurn(new Turn("TUNNEL"));
-                r7.addTurn(new Turn("STANDARD"));
-                r7.addTurn(new Turn("TUNNEL"));
-                RoundCards.Add(r7);
-            }
-            else {
-                return null;
-            }
-            
             Bandit.shuffle(RoundCards);
             return null; ////??
         }

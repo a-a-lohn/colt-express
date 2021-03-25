@@ -105,16 +105,30 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	 */
 
 	// this method should only be called from if-else block in chosenCharacter
+	
+	/**
+	 * --INITIALIZING THE GAME--
+	 * 1. Create locomotive, stagecoach and 1 train car for each bandit
+	 * 2. Give each bandit a $250 purse, 11 action cards, and 6 bullet cards
+	 * 3. Create 4 purses, 1 gem, and 1 whiskey for each car
+	 * 4. Place marshal and strongbox in locomotive
+	 * 5. Place shotgun and strongbox on roof of stagecoach
+	 * 6. Create number of bandits minus 1 hostages
+	 * 7. Create 16 neutral bullet cards
+	 * 8. Create 4 round cards and 1 train station card
+	 * 9. Create a horse for each bandit
+	 */
 	public void initializeGame() {
 		System.out.println("Initializing the game now!");
-		// set train-related attributes
+		// 1. Create locomotive and 1 train car for each bandit
 		this.trainLength = this.getNumOfPlayers() + 1;
 		System.out.println("trainlength: " + trainLength);
 		this.trainRoof = TrainUnit.createTrainRoof();
 		this.trainCabin = TrainUnit.createTrainCabin();
 		this.stagecoach = TrainUnit.createStagecoach();
+		
+		// 2. Give each bandit a $250 purse, 11 action cards, and 6 bullet cards
 		ArrayList<Bandit> bandits = this.getBandits();
-		// initialize each bandit cards, purse
 		for (Bandit b : bandits) {
 			b.createStartingCards();
 			b.createHand();
@@ -230,6 +244,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 			r1.addTurn(new Turn(TurnType.STANDARD));
 			r1.addTurn(new Turn(TurnType.TUNNEL));
 			r1.addTurn(new Turn(TurnType.SWITCHING));
+			r1.setCurrentTurn(r1.getTurnAt(0));
 			RoundCards.add(r1);
 
 			Round r2 = new Round(RoundType.SwivelArm);
@@ -237,6 +252,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 			r2.addTurn(new Turn(TurnType.TUNNEL));
 			r2.addTurn(new Turn(TurnType.STANDARD));
 			r2.addTurn(new Turn(TurnType.STANDARD));
+			r2.setCurrentTurn(r2.getTurnAt(0));
 			RoundCards.add(r2);
 
 			Round r3 = new Round(RoundType.Braking);
@@ -261,13 +277,13 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 			r5.addTurn(new Turn(TurnType.STANDARD));
 			RoundCards.add(r5);
 
-			Round r6 = new Round(RoundType.SIX);
+			Round r6 = new Round(RoundType.Bridge);
 			r6.addTurn(new Turn(TurnType.STANDARD));
 			r6.addTurn(new Turn(TurnType.SPEEDINGUP));
 			r6.addTurn(new Turn(TurnType.STANDARD));
 			RoundCards.add(r6);
 
-			Round r7 = new Round(RoundType.SEVEN);
+			Round r7 = new Round(RoundType.Cave);
 			r7.addTurn(new Turn(TurnType.STANDARD));
 			r7.addTurn(new Turn(TurnType.TUNNEL));
 			r7.addTurn(new Turn(TurnType.STANDARD));
@@ -308,12 +324,12 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 			r5.addTurn(new Turn(TurnType.SWITCHING));
 			RoundCards.add(r5);
 
-			Round r6 = new Round(RoundType.SIX);
+			Round r6 = new Round(RoundType.Bridge);
 			r6.addTurn(new Turn(TurnType.STANDARD));
 			r6.addTurn(new Turn(TurnType.SPEEDINGUP));
 			RoundCards.add(r6);
 
-			Round r7 = new Round(RoundType.SEVEN);
+			Round r7 = new Round(RoundType.Cave);
 			r7.addTurn(new Turn(TurnType.STANDARD));
 			r7.addTurn(new Turn(TurnType.TUNNEL));
 			r7.addTurn(new Turn(TurnType.STANDARD));
@@ -323,7 +339,6 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		} else {
 			return null;
 		}
-		;
 
 		Collections.shuffle(RoundCards);
 
