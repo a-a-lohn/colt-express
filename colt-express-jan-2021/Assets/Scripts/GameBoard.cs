@@ -765,8 +765,8 @@ public class GameBoard : MonoBehaviour
 
 		ISFSObject obj = SFSObject.NewInstance();
 		Debug.Log("saving the current game state on the server");
-		obj.PutUtfString("gameId", savegameID);
-		obj.PutUtfString("gameName", gameName);
+		obj.PutUtfString("savegameId", savegameID);
+		obj.PutClass("gm", gm);
         ExtensionRequest req = new ExtensionRequest("gm.saveGameState",obj);
         SFS.Send(req);
 	}

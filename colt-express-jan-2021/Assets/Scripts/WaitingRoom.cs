@@ -7,7 +7,6 @@ using System;
 using RestSharp;
 using Newtonsoft.Json.Linq;
 using System.Linq;
-using Newtonsoft.Json;
 
 using Sfs2X;
 using Sfs2X.Logging;
@@ -440,39 +439,6 @@ public class WaitingRoom : MonoBehaviour
         ChooseCharacter.RemoveLaunchedSession();
 		// Always disconnect before quitting
 		SFS.Disconnect();
-	}
-
-    public static void SaveGameState(string savegameID) {
-
-		var request = new RestRequest("api/sessions/" + gameHash, Method.GET)
-            .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
-        IRestResponse response = client.Execute(request);
-        var JObj = JObject.Parse(response.Content);
-        Dictionary<string, object> sessionDetails = JObj.ToObject<Dictionary<string, object>>();
-
-		dynamic j = new JObject();
-		var temp = JsonConvert.SerializeObject(sessionDetails["gameParameters"]);
-		var gameParameters = JsonConvert.DeserializeObject<Dictionary<string, string>>(temp);
-
-		string gameName = gameParameters["name"];
-		j.gamename = gameName;
-		j.players = sessionDetails["players"].ToString().ToCharArray();
-		j.savegameid = savegameID;
-
-		request = new RestRequest("api/gameservices/" + gameName + "/savegames/" + savegameID + "?access_token=" + token, Method.POST)
-            .AddParameter("application/json", j.ToString(), ParameterType.RequestBody)
-            .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
-
-        response = client.Execute(request);
-
-		// // After saving the game, store the information to the server
-
-		// ISFSObject obj = SFSObject.NewInstance();
-		// Debug.Log("saving the current game state on the server");
-		// obj.PutUtfString("gameId", savegameID);
-		// obj.PutUtfString("gameName", gameName);
-        // ExtensionRequest req = new ExtensionRequest("gm.saveGameState",obj);
-        // SFS.Send(req);
 	}
 
 }
