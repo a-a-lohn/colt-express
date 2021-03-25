@@ -95,7 +95,7 @@ public class Round implements SerializableSFSType {
     }
     
     public Turn getNextTurn() {
-        return turns.get(turnCounter++);
+        return turns.get(turnCounter+1);
     }
     
     public void setNextTurn() {

@@ -122,6 +122,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		System.out.println("Initializing the game now!");
 		// 1. Create locomotive and 1 train car for each bandit
 		this.trainLength = this.getNumOfPlayers() + 1;
+		System.out.println("trainlength: " + trainLength);
 		this.trainRoof = TrainUnit.createTrainRoof();
 		this.trainCabin = TrainUnit.createTrainCabin();
 		this.stagecoach = TrainUnit.createStagecoach();
@@ -245,6 +246,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 			r1.addTurn(new Turn(TurnType.STANDARD));
 			r1.addTurn(new Turn(TurnType.TUNNEL));
 			r1.addTurn(new Turn(TurnType.SWITCHING));
+			r1.setCurrentTurn(r1.getTurnAt(0));
 			RoundCards.add(r1);
 
 			Round r2 = new Round(RoundType.SwivelArm);
@@ -252,6 +254,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 			r2.addTurn(new Turn(TurnType.TUNNEL));
 			r2.addTurn(new Turn(TurnType.STANDARD));
 			r2.addTurn(new Turn(TurnType.STANDARD));
+			r2.setCurrentTurn(r2.getTurnAt(0));
 			RoundCards.add(r2);
 
 			Round r3 = new Round(RoundType.Braking);

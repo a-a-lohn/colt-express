@@ -53,7 +53,7 @@ public class GameBoard : MonoBehaviour
 	public static bool works = false;
 	public Text doesItWork;
 
-	public static void setWorks(bool status) {
+	public static void setWorks() {
 		works = true;
 	}
 
@@ -592,6 +592,7 @@ public class GameBoard : MonoBehaviour
 					gm.currentBandit = (Bandit) gm.bandits[0];
 				}
 				SendNewGameState();
+				//gm.endOfTurn();
 			}
 		}
 
@@ -643,27 +644,27 @@ public class GameBoard : MonoBehaviour
 		ArrayList banditsArray = gm.bandits;
 		//ArrayList banditsArray = new ArrayList();
 		foreach (Bandit b in banditsArray) {
-            if (b.banditNameAsString == "CHEYENNE") {
+            if (b.characterAsString == "CHEYENNE") {
 				objects[cheyenne] = b;
                 Debug.Log("Cheyenne added!");
             }
-			if (b.banditNameAsString == "BELLE") {
+			if (b.characterAsString == "BELLE") {
                 objects[belle] = b;
                 Debug.Log("Belle added!");
             }
-			if (b.banditNameAsString == "TUCO") {
+			if (b.characterAsString == "TUCO") {
                 objects[tuco] = b;
                 Debug.Log("Tuco added!");
             }
-			if (b.banditNameAsString == "DOC") {
+			if (b.characterAsString == "DOC") {
                 objects[doc] = b;
                 Debug.Log("Doc added!");
             }
-			if (b.banditNameAsString == "GHOST") {
+			if (b.characterAsString == "GHOST") {
                 objects[ghost] = b;
                 Debug.Log("Ghost added!");
             }
-			if (b.banditNameAsString == "DJANGO") {
+			if (b.characterAsString == "DJANGO") {
                 objects[django] = b;
                 Debug.Log("Django added!");
             }
@@ -740,6 +741,7 @@ public class GameBoard : MonoBehaviour
 
 	public static void SaveGameState(string savegameID) {
 
+		//ONLY NEED TO SEND THE SAVEGAME REQUEST TO THE LS ONCE
 		var request = new RestRequest("api/sessions/" + gameHash, Method.GET)
             .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
         IRestResponse response = client.Execute(request);
@@ -751,8 +753,8 @@ public class GameBoard : MonoBehaviour
 		var gameParameters = JsonConvert.DeserializeObject<Dictionary<string, string>>(temp);
 
 		string gameName = gameParameters["name"];
-		j.gamename = gameName;
-		j.players = sessionDetails["players"].ToString().ToCharArray();
+		j.gamename = gameName; // can replace with "ColtExpress"
+		j.players = sessionDetails["players"].ToString();//.ToCharArray(); -- convert the string of players to an string array of players
 		j.savegameid = savegameID;
 
 		request = new RestRequest("api/gameservices/" + gameName + "/savegames/" + savegameID + "?access_token=" + GetAdminToken(), Method.POST)
@@ -760,6 +762,7 @@ public class GameBoard : MonoBehaviour
             .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
 
         response = client.Execute(request);
+
 
 		// After saving the game, store the information to the server
 

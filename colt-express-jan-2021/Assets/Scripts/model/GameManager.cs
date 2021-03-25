@@ -82,7 +82,9 @@ namespace model {
         }
         
         public void promptDrawCardsOrPlayCard() {
-            GameBoard.setWorks(true);
+            GameBoard.setWorks();
+            GameBoard.clickable = currentBandit.getHand();
+            GameBoard.action = "playcard";
         }
 
         public void resolveAction(ActionCard toResolve) {
@@ -162,6 +164,15 @@ namespace model {
 
         public void endOfTurn() {
             if ((this.strGameStatus == "SCHEMIN")) {
+                if (currentRound == null){
+                     Debug.Log("curr round is null");
+                }
+                if (currentRound.getCurrentTurn() == null){
+                     Debug.Log("curr turn is null");
+                }
+                if (currentRound.getCurrentTurn().getTurnTypeAsString() == null){
+                     Debug.Log("curr turn as string is null");
+                }
                 string currentTurnType = this.currentRound.getCurrentTurn().getTurnTypeAsString();
                 if (((currentTurnType == "STANDARD") || (currentTurnType == "TUNNEL"))) {
                     this.banditIndex = ((this.banditIndex + 1) % this.bandits.Count);
@@ -195,7 +206,7 @@ namespace model {
                 
             }
             else if ((this.strGameStatus == "STEALIN")) {
-                Card toResolve = this.playedPileInstance.takeTopCard();
+                ActionCard toResolve = this.playedPileInstance.takeTopCard();
                 if ((toResolve != null)) {
                     this.currentBandit = toResolve.getBelongsTo();
                 }

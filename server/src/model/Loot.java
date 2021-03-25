@@ -13,8 +13,8 @@ import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
  */
 public abstract class Loot implements SerializableSFSType {
     
-	public Optional<Bandit> belongsTo;
-	public Optional<TrainUnit> position;
+//	public Optional<Bandit> belongsTo;
+//	public Optional<TrainUnit> position;
     
     //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
     public Loot() { }

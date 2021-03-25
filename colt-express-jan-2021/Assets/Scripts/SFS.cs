@@ -107,6 +107,8 @@ public static class SFS
 			step = responseParams.GetInt("step");
 			Debug.Log("received step " + step);
 			gb.executeHardCoded(step);
+		} else if (false/*cmd == incoming character name from save game*/) {
+			// 	assign this client to be the character as specified by the incoming string
 		} else if (cmd == "testSerial") {
 			ISFSObject responseParams = (SFSObject)evt.Params["params"];
 			GameManager gm = (GameManager) responseParams.GetClass("gm");
@@ -387,6 +389,10 @@ public static class SFS
 	}*/
 	
 	private static void OnUserExitRoom(BaseEvent evt) {
+		ISFSObject obj = SFSObject.NewInstance();
+		ExtensionRequest req = new ExtensionRequest("gm.removeGame",obj);
+        Send(req);
+
 		User user = (User) evt.Params["user"];
 		username = PlayerPrefs.GetString("username", "No username found");
 		Debug.Log(username);

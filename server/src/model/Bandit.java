@@ -34,6 +34,10 @@ public class Bandit implements SerializableSFSType {
 		this.characterAsString = c.toString();
 		this.hostage = null;
 	}
+	
+	public String getCharacterAsString() {
+		return this.characterAsString;
+	}
 
 	public Character getCharacter(){
 		return this.character;
