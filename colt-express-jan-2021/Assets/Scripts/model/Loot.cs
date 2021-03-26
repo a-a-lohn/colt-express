@@ -15,16 +15,7 @@ using Sfs2X.Protocol.Serialization;
 //        DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
 namespace model {
     public abstract class Loot : SerializableSFSType {
-<<<<<<< Updated upstream
-    
-        // public Option<Bandit> belongsTo;       
-        // public Option<TrainUnit> position;
-        public Bandit belongsTo;       
-        public TrainUnit position;
-        
-=======
-        Bandit owner; 
->>>>>>> Stashed changes
+
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public Loot() {}
         
@@ -67,36 +58,5 @@ namespace model {
         public void pickup() {
             // TODO
         }
-
-<<<<<<< Updated upstream
-        // Customized Optional type !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-        // public struct Option<T>
-        // {
-        //     public static Option<T> None => default;
-        //     public static Option<T> Some(T value) => new Option<T>(value);
-
-        //     public readonly bool isSome;
-        //     public readonly T value;
-
-        //     Option(T value)
-        //     {
-        //         this.value = value;
-        //         isSome = this.value is { };
-        //     }
-
-        //     public bool IsSome(out T value)
-        //     {
-        //         value = this.value;
-        //         return isSome;
-        //     }
-        // }
-
-=======
-        /* added by annie*/
-        public Bandit getBelongsTo(){
-            return this.owner;
-        }
->>>>>>> Stashed changes
     }
 }

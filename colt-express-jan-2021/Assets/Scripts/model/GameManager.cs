@@ -562,10 +562,6 @@ namespace model {
         
         //shoot
         public ArrayList calculateShoot(){
-<<<<<<< Updated upstream
-            ArrayList possibilities = new ArrayList();
-            return possibilities;
-=======
             // TODO REMEMBER BELLE AND TUCO CASES, REMEMBER ROOF AND CABIN CASES
 		    // ROOF CASE:
 		    if (this.currentBandit.getPosition().getCarFloorAsString().Equals("ROOF")) {
@@ -650,7 +646,6 @@ namespace model {
                 }
                 return possibilities;
 		    }
->>>>>>> Stashed changes
         }
 
         public void shootPrompt(ArrayList possibilities){

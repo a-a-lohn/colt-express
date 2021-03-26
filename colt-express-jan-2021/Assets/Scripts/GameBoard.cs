@@ -281,7 +281,6 @@ public class GameBoard : MonoBehaviour
 		}
 
 		ArrayList lootArray = gm.loots;
-<<<<<<< Updated upstream
 		foreach (Loot l in lootArray) {
             if (l.getBelongsTo().getCharacter() == gem1.transform.parent.name.ToUpper()) {
 				objects[gem1] = l;
@@ -309,35 +308,6 @@ public class GameBoard : MonoBehaviour
             }
 			// check if a loot belongs to TrainUnit and assign it 
 		}
-=======
-		// foreach (Loot l in lootArray) {
-        //     if (l.getBelongsTo().getCharacter() == gem1.transform.parent.name.ToUpper()) {
-		// 		objects[gem1] = l;
-        //         Debug.Log("Gem 1 added!");
-        //     }
-        //     if (l.getBelongsTo().getCharacter() == gem2.transform.parent.name.ToUpper()) {
-		// 		objects[gem2] = l;
-        //         Debug.Log("Gem 2 added!");
-        //     }
-        //     if (l.getBelongsTo().getCharacter() == gem3.transform.parent.name.ToUpper()) {
-		// 		objects[gem3] = l;
-        //         Debug.Log("Gem 3 added!");
-        //     }
-        //     if (l.getBelongsTo().getCharacter() == gem4.transform.parent.name.ToUpper()) {
-		// 		objects[gem4] = l;
-        //         Debug.Log("Gem 4 added!");
-        //     }
-        //     if (l.getBelongsTo().getCharacter() == gem5.transform.parent.name.ToUpper()) {
-		// 		objects[gem5] = l;
-        //         Debug.Log("Gem 5 added!");
-        //     }
-		// 	if (l.getBelongsTo().getCharacter() == gem6.transform.parent.name.ToUpper()) {
-		// 		objects[gem6] = l;
-        //         Debug.Log("Gem 6 added!");
-        //     }
-		// 	// check if a loot belongs to TrainUnit and assign it 
-		// }
->>>>>>> Stashed changes
 
 		// map the 13 neutral bullet cards
 		ArrayList neuturalBulletCards = gm.neutralBulletCard; 
