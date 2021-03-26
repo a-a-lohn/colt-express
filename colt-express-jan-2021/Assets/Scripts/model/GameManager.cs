@@ -83,7 +83,7 @@ namespace model {
         
         public void promptDrawCardsOrPlayCard() {
             GameBoard.setWorks();
-            GameBoard.clickable = currentBandit.getHand();
+            //GameBoard.clickable = currentBandit.getHand();
             GameBoard.action = "playcard";
             // TODO
         }
@@ -772,19 +772,6 @@ namespace model {
 	    }
 
         //--RIDE--
-
-        public ArrayList calculateRide(){
-            //TODO
-            return new ArrayList();
-        }
-        public void ridePrompt(ArrayList possibilities){
-            //TODO make possibilities clickable
-            TrainUnit clicked = new TrainUnit();
-            ride(clicked);
-        }
-        public void ride(TrainUnit dest){
-            this.endOfTurn();
-        }
 
         public ArrayList calculateRide(){
             //TODO
