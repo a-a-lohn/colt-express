@@ -29,7 +29,11 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	
 	GameManager gm;
 	HashMap<String, GameManager> saveGames = new HashMap<String, GameManager>();
-	int numCallsToLoadSaveGame = 0;
+	boolean savedCurrentGameAtLeastOnce = false;
+	String currentSaveGameId;
+	//int numCallsToLoadSaveGame = 0;
+	
+	boolean gameOver = false;
 	
 	@Override
 	public void handleClientRequest(User sender, ISFSObject params) {
@@ -48,6 +52,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		case("saveGameState"): handleSaveGameState(params,rtn); break;
 		case("loadSavedGame"): handleLoadSavedGame(params,rtn); break;
 		case("removeGame"): handleRemoveGame(params,rtn); break;
+		case("gameOver"): gameOver = true; break;
 		default: trace("invalid command passed to multihandler");
 		}
 		
@@ -68,33 +73,43 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	}
 	
 	public void handleLoadSavedGame(ISFSObject params, ISFSObject rtn) {
-		numCallsToLoadSaveGame++;
-		String id = params.getUtfString("savegameId");
-		gm = saveGames.get(id);
+//		numCallsToLoadSaveGame++;
+		String currentSaveGameId = params.getUtfString("savegameId");
+		System.out.println("id: " + currentSaveGameId);
+		gm = saveGames.get(currentSaveGameId);
 		gm.singleton = gm;
-		ArrayList<Bandit> bandits = gm.getBandits();
-		
-		ColtExtension parentExt = (ColtExtension)getParentExtension();
-		Zone zone = parentExt.getParentZone();
-		Collection<User> users = zone.getUserList();
-		if(numCallsToLoadSaveGame == users.size()) {
-			int i = 0;
-			for(User user : users) {
-				String banditName = bandits.get(i).getCharacterAsString();
-				rtn.putUtfString("character", banditName);
-				sendToSender(user, rtn, "saveGameBandit");
-				i++;
-			}
-		}
+		savedCurrentGameAtLeastOnce = true;
+//		ArrayList<Bandit> bandits = gm.getBandits();
+//		ColtExtension parentExt = (ColtExtension)getParentExtension();
+//		Zone zone = parentExt.getParentZone();
+//		Collection<User> users = zone.getUserList();
+//		if(numCallsToLoadSaveGame == users.size()) {
+//			int i = 0;
+//			for(User user : users) {
+//				String banditName = bandits.get(i).getCharacterAsString();
+//				rtn.putUtfString("character", banditName);
+//				sendToSender(user, rtn, "saveGameBandit");
+//				i++;
+//			}
+//		}
 	}
 	
 	public void handleSaveGameState(ISFSObject params, ISFSObject rtn) {
-		String id = params.getUtfString("savegameId");
+		System.out.println("saving game");
+		savedCurrentGameAtLeastOnce = true;
+		currentSaveGameId = params.getUtfString("savegameId");
 		GameManager saveGame = (GameManager) params.getClass("gm");
-		saveGames.put(id, saveGame);
+		saveGames.put(currentSaveGameId, saveGame);
 	}
 	
 	public void handleRemoveGame(ISFSObject params, ISFSObject rtn) {
+		System.out.println("removing game");
+		if(savedCurrentGameAtLeastOnce && gameOver) {
+			saveGames.remove(currentSaveGameId);
+			// reset attributes
+			gameOver = false;
+			savedCurrentGameAtLeastOnce = false;
+		}
 		GameManager.singleton = null;
 	}
 	
@@ -116,7 +131,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	}
 	
 	public void updateGameState(ISFSObject rtn) {
-		rtn.putClass("gm", gm); // THIS IS THE PROBLEM
+		rtn.putClass("gm", gm);
 		sendToAllUsers(rtn, "updateGameState");
 	}	
 	
@@ -149,7 +164,9 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		System.out.println("Calling chosenchar with " + character.toString());
 		rtn.putUtfString("player", sender.getName());
 		rtn.putUtfString("chosenCharacter", character.toString());
-		gm.chosenCharacter(sender, character, numPlayers);
+		if(!savedCurrentGameAtLeastOnce) {
+			gm.chosenCharacter(sender, character, numPlayers);
+		}
 		int numChosen = gm.getBandits().size();
 		System.out.println("Num players: " + numPlayers + " numChosen: " + numChosen);
 		if(numChosen == numPlayers) {

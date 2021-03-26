@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using System;
 using RestSharp;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using System.Linq;
 
 using Sfs2X;
@@ -445,6 +446,44 @@ public class WaitingRoom : MonoBehaviour
         ChooseCharacter.RemoveLaunchedSession();
 		// Always disconnect before quitting
 		SFS.Disconnect();
+	}
+
+    public void clickSaveGame() {
+        SaveGameState("test");
+    }
+
+    public void SaveGameState(string savegameID) {
+
+		//ONLY NEED TO SEND THE SAVEGAME REQUEST TO THE LS ONCE
+		//(although making the same call multiple times can't hurt, and is simpler)
+		var request = new RestRequest("api/sessions/" + gameHash, Method.GET)
+            .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+        IRestResponse response = client.Execute(request);
+        var JObj = JObject.Parse(response.Content);
+        Dictionary<string, object> sessionDetails = JObj.ToObject<Dictionary<string, object>>();
+
+		dynamic j = new JObject();
+		var temp = JsonConvert.SerializeObject(sessionDetails["gameParameters"]);
+		var gameParameters = JsonConvert.DeserializeObject<Dictionary<string, string>>(temp);
+
+		string gameName = gameParameters["name"];
+        Debug.Log("gamename: " + gameName);
+		j.gamename = gameName; // can replace with "ColtExpress"
+		//below I deserialize a JSON object to a collection
+        List<string> players = JsonConvert.DeserializeObject<List<string>>(sessionDetails["players"].ToString());
+		//temp = JsonConvert.SerializeObject(sessionDetails["players"]);
+		Debug.Log("players: " + players.ToString());
+        j.players = JsonConvert.SerializeObject(players);//In case it doesn't work, debug by adding a .ToArray()
+		j.savegameid = savegameID;
+
+        Debug.Log("j: " + j.ToString());
+		request = new RestRequest("api/gameservices/" + gameName + "/savegames/" + savegameID + "?access_token=" + GetAdminToken(), Method.POST)
+            .AddParameter("application/json", j.ToString(), ParameterType.RequestBody)
+            .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+
+        IRestResponse response2 = client.Execute(request);
+        var obj = JObject.Parse(response2.Content);
+        Debug.Log(obj.ToString());
 	}
 
 }

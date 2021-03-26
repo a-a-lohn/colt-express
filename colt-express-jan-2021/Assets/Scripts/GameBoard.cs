@@ -208,6 +208,11 @@ public class GameBoard : MonoBehaviour
 
 
     void Start(){
+
+
+		TestSave();
+
+
 		//Debug.Log(B_gem.transform.position);// = new Vector3 (gemPosition[0], gemPosition[1], gemPosition[2]);
         gem4.SetActive(false);
 		initCards();
@@ -740,10 +745,15 @@ public class GameBoard : MonoBehaviour
 		return adminToken;
     }
 
+	public void TestSave() {
+		SaveGameState("test");
+	}
+
 	public static void SaveGameState(string savegameID) {
 
 		//ONLY NEED TO SEND THE SAVEGAME REQUEST TO THE LS ONCE
-		var request = new RestRequest("api/sessions/" + gameHash, Method.GET)
+		//(although making the same call multiple times can't hurt, and is simpler)
+		/*var request = new RestRequest("api/sessions/" + gameHash, Method.GET)
             .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
         IRestResponse response = client.Execute(request);
         var JObj = JObject.Parse(response.Content);
@@ -755,19 +765,16 @@ public class GameBoard : MonoBehaviour
 
 		string gameName = gameParameters["name"];
 		j.gamename = gameName; // can replace with "ColtExpress"
-		//below I deserialize a JSON object to a collection
+		//below I deserialize a JSON object to a collection		
 		temp = JsonConvert.SerializeObject(sessionDetails["players"]);
-		j.players = JsonConvert.DeserializeObject<List<string>>(temp);;//In case it doesn't work, debug by adding a .ToArray()
+		j.players = JsonConvert.DeserializeObject<List<string>>(temp);//In case it doesn't work, debug by adding a .ToArray()
 		j.savegameid = savegameID;
 
 		request = new RestRequest("api/gameservices/" + gameName + "/savegames/" + savegameID + "?access_token=" + GetAdminToken(), Method.POST)
             .AddParameter("application/json", j.ToString(), ParameterType.RequestBody)
             .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
 
-        response = client.Execute(request);
-
-		savegameId = savegameID;
-
+        response = client.Execute(request);*/
 
 		// After saving the game, store the information to the server
 
