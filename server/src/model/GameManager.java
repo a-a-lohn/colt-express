@@ -196,7 +196,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 			banditList.add(b);
 		}
 
-		int trainUnitLength = TrainUnit.trainLength;
+		int trainUnitLength = this.trainLength;
 
 		while (banditList.size() > 1) {
 			TrainUnit currentTrain = this.getTrainCabinAt(trainUnitLength - turns);
@@ -237,8 +237,8 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 
 	public void calculateHorseAttack(Bandit bandit, int turns) {
 		ArrayList<TrainUnit> target = new ArrayList<TrainUnit>();
-		for (int i = turns; i < TrainUnit.trainLength; i++) {
-			target.add(this.getTrainCabinAt(TrainUnit.trainLength - turns));
+		for (int i = turns; i < this.trainLength; i++) {
+			target.add(this.getTrainCabinAt(this.trainLength - turns));
 		}
 		TrainUnit currentTrain = promptHorseAttack2(bandit, target);
 		bandit.setPosition(currentTrain);
