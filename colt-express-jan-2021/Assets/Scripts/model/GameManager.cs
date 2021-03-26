@@ -562,8 +562,95 @@ namespace model {
         
         //shoot
         public ArrayList calculateShoot(){
+<<<<<<< Updated upstream
             ArrayList possibilities = new ArrayList();
             return possibilities;
+=======
+            // TODO REMEMBER BELLE AND TUCO CASES, REMEMBER ROOF AND CABIN CASES
+		    // ROOF CASE:
+		    if (this.currentBandit.getPosition().getCarFloorAsString().Equals("ROOF")) {
+                ArrayList possibilities = new ArrayList();
+                TrainUnit currentCabin = currentBandit.getPosition();
+                if(currentCabin.numOfBanditsHere() > 1){
+                    foreach(Bandit b in currentCabin.getBanditsHere()){
+                        if(!b.getCharacter().Equals(currentBandit.getCharacter())){
+                            possibilities.Add(b);
+                        }
+                    }
+                }
+                else{
+                    TrainUnit toLeft = currentCabin.getLeft();
+                    while(toLeft != null){
+                        if(toLeft.numOfBanditsHere()>0){
+                            break;
+                        }
+                        else{
+                            toLeft = toLeft.getLeft();
+                        }
+                    }
+                    TrainUnit toRight = currentCabin.getRight();
+                    while(toRight != null){
+                        if(toRight.numOfBanditsHere()>0){
+                            break;
+                        }
+                        else{
+                            toRight = toRight.getRight();
+                        }
+                    }
+                    if(toLeft != null){
+                        foreach(Bandit b in toLeft.getBanditsHere()){
+                            possibilities.Add(b);
+                        }
+                    }
+                    if(toRight != null){
+                        foreach(Bandit b in toRight.getBanditsHere()){
+                            possibilities.Add(b);
+                        }
+                    }
+                }
+                //TUCO ABILITY
+                if(currentBandit.getCharacter().Equals("TUCO")){
+                    TrainUnit belowCabin = this.currentBandit.getPosition().getBelow();
+                    foreach(Bandit bb in belowCabin.getBanditsHere()){
+                        possibilities.Add(bb);
+                    }
+                }
+                //BELLE ABILITY
+                foreach (Bandit b in possibilities){
+                    if(b.getCharacter().Equals("BELLE") && possibilities.Count > 1){
+                        possibilities.Remove(b);
+                    }
+                }
+                return possibilities;
+		    } 
+
+            //CABIN CASE:
+            else {
+                ArrayList possibilities = new ArrayList();
+                TrainUnit leftCabin = this.currentBandit.getPosition().getLeft();
+                TrainUnit rightCabin = this.currentBandit.getPosition().getRight();
+			    foreach (Bandit bl in leftCabin.getBanditsHere()) {
+				    possibilities.Add(bl);
+			    }
+			    foreach (Bandit br in rightCabin.getBanditsHere()) {
+				    possibilities.Add(br);
+			    }
+                //TUCO ABILITY
+                if(currentBandit.getCharacter().Equals("TUCO")){
+                    TrainUnit aboveCabin = this.currentBandit.getPosition().getAbove();
+                    foreach(Bandit ba in aboveCabin.getBanditsHere()){
+                        possibilities.Add(ba);
+                    }
+                }
+                //BELLE ABILITY
+                foreach (Bandit b in possibilities){
+                    if(b.getCharacter().Equals("BELLE") && possibilities.Count > 1){
+                        possibilities.Remove(b);
+                    }
+                }
+                return possibilities;
+		    }
+>>>>>>> Stashed changes
         }
 
         public void shootPrompt(ArrayList possibilities){

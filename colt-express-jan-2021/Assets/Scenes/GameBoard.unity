@@ -2915,11 +2915,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 0.8859598, g: 0.9150943, b: 0.030215396, a: 1}
     m_HighlightedColor: {r: 1, g: 0.98475426, b: 0, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 1, g: 0.89104825, b: 0, a: 0.5803922}
+    m_DisabledColor: {r: 0.9528302, g: 0.85844606, b: 0.85844606, a: 0.6509804}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -5168,6 +5168,7 @@ MonoBehaviour:
   button: {fileID: 0}
   extension: {fileID: 0}
   chooseChar: {fileID: 0}
+  doesItWork: {fileID: 0}
   canvas: {fileID: 1013407371}
   Round: {fileID: 899180540}
   exitText: {fileID: 1851350108}
