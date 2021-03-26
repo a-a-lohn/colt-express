@@ -144,9 +144,9 @@ public class WaitingRoom : MonoBehaviour
             Dictionary<string, object> sessionDetails = obj.ToObject<Dictionary<string, object>>();
             
             if (Launched(gameHash)) {
-                if(true/*savegameid of the game is empty*/) {
+                if(GameBoard.savegameID == null/*savegameid of the game is empty*/) {
                     numPlayers = 1 + sessionDetails["players"].ToString().ToCharArray().Count(c => c == ',');
-               SceneManager.LoadScene("ChooseYourCharacter");
+                    SceneManager.LoadScene("ChooseYourCharacter");
                 } else {
                     //create an sfs request that assigns the game in the hashmap with the given id as the working game on the server and returns a string saying which bandit you will be playing as
                     // assign chosencharacter string to the received string in SFS.cs

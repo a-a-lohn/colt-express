@@ -46,8 +46,8 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		case("enterGameBoardScene"): handleEnterGameBoardScene(params,rtn); break;
 		case("nextAction"): handleNextAction(params,rtn); break;
 		case("saveGameState"): handleSaveGameState(params,rtn); break;
+		case("loadSavedGame"): handleLoadSavedGame(params,rtn); break;
 		case("removeGame"): handleRemoveGame(params,rtn); break;
-		//case(load old game)
 		default: trace("invalid command passed to multihandler");
 		}
 		

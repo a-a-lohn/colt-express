@@ -29,6 +29,7 @@ public class GameBoard : MonoBehaviour
 
 	private static RestClient client = new RestClient("http://13.72.79.112:4242");
 	public static string gameHash = WaitingRoom.gameHash;
+	public static string savegameID = null;
 	/*
 	Frontend team:
 	-attach choosecharacter strings to characters (attach character strings from
@@ -754,7 +755,9 @@ public class GameBoard : MonoBehaviour
 
 		string gameName = gameParameters["name"];
 		j.gamename = gameName; // can replace with "ColtExpress"
-		j.players = sessionDetails["players"].ToString();//.ToCharArray(); -- convert the string of players to an string array of players
+		//below I deserialize a JSON object to a collection
+		temp = JsonConvert.SerializeObject(sessionDetails["players"]);
+		j.players = JsonConvert.DeserializeObject<List<string>>(temp);;//In case it doesn't work, debug by adding a .ToArray()
 		j.savegameid = savegameID;
 
 		request = new RestRequest("api/gameservices/" + gameName + "/savegames/" + savegameID + "?access_token=" + GetAdminToken(), Method.POST)
