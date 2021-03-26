@@ -17,11 +17,4 @@ public class BulletCard extends Card implements SerializableSFSType {
 		this.fired = false;
 	}
 	
-	public String getBelongsTo() {
-        return this.belongsToAsString;
-    }
-
-    public void setBelongsTo(String belongsTo) {
-        this.belongsToAsString = belongsTo;
-    }
 }
