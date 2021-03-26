@@ -43,6 +43,7 @@ namespace model {
         public ArrayList stagecoach;
 
         public ArrayList bandits;
+        public ArrayList loots; // added 
         
         public Hashtable banditmap;
 
@@ -64,7 +65,6 @@ namespace model {
         //     //  handler.updateGameState(rtn);
         // }
         
-        
         public void playTurn() {
             Debug.Log("playing turn");
             Debug.Log("currentbandit: "+ currentBandit.getCharacter());
@@ -85,6 +85,7 @@ namespace model {
             GameBoard.setWorks();
             GameBoard.clickable = currentBandit.getHand();
             GameBoard.action = "playcard";
+            // TODO
         }
 
         public void resolveAction(ActionCard toResolve) {
@@ -418,7 +419,6 @@ namespace model {
             else {
                 return;
             }
-            
         }
         
         //  void chosenCharacter(int playerId, Character c) {

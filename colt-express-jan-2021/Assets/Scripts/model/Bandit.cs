@@ -278,9 +278,10 @@ namespace model {
             }
         }
 
-
-
-
+        // added by annie
+        public ArrayList getBulletCards(){
+            return this.bullets;
+        }
     }
 
 }
