@@ -29,7 +29,7 @@ public class GameBoard : MonoBehaviour
 
 	private static RestClient client = new RestClient("http://13.72.79.112:4242");
 	public static string gameHash = WaitingRoom.gameHash;
-	public static string savegameID = null;
+	public static string savegameId = null;
 	/*
 	Frontend team:
 	-attach choosecharacter strings to characters (attach character strings from
@@ -765,6 +765,8 @@ public class GameBoard : MonoBehaviour
             .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
 
         response = client.Execute(request);
+
+		savegameId = savegameID;
 
 
 		// After saving the game, store the information to the server

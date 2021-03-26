@@ -144,7 +144,7 @@ public class WaitingRoom : MonoBehaviour
             Dictionary<string, object> sessionDetails = obj.ToObject<Dictionary<string, object>>();
             
             if (Launched(gameHash)) {
-                if(GameBoard.savegameID == null/*savegameid of the game is empty*/) {
+                if(GameBoard.savegameId == null/*savegameid of the game is empty*/) {
                     numPlayers = 1 + sessionDetails["players"].ToString().ToCharArray().Count(c => c == ',');
                     SceneManager.LoadScene("ChooseYourCharacter");
                 } else {
