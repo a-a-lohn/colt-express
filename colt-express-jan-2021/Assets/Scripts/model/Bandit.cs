@@ -106,16 +106,10 @@ namespace model {
             return null;
         }
         public void addToDeck(Card a) {
-            bool contains = this.deck.Contains(a);
-            if (contains) {
-                return;
-            }
             this.deck.Add(a);
         }
         public void removeFromDeck(Card a) {
-            if (this.deck.Contains(a)) {
-                this.deck.Remove(a);
-            }
+            this.deck.Remove(a);
         }
         public int sizeOfDeck() {
             int size = this.deck.Count;

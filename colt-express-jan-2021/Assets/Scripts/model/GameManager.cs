@@ -50,11 +50,14 @@ namespace model {
             Debug.Log("currentbandit: "+ currentBandit.getCharacter());
             if(currentBandit.getCharacter() == ChooseCharacter.character) {
                 Debug.Log("my turn");
-                if ((this.strGameStatus == "SCHEMIN")) {
+                if (this.strGameStatus.Equals("SCHEMIN")) {
+                    if(this.currentRound.getTurnCounter() == 0){
+                        
+                    }
                     Debug.Log("calling prompt");
                     promptDrawCardsOrPlayCard();
                 }
-                else if ((this.strGameStatus == "STEALIN")) {
+                else if (this.strGameStatus.Equals("STEALIN")) {
                     this.resolveAction(this.currentBandit.getToResolve());
                 }
             }
@@ -68,6 +71,10 @@ namespace model {
         }
 
         public void resolveAction(ActionCard toResolve) {
+
+            PlayedPile.getInstance().removePlayedCard(toResolve);
+            currentBandit.addToDeck(toResolve);
+
             if (toResolve.getActionTypeAsString().Equals("CHANGEFLOOR")) {
                 currentBandit.setToResolve(null);
                 this.changeFloor();
