@@ -14,48 +14,28 @@ namespace model {
     public class GameManager : SerializableSFSType {
         //public Hashtable banditLocation; 
         
+        //public static ColtMultiHandler handler; 
         public static GameManager singleton;
-        
         public string strGameStatus;
         
         public Round currentRound;
-        
         public Bandit currentBandit;
-        
         public ArrayList rounds;
-        
-        //  CONVENTION FOR DECK: POSITION DECK.SIZE() IS TOP OF
-        //  DECK, POSITION 0 IS BOTTOM OF DECK
         public Marshal marshalInstance;
-        
+        //  CONVENTION FOR DECK: POSITION DECK(SIZE) IS TOP OF DECK, DECK(0) IS BOTTOM OF DECK
         public PlayedPile playedPileInstance;
-        
-        //  CONVENTION FOR DECK: POSITION DECK.SIZE() IS TOP OF DECK, POSITION 0 IS
-        //  BOTTOM OF DECK
+        //  CONVENTION FOR TRAIN: POSITION TRAIN(0) IS LOCOMOTIVE, TRAIN(TRAINLENGTH) IS CABOOSE
         public ArrayList trainRoof ;
-        
         public ArrayList trainCabin;
-        
-        public int trainLength;
-
-        public ArrayList horses;
-
         public ArrayList stagecoach;
-
+        public int trainLength;
+        public ArrayList horses;
         public ArrayList bandits;
-        
         public Hashtable banditmap;
-
         public Hashtable banditPositions; 
-        
-        //public static ColtMultiHandler handler; 
-        
         public ArrayList neutralBulletCard;
-        
         public int banditsPlayedThisTurn;
-        
         public int roundIndex;
-        
         public int banditIndex; // NEVER INITIALIZED IN GM.JAVA
         
         // public static void setHandler(ColtMultiHandler handle) {  
@@ -163,48 +143,117 @@ namespace model {
         }
 
         public void endOfTurn() {
+
+            //  SCHEMIN PHASE
             if ((this.strGameStatus == "SCHEMIN")) {
-                if (currentRound == null){
-                     Debug.Log("curr round is null");
-                }
-                if (currentRound.getCurrentTurn() == null){
-                     Debug.Log("curr turn is null");
-                }
-                if (currentRound.getCurrentTurn().getTurnTypeAsString() == null){
-                     Debug.Log("curr turn as string is null");
-                }
                 string currentTurnType = this.currentRound.getCurrentTurn().getTurnTypeAsString();
-                if (((currentTurnType == "STANDARD") || (currentTurnType == "TUNNEL"))) {
-                    this.banditIndex = ((this.banditIndex + 1) % this.bandits.Count);
+
+                //  STANDARD AND TUNNEL TURN CASE
+                if (currentTurnType.Equals("STANDARD") || currentTurnType.Equals("TUNNEL")) {
                     this.banditsPlayedThisTurn++;
-                    //  IF END OF TURN
-                    if ((this.banditsPlayedThisTurn > this.bandits.Count)) {
-                        //  IF THERE ARE MORE TURNS IN THE ROUND
-                        if ((this.currentRound.getNextTurn() != null)) {
-                            //  IMPORTANT: getNextTurn() also SETS to next turn
+
+                    //  ALL BANDITS HAVE PLAYED
+                    if ((this.banditsPlayedThisTurn == this.bandits.Count)) {
+
+                        //  THERE ARE MORE TURNS IN THE ROUND - NEXT TURN
+                        if (this.currentRound.hasNextTurn() == true) {
+                            this.currentRound.setNextTurn();
+                            this.banditIndex = ((this.banditIndex + 1) % this.bandits.Count);
                             this.currentBandit = (Bandit) this.bandits[this.banditIndex];
+                            banditsPlayedThisTurn = 0;
                         }
                         
-                        //  IF THERE ARE NO MORE TURNS IN THE ROUND
-                        //
+                        //  NO MORE TURNS IN ROUND - END OF SCHEMIN PHASE
                         foreach (Bandit b in this.bandits) {
-                            b.endOfSchemin();
+                            b.clearHand();
                         }
+                        banditIndex = (banditIndex + 1) % this.bandits.Count;
                         this.banditsPlayedThisTurn = 0;
                         this.setGameStatus("STEALIN");
                     }
                     
-                    //  IF NOT END OF TURN
-                    this.currentBandit = (Bandit) this.bandits[this.banditIndex];
+                    //  NOT ALL BANDITS HAVE PLAYED - NEXT BANDIT'S TURN
+                    else{
+                        this.banditIndex = (this.banditIndex + 1) % this.bandits.Count;
+                        this.currentBandit = (Bandit) this.bandits[this.banditIndex];
+                    }
                 }
-                else if ((currentTurnType == "SWITCHING")) {
-                    // TODO
+
+                //  SWITCHING TURN CASE
+                else if (currentTurnType.Equals("SWITCHING")) {
+				    banditsPlayedThisTurn++;
+
+				    // ALL BANDITS HAVE PLAYED
+				    if (banditsPlayedThisTurn == this.bandits.Count) {
+
+				    	// THERE ARE MORE TURNS IN THE ROUND - NEXT TURN
+				    	if (this.currentRound.hasNextTurn() == true) {
+                            this.currentRound.setNextTurn();
+                            banditIndex = (banditIndex + 1) % this.bandits.Count;
+				    		this.currentBandit = (Bandit) this.bandits[this.banditIndex];
+                            banditsPlayedThisTurn = 0;
+				    	}
+				    	// NO MORE TURNS IN ROUND - END OF SCHEMIN PHASE
+				    	else {
+                            foreach (Bandit b in this.bandits){
+                                b.clearHand();
+                            }
+                            banditIndex = (banditIndex + 1) % this.bandits.Count;
+				    		banditsPlayedThisTurn = 0;
+				    		this.setGameStatus("STEALIN");
+				    	}
+				    }
+				    // NOT ALL BANDITS HAVE PLAYED - NEXT BANDIT'S TURN
+				    else {
+                        banditIndex = (banditIndex - 1 + this.bandits.Count) % this.bandits.Count;
+				    	this.currentBandit = (Bandit) this.bandits[this.banditIndex];
+				    }
                 }
-                else if ((currentTurnType == "SPEEDINGUP")) {
-                    // TODO
+
+                else if (currentTurnType.Equals("SPEEDINGUP")) {
+
+                    //  CURRENT BANDIT COMPLETED 1/2 TURN
+                    if (currentBandit.consecutiveTurnCounter == 0) {
+					    currentBandit.setConsecutiveTurnCounter(1);
+					    promptDrawCardsOrPlayCard();
+				    }
+
+                    //  CURRENT BANDIT COMPLETED 2/2 TURN 
+                    else if (currentBandit.consecutiveTurnCounter == 1) {
+					    currentBandit.setConsecutiveTurnCounter(0);
+					    banditsPlayedThisTurn++;
+
+					    // ALL BANDITS HAVE PLAYED
+					    if (banditsPlayedThisTurn == this.bandits.Count) {
+
+						    // THERE ARE MORE TURNS IN THE ROUND - NEXT TURN
+						    if (this.currentRound.hasNextTurn() == true) {
+						    	this.currentRound.setNextTurn();
+                                banditIndex = (banditIndex + 1) % this.bandits.Count;
+						    	this.currentBandit = (Bandit) this.bandits[this.banditIndex];
+                                banditsPlayedThisTurn = 0;
+						    }
+
+						    // NO MORE TURNS IN ROUND - END OF SCHEMIN PHASE
+						    else {
+                                foreach (Bandit b in this.bandits) {
+                                    b.clearHand();
+                                }
+                                banditIndex = (banditIndex + 1) % this.bandits.Count;
+						    	banditsPlayedThisTurn = 0;
+						    	this.setGameStatus("STEALIN");
+						    }
+					    }
+
+					    // NOT ALL BANDITS HAVE PLAYED - NEXT BANDIT'S TURN
+					    else {
+                            banditIndex = (banditIndex + 1) % this.bandits.Count;
+					    	this.currentBandit = (Bandit) this.bandits[this.banditIndex];
+					    }
+				    }
                 }
-                
             }
+
             else if ((this.strGameStatus == "STEALIN")) {
                 ActionCard toResolve = this.playedPileInstance.takeTopCard();
                 if ((toResolve != null)) {
@@ -494,8 +543,6 @@ namespace model {
         //--SHOOT--
 
         public ArrayList calculateShoot(){
-            // TODO REMEMBER BELLE AND TUCO CASES, REMEMBER ROOF AND CABIN CASES
-            
 		    
 		    //ROOF CASE:
 		    if (this.currentBandit.getPosition().getCarFloorAsString().Equals("ROOF")) {

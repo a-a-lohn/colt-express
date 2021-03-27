@@ -225,13 +225,11 @@ namespace model {
         }
 
         //TODO: combine this game manager
-        public void endOfSchemin(){
+        public void clearHand(){
             foreach (Card c in this.hand){
                 this.deck.Add(c);
             }
             this.hand.Clear();
-            //HAND FOR NEXT ROUND IS CREATED AT END OF SCHEMIN PHASE - MUST NOT BE VISIBLE DURING STEALING PHASE
-            this.createHand();
         }
 
      // FIX THIS
