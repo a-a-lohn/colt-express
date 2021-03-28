@@ -22,6 +22,23 @@ namespace model {
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public PlayedPile() {}
         
+        public void addPlayedCardsAt(int index, ActionCard a) {
+            this.playedCards.Insert(index, a);
+        }
+
+        public void removePlayedCardsAt(int index) {
+            if ((this.playedCards.Count > index)) {
+                this.playedCards.Remove(index);
+            }
+        }
+
+        public ActionCard getPlayedCardsAt(int index) {
+            if ((this.playedCards.Count > index)) {
+                return (ActionCard)this.playedCards[index];
+            }
+            return null;
+        }
+
         public void addPlayedCards(ActionCard a) {
             this.playedCards.Add(a);
         }
@@ -54,7 +71,6 @@ namespace model {
             if ((instance == null)) {
                 instance = new PlayedPile();
             }
-            
             return instance;
         }
     }

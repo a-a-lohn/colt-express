@@ -256,17 +256,11 @@ namespace model {
 
         //added these to clean up the gamemanager methods, there's some logic that can be handled here 
 
-        public void drawCards() {
-            if (this.deck.Count < 3) {
-                return;
-            }
-            for (int i = 0; i<3; i++){
-                Card c = (Card) this.deck[i];
-                this.hand.Add(c);
-            }
-            for (int i = 0; i<3; i++){
-                Card c = (Card)this.deck[i];
-                this.deck.Remove(c);
+        public void drawCards(int cardsToDraw) {
+            for (int i = this.sizeOfDeck()-1; i > this.sizeOfDeck()-cardsToDraw-1; i--) {
+                Card toAdd = this.getFromDeckAt(i);
+                this.removeFromDeckAt(i);
+                this.addToHand(toAdd);
             }
         }
 

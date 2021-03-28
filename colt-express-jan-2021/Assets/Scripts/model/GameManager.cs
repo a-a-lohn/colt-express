@@ -48,11 +48,14 @@ namespace model {
         public void playTurn() {
             Debug.Log("playing turn");
             Debug.Log("currentbandit: "+ currentBandit.getCharacter());
-            if(currentBandit.getCharacter() == ChooseCharacter.character) {
+            if(currentBandit.getCharacter().Equals(ChooseCharacter.character)) {
                 Debug.Log("my turn");
                 if (this.strGameStatus.Equals("SCHEMIN")) {
                     if(this.currentRound.getTurnCounter() == 0){
-                        
+                        currentBandit.drawCards(6);
+                        if(currentBandit.getCharacter().Equals("DOC")){
+                            currentBandit.drawCards(1);
+                        }
                     }
                     Debug.Log("calling prompt");
                     promptDrawCardsOrPlayCard();
@@ -110,11 +113,10 @@ namespace model {
             //  Remove card from bandit's hand
             this.currentBandit = c.getBelongsTo();
             this.currentBandit.removeFromHand(c);
-            if (((this.currentBandit.getCharacter() == "GHOST") 
-                        && (this.currentRound.getTurnCounter() == 0))) {
+            if (this.currentBandit.getCharacter().Equals("GHOST") && this.currentRound.getTurnCounter() == 0) {
                 promptPlayFaceUpOrFaceDown(c);
             }
-            else if ((this.currentRound.getCurrentTurn().getTurnTypeAsString() == "TUNNEL")) {
+            else if (this.currentRound.getCurrentTurn().getTurnTypeAsString().Equals("TUNNEL")) {
                 //  this.currentRound.getCurrentTurn().getTurnTypeAsString().equals("TUNNEL")
                 c.setFaceDown(true);
             }
@@ -127,15 +129,11 @@ namespace model {
             // might have to put this in an if else block for cases like SpeedingUp/Whiskey
         }
         
+        //  The GM method drawCards will draw cards and end turn
+        //  The Bandit method drawCards simply moves cards from deck to hand
         public void drawCards(int cardsToDraw) {
-            for (int i = this.currentBandit.sizeOfDeck()-1; i  >this.currentBandit.sizeOfDeck()-cardsToDraw-1; i--) {
-                Card toAdd = this.currentBandit.getFromDeckAt(i);
-                this.currentBandit.removeFromDeckAt(i);
-                this.currentBandit.addToHand(toAdd);
-            }
-            
+            currentBandit.drawCards(cardsToDraw);
             this.endOfTurn();
-            // might have to put this in an if else block for cases like SpeedingUp/Whiskey
         }
 
         public void promptPlayFaceUpOrFaceDown(ActionCard c){
@@ -152,7 +150,7 @@ namespace model {
         public void endOfTurn() {
 
             //  SCHEMIN PHASE
-            if ((this.strGameStatus == "SCHEMIN")) {
+            if (this.strGameStatus.Equals("SCHEMIN")) {
                 string currentTurnType = this.currentRound.getCurrentTurn().getTurnTypeAsString();
 
                 //  STANDARD AND TUNNEL TURN CASE
@@ -261,7 +259,7 @@ namespace model {
                 }
             }
 
-            else if ((this.strGameStatus == "STEALIN")) {
+            else if (this.strGameStatus.Equals("STEALIN")) {
                 ActionCard toResolve = this.playedPileInstance.takeTopCard();
                 if ((toResolve != null)) {
                     this.currentBandit = toResolve.getBelongsTo();
@@ -751,7 +749,7 @@ namespace model {
                 possibleMoving.Add(currentPosition.getLeft());
             }
             
-            if ((currentPosition.carFloorAsString == "ROOF")) {
+            if (currentPosition.carFloorAsString.Equals("ROOF")) {
                 if ((currentPosition.getLeft().getLeft() != null)) {
                     possibleMoving.Add(currentPosition.getLeft());
                 }
