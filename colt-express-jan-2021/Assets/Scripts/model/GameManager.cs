@@ -497,6 +497,12 @@ namespace model {
             this.banditIndex = bi;
         }
         
+        public BulletCard popNeutralBullet(){
+            BulletCard popped = (BulletCard) this.neutralBulletCard[this.neutralBulletCard.Count-1];
+            this.neutralBulletCard.RemoveAt(this.neutralBulletCard.Count-1);
+            return popped;
+        }
+
 
         //--EXECUTE ACTIONS-- BEFORE CALLING ANY OF THESE METHODS, CURRENT BANDIT MUST
 	    // BE ASSIGNED CORRECTLY All actions will be called from POV of this.currentBandit
@@ -657,6 +663,9 @@ namespace model {
                 else if(rightOfDjango && toShoot.getPosition().getRight() != null){
                     toShoot.setPosition(toShoot.getPosition().getRight());
                 }
+                if(toShoot.getPosition().getIsMarshalHere() && toShoot.getPosition().getCarFloor().Equals("CABIN")){
+                    toShoot.shotByMarhsal();
+                }
 		    }
 		    endOfTurn(); // might have to put this in an if else block for cases like SpeedingUp/Whiskey
 	    }
@@ -678,47 +687,89 @@ namespace model {
                 this.endOfTurn();
             }
             else if(possibilities.Count == 1){
-                //punch((Bandit)possibilities[0]);
+                Bandit punched = (Bandit) possibilities[0];
+                dropPrompt(punched, calculateDrop(punched));
             }
             else{
-                //TODO make possibilities clickable
-                Bandit clicked = new Bandit();
-                //punch(clicked);
+                //TODO make possibilities clickable (replace new Bandit with the Bandit the client chooses)
+                Bandit punched = new Bandit();
+                dropPrompt(punched), calculateDrop(punched));
             }
         }
         
-        public void punch(Bandit target, Loot l, TrainUnit tu) {
-		    if (target != null) {
-			    if (l != null) {
-				    target.removeLoot(l);
-				    this.currentBandit.addLoot(l);
-			    }
-			    tu.addBandit(target);
-			    if (tu.isMarshalHere) {
-			    	target.addToDeck((BulletCard)this.neutralBulletCard[0]);
-                    this.neutralBulletCard.Remove(0);
-			    	this.currentBandit.setPosition(target.getPosition().getAbove());
-			    	target.getPosition().getAbove().addBandit(this.currentBandit);
-			    }
-		    }
-		    endOfTurn(); // might have to put this in an if else block for cases like SpeedingUp/Whiskey
+        public ArrayList calculateDrop(Bandit punched){
+            return punched.getLoot();
+        }
+
+        public void dropPrompt(Bandit punched, ArrayList possibilities){
+            if(possibilities.Count == 0){
+                knockbackPrompt(punched, null, calculateKnockback(punched));
+            }
+            else if(possibilities.Count == 1){
+                knockbackPrompt(punched, (Loot) possibilities[0], calculateKnockback(punched));
+            }
+            else{
+                //TODO make possibilities clickable (replace new Loot with the Loot the client chooses)
+                Loot dropped = new Loot();
+                knockbackPrompt(punched, dropped, calculateKnockback(punched));
+            }
+        }
+
+        public ArrayList calculateKnockback(Bandit punched){
+            ArrayList possibilities = new ArrayList();
+            if(punched.getLeft() != null){
+                possibilities.Add(punched.getLeft());
+            }
+            if(punched.getRight() != null){
+                possibilities.Add(punched.getRight());
+            }
+            return possibilities;
+        }
+
+        public void knockbackPrompt(Bandit punched, Loot dropped, ArrayList possibilities){
+            if(possibilities.Count == 0){
+                punch(punched, dropped, null);
+            }
+            else if(possibilities.Count == 1){
+                punch(punched, dropped, possibilities[0]);
+            }
+            else{
+                //TDOO make possibilities clickable (replace new TrainUnit with the TrainUnit the client chooses)
+                TrainUnit knockedTo = new TrainUnit();
+                punch(punched, dropped, knockedTo);
+            }
+        }
+
+        public void punch(Bandit punched, Loot dropped, TrainUnit knockedTo) {
+			if (dropped != null) {
+			    punched.removeLoot(dropped);
+                if(this.currentBandit.getCharacter().Equals("CHEYENNE") && dropped.IsInstanceOfType(Money) && dropped.getMoneyTypeAsString().Equals("PURSE")){
+                    this.currentBandit.addLoot(dropped);
+                }
+                else{
+                    this.currentBandit.getPosition().addLoot(dropped);
+                }
+			}
+			knockedTo.addBandit(punched);
+			if (knockedTo.getIsMarshalHere()) {
+				punched.shotByMarhsal();
+			}
+		    endOfTurn();
 	    }
         
         //--CHANGE FLOOR--
 
         public void changeFloor() {
             TrainUnit currentPosition = this.currentBandit.getPosition();
-            if (((currentPosition.getAbove() == null) && (currentPosition.getBelow() != null))) {
-                currentPosition.getBelow().addBandit(currentBandit);
-                /*currentPosition.removeBandit(this.currentBandit);
-                currentPosition.getBelow().addBandit(this.currentBandit);
-                this.currentBandit.setPosition(currentPosition.getBelow());*/
+            Debug.Assert(currentPosition.getBelow() == null || currentPosition.getAbove() == null);
+            if (currentPosition.getBelow() != null) {
+                currentBandit.setPosition(currentPosition.getBelow());
+                if(currentBandit.getPosition().getIsMarshalHere()){
+                    currentBandit.shotByMarhsal();
+                }
             }
-            else if (((currentPosition.getBelow() == null) && (currentPosition.getAbove() != null))) {
-                currentPosition.getAbove().addBandit(currentBandit);
-                /*currentPosition.removeBandit(this.currentBandit);
-                currentPosition.getAbove().addBandit(this.currentBandit);
-                this.currentBandit.setPosition(currentPosition.getAbove());*/
+            else if (currentPosition.getAbove() != null) {
+                currentBandit.setPosition(currentPosition.getAbove());
             }
             
             this.endOfTurn();
@@ -772,10 +823,7 @@ namespace model {
 		    TrainUnit currentPosition = this.currentBandit.getPosition();
 		    currentPosition.addBandit(this.currentBandit);
 		    if (targetPosition.isMarshalHere) {
-			    this.currentBandit.addToDeck((BulletCard)this.neutralBulletCard[0]);
-                this.neutralBulletCard.Remove(0);
-			    currentPosition.addBandit(this.currentBandit);
-			    this.currentBandit.setPosition(currentPosition);
+			    currentBandit.shotByMarhsal();
 		    }
 		    endOfTurn(); // might have to put this in an if else block for cases like SpeedingUp/Whiskey
 	    }
@@ -802,11 +850,7 @@ namespace model {
 		    marshal.setMarshalPosition(targetPosition);
 		    foreach (Bandit b in this.getBandits()) {
 		    	if (b.getPosition() == targetPosition) {
-			    	if (this.neutralBulletCard[0] != null) {
-                        b.addToDeck((BulletCard)neutralBulletCard[0]);
-				    	this.neutralBulletCard.Remove(0);
-					    targetPosition.getAbove().addBandit(b);
-				    }
+			    	b.shotByMarhsal();
 			    }
 		    }
 		    endOfTurn(); // might have to put this in an if else block for cases like SpeedingUp/Whiskey
