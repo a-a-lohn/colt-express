@@ -54,7 +54,7 @@ namespace model {
                 turns.Add(new Turn("SPEEDINGUP"));
                 turns.Add(new Turn("STANDARD"));
             }
-            else if(rt.Equals("PaasengersRebellion") && numOfBandits <= 4){
+            else if(rt.Equals("PassengersRebellion") && numOfBandits <= 4){
                 turns.Add(new Turn("STANDARD"));
                 turns.Add(new Turn("STANDARD"));
                 turns.Add(new Turn("TUNNEL"));
@@ -110,6 +110,7 @@ namespace model {
                 turns.Add(new Turn("STANDARD"));
                 turns.Add(new Turn("TUNNEL"));
             }
+            this.currentTurn = (Turn)this.turns[0];
         }
         
         public void addTurn(Turn a) {

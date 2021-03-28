@@ -19,16 +19,101 @@ public class Round implements SerializableSFSType {
 	public String roundTypeAsString; //FOR NETWORKING
 	
 	public Turn currentTurn;
-	public int turnCounter = 1; //Tracks the current turn
+	public int turnCounter = 0; //Tracks the current turn
 	public ArrayList<Turn> turns = new ArrayList<Turn>();
     
 
 	//--EMPTY CONSTRUCTOR FOR SERIALIZATION--
     public Round() {  }
     
-    public Round(RoundType Rt) {
-    	this.roundType = Rt;
-    	this.roundTypeAsString = Rt.toString();
+    public Round(RoundType rt) {
+        int numOfBandits = GameManager.getInstance().bandits.size();
+        assert numOfBandits >= 2 && numOfBandits <= 6;
+        this.roundType = rt;
+	    this.roundTypeAsString = rt.name();
+        this.turnCounter = 0;
+        this.turns = new ArrayList<Turn>();
+        if(rt == RoundType.AngryMarshal && numOfBandits <= 4){
+            turns.add(new Turn(TurnType.STANDARD));
+            turns.add(new Turn(TurnType.STANDARD));
+            turns.add(new Turn(TurnType.TUNNEL));
+            turns.add(new Turn(TurnType.SWITCHING));
+        }
+        else if(rt == RoundType.SwivelArm && numOfBandits <= 4){
+            turns.add(new Turn(TurnType.STANDARD));
+            turns.add(new Turn(TurnType.TUNNEL));
+            turns.add(new Turn(TurnType.STANDARD));
+            turns.add(new Turn(TurnType.STANDARD));
+        }
+        else if(rt == RoundType.Braking && numOfBandits <= 4){
+            turns.add(new Turn(TurnType.STANDARD));
+            turns.add(new Turn(TurnType.STANDARD));
+            turns.add(new Turn(TurnType.STANDARD));
+            turns.add(new Turn(TurnType.STANDARD));
+        }
+        else if(rt == RoundType.TakeItAll && numOfBandits <= 4){
+            turns.add(new Turn(TurnType.STANDARD));
+            turns.add(new Turn(TurnType.TUNNEL));
+            turns.add(new Turn(TurnType.SPEEDINGUP));
+            turns.add(new Turn(TurnType.STANDARD));
+        }
+        else if(rt == RoundType.PassengersRebellion && numOfBandits <= 4){
+            turns.add(new Turn(TurnType.STANDARD));
+            turns.add(new Turn(TurnType.STANDARD));
+            turns.add(new Turn(TurnType.TUNNEL));
+            turns.add(new Turn(TurnType.STANDARD));
+            turns.add(new Turn(TurnType.STANDARD));
+        }
+        else if(rt == RoundType.Bridge && numOfBandits <= 4){
+            turns.add(new Turn(TurnType.STANDARD));
+            turns.add(new Turn(TurnType.SPEEDINGUP));
+            turns.add(new Turn(TurnType.STANDARD));
+        }
+        else if(rt == RoundType.Cave && numOfBandits <= 4){
+            turns.add(new Turn(TurnType.STANDARD));
+            turns.add(new Turn(TurnType.TUNNEL));
+            turns.add(new Turn(TurnType.STANDARD));
+            turns.add(new Turn(TurnType.TUNNEL));
+            turns.add(new Turn(TurnType.STANDARD));
+        }
+        else if(rt == RoundType.AngryMarshal){
+            turns.add(new Turn(TurnType.STANDARD));
+            turns.add(new Turn(TurnType.STANDARD));
+            turns.add(new Turn(TurnType.SWITCHING));
+        }
+        else if(rt == RoundType.SwivelArm){
+            turns.add(new Turn(TurnType.STANDARD));
+            turns.add(new Turn(TurnType.TUNNEL));
+            turns.add(new Turn(TurnType.STANDARD));
+        }
+        else if(rt == RoundType.Braking){
+            turns.add(new Turn(TurnType.STANDARD));
+            turns.add(new Turn(TurnType.TUNNEL));
+            turns.add(new Turn(TurnType.STANDARD));
+            turns.add(new Turn(TurnType.STANDARD));
+        }
+        else if(rt == RoundType.TakeItAll){
+            turns.add(new Turn(TurnType.STANDARD));
+            turns.add(new Turn(TurnType.SPEEDINGUP));
+            turns.add(new Turn(TurnType.SWITCHING));
+        }
+        else if(rt == RoundType.PassengersRebellion){
+            turns.add(new Turn(TurnType.STANDARD));
+            turns.add(new Turn(TurnType.TUNNEL));
+            turns.add(new Turn(TurnType.STANDARD));
+            turns.add(new Turn(TurnType.SWITCHING));
+        }   
+        else if(rt == RoundType.Bridge){
+            turns.add(new Turn(TurnType.STANDARD));
+            turns.add(new Turn(TurnType.SPEEDINGUP));
+        }
+        else if(rt == RoundType.Cave){
+            turns.add(new Turn(TurnType.STANDARD));
+            turns.add(new Turn(TurnType.TUNNEL));
+            turns.add(new Turn(TurnType.STANDARD));
+            turns.add(new Turn(TurnType.TUNNEL));
+        }
+        this.currentTurn = turns.get(0);
     }
     
     public void addTurn(Turn a) {

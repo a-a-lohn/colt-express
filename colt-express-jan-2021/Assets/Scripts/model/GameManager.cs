@@ -341,28 +341,6 @@ namespace model {
             return this.rounds;
         }
         
-        public ArrayList createRoundCards(int numOfPlayers) {
-            ArrayList RoundCards = new ArrayList();
-            if (numOfPlayers >=2 && numOfPlayers <= 6) {
-                Round r1 = new Round("AngryMarshal");
-                RoundCards.Add(r1);
-                Round r2 = new Round("SwivelArm");
-                RoundCards.Add(r2);
-                Round r3 = new Round("Braking");
-                RoundCards.Add(r3);
-                Round r4 = new Round("TakeItAll");
-                RoundCards.Add(r4);
-                Round r5 = new Round("PassengersRebellion");
-                RoundCards.Add(r5);
-                Round r6 = new Round("Bridge");
-                RoundCards.Add(r6);
-                Round r7 = new Round("Cave");
-                RoundCards.Add(r7);
-            }
-            Bandit.shuffle(RoundCards);
-            return null; ////??
-        }
-        
         public void setGameStatus(string newStatus) {
             //this.gameStatus = newStatus;
             this.strGameStatus = newStatus;
@@ -560,6 +538,7 @@ namespace model {
                         }
                     }
                 }
+                //TRAVERSE TRAIN UNITS TOWARDS RIGHT AND LEFT TO FIND BANDITS IN LINE OF SIGHT
                 else{
                     TrainUnit toLeft = currentCabin.getLeft();
                     while(toLeft != null){
@@ -643,31 +622,41 @@ namespace model {
         
 	    public void shoot(Bandit toShoot) {
 
-		    // Bandit toShoot = new Bandit(); // TODO <- replace with the target chosen by
-		    // shootPrompt
 		    if (currentBandit.getSizeOfBullets() > 0) {
 		    	toShoot.addToDeck(currentBandit.popBullet()); // TODO <- graphical response
 		    }
 
 		    if (currentBandit.getCharacter().Equals("DJANGO")) {
-			    TrainUnit left = currentBandit.getPosition().getLeft();
-			    TrainUnit right = currentBandit.getPosition().getRight();
-
-			    // IF BANDIT IS TO DJANGO'S LEFT, PUSH BANDIT 1 CART TO DJANGO'S LEFT IF
-			    // POSSIBLE
-			    if (left.containsBandit(toShoot)) {
-				    if (left.getLeft() != null) {
-				    	toShoot.setPosition(left.getLeft()); // TODO <- graphical response
-				    }
-			    }
-			    // IF BANDIT IS TO DJANGO'S RIGHT, PUSH BANDIT 1 CART TO DJANGO'S RIGHT IF
-			    // POSSIBLE
-			    else if (right.containsBandit(toShoot)) {
-			    	if (right.getRight() != null) {
-				    	toShoot.setPosition(right.getRight()); // TODO <- graphical response
-				    }
-
-			    }
+                //DETERMINE IF BANDIT TO SHOOT IS LEFT OR RIGHT OF DJANGO
+                bool leftOfDjango = false;
+                bool rightOfDjango = false;
+			    TrainUnit toLeft = currentBandit.getPosition().getLeft();
+                while(toLeft != null){
+                    if(toLeft.containsBandit(toShoot)){
+                        leftOfDjango = true;
+                        break;
+                    }
+                    else{
+                        toLeft = toLeft.getLeft();
+                    }
+                }
+                TrainUnit toRight = currentBandit.getPosition().getRight();
+                while(toRight != null){
+                    if(toRight.containsBandit(toShoot)){
+                        rightOfDjango = true;
+                        break;
+                    }
+                    else{
+                        toRight = toRight.getRight();
+                    }
+                }
+                Debug.Assert(leftOfDjango || rightOfDjango);
+                if(leftOfDjango && toShoot.getPosition().getLeft() != null){
+                    toShoot.setPosition(toShoot.getPosition().getLeft());
+                }
+                else if(rightOfDjango && toShoot.getPosition().getRight() != null){
+                    toShoot.setPosition(toShoot.getPosition().getRight());
+                }
 		    }
 		    endOfTurn(); // might have to put this in an if else block for cases like SpeedingUp/Whiskey
 	    }
