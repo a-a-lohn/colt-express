@@ -22,6 +22,7 @@ using System.Collections;
 // using System.Random;
 using Random=System.Random;
 // using UnityEngine.Color;
+using UnityEngine.EventSystems;
 
 public class GameBoard : MonoBehaviour
 {
@@ -171,7 +172,6 @@ public class GameBoard : MonoBehaviour
 	private List<Button> goTUCOHand; 
 	private List<Button> goDJANGOHand; 
 
-	// a list of clickable items
 	private List<GameObject> clickableGOs; 
 	public List<object> clickableObjects; 
 
@@ -193,33 +193,39 @@ public class GameBoard : MonoBehaviour
     void Start(){
 		// var clickableObjects = gm.calculateShoot();
 		setAllNonClickable();
-		// ghost.interactable = false; 
-		ArrayList clickableObjects = new ArrayList(); 
-		// Bandit randomB = gm.currentBandit; 
-		Bandit randomB = new Bandit("GHOST"); 
-		clickableObjects.Add(randomB);
-		Debug.Log("current bandit is " + randomB.characterAsString);
-		// objects.Values
-		foreach (Button oneGO in objects.Keys){
-			if(clickableObjects.Contains(objects[oneGO])){
-				// make the GO clickable 
-				// oneGO.SetActive(true);
-				oneGO.interactable = true; 
-			}
-		}
-		// Debug.Log(gm.currentRound.roundTypeAsString);
-		// currentRound.text = gm.currentRound.roundTypeAsString; 
-		// currentBandit.text = gm.currentBandit.characterAsString; 
-		initCards();
-		// set extra cards to false 
-		CardNewA.SetActive(false);
-		CardNewB.SetActive(false);
-		CardNewC.SetActive(false);
-		CardNewD.SetActive(false);
-		CardNewE.SetActive(false);
-		CardNewF.SetActive(false);
-		announcement.text = "";
-		// Round.text = "ROUND 1:\n-Standard turn\n-Tunnel turn\n-Switching turn";
+
+		/* DUMMY BANDITS FOR TESTING PURPOSES */
+		Bandit b1 = new Bandit("GHOST");
+		Bandit b2 = new Bandit("BELLE");
+		Bandit b3 = new Bandit("CHEYENNE");	
+
+		ArrayList banditsArr = new ArrayList(); 
+		banditsArr.Add(b1); 
+		banditsArr.Add(b2); 
+		banditsArr.Add(b3); 
+
+		/* @TEST makeShootPossibilitiesClickable*/
+		buttonToObject.Add(ghost, b1);
+
+		ArrayList shootArr = new ArrayList(); 
+		shootArr.Add(b1);
+		makeShootPossibilitiesClickable(shootArr);
+	
+		/* @OUTPUT now only GHOST is clickable 🎉*/
+
+		/* @TEST makePunchPossibilitiesClickable */
+		var selectedBanditName = EventSystem.current.currentSelectedGameObject;
+         if (selectedBanditName != null)
+             promptPunchTarget.text = "ahh" + selectedBanditName.name;
+         else
+             promptPunchTarget.text = "ahh NULLL POINTERR";
+		// promptPunchTarget.text = "ahh" + selectedBanditName;
+		promptPunchTarget.text = "ahh" + selectedBanditName.name;
+		 
+
+		string selectedPunchBandit = makePunchPossibilitiesClickable(shootArr);
+		Debug.Log("YOU PUNCHED " + selectedPunchBandit);
+		promptPunchTarget.text = selectedPunchBandit + "IS PUNCHED";
 
 		
 		SFS.setGameBoard();
@@ -255,8 +261,8 @@ public class GameBoard : MonoBehaviour
 	// makeAllClickable makes all clickable objects clickable 
 	public void setAllNonClickable(){
 		Button[] allButtons = UnityEngine.Object.FindObjectsOfType<Button>();
-		foreach(Button ab in allButtons){
-			ab.interactable = false; 
+		foreach(Button aBtn in allButtons){
+			aBtn.interactable = false; 
 		}
 	}
 
@@ -433,14 +439,84 @@ public class GameBoard : MonoBehaviour
         SFS.LeaveRoom();
     }
 
-    public void initClickables(){
-        GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
-        foreach(GameObject go in allObjects){
-            if(go.activeSelf == true){
-                clickableGOsText.text += go.name;
-				// highlight the clickable go 
+	public void playCard(GameObject selectedCard){
+		// draws 3 cards randomly and put in the hand
+		Destroy(selectedCard);
+	}
 
-            }
+	/* Map all Buttons to their GM objects counterparts */
+	public void mapAll(){
+		
+	}
+
+	/* makeShootPossibilitiesClickable makes all possibilities clickable */
+	public static void makeShootPossibilitiesClickable(ArrayList possibilities){
+		Debug.Log("HELLO FROM makeShootPossibilitiesClickable");
+
+		foreach(Bandit b in possibilities){
+			foreach(Button oneBtn in buttonToObject.Keys){
+				if(b.characterAsString == oneBtn.name.ToUpper()){
+					oneBtn.interactable = true; 
+				}
+			}
+		}
+	}
+
+	/* makePunchPossibilitiesClickable makes all possibilities clickable AND returns the clicked Bandit's name as a string */
+	public static string makePunchPossibilitiesClickable(ArrayList possibilities){
+		foreach(Bandit b in possibilities){
+			foreach(Button oneBtn in buttonToObject.Keys){
+				if(b.characterAsString == oneBtn.name.ToUpper()){
+					oneBtn.interactable = true; 
+				}
+			}
+		}
+		// the user clicks on one of the highlighted bandits 
+		string selectedBanditName = EventSystem.current.currentSelectedGameObject.name;
+		return selectedBanditName;
+	}
+
+
+    // Update is called once per frame
+    void Update()
+    {
+
+		var selectedBanditName = EventSystem.current.currentSelectedGameObject;
+         if (selectedBanditName != null)
+             promptPunchTarget.text = "ahh" + selectedBanditName.name;
+         else
+             promptPunchTarget.text = "ahh NULLL POINTERR";
+
+        if (SFS.IsConnected()) {
+			SFS.ProcessEvents();
+		}
+
+		if (Input.GetMouseButtonDown(0)){
+			// MouseDown();
+			Debug.Log("Clicked");
+			works = false;
+			Debug.Log("currentbandit on mouse: "+ gm.currentBandit.getCharacter());
+			if(gm != null && gm.currentBandit.getCharacter() == ChooseCharacter.character) {
+				Debug.Log("ending my turn");
+				Bandit b = (Bandit) gm.bandits[0];
+				if (b.getCharacter() == gm.currentBandit.getCharacter()) {
+					gm.currentBandit = (Bandit) gm.bandits[1];
+				} else {
+					gm.currentBandit = (Bandit) gm.bandits[0];
+				}
+				SendNewGameState();
+				//gm.endOfTurn();
+			}
+		}
+
+		if(works) {
+			doesItWork.text = "it works!";
+		} else {
+			doesItWork.text = "";
+		}
+
+		/*if (SFS.debugText != debugText.text) {
+            debugText.text = SFS.debugText;
         }
         clickableGOsText.text += "==== NOW GHOST IS SET TO NONACTIVE ===";
         // ghost.SetActive(false);

@@ -950,6 +950,85 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 186016429}
   m_CullTransparentMesh: 1
+--- !u!1 &192604583
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 192604586}
+  - component: {fileID: 192604585}
+  - component: {fileID: 192604584}
+  m_Layer: 0
+  m_Name: punchPrompt
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &192604584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192604583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 0.9916163, b: 0.0141509175, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 18
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 1
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: New Text
+--- !u!222 &192604585
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192604583}
+  m_CullTransparentMesh: 1
+--- !u!224 &192604586
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192604583}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1013407372}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -156, y: 53}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &247593318
 GameObject:
   m_ObjectHideFlags: 0
@@ -1731,7 +1810,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.27450982, g: 0.2509804, b: 0.2509804, a: 0.5019608}
+    m_DisabledColor: {r: 0.21960784, g: 0.21960784, b: 0.21960784, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -2561,7 +2640,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.27450982, g: 0.2509804, b: 0.2509804, a: 0.5019608}
+    m_DisabledColor: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -2868,6 +2947,9 @@ GameObject:
   - component: {fileID: 488911559}
   - component: {fileID: 488911558}
   - component: {fileID: 488911561}
+  - component: {fileID: 488911564}
+  - component: {fileID: 488911563}
+  - component: {fileID: 488911562}
   m_Layer: 5
   m_Name: Ghost
   m_TagString: Untagged
@@ -2916,10 +2998,10 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.972549, g: 0.972549, b: 0, a: 1}
-    m_HighlightedColor: {r: 1, g: 0.98475426, b: 0, a: 1}
+    m_HighlightedColor: {r: 1, g: 0.042452812, b: 0.8139219, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.27450982, g: 0.2509804, b: 0.2509804, a: 0.6509804}
+    m_DisabledColor: {r: 0.21960784, g: 0.21960784, b: 0.21960784, a: 0.6509804}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -3000,6 +3082,70 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8eb2303d2cc949cdbd8cb0e17b76923, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!61 &488911562
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 488911556}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!114 &488911563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 488911556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!223 &488911564
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 488911556}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &496337515
 GameObject:
   m_ObjectHideFlags: 0
@@ -5150,6 +5296,7 @@ Transform:
   - {fileID: 571799348}
   - {fileID: 351078154}
   - {fileID: 773662858}
+  - {fileID: 192604586}
   m_Father: {fileID: 734506206}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5172,66 +5319,41 @@ MonoBehaviour:
   canvas: {fileID: 1013407371}
   Round: {fileID: 899180540}
   exitText: {fileID: 1851350108}
-  cheyenne: {fileID: 442808384}
+  cheyenne: {fileID: 442808386}
   belle: {fileID: 0}
   tuco: {fileID: 0}
   doc: {fileID: 0}
   ghost: {fileID: 488911558}
-  django: {fileID: 2061015342}
-  marshal: {fileID: 364579985}
-  gem1: {fileID: 1032197769}
-  gem2: {fileID: 1765836297}
-  gem3: {fileID: 1744056522}
-  gem4: {fileID: 1869831086}
-  gem5: {fileID: 1311391924}
+  django: {fileID: 2061015344}
+  marshal: {fileID: 364579988}
+  gem1: {fileID: 0}
+  gem2: {fileID: 0}
+  gem3: {fileID: 0}
+  gem4: {fileID: 0}
+  gem5: {fileID: 0}
   gem6: {fileID: 0}
-  ghoLoot: {fileID: 925013540}
-  cardA: {fileID: 369979175}
-  cardB: {fileID: 541298844}
-  cardC: {fileID: 1023083644}
-  cardD: {fileID: 367661728}
-  cardE: {fileID: 1135692231}
-  cardF: {fileID: 2056781610}
-  cardG: {fileID: 0}
+  ghoLoot: {fileID: 0}
   bulletCard: {fileID: 1838625225}
   promptDrawCardsOrPlayCardMsg: {fileID: 571799349}
   promptChooseLoot: {fileID: 571799349}
-  promptPunchTarget: {fileID: 571799349}
-  announcement: {fileID: 1832077491}
-  cardAText: {fileID: 1932004671}
-  cardBText: {fileID: 8461049}
-  cardCText: {fileID: 397071379}
-  cardDText: {fileID: 452844222}
-  cardEText: {fileID: 469264866}
-  cardFText: {fileID: 1319462718}
+  promptPunchTarget: {fileID: 192604584}
+  cardNewAText: {fileID: 0}
   cardNewABext: {fileID: 0}
   cardNewCText: {fileID: 0}
-  CardNewA: {fileID: 2083325712}
-  CardNewB: {fileID: 681825554}
-  CardNewC: {fileID: 277286110}
-  CardNewD: {fileID: 1388545674}
-  CardNewE: {fileID: 28853789}
-  CardNewF: {fileID: 2033826064}
-  BelleCard1: {fileID: 0}
-  BelleCard2: {fileID: 0}
-  BelleCard3: {fileID: 0}
-  BelleCard4: {fileID: 0}
-  BelleCard5: {fileID: 0}
-  BelleCard6: {fileID: 0}
   playerE: {fileID: 496337515}
-  BelleBulletCard1: {fileID: 1026552496}
-  BelleBulletCard2: {fileID: 1798973581}
-  BelleBulletCard3: {fileID: 1881957038}
-  BelleBulletCard4: {fileID: 1976612274}
-  BelleBulletCard5: {fileID: 414103346}
-  BelleBulletCard6: {fileID: 342420575}
-  BelleActionMove: {fileID: 847842736}
-  BelleActionChangeFloor: {fileID: 1003133348}
-  BelleActionPunch: {fileID: 2109237517}
-  BelleActionShoot: {fileID: 1426114993}
-  clickableGOsText: {fileID: 351078155}
-  currentRound: {fileID: 899180540}
-  currentBandit: {fileID: 1069952320}
+  BelleBulletCard1: {fileID: 0}
+  BelleBulletCard2: {fileID: 0}
+  BelleBulletCard3: {fileID: 0}
+  BelleBulletCard4: {fileID: 0}
+  BelleBulletCard5: {fileID: 0}
+  BelleBulletCard6: {fileID: 0}
+  BelleActionMove: {fileID: 0}
+  BelleActionChangeFloor: {fileID: 0}
+  BelleActionPunch: {fileID: 0}
+  BelleActionShoot: {fileID: 0}
+  clickableGOsText: {fileID: 0}
+  currentRound: {fileID: 0}
+  currentBandit: {fileID: 0}
 --- !u!1 &1023083644
 GameObject:
   m_ObjectHideFlags: 0
@@ -10424,7 +10546,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.27450982, g: 0.2509804, b: 0.2509804, a: 0.5019608}
+    m_DisabledColor: {r: 0.21960784, g: 0.21960784, b: 0.21960784, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
