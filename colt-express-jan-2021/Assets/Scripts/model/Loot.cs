@@ -15,41 +15,9 @@ using Sfs2X.Protocol.Serialization;
 //        DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
 namespace model {
     public abstract class Loot : SerializableSFSType {
-
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public Loot() {}
         
-        public Loot(Bandit b) {
-            this.belongsTo = b;
-            this.position = default;
-        }
-        
-        public Loot(TrainUnit pos) {
-            this.position = pos;
-            this.belongsTo = default;
-        }
-        
-        // belongsTo
-        public Bandit getBelongsTo() {
-            return this.belongsTo;
-        }
-        
-        public void setBelongsTo(Bandit b) {
-            System.Diagnostics.Trace.Assert(b != null);
-            this.position = default;
-            this.belongsTo = b;
-        }
-        
-        // position
-        public TrainUnit getPosition() {
-            return this.getPosition();
-        }
-        
-        public void setPosition(TrainUnit pos) {
-            System.Diagnostics.Trace.Assert(pos != null);
-            this.belongsTo = default;
-            this.position = pos;
-        }
         
         public void drop() {
             // TODO

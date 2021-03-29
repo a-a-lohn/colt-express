@@ -42,7 +42,7 @@ public class ChooseCharacter : MonoBehaviour
     // debugging variables
     public Text selected;
     public static string debugText;
-    public Button button;
+    //public Button button;
 
     public Text display;
     public Text info;

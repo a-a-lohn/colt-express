@@ -16,85 +16,143 @@ using Sfs2X.Protocol.Serialization;
 namespace model {
     public class Round : SerializableSFSType {
     
-        //public string roundType;  
-        // = round.toString(); -- Not sure if this will work, may have to be done assigned after round is assigned
         public string roundTypeAsString;  
-        // FOR NETWORKING
         public Turn currentTurn;  
-        public int turnCounter;
-        
-        // Tracks the current turn
+        public int turnCounter; // Tracks the current turn
         public ArrayList turns ;
         
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public Round() {}
 
-        public Round(string Rt) {
-    	    //this.roundType = Rt;
-    	    this.roundTypeAsString = Rt;
+        public Round(string rt) {
+            int numOfBandits = GameManager.getInstance().bandits.Count;
+            Debug.Assert(numOfBandits >= 2 && numOfBandits <= 6);
+    	    this.roundTypeAsString = rt;
+            this.turnCounter = 0;
+            this.turns = new ArrayList();
+            if(rt.Equals("AngryMarshal") && numOfBandits <= 4){
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("TUNNEL"));
+                turns.Add(new Turn("SWITCHING"));
+            }
+            else if(rt.Equals("SwivelArm") && numOfBandits <= 4){
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("TUNNEL"));
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("STANDARD"));
+            }
+            else if(rt.Equals("Braking") && numOfBandits <= 4){
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("STANDARD"));
+            }
+            else if(rt.Equals("TakeItAll") && numOfBandits <= 4){
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("TUNNEL"));
+                turns.Add(new Turn("SPEEDINGUP"));
+                turns.Add(new Turn("STANDARD"));
+            }
+            else if(rt.Equals("PassengersRebellion") && numOfBandits <= 4){
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("TUNNEL"));
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("STANDARD"));
+            }
+            else if(rt.Equals("Bridge") && numOfBandits <= 4){
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("SPEEDINGUP"));
+                turns.Add(new Turn("STANDARD"));
+            }
+            else if(rt.Equals("Cave") && numOfBandits <= 4){
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("TUNNEL"));
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("TUNNEL"));
+                turns.Add(new Turn("STANDARD"));
+            }
+            else if(rt.Equals("AngryMarshal")){
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("SWITCHING"));
+            }
+            else if(rt.Equals("SwivelArm")){
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("TUNNEL"));
+                turns.Add(new Turn("STANDARD"));
+            }
+            else if(rt.Equals("Braking")){
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("TUNNEL"));
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("STANDARD"));
+            }
+            else if(rt.Equals("TakeItAll")){
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("SPEEDINGUP"));
+                turns.Add(new Turn("SWITCHING"));
+            }
+            else if(rt.Equals("PassengersRebellion")){
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("TUNNEL"));
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("SWITCHING"));
+            }   
+            else if(rt.Equals("Bridge")){
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("SPEEDINGUP"));
+            }
+            else if(rt.Equals("Cave")){
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("TUNNEL"));
+                turns.Add(new Turn("STANDARD"));
+                turns.Add(new Turn("TUNNEL"));
+            }
+            this.currentTurn = (Turn)this.turns[0];
         }
         
         public void addTurn(Turn a) {
-            if (this.turns.Contains(a)) {
-                return;
-            }
-            
             this.turns.Add(a);
         }
-        
-        public void addTurnsAt(int index, Turn a) {
-            this.turns.Insert(index, a);
-        }
-        
-        public void removeTurnsAt(int index) {
-            int size = this.turns.Count;
-            if ((index < size)) {
-                this.turns.Remove(index);
-            }
-            
-        }
-        
+        public void removeTurn(Turn a) {
+            this.turns.Remove(a);
+        }        
         public Turn getTurnAt(int index) {
             if ((index < this.turns.Count)) {
                 return (Turn)this.turns[index];
             }
-            
             return null;
         }
-        
-        public void removeTurn(Turn a) {
-            if (this.turns.Contains(a)) {
-                this.turns.Remove(a);
-            }
-            
-        }
-        
-        public bool containsTurns(Turn a) {
-            bool contains = this.turns.Contains(a);
-            return contains;
-        }
-        
         public int sizeOfTurns() {
             int size = this.turns.Count;
             return size;
         }
         
-        public ArrayList getTurns() {
-            return this.turns;
-        }
-        
         public Turn getCurrentTurn() {
             return this.currentTurn;
         }
-        
-        public void setCurrentTurn(Turn newObject) {
-            this.currentTurn = newObject;
+        public void setCurrentTurn(Turn turn){
+            this.currentTurn = turn;
         }
-        
+
+        public bool hasNextTurn(){
+            if(this.turnCounter+1 < this.turns.Count){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
         public Turn getNextTurn() {
-            return null;
+            if (this.turnCounter+1 < this.turns.Count){
+                return (Turn)this.turns[this.turnCounter++];
+            }
+            else{
+                return null;
+            }
         }
-        
         public void setNextTurn() {
             this.turnCounter++;
             this.currentTurn = (Turn)this.turns[this.turnCounter];
@@ -103,7 +161,6 @@ namespace model {
         public int getTurnCounter() {
             return this.turnCounter;
         }
-        
         public void setTurnCounter(int i) {
             this.turnCounter = i;
         }

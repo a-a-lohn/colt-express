@@ -16,27 +16,15 @@ using Sfs2X.Protocol.Serialization;
 namespace model {
     public class Turn : SerializableSFSType {
     
-        //public string turnType;
-        
+
         public string turnTypeAsString;
-        
-        //  FOR NETWORKING
+
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public Turn() {}
 
         public Turn(string Tt) {
-		    //this.turnType = Tt;
 		    this.turnTypeAsString = Tt;
 	    }
-        
-        // turnType
-        // public string getTurnType() {
-        //     return this.turnType;
-        // }
-        
-        // public void setTurnType(string p) {
-        //     this.turnType = p;
-        // }
         
         // turnTypeAsString
         public string getTurnTypeAsString() {

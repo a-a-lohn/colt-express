@@ -17,11 +17,6 @@ import model.Bandit;
  */
 public class TrainUnit implements SerializableSFSType {
     
-	transient public static int trainLength;
-	transient public static ArrayList<TrainUnit> stagecoach;
-	transient public static ArrayList<TrainUnit> trainRoof;
-	transient public static ArrayList<TrainUnit> trainCabin;
-	
     transient public CarType carType;
     transient public CarFloor carFloor;
     public String carTypeAsString;
@@ -53,7 +48,7 @@ public class TrainUnit implements SerializableSFSType {
     
     
 	public static ArrayList<TrainUnit> createTrainRoof() {
-		if (TrainUnit.trainLength <= 2) {
+		if (GameManager.getInstance().trainLength <= 2) {
 			throw new IllegalArgumentException("Number of participating players must be between 2 and 6.");
 		}
 		int i = 0; 
@@ -62,7 +57,7 @@ public class TrainUnit implements SerializableSFSType {
 			i++;
 			TrainUnit tu = new TrainUnit(cr, CarFloor.ROOF);
 			response.add(tu);
-			if (i == (TrainUnit.trainLength + 1)) { 
+			if (i == (GameManager.getInstance().trainLength + 1)) { 
 				break; 
 			}
 		}
@@ -70,7 +65,7 @@ public class TrainUnit implements SerializableSFSType {
 	}
 
 	public static ArrayList<TrainUnit> createTrainCabin() {
-		if (TrainUnit.trainLength <= 2) {
+		if (GameManager.getInstance().trainLength <= 2) {
 			throw new IllegalArgumentException("Number of participating players must be between 2 and 6.");
 		}
 		int i = 0; 
@@ -79,7 +74,7 @@ public class TrainUnit implements SerializableSFSType {
 			i++;
 			TrainUnit tu = new TrainUnit(cr, CarFloor.CABIN);
 			response.add(tu);
-			if (i == (TrainUnit.trainLength + 1)) { 
+			if (i == (GameManager.getInstance().trainLength + 1)) { 
 				break; 
 			}
 		}

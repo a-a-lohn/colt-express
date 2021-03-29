@@ -23,6 +23,21 @@ public class Money extends Loot implements SerializableSFSType {
 		this.value = value;
 	}
     
+	/**
+	 * 18 purses worth:
+	 * 2x $500
+	 * 2x $450
+	 * 2x $400
+	 * 2x $350
+	 * 2x $300
+	 * 8x $250
+	 * 
+	 * 6 gems worth:
+	 * 6x $500
+	 * 
+	 * 2 strongboxes worth:
+	 * 2x $1000
+	 */
 	
 	/**
 	 * --GETTERS AND SETTERS--

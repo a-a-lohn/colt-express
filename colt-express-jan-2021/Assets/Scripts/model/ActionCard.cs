@@ -26,7 +26,7 @@ namespace model {
         
         public ActionCard(string action, string belongsTo) {
             this.actionTypeAsString = action;
-            this.belongsToAsString = belongsTo;
+            base.belongsToAsString = belongsTo;
             this.saveForNextRound = false;
             this.faceDown = false;
         }
@@ -57,5 +57,6 @@ namespace model {
         public void setFaceDown(bool b) {
             this.faceDown = b;
         }
+        
     }
 }

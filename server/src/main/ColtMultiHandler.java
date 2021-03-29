@@ -2,6 +2,8 @@ package main;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +28,12 @@ import com.smartfoxserver.v2.annotations.Instantiation.InstantiationMode;
 public class ColtMultiHandler extends BaseClientRequestHandler {
 	
 	GameManager gm;
+	HashMap<String, GameManager> saveGames = new HashMap<String, GameManager>();
+	boolean savedCurrentGameAtLeastOnce = false;
+	String currentSaveGameId;
+	//int numCallsToLoadSaveGame = 0;
+	
+	boolean gameOver = false;
 	
 	@Override
 	public void handleClientRequest(User sender, ISFSObject params) {
@@ -41,6 +49,10 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		case("newGameState"): handleNewGameState(params,rtn); break;
 		case("enterGameBoardScene"): handleEnterGameBoardScene(params,rtn); break;
 		case("nextAction"): handleNextAction(params,rtn); break;
+		case("saveGameState"): handleSaveGameState(params,rtn); break;
+		case("loadSavedGame"): handleLoadSavedGame(params,rtn); break;
+		case("removeGame"): handleRemoveGame(params,rtn); break;
+		case("gameOver"): gameOver = true; break;
 		default: trace("invalid command passed to multihandler");
 		}
 		
@@ -60,6 +72,47 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		
 	}
 	
+	public void handleLoadSavedGame(ISFSObject params, ISFSObject rtn) {
+//		numCallsToLoadSaveGame++;
+		String currentSaveGameId = params.getUtfString("savegameId");
+		System.out.println("id: " + currentSaveGameId);
+		gm = saveGames.get(currentSaveGameId);
+		gm.singleton = gm;
+		savedCurrentGameAtLeastOnce = true;
+//		ArrayList<Bandit> bandits = gm.getBandits();
+//		ColtExtension parentExt = (ColtExtension)getParentExtension();
+//		Zone zone = parentExt.getParentZone();
+//		Collection<User> users = zone.getUserList();
+//		if(numCallsToLoadSaveGame == users.size()) {
+//			int i = 0;
+//			for(User user : users) {
+//				String banditName = bandits.get(i).getCharacterAsString();
+//				rtn.putUtfString("character", banditName);
+//				sendToSender(user, rtn, "saveGameBandit");
+//				i++;
+//			}
+//		}
+	}
+	
+	public void handleSaveGameState(ISFSObject params, ISFSObject rtn) {
+		System.out.println("saving game");
+		savedCurrentGameAtLeastOnce = true;
+		currentSaveGameId = params.getUtfString("savegameId");
+		GameManager saveGame = (GameManager) params.getClass("gm");
+		saveGames.put(currentSaveGameId, saveGame);
+	}
+	
+	public void handleRemoveGame(ISFSObject params, ISFSObject rtn) {
+		System.out.println("removing game");
+		if(savedCurrentGameAtLeastOnce && gameOver) {
+			saveGames.remove(currentSaveGameId);
+			// reset attributes
+			gameOver = false;
+			savedCurrentGameAtLeastOnce = false;
+		}
+		GameManager.singleton = null;
+	}
+	
 	public void handleNextAction(ISFSObject params, ISFSObject rtn) {
 		sendToAllUsers(params, "nextAction");
 	}
@@ -71,20 +124,19 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	
 	public void handleNewGameState(ISFSObject params, ISFSObject rtn) {
 		gm = (GameManager) params.getClass("gm");
+		GameManager.singleton = gm;
 		System.out.println("received game state!");
 		//System.out.println(gm.bandits.get(0).position.carTypeAsString);
 		updateGameState(rtn);
 	}
 	
 	public void updateGameState(ISFSObject rtn) {
-		rtn.putClass("gm", gm); // THIS IS THE PROBLEM
+		rtn.putClass("gm", gm);
 		sendToAllUsers(rtn, "updateGameState");
 	}	
 	
 	private void handleEnterChooseCharacterScene(User sender, ISFSObject params, ISFSObject rtn) {
-		if (gm == null) {
-			gm = new GameManager(); //GameManager.getInstance();
-		}
+		gm = GameManager.getInstance();
 		ISFSArray characters = SFSArray.newInstance();
 		rtn.putSFSArray("characterList", characters);
 		
@@ -112,7 +164,9 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		System.out.println("Calling chosenchar with " + character.toString());
 		rtn.putUtfString("player", sender.getName());
 		rtn.putUtfString("chosenCharacter", character.toString());
-		gm.chosenCharacter(sender, character, numPlayers);
+		if(!savedCurrentGameAtLeastOnce) {
+			gm.chosenCharacter(sender, character, numPlayers);
+		}
 		int numChosen = gm.getBandits().size();
 		System.out.println("Num players: " + numPlayers + " numChosen: " + numChosen);
 		if(numChosen == numPlayers) {
@@ -162,6 +216,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	}
 	
 	private void testSerial(User sender, ISFSObject rtn) {
+		GameManager.singleton = null;
 		GameManager gm = GameManager.getInstance();
 		Bandit b = new Bandit(Character.BELLE);
 		Bandit c = new Bandit(Character.DJANGO);
