@@ -265,10 +265,10 @@ namespace model {
         }
 
         public void shotByMarhsal(){
-            GameManager gm = GameManger.getInstance();
+            GameManager gm = GameManager.getInstance();
             if(gm.neutralBulletCard.Count > 0){
-                this.addToDeck(gm.popNeutralBullet);
-                Debug.Assert(this.getPosition().getCarFloor().Equals("CABIN") && this.getPosition().getAbove() != null);
+                this.addToDeck(gm.popNeutralBullet());
+                Debug.Assert(this.getPosition().getCarFloorAsString().Equals("CABIN") && this.getPosition().getAbove() != null);
                 this.setPosition(this.getPosition().getAbove());
             }
         }

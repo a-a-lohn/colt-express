@@ -663,7 +663,7 @@ namespace model {
                 else if(rightOfDjango && toShoot.getPosition().getRight() != null){
                     toShoot.setPosition(toShoot.getPosition().getRight());
                 }
-                if(toShoot.getPosition().getIsMarshalHere() && toShoot.getPosition().getCarFloor().Equals("CABIN")){
+                if(toShoot.getPosition().getIsMarshalHere() && toShoot.getPosition().getCarFloorAsString().Equals("CABIN")){
                     toShoot.shotByMarhsal();
                 }
 		    }
@@ -693,7 +693,7 @@ namespace model {
             else{
                 //TODO make possibilities clickable (replace new Bandit with the Bandit the client chooses)
                 Bandit punched = new Bandit();
-                dropPrompt(punched), calculateDrop(punched));
+                dropPrompt(punched, calculateDrop(punched));
             }
         }
         
@@ -709,19 +709,19 @@ namespace model {
                 knockbackPrompt(punched, (Loot) possibilities[0], calculateKnockback(punched));
             }
             else{
-                //TODO make possibilities clickable (replace new Loot with the Loot the client chooses)
-                Loot dropped = new Loot();
+                //TODO make possibilities clickable (replace new Money with the Loot the client chooses)
+                Loot dropped = new Money();
                 knockbackPrompt(punched, dropped, calculateKnockback(punched));
             }
         }
 
         public ArrayList calculateKnockback(Bandit punched){
             ArrayList possibilities = new ArrayList();
-            if(punched.getLeft() != null){
-                possibilities.Add(punched.getLeft());
+            if(punched.getPosition().getLeft() != null){
+                possibilities.Add(punched.getPosition().getLeft());
             }
-            if(punched.getRight() != null){
-                possibilities.Add(punched.getRight());
+            if(punched.getPosition().getRight() != null){
+                possibilities.Add(punched.getPosition().getRight());
             }
             return possibilities;
         }
@@ -731,7 +731,7 @@ namespace model {
                 punch(punched, dropped, null);
             }
             else if(possibilities.Count == 1){
-                punch(punched, dropped, possibilities[0]);
+                punch(punched, dropped, (TrainUnit)possibilities[0]);
             }
             else{
                 //TDOO make possibilities clickable (replace new TrainUnit with the TrainUnit the client chooses)
@@ -743,7 +743,7 @@ namespace model {
         public void punch(Bandit punched, Loot dropped, TrainUnit knockedTo) {
 			if (dropped != null) {
 			    punched.removeLoot(dropped);
-                if(this.currentBandit.getCharacter().Equals("CHEYENNE") && dropped.IsInstanceOfType(Money) && dropped.getMoneyTypeAsString().Equals("PURSE")){
+                if(this.currentBandit.getCharacter().Equals("CHEYENNE") && dropped is Money && ((Money)dropped).getMoneyTypeAsString().Equals("PURSE")){
                     this.currentBandit.addLoot(dropped);
                 }
                 else{
@@ -807,11 +807,7 @@ namespace model {
                 }
                 
             }
-            
             return possibleMoving;
-            // call promptMoves(possibleMoving)
-           // GameBoard.clickable.Add(possibleMoving);
-            //GameBoard.action = "move()";
         }
         
         public TrainUnit movePrompt(ArrayList possibilities) {
