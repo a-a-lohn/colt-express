@@ -70,21 +70,22 @@ public class GameBoard : MonoBehaviour
 	public static GameManager gm;
 
 	// LIST OF ALL GAME OBJECTS HERE
-    public GameObject cheyenne;
-	public GameObject belle; 
-	public GameObject tuco; 
-	public GameObject doc; 
-	public GameObject ghost; 
-	public GameObject django; 
-	public GameObject marshal;
+    public Button cheyenne;
+	public Button belle; 
+	public Button tuco; 
+	public Button doc; 
+	public Button ghost; 
+	public Button django; 
+	public Button marshal;
 	
-	public GameObject gem1; 
-	public GameObject gem2; 
-	public GameObject gem3; 
-	public GameObject gem4;
-	public GameObject gem5;
+	public Button gem1; 
+	public Button gem2; 
+	public Button gem3; 
+	public Button gem4;
+	public Button gem5;
+	public Button gem6;
 
-	public GameObject ghoLoot;
+	public Button ghoLoot;
 
 	/* For all the action cards */
 	// public GameObject cardA; 
@@ -115,7 +116,8 @@ public class GameBoard : MonoBehaviour
 	// public GameObject doc; 
 	// public GameObject django; 
     
-    public static Dictionary<GameObject, object> objects = new Dictionary<GameObject, object>();
+    // public static Dictionary<GameObject, object> objects = new Dictionary<GameObject, object>();
+	public static Dictionary<Button, object> objects = new Dictionary<Button, object>();
 
 	// public Dictionary<T, GameObject> objects = new Dictionary<T, GameObject>();
 	// NOTE: INITIALIZE THE DICTIONARY FOR EVERY OBJECT HERE FIRST,
@@ -151,6 +153,43 @@ public class GameBoard : MonoBehaviour
 
 	public GameObject playerE;
 
+	public GameObject BelleBulletCard1; 
+	public GameObject BelleBulletCard2;
+	public GameObject BelleBulletCard3;
+	public GameObject BelleBulletCard4;
+	public GameObject BelleBulletCard5;
+	public GameObject BelleBulletCard6;      
+
+	public GameObject BelleActionMove; 
+	public GameObject BelleActionChangeFloor; 
+	public GameObject BelleActionPunch; 
+	public GameObject BelleActionShoot; 
+
+	public Text clickableGOsText;
+	public Text currentRound; 
+	public Text currentBandit; 
+
+	private List<Button> goNeutralBulletCards;
+
+	// a list of bullet cards for each and every bandit 
+	private List<Button> goBELLEBulletCards; 
+	private List<Button> goCHEYENNEBulletCards; 
+	private List<Button> goDOCBulletCards; 
+	private List<Button> goTUCOBulletCards; 
+	private List<Button> goDJANGOBulletCards; 
+	private List<Button> goGHOSTBulletCards; 
+
+	// a list of action cards for each and every bandit's hand 
+	private List<Button> goBELLEHand; 
+	private List<Button> goCHEYENNEHand; 
+	private List<Button> goDOCHand; 
+	private List<Button> goGHOSTHand; 
+	private List<Button> goTUCOHand; 
+	private List<Button> goDJANGOHand; 
+
+	// a list of clickable items
+	private List<GameObject> clickableGOs; 
+	public List<object> clickableObjects; 
 
 	private String[] logMessages = {
 		"Angry Marshal Round! 1 Standard turns, 1 Tunnel turn, and 1 Switching turn\nIt is now Ghost's turn to play a card or draw 3 cards.\n", //0
@@ -208,13 +247,25 @@ public class GameBoard : MonoBehaviour
 
 
     void Start(){
-
-
-		TestSave();
-
-
-		//Debug.Log(B_gem.transform.position);// = new Vector3 (gemPosition[0], gemPosition[1], gemPosition[2]);
-        gem4.SetActive(false);
+		// var clickableObjects = gm.calculateShoot();
+		setAllNonClickable();
+		// ghost.interactable = false; 
+		ArrayList clickableObjects = new ArrayList(); 
+		// Bandit randomB = gm.currentBandit; 
+		Bandit randomB = new Bandit("GHOST"); 
+		clickableObjects.Add(randomB);
+		Debug.Log("current bandit is " + randomB.characterAsString);
+		// objects.Values
+		foreach (Button oneGO in objects.Keys){
+			if(clickableObjects.Contains(objects[oneGO])){
+				// make the GO clickable 
+				// oneGO.SetActive(true);
+				oneGO.interactable = true; 
+			}
+		}
+		// Debug.Log(gm.currentRound.roundTypeAsString);
+		// currentRound.text = gm.currentRound.roundTypeAsString; 
+		// currentBandit.text = gm.currentBandit.characterAsString; 
 		initCards();
 		// set extra cards to false 
 		CardNewA.SetActive(false);
@@ -228,6 +279,78 @@ public class GameBoard : MonoBehaviour
 		Round.text = "ROUND 1:\n-Standard turn\n-Tunnel turn\n-Switching turn";
 		SFS.setGameBoard();
 
+		exitText.text ="";
+		doesItWork.text = "";
+		//Invoke("LeaveRoom",5);
+		/*if (SFS.getSFS() == null) {
+            // Initialize SFS2X client. This can be done in an earlier scene instead
+            SmartFox sfs = new SmartFox();
+            // For C# serialization
+            DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
+            SFS.setSFS(sfs);
+        }
+        if (!SFS.IsConnected()) {
+            SFS.Connect("test");
+        }*/
+		EnterGameBoardScene();
+    }
+
+	public static void testSerial() {
+		// ISFSObject obj = SFSObject.NewInstance();
+		// ExtensionRequest req = new ExtensionRequest("gm.testSerial",obj);
+		// SFS.Send(req);
+		// //EnterGameBoardScene();
+		// exitText.text = ""; 
+		// clickableGOsText.text = "";
+		// // init clickables should be called on update
+		// initClickables();
+		// exitText.text =""; 
+    }
+
+	// makeAllClickable makes all clickable objects clickable 
+	public void setAllNonClickable(){
+		Button[] allButtons = UnityEngine.Object.FindObjectsOfType<Button>();
+		foreach(Button ab in allButtons){
+			ab.interactable = false; 
+		}
+	}
+
+	// THIS IS THE FIRST METHOD CALLED FOR RECEIVING NEW GAME STATE
+    public void UpdateGameState(BaseEvent evt) {
+        Debug.Log("updategamestate called");
+        
+        ISFSObject responseParams = (SFSObject)evt.Params["params"];
+		gm = (GameManager)responseParams.GetClass("gm");
+		
+		// REASSIGN ALL GAME OBJECTS USING DICTIONARY
+		ArrayList banditsArray = gm.bandits;
+		foreach (Bandit b in banditsArray) {
+            if (b.characterAsString == "CHEYENNE") {
+				objects[cheyenne] = b;
+                trace("Cheyenne added!");
+            }
+			if (b.characterAsString == "BELLE") {
+                objects[belle] = b;
+                trace("Belle added!");
+            }
+			if (b.characterAsString == "TUCO") {
+                objects[tuco] = b;
+                trace("Tuco added!");
+            }
+			if (b.characterAsString == "DOC") {
+                objects[doc] = b;
+                trace("Doc added!");
+            }
+			// if (b.characterAsString == "GHOST") {
+            //     objects[ghost] = b;
+            //     trace("Ghost added!");
+            // }
+			if (b.characterAsString == "DJANGO") {
+                objects[django] = b;
+                trace("Django added!");
+            }
+		}
+
 		// announcement.text = "The current round is an Angry Marshal Round and the current turn is a Tunnel Turn!";
 		// drawnCard1.text="MOVE";
 		// SFS.setGameBoard(this);
@@ -237,33 +360,12 @@ public class GameBoard : MonoBehaviour
                 //debugText.text = "";
 		gem2.SetActive(false);
 
-		//exit.SetActive(false);
-		exitText.text ="";
-		doesItWork.text = "";
-
-		//ChooseCharacter.character = "GHOST";
-
-		//SendNewGameState();
-		// ** THE DICTIONARIES ARE INITIALIZED(CLEARED) IN Start() ** 
-		// Bandits
-		// objects.Add(cheyenne, "null");
-		// objects.Add(belle, "null");
-		/*objects.Add(tuco, "null");
-		objects.Add(doc, "null");
-		objects.Add(ghost, "null");
-		objects.Add(django, "null");
-		// Loot
-		objects.Add(gem1, "null");
-		objects.Add(gem2, "null");
-		objects.Add(gem3, "null");
-		objects.Add(gem4, "null");
-		objects.Add(gem5, "null");*/
-		// Cards
-		// objects.Add(cardA, "null");
-		// objects.Add(cardB, "null");
-		// objects.Add(cardC, "null");
-		// objects.Add(cardD, "null");
-		// objects.Add(cardE, "null");
+		// map the 13 neutral bullet cards
+		ArrayList neuturalBulletCards = gm.neutralBulletCard; 
+		for(int i=1; i<14; i++){
+			Button goBulletCard = goNeutralBulletCards[i];
+			objects[goBulletCard] = neuturalBulletCards[i];
+		}
 
 		//EnterGameBoardScene();
 
@@ -285,10 +387,30 @@ public class GameBoard : MonoBehaviour
 
     }
 
-	public static void testSerial() {
-		ISFSObject obj = SFSObject.NewInstance();
-		ExtensionRequest req = new ExtensionRequest("gm.testSerial",obj);
-		SFS.Send(req);
+
+	public void mapActionCards(List<Button> goHand, string actionName, Card c, string banditName){
+		foreach(Button g in goHand){
+			string goName = banditName + g.name;
+			if(actionName == goName.ToUpper()){
+            	objects[g] = c;
+			}
+		}
+	}
+
+	public void mapBulletCards(string bName, int buSize, BulletCard bc){
+		if(bName == "BELLE"){
+			objects[goBELLEBulletCards[buSize]] = bc;
+		}else if(bName == "CHEYENNE"){
+			objects[goCHEYENNEBulletCards[buSize]] = bc;
+		}else if(bName == "DOC"){
+			objects[goDOCBulletCards[buSize]] = bc;
+		}else if(bName == "TUCO"){
+			objects[goTUCOBulletCards[buSize]] = bc;
+		}else if(bName == "DJANGO"){
+			objects[goDJANGOBulletCards[buSize]] = bc;
+		}else if(bName == "GHOST"){
+			objects[goGHOSTBulletCards[buSize]] = bc;
+		}
 	}
 
 	public void LeaveRoom() {
@@ -442,7 +564,7 @@ public class GameBoard : MonoBehaviour
 				//"Stealin, Resolving Rob: Ghost chooses one gem to add to his loot",
 				// TODO: GHOST CLICK ON GEM 3 
 				Destroy(gem3);
-				gem4.SetActive(true);
+				// gem4.SetActive(true);
 				break;
 			case 13:
 				//"Stealin, Resolving MoveMarshal: Cheyenne moved the Marshal",
@@ -451,7 +573,7 @@ public class GameBoard : MonoBehaviour
 				break;
 			case 14:
 				// "Stealin, Resolving Punch: Django must punch Ghost,Time for Django to choose which loot to force Ghost to drop"
-				gem2.SetActive(true); //purse appears
+				// gem2.SetActive(true); //purse appears
 				Destroy(ghoLoot);
 				break;
 			case 15:

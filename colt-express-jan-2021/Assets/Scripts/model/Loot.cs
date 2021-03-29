@@ -26,5 +26,9 @@ namespace model {
         public void pickup() {
             // TODO
         }
+
+        public Bandit getBelongsTo(){
+            return new Bandit("BELLE");
+        }
     }
 }
