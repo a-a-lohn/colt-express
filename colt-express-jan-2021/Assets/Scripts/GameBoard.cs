@@ -128,6 +128,8 @@ public class GameBoard : MonoBehaviour
 	private List<GameObject> clickableGOs; 
 	public List<object> clickablebuttonToObject;  
 
+    public static string punchedBandit; 
+
     void Start(){
 		setAllNonClickable();
 
@@ -184,6 +186,12 @@ public class GameBoard : MonoBehaviour
 		EnterGameBoardScene();
     }
 
+ 	public void buttonClicked(Button btn){
+        promptPunchTarget.text = btn.name + "IS CLICKED"; 
+        punchedBandit = btn.name;
+        // btn.interactable = false;
+    }
+	
 	/*
 	public static void testSerial() {
 		ISFSObject obj = SFSObject.NewInstance();
@@ -205,7 +213,6 @@ public class GameBoard : MonoBehaviour
 			aBtn.interactable = false; 
 		}
 	}
-
 
 
 	// THIS IS THE FIRST METHOD CALLED FOR RECEIVING NEW GAME STATE
@@ -322,30 +329,35 @@ public class GameBoard : MonoBehaviour
 		}
 	}
 
-	/* makePunchPossibilitiesClickable makes all possibilities clickable AND returns the clicked Bandit's name as a string */
-	public static string makePunchPossibilitiesClickable(ArrayList possibilities){
-		foreach(Bandit b in possibilities){
-			foreach(Button oneBtn in buttonToObject.Keys){
-				if(b.characterAsString == oneBtn.name.ToUpper()){
-					oneBtn.interactable = true; 
-				}
-			}
-		}
-		// the user clicks on one of the highlighted bandits 
-		string selectedBanditName = EventSystem.current.currentSelectedGameObject.name;
-		return selectedBanditName;
-	}
+    /* makePunchPossibilitiesClickable makes all possibilities clickable AND returns the clicked Bandit's name as a string */
+    public static string makePunchPossibilitiesClickable(ArrayList possibilities){
+        foreach(Bandit b in possibilities){
+            foreach(Button oneBtn in buttonToObject.Keys){
+                if(b.characterAsString == oneBtn.name.ToUpper()){
+                    oneBtn.interactable = true; 
+                }
+            }
+        }
+
+        // user clicks on one of the highlighted bandits 
+        while(punchedBandit is null){
+            makePunchPossibilitiesClickable(possibilities);
+        }   
+
+        Debug.Log("PASSED BACK TO GM");
+        return punchedBandit; 
+    }
 
 
     // Update is called once per frame
     void Update()
     {
 
-		var selectedBanditName = EventSystem.current.currentSelectedGameObject;
-         if (selectedBanditName != null)
-             promptPunchTarget.text = "ahh" + selectedBanditName.name;
-         else
-             promptPunchTarget.text = "ahh NULLL POINTERR";
+		// var selectedBanditName = EventSystem.current.currentSelectedGameObject;
+        //  if (selectedBanditName != null)
+        //      promptPunchTarget.text = "ahh" + selectedBanditName.name;
+        //  else
+        //      promptPunchTarget.text = "ahh NULLL POINTERR";
 
         if (SFS.IsConnected()) {
 			SFS.ProcessEvents();
