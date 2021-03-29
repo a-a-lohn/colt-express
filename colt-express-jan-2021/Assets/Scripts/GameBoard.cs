@@ -190,6 +190,8 @@ public class GameBoard : MonoBehaviour
     private List<float> iconPosition = new List<float>() {1285.9F, 1121.9F, -364.9F};
 	private List<float> gemPosition = new List<float>() {1224.1F, 1077.2F, -364.9F};
 
+	public static string punchedBandit; 
+
     void Start(){
 		// var clickableObjects = gm.calculateShoot();
 		setAllNonClickable();
@@ -265,6 +267,14 @@ public class GameBoard : MonoBehaviour
 			aBtn.interactable = false; 
 		}
 	}
+
+	public void buttonClicked(Button btn){
+		promptPunchTarget.text = btn.name + "IS CLICKED"; 
+		punchedBandit = btn.name;
+		// btn.interactable = false;
+	}
+
+
 
 	// THIS IS THE FIRST METHOD CALLED FOR RECEIVING NEW GAME STATE
     public void UpdateGameState(BaseEvent evt) {
@@ -471,9 +481,14 @@ public class GameBoard : MonoBehaviour
 				}
 			}
 		}
-		// the user clicks on one of the highlighted bandits 
-		string selectedBanditName = EventSystem.current.currentSelectedGameObject.name;
-		return selectedBanditName;
+
+		// user clicks on one of the highlighted bandits 
+		while(punchedBandit is null){
+			makePunchPossibilitiesClickable(possibilities);
+		}	
+
+		Debug.Log("PASSED BACK TO GM");
+		return punchedBandit; 
 	}
 
 
@@ -481,11 +496,12 @@ public class GameBoard : MonoBehaviour
     void Update()
     {
 
-		var selectedBanditName = EventSystem.current.currentSelectedGameObject;
-         if (selectedBanditName != null)
-             promptPunchTarget.text = "ahh" + selectedBanditName.name;
-         else
-             promptPunchTarget.text = "ahh NULLL POINTERR";
+		// var selectedBanditName = EventSystem.current.currentSelectedGameObject;
+        //  if (selectedBanditName != null)
+        //      promptPunchTarget.text = "ahh" + selectedBanditName.name;
+        //  else
+        //      promptPunchTarget.text = "ahh NULLL POINTERR";
+		
 
         if (SFS.IsConnected()) {
 			SFS.ProcessEvents();
