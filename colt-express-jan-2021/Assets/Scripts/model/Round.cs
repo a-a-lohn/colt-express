@@ -54,7 +54,7 @@ namespace model {
                 turns.Add(new Turn("SPEEDINGUP"));
                 turns.Add(new Turn("STANDARD"));
             }
-            else if(rt.Equals("PaasengersRebellion") && numOfBandits <= 4){
+            else if(rt.Equals("PassengersRebellion") && numOfBandits <= 4){
                 turns.Add(new Turn("STANDARD"));
                 turns.Add(new Turn("STANDARD"));
                 turns.Add(new Turn("TUNNEL"));
@@ -110,65 +110,49 @@ namespace model {
                 turns.Add(new Turn("STANDARD"));
                 turns.Add(new Turn("TUNNEL"));
             }
+            this.currentTurn = (Turn)this.turns[0];
         }
         
         public void addTurn(Turn a) {
             this.turns.Add(a);
         }
-        
-        public void addTurnsAt(int index, Turn a) {
-            this.turns.Insert(index, a);
-        }
-        
-        public void removeTurnsAt(int index) {
-            int size = this.turns.Count;
-            if ((index < size)) {
-                this.turns.Remove(index);
-            }
-            
-        }
-        
+        public void removeTurn(Turn a) {
+            this.turns.Remove(a);
+        }        
         public Turn getTurnAt(int index) {
             if ((index < this.turns.Count)) {
                 return (Turn)this.turns[index];
             }
-            
             return null;
         }
-        
-        public void removeTurn(Turn a) {
-            if (this.turns.Contains(a)) {
-                this.turns.Remove(a);
-            }
-            
-        }
-        
-        public bool containsTurns(Turn a) {
-            bool contains = this.turns.Contains(a);
-            return contains;
-        }
-        
         public int sizeOfTurns() {
             int size = this.turns.Count;
             return size;
         }
         
-        public ArrayList getTurns() {
-            return this.turns;
-        }
-        
         public Turn getCurrentTurn() {
             return this.currentTurn;
         }
-        
-        public void setCurrentTurn(Turn newObject) {
-            this.currentTurn = newObject;
+        public void setCurrentTurn(Turn turn){
+            this.currentTurn = turn;
         }
-        
+
+        public bool hasNextTurn(){
+            if(this.turnCounter+1 < this.turns.Count){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
         public Turn getNextTurn() {
-            return null;
+            if (this.turnCounter+1 < this.turns.Count){
+                return (Turn)this.turns[this.turnCounter++];
+            }
+            else{
+                return null;
+            }
         }
-        
         public void setNextTurn() {
             this.turnCounter++;
             this.currentTurn = (Turn)this.turns[this.turnCounter];
@@ -177,7 +161,6 @@ namespace model {
         public int getTurnCounter() {
             return this.turnCounter;
         }
-        
         public void setTurnCounter(int i) {
             this.turnCounter = i;
         }

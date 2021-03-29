@@ -106,16 +106,10 @@ namespace model {
             return null;
         }
         public void addToDeck(Card a) {
-            bool contains = this.deck.Contains(a);
-            if (contains) {
-                return;
-            }
             this.deck.Add(a);
         }
         public void removeFromDeck(Card a) {
-            if (this.deck.Contains(a)) {
-                this.deck.Remove(a);
-            }
+            this.deck.Remove(a);
         }
         public int sizeOfDeck() {
             int size = this.deck.Count;
@@ -225,13 +219,11 @@ namespace model {
         }
 
         //TODO: combine this game manager
-        public void endOfSchemin(){
+        public void clearHand(){
             foreach (Card c in this.hand){
                 this.deck.Add(c);
             }
             this.hand.Clear();
-            //HAND FOR NEXT ROUND IS CREATED AT END OF SCHEMIN PHASE - MUST NOT BE VISIBLE DURING STEALING PHASE
-            this.createHand();
         }
 
      // FIX THIS
@@ -264,24 +256,24 @@ namespace model {
 
         //added these to clean up the gamemanager methods, there's some logic that can be handled here 
 
-        public void drawCards() {
-            if (this.deck.Count < 3) {
-                return;
-            }
-            for (int i = 0; i<3; i++){
-                Card c = (Card) this.deck[i];
-                this.hand.Add(c);
-            }
-            for (int i = 0; i<3; i++){
-                Card c = (Card)this.deck[i];
-                this.deck.Remove(c);
+        public void drawCards(int cardsToDraw) {
+            for (int i = this.sizeOfDeck()-1; i > this.sizeOfDeck()-cardsToDraw-1; i--) {
+                Card toAdd = this.getFromDeckAt(i);
+                this.removeFromDeckAt(i);
+                this.addToHand(toAdd);
             }
         }
 
-        // added by annie
-        public ArrayList getBulletCards(){
-            return this.bullets;
+        public void shotByMarhsal(){
+            GameManager gm = GameManager.getInstance();
+            if(gm.neutralBulletCard.Count > 0){
+                this.addToDeck(gm.popNeutralBullet());
+                Debug.Assert(this.getPosition().getCarFloorAsString().Equals("CABIN") && this.getPosition().getAbove() != null);
+                this.setPosition(this.getPosition().getAbove());
+            }
         }
+
+
     }
 
 }

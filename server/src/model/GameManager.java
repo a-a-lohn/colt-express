@@ -314,105 +314,23 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	}
 	public ArrayList<Round> createRoundCards(int numOfPlayers) {
 		ArrayList<Round> RoundCards = new ArrayList<Round>();
-		if (numOfPlayers == 2 || numOfPlayers == 3 || numOfPlayers == 4) {
+		if (numOfPlayers >= 2 && numOfPlayers <= 6) {
 			Round r1 = new Round(RoundType.AngryMarshal);
-			r1.addTurn(new Turn(TurnType.STANDARD));
-			r1.addTurn(new Turn(TurnType.STANDARD));
-			r1.addTurn(new Turn(TurnType.TUNNEL));
-			r1.addTurn(new Turn(TurnType.SWITCHING));
-			r1.setCurrentTurn(r1.getTurnAt(0));
 			RoundCards.add(r1);
-
 			Round r2 = new Round(RoundType.SwivelArm);
-			r2.addTurn(new Turn(TurnType.STANDARD));
-			r2.addTurn(new Turn(TurnType.TUNNEL));
-			r2.addTurn(new Turn(TurnType.STANDARD));
-			r2.addTurn(new Turn(TurnType.STANDARD));
-			r2.setCurrentTurn(r2.getTurnAt(0));
 			RoundCards.add(r2);
-
 			Round r3 = new Round(RoundType.Braking);
-			r3.addTurn(new Turn(TurnType.STANDARD));
-			r3.addTurn(new Turn(TurnType.STANDARD));
-			r3.addTurn(new Turn(TurnType.STANDARD));
-			r3.addTurn(new Turn(TurnType.STANDARD));
 			RoundCards.add(r3);
-
 			Round r4 = new Round(RoundType.TakeItAll);
-			r4.addTurn(new Turn(TurnType.STANDARD));
-			r4.addTurn(new Turn(TurnType.TUNNEL));
-			r4.addTurn(new Turn(TurnType.SPEEDINGUP));
-			r4.addTurn(new Turn(TurnType.STANDARD));
 			RoundCards.add(r4);
-
 			Round r5 = new Round(RoundType.PassengersRebellion);
-			r5.addTurn(new Turn(TurnType.STANDARD));
-			r5.addTurn(new Turn(TurnType.STANDARD));
-			r5.addTurn(new Turn(TurnType.TUNNEL));
-			r5.addTurn(new Turn(TurnType.STANDARD));
-			r5.addTurn(new Turn(TurnType.STANDARD));
 			RoundCards.add(r5);
-
 			Round r6 = new Round(RoundType.Bridge);
-			r6.addTurn(new Turn(TurnType.STANDARD));
-			r6.addTurn(new Turn(TurnType.SPEEDINGUP));
-			r6.addTurn(new Turn(TurnType.STANDARD));
 			RoundCards.add(r6);
-
 			Round r7 = new Round(RoundType.Cave);
-			r7.addTurn(new Turn(TurnType.STANDARD));
-			r7.addTurn(new Turn(TurnType.TUNNEL));
-			r7.addTurn(new Turn(TurnType.STANDARD));
-			r7.addTurn(new Turn(TurnType.TUNNEL));
-			r7.addTurn(new Turn(TurnType.STANDARD));
 			RoundCards.add(r7);
-
-		} else if (numOfPlayers == 5 || numOfPlayers == 6) {
-			Round r1 = new Round(RoundType.AngryMarshal);
-			r1.addTurn(new Turn(TurnType.STANDARD));
-			r1.addTurn(new Turn(TurnType.STANDARD));
-			r1.addTurn(new Turn(TurnType.SWITCHING));
-			RoundCards.add(r1);
-
-			Round r2 = new Round(RoundType.SwivelArm);
-			r2.addTurn(new Turn(TurnType.STANDARD));
-			r2.addTurn(new Turn(TurnType.TUNNEL));
-			r2.addTurn(new Turn(TurnType.STANDARD));
-			RoundCards.add(r2);
-
-			Round r3 = new Round(RoundType.Braking);
-			r3.addTurn(new Turn(TurnType.STANDARD));
-			r3.addTurn(new Turn(TurnType.TUNNEL));
-			r3.addTurn(new Turn(TurnType.STANDARD));
-			r3.addTurn(new Turn(TurnType.STANDARD));
-			RoundCards.add(r3);
-
-			Round r4 = new Round(RoundType.TakeItAll);
-			r4.addTurn(new Turn(TurnType.STANDARD));
-			r4.addTurn(new Turn(TurnType.SPEEDINGUP));
-			r4.addTurn(new Turn(TurnType.SWITCHING));
-			RoundCards.add(r4);
-
-			Round r5 = new Round(RoundType.PassengersRebellion);
-			r5.addTurn(new Turn(TurnType.STANDARD));
-			r5.addTurn(new Turn(TurnType.TUNNEL));
-			r5.addTurn(new Turn(TurnType.STANDARD));
-			r5.addTurn(new Turn(TurnType.SWITCHING));
-			RoundCards.add(r5);
-
-			Round r6 = new Round(RoundType.Bridge);
-			r6.addTurn(new Turn(TurnType.STANDARD));
-			r6.addTurn(new Turn(TurnType.SPEEDINGUP));
-			RoundCards.add(r6);
-
-			Round r7 = new Round(RoundType.Cave);
-			r7.addTurn(new Turn(TurnType.STANDARD));
-			r7.addTurn(new Turn(TurnType.TUNNEL));
-			r7.addTurn(new Turn(TurnType.STANDARD));
-			r7.addTurn(new Turn(TurnType.TUNNEL));
-			RoundCards.add(r7);
-
-		} else {
+		} 
+		else {
 			return null;
 		}
 

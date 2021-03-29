@@ -17,52 +17,37 @@ namespace model {
     public class PlayedPile : SerializableSFSType {
     
         public static PlayedPile instance;
-        public ArrayList playedCards;
+        public ArrayList playedCards = new ArrayList();
         
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public PlayedPile() {}
         
         public void addPlayedCardsAt(int index, ActionCard a) {
-            bool contains = this.playedCards.Contains(a);
-            if (contains) {
-                return;
-            }
-            
             this.playedCards.Insert(index, a);
         }
-        
+
         public void removePlayedCardsAt(int index) {
             if ((this.playedCards.Count > index)) {
                 this.playedCards.Remove(index);
             }
-            
         }
-        
+
         public ActionCard getPlayedCardsAt(int index) {
             if ((this.playedCards.Count > index)) {
                 return (ActionCard)this.playedCards[index];
             }
-            
             return null;
         }
-        
+
         public void addPlayedCards(ActionCard a) {
-            bool contains = this.playedCards.Contains(a);
-            if (contains) {
-                return;
-            }
-            
             this.playedCards.Add(a);
         }
         
-        public void removePlayedCards(ActionCard a) {
-            if (this.playedCards.Contains(a)) {
-                this.playedCards.Remove(a);
-            }
-            
+        public void removePlayedCard(ActionCard a) {
+           this.playedCards.Remove(a);
         }
         
-        public bool containsPlayedCards(ActionCard a) {
+        public bool containsPlayedCard(ActionCard a) {
             bool contains = this.playedCards.Contains(a);
             return contains;
         }
@@ -86,7 +71,6 @@ namespace model {
             if ((instance == null)) {
                 instance = new PlayedPile();
             }
-            
             return instance;
         }
     }
