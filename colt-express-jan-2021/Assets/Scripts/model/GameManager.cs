@@ -623,7 +623,6 @@ namespace model {
         public void shootPrompt(ArrayList possibilities){
             //TODO make possibilities clickable
             GameBoard.makeShootPossibilitiesClickable(possibilities);
-            
             Bandit clicked = new Bandit();
             shoot(clicked);
         }
@@ -694,7 +693,8 @@ namespace model {
             }
             else{
                 //TODO make possibilities clickable (replace new Bandit with the Bandit the client chooses)
-                Bandit punched = new Bandit();
+                string punchedBanditName = GameBoard.makePunchPossibilitiesClickable(possibilities); 
+                Bandit punched = new Bandit(punchedBanditName.ToUpper());
                 dropPrompt(punched, calculateDrop(punched));
             }
         }

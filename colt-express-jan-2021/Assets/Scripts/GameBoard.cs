@@ -22,6 +22,8 @@ using System.Reflection;
 using Sfs2X.Protocol.Serialization;
 
 using System.Collections;
+using Random=System.Random;
+using UnityEngine.EventSystems;
 
 public class GameBoard : MonoBehaviour
 {
@@ -123,25 +125,44 @@ public class GameBoard : MonoBehaviour
 	private List<Button> goTUCOHand; 
 	private List<Button> goDJANGOHand; 
 
-	// a list of clickable items
 	private List<GameObject> clickableGOs; 
 	public List<object> clickablebuttonToObject;  
 
     void Start(){
 		setAllNonClickable();
-		ArrayList clickablebuttonToObject = new ArrayList(); 
-		// Bandit randomB = gm.currentBandit; 
-		Bandit randomB = new Bandit("GHOST"); 
-		clickablebuttonToObject.Add(randomB);
-		Debug.Log("current bandit is " + randomB.characterAsString);
-		// buttonToObject.Values
-		foreach (Button oneGO in buttonToObject.Keys){
-			if(clickablebuttonToObject.Contains(buttonToObject[oneGO])){
-				// make the GO clickable 
-				// oneGO.SetActive(true);
-				oneGO.interactable = true; 
-			}
-		}
+
+		/* DUMMY BANDITS FOR TESTING PURPOSES */
+		Bandit b1 = new Bandit("GHOST");
+		Bandit b2 = new Bandit("BELLE");
+		Bandit b3 = new Bandit("CHEYENNE");	
+
+		ArrayList banditsArr = new ArrayList(); 
+		banditsArr.Add(b1); 
+		banditsArr.Add(b2); 
+		banditsArr.Add(b3); 
+
+		/* @TEST makeShootPossibilitiesClickable*/
+		buttonToObject.Add(ghost, b1);
+
+		ArrayList shootArr = new ArrayList(); 
+		shootArr.Add(b1);
+		makeShootPossibilitiesClickable(shootArr);
+	
+		/* @OUTPUT now only GHOST is clickable 🎉*/
+
+		/* @TEST makePunchPossibilitiesClickable */
+		var selectedBanditName = EventSystem.current.currentSelectedGameObject;
+         if (selectedBanditName != null)
+             promptPunchTarget.text = "ahh" + selectedBanditName.name;
+         else
+             promptPunchTarget.text = "ahh NULLL POINTERR";
+		// promptPunchTarget.text = "ahh" + selectedBanditName;
+		promptPunchTarget.text = "ahh" + selectedBanditName.name;
+		 
+
+		string selectedPunchBandit = makePunchPossibilitiesClickable(shootArr);
+		Debug.Log("YOU PUNCHED " + selectedPunchBandit);
+		promptPunchTarget.text = selectedPunchBandit + "IS PUNCHED";
 
 		// initCards();
 		Round.text = "ROUND 1:\n-Standard turn\n-Tunnel turn\n-Switching turn";
@@ -180,8 +201,8 @@ public class GameBoard : MonoBehaviour
 	/* setAllNonClickable sets all buttons to be non-clickable */
 	public void setAllNonClickable(){
 		Button[] allButtons = UnityEngine.Object.FindObjectsOfType<Button>();
-		foreach(Button ab in allButtons){
-			ab.interactable = false; 
+		foreach(Button aBtn in allButtons){
+			aBtn.interactable = false; 
 		}
 	}
 
@@ -283,8 +304,15 @@ public class GameBoard : MonoBehaviour
 		Destroy(selectedCard);
 	}
 
+	/* Map all Buttons to their GM objects counterparts */
+	public void mapAll(){
+		
+	}
+	
+	/* makeShootPossibilitiesClickable makes all possibilities clickable */
 	public static void makeShootPossibilitiesClickable(ArrayList possibilities){
-		// buttonToObject maps Button to buttonToObject 
+		Debug.Log("HELLO FROM makeShootPossibilitiesClickable");
+
 		foreach(Bandit b in possibilities){
 			foreach(Button oneBtn in buttonToObject.Keys){
 				if(b.characterAsString == oneBtn.name.ToUpper()){
@@ -294,10 +322,31 @@ public class GameBoard : MonoBehaviour
 		}
 	}
 
+	/* makePunchPossibilitiesClickable makes all possibilities clickable AND returns the clicked Bandit's name as a string */
+	public static string makePunchPossibilitiesClickable(ArrayList possibilities){
+		foreach(Bandit b in possibilities){
+			foreach(Button oneBtn in buttonToObject.Keys){
+				if(b.characterAsString == oneBtn.name.ToUpper()){
+					oneBtn.interactable = true; 
+				}
+			}
+		}
+		// the user clicks on one of the highlighted bandits 
+		string selectedBanditName = EventSystem.current.currentSelectedGameObject.name;
+		return selectedBanditName;
+	}
+
 
     // Update is called once per frame
     void Update()
     {
+
+		var selectedBanditName = EventSystem.current.currentSelectedGameObject;
+         if (selectedBanditName != null)
+             promptPunchTarget.text = "ahh" + selectedBanditName.name;
+         else
+             promptPunchTarget.text = "ahh NULLL POINTERR";
+
         if (SFS.IsConnected()) {
 			SFS.ProcessEvents();
 		}
@@ -328,6 +377,13 @@ public class GameBoard : MonoBehaviour
 
 		/*if (SFS.debugText != debugText.text) {
             debugText.text = SFS.debugText;
+        }
+        clickableGOsText.text += "==== NOW GHOST IS SET TO NONACTIVE ===";
+        // ghost.SetActive(false);
+        foreach(GameObject go in allObjects){
+            if(go.activeSelf == true){
+                clickableGOsText.text += go.name;
+            }
         }
 
 		// for debugging
