@@ -48,8 +48,6 @@ public class GameBoard : MonoBehaviour
 	
 	-assign locations on game board to each gameobject (should be in attached scripts in as a global variable that is reassigned every
 	   time updategamestate() is called, checks updated gm instance for new item's position)
-	
-	-get login and other scripts --done
 	*/
 
 	//debug variables
@@ -123,8 +121,6 @@ public class GameBoard : MonoBehaviour
 	// This way, update game state will simply be able to overwrite the values in the dictionary
 	// whenever it is called by the server
 
-	// public static ArrayList clickable = new ArrayList();
-	// public static ArrayList clickable = new ArrayList();
 	public static string action = ""; // i.e. PUNCH, SHOOT etc. 
 
     public Text announcement;
@@ -191,39 +187,7 @@ public class GameBoard : MonoBehaviour
 
 	// a list of clickable items
 	private List<GameObject> clickableGOs; 
-
-	private String[] logMessages = {
-		"Angry Marshal Round! 1 Standard turns, 1 Tunnel turn, and 1 Switching turn\nIt is now Ghost's turn to play a card or draw 3 cards.\n", //0
-		"Standard Turn: Ghost played a MOVE card\nIt is now Cheyenne's turn to play a card or draw 3 cards.\n",
-		"Standard Turn: Cheyenne played a CHANGEFLOOR card\nIt is now Django's turn to play a card or draw 3 cards.\n",
-		"Standard Turn: Django chose to draw cards\nNext turn!\nIt is now Ghost's turn to play a card or draw 3 cards.\n",
-		"Tunnel Turn: Ghost played an action card which is hidden\nIt is now Cheyenne's turn to play a card or draw 3 cards.\n", //4
-		"Tunnel Turn: Cheyenne played an action card which is hidden\nIt is now Django's turn to play a card or draw 3 cards.\n",
-
-		"Tunnel Turn: Django played an action card which is hidden\nSwitching Turn Player Order: Ghost, Django, Cheyenne\nIt is now Ghost's turn to play a card or draw 3 cards.\n",
-		"Switching Turn: Ghost chose to draw cards\nIt is now Django's turn to play a card or draw 3 cards.\n",
-		"Switching Turn: Django played a SHOOT card\nIt is now Cheyenne's turn to play a card or draw 3 cards.\n",
-		"Switching Turn: Cheyenne chose to draw cards\nTime for Stealin!\nThe cards will now be resolved starting with Ghost.\n",//9
-
-		"Stealin, Resolving Move: Ghost moved to the adjacent car\nCheyenne's card will now be resolved\n",
-		"Stealin, Resolving ChangeFloor: Cheyenne moved to the top of the car\nTime for Ghost to choose to pick one loot\n",
-		"Stealin, Resolving Rob: Ghost chooses one gem to add to his loot\nCheyenne's card will now be resolved\n",
-		"Stealin, Resolving MoveMarshal: Cheyenne moved the Marshal\nDjango's card will now be resolved.\nDjango must punch Ghost.Time for Django to choose which loot to force Ghost to drop\n", 
-		"Stealin, Resolving Punch: Django chose the loot\nTime for Django to choose where to punch Ghost to\n",
-		"Punch: Django chooses to punch Ghost to the last train car\nTime for Django to choose who to shoot\n",
-		"Stealin, Resolving Shoot: Django shoots Ghost\nNew Round, SpeedingUp! 1 SpeedingUp turn. New Player Order: Cheyenne, Django, Ghost\nIt is now Cheyenne's turn to play a card or draw 3 cards.\n",
-		"SpeedingUp Turn 1 (Cheyenne): Cheyenne played a MOVE card\nIt is now Cheyenne's turn to play a card or draw 3 cards.\n", 
-		"SpeedingUp Turn 2 (Cheyenne): Cheyenne chose to draw cards\nIt is now Django's turn to play a card or draw 3 cards.\n",
-		"SpeedingUp Turn 1 (Django): Django played a CHANGEFLOOR card\nIt is now Django's turn to play a card or draw 3 cards.\n",//19
-		"SpeedingUp Turn 2 (Django): Django chose to draw cards\nIt is now Ghost's turn to play a card or draw 3 cards.\n",
-		"SpeedingUp Turn 1 (Ghost): Ghost chose to draw cards\nIt is now Ghost's turn to play a card or draw 3 cards.\n",
-		"SpeedingUp Turn 2 (Ghost): Ghost played a CHANGEFLOOR card\nStealin Time!\nCheyenne's card will now be resolved\n",
-		"Stealin, Resolving Move: Cheyenne moves to the adjacent train car\nDjango's card will now be resolved\n", //24
-		"Stealin, Resolving ChangeFloor: Django is moved to the top of the car\nGhost's card will now be resolved\n",
-		"Stealin, Resolving ChangeFloor: Ghost is moved to the top of the car\nCalculating Scores\n",
-		"Results: Game has ended. WINNER: Django $1,250 (Gunslinger); Ghost $500; Cheyenne $250\n", //27
-		""
-		}; // 
+	public List<object> clickableObjects; 
 
     private List<float> cartZeroTop = new List<float>() {840.5F,878.4F,-364.9F};
     private List<float> cartZeroBtm = new List<float>() {786.1F, 813.5F, -364.9F};
@@ -241,7 +205,22 @@ public class GameBoard : MonoBehaviour
 	private List<float> gemPosition = new List<float>() {1224.1F, 1077.2F, -364.9F};
 
     void Start(){
-		ghost.interactable = false;
+		// var clickableObjects = gm.calculateShoot();
+		ghost.interactable = false; 
+		ArrayList clickableObjects = new ArrayList(); 
+		// Bandit randomB = gm.currentBandit; 
+		Bandit randomB = new Bandit("GHOST"); 
+		clickableObjects.Add(randomB);
+		Debug.Log("current bandit is " + randomB.characterAsString);
+		// objects.Values
+		foreach (GameObject oneGO in objects.Keys){
+			if(clickableObjects.Contains(objects[oneGO])){
+				// make the GO clickable 
+				// oneGO.SetActive(true);
+				oneGO.interactable = true; 
+			}
+		}
+
 		makeAllClickable();
 		// Debug.Log(gm.currentRound.roundTypeAsString);
 		// currentRound.text = gm.currentRound.roundTypeAsString; 
@@ -261,7 +240,6 @@ public class GameBoard : MonoBehaviour
 
 		
 		SFS.setGameBoard();
-		announcement.text = logMessages[SFS.step];
 		gem2.SetActive(false);
 
 		//exit.SetActive(false);
@@ -454,7 +432,6 @@ public class GameBoard : MonoBehaviour
 		}
 	}
 
-
 	public void mapBulletCards(string bName, int buSize, BulletCard bc){
 		if(bName == "BELLE"){
 			objects[goBELLEBulletCards[buSize]] = bc;
@@ -491,6 +468,18 @@ public class GameBoard : MonoBehaviour
                 clickableGOsText.text += go.name;
             }
         }
+
+		// calculateShoot() returns an arraylist of all possible clickable objects 
+		// map those objects to gameobjects
+		// make them clickable
+		// var possibilities = gm.calculateShoot(); 
+		// clickableObjects = gm.calculateShoot(); 
+		// foreach (KeyValuePair onePair in objects){
+		// 	if(clickableObjects.Contains(onePair.value)){
+		// 		// make the GO clickable 
+		// 		onePair.key.SetActive(true);
+		// 	}
+		// }
     }
 
 	public void initCards(){
@@ -557,7 +546,6 @@ public class GameBoard : MonoBehaviour
 		if(step % 3 == 0){
 			announcement.text = ""; 
 		}
-		announcement.text += logMessages[SFS.step];
 
 		switch(step) {
 			case 0:
