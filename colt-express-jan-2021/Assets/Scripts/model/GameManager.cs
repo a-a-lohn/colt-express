@@ -808,6 +808,60 @@ namespace model {
         public void ride(TrainUnit dest){
             this.endOfTurn();
         }
+	
+	// return an ArrayList <int> where it contains index of gunslinger
+	// public ArrayList calculateGunslinger(){
+    //         ArrayList bulletCardsLeft = new ArrayList();
+    //         foreach(Bandit b in bandits)
+    //         {
+    //             bulletCardsLeft.Add(b.getSizeOfBullets());
+    //         }
+    //         ArrayList gunslinger = new ArrayList();
+    //         int min = 99;
+    //         foreach(int i in bulletCardsLeft)
+    //         {
+    //             if (i < min){
+    //                 min = i;
+    //             }
+    //         }
+    //         for(int i = 0; i < bulletCardsLeft.Count; i++)
+    //         {
+    //             if (bulletCardsLeft[i] == min){
+    //                 gunslinger.Add(i);
+    //             }
+    //         }
+    //         return gunslinger;
+    //     }
+
+        public ArrayList calculateWinner(){
+            ArrayList winner = new ArrayList();
+            foreach(Bandit b in bandits)
+            {
+                ArrayList loots = b.getLoot();
+                int value = 0;
+                foreach(Money money in loots)
+                {
+                    value = value + money.getValue();
+                }
+                winner.Add(value);
+            }
+        
+            // ArrayList gunslinger = this.calculateGunslinger();
+            // for(int i = 0; i < winner.Count; i++)
+            // {
+            //     foreach(int index in gunslinger)
+            //     {
+            //         if (i == index){
+            //             winner[i] = winner[i] + 1000;
+            //         }
+            //     }
+            // }        
+
+            return winner;
+        }
+	    
+	    
+	    
     }
 
 

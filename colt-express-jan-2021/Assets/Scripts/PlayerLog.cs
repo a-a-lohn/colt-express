@@ -110,9 +110,9 @@ using model;
 
           if(myTurnSchemin) {
                Debug.Log("calling playcard");
-               ActionCard c = (ActionCard)GameBoard.objects[go];
+               // ActionCard c = (ActionCard)GameBoard.objects[go];
                myTurnSchemin = false;
-               gm.playCard(c);
+               // gm.playCard(c);
           }
 
 
