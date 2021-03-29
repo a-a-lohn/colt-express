@@ -622,6 +622,8 @@ namespace model {
 
         public void shootPrompt(ArrayList possibilities){
             //TODO make possibilities clickable
+            GameBoard.makeShootPossibilitiesClickable(possibilities);
+            
             Bandit clicked = new Bandit();
             shoot(clicked);
         }
