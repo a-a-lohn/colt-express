@@ -44,6 +44,7 @@ namespace model {
         //     //  handler.updateGameState(rtn);
         // }
         
+        
         public void playTurn() {
             Debug.Log("playing turn");
             Debug.Log("currentbandit: "+ currentBandit.getCharacter());
@@ -68,9 +69,8 @@ namespace model {
         
         public void promptDrawCardsOrPlayCard() {
             GameBoard.setWorks();
-            //GameBoard.clickable = currentBandit.getHand();
+            GameBoard.clickable = currentBandit.getHand();
             GameBoard.action = "playcard";
-            // TODO
         }
 
         public void resolveAction(ActionCard toResolve) {
@@ -450,10 +450,11 @@ namespace model {
             else {
                 return;
             }
+            
         }
         
         //  void chosenCharacter(int playerId, Character c) {
-        public void chosenCharacter(User player, string c, int numPlayers) {
+        /*public void chosenCharacter(User player, string c, int numPlayers) {
             Bandit newBandit = new Bandit(c);
             this.bandits.Add(newBandit);
             this.banditmap.Add(newBandit, player);
@@ -470,7 +471,7 @@ namespace model {
             
             //  this.setCurrentRound(this.rounds.get(0));
             //  set waiting for input to be true;
-        }
+        }*/
         
         public int getBanditsPlayedThisTurn() {
             return this.banditsPlayedThisTurn;
@@ -621,6 +622,7 @@ namespace model {
 
         public void shootPrompt(ArrayList possibilities){
             //TODO make possibilities clickable
+            GameBoard.makeShootPossibilitiesClickable(possibilities);
             Bandit clicked = new Bandit();
             shoot(clicked);
         }
@@ -691,7 +693,8 @@ namespace model {
             }
             else{
                 //TODO make possibilities clickable (replace new Bandit with the Bandit the client chooses)
-                Bandit punched = new Bandit();
+                string punchedBanditName = GameBoard.makePunchPossibilitiesClickable(possibilities); 
+                Bandit punched = new Bandit(punchedBanditName.ToUpper());
                 dropPrompt(punched, calculateDrop(punched));
             }
         }
@@ -865,6 +868,111 @@ namespace model {
         public void ride(TrainUnit dest){
             this.endOfTurn();
         }
+	
+	public ArrayList calculateGunslinger()
+        {
+            ArrayList bulletCardsLeft = new ArrayList();
+            foreach (Bandit b in bandits)
+            {
+                bulletCardsLeft.Add(b.getSizeOfBullets());
+            }
+            ArrayList gunslinger = new ArrayList();
+            int min = 99;
+            foreach (int i in bulletCardsLeft)
+            {
+                if (i < min)
+                {
+                    min = i;
+                }
+            }
+            for (int i = 0; i < bulletCardsLeft.Count; i++)
+            {
+                if ((int)bulletCardsLeft[i] == min)
+                {
+                    gunslinger.Add(i);
+                }
+            }
+            return gunslinger;
+        }
+
+        public ArrayList calculateWinner()
+        {
+            ArrayList winner = new ArrayList();
+            foreach (Bandit b in bandits)
+            {
+                ArrayList loots = b.getLoot();
+                int value = 0;
+                foreach (Money money in loots)
+                {
+                    value = value + money.getValue();
+                }
+                winner.Add(value);
+            }
+
+            ArrayList gunslinger = this.calculateGunslinger();
+            for (int i = 0; i < winner.Count; i++)
+            {
+                foreach (int index in gunslinger)
+                {
+                    if (i == index)
+                    {
+                        winner[i] = (int)winner[i] + 1000;
+                    }
+                }
+            }
+
+            // now calculate the hostage ransom
+            for (int i = 0; i < bandits.Count; i++)
+            {
+                Bandit aBandit = (Bandit)bandits[i];
+                if (aBandit.getHostageAsString() != null) {
+                    string hostage = aBandit.getHostageAsString();
+                    if (hostage.Equals("POODLE")){
+                        winner[i] = (int)winner[i] + 1000;
+                    } else if (hostage.Equals("BANKER")) {  // Get 1000 if the bandit has at least one Strongbox.
+                        foreach (Money money in aBandit.getLoot()) {
+                            if (money.getMoneyTypeAsString() == "STRONGBOX") {
+                                winner[i] = (int)winner[i] + 1000;
+                            }
+                            break;
+                        }
+                    } else if (hostage.Equals("MINISTER")) {
+                        winner[i] = (int)winner[i] + 900;
+                    } else if (hostage.Equals("TEACHER")) {
+                        winner[i] = (int)winner[i] + 800;
+                    } else if (hostage.Equals("ZEALOT")) {
+                        winner[i] = (int)winner[i] + 700;
+                    } else if (hostage.Equals("OLDLADY")) {
+                        foreach (Money money in aBandit.getLoot())
+                        {
+                            if (money.getMoneyTypeAsString() == "RUBY")
+                            {
+                                winner[i] = (int)winner[i] + 500;
+                            }
+                        }
+                    } else if (hostage.Equals("POKERPLAYER")) {
+                        foreach (Money money in aBandit.getLoot())
+                        {
+                            if (money.getMoneyTypeAsString() == "PURSE")
+                            {
+                                winner[i] = (int)winner[i] + 250;
+                            }
+                        }
+                    } else if (hostage.Equals("PHOTOGRAPHER")) {
+                        foreach (BulletCard c in aBandit.getDeck()) {
+                            winner[i] = (int)winner[i] + 200;
+                        }
+                    } else { 
+                        
+                    }
+                }
+            }
+
+            return winner;
+        }
+	    
+	    
+	    
     }
 
 

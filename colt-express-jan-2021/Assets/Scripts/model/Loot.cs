@@ -15,7 +15,6 @@ using Sfs2X.Protocol.Serialization;
 //        DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
 namespace model {
     public abstract class Loot : SerializableSFSType {
-        
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public Loot() {}
         
@@ -28,5 +27,8 @@ namespace model {
             // TODO
         }
 
+        public Bandit getBelongsTo(){
+            return new Bandit("BELLE");
+        }
     }
 }
