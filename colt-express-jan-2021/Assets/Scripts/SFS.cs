@@ -40,7 +40,7 @@ public static class SFS
 	public static Chat chat;
 
     static SFS(){
-        defaultHost = "13.72.79.112";//"127.0.0.1";
+        defaultHost = "127.0.0.1";//"13.72.79.112";
 	    defaultTcpPort = 9933;
         zone = "MergedExt";
     }

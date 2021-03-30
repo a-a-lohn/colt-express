@@ -114,6 +114,7 @@ public class Round implements SerializableSFSType {
             turns.add(new Turn(TurnType.TUNNEL));
         }
         this.currentTurn = turns.get(0);
+        System.out.println("turn: " + currentTurn.turnTypeAsString);
     }
     
     public void addTurn(Turn a) {

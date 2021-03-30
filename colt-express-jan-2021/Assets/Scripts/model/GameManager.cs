@@ -152,16 +152,40 @@ namespace model {
             //  SCHEMIN PHASE
             if (this.strGameStatus.Equals("SCHEMIN")) {
                 string currentTurnType = this.currentRound.getCurrentTurn().getTurnTypeAsString();
+                if(currentRound == null) {
+                    Debug.Log("currentRound is null");
+                    
+                } else {
+                    if(currentRound.turns != null) {
+                        if(currentRound.turns.Count >0) {
+                            Turn t = (Turn)this.currentRound.turns[0];
+                            Debug.Log("turn: " + t.getTurnTypeAsString());
+                        } else {
+                            Debug.Log("turns has no turns");
+                        }
+                    } else {
+                        Debug.Log("turns is null");
+                    }
+                }
+                if(currentRound.getCurrentTurn() == null) {
+                    Debug.Log("currentRound.getCurrentTurn()");
+                }
+                if(currentRound.getCurrentTurn().getTurnTypeAsString() == null) {
+                    Debug.Log("currentRound.getCurrentTurn().getTurnTypeAsString() is null");
+                }
+                Debug.Log("Schemin phase");
 
                 //  STANDARD AND TUNNEL TURN CASE
                 if (currentTurnType.Equals("STANDARD") || currentTurnType.Equals("TUNNEL")) {
+                    Debug.Log("stand/tunnel");
                     this.banditsPlayedThisTurn++;
 
                     //  ALL BANDITS HAVE PLAYED
                     if ((this.banditsPlayedThisTurn == this.bandits.Count)) {
-
+                        Debug.Log("all have played");
                         //  THERE ARE MORE TURNS IN THE ROUND - NEXT TURN
                         if (this.currentRound.hasNextTurn() == true) {
+                            Debug.Log("THERE ARE MORE TURNS IN THE ROUND - NEXT TURN");
                             this.currentRound.setNextTurn();
                             this.banditIndex = ((this.banditIndex + 1) % this.bandits.Count);
                             this.currentBandit = (Bandit) this.bandits[this.banditIndex];
@@ -169,6 +193,7 @@ namespace model {
                         }
                         
                         //  NO MORE TURNS IN ROUND - END OF SCHEMIN PHASE
+                        Debug.Log("NO MORE TURNS IN ROUND - END OF SCHEMIN PHASE");
                         foreach (Bandit b in this.bandits) {
                             b.clearHand();
                         }
@@ -179,6 +204,7 @@ namespace model {
                     
                     //  NOT ALL BANDITS HAVE PLAYED - NEXT BANDIT'S TURN
                     else{
+                        Debug.Log("NOT ALL BANDITS HAVE PLAYED - NEXT BANDIT'S TURN");
                         this.banditIndex = (this.banditIndex + 1) % this.bandits.Count;
                         this.currentBandit = (Bandit) this.bandits[this.banditIndex];
                     }

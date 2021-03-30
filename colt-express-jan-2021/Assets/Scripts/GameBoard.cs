@@ -125,6 +125,14 @@ public class GameBoard : MonoBehaviour
 	private List<Button> goTUCOHand; 
 	private List<Button> goDJANGOHand; 
 
+	public Button ghostCard1; 
+	public Button ghostCard2; 
+	public Button ghostCard3; 
+	public Button ghostCard4; 
+	public Button ghostCard5;
+	public Button ghostCard6;  
+	public Button ghostCard7;
+
 	private List<GameObject> clickableGOs; 
 	public List<object> clickablebuttonToObject;  
 
@@ -133,38 +141,38 @@ public class GameBoard : MonoBehaviour
     void Start(){
 		setAllNonClickable();
 
-		/* DUMMY BANDITS FOR TESTING PURPOSES */
-		Bandit b1 = new Bandit("GHOST");
-		Bandit b2 = new Bandit("BELLE");
-		Bandit b3 = new Bandit("CHEYENNE");	
+		// /* DUMMY BANDITS FOR TESTING PURPOSES */
+		// Bandit b1 = new Bandit("GHOST");
+		// Bandit b2 = new Bandit("BELLE");
+		// Bandit b3 = new Bandit("CHEYENNE");	
 
-		ArrayList banditsArr = new ArrayList(); 
-		banditsArr.Add(b1); 
-		banditsArr.Add(b2); 
-		banditsArr.Add(b3); 
+		// ArrayList banditsArr = new ArrayList(); 
+		// banditsArr.Add(b1); 
+		// banditsArr.Add(b2); 
+		// banditsArr.Add(b3); 
 
-		/* @TEST makeShootPossibilitiesClickable*/
-		buttonToObject.Add(ghost, b1);
+		// /* @TEST makeShootPossibilitiesClickable*/
+		// buttonToObject.Add(ghost, b1);
 
-		ArrayList shootArr = new ArrayList(); 
-		shootArr.Add(b1);
-		makeShootPossibilitiesClickable(shootArr);
+		// ArrayList shootArr = new ArrayList(); 
+		// shootArr.Add(b1);
+		// makeShootPossibilitiesClickable(shootArr);
 	
-		/* @OUTPUT now only GHOST is clickable 🎉*/
+		// /* @OUTPUT now only GHOST is clickable 🎉*/
 
-		/* @TEST makePunchPossibilitiesClickable */
-		var selectedBanditName = EventSystem.current.currentSelectedGameObject;
-         if (selectedBanditName != null)
-             promptPunchTarget.text = "ahh" + selectedBanditName.name;
-         else
-             promptPunchTarget.text = "ahh NULLL POINTERR";
-		// promptPunchTarget.text = "ahh" + selectedBanditName;
-		promptPunchTarget.text = "ahh" + selectedBanditName.name;
+		// /* @TEST makePunchPossibilitiesClickable */
+		// var selectedBanditName = EventSystem.current.currentSelectedGameObject;
+        //  if (selectedBanditName != null)
+        //      promptPunchTarget.text = "ahh" + selectedBanditName.name;
+        //  else
+        //      promptPunchTarget.text = "ahh NULLL POINTERR";
+		// // promptPunchTarget.text = "ahh" + selectedBanditName;
+		// promptPunchTarget.text = "ahh" + selectedBanditName.name;
 		 
 
-		string selectedPunchBandit = makePunchPossibilitiesClickable(shootArr);
-		Debug.Log("YOU PUNCHED " + selectedPunchBandit);
-		promptPunchTarget.text = selectedPunchBandit + "IS PUNCHED";
+		// string selectedPunchBandit = makePunchPossibilitiesClickable(shootArr);
+		// Debug.Log("YOU PUNCHED " + selectedPunchBandit);
+		// promptPunchTarget.text = selectedPunchBandit + "IS PUNCHED";
 
 		// initCards();
 		Round.text = "ROUND 1:\n-Standard turn\n-Tunnel turn\n-Switching turn";
@@ -221,13 +229,14 @@ public class GameBoard : MonoBehaviour
         
         ISFSObject responseParams = (SFSObject)evt.Params["params"];
 		gm = (GameManager)responseParams.GetClass("gm");
-		
+		GameManager.replaceInstance(gm);
 		// REASSIGN ALL GAME buttonToObject USING DICTIONARY
 		ArrayList banditsArray = gm.bandits;
 		foreach (Bandit b in banditsArray) {
             if (b.characterAsString == "CHEYENNE") {
 				buttonToObject[cheyenne] = b;
                 trace("Cheyenne added!");
+					
             }
 			if (b.characterAsString == "BELLE") {
                 buttonToObject[belle] = b;
@@ -241,10 +250,17 @@ public class GameBoard : MonoBehaviour
                 buttonToObject[doc] = b;
                 trace("Doc added!");
             }
-			// if (b.characterAsString == "GHOST") {
-            //     buttonToObject[ghost] = b;
-            //     trace("Ghost added!");
-            // }
+			if (b.characterAsString == "GHOST") {
+                buttonToObject[ghost] = b;
+                trace("Ghost added!");
+				// map ghost's hand 
+				ArrayList currCards = b.hand; 
+				List<Button> ghoButtons = new List<Button>(){ghostCard1, ghostCard2, ghostCard3, ghostCard4, ghostCard5, ghostCard5, ghostCard6, ghostCard7};
+				int index = 0; 
+				foreach(Card c in currCards){
+					 buttonToObject.Add(ghoButtons[index], c); 
+				}
+            }
 			if (b.characterAsString == "DJANGO") {
                 buttonToObject[django] = b;
                 trace("Django added!");
@@ -254,11 +270,11 @@ public class GameBoard : MonoBehaviour
 		// announcement.text = logMessages[SFS.step];
 
 		// map the 13 neutral bullet cards
-		ArrayList neuturalBulletCards = gm.neutralBulletCard; 
-		for(int i=1; i<14; i++){
-			Button goBulletCard = goNeutralBulletCards[i];
-			buttonToObject[goBulletCard] = neuturalBulletCards[i];
-		}
+		// ArrayList neuturalBulletCards = gm.neutralBulletCard; 
+		// for(int i=1; i<14; i++){
+		// 	Button goBulletCard = goNeutralBulletCards[i];
+		// 	buttonToObject[goBulletCard] = neuturalBulletCards[i];
+		// }
 
 		//Invoke("LeaveRoom",5);
 		/*if (SFS.getSFS() == null) {
@@ -271,8 +287,6 @@ public class GameBoard : MonoBehaviour
         if (!SFS.IsConnected()) {
             SFS.Connect("test");
         }*/
-
-		EnterGameBoardScene();
 
     }
 
@@ -370,14 +384,14 @@ public class GameBoard : MonoBehaviour
 			Debug.Log("currentbandit on mouse: "+ gm.currentBandit.getCharacter());
 			if(gm != null && gm.currentBandit.getCharacter() == ChooseCharacter.character) {
 				Debug.Log("ending my turn");
-				Bandit b = (Bandit) gm.bandits[0];
-				if (b.getCharacter() == gm.currentBandit.getCharacter()) {
-					gm.currentBandit = (Bandit) gm.bandits[1];
-				} else {
-					gm.currentBandit = (Bandit) gm.bandits[0];
-				}
-				SendNewGameState();
-				//gm.endOfTurn();
+				// Bandit b = (Bandit) gm.bandits[0];
+				// if (b.getCharacter() == gm.currentBandit.getCharacter()) {
+				// 	gm.currentBandit = (Bandit) gm.bandits[1];
+				// } else {
+				// 	gm.currentBandit = (Bandit) gm.bandits[0];
+				// }
+				gm.endOfTurn();
+				//SendNewGameState();
 			}
 		}
 

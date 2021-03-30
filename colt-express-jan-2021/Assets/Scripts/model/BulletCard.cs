@@ -17,8 +17,7 @@ namespace model {
     public class BulletCard : Card, SerializableSFSType {
     
         public bool fired;
-        public string owner; // added 
-        public int size; // added by annie
+        //public int size; // added by annie
 
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public BulletCard() {}
@@ -38,8 +37,8 @@ namespace model {
         }
 
         // added by annie
-        public int getSize(){
-            return this.size; 
-        }
+        // public int getSize(){
+        //     return this.size; 
+        // }
     }
 }
