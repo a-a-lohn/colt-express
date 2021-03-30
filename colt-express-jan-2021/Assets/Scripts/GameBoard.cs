@@ -128,6 +128,48 @@ public class GameBoard : MonoBehaviour
 	private List<GameObject> clickableGOs; 
 	public List<object> clickablebuttonToObject;  
 
+	public Button ghostCard1; 
+	public Button ghostCard2; 
+	public Button ghostCard3; 
+	public Button ghostCard4; 
+	public Button ghostCard5;
+	public Button ghostCard6;  
+	public Button ghostCard7; 
+
+	public Button docCard1; 
+	public Button docCard2; 
+	public Button docCard3; 
+	public Button docCard4; 
+	public Button docCard5;
+	public Button docCard6;  
+
+	public Button tucCard1; 
+	public Button tucCard2; 
+	public Button tucCard3; 
+	public Button tucCard4; 
+	public Button tucCard5;
+	public Button tucCard6;  
+
+	public Button belCard1; 
+	public Button belCard2; 
+	public Button belCard3; 
+	public Button belCard4; 
+	public Button belCard5;
+	public Button belCard6;  
+
+	public Button cheCard1; 
+	public Button cheCard2; 
+	public Button cheCard3; 
+	public Button cheCard4; 
+	public Button cheCard5;
+	public Button cheCard6;  
+
+	public Button trainCart1; 
+	public Button tranCart2; 
+	public Button tranCart3; 
+	public Button tranCart4;
+	
+
     public static string punchedBandit; 
 
     void Start(){
@@ -225,26 +267,52 @@ public class GameBoard : MonoBehaviour
 		// REASSIGN ALL GAME buttonToObject USING DICTIONARY
 		ArrayList banditsArray = gm.bandits;
 		foreach (Bandit b in banditsArray) {
+			ArrayList currCards = b.hand; 
             if (b.characterAsString == "CHEYENNE") {
 				buttonToObject[cheyenne] = b;
-                trace("Cheyenne added!");
+                List<Button> cheyenneButtons = new List<Button>(){cheCard1, cheCard2, cheCard3, cheCard4, cheCard5, cheCard5, cheCard6};
+				int index = 0; 
+				foreach(Card c in currCards){
+					 buttonToObject.Add(cheyenneButtons[index], c);
+				}
             }
 			if (b.characterAsString == "BELLE") {
                 buttonToObject[belle] = b;
-                trace("Belle added!");
+               	List<Button> belleButtons = new List<Button>(){belCard1, belCard2, belCard3, belCard4, belCard5, belCard5, belCard6};
+				int index = 0; 
+				foreach(Card c in currCards){
+					 buttonToObject.Add(belButtons[index], c);
+				}
             }
 			if (b.characterAsString == "TUCO") {
                 buttonToObject[tuco] = b;
-                trace("Tuco added!");
+				List<Button> tucoButtons = new List<Button>(){tucCard1, tucCard2, tucCard3, tucCard4, tucCard5, tucCard5, tucCard6};
+				int index = 0; 
+				foreach(Card c in currCards){
+					 buttonToObject.Add(tucoButtons[index], c); 
+				}
             }
 			if (b.characterAsString == "DOC") {
                 buttonToObject[doc] = b;
-                trace("Doc added!");
+                // trace("Doc added!");
+				// map doc's hand 
+				List<Button> docButtons = new List<Button>(){docCard1, docCard2, docCard3, docCard4, docCard5, docCard5, docCard6};
+				int index = 0; 
+				foreach(Card c in currCards){
+					 buttonToObject.Add(docButtons[index], c); 
+				}
             }
-			// if (b.characterAsString == "GHOST") {
-            //     buttonToObject[ghost] = b;
-            //     trace("Ghost added!");
-            // }
+			if (b.characterAsString == "GHOST") {
+                buttonToObject[ghost] = b;
+                trace("Ghost added!");
+				// map ghost's hand 
+				ArrayList currCards = b.hand; 
+				List<Button> ghoButtons = new List<Button>(){ghostCard1, ghostCard2, ghostCard3, ghostCard4, ghostCard5, ghostCard5, ghostCard6, ghostCard7};
+				int index = 0; 
+				foreach(Card c in currCards){
+					 buttonToObject.Add(ghoButtons[index], c); 
+				}
+            }
 			if (b.characterAsString == "DJANGO") {
                 buttonToObject[django] = b;
                 trace("Django added!");
