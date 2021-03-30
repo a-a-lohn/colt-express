@@ -20,14 +20,13 @@ namespace model {
         public string actionTypeAsString;
         public bool saveForNextRound;      
         public bool faceDown;
-        public string belongsToAsString;
         
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public ActionCard() {}
         
         public ActionCard(string action, string belongsTo) {
             this.actionTypeAsString = action;
-            this.belongsToAsString = belongsTo;
+            base.belongsToAsString = belongsTo;
             this.saveForNextRound = false;
             this.faceDown = false;
         }
@@ -58,26 +57,6 @@ namespace model {
         public void setFaceDown(bool b) {
             this.faceDown = b;
         }
-
-        public Bandit getBelongsTo() {
-           GameManager gm = GameManager.getInstance();
-           foreach (Bandit b in gm.bandits) {
-               if (b.characterAsString.Equals(this.belongsToAsString)) {
-                   return b;
-               }
-           }
-           return null;
-       }
-
-       public void setBelongsTo(string belongsTo) {
-           if(belongsTo.Equals("GHOST")||belongsTo.Equals("DOC")||belongsTo.Equals("TUCO")||belongsTo.Equals("CHEYENNE")||belongsTo.Equals("BELLE")||belongsTo.Equals("DJANGO")){
-               this.belongsToAsString = belongsTo;
-           }
-           else{
-               Debug.Log("CARD SET TO INVALID CHARACTER");
-           }
-               
-       }
         
     }
 }

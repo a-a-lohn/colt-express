@@ -44,7 +44,6 @@ namespace model {
         //     //  handler.updateGameState(rtn);
         // }
         
-        
         public void playTurn() {
             Debug.Log("playing turn");
             Debug.Log("currentbandit: "+ currentBandit.getCharacter());
@@ -69,8 +68,9 @@ namespace model {
         
         public void promptDrawCardsOrPlayCard() {
             GameBoard.setWorks();
-            GameBoard.clickable = currentBandit.getHand();
+            //GameBoard.clickable = currentBandit.getHand();
             GameBoard.action = "playcard";
+            // TODO
         }
 
         public void resolveAction(ActionCard toResolve) {
@@ -450,7 +450,6 @@ namespace model {
             else {
                 return;
             }
-            
         }
         
         //  void chosenCharacter(int playerId, Character c) {

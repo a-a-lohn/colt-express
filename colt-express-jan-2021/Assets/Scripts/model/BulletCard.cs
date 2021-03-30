@@ -17,13 +17,14 @@ namespace model {
     public class BulletCard : Card, SerializableSFSType {
     
         public bool fired;
-        public string belongsToAsString;
-        
+        public string owner; // added 
+        public int size; // added by annie
+
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public BulletCard() {}
 
         public BulletCard(string belongsToAsString) {
-            this.belongsToAsString = belongsToAsString;
+            base.belongsToAsString = belongsToAsString;
             this.fired = false;
         }
 
@@ -36,25 +37,9 @@ namespace model {
             this.fired = b;
         }
 
-        public Bandit getBelongsTo() {
-           GameManager gm = GameManager.getInstance();
-           foreach (Bandit b in gm.bandits) {
-               if (b.characterAsString.Equals(this.belongsToAsString)) {
-                   return b;
-               }
-           }
-           return null;
-       }
-
-       public void setBelongsTo(string belongsTo) {
-           if(belongsTo.Equals("GHOST")||belongsTo.Equals("DOC")||belongsTo.Equals("TUCO")||belongsTo.Equals("CHEYENNE")||belongsTo.Equals("BELLE")||belongsTo.Equals("DJANGO")){
-               this.belongsToAsString = belongsTo;
-           }
-           else{
-               Debug.Log("CARD SET TO INVALID CHARACTER");
-           }
-               
-       }
-
+        // added by annie
+        public int getSize(){
+            return this.size; 
+        }
     }
 }

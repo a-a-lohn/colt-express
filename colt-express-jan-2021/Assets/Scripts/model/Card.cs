@@ -12,30 +12,30 @@ using Sfs2X.Protocol.Serialization;
 namespace model {
     public abstract class Card : SerializableSFSType {
       
-        //public string belongsToAsString;
+        public string belongsToAsString;
 
         public Card() {}
         
         //queries each bandit's 10 cards to find object match (a bit excessive but it's the only way to get rid of reference from here)
-    //    public Bandit getBelongsTo() {
-    //        GameManager gm = GameManager.getInstance();
-    //        foreach (Bandit b in gm.bandits) {
-    //            if (b.characterAsString.Equals(this.belongsToAsString)) {
-    //                return b;
-    //            }
-    //        }
-    //        return null;
-    //    }
+       public Bandit getBelongsTo() {
+           GameManager gm = GameManager.getInstance();
+           foreach (Bandit b in gm.bandits) {
+               if (b.characterAsString.Equals(this.belongsToAsString)) {
+                   return b;
+               }
+           }
+           return null;
+       }
 
-    //    public void setBelongsTo(string belongsTo) {
-    //        if(belongsTo.Equals("GHOST")||belongsTo.Equals("DOC")||belongsTo.Equals("TUCO")||belongsTo.Equals("CHEYENNE")||belongsTo.Equals("BELLE")||belongsTo.Equals("DJANGO")){
-    //            this.belongsToAsString = belongsTo;
-    //        }
-    //        else{
-    //            Debug.Log("CARD SET TO INVALID CHARACTER");
-    //        }
+       public void setBelongsTo(string belongsTo) {
+           if(belongsTo.Equals("GHOST")||belongsTo.Equals("DOC")||belongsTo.Equals("TUCO")||belongsTo.Equals("CHEYENNE")||belongsTo.Equals("BELLE")||belongsTo.Equals("DJANGO")){
+               this.belongsToAsString = belongsTo;
+           }
+           else{
+               Debug.Log("CARD SET TO INVALID CHARACTER");
+           }
                
-    //    }
+       }
     }
 }
 

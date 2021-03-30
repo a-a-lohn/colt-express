@@ -254,8 +254,6 @@ namespace model {
             return ScrambledList;
         }
 
-        //added these to clean up the gamemanager methods, there's some logic that can be handled here 
-
         public void drawCards(int cardsToDraw) {
             for (int i = this.sizeOfDeck()-1; i > this.sizeOfDeck()-cardsToDraw-1; i--) {
                 Card toAdd = this.getFromDeckAt(i);
@@ -273,7 +271,9 @@ namespace model {
             }
         }
 
-
+        public ArrayList getBulletCards(){
+            return this.bullets;
+        }
     }
 
 }

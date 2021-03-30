@@ -42,15 +42,14 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	public ArrayList<TrainUnit> trainCabin;
 	public int trainLength;
 	public ArrayList<TrainUnit> stagecoach;
-	public ArrayList<Horse> horses;
+	public ArrayList<Horse> horses = new ArrayList<Horse>();
 	public ArrayList<Bandit> bandits = new ArrayList<Bandit>();
 	transient public HashMap<Bandit, User> banditmap = new HashMap<Bandit, User>();
-	public HashMap<Bandit, TrainUnit> banditPositions = new HashMap<Bandit,TrainUnit>();
+	public HashMap<Bandit, TrainUnit> banditPositions = new HashMap<Bandit, TrainUnit>();
 	public ArrayList<Card> neutralBulletCard = new ArrayList<Card>();
 	public int banditsPlayedThisTurn;
 	public int roundIndex;
 	public int banditIndex;
-
 
 	/*
 	 * @Override public void handleClientRequest(User sender, ISFSObject params) {
@@ -129,14 +128,18 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		
 		// 2. Give each bandit a $250 purse, 11 action cards, and 6 bullet cards
 		ArrayList<Bandit> bandits = this.getBandits();
+		// initialize each bandit cards, purse
 		for (Bandit b : bandits) {
 			b.createStartingPurse();
 			b.createStartingCards();
 			b.createBulletCards();
 		}
+
+		//this.horses = Horse.createHorses();
 		
-		// 3. Place marshal and strongbox in locomotive
-		
+		// Horse Attack
+		this.horseAttack();
+
 		this.marshalInstance = Marshal.getInstance();
 		// initialize round cards, round attributes/create round constructor
 		this.rounds = this.createRoundCards(this.getNumOfPlayers());
@@ -181,8 +184,79 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		this.gameStatus = GameStatus.SCHEMIN;
 		this.strGameStatus = "SCHEMIN";
 		this.currentBandit = this.bandits.get(0);
-		
+
 	}
+
+	public void horseAttack() {
+		int turns = 1; // start with the first turn
+
+		ArrayList<Bandit> banditList = new ArrayList<Bandit>();
+		// copy bandits list
+		for (Bandit b : this.bandits) {
+			banditList.add(b);
+		}
+
+		int trainUnitLength = this.trainLength;
+
+		while (banditList.size() > 1) {
+			TrainUnit currentTrain = this.getTrainCabinAt(trainUnitLength - turns);
+			if (currentTrain == this.getTrainCabinAt(1)) {
+				break;
+			} else {
+				for (Bandit b : banditList) {
+					boolean continueToRide = promptHorseAttack1(b, turns);
+					if (!continueToRide) {
+						banditList.remove(b);
+						b.setPosition(currentTrain);
+						Horse newHorse = new Horse(null); // not belong to any bandit
+						newHorse.setAdjacentTo(currentTrain); // set adjacent to current train
+						this.horses.add(newHorse);
+						banditList.remove(b);
+					}
+				}
+				turns++;
+			}
+		}
+
+		// case 1, banditList size > 1
+		if (banditList.size() > 1) {
+			for (Bandit b : banditList) {
+				b.setPosition(this.getTrainCabinAt(1));
+				Horse newHorse = new Horse(null); // not belong to any bandit
+				newHorse.setAdjacentTo(this.getTrainCabinAt(1)); // set adjacent to current train
+				this.horses.add(newHorse);
+			}
+		}
+
+		// case 2, banditList size == 1
+		if (banditList.size() == 1) {
+			calculateHorseAttack(banditList.get(0), turns);
+		}
+
+	}
+
+	public void calculateHorseAttack(Bandit bandit, int turns) {
+		ArrayList<TrainUnit> target = new ArrayList<TrainUnit>();
+		for (int i = turns; i < this.trainLength; i++) {
+			target.add(this.getTrainCabinAt(this.trainLength - turns));
+		}
+		TrainUnit currentTrain = promptHorseAttack2(bandit, target);
+		bandit.setPosition(currentTrain);
+		Horse newHorse = new Horse(null); // not belong to any bandit
+		newHorse.setAdjacentTo(currentTrain); // set adjacent to current train
+		this.horses.add(newHorse);
+	}
+	
+	public TrainUnit promptHorseAttack2(Bandit b, ArrayList<TrainUnit> target) {
+		// TO DO : ask the client to choose one place to start
+		return target.get(0);
+	}
+	
+	public boolean promptHorseAttack1(Bandit b, int turns) {
+		// TO DO : ask the client to stay at current position or ride horse to move on
+		return true;
+	}
+
 	/**
 	 * @param c Card will be moved from bandit's hand to played pile and it's effect
 	 *          will be resolved
@@ -281,7 +355,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	 * --TRAIN UNIT METHODS--
 	 */
 	 public TrainUnit getTrainCabinAt(int index) {
-		if (index < this.trainCabin.size()) {
+		if (index < this.trainLength) {
 			 return this.trainCabin.get(index);
 		} 
 		else {
@@ -290,7 +364,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	 }
 	 
 	 public TrainUnit getTrainRoofAt(int index) {
-		 if(index >= this.trainRoof.size()) {
+		 if(index >= this.trainLength) {
 			 return this.trainRoof.get(index);
 		 }
 		 else {
@@ -299,8 +373,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	 }
 	 
 	 public int sizeOfTrainUnits() {
-		 int size = this.trainCabin.size();
-		 return size;
+		 return this.trainLength;
 	 }
 	 
 	 public ArrayList<TrainUnit> getTrainCabin() {

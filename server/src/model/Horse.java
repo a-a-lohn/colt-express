@@ -56,4 +56,15 @@ public class Horse implements SerializableSFSType {
     	}
     	return response;
     }
+    
+    /*public static ArrayList<Horse> createHorses(){
+    	GameManager gm = GameManager.getInstance();
+    	final int horsesToCreate = gm.getNumOfPlayers();
+    	ArrayList<Horse> response = new ArrayList<Horse>();
+    	for(int i=0; i<horsesToCreate; i++) {
+    		Horse horse = new Horse(gm.getBandits().get(i));
+    		response.add(horse);
+    	}
+    	return response;
+    }*/
 }
