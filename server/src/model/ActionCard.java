@@ -15,6 +15,7 @@ public class ActionCard extends Card implements SerializableSFSType {
     public String actionTypeAsString; //FOR NETWORKING
     public boolean saveForNextRound = false;
     public boolean faceDown = false;
+    public String belongsToAsString;
     
     //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
     public ActionCard() {}
@@ -22,7 +23,7 @@ public class ActionCard extends Card implements SerializableSFSType {
     public ActionCard(ActionType action, String belongsTo) {
 		this.actionType = action;
 		this.actionTypeAsString = action.name();
-		super.belongsToAsString = belongsTo;
+		this.belongsToAsString = belongsTo;
 	}    
     
     /**
@@ -59,5 +60,14 @@ public class ActionCard extends Card implements SerializableSFSType {
     }
     public void setFaceDown(boolean b) { 
     	this.faceDown = b;
+    }
+    
+    //belongsToAsString
+    public String getBelongsToAsString() {
+        return this.belongsToAsString;
+    }
+
+    public void setBelongsToAsString(String belongsTo) {
+        this.belongsToAsString = belongsTo;
     }
 }

@@ -20,17 +20,30 @@ namespace model {
         public string actionTypeAsString;
         public bool saveForNextRound;      
         public bool faceDown;
+        public string belongsToAsString;
         
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public ActionCard() {}
         
         public ActionCard(string action, string belongsTo) {
             this.actionTypeAsString = action;
-            base.belongsToAsString = belongsTo;
+            this.belongsToAsString = belongsTo;
             this.saveForNextRound = false;
             this.faceDown = false;
         }
-        
+
+        //belongsTo
+        public Bandit getBelongsTo() {
+           GameManager gm = GameManager.getInstance();
+           foreach (Bandit b in gm.bandits) {
+               if (b.characterAsString.Equals(this.belongsToAsString)) {
+                   return b;
+               }
+           }
+           return null;
+       }
+
+
         // actionTypeAsString
         public string getActionTypeAsString() {
             return this.actionTypeAsString;
@@ -58,5 +71,18 @@ namespace model {
             this.faceDown = b;
         }
         
+        //belongsToAsString
+        public string getBelongsToAsString(){
+            return this.belongsToAsString;
+        }
+
+       public void setBelongsToAsString(string belongsTo) {
+           if(belongsTo.Equals("GHOST")||belongsTo.Equals("DOC")||belongsTo.Equals("TUCO")||belongsTo.Equals("CHEYENNE")||belongsTo.Equals("BELLE")||belongsTo.Equals("DJANGO")){
+               this.belongsToAsString = belongsTo;
+           }
+           else{
+               Debug.Log("CARD SET TO INVALID CHARACTER");
+           }
+       }
     }
 }

@@ -8,13 +8,30 @@ public class BulletCard extends Card implements SerializableSFSType {
 	 * else if fired == true then the bullet has been fired ie. it is in the card pile/hand of the bandit it belongs to
 	 */
 	public boolean fired;
+	public String belongsToAsString;
 	
 	//--EMPTY CONSTRUCTOR FOR SERIALIZATION--
 	public BulletCard() {}
 	
 	public BulletCard(String belongsTo) {
-		super.belongsToAsString = belongsTo;
+		this.belongsToAsString = belongsTo;
 		this.fired = false;
 	}
 	
+	//fired
+	public boolean getFired() {
+		return this.fired;
+	}
+	public void setFired(boolean b) {
+		this.fired = b;
+	}
+	
+	//belongsToAsString
+    public String getBelongsToAsString() {
+        return this.belongsToAsString;
+    }
+
+    public void setBelongsToAsString(String belongsTo) {
+        this.belongsToAsString = belongsTo;
+    }
 }
