@@ -219,13 +219,19 @@ public class GameBoard : MonoBehaviour
 	// public Button trainFiveTop;
 	public Button locoBtm; 
 	public Button locoTop;
+
+	public List<Button> trainRoofs; 
+	public List<Button> trainCabins; 
+
+	/* horses ?*/
 	
     public static string punchedBandit; 
 
     void Start(){
 		setAllNonClickable();
 		Debug.Log("hiii");
-		GameObject.Find("GameBoardGO").GetComponent<GameBoard>().promptPlayOrDraw.text = "HIII";
+		// GameObject.Find("GameBoardGO").GetComponent<GameBoard>().promptPlayOrDraw.text = "HIII";
+
 		/* DUMMY BANDITS FOR TESTING PURPOSES */
 		Bandit b1 = new Bandit("GHOST");
 		Bandit b2 = new Bandit("BELLE");
@@ -386,16 +392,129 @@ public class GameBoard : MonoBehaviour
 		buttonToObject.Add(trainFourTop, "null");
 		buttonToObject.Add(locoBtm, "null"); 
 		buttonToObject.Add(locoTop, "null");
-			 
+
+		trainCabins.Insert(0, locoBtm);
+		trainCabins.Insert(1, trainOneBtm);
+		trainCabins.Insert(2, trainTwoBtm);
+		trainCabins.Insert(3, trainThreeBtm);
+		trainCabins.Insert(4, trainFourBtm);
+
+		trainRoofs.Insert(0, locoTop);
+		trainRoofs.Insert(1, trainOneTop);
+		trainRoofs.Insert(2, trainTwoTop);
+		trainRoofs.Insert(3, trainThreeTop);
+		trainRoofs.Insert(4, trainFourTop);
 	}
 
-	public void mapTrain(GameManager gm){
-		 public ArrayList trainRoof ;
-        public ArrayList trainCabin;
-		foreach(object oneRoof in gm.trainRoof){
-			buttonToObject[] = oneRoof;
+<<<<<<< HEAD
+	// public void mapTrain(GameManager gm){
+	// 	 public ArrayList trainRoof ;
+    //     public ArrayList trainCabin;
+	// 	foreach(object oneRoof in gm.trainRoof){
+	// 		buttonToObject[] = oneRoof;
 
+	// 	}
+	// }
+
+	public void mapBanditPositions(GameManager gm){
+		foreach(TrainUnit cabin in gm.trainCabin){
+			ArrayList occupied = cabin.getBanditsHere();
+			foreach(Bandit b in occupied) {
+
+				TrainUnit t = b.getPosition();
+				Button button = buttonToObject.FirstOrDefault(x => x.Value.Equals(t)).Key;
+
+				if(b.getCharacter().ToLower() == "belle"){
+					Vector3 temp = button.transform.position;
+					belle.transform.position = temp;
+				} else if(b.getCharacter().ToLower() == "cheyenne"){
+					Vector3 temp = button.transform.position;
+					cheyenne.transform.position = temp;
+				} else if(b.getCharacter().ToLower() == "django"){
+					Vector3 temp = button.transform.position;
+					django.transform.position = temp;
+				}else if(b.getCharacter().ToLower() == "doc"){
+					Vector3 temp = button.transform.position;
+					doc.transform.position = temp;
+				}else if(b.getCharacter().ToLower() == "ghost"){
+					Vector3 temp = button.transform.position;
+					cheyenne.transform.position = temp;
+				}else if(b.getCharacter().ToLower() == "tuco"){
+					Vector3 temp = button.transform.position;
+					cheyenne.transform.position = temp;
+				}	
+
+			}
+			 
+	}
+=======
+	public void mapTrain(GameManager gm){
+		int index = 0; 
+		foreach(object oneRoof in gm.trainRoof){
+			buttonToObject[trainRoofs[index]] = oneRoof;
+			index++;
 		}
+		index = 0;
+		foreach(object oneCab in gm.trainCabin){
+			buttonToObject[trainCabins[index]] = oneCab;
+			index++;
+		}
+	}
+
+	public void mapBanditBullet(GameManager gm){
+		// for all the bandits passed in via gm, map their bullet cards 
+		foreach(Bandit aBandit in gm.bandits){
+			ArrayList aBanditBullets = aBandit.bullets;
+			if(aBandit.characterAsString == "BELLE"){
+				buttonToObject[BelleBulletCard1] = aBanditBullets[0]; 
+				buttonToObject[BelleBulletCard2] = aBanditBullets[1]; 
+				buttonToObject[BelleBulletCard3] = aBanditBullets[2]; 
+				buttonToObject[BelleBulletCard4] = aBanditBullets[3]; 
+				buttonToObject[BelleBulletCard5] = aBanditBullets[4]; 
+				buttonToObject[BelleBulletCard6] = aBanditBullets[5]; 
+			}
+			if(aBandit.characterAsString == "CHEYENNE"){
+				buttonToObject[CheyenneBulletCard1] = aBanditBullets[0]; 
+				buttonToObject[CheyenneBulletCard2] = aBanditBullets[1]; 
+				buttonToObject[CheyenneBulletCard3] = aBanditBullets[2]; 
+				buttonToObject[CheyenneBulletCard4] = aBanditBullets[3]; 
+				buttonToObject[CheyenneBulletCard5] = aBanditBullets[4]; 
+				buttonToObject[CheyenneBulletCard6] = aBanditBullets[5]; 
+			}
+			if(aBandit.characterAsString == "DOC"){
+				buttonToObject[DocBulletCard1] = aBanditBullets[0]; 
+				buttonToObject[DocBulletCard2] = aBanditBullets[1]; 
+				buttonToObject[DocBulletCard3] = aBanditBullets[2]; 
+				buttonToObject[DocBulletCard4] = aBanditBullets[3]; 
+				buttonToObject[DocBulletCard5] = aBanditBullets[4]; 
+				buttonToObject[DocBulletCard6] = aBanditBullets[5]; 
+			}	
+			if(aBandit.characterAsString == "DJANGO"){
+				buttonToObject[DjangoBulletCard1] = aBanditBullets[0]; 
+				buttonToObject[DjangoBulletCard2] = aBanditBullets[1]; 
+				buttonToObject[DjangoBulletCard3] = aBanditBullets[2]; 
+				buttonToObject[DjangoBulletCard4] = aBanditBullets[3]; 
+				buttonToObject[DjangoBulletCard5] = aBanditBullets[4]; 
+				buttonToObject[DjangoBulletCard6] = aBanditBullets[5]; 
+			}
+			if(aBandit.characterAsString == "TUCO"){
+				buttonToObject[TucoBulletCard1] = aBanditBullets[0]; 
+				buttonToObject[TucoBulletCard2] = aBanditBullets[1]; 
+				buttonToObject[TucoBulletCard3] = aBanditBullets[2]; 
+				buttonToObject[TucoBulletCard4] = aBanditBullets[3]; 
+				buttonToObject[TucoBulletCard5] = aBanditBullets[4]; 
+				buttonToObject[TucoBulletCard6] = aBanditBullets[5]; 
+			}
+			if(aBandit.characterAsString == "GHOST"){
+				buttonToObject[GhostBulletCard1] = aBanditBullets[0]; 
+				buttonToObject[GhostBulletCard2] = aBanditBullets[1]; 
+				buttonToObject[GhostBulletCard3] = aBanditBullets[2]; 
+				buttonToObject[GhostBulletCard4] = aBanditBullets[3]; 
+				buttonToObject[GhostBulletCard5] = aBanditBullets[4]; 
+				buttonToObject[GhostBulletCard6] = aBanditBullets[5]; 
+			}
+		}
+>>>>>>> 61b796e0063e0941defba7e6263ce182dcade7c1
 	}
 
 	/* promptDrawOrPlayMessage displays the prompt message on gameboard*/
@@ -502,7 +621,9 @@ public class GameBoard : MonoBehaviour
 		}
 		Debug.Log(SFS.step);
 
-		/* call mapTrain to map all train carts */
+		mapTrain(gm);
+
+		/* map bullet cards*/
 
 
 		// map the 13 neutral bullet cards
@@ -535,22 +656,6 @@ public class GameBoard : MonoBehaviour
 			if(actionName == goName.ToUpper()){
             	buttonToObject[g] = c;
 			}
-		}
-	}
-
-	public void mapBulletCards(string bName, int buSize, BulletCard bc){
-		if(bName == "BELLE"){
-			buttonToObject[goBELLEBulletCards[buSize]] = bc;
-		}else if(bName == "CHEYENNE"){
-			buttonToObject[goCHEYENNEBulletCards[buSize]] = bc;
-		}else if(bName == "DOC"){
-			buttonToObject[goDOCBulletCards[buSize]] = bc;
-		}else if(bName == "TUCO"){
-			buttonToObject[goTUCOBulletCards[buSize]] = bc;
-		}else if(bName == "DJANGO"){
-			buttonToObject[goDJANGOBulletCards[buSize]] = bc;
-		}else if(bName == "GHOST"){
-			buttonToObject[goGHOSTBulletCards[buSize]] = bc;
 		}
 	}
 
@@ -768,16 +873,6 @@ public class GameBoard : MonoBehaviour
         SFS.Send(req);
 	}
 }
-
-
-
-
-
-
-
-
-
-
 
 
 
