@@ -71,7 +71,7 @@ namespace model {
             GameBoard.setWorks();
             GameBoard.clickable = currentBandit.getHand();
             GameBoard.action = "playcard";
-            Debug.Log("CALLINNGGGN");
+            Debug.Log("CALLINNGGG");
             GameObject board = GameObject.Find("GameBoardGO");
             GameBoard gameboardScript = board.GetComponent<GameBoard>(); 
             Debug.Log(gameboardScript + "scripttt");
@@ -129,7 +129,7 @@ namespace model {
             PlayedPile pile = PlayedPile.getInstance();
             pile.addPlayedCards(c);
             //  TODO: graphical response
-            this.endOfTurn();
+            this.endOfTurn(currentBandit + " played " + c.actionTypeAsString);
             // might have to put this in an if else block for cases like SpeedingUp/Whiskey
         }
         
@@ -151,7 +151,9 @@ namespace model {
             */
         }
 
-        public void endOfTurn() {
+        public void endOfTurn() { }
+
+        public void endOfTurn(string message) {
 
             //  SCHEMIN PHASE
             if (this.strGameStatus.Equals("SCHEMIN")) {
@@ -311,7 +313,7 @@ namespace model {
                 
             }
             Debug.Log("sending new game state");
-            GameBoard.SendNewGameState("log message");
+            GameBoard.SendNewGameState(message);
         }
         
         public GameManager() {

@@ -229,25 +229,35 @@ public class GameBoard : MonoBehaviour
 	private List<Button> goHandCard; 
 	
 	/* a card has 4 attributes */
-	public Text handCardOneActionType; 
+	public Text handCardActionType1; 
 	public Text handCardOneSaveForNetRound;
 	public Text handCardOneIsFaceDown; 
 	public Text handCardOneBelongsTo;
 
-	public Text handCardTwoActionType; 
+	public Text handCardActionType2;
 	public Text handCardTwoSaveForNetRound;
 	public Text handCardTwoIsFaceDown; 
 	public Text handCardTwoBelongsTo;
 
-	public Text handCardThreeActionType; 
+	public Text handCardActionType3; 
 	public Text handCardThreeSaveForNetRound;
 	public Text handCardThreeIsFaceDown; 
 	public Text handCardThreeBelongsTo;
 
-	public Text handCardFourActionType; 
+	public Text handCardActionType4; 
 	public Text handCardFourSaveForNetRound;
 	public Text handCardFourIsFaceDown; 
 	public Text handCardFourBelongsTo;
+
+	public Text handCardActionType5; 
+	public Text handCardActionType6; 
+	public Text handCardActionType7; 
+	public Text handCardActionType8; 
+	public Text handCardActionType9; 
+	public Text handCardActionType10; 
+	public Text handCardActionType11; 
+
+
 
 	/* TrainUnit */
 	public Button trainOneBtm; 
@@ -268,47 +278,13 @@ public class GameBoard : MonoBehaviour
 
 	/* horses ?*/
 	
-    public static string punchedBandit; 
+    public static string punchedBandit;
+
+	bool calledMapTrain = false;
 
     void Start(){
 		setAllNonClickable();
-		Debug.Log("hiii");
-		// GameObject.Find("GameBoardGO").GetComponent<GameBoard>().promptPlayOrDraw.text = "HIII";
 
-		// /* DUMMY BANDITS FOR TESTING PURPOSES */
-		// Bandit b1 = new Bandit("GHOST");
-		// Bandit b2 = new Bandit("BELLE");
-		// Bandit b3 = new Bandit("CHEYENNE");	
-
-		// ArrayList banditsArr = new ArrayList(); 
-		// banditsArr.Add(b1); 
-		// banditsArr.Add(b2); 
-		// banditsArr.Add(b3); 
-
-		// /* @TEST makeShootPossibilitiesClickable*/
-		// buttonToObject.Add(ghost, b1);
-
-		// ArrayList shootArr = new ArrayList(); 
-		// shootArr.Add(b1);
-		// makeShootPossibilitiesClickable(shootArr);
-	
-		// /* @OUTPUT now only GHOST is clickable 🎉*/
-
-		// /* @TEST makePunchPossibilitiesClickable */
-		// var selectedBanditName = EventSystem.current.currentSelectedGameObject;
-        //  if (selectedBanditName != null)
-        //      promptPunchTarget.text = "ahh" + selectedBanditName.name;
-        //  else
-        //      promptPunchTarget.text = "ahh NULLL POINTERR";
-		// // promptPunchTarget.text = "ahh" + selectedBanditName;
-		// promptPunchTarget.text = "ahh" + selectedBanditName.name;
-		 
-
-		// string selectedPunchBandit = makePunchPossibilitiesClickable(shootArr);
-		// Debug.Log("YOU PUNCHED " + selectedPunchBandit);
-		// promptPunchTarget.text = selectedPunchBandit + "IS PUNCHED";
-
-		// initCards();
 		Round.text = "ROUND 1:\n-Standard turn\n-Tunnel turn\n-Switching turn";
 		SFS.setGameBoard();
 
@@ -325,6 +301,7 @@ public class GameBoard : MonoBehaviour
         if (!SFS.IsConnected()) {
             SFS.Connect("test");
         }*/
+		initMap();
 		EnterGameBoardScene();
     }
 
@@ -467,7 +444,11 @@ public class GameBoard : MonoBehaviour
 		goHandCard.Insert(3, handCard4);
 		goHandCard.Insert(4, handCard5);
 		goHandCard.Insert(5, handCard6);
-		goHandCard.Insert(6, handCard6);
+		goHandCard.Insert(6, handCard7);
+		goHandCard.Insert(7, handCard8);
+		goHandCard.Insert(8, handCard9);
+		goHandCard.Insert(9, handCard10);
+		goHandCard.Insert(10, handCard11);
 	}
 	// public void mapTrain(GameManager gm){
 	// 	 public ArrayList trainRoof ;
@@ -594,6 +575,8 @@ public class GameBoard : MonoBehaviour
         promptPunchTarget.text = btn.name + "IS CLICKED"; 
         punchedBandit = btn.name;
         // btn.interactable = false;
+
+		// if buttonToObject[btn] is an actioncard, call playCard(buttonToObject[btn])
     }
 	
 	/*
@@ -621,19 +604,24 @@ public class GameBoard : MonoBehaviour
 	// prompt message: when a new state comes in, assign the non-static string using the str from the GM 
 	// THIS IS THE FIRST METHOD CALLED FOR RECEIVING NEW GAME STATE
     public void UpdateGameState(BaseEvent evt) {
+		// if(!calledMapTrain){
+		// 	mapTrain(gm);
+		// 	calledMapTrain = true;
+		// }
         Debug.Log("updategamestate called");
         
         ISFSObject responseParams = (SFSObject)evt.Params["params"];
 		doesItWork.text = responseParams.GetUtfString("log");
-		Debug.Log("Received log message: "+ responseParams.GetUtfString("log"));
+		Debug.Log("Received log message: "+ (string)responseParams.GetUtfString("log"));
 		gm = (GameManager)responseParams.GetClass("gm");
 		GameManager.replaceInstance(gm);
+
 		// REASSIGN ALL GAME buttonToObject USING DICTIONARY
 		ArrayList banditsArray = gm.bandits;
 		foreach (Bandit b in banditsArray) {
-			ArrayList currCards = b.hand; 
             if (b.characterAsString == "CHEYENNE") {
 				buttonToObject[cheyenne] = b;
+				Debug.Log(b.characterAsString + " added as button");
 				// int index = 0;
 				// foreach(Card c in currCards){
 				// 	 buttonToObject.Add(goCHEYENNEHand[index], c);
@@ -642,6 +630,7 @@ public class GameBoard : MonoBehaviour
             }
 			if (b.characterAsString == "BELLE") {
                 buttonToObject[belle] = b;
+				Debug.Log(b.characterAsString + " added as button");
                	// int index = 0;
 				// foreach(Card c in currCards){
 				// 	 buttonToObject.Add(goBELLEHand[index], c);
@@ -650,6 +639,7 @@ public class GameBoard : MonoBehaviour
             }
 			if (b.characterAsString == "TUCO") {
                 buttonToObject[tuco] = b;
+				Debug.Log(b.characterAsString + " added as button");
 				// int index = 0;
 				// foreach(Card c in currCards){
 				// 	 buttonToObject.Add(goTUCOHand[index], c);
@@ -658,6 +648,7 @@ public class GameBoard : MonoBehaviour
             }
 			if (b.characterAsString == "DOC") {
                 buttonToObject[doc] = b;
+				Debug.Log(b.characterAsString + " added as button");
                 // int index = 0;
 				// foreach(Card c in currCards){
 				// 	 buttonToObject.Add(goDOCHand[index], c);
@@ -666,6 +657,7 @@ public class GameBoard : MonoBehaviour
             }
 			if (b.characterAsString == "GHOST") {
                 buttonToObject[ghost] = b;
+				Debug.Log(b.characterAsString + " added as button");
                	// int index = 0;
 				// foreach(Card c in currCards){
 				// 	 buttonToObject.Add(goGHOSTHand[index], c);
@@ -674,6 +666,7 @@ public class GameBoard : MonoBehaviour
             }
 			if (b.characterAsString == "DJANGO") {
                 buttonToObject[django] = b;
+				Debug.Log(b.characterAsString + " added as button");
                 // int index = 0;
 				// foreach(Card c in currCards){
 				// 	 buttonToObject.Add(goDJANGOHand[index], c);
@@ -682,97 +675,46 @@ public class GameBoard : MonoBehaviour
             }
 			if(b.characterAsString == gm.currentBandit.characterAsString){
 				// assign to gameobjects on screen 
+				ArrayList currCards = b.hand;
 				int index = 0; 
 				foreach(Card currCard in currCards){
 					buttonToObject[goHandCard[index]] = currCard; 
 					index++;
 				}
-					if(buttonToObject[handCard1].GetType().Equals("ActionCard")){
-						ActionCard oneCard = (ActionCard)buttonToObject[belCard1]; 
-						string actionType = oneCard.actionTypeAsString;
-						handCardOneActionType.text = actionType;
-					}else{
-						// it's a bullet card 
-						handCardOneActionType.text = "Bullet";
-					}
-
-					if(buttonToObject[handCard2].GetType().Equals("ActionCard")){
-							ActionCard oneCard = (ActionCard)buttonToObject[belCard2]; 
-							string actionType = oneCard.actionTypeAsString;
-							handCardOneActionType.text = actionType;
-					}else{
-						// it's a bullet card 
-						handCardOneActionType.text = "Bullet";
-					}
-
-					if(buttonToObject[handCard3].GetType().Equals("ActionCard")){
-						ActionCard oneCard = (ActionCard)buttonToObject[belCard3]; 
-						string actionType = oneCard.actionTypeAsString;
-						handCardOneActionType.text = actionType;
-					}else{
-						// it's a bullet card 
-						handCardOneActionType.text = "Bullet";
-					}
-
-					if(buttonToObject[handCard4].GetType().Equals("ActionCard")){
-						ActionCard oneCard = (ActionCard)buttonToObject[belCard4]; 
-						string actionType = oneCard.actionTypeAsString;
-						handCardOneActionType.text = actionType;
-					}else{
-						// it's a bullet card 
-						handCardOneActionType.text = "Bullet";
-					}
-
-					if(buttonToObject[handCard5].GetType().Equals("ActionCard")){
-						ActionCard oneCard = (ActionCard)buttonToObject[belCard5]; 
-						string actionType = oneCard.actionTypeAsString;
-						handCardOneActionType.text = actionType;
-					}else{
-						// it's a bullet card 
-						handCardOneActionType.text = "Bullet";
-					}
-
-					if(buttonToObject[handCard6].GetType().Equals("ActionCard")){
-						ActionCard oneCard = (ActionCard)buttonToObject[belCard6]; 
-						string actionType = oneCard.actionTypeAsString;
-						handCardOneActionType.text = actionType;
-					}else{
-						// it's a bullet card 
-						handCardOneActionType.text = "Bullet";
-					}
+				mapActionCards(handCard1, handCardActionType1);
+				mapActionCards(handCard2, handCardActionType2);
+				mapActionCards(handCard3, handCardActionType3);
+				mapActionCards(handCard4, handCardActionType4);
+				mapActionCards(handCard5, handCardActionType5);
+				mapActionCards(handCard6, handCardActionType6);
+				mapActionCards(handCard7, handCardActionType7);
+				mapActionCards(handCard8, handCardActionType8);
+				mapActionCards(handCard9, handCardActionType9);
+				mapActionCards(handCard10, handCardActionType10);
+				mapActionCards(handCard11, handCardActionType11);
 			}
 		}
 		Debug.Log(SFS.step);
-
-		mapTrain(gm);
-
-		/* map bullet cards*/
-
-
-
-		//Invoke("LeaveRoom",5);
-		/*if (SFS.getSFS() == null) {
-            // Initialize SFS2X client. This can be done in an earlier scene instead
-            SmartFox sfs = new SmartFox();
-            // For C# serialization
-            DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
-            SFS.setSFS(sfs);
-        }
-        if (!SFS.IsConnected()) {
-            SFS.Connect("test");
-        }*/
 
 		gm.playTurn();
 
     }
 
 
-	public void mapActionCards(List<Button> goHand, string actionName, Card c, string banditName){
-		foreach(Button g in goHand){
-			string goName = banditName + g.name;
-			if(actionName == goName.ToUpper()){
-            	buttonToObject[g] = c;
-			}
+	public void mapActionCards(Button button, Text buttonText/*List<Button> goHand, string actionName, Card c, string banditName*/){
+		// foreach(Button g in goHand){
+		// 	string goName = banditName + g.name;
+		// 	if(actionName == goName.ToUpper()){
+        //     	buttonToObject[g] = c;
+		// 	}
+		// }
+		if(buttonToObject[button].GetType().Equals("ActionCard")){
+			ActionCard card = (ActionCard)buttonToObject[button]; 
+			string actionType = card.actionTypeAsString;
+			buttonText.text = actionType;
+		} else {
+			// it's a bullet card 
+			buttonText.text = "Bullet";
 		}
 	}
 
