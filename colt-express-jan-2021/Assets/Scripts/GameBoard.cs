@@ -219,13 +219,19 @@ public class GameBoard : MonoBehaviour
 	// public Button trainFiveTop;
 	public Button locoBtm; 
 	public Button locoTop;
+
+	public List<Button> trainRoofs; 
+	public List<Button> trainCabins; 
+
+	/* horses ?*/
 	
     public static string punchedBandit; 
 
     void Start(){
 		setAllNonClickable();
 		Debug.Log("hiii");
-		GameObject.Find("GameBoardGO").GetComponent<GameBoard>().promptPlayOrDraw.text = "HIII";
+		// GameObject.Find("GameBoardGO").GetComponent<GameBoard>().promptPlayOrDraw.text = "HIII";
+
 		/* DUMMY BANDITS FOR TESTING PURPOSES */
 		Bandit b1 = new Bandit("GHOST");
 		Bandit b2 = new Bandit("BELLE");
@@ -386,15 +392,30 @@ public class GameBoard : MonoBehaviour
 		buttonToObject.Add(trainFourTop, "null");
 		buttonToObject.Add(locoBtm, "null"); 
 		buttonToObject.Add(locoTop, "null");
-			 
+
+		trainCabins.Insert(0, locoBtm);
+		trainCabins.Insert(1, trainOneBtm);
+		trainCabins.Insert(2, trainTwoBtm);
+		trainCabins.Insert(3, trainThreeBtm);
+		trainCabins.Insert(4, trainFourBtm);
+
+		trainRoofs.Insert(0, locoTop);
+		trainRoofs.Insert(1, trainOneTop);
+		trainRoofs.Insert(2, trainTwoTop);
+		trainRoofs.Insert(3, trainThreeTop);
+		trainRoofs.Insert(4, trainFourTop);
 	}
 
 	public void mapTrain(GameManager gm){
-		 public ArrayList trainRoof ;
-        public ArrayList trainCabin;
+		int index = 0; 
 		foreach(object oneRoof in gm.trainRoof){
-			buttonToObject[] = oneRoof;
-
+			buttonToObject[trainRoofs[index]] = oneRoof;
+			index++;
+		}
+		index = 0;
+		foreach(object oneCab in gm.trainCabin){
+			buttonToObject[trainCabins[index]] = oneCab;
+			index++;
 		}
 	}
 

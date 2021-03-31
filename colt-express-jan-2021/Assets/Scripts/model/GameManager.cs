@@ -13,7 +13,6 @@ using Sfs2X.Protocol.Serialization;
 namespace model {
     public class GameManager : SerializableSFSType {
         //public Hashtable banditLocation; 
-        
         //public static ColtMultiHandler handler; 
         public static GameManager singleton;
         public string strGameStatus;
@@ -73,7 +72,9 @@ namespace model {
             GameBoard.action = "playcard";
             // GameBoard.promptDrawCardsOrPlayCardMsg.text = "Please play a card or draw 3 cards!";
             Debug.Log("CALLINNGGGN");
-            GameObject.Find("GameBoardGO").GetComponent<GameBoard>().promptDrawCardsOrPlayCardMsg.text = "HIII";
+            GameObject board = GameObject.Find("GameBoardGO");
+            GameBoard gameboardScript = board.GetComponent<GameBoard>(); 
+            Debug.Log(gameboardScript + "scripttt");
         }
 
         public void resolveAction(ActionCard toResolve) {
