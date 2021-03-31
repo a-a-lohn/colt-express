@@ -405,8 +405,6 @@ public class GameBoard : MonoBehaviour
 		trainRoofs.Insert(3, trainThreeTop);
 		trainRoofs.Insert(4, trainFourTop);
 	}
-
-<<<<<<< HEAD
 	// public void mapTrain(GameManager gm){
 	// 	 public ArrayList trainRoof ;
     //     public ArrayList trainCabin;
@@ -447,7 +445,6 @@ public class GameBoard : MonoBehaviour
 			}
 			 
 	}
-=======
 	public void mapTrain(GameManager gm){
 		int index = 0; 
 		foreach(object oneRoof in gm.trainRoof){
@@ -514,7 +511,6 @@ public class GameBoard : MonoBehaviour
 				buttonToObject[GhostBulletCard6] = aBanditBullets[5]; 
 			}
 		}
->>>>>>> 61b796e0063e0941defba7e6263ce182dcade7c1
 	}
 
 	/* promptDrawOrPlayMessage displays the prompt message on gameboard*/
