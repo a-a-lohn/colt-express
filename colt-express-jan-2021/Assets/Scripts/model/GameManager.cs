@@ -70,15 +70,14 @@ namespace model {
             GameBoard.setWorks();
             GameBoard.clickable = currentBandit.getHand();
             GameBoard.action = "playcard";
-            // GameBoard.promptDrawCardsOrPlayCardMsg.text = "Please play a card or draw 3 cards!";
             Debug.Log("CALLINNGGGN");
             GameObject board = GameObject.Find("GameBoardGO");
             GameBoard gameboardScript = board.GetComponent<GameBoard>(); 
             Debug.Log(gameboardScript + "scripttt");
+            gameboardScript.promptDrawCardsOrPlayCardMsg.text = "Please play a card or draw 3 cards!";
         }
 
         public void resolveAction(ActionCard toResolve) {
-
             PlayedPile.getInstance().removePlayedCard(toResolve);
             currentBandit.addToDeck(toResolve);
 
