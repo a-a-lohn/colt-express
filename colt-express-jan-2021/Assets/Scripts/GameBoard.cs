@@ -206,6 +206,40 @@ public class GameBoard : MonoBehaviour
 	public Button djaCard5;
 	public Button djaCard6;  
 
+	public Button handCard1; 
+	public Button handCard2; 
+	public Button handCard3; 
+	public Button handCard4; 
+	public Button handCard5;
+	public Button handCard6; 
+	public Button handCard7; 
+	public Button handCard8; 
+	public Button handCard9;  
+	public Button handCard10; 
+	public Button handCard11; 
+	private List<Button> goHandCard; 
+	
+	/* a card has 4 attributes */
+	public Text handCardOneActionType; 
+	public Text handCardOneSaveForNetRound;
+	public Text handCardOneIsFaceDown; 
+	public Text handCardOneBelongsTo;
+
+	public Text handCardTwoActionType; 
+	public Text handCardTwoSaveForNetRound;
+	public Text handCardTwoIsFaceDown; 
+	public Text handCardTwoBelongsTo;
+
+	public Text handCardThreeActionType; 
+	public Text handCardThreeSaveForNetRound;
+	public Text handCardThreeIsFaceDown; 
+	public Text handCardThreeBelongsTo;
+
+	public Text handCardFourActionType; 
+	public Text handCardFourSaveForNetRound;
+	public Text handCardFourIsFaceDown; 
+	public Text handCardFourBelongsTo;
+
 	/* TrainUnit */
 	public Button trainOneBtm; 
 	public Button trainOneTop; 
@@ -347,6 +381,19 @@ public class GameBoard : MonoBehaviour
 
 	/* initMap initializes the <Button, object> hashmap */
 	public void initMap(){
+		/* init. current hand */
+		buttonToObject.Add(handCard1, "null"); 
+		buttonToObject.Add(handCard2, "null"); 
+		buttonToObject.Add(handCard3, "null"); 
+		buttonToObject.Add(handCard4, "null"); 
+		buttonToObject.Add(handCard5, "null"); 
+		buttonToObject.Add(handCard6, "null"); 
+		buttonToObject.Add(handCard7, "null"); 
+		buttonToObject.Add(handCard8, "null"); 
+		buttonToObject.Add(handCard9, "null"); 
+		buttonToObject.Add(handCard10, "null"); 
+		buttonToObject.Add(handCard11, "null"); 
+
 
 		/* init. all bandits */
 		buttonToObject.Add(belle, "null"); 
@@ -404,6 +451,14 @@ public class GameBoard : MonoBehaviour
 		trainRoofs.Insert(2, trainTwoTop);
 		trainRoofs.Insert(3, trainThreeTop);
 		trainRoofs.Insert(4, trainFourTop);
+
+		goHandCard.Insert(0, handCard1);
+		goHandCard.Insert(1, handCard2);
+		goHandCard.Insert(2, handCard3);
+		goHandCard.Insert(3, handCard4);
+		goHandCard.Insert(4, handCard5);
+		goHandCard.Insert(5, handCard6);
+		goHandCard.Insert(6, handCard6);
 	}
 	// public void mapTrain(GameManager gm){
 	// 	 public ArrayList trainRoof ;
@@ -424,7 +479,7 @@ public class GameBoard : MonoBehaviour
 
 				if(b.getCharacter().ToLower() == "belle"){
 					Vector3 temp = button.transform.position;
-					belle.transform.position = temp;
+					belle.transform.position = temp; // might need a delta function here 
 				} else if(b.getCharacter().ToLower() == "cheyenne"){
 					Vector3 temp = button.transform.position;
 					cheyenne.transform.position = temp;
@@ -441,10 +496,10 @@ public class GameBoard : MonoBehaviour
 					Vector3 temp = button.transform.position;
 					cheyenne.transform.position = temp;
 				}	
-
 			}
-			 
+			}	 
 	}
+
 	public void mapTrain(GameManager gm){
 		int index = 0; 
 		foreach(object oneRoof in gm.trainRoof){
@@ -554,7 +609,7 @@ public class GameBoard : MonoBehaviour
 		}
 	}
 
-
+	// prompt message: when a new state comes in, assign the non-static string using the str from the GM 
 	// THIS IS THE FIRST METHOD CALLED FOR RECEIVING NEW GAME STATE
     public void UpdateGameState(BaseEvent evt) {
         Debug.Log("updategamestate called");
@@ -614,6 +669,67 @@ public class GameBoard : MonoBehaviour
 					 index++;
 				}
             }
+			if(b.characterAsString == gm.currentBandit.characterAsString){
+				// assign to gameobjects on screen 
+				int index = 0; 
+				foreach(Card currCard in currCards){
+					buttonToObject[goHandCard[index]] = currCard; 
+					index++;
+				}
+					if(buttonToObject[handCard1].GetType().Equals("ActionCard")){
+						ActionCard oneCard = (ActionCard)buttonToObject[belCard1]; 
+						string actionType = oneCard.actionTypeAsString;
+						handCardOneActionType.text = actionType;
+					}else{
+						// it's a bullet card 
+						handCardOneActionType.text = "Bullet";
+					}
+
+					if(buttonToObject[handCard2].GetType().Equals("ActionCard")){
+							ActionCard oneCard = (ActionCard)buttonToObject[belCard2]; 
+							string actionType = oneCard.actionTypeAsString;
+							handCardOneActionType.text = actionType;
+					}else{
+						// it's a bullet card 
+						handCardOneActionType.text = "Bullet";
+					}
+
+					if(buttonToObject[handCard3].GetType().Equals("ActionCard")){
+						ActionCard oneCard = (ActionCard)buttonToObject[belCard3]; 
+						string actionType = oneCard.actionTypeAsString;
+						handCardOneActionType.text = actionType;
+					}else{
+						// it's a bullet card 
+						handCardOneActionType.text = "Bullet";
+					}
+
+					if(buttonToObject[handCard4].GetType().Equals("ActionCard")){
+						ActionCard oneCard = (ActionCard)buttonToObject[belCard4]; 
+						string actionType = oneCard.actionTypeAsString;
+						handCardOneActionType.text = actionType;
+					}else{
+						// it's a bullet card 
+						handCardOneActionType.text = "Bullet";
+					}
+
+					if(buttonToObject[handCard5].GetType().Equals("ActionCard")){
+						ActionCard oneCard = (ActionCard)buttonToObject[belCard5]; 
+						string actionType = oneCard.actionTypeAsString;
+						handCardOneActionType.text = actionType;
+					}else{
+						// it's a bullet card 
+						handCardOneActionType.text = "Bullet";
+					}
+
+					if(buttonToObject[handCard6].GetType().Equals("ActionCard")){
+						ActionCard oneCard = (ActionCard)buttonToObject[belCard6]; 
+						string actionType = oneCard.actionTypeAsString;
+						handCardOneActionType.text = actionType;
+					}else{
+						// it's a bullet card 
+						handCardOneActionType.text = "Bullet";
+					}
+			}
 		}
 		Debug.Log(SFS.step);
 
@@ -622,12 +738,6 @@ public class GameBoard : MonoBehaviour
 		/* map bullet cards*/
 
 
-		// map the 13 neutral bullet cards
-		ArrayList neuturalBulletCards = gm.neutralBulletCard; 
-		for(int i=1; i<14; i++){
-			Button goBulletCard = goNeutralBulletCards[i];
-			buttonToObject[goBulletCard] = neuturalBulletCards[i];
-		}
 
 		//Invoke("LeaveRoom",5);
 		/*if (SFS.getSFS() == null) {
