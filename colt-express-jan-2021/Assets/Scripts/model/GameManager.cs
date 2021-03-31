@@ -68,6 +68,7 @@ namespace model {
         }
         
         public void promptDrawCardsOrPlayCard() {
+            Debug.Log("setting it works from prompt");
             GameBoard.setWorks();
             GameBoard.clickable = currentBandit.getHand();
             GameBoard.action = "playcard";
@@ -183,23 +184,24 @@ namespace model {
                     //  ALL BANDITS HAVE PLAYED
                     if ((this.banditsPlayedThisTurn == this.bandits.Count)) {
                         Debug.Log("all have played");
-                        //  THERE ARE MORE TURNS IN THE ROUND - NEXT TURN
                         if (this.currentRound.hasNextTurn() == true) {
+                            //  THERE ARE MORE TURNS IN THE ROUND - NEXT TURN
                             Debug.Log("THERE ARE MORE TURNS IN THE ROUND - NEXT TURN");
                             this.currentRound.setNextTurn();
                             this.banditIndex = ((this.banditIndex + 1) % this.bandits.Count);
                             this.currentBandit = (Bandit) this.bandits[this.banditIndex];
                             banditsPlayedThisTurn = 0;
                         }
-                        
-                        //  NO MORE TURNS IN ROUND - END OF SCHEMIN PHASE
-                        Debug.Log("NO MORE TURNS IN ROUND - END OF SCHEMIN PHASE");
-                        foreach (Bandit b in this.bandits) {
-                            b.clearHand();
+                        else { // Added by Aaron
+                            //  NO MORE TURNS IN ROUND - END OF SCHEMIN PHASE
+                            Debug.Log("NO MORE TURNS IN ROUND - END OF SCHEMIN PHASE");
+                            foreach (Bandit b in this.bandits) {
+                                b.clearHand();
+                            }
+                            banditIndex = (banditIndex + 1) % this.bandits.Count;
+                            this.banditsPlayedThisTurn = 0;
+                            this.setGameStatus("STEALIN");
                         }
-                        banditIndex = (banditIndex + 1) % this.bandits.Count;
-                        this.banditsPlayedThisTurn = 0;
-                        this.setGameStatus("STEALIN");
                     }
                     
                     //  NOT ALL BANDITS HAVE PLAYED - NEXT BANDIT'S TURN
@@ -306,7 +308,7 @@ namespace model {
                 
             }
             Debug.Log("sending new game state");
-            GameBoard.SendNewGameState();
+            GameBoard.SendNewGameState("log message");
         }
         
         public GameManager() {

@@ -132,6 +132,8 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	
 	public void updateGameState(ISFSObject rtn) {
 		rtn.putClass("gm", gm);
+		System.out.println("Sending game state to all");
+		System.out.println("Current bandit: " + gm.currentBandit.characterAsString);
 		sendToAllUsers(rtn, "updateGameState");
 	}	
 	
@@ -180,6 +182,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 				characters.addUtfString(c);
 			}
 		}
+		System.out.println("First bandit: " + gm.bandits.get(0).characterAsString);
 		sendToAllUsers(rtn, "remainingCharacters");
 		
 	}

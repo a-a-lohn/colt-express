@@ -42,6 +42,7 @@ public class GameBoard : MonoBehaviour
 	public Text doesItWork;
 
 	public static void setWorks() {
+		Debug.Log("it works!");
 		works = true;
 	}
 
@@ -228,18 +229,20 @@ public class GameBoard : MonoBehaviour
         Debug.Log("updategamestate called");
         
         ISFSObject responseParams = (SFSObject)evt.Params["params"];
+		doesItWork.text = responseParams.GetUtfString("log");
+		Debug.Log("Received log message: "+ responseParams.GetUtfString("log"));
 		gm = (GameManager)responseParams.GetClass("gm");
 		GameManager.replaceInstance(gm);
 		// REASSIGN ALL GAME buttonToObject USING DICTIONARY
 		ArrayList banditsArray = gm.bandits;
 		foreach (Bandit b in banditsArray) {
             if (b.characterAsString == "CHEYENNE") {
-				buttonToObject[cheyenne] = b;
+				//buttonToObject[cheyenne] = b;
                 trace("Cheyenne added!");
 					
             }
 			if (b.characterAsString == "BELLE") {
-                buttonToObject[belle] = b;
+                //buttonToObject[belle] = b;
                 trace("Belle added!");
             }
 			if (b.characterAsString == "TUCO") {
@@ -287,6 +290,8 @@ public class GameBoard : MonoBehaviour
         if (!SFS.IsConnected()) {
             SFS.Connect("test");
         }*/
+
+		gm.playTurn();
 
     }
 
@@ -430,10 +435,11 @@ public class GameBoard : MonoBehaviour
         Debug.Log("Sent enter scene message");
 	}
 
-	public static void SendNewGameState() {
+	public static void SendNewGameState(string message) {
 		ISFSObject obj = SFSObject.NewInstance();
 		//Debug.Log("sending new game state");
 		obj.PutClass("gm", gm);
+		obj.PutUtfString("log", message);
         ExtensionRequest req = new ExtensionRequest("gm.newGameState",obj);
         SFS.Send(req);
         Debug.Log("sent game state");
@@ -530,217 +536,3 @@ public class GameBoard : MonoBehaviour
         SFS.Send(req);
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-	/* 
-	public void executeHardCoded(int step) {
-		Debug.Log(SFS.step);
-		announcement.text += "\n";
-
-		if(step % 3 == 0){
-			announcement.text = ""; 
-		}
-		announcement.text += logMessages[SFS.step];
-
-		switch(step) {
-			case 0:
-				//round,turn info
-				//"Angry Marshal Round! 1 Standard turns, 1 Tunnel turn, and 1 Switching turn",
-				//Its yyy's turn to play a card or draw 3 cards.
-				break;
-			case 1: 
-				// yyyy played a ___ card / yyy chose to draw 3 cards
-				//"Standard Turn: Ghost played a MOVE card",
-				//Its xxx's turn to play a card or draw 3 cards.
-				if(ChooseCharacter.character == "GHOST"){
-					playCard(cardA);
-				}
-				break;
-			case 2:
-				//"Standard Turn: Cheyenne played a CHANGEFLOOR card",
-				if(ChooseCharacter.character == "CHEYENNE"){
-					playCard(cardD);
-				}
-				break;
-			case 3:
-				//Standard Turn: Django chose to draw cards",
-				// drawCards("DJANGO", step);
-				// DRAW CARDS 
-				if(ChooseCharacter.character == "DJANGO"){
-					GoToChat();
-					drawCards(); 
-				}
-				break;
-			case 4:
-				//"Tunnel Turn: Ghost played an action card which is hidden",
-				if(ChooseCharacter.character == "GHOST"){
-					GoToChat();
-					playCard(cardB);
-				}
-				break;
-			case 5:
-				//"Tunnel Turn: Cheyenne played an action card which is hidden",
-				if(ChooseCharacter.character == "CHEYENNE"){
-					playCard(cardC);
-				}
-				break;
-			case 6:
-				//"Tunnel Turn: Django played an action card which is hidden",
-				if(ChooseCharacter.character == "DJANGO"){
-					playCard(cardF);
-				}
-				break;
-			case 7:
-				//"Switching Turn: ",
-				if(ChooseCharacter.character == "GHOST"){
-					drawCards();
-				}
-				//"Switching Turn: Ghost chose to draw cards",
-				break;
-			case 8:
-				if(ChooseCharacter.character == "DJANGO"){
-					playCard(cardE);
-				}
-				break;
-			case 9:
-				if(ChooseCharacter.character == "CHEYENNE"){
-					drawCards();
-				}
-				//"Switching Turn: Cheyenne chose to draw cards",
-				break;
-			case 10:
-				//"Stealin, Resolving Move: Ghost moved to the adjacent car",
-				ghost.transform.position = new Vector3 (cartOneBtm[0] - 1F, cartOneBtm[1], cartOneBtm[2]);
-                		ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
-			        // cheyenne.transform.position = new Vector3 (cartZeroTop[0], cartZeroTop[1], cartZeroTop[2]);
-                    		// cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;
-				break;
-			case 11:
-				//"Stealin, Resolving ChangeFloor: Cheyenne moved to the top of the car",
-				cheyenne.transform.position = new Vector3 (cartZeroTop[0] + 5F, cartZeroTop[1], cartZeroTop[2]);
-                		cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;
-			        // Destroy(gem3);
-				break;
-			case 12:
-				//"Stealin, Resolving Rob: Ghost chooses one gem to add to his loot",
-				// TODO: GHOST CLICK ON GEM 3 
-				Destroy(gem3);
-				// gem4.SetActive(true);
-				break;
-			case 13:
-				//"Stealin, Resolving MoveMarshal: Cheyenne moved the Marshal",
-				marshal.transform.position = new Vector3 (cartTwoBtm[0], cartTwoBtm[1], cartTwoBtm[2]);
-                		marshal.transform.position += marshal.transform.forward * Time.deltaTime * 5f;
-				break;
-			case 14:
-				// "Stealin, Resolving Punch: Django must punch Ghost,Time for Django to choose which loot to force Ghost to drop"
-				// gem2.SetActive(true); //purse appears
-				Destroy(ghoLoot);
-				break;
-			case 15:
-				//"Stealin, Resolving Punch: Django chose the loot.\nTime for Django to choose where to punch Ghost to\n",//15
-				//"Punch: Django chooses to punch Ghost to the last train car",
-				punch(); //moves ghost
-				break;
-			case 16:
-			//"Punch: Django chooses to punch Ghost to the last train car\nTime for Django to choose who to shoot\n",
-				// "Stealin, Resolving Shoot: Django shoots Ghost",// "New Round, SpeedingUp! 1 SpeedingUp turn",
-			   	// shoot();
-				Round.text = "ROUND 2:\n-SpeedingUp turn";
-				if(ChooseCharacter.character == "DJANGO"){
-					Destroy(cardA);
-				}
-				else if(ChooseCharacter.character == "CHEYENNE"){
-					Destroy(CardNewC);
-				} else if(ChooseCharacter.character == "GHOST") {
-					Destroy(cardE);
-				}
-				break;
-			case 17:	
-				// "SpeedingUp Turn 1 (Cheyenne): Cheyenne played a MOVE card",  
-				if(ChooseCharacter.character == "CHEYENNE"){
-					playCard(cardA);
-				}
-				break;
-			case 18:
-				// "SpeedingUp Turn 2 (Cheyenne): Cheyenne chose to draw cards",
-				if(ChooseCharacter.character == "CHEYENNE"){
-					drawCardsSecond();
-				}
-				break;
-			case 19:
-				if(ChooseCharacter.character == "DJANGO"){
-							playCard(CardNewB);
-				}
-				// "SpeedingUp Turn 1 (Django): Django played a CHANGEFLOOR card", 
-				break;
-			case 20:
-				if(ChooseCharacter.character == "DJANGO"){
-					drawCardsSecond();
-				}
-				// "SpeedingUp Turn 2 (Django): Django chose to draw cards",
-				break;
-			case 21:
-				if(ChooseCharacter.character == "GHOST"){
-						drawCardsSecond();
-				}
-				// "SpeedingUp Turn 1 (Ghost): Ghost chose to draw cards",
-				break;
-			case 22:
-				if(ChooseCharacter.character == "GHOST"){
-					playCard(CardNewB);
-				}
-				// "SpeedingUp Turn 2 (Ghost): Ghost played a CHANGEFLOOR card",
-				break;
-			case 23:
-				// "Stealin, Resolving Move: Cheyenne moves to the adjacent train car",
-			        cheyenne.transform.position = new Vector3 (cartOneTop[0] + 5F, cartOneTop[1], cartOneTop[2]);
-                   		cheyenne.transform.position += cheyenne.transform.forward * Time.deltaTime * 5f;	
-				break;
-			case 24:
-				// "Stealin, Resolving ChangeFloor: Django is moved to the top of the car",
-			        django.transform.position = new Vector3 (cartOneTop[0] - 5F, cartOneTop[1], cartOneTop[2]);
-                    		django.transform.position += django.transform.forward * Time.deltaTime * 10f;	
-				break;
-			case 25:
-				// "Stealin, Resolving ChangeFloor: Ghost is moved to the top of the car",
-			        ghost.transform.position = new Vector3 (cartZeroTop[0] - 1F, cartZeroTop[1], cartZeroTop[2]);
-                    		ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f;
-				break;
-			case 26: 
-				// "Results: Game has ended. ADD SCORES Django is the winner!" 
-				break;
-			case 27:
-				Debug.Log("Leaving room");
-				//LeaveRoom();
-				break;
-		}
-    }
-	*/ 
-
-	/* 
-	public void punch(){
-		// Django punches Ghost, Ghost is punched back to last train car and with 
-		// his initial purse is left in the second last train car. 
-		// move ghost to the last train car
-		// check if the obj being clicked on is the loot/bandit that we want to move 
-		Debug.Log("GHOST IS PUNCHED");
-        float posX = cartZeroBtm[0]; 
-        float posY = cartZeroBtm[1]; 
-        float posZ = cartZeroBtm[2]; 
-        ghost.transform.position = new Vector3 (posX, posY, posZ);
-        ghost.transform.position += ghost.transform.forward * Time.deltaTime * 5f; // can be any float number
-		// shoot();  
-	}
-	*/ 
