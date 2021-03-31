@@ -577,14 +577,9 @@ public class GameBoard : MonoBehaviour
         promptPunchTarget.text = btn.name + "IS CLICKED"; 
         punchedBandit = btn.name;
 		// if buttonToObject[btn] is an actioncard, call playCard(buttonToObject[btn])
-		// Type myBtnType = Type.buttonToObject[btn].GetType("ActionCard");
-		// System.Type myBtnType = buttonToObject[btn].GetType(); 	
-		// Type typeOfBtn = typeof(buttonToObject[btn]);
-		// if(typeOfBtn == typeof(ActionCard)){
-		// 	gm.playCard(buttonToObject[btn]); 
-		// }
 		if(actionCardList.Contains(buttonToObject[btn])){
-			gm.playCard(buttonToObject[btn]); 	
+			ActionCard currActionCard = (ActionCard)buttonToObject[btn]; 
+			gm.playCard(currActionCard); 	
 		}
     }
 	
@@ -624,6 +619,8 @@ public class GameBoard : MonoBehaviour
 		Debug.Log("Received log message: "+ (string)responseParams.GetUtfString("log"));
 		gm = (GameManager)responseParams.GetClass("gm");
 		GameManager.replaceInstance(gm);
+
+		actionCardList = new List<ActionCard>(); 
 
 		// REASSIGN ALL GAME buttonToObject USING DICTIONARY
 		ArrayList banditsArray = gm.bandits;
@@ -719,9 +716,7 @@ public class GameBoard : MonoBehaviour
 		// }
 		if(buttonToObject[button].GetType() == typeof(ActionCard)){
 			ActionCard card = (ActionCard)buttonToObject[button]; 
-
 			actionCardList.Add(card); 
-
 			string actionType = card.actionTypeAsString;
 			buttonText.text = actionType;
 		} else {
