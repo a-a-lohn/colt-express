@@ -71,6 +71,9 @@ namespace model {
             GameBoard.setWorks();
             GameBoard.clickable = currentBandit.getHand();
             GameBoard.action = "playcard";
+            // GameBoard.promptDrawCardsOrPlayCardMsg.text = "Please play a card or draw 3 cards!";
+            Debug.Log("CALLINNGGGN");
+            GameObject.Find("GameBoardGO").GetComponent<GameBoard>().promptDrawCardsOrPlayCardMsg.text = "HIII";
         }
 
         public void resolveAction(ActionCard toResolve) {

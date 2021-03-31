@@ -206,17 +206,26 @@ public class GameBoard : MonoBehaviour
 	public Button djaCard5;
 	public Button djaCard6;  
 
-	public Button trainCart1; 
-	public Button tranCart2; 
-	public Button tranCart3; 
-	public Button tranCart4;
+	/* TrainUnit */
+	public Button trainOneBtm; 
+	public Button trainOneTop; 
+	public Button trainTwoBtm; 
+	public Button trainTwoTop;
+	public Button trainThreeBtm; 
+	public Button trainThreeTop;
+	public Button trainFourBtm; 
+	public Button trainFourTop;
+	// public Button trainFiveBtm; 
+	// public Button trainFiveTop;
+	public Button locoBtm; 
+	public Button locoTop;
 	
-
     public static string punchedBandit; 
 
     void Start(){
 		setAllNonClickable();
-
+		Debug.Log("hiii");
+		GameObject.Find("GameBoardGO").GetComponent<GameBoard>().promptPlayOrDraw.text = "HIII";
 		/* DUMMY BANDITS FOR TESTING PURPOSES */
 		Bandit b1 = new Bandit("GHOST");
 		Bandit b2 = new Bandit("BELLE");
@@ -365,6 +374,35 @@ public class GameBoard : MonoBehaviour
 		addNullListToMap(goDJANGOHand);
 
 		/* init all action cards ? */
+
+		/* init all traincarts */
+		buttonToObject.Add(trainOneBtm, "null"); 
+		buttonToObject.Add(trainOneTop, "null"); 
+		buttonToObject.Add(trainTwoBtm, "null"); 
+		buttonToObject.Add(trainTwoTop, "null"); 
+		buttonToObject.Add(trainThreeBtm, "null"); 
+		buttonToObject.Add(trainThreeTop, "null"); 
+		buttonToObject.Add(trainFourBtm, "null"); 
+		buttonToObject.Add(trainFourTop, "null");
+		buttonToObject.Add(locoBtm, "null"); 
+		buttonToObject.Add(locoTop, "null");
+			 
+	}
+
+	public void mapTrain(GameManager gm){
+		 public ArrayList trainRoof ;
+        public ArrayList trainCabin;
+		foreach(object oneRoof in gm.trainRoof){
+			buttonToObject[] = oneRoof;
+
+		}
+	}
+
+	/* promptDrawOrPlayMessage displays the prompt message on gameboard*/
+	public static void promptDrawOrPlayMessage(){
+		// promptDrawCardsOrPlayCardMsg.text = "Please play a card or draw 3 cards!";
+		// GameObject GameBoardGameObject = GameObject.Find("GameBoardGO");
+		// GameBoardGameObject.
 	}
 
 	public void addNullListToMap(List<Button> aBtnList){
@@ -463,7 +501,9 @@ public class GameBoard : MonoBehaviour
             }
 		}
 		Debug.Log(SFS.step);
-		// announcement.text = logMessages[SFS.step];
+
+		/* call mapTrain to map all train carts */
+
 
 		// map the 13 neutral bullet cards
 		ArrayList neuturalBulletCards = gm.neutralBulletCard; 
