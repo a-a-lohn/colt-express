@@ -22,6 +22,8 @@ using System.Reflection;
 using Sfs2X.Protocol.Serialization;
 
 using System.Collections;
+using System.Reflection;
+using System;
 using Random=System.Random;
 using UnityEngine.EventSystems;
 
@@ -257,8 +259,6 @@ public class GameBoard : MonoBehaviour
 	public Text handCardActionType10; 
 	public Text handCardActionType11; 
 
-
-
 	/* TrainUnit */
 	public Button trainOneBtm; 
 	public Button trainOneTop; 
@@ -279,6 +279,8 @@ public class GameBoard : MonoBehaviour
 	/* horses ?*/
 	
     public static string punchedBandit;
+
+	public List<ActionCard> actionCardList; 
 
 	bool calledMapTrain = false;
 
@@ -574,9 +576,16 @@ public class GameBoard : MonoBehaviour
  	public void buttonClicked(Button btn){
         promptPunchTarget.text = btn.name + "IS CLICKED"; 
         punchedBandit = btn.name;
-        // btn.interactable = false;
-
 		// if buttonToObject[btn] is an actioncard, call playCard(buttonToObject[btn])
+		// Type myBtnType = Type.buttonToObject[btn].GetType("ActionCard");
+		// System.Type myBtnType = buttonToObject[btn].GetType(); 	
+		// Type typeOfBtn = typeof(buttonToObject[btn]);
+		// if(typeOfBtn == typeof(ActionCard)){
+		// 	gm.playCard(buttonToObject[btn]); 
+		// }
+		if(actionCardList.Contains(buttonToObject[btn])){
+			gm.playCard(buttonToObject[btn]); 	
+		}
     }
 	
 	/*
@@ -708,8 +717,11 @@ public class GameBoard : MonoBehaviour
         //     	buttonToObject[g] = c;
 		// 	}
 		// }
-		if(buttonToObject[button].GetType().Equals("ActionCard")){
+		if(buttonToObject[button].GetType() == typeof(ActionCard)){
 			ActionCard card = (ActionCard)buttonToObject[button]; 
+
+			actionCardList.Add(card); 
+
 			string actionType = card.actionTypeAsString;
 			buttonText.text = actionType;
 		} else {
