@@ -67,6 +67,8 @@ public class GameBoard : MonoBehaviour
 	public Button ghost; 
 	public Button django; 
 	public Button marshal;
+	private List<Button> playingBandits;
+	private List<Button> allBandits;
 	
 	// public Button gem1; 
 	// public Button gem2; 
@@ -287,7 +289,7 @@ public class GameBoard : MonoBehaviour
 
     void Start(){
 		//setAllNonClickable();
-
+		addAllBandits();
 		Round.text = "ROUND 1:\n-Standard turn\n-Tunnel turn\n-Switching turn";
 		SFS.setGameBoard();
 
@@ -307,6 +309,16 @@ public class GameBoard : MonoBehaviour
 		initMap();
 		EnterGameBoardScene();
     }
+
+	public void addAllBandits(){
+		allBandits.Add(belle);
+		allBandits.Add(cheyenne);
+		allBandits.Add(doc);
+		allBandits.Add(django);
+		allBandits.Add(tuco);
+		allBandits.Add(ghost);
+		allBandits.Add(marshal);
+	}
 
 	/* add all Belle bullet cards to list*/
 	// public void addAllBelleBullets(){
@@ -636,57 +648,42 @@ public class GameBoard : MonoBehaviour
             if (b.characterAsString == "CHEYENNE") {
 				buttonToObject[cheyenne] = b;
 				Debug.Log(b.characterAsString + " added as button");
-				// int index = 0;
-				// foreach(Card c in currCards){
-				// 	 buttonToObject.Add(goCHEYENNEHand[index], c);
-				// 	 index++;
-				// }
+				playingBandits.Add(cheyenne);
             }
 			if (b.characterAsString == "BELLE") {
                 buttonToObject[belle] = b;
 				Debug.Log(b.characterAsString + " added as button");
-               	// int index = 0;
-				// foreach(Card c in currCards){
-				// 	 buttonToObject.Add(goBELLEHand[index], c);
-				// 	 index++;
-				// }
+               	playingBandits.Add(belle);
             }
 			if (b.characterAsString == "TUCO") {
                 buttonToObject[tuco] = b;
 				Debug.Log(b.characterAsString + " added as button");
-				// int index = 0;
-				// foreach(Card c in currCards){
-				// 	 buttonToObject.Add(goTUCOHand[index], c);
-				// 	 index++;
-				// }
+				playingBandits.Add(tuco);
             }
 			if (b.characterAsString == "DOC") {
                 buttonToObject[doc] = b;
 				Debug.Log(b.characterAsString + " added as button");
-                // int index = 0;
-				// foreach(Card c in currCards){
-				// 	 buttonToObject.Add(goDOCHand[index], c);
-				// 	 index++;
-				// }
+                playingBandits.Add(doc);
             }
 			if (b.characterAsString == "GHOST") {
                 buttonToObject[ghost] = b;
 				Debug.Log(b.characterAsString + " added as button");
-               	// int index = 0;
-				// foreach(Card c in currCards){
-				// 	 buttonToObject.Add(goGHOSTHand[index], c);
-				// 	 index++;
-				// }
+               	playingBandits.Add(ghost);
             }
 			if (b.characterAsString == "DJANGO") {
                 buttonToObject[django] = b;
 				Debug.Log(b.characterAsString + " added as button");
-                // int index = 0;
-				// foreach(Card c in currCards){
-				// 	 buttonToObject.Add(goDJANGOHand[index], c);
-				// 	 index++;
-				// }
+                playingBandits.Add(django);
             }
+
+			/* only keep the playing bandits */
+			foreach(Button ab in allBandits){
+				if(!playingBandits.Contains(ab)){
+					Destroy(ab);
+				}
+			}
+
+			/* init bandit position */
 
 			//UPDATE HAND/DECK EVERY TIME
 
