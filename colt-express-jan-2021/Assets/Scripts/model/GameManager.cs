@@ -117,18 +117,21 @@ namespace model {
             //  Remove card from bandit's hand
             this.currentBandit = c.getBelongsTo();
             this.currentBandit.removeFromHand(c);
+            Debug.Log("removed from hand");
             if (this.currentBandit.getCharacter().Equals("GHOST") && this.currentRound.getTurnCounter() == 0) {
                 promptPlayFaceUpOrFaceDown(c);
+                 Debug.Log("called for ghost");
             }
             else if (this.currentRound.getCurrentTurn().getTurnTypeAsString().Equals("TUNNEL")) {
                 //  this.currentRound.getCurrentTurn().getTurnTypeAsString().equals("TUNNEL")
                 c.setFaceDown(true);
+                 Debug.Log("called for tunnel");
             }
             
             //  Assign card to played pile
             PlayedPile pile = PlayedPile.getInstance();
             pile.addPlayedCards(c);
-            //  TODO: graphical response
+             Debug.Log("played card, ending turn");
             this.endOfTurn(currentBandit + " played " + c.actionTypeAsString);
             // might have to put this in an if else block for cases like SpeedingUp/Whiskey
         }

@@ -174,48 +174,48 @@ public class GameBoard : MonoBehaviour
 	private List<GameObject> clickableGOs; 
 	public List<object> clickablebuttonToObject;  
 
-	public Button ghoCard1; 
-	public Button ghoCard2; 
-	public Button ghoCard3; 
-	public Button ghoCard4; 
-	public Button ghoCard5;
-	public Button ghoCard6;  
-	public Button ghoCard7; 
+	// public Button ghoCard1; 
+	// public Button ghoCard2; 
+	// public Button ghoCard3; 
+	// public Button ghoCard4; 
+	// public Button ghoCard5;
+	// public Button ghoCard6;  
+	// public Button ghoCard7; 
 
-	public Button docCard1; 
-	public Button docCard2; 
-	public Button docCard3; 
-	public Button docCard4; 
-	public Button docCard5;
-	public Button docCard6;  
+	// public Button docCard1; 
+	// public Button docCard2; 
+	// public Button docCard3; 
+	// public Button docCard4; 
+	// public Button docCard5;
+	// public Button docCard6;  
 
-	public Button tucCard1; 
-	public Button tucCard2; 
-	public Button tucCard3; 
-	public Button tucCard4; 
-	public Button tucCard5;
-	public Button tucCard6;  
+	// public Button tucCard1; 
+	// public Button tucCard2; 
+	// public Button tucCard3; 
+	// public Button tucCard4; 
+	// public Button tucCard5;
+	// public Button tucCard6;  
 
-	public Button belCard1; 
-	public Button belCard2; 
-	public Button belCard3; 
-	public Button belCard4; 
-	public Button belCard5;
-	public Button belCard6;  
+	// public Button belCard1; 
+	// public Button belCard2; 
+	// public Button belCard3; 
+	// public Button belCard4; 
+	// public Button belCard5;
+	// public Button belCard6;  
 
-	public Button cheCard1; 
-	public Button cheCard2; 
-	public Button cheCard3; 
-	public Button cheCard4; 
-	public Button cheCard5;
-	public Button cheCard6;  
+	// public Button cheCard1; 
+	// public Button cheCard2; 
+	// public Button cheCard3; 
+	// public Button cheCard4; 
+	// public Button cheCard5;
+	// public Button cheCard6;  
 
-	public Button djaCard1; 
-	public Button djaCard2; 
-	public Button djaCard3; 
-	public Button djaCard4; 
-	public Button djaCard5;
-	public Button djaCard6;  
+	// public Button djaCard1; 
+	// public Button djaCard2; 
+	// public Button djaCard3; 
+	// public Button djaCard4; 
+	// public Button djaCard5;
+	// public Button djaCard6;  
 
 	public Button handCard1; 
 	public Button handCard2; 
@@ -401,18 +401,18 @@ public class GameBoard : MonoBehaviour
 		addNullListToMap(goTUCOBulletCards);
 
 		/* init all bandits' hands */
-		goBELLEHand = new List<Button>(){belCard1, belCard2, belCard3, belCard4, belCard5, belCard5, belCard6};
-		goCHEYENNEHand = new List<Button>(){cheCard1, cheCard2, cheCard3, cheCard4, cheCard5, cheCard5, cheCard6};
-		goTUCOHand = new List<Button>(){tucCard1, tucCard2, tucCard3, tucCard4, tucCard5, tucCard5, tucCard6};
-		goDOCHand = new List<Button>(){docCard1, docCard2, docCard3, docCard4, docCard5, docCard5, docCard6};
-		goGHOSTHand = new List<Button>(){ghoCard1, ghoCard2, ghoCard3, ghoCard4, ghoCard5, ghoCard5, ghoCard6, ghoCard7};
-		goDJANGOHand = new List<Button>(){djaCard1, djaCard2, djaCard3, djaCard4, djaCard5, djaCard5, djaCard6};
-		addNullListToMap(goBELLEHand);
-		addNullListToMap(goCHEYENNEHand);
-		addNullListToMap(goTUCOHand);
-		addNullListToMap(goDOCHand);
-		addNullListToMap(goGHOSTHand);
-		addNullListToMap(goDJANGOHand);
+		// goBELLEHand = new List<Button>(){belCard1, belCard2, belCard3, belCard4, belCard5, belCard5, belCard6};
+		// goCHEYENNEHand = new List<Button>(){cheCard1, cheCard2, cheCard3, cheCard4, cheCard5, cheCard5, cheCard6};
+		// goTUCOHand = new List<Button>(){tucCard1, tucCard2, tucCard3, tucCard4, tucCard5, tucCard5, tucCard6};
+		// goDOCHand = new List<Button>(){docCard1, docCard2, docCard3, docCard4, docCard5, docCard5, docCard6};
+		// goGHOSTHand = new List<Button>(){ghoCard1, ghoCard2, ghoCard3, ghoCard4, ghoCard5, ghoCard5, ghoCard6, ghoCard7};
+		// goDJANGOHand = new List<Button>(){djaCard1, djaCard2, djaCard3, djaCard4, djaCard5, djaCard5, djaCard6};
+		// addNullListToMap(goBELLEHand);
+		// addNullListToMap(goCHEYENNEHand);
+		// addNullListToMap(goTUCOHand);
+		// addNullListToMap(goDOCHand);
+		// addNullListToMap(goGHOSTHand);
+		// addNullListToMap(goDJANGOHand);
 
 		/* init all action cards ? */
 
@@ -574,12 +574,15 @@ public class GameBoard : MonoBehaviour
 	}
 
  	public void buttonClicked(Button btn){
+		Debug.Log( btn.name + "IS CLICKED");
         promptPunchTarget.text = btn.name + "IS CLICKED"; 
-        punchedBandit = btn.name;
+        //punchedBandit = btn.name;
 		// if buttonToObject[btn] is an actioncard, call playCard(buttonToObject[btn])
-		if(actionCardList.Contains(buttonToObject[btn])){
-			ActionCard currActionCard = (ActionCard)buttonToObject[btn]; 
-			gm.playCard(currActionCard); 	
+		try {
+			ActionCard currActionCard = (ActionCard)buttonToObject[btn];
+			gm.playCard(currActionCard); 
+		} catch(Exception e) {
+			Debug.Log("not an action card");
 		}
     }
 	
@@ -620,7 +623,7 @@ public class GameBoard : MonoBehaviour
 		gm = (GameManager)responseParams.GetClass("gm");
 		GameManager.replaceInstance(gm);
 
-		actionCardList = new List<ActionCard>(); 
+		//actionCardList = new List<ActionCard>(); 
 
 		// REASSIGN ALL GAME buttonToObject USING DICTIONARY
 		ArrayList banditsArray = gm.bandits;
@@ -714,13 +717,13 @@ public class GameBoard : MonoBehaviour
         //     	buttonToObject[g] = c;
 		// 	}
 		// }
-		if(buttonToObject[button].GetType() == typeof(ActionCard)){
-			ActionCard card = (ActionCard)buttonToObject[button]; 
-			actionCardList.Add(card); 
-			string actionType = card.actionTypeAsString;
-			buttonText.text = actionType;
-		} else {
-			// it's a bullet card 
+		Debug.Log("Called mapactioncards");
+
+		try {
+			ActionCard card = (ActionCard)buttonToObject[button];
+			buttonText.text = card.actionTypeAsString;
+		} catch(Exception e) {
+			Debug.Log("not an action card in MAP");
 			buttonText.text = "Bullet";
 		}
 	}
@@ -791,17 +794,17 @@ public class GameBoard : MonoBehaviour
 			Debug.Log("Clicked");
 			works = false;
 			Debug.Log("currentbandit on mouse: "+ gm.currentBandit.getCharacter());
-			if(gm != null && gm.currentBandit.getCharacter() == ChooseCharacter.character) {
-				Debug.Log("ending my turn");
+			// if(gm != null && gm.currentBandit.getCharacter() == ChooseCharacter.character) {
+			// 	Debug.Log("ending my turn");
 				// Bandit b = (Bandit) gm.bandits[0];
 				// if (b.getCharacter() == gm.currentBandit.getCharacter()) {
 				// 	gm.currentBandit = (Bandit) gm.bandits[1];
 				// } else {
 				// 	gm.currentBandit = (Bandit) gm.bandits[0];
 				// }
-				gm.endOfTurn();
+				// gm.endOfTurn();
 				//SendNewGameState();
-			}
+			// }
 		}
 
 		if(works) {
