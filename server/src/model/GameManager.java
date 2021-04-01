@@ -183,7 +183,6 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		this.banditsPlayedThisTurn = 0;
 		this.gameStatus = GameStatus.SCHEMIN;
 		this.strGameStatus = "SCHEMIN";
-		this.currentBandit = this.bandits.get(0);
 
 	}
 
