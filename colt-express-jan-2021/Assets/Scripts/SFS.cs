@@ -38,6 +38,7 @@ public static class SFS
 	public static GameBoard gb;
 	public static ChooseCharacter cc;
 	public static Chat chat;
+	public static int trainIndex = 1;
 
     static SFS(){
         defaultHost = "127.0.0.1";//"13.72.79.112";
@@ -102,6 +103,10 @@ public static class SFS
 			}
 		} else if (cmd == "updateGameState") {
             gb.UpdateGameState(evt);
+			if (gb.bandits.Count > gb.banditPositions.Count) {
+				gb.promptHorseAttack(trainIndex);
+				trainIndex++;
+			}
         } else if (cmd == "nextAction") {
 			ISFSObject responseParams = (SFSObject)evt.Params["params"];
 			step = responseParams.GetInt("step");
@@ -124,7 +129,7 @@ public static class SFS
    				Debug.Log(String.Format("{0}: {1}", key.characterAsString, m.carTypeAsString));
 			}
 			//GameBoard.SendNewGameState();
-		}
+		} 
     }
 
     public static void Connect(string uname) {
