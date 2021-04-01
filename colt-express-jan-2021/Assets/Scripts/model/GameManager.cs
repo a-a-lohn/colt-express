@@ -50,12 +50,14 @@ namespace model {
             if(currentBandit.getCharacter().Equals(ChooseCharacter.character)) {
                 Debug.Log("my turn");
                 if (this.strGameStatus.Equals("SCHEMIN")) {
-                    if(this.currentRound.getTurnCounter() == 0){
-                        currentBandit.drawCards(6);
-                        if(currentBandit.getCharacter().Equals("DOC")){
-                            currentBandit.drawCards(1);
-                        }
-                    }
+                    // if(this.currentRound.getTurnCounter() == 0){
+                    //     currentBandit.drawCards(6);
+                    //     if(currentBandit.getCharacter().Equals("DOC")){
+                    //         currentBandit.drawCards(1);
+                    //     }
+                    //     currentBandit.updateOtherDecks();
+                    //     currentBandit.updateOtherHands();
+                    // }
                     Debug.Log("calling prompt");
                     promptDrawCardsOrPlayCard();
                 }
@@ -67,15 +69,15 @@ namespace model {
         }
         
         public void promptDrawCardsOrPlayCard() {
-            Debug.Log("setting it works from prompt");
+            Debug.Log("setting 'it works' from prompt");
             GameBoard.setWorks();
             GameBoard.clickable = currentBandit.getHand();
             GameBoard.action = "playcard";
             Debug.Log("CALLINNGGG");
-            GameObject board = GameObject.Find("GameBoardGO");
-            GameBoard gameboardScript = board.GetComponent<GameBoard>(); 
-            Debug.Log(gameboardScript + "scripttt");
-            gameboardScript.promptDrawCardsOrPlayCardMsg.text = "Please play a card or draw 3 cards!";
+            // GameObject board = GameObject.Find("GameBoardGO");
+            // GameBoard gameboardScript = board.GetComponent<GameBoard>(); 
+            // Debug.Log(gameboardScript + "scripttt");
+            // gameboardScript.promptDrawCardsOrPlayCardMsg.text = "Please play a card or draw 3 cards!";
         }
 
         public void resolveAction(ActionCard toResolve) {
@@ -315,6 +317,8 @@ namespace model {
                 }
                 
             }
+            currentBandit.updateOtherDecks();
+            currentBandit.updateOtherHands();
             Debug.Log("sending new game state");
             GameBoard.SendNewGameState(message);
         }

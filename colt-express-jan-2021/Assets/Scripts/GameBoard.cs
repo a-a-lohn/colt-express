@@ -172,7 +172,7 @@ public class GameBoard : MonoBehaviour
 	// public Button ghostCard7;
 
 	private List<GameObject> clickableGOs; 
-	public List<object> clickablebuttonToObject;  
+	//public List<object> buttonToObject;  
 
 	// public Button ghoCard1; 
 	// public Button ghoCard2; 
@@ -228,7 +228,7 @@ public class GameBoard : MonoBehaviour
 	public Button handCard9;  
 	public Button handCard10; 
 	public Button handCard11; 
-	private List<Button> goHandCard; 
+	private List<Button> goHandCard = new List<Button>(); 
 	
 	/* a card has 4 attributes */
 	public Text handCardActionType1; 
@@ -285,7 +285,7 @@ public class GameBoard : MonoBehaviour
 	bool calledMapTrain = false;
 
     void Start(){
-		setAllNonClickable();
+		//setAllNonClickable();
 
 		Round.text = "ROUND 1:\n-Standard turn\n-Tunnel turn\n-Switching turn";
 		SFS.setGameBoard();
@@ -392,12 +392,12 @@ public class GameBoard : MonoBehaviour
 		buttonToObject.Add(marshal, "null");
 
 		/* init all bullet cards */
-		addNullListToMap(goBELLEBulletCards);
-		addNullListToMap(goCHEYENNEBulletCards);
-		addNullListToMap(goDOCBulletCards);
-		addNullListToMap(goGHOSTBulletCards);
-		addNullListToMap(goDJANGOBulletCards);
-		addNullListToMap(goTUCOBulletCards);
+		// addNullListToMap(goBELLEBulletCards);
+		// addNullListToMap(goCHEYENNEBulletCards);
+		// addNullListToMap(goDOCBulletCards);
+		// addNullListToMap(goGHOSTBulletCards);
+		// addNullListToMap(goDJANGOBulletCards);
+		// addNullListToMap(goTUCOBulletCards);
 
 		/* init all bandits' hands */
 		// goBELLEHand = new List<Button>(){belCard1, belCard2, belCard3, belCard4, belCard5, belCard5, belCard6};
@@ -574,9 +574,14 @@ public class GameBoard : MonoBehaviour
 
  	public void buttonClicked(Button btn){
 		Debug.Log( btn.name + "IS CLICKED");
+		Debug.Log("Clickable has " + clickable.Count + "items");
         promptPunchTarget.text = btn.name + "IS CLICKED"; 
         //punchedBandit = btn.name;
 		// if buttonToObject[btn] is an actioncard, call playCard(buttonToObject[btn])
+		if(clickable.Contains(btn)) {
+			Debug.Log("this is a clickable item!");
+			//all calls back to GM should be here
+		}
 		try {
 			ActionCard currActionCard = (ActionCard)buttonToObject[btn];
 			gm.playCard(currActionCard); 
@@ -681,12 +686,48 @@ public class GameBoard : MonoBehaviour
 				// 	 index++;
 				// }
             }
+
+			//UPDATE HAND/DECK EVERY TIME
+
+
 			if(b.characterAsString == gm.currentBandit.characterAsString){
+				
+				/*
+				* OBJECTS ARE NEWLY CREATED WHEN SERIALIZED. IF MULTIPLE REFERENCES EXIST FOR THE SAME OBJECT, THEY WILL BE TREATED AS DIFFERENT OBJECTS
+				*/
+				gm.currentBandit = b;
+
+				b.updateMainDeck();
+
+                if (gm.strGameStatus.Equals("SCHEMIN")) {
+                    if(gm.currentRound.getTurnCounter() == 0){
+                        gm.currentBandit.drawCards(6);
+                        if(gm.currentBandit.getCharacter().Equals("DOC")){
+                            gm.currentBandit.drawCards(1);
+                        }
+                        gm.currentBandit.updateOtherDecks();
+                        gm.currentBandit.updateOtherHands();
+                    }
+				}
+				b.updateMainHand();
 				// assign to gameobjects on screen 
-				ArrayList currCards = b.hand;
+				//ArrayList currCards = b.hand;
+				Bandit b1 = gm.currentBandit;
 				int index = 0; 
-				foreach(Card currCard in currCards){
-					buttonToObject[goHandCard[index]] = currCard; 
+				ActionCard ac;
+				BulletCard bc;
+				Debug.Log("num of currcards: " + b.hand.Count);
+				Debug.Log("num of currcards b1: " + gm.currentBandit.hand.Count);
+				foreach(Card currCard in gm.currentBandit.hand){
+					try{
+						ac = (ActionCard) currCard;
+						buttonToObject[goHandCard[index]] = ac;
+						Debug.Log("trying to cast card as action card");
+					} catch(Exception e) {
+						bc = (BulletCard) currCard;
+						buttonToObject[goHandCard[index]] = bc;
+						Debug.Log("not initializing an action card");
+					}
 					index++;
 				}
 				mapActionCards(handCard1, handCardActionType1);
@@ -716,13 +757,13 @@ public class GameBoard : MonoBehaviour
         //     	buttonToObject[g] = c;
 		// 	}
 		// }
-		Debug.Log("Called mapactioncards");
+		//Debug.Log("Called mapactioncards");
 
 		try {
 			ActionCard card = (ActionCard)buttonToObject[button];
 			buttonText.text = card.actionTypeAsString;
 		} catch(Exception e) {
-			Debug.Log("not an action card in MAP");
+			//Debug.Log("not an action card in MAP");
 			buttonText.text = "Bullet";
 		}
 	}

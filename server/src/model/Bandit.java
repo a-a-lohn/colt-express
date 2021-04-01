@@ -22,7 +22,11 @@ public class Bandit implements SerializableSFSType {
 	public ArrayList<Loot> loot = new ArrayList<Loot>();
 	public ArrayList<BulletCard> bullets = new ArrayList<BulletCard>();
 	public ArrayList<Card> deck = new ArrayList<Card>(); //CONVENTION FOR DECK: POSITION DECK.SIZE() IS TOP OF DECK, POSITION 0 IS BOTTOM OF DECK
+	public ArrayList<ActionCard> deckAC = new ArrayList<ActionCard>();
+	public ArrayList<BulletCard> deckBC = new ArrayList<BulletCard>();
 	public ArrayList<Card> hand = new ArrayList<Card>();
+	public ArrayList<ActionCard> handAC = new ArrayList<ActionCard>();
+	public ArrayList<BulletCard> handBC = new ArrayList<BulletCard>();
 	public ActionCard toResolve = null;
 	public int consecutiveTurnCounter = 0;
 
@@ -110,11 +114,16 @@ public class Bandit implements SerializableSFSType {
 			return;
 		}
 		this.deck.add(index, a);
+		
+		updateOtherDecks();
 	}
 
 	public Card removeDeckAt(int index) {
 		assert this.deck.size() > index;
-		return this.deck.remove(index);
+		Card c = this.deck.remove(index);
+		
+		updateOtherDecks();
+		return c;
 	}
 
 	public Card getDeckAt(int index) {
@@ -126,10 +135,12 @@ public class Bandit implements SerializableSFSType {
 
 	public void addDeck(Card a) {
 		this.deck.add(a);
+		updateOtherDecks();
 	}
 
 	public void removeDeck(Card a) {
 		this.deck.remove(a);
+		updateOtherDecks();
 	}
 
 	public boolean containsDeck(Card a) {
@@ -152,12 +163,14 @@ public class Bandit implements SerializableSFSType {
 			return;
 		}
 		hand.add(index, a);
+		updateOtherHands();
 	}
 
 	public void removeHandAt(int index) {
 		if (this.hand.size() > index){
 			this.hand.remove(index);
 		}
+		updateOtherHands();
 	}
 
 	public Card getHandAt(int index) {
@@ -170,10 +183,12 @@ public class Bandit implements SerializableSFSType {
 
 	public void addHand(Card a) {
 		this.hand.add(a);
+		updateOtherHands();
 	}
 
 	public void removeHand(Card a) {
 		this.hand.remove(a);
+		updateOtherHands();
 	}
 
 	public boolean containsHand(Card a) {
@@ -244,15 +259,48 @@ public class Bandit implements SerializableSFSType {
 		this.deck.add(acShoot1);
 		this.deck.add(acShoot2);
 		this.deck.add(acRide);
+		
+		updateOtherDecks();
+	}
+	
+	public void updateOtherDecks() {
+		deckAC.clear();
+		deckBC.clear();
+		for(Card c : deck) {
+			if(c instanceof ActionCard) {
+				System.out.println("Adding an action card");
+				deckAC.add((ActionCard) c);
+			} else {
+				System.out.println("Adding a bullet card");
+				deckBC.add((BulletCard) c);
+			}
+		}
+	}
+	
+	public void updateOtherHands() {
+		handAC.clear();
+		handBC.clear();
+		for(Card c : hand) {
+			if(c instanceof ActionCard) {
+				System.out.println("Adding an action card");
+				handAC.add((ActionCard) c);
+			} else {
+				System.out.println("Adding a bullet card");
+				handBC.add((BulletCard) c);
+			}
+		}
 	}
 	
 	public void createHand() {
+		System.out.println("create hand is called");
 		Collections.shuffle(this.deck, new Random(System.currentTimeMillis()));
 		for (int i =0; i<6; i++) {
 			Card c = this.deck.get(0);
 			this.hand.add(c);
 			this.deck.remove(c);
 		}
+		updateOtherDecks();
+		updateOtherHands();
 	}
 
 	public void createBulletCards() {
