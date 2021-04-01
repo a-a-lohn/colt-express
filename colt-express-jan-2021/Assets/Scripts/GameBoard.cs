@@ -32,6 +32,7 @@ public class GameBoard : MonoBehaviour
 	private static RestClient client = new RestClient("http://13.72.79.112:4242");
 	public static string gameHash = WaitingRoom.gameHash;
 	public static string savegameId = null;
+	public static bool started = false;
 
 	//debug variables
 	public static Text debugText;
@@ -984,6 +985,10 @@ public class GameBoard : MonoBehaviour
 	}
 
 	public static void promptHorseAttack(int trainIndex) {
+		if (gm.bandits.Count == gm.banditPositions.Count) {
+			started = true;
+			return;
+		}
 		ISFSObject obj = SFSObject.NewInstance();
 		if (1==1) { //gm.banditPositions.Contains()
 			return;

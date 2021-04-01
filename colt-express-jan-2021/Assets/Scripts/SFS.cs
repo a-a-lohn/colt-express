@@ -104,7 +104,7 @@ public static class SFS
 		} else if (cmd == "updateGameState") {
 			GameManager gm = GameManager.getInstance();
             gb.UpdateGameState(evt);
-			if (gm.bandits.Count > gm.banditPositions.Count) {
+			if (GameBoard.started==false) {
 				GameBoard.promptHorseAttack(trainIndex);
 				trainIndex++;
 			}
