@@ -102,9 +102,10 @@ public static class SFS
 				cc.DisplayRemainingCharacters(evt);
 			}
 		} else if (cmd == "updateGameState") {
+			GameManager gm = GameManager.getInstance();
             gb.UpdateGameState(evt);
-			if (gb.bandits.Count > gb.banditPositions.Count) {
-				gb.promptHorseAttack(trainIndex);
+			if (gm.bandits.Count > gm.banditPositions.Count) {
+				GameBoard.promptHorseAttack(trainIndex);
 				trainIndex++;
 			}
         } else if (cmd == "nextAction") {

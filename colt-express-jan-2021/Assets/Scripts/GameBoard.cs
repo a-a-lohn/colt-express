@@ -945,7 +945,7 @@ public class GameBoard : MonoBehaviour
 
 	public static void promptHorseAttack(int trainIndex) {
 		ISFSObject obj = SFSObject.NewInstance();
-		if (gm.banditPositions.contains(this bandit)) {
+		if (1==1) { //gm.banditPositions.Contains()
 			return;
 		}
 		String response;
