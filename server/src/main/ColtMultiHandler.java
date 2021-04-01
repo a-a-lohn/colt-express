@@ -7,9 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.management.MBeanServerInvocationHandler;
+
 import model.Bandit;
 import model.Character;
 import model.GameManager;
+import model.Horse;
+import model.TrainUnit;
 
 import com.smartfoxserver.v2.annotations.Instantiation;
 import com.smartfoxserver.v2.annotations.MultiHandler;
@@ -31,6 +35,8 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	HashMap<String, GameManager> saveGames = new HashMap<String, GameManager>();
 	boolean savedCurrentGameAtLeastOnce = false;
 	String currentSaveGameId;
+	int positionTurns = 0;
+	int trainIndex = 1;
 	//int numCallsToLoadSaveGame = 0;
 	
 	boolean gameOver = false;
@@ -53,6 +59,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		case("loadSavedGame"): handleLoadSavedGame(params,rtn); break;
 		case("removeGame"): handleRemoveGame(params,rtn); break;
 		case("gameOver"): gameOver = true; break;
+		case("choosePosition"): handleChoosePosition(sender, params, rtn); break;
 		default: trace("invalid command passed to multihandler");
 		}
 		
@@ -119,12 +126,16 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	
 	public void handleEnterGameBoardScene(ISFSObject params, ISFSObject rtn) {
 		System.out.println("entering gb scene");
+		GameManager game = GameManager.getInstance();
+		gm = game;
+		ArrayList<Bandit> bandits = game.bandits;
+		assert(bandits.size() > 1);
 		updateGameState(rtn);
 	}
 	
 	public void handleNewGameState(ISFSObject params, ISFSObject rtn) {
 		gm = (GameManager) params.getClass("gm");
-		GameManager.singleton = gm;
+		//GameManager.singleton = gm;
 		System.out.println("received game state!");
 		//System.out.println(gm.bandits.get(0).position.carTypeAsString);
 		updateGameState(rtn);
@@ -184,6 +195,40 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		}
 		System.out.println("First bandit: " + gm.bandits.get(0).characterAsString);
 		sendToAllUsers(rtn, "remainingCharacters");
+		
+	}
+	
+	private void handleChoosePosition(User sender, ISFSObject params, ISFSObject rtn) {
+		positionTurns++;
+		gm = GameManager.getInstance();
+		String ans = rtn.getUtfString("ans");
+		if (ans.equals("y")) {
+			Bandit curr = gm.banditmap.get(sender);
+			TrainUnit tu = gm.trainCabin.get(trainIndex);
+			curr.setPosition(tu);
+			for (Horse h: gm.horses) {
+				if (h.riddenBy == curr)
+					h.adjacentTo = tu;
+			}
+		}
+		if (ans.equals("n") && trainIndex == gm.bandits.size()-1) {
+			Bandit curr = gm.banditmap.get(sender);
+			TrainUnit tu = gm.trainCabin.get(trainIndex+1);
+			curr.setPosition(tu);
+			for (Horse h: gm.horses) {
+				if (h.riddenBy == curr)
+					h.adjacentTo = tu;
+			}
+		}
+		if (positionTurns == (gm.bandits.size()- gm.banditPositions.size()) && gm.bandits.size() > gm.banditPositions.size()) { 
+			updateGameState(rtn);
+			positionTurns = 0;
+		}
+		else if (gm.bandits.size() == gm.banditPositions.size()) {
+			//note: currentBandit not being null is the trigger for game start
+			gm.currentBandit = gm.bandits.get(0);
+			updateGameState(rtn);
+		}
 		
 	}
 	

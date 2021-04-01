@@ -982,4 +982,16 @@ public class GameBoard : MonoBehaviour
         ExtensionRequest req = new ExtensionRequest("gm.saveGameState",obj);
         SFS.Send(req);
 	}
+
+	public static void promptHorseAttack(int trainIndex) {
+		ISFSObject obj = SFSObject.NewInstance();
+		if (gm.banditPositions.contains(this bandit)) {
+			return;
+		}
+		String response;
+		//prompt user whether they want to get off at this train (indicated by trainIndex). If yes, response should be "y", if no then "n"
+		obj.PutUtfString("ans", response);
+		ExtensionRequest req = new ExtensionRequest("gm.choosePosition", obj);
+		SFS.Send(req);
+	}
 }

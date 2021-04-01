@@ -44,12 +44,13 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	public ArrayList<TrainUnit> stagecoach;
 	public ArrayList<Horse> horses = new ArrayList<Horse>();
 	public ArrayList<Bandit> bandits = new ArrayList<Bandit>();
-	transient public HashMap<Bandit, User> banditmap = new HashMap<Bandit, User>();
+	transient public HashMap<User, Bandit> banditmap = new HashMap<User, Bandit>();
 	public HashMap<Bandit, TrainUnit> banditPositions = new HashMap<Bandit, TrainUnit>();
 	public ArrayList<Card> neutralBulletCard = new ArrayList<Card>();
 	public int banditsPlayedThisTurn;
 	public int roundIndex;
 	public int banditIndex;
+	transient public boolean positionsChosen = false;
 
 	/*
 	 * @Override public void handleClientRequest(User sender, ISFSObject params) {
@@ -144,9 +145,8 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		// initialize round cards, round attributes/create round constructor
 		this.rounds = this.createRoundCards(this.getNumOfPlayers());
 		Collections.shuffle(this.bandits); // <- to decide who goes first, shuffle bandit list
-		this.currentBandit = this.bandits.get(0);
 		this.currentRound = this.rounds.get(0);
-		this.setUpPositions(this.bandits);
+		//this.setUpPositions(this.bandits);
 		Money strongbox = new Money(MoneyType.STRONGBOX, 1000);
 		this.trainCabin.get(0).setIsMarshalHere(true);
 		this.trainCabin.get(0).addLoot(strongbox);
@@ -183,7 +183,6 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		this.banditsPlayedThisTurn = 0;
 		this.gameStatus = GameStatus.SCHEMIN;
 		this.strGameStatus = "SCHEMIN";
-		this.currentBandit = this.bandits.get(0);
 
 	}
 
@@ -466,7 +465,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		System.out.println("received " + c.toString());
 		Bandit newBandit = new Bandit(c);
 		this.bandits.add(newBandit);
-		this.banditmap.put(newBandit, player);
+		this.banditmap.put(player, newBandit);
 		// TO DO.
 		// Here to associate playerId with newBandit.
 		boolean ready = this.allPlayersChosen(numPlayers);
