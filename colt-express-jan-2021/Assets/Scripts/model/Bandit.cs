@@ -23,7 +23,11 @@ namespace model {
         public ArrayList loot;      
         public ArrayList bullets;        
         public ArrayList deck;
+        public ArrayList deckAC;
+        public ArrayList deckBC;
         public ArrayList hand;
+        public ArrayList handAC;
+        public ArrayList handBC;
         public ActionCard toResolve;
         public int consecutiveTurnCounter;
         
@@ -126,6 +130,7 @@ namespace model {
                 return;
             }
             this.hand.Add(a);
+            
         }
         public void removeFromHand(Card a) {
             if (this.hand.Contains(a)) {
@@ -274,6 +279,61 @@ namespace model {
         public ArrayList getBulletCards(){
             return this.bullets;
         }
+
+
+
+        public void updateMainDeck(){
+            deck.Clear();
+            foreach (ActionCard c in deckAC) {
+                deck.Add(c);
+            }
+            foreach (BulletCard c in deckBC) {
+                deck.Add(c);
+            }
+            // SHUFFLE DECK
+        }
+
+        public void updateOtherDecks() {
+            deckAC.Clear();
+            deckBC.Clear();
+            foreach (Card c in deck) {
+                if (c is ActionCard) {
+                    Debug.Log("Adding an action card to deck");
+                    deckAC.Add(((ActionCard) c));
+                }
+                else {
+                    Debug.Log("Adding a bullet card to deck");
+                    deckBC.Add(((BulletCard) c));
+                }
+            }
+       }
+
+       public void updateMainHand(){
+            hand.Clear();
+            foreach (ActionCard c in handAC) {
+                hand.Add(c);
+            }
+            foreach (BulletCard c in handBC) {
+                hand.Add(c);
+            }
+            // SHUFFLE DECK
+        }
+
+        public void updateOtherHands() {
+            handAC.Clear();
+            handBC.Clear();
+            foreach (Card c in hand) {
+                if (c is ActionCard) {
+                    Debug.Log("Adding an action card to hand");
+                    handAC.Add(((ActionCard) c));
+                }
+                else {
+                    Debug.Log("Adding a bullet card to hand");
+                    handBC.Add(((BulletCard) c));
+                }
+            }
+       }
+
     }
 
 }

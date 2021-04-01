@@ -9,7 +9,7 @@ public class BulletCard extends Card implements SerializableSFSType {
 	 */
 	public boolean fired;
 	public String belongsToAsString;
-	
+		
 	//--EMPTY CONSTRUCTOR FOR SERIALIZATION--
 	public BulletCard() {}
 	

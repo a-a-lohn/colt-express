@@ -36,9 +36,9 @@ public class GameBoard : MonoBehaviour
 	//debug variables
 	public static Text debugText;
 	public static string debugTextString;
-    public Button button;
-	public Button extension;
-	public Button chooseChar;
+    // public Button button;
+	// public Button extension;
+	// public Button chooseChar;
 
 	public static bool works = false;
 	public Text doesItWork;
@@ -67,14 +67,14 @@ public class GameBoard : MonoBehaviour
 	public Button django; 
 	public Button marshal;
 	
-	public Button gem1; 
-	public Button gem2; 
-	public Button gem3; 
-	public Button gem4;
-	public Button gem5;
-	public Button gem6;
+	// public Button gem1; 
+	// public Button gem2; 
+	// public Button gem3; 
+	// public Button gem4;
+	// public Button gem5;
+	// public Button gem6;
 
-	public Button ghoLoot;
+	// public Button ghoLoot;
 
 	public GameObject bulletCard;
 
@@ -88,60 +88,60 @@ public class GameBoard : MonoBehaviour
 	public static ArrayList clickable = new ArrayList();
 	public static string action = "";
 
-	public Text cardNewAText;
-	public Text cardNewABext;
-	public Text cardNewCText;
+	// public Text cardNewAText;
+	// public Text cardNewABext;
+	// public Text cardNewCText;
 
-	public GameObject playerE;
+	// public GameObject playerE;
 
-	public Button BelleBulletCard1; 
-	public Button BelleBulletCard2;
-	public Button BelleBulletCard3;
-	public Button BelleBulletCard4;
-	public Button BelleBulletCard5;
-	public Button BelleBulletCard6;    
+	// public Button BelleBulletCard1; 
+	// public Button BelleBulletCard2;
+	// public Button BelleBulletCard3;
+	// public Button BelleBulletCard4;
+	// public Button BelleBulletCard5;
+	// public Button BelleBulletCard6;    
 
-	public Button CheyenneBulletCard1; 
-	public Button CheyenneBulletCard2;
-	public Button CheyenneBulletCard3;
-	public Button CheyenneBulletCard4;
-	public Button CheyenneBulletCard5;
-	public Button CheyenneBulletCard6;     
+	// public Button CheyenneBulletCard1; 
+	// public Button CheyenneBulletCard2;
+	// public Button CheyenneBulletCard3;
+	// public Button CheyenneBulletCard4;
+	// public Button CheyenneBulletCard5;
+	// public Button CheyenneBulletCard6;     
 	
-	public Button DocBulletCard1; 
-	public Button DocBulletCard2;
-	public Button DocBulletCard3;
-	public Button DocBulletCard4;
-	public Button DocBulletCard5;
-	public Button DocBulletCard6;   
+	// public Button DocBulletCard1; 
+	// public Button DocBulletCard2;
+	// public Button DocBulletCard3;
+	// public Button DocBulletCard4;
+	// public Button DocBulletCard5;
+	// public Button DocBulletCard6;   
 		
-	public Button TucoBulletCard1; 
-	public Button TucoBulletCard2;
-	public Button TucoBulletCard3;
-	public Button TucoBulletCard4;
-	public Button TucoBulletCard5;
-	public Button TucoBulletCard6;   
+	// public Button TucoBulletCard1; 
+	// public Button TucoBulletCard2;
+	// public Button TucoBulletCard3;
+	// public Button TucoBulletCard4;
+	// public Button TucoBulletCard5;
+	// public Button TucoBulletCard6;   
 
-	public Button DjangoBulletCard1; 
-	public Button DjangoBulletCard2;
-	public Button DjangoBulletCard3;
-	public Button DjangoBulletCard4;
-	public Button DjangoBulletCard5;
-	public Button DjangoBulletCard6;   
+	// public Button DjangoBulletCard1; 
+	// public Button DjangoBulletCard2;
+	// public Button DjangoBulletCard3;
+	// public Button DjangoBulletCard4;
+	// public Button DjangoBulletCard5;
+	// public Button DjangoBulletCard6;   
 
-	public Button GhostBulletCard1; 
-	public Button GhostBulletCard2;
-	public Button GhostBulletCard3;
-	public Button GhostBulletCard4;
-	public Button GhostBulletCard5;
-	public Button GhostBulletCard6;   
+	// public Button GhostBulletCard1; 
+	// public Button GhostBulletCard2;
+	// public Button GhostBulletCard3;
+	// public Button GhostBulletCard4;
+	// public Button GhostBulletCard5;
+	// public Button GhostBulletCard6;   
 
-	public Button BelleActionMove; 
-	public Button BelleActionChangeFloor; 
-	public Button BelleActionPunch; 
-	public Button BelleActionShoot;
+	// public Button BelleActionMove; 
+	// public Button BelleActionChangeFloor; 
+	// public Button BelleActionPunch; 
+	// public Button BelleActionShoot;
 
-	public Text clickableGOsText;
+	// public Text clickableGOsText;
 	public Text currentRound; 
 	public Text currentBandit; 
 
@@ -163,16 +163,16 @@ public class GameBoard : MonoBehaviour
 	private List<Button> goTUCOHand; 
 	private List<Button> goDJANGOHand; 
 
-	public Button ghostCard1; 
-	public Button ghostCard2; 
-	public Button ghostCard3; 
-	public Button ghostCard4; 
-	public Button ghostCard5;
-	public Button ghostCard6;  
-	public Button ghostCard7;
+	// public Button ghostCard1; 
+	// public Button ghostCard2; 
+	// public Button ghostCard3; 
+	// public Button ghostCard4; 
+	// public Button ghostCard5;
+	// public Button ghostCard6;  
+	// public Button ghostCard7;
 
 	private List<GameObject> clickableGOs; 
-	public List<object> clickablebuttonToObject;  
+	//public List<object> buttonToObject;  
 
 	// public Button ghoCard1; 
 	// public Button ghoCard2; 
@@ -228,28 +228,28 @@ public class GameBoard : MonoBehaviour
 	public Button handCard9;  
 	public Button handCard10; 
 	public Button handCard11; 
-	private List<Button> goHandCard; 
+	private List<Button> goHandCard = new List<Button>(); 
 	
 	/* a card has 4 attributes */
 	public Text handCardActionType1; 
-	public Text handCardOneSaveForNetRound;
-	public Text handCardOneIsFaceDown; 
-	public Text handCardOneBelongsTo;
+	// public Text handCardOneSaveForNetRound;
+	// public Text handCardOneIsFaceDown; 
+	// public Text handCardOneBelongsTo;
 
 	public Text handCardActionType2;
-	public Text handCardTwoSaveForNetRound;
-	public Text handCardTwoIsFaceDown; 
-	public Text handCardTwoBelongsTo;
+	// public Text handCardTwoSaveForNetRound;
+	// public Text handCardTwoIsFaceDown; 
+	// public Text handCardTwoBelongsTo;
 
 	public Text handCardActionType3; 
-	public Text handCardThreeSaveForNetRound;
-	public Text handCardThreeIsFaceDown; 
-	public Text handCardThreeBelongsTo;
+	// public Text handCardThreeSaveForNetRound;
+	// public Text handCardThreeIsFaceDown; 
+	// public Text handCardThreeBelongsTo;
 
 	public Text handCardActionType4; 
-	public Text handCardFourSaveForNetRound;
-	public Text handCardFourIsFaceDown; 
-	public Text handCardFourBelongsTo;
+	// public Text handCardFourSaveForNetRound;
+	// public Text handCardFourIsFaceDown; 
+	// public Text handCardFourBelongsTo;
 
 	public Text handCardActionType5; 
 	public Text handCardActionType6; 
@@ -285,7 +285,7 @@ public class GameBoard : MonoBehaviour
 	bool calledMapTrain = false;
 
     void Start(){
-		setAllNonClickable();
+		//setAllNonClickable();
 
 		Round.text = "ROUND 1:\n-Standard turn\n-Tunnel turn\n-Switching turn";
 		SFS.setGameBoard();
@@ -308,64 +308,64 @@ public class GameBoard : MonoBehaviour
     }
 
 	/* add all Belle bullet cards to list*/
-	public void addAllBelleBullets(){
-		goBELLEBulletCards.Add(BelleBulletCard1); 
-		goBELLEBulletCards.Add(BelleBulletCard2); 
-		goBELLEBulletCards.Add(BelleBulletCard3); 
-		goBELLEBulletCards.Add(BelleBulletCard4);
-		goBELLEBulletCards.Add(BelleBulletCard5);  
-		goBELLEBulletCards.Add(BelleBulletCard6); 
-	}
+	// public void addAllBelleBullets(){
+	// 	goBELLEBulletCards.Add(BelleBulletCard1); 
+	// 	goBELLEBulletCards.Add(BelleBulletCard2); 
+	// 	goBELLEBulletCards.Add(BelleBulletCard3); 
+	// 	goBELLEBulletCards.Add(BelleBulletCard4);
+	// 	goBELLEBulletCards.Add(BelleBulletCard5);  
+	// 	goBELLEBulletCards.Add(BelleBulletCard6); 
+	// }
 
-	/* add all Cheyenne bullet cards to list*/
-	public void addAllCheyenneBullets(){
-		goCHEYENNEBulletCards.Add(CheyenneBulletCard1); 
-		goCHEYENNEBulletCards.Add(CheyenneBulletCard2); 
-		goCHEYENNEBulletCards.Add(CheyenneBulletCard3); 
-		goCHEYENNEBulletCards.Add(CheyenneBulletCard4);
-		goCHEYENNEBulletCards.Add(CheyenneBulletCard5);  
-		goCHEYENNEBulletCards.Add(CheyenneBulletCard6); 
-	}
+	// /* add all Cheyenne bullet cards to list*/
+	// public void addAllCheyenneBullets(){
+	// 	goCHEYENNEBulletCards.Add(CheyenneBulletCard1); 
+	// 	goCHEYENNEBulletCards.Add(CheyenneBulletCard2); 
+	// 	goCHEYENNEBulletCards.Add(CheyenneBulletCard3); 
+	// 	goCHEYENNEBulletCards.Add(CheyenneBulletCard4);
+	// 	goCHEYENNEBulletCards.Add(CheyenneBulletCard5);  
+	// 	goCHEYENNEBulletCards.Add(CheyenneBulletCard6); 
+	// }
 
-	/* add all Doc bullet cards to list*/
-	public void addAllDocBullets(){
-		goDOCBulletCards.Add(DocBulletCard1); 
-		goDOCBulletCards.Add(DocBulletCard2); 
-		goDOCBulletCards.Add(DocBulletCard3); 
-		goDOCBulletCards.Add(DocBulletCard4);
-		goDOCBulletCards.Add(DocBulletCard5);  
-		goDOCBulletCards.Add(DocBulletCard6); 
-	}
+	// /* add all Doc bullet cards to list*/
+	// public void addAllDocBullets(){
+	// 	goDOCBulletCards.Add(DocBulletCard1); 
+	// 	goDOCBulletCards.Add(DocBulletCard2); 
+	// 	goDOCBulletCards.Add(DocBulletCard3); 
+	// 	goDOCBulletCards.Add(DocBulletCard4);
+	// 	goDOCBulletCards.Add(DocBulletCard5);  
+	// 	goDOCBulletCards.Add(DocBulletCard6); 
+	// }
 
-	/* add all Tuco bullet cards to list*/
-	public void addAllTucoBullets(){
-		goTUCOBulletCards.Add(TucoBulletCard1); 
-		goTUCOBulletCards.Add(TucoBulletCard2); 
-		goTUCOBulletCards.Add(TucoBulletCard3); 
-		goTUCOBulletCards.Add(TucoBulletCard4);
-		goTUCOBulletCards.Add(TucoBulletCard5);  
-		goTUCOBulletCards.Add(TucoBulletCard6); 
-	}
+	// /* add all Tuco bullet cards to list*/
+	// public void addAllTucoBullets(){
+	// 	goTUCOBulletCards.Add(TucoBulletCard1); 
+	// 	goTUCOBulletCards.Add(TucoBulletCard2); 
+	// 	goTUCOBulletCards.Add(TucoBulletCard3); 
+	// 	goTUCOBulletCards.Add(TucoBulletCard4);
+	// 	goTUCOBulletCards.Add(TucoBulletCard5);  
+	// 	goTUCOBulletCards.Add(TucoBulletCard6); 
+	// }
 
-	/* add all Django bullet cards to list*/
-	public void addAllDjangoBullets(){
-		goDJANGOBulletCards.Add(DjangoBulletCard1); 
-		goDJANGOBulletCards.Add(DjangoBulletCard2); 
-		goDJANGOBulletCards.Add(DjangoBulletCard3); 
-		goDJANGOBulletCards.Add(DjangoBulletCard4);
-		goDJANGOBulletCards.Add(DjangoBulletCard5);  
-		goDJANGOBulletCards.Add(DjangoBulletCard6); 
-	}
+	// /* add all Django bullet cards to list*/
+	// public void addAllDjangoBullets(){
+	// 	goDJANGOBulletCards.Add(DjangoBulletCard1); 
+	// 	goDJANGOBulletCards.Add(DjangoBulletCard2); 
+	// 	goDJANGOBulletCards.Add(DjangoBulletCard3); 
+	// 	goDJANGOBulletCards.Add(DjangoBulletCard4);
+	// 	goDJANGOBulletCards.Add(DjangoBulletCard5);  
+	// 	goDJANGOBulletCards.Add(DjangoBulletCard6); 
+	// }
 
-	/* add all Ghost bullet cards to list*/
-	public void addAllGhostBullets(){
-		goGHOSTBulletCards.Add(GhostBulletCard1); 
-		goGHOSTBulletCards.Add(GhostBulletCard2); 
-		goGHOSTBulletCards.Add(GhostBulletCard3); 
-		goGHOSTBulletCards.Add(GhostBulletCard4);
-		goGHOSTBulletCards.Add(GhostBulletCard5);  
-		goGHOSTBulletCards.Add(GhostBulletCard6); 
-	}
+	// /* add all Ghost bullet cards to list*/
+	// public void addAllGhostBullets(){
+	// 	goGHOSTBulletCards.Add(GhostBulletCard1); 
+	// 	goGHOSTBulletCards.Add(GhostBulletCard2); 
+	// 	goGHOSTBulletCards.Add(GhostBulletCard3); 
+	// 	goGHOSTBulletCards.Add(GhostBulletCard4);
+	// 	goGHOSTBulletCards.Add(GhostBulletCard5);  
+	// 	goGHOSTBulletCards.Add(GhostBulletCard6); 
+	// }
 
 	/* initMap initializes the <Button, object> hashmap */
 	public void initMap(){
@@ -382,7 +382,6 @@ public class GameBoard : MonoBehaviour
 		buttonToObject.Add(handCard10, "null"); 
 		buttonToObject.Add(handCard11, "null"); 
 
-
 		/* init. all bandits */
 		buttonToObject.Add(belle, "null"); 
 		buttonToObject.Add(cheyenne, "null"); 
@@ -393,12 +392,12 @@ public class GameBoard : MonoBehaviour
 		buttonToObject.Add(marshal, "null");
 
 		/* init all bullet cards */
-		addNullListToMap(goBELLEBulletCards);
-		addNullListToMap(goCHEYENNEBulletCards);
-		addNullListToMap(goDOCBulletCards);
-		addNullListToMap(goGHOSTBulletCards);
-		addNullListToMap(goDJANGOBulletCards);
-		addNullListToMap(goTUCOBulletCards);
+		// addNullListToMap(goBELLEBulletCards);
+		// addNullListToMap(goCHEYENNEBulletCards);
+		// addNullListToMap(goDOCBulletCards);
+		// addNullListToMap(goGHOSTBulletCards);
+		// addNullListToMap(goDJANGOBulletCards);
+		// addNullListToMap(goTUCOBulletCards);
 
 		/* init all bandits' hands */
 		// goBELLEHand = new List<Button>(){belCard1, belCard2, belCard3, belCard4, belCard5, belCard5, belCard6};
@@ -505,60 +504,60 @@ public class GameBoard : MonoBehaviour
 		}
 	}
 
-	public void mapBanditBullet(GameManager gm){
-		// for all the bandits passed in via gm, map their bullet cards 
-		foreach(Bandit aBandit in gm.bandits){
-			ArrayList aBanditBullets = aBandit.bullets;
-			if(aBandit.characterAsString == "BELLE"){
-				buttonToObject[BelleBulletCard1] = aBanditBullets[0]; 
-				buttonToObject[BelleBulletCard2] = aBanditBullets[1]; 
-				buttonToObject[BelleBulletCard3] = aBanditBullets[2]; 
-				buttonToObject[BelleBulletCard4] = aBanditBullets[3]; 
-				buttonToObject[BelleBulletCard5] = aBanditBullets[4]; 
-				buttonToObject[BelleBulletCard6] = aBanditBullets[5]; 
-			}
-			if(aBandit.characterAsString == "CHEYENNE"){
-				buttonToObject[CheyenneBulletCard1] = aBanditBullets[0]; 
-				buttonToObject[CheyenneBulletCard2] = aBanditBullets[1]; 
-				buttonToObject[CheyenneBulletCard3] = aBanditBullets[2]; 
-				buttonToObject[CheyenneBulletCard4] = aBanditBullets[3]; 
-				buttonToObject[CheyenneBulletCard5] = aBanditBullets[4]; 
-				buttonToObject[CheyenneBulletCard6] = aBanditBullets[5]; 
-			}
-			if(aBandit.characterAsString == "DOC"){
-				buttonToObject[DocBulletCard1] = aBanditBullets[0]; 
-				buttonToObject[DocBulletCard2] = aBanditBullets[1]; 
-				buttonToObject[DocBulletCard3] = aBanditBullets[2]; 
-				buttonToObject[DocBulletCard4] = aBanditBullets[3]; 
-				buttonToObject[DocBulletCard5] = aBanditBullets[4]; 
-				buttonToObject[DocBulletCard6] = aBanditBullets[5]; 
-			}	
-			if(aBandit.characterAsString == "DJANGO"){
-				buttonToObject[DjangoBulletCard1] = aBanditBullets[0]; 
-				buttonToObject[DjangoBulletCard2] = aBanditBullets[1]; 
-				buttonToObject[DjangoBulletCard3] = aBanditBullets[2]; 
-				buttonToObject[DjangoBulletCard4] = aBanditBullets[3]; 
-				buttonToObject[DjangoBulletCard5] = aBanditBullets[4]; 
-				buttonToObject[DjangoBulletCard6] = aBanditBullets[5]; 
-			}
-			if(aBandit.characterAsString == "TUCO"){
-				buttonToObject[TucoBulletCard1] = aBanditBullets[0]; 
-				buttonToObject[TucoBulletCard2] = aBanditBullets[1]; 
-				buttonToObject[TucoBulletCard3] = aBanditBullets[2]; 
-				buttonToObject[TucoBulletCard4] = aBanditBullets[3]; 
-				buttonToObject[TucoBulletCard5] = aBanditBullets[4]; 
-				buttonToObject[TucoBulletCard6] = aBanditBullets[5]; 
-			}
-			if(aBandit.characterAsString == "GHOST"){
-				buttonToObject[GhostBulletCard1] = aBanditBullets[0]; 
-				buttonToObject[GhostBulletCard2] = aBanditBullets[1]; 
-				buttonToObject[GhostBulletCard3] = aBanditBullets[2]; 
-				buttonToObject[GhostBulletCard4] = aBanditBullets[3]; 
-				buttonToObject[GhostBulletCard5] = aBanditBullets[4]; 
-				buttonToObject[GhostBulletCard6] = aBanditBullets[5]; 
-			}
-		}
-	}
+	// public void mapBanditBullet(GameManager gm){
+	// 	// for all the bandits passed in via gm, map their bullet cards 
+	// 	foreach(Bandit aBandit in gm.bandits){
+	// 		ArrayList aBanditBullets = aBandit.bullets;
+	// 		if(aBandit.characterAsString == "BELLE"){
+	// 			buttonToObject[BelleBulletCard1] = aBanditBullets[0]; 
+	// 			buttonToObject[BelleBulletCard2] = aBanditBullets[1]; 
+	// 			buttonToObject[BelleBulletCard3] = aBanditBullets[2]; 
+	// 			buttonToObject[BelleBulletCard4] = aBanditBullets[3]; 
+	// 			buttonToObject[BelleBulletCard5] = aBanditBullets[4]; 
+	// 			buttonToObject[BelleBulletCard6] = aBanditBullets[5]; 
+	// 		}
+	// 		if(aBandit.characterAsString == "CHEYENNE"){
+	// 			buttonToObject[CheyenneBulletCard1] = aBanditBullets[0]; 
+	// 			buttonToObject[CheyenneBulletCard2] = aBanditBullets[1]; 
+	// 			buttonToObject[CheyenneBulletCard3] = aBanditBullets[2]; 
+	// 			buttonToObject[CheyenneBulletCard4] = aBanditBullets[3]; 
+	// 			buttonToObject[CheyenneBulletCard5] = aBanditBullets[4]; 
+	// 			buttonToObject[CheyenneBulletCard6] = aBanditBullets[5]; 
+	// 		}
+	// 		if(aBandit.characterAsString == "DOC"){
+	// 			buttonToObject[DocBulletCard1] = aBanditBullets[0]; 
+	// 			buttonToObject[DocBulletCard2] = aBanditBullets[1]; 
+	// 			buttonToObject[DocBulletCard3] = aBanditBullets[2]; 
+	// 			buttonToObject[DocBulletCard4] = aBanditBullets[3]; 
+	// 			buttonToObject[DocBulletCard5] = aBanditBullets[4]; 
+	// 			buttonToObject[DocBulletCard6] = aBanditBullets[5]; 
+	// 		}	
+	// 		if(aBandit.characterAsString == "DJANGO"){
+	// 			buttonToObject[DjangoBulletCard1] = aBanditBullets[0]; 
+	// 			buttonToObject[DjangoBulletCard2] = aBanditBullets[1]; 
+	// 			buttonToObject[DjangoBulletCard3] = aBanditBullets[2]; 
+	// 			buttonToObject[DjangoBulletCard4] = aBanditBullets[3]; 
+	// 			buttonToObject[DjangoBulletCard5] = aBanditBullets[4]; 
+	// 			buttonToObject[DjangoBulletCard6] = aBanditBullets[5]; 
+	// 		}
+	// 		if(aBandit.characterAsString == "TUCO"){
+	// 			buttonToObject[TucoBulletCard1] = aBanditBullets[0]; 
+	// 			buttonToObject[TucoBulletCard2] = aBanditBullets[1]; 
+	// 			buttonToObject[TucoBulletCard3] = aBanditBullets[2]; 
+	// 			buttonToObject[TucoBulletCard4] = aBanditBullets[3]; 
+	// 			buttonToObject[TucoBulletCard5] = aBanditBullets[4]; 
+	// 			buttonToObject[TucoBulletCard6] = aBanditBullets[5]; 
+	// 		}
+	// 		if(aBandit.characterAsString == "GHOST"){
+	// 			buttonToObject[GhostBulletCard1] = aBanditBullets[0]; 
+	// 			buttonToObject[GhostBulletCard2] = aBanditBullets[1]; 
+	// 			buttonToObject[GhostBulletCard3] = aBanditBullets[2]; 
+	// 			buttonToObject[GhostBulletCard4] = aBanditBullets[3]; 
+	// 			buttonToObject[GhostBulletCard5] = aBanditBullets[4]; 
+	// 			buttonToObject[GhostBulletCard6] = aBanditBullets[5]; 
+	// 		}
+	// 	}
+	// }
 
 	/* promptDrawOrPlayMessage displays the prompt message on gameboard*/
 	public static void promptDrawOrPlayMessage(){
@@ -575,9 +574,14 @@ public class GameBoard : MonoBehaviour
 
  	public void buttonClicked(Button btn){
 		Debug.Log( btn.name + "IS CLICKED");
+		Debug.Log("Clickable has " + clickable.Count + "items");
         promptPunchTarget.text = btn.name + "IS CLICKED"; 
         //punchedBandit = btn.name;
 		// if buttonToObject[btn] is an actioncard, call playCard(buttonToObject[btn])
+		if(clickable.Contains(btn)) {
+			Debug.Log("this is a clickable item!");
+			//all calls back to GM should be here
+		}
 		try {
 			ActionCard currActionCard = (ActionCard)buttonToObject[btn];
 			gm.playCard(currActionCard); 
@@ -682,12 +686,48 @@ public class GameBoard : MonoBehaviour
 				// 	 index++;
 				// }
             }
+
+			//UPDATE HAND/DECK EVERY TIME
+
+
 			if(b.characterAsString == gm.currentBandit.characterAsString){
+				
+				/*
+				* OBJECTS ARE NEWLY CREATED WHEN SERIALIZED. IF MULTIPLE REFERENCES EXIST FOR THE SAME OBJECT, THEY WILL BE TREATED AS DIFFERENT OBJECTS
+				*/
+				gm.currentBandit = b;
+
+				b.updateMainDeck();
+
+                if (gm.strGameStatus.Equals("SCHEMIN")) {
+                    if(gm.currentRound.getTurnCounter() == 0){
+                        gm.currentBandit.drawCards(6);
+                        if(gm.currentBandit.getCharacter().Equals("DOC")){
+                            gm.currentBandit.drawCards(1);
+                        }
+                        gm.currentBandit.updateOtherDecks();
+                        gm.currentBandit.updateOtherHands();
+                    }
+				}
+				b.updateMainHand();
 				// assign to gameobjects on screen 
-				ArrayList currCards = b.hand;
+				//ArrayList currCards = b.hand;
+				Bandit b1 = gm.currentBandit;
 				int index = 0; 
-				foreach(Card currCard in currCards){
-					buttonToObject[goHandCard[index]] = currCard; 
+				ActionCard ac;
+				BulletCard bc;
+				Debug.Log("num of currcards: " + b.hand.Count);
+				Debug.Log("num of currcards b1: " + gm.currentBandit.hand.Count);
+				foreach(Card currCard in gm.currentBandit.hand){
+					try{
+						ac = (ActionCard) currCard;
+						buttonToObject[goHandCard[index]] = ac;
+						Debug.Log("trying to cast card as action card");
+					} catch(Exception e) {
+						bc = (BulletCard) currCard;
+						buttonToObject[goHandCard[index]] = bc;
+						Debug.Log("not initializing an action card");
+					}
 					index++;
 				}
 				mapActionCards(handCard1, handCardActionType1);
@@ -717,13 +757,13 @@ public class GameBoard : MonoBehaviour
         //     	buttonToObject[g] = c;
 		// 	}
 		// }
-		Debug.Log("Called mapactioncards");
+		//Debug.Log("Called mapactioncards");
 
 		try {
 			ActionCard card = (ActionCard)buttonToObject[button];
 			buttonText.text = card.actionTypeAsString;
 		} catch(Exception e) {
-			Debug.Log("not an action card in MAP");
+			//Debug.Log("not an action card in MAP");
 			buttonText.text = "Bullet";
 		}
 	}

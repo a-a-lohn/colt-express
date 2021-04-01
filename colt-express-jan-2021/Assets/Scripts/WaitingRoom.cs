@@ -453,7 +453,7 @@ public class WaitingRoom : MonoBehaviour
     }
 
     public void SaveGameState(string savegameID) {
-
+        Debug.Log("SaveGameState is called!"); 
 		//ONLY NEED TO SEND THE SAVEGAME REQUEST TO THE LS ONCE
 		//(although making the same call multiple times can't hurt, and is simpler)
 		var request = new RestRequest("api/sessions/" + gameHash, Method.GET)
