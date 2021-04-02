@@ -361,6 +361,7 @@ public class GameBoard : MonoBehaviour
  	public void buttonClicked(Button btn){
 		if(!isMyTurn()) {
 			Debug.Log("not my turn!");
+			btn.interactable = true;
 		} else {
 			Debug.Log( btn.name + " IS CLICKED");
 			Debug.Log("Clickable has " + clickable.Count + "items");

@@ -133,7 +133,7 @@ namespace model {
             //  Assign card to played pile
             PlayedPile pile = PlayedPile.getInstance();
             pile.addPlayedCards(c);
-             Debug.Log("played card, ending turn");
+            Debug.Log("played card, ending turn");
             this.endOfTurn(currentBandit + " played " + c.actionTypeAsString);
             // might have to put this in an if else block for cases like SpeedingUp/Whiskey
         }
