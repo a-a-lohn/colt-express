@@ -130,7 +130,9 @@ public static class SFS
    				Debug.Log(String.Format("{0}: {1}", key.characterAsString, m.carTypeAsString));
 			}
 			//GameBoard.SendNewGameState();
-		} 
+		}  else if (cmd == "testgame") {
+			TestGame.ReceiveInitializedGame(evt);
+		}
     }
 
     public static void Connect(string uname) {
