@@ -35,6 +35,7 @@ public static class SFS
 
 	public static int step = 0;
 
+	public static TestGame tg;
 	public static GameBoard gb;
 	public static ChooseCharacter cc;
 	public static Chat chat;
@@ -53,6 +54,10 @@ public static class SFS
 	public static SmartFox getSFS() {
         return sfs;
     }
+
+	public static void setTestGame() {
+		tg = GameObject.Find("TestGameGO").GetComponent<TestGame>();
+	}
 
 	public static void setGameBoard() {
 		gb = GameObject.Find("GameBoardGO").GetComponent<GameBoard>();
@@ -131,7 +136,7 @@ public static class SFS
 			}
 			//GameBoard.SendNewGameState();
 		}  else if (cmd == "testgame") {
-			TestGame.ReceiveInitializedGame(evt);
+			tg.ReceiveInitializedGame(evt);
 		}
     }
 
@@ -144,7 +149,7 @@ public static class SFS
 			// Clear console
 			//debugText.text = "";
 			
-			trace("Now connecting...");	
+			Debug.Log("Now connecting...");	
 			
             // Add listeners
 			sfs.AddEventListener(SFSEvent.CONNECTION, OnConnection);
@@ -215,14 +220,13 @@ public static class SFS
 
     private static void OnConnection(BaseEvent evt) {
 		if ((bool)evt.Params["success"]) {
-			trace("Connection established successfully");
-			trace("Connection mode is: " + sfs.ConnectionMode);
+			Debug.Log("Connection established successfully");
 
             // Login with some username after having made connection
 			sfs.Send(new Sfs2X.Requests.LoginRequest(username));
 
 		} else {
-			trace("Connection failed; is the server running at all?");
+			Debug.Log("Connection failed; is the server running at all?");
 			
 			// Remove SFS2X listeners and re-enable interface
 			reset();
@@ -230,7 +234,7 @@ public static class SFS
 	}
 	
 	private static void OnConnectionLost(BaseEvent evt) {
-		trace("Connection was lost; reason is: " + (string)evt.Params["reason"]);
+		Debug.Log("Connection was lost; reason is: " + (string)evt.Params["reason"]);
 		
 		// Remove SFS2X listeners and re-enable interface
 		reset();

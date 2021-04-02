@@ -54,7 +54,7 @@ public class Bandit implements SerializableSFSType {
 	}
 
 	public void setPosition(TrainUnit tu) {
-		GameManager.getInstance().banditPositions.replace(this, tu);
+		GameManager.getInstance().banditPositions.replace(this.characterAsString, tu);
 	}
 
 	public boolean addLootAt(int index, Loot a) {

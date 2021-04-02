@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 using Sfs2X;
 using Sfs2X.Util;
@@ -19,6 +20,8 @@ public class TestGame : MonoBehaviour
     public static string prompt = "";
     static int num = 0;
 
+    public Text summary;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,9 +36,9 @@ public class TestGame : MonoBehaviour
         if (!SFS.IsConnected()) {
             SFS.Connect("testgame");
             Debug.Log("was not connected. Connecting now");
-            //TODO: DEBUG LOG A RESPONSE AFFIRMING CONNECTION
         }
-        Invoke("StartGame", 3);
+        SFS.setTestGame();
+        Invoke("StartGame", 2);
     }
 
     // Update is called once per frame
@@ -48,6 +51,7 @@ public class TestGame : MonoBehaviour
         if (Input.GetMouseButtonDown(0)){
 			RunGame(num);
             GameSummary();
+            Debug.Log("just called case " + num);
             num++;
             prompt = "";
 		}
@@ -55,62 +59,87 @@ public class TestGame : MonoBehaviour
 
     void StartGame() {
         ISFSObject obj = SFSObject.NewInstance();
-        ExtensionRequest req = new ExtensionRequest("gm.testGame",obj);
+        ExtensionRequest req = new ExtensionRequest("gm.testgame",obj);
         SFS.Send(req);
         Debug.Log("sent request to start testgame");
     }
 
-    public static void ReceiveInitializedGame(BaseEvent evt) {
+    public void ReceiveInitializedGame(BaseEvent evt) {
 		Debug.Log("Received initialized game");
         ISFSObject responseParams = (SFSObject)evt.Params["params"];
 		gm = (GameManager)responseParams.GetClass("gm");
 		GameManager.replaceInstance(gm);
         gm.currentBandit = (Bandit)gm.bandits[0];
-        // TODO: MUST REASSIGN BANDIT POSITION ARRAY
+
         GameSummary();
     }
 
-    static void GameSummary() {
-        Debug.Log("prompt: " + prompt);
+    void GameSummary() {
+        summary.text = "PROMPT: " + prompt + "\n";
+        summary.text += "\nCURRENT BANDIT: " + gm.currentBandit.characterAsString + "\n\n";
         foreach (Bandit b in gm.bandits){
-            Debug.Log("BANDIT: " + b.characterAsString);
-            Debug.Log("CARDS:");
+            summary.text += "BANDIT: " + b.characterAsString + "\n";
+            summary.text += "CARDS: ";
             foreach(Card c in b.getHand()){
                 try {
                     ActionCard ac = (ActionCard)c;
-                    //Debug.Log(ac.action type);
+                    summary.text += ac.actionTypeAsString + ", ";
                 } catch(Exception e) {
-                    Debug.Log("bullet card");
+                    summary.text += "bullet card, ";
                 }
             }
-            Debug.Log("LOOT:");
-            foreach(Card c in b.getHand()){
-                try {
-                    ActionCard ac = (ActionCard)c;
-                    //Debug.Log(ac.action type);
-                } catch(Exception e) {
-                    Debug.Log("bullet card");
+            summary.text += "\nLOOT: ";
+            foreach(Loot l in b.getLoot()){
+                summary.text += "l, ";
+            }
+            summary.text += "\nPOSITION: ";
+            foreach(DictionaryEntry e in gm.banditPositions) {
+                string bhere = (string) e.Key;
+                if(b.characterAsString.Equals(bhere)) {
+                    TrainUnit t = (TrainUnit) e.Value;
+                    summary.text += t.carTypeAsString + ", " + t.carFloorAsString + "\n";
+                    break;
                 }
             }
-            Debug.Log("POSITION:");
-            Debug.Log("PLAYED PILE:");
+            summary.text += "\n";
+        }
+        summary.text += "\nPLAYED PILE: ";
+        foreach(ActionCard c in PlayedPile.getInstance().getPlayedCards()){
+                summary.text += c.actionTypeAsString + ", ";
+        }
+        summary.text += "\n\nCARS: ";
+        foreach(TrainUnit tr in gm.trainRoof){
+                summary.text += tr.carTypeAsString + " (" + tr.carFloorAsString + "), ";
+                //TODO: iterate through its loot nd indicate if stagecoach is adjacent
+        }
+        summary.text += "\n";
+        foreach(TrainUnit tc in gm.trainCabin){
+                summary.text += tc.carTypeAsString + " (" + tc.carFloorAsString + "), ";
+                //TODO: iterate through its loot and indicate if stagecoach is adjacent
         }
     }
 
+    // MAKE MOCK PROMPT METHODS IN GAMEMANAGER.CS THAT ASSIGN THE PROMPT STRING IN TESTGAME.CS. SEE promptDrawCardsOrPlayCard() IN GM FOR REFERENCE
     void RunGame(int num){
         switch (num) {
             case 0:
+                // initial playturn()
                 gm.playTurn();
                 break;
             case 1:
                 gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
+                // ONLY CALL PLAYTURN() IMMEDIATELY AFTER CALLING A METHOD THAT CALLS ENDOFTURN() (such as playCard())
+                gm.playTurn();
                 break;
             case 2:
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
                 gm.playTurn();
                 break;
             case 3:
                 gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
+                gm.playTurn();
                 break;
+            // ADD MORE CASES!
         }
     }
 

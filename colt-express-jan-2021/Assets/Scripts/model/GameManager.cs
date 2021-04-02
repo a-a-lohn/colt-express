@@ -12,8 +12,6 @@ using Sfs2X.Protocol.Serialization;
 // @MultiHandler
 namespace model {
     public class GameManager : SerializableSFSType {
-        //public Hashtable banditLocation; 
-        //public static ColtMultiHandler handler; 
         public static GameManager singleton;
         public string strGameStatus;
         
@@ -69,18 +67,9 @@ namespace model {
         }
         
         public void promptDrawCardsOrPlayCard() {
-            // Debug.Log("setting 'it works' from prompt");
-            // GameBoard.setWorks();
-            // GameBoard.clickable = currentBandit.getHand();
-            // GameBoard.action = "playcard";
-            // Debug.Log("CALLINNGGG");
-            // GameObject board = GameObject.Find("GameBoardGO");
-            // GameBoard gameboardScript = board.GetComponent<GameBoard>(); 
-            // Debug.Log(gameboardScript + "scripttt");
-            // gameboardScript.promptDrawCardsOrPlayCardMsg.text = "Please play a card or draw 3 cards!";
 
-            // ASSIGN THIS ATTRIBUTE FOR EVERY PROMPT;
-            TestGame.prompt = "play or draw cards";
+            // ASSIGN THIS ATTRIBUTE ACCORDINGLY IN EVERY PROMPT;
+            TestGame.prompt = "playCard() or drawCards()";
         }
 
         public void resolveAction(ActionCard toResolve) {
@@ -160,7 +149,7 @@ namespace model {
         }
 
         public void endOfTurn() {
-            endOfTurn("null");
+            endOfTurn("use the endOfTurn method that takes a string arg instead indicating the what happened on that turn");
          }
 
         public void endOfTurn(string message) {

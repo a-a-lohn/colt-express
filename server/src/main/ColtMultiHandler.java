@@ -285,14 +285,17 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	}
 	
 	private void handleTestGame(User sender, ISFSObject rtn) {
-		GameManager gmTest = GameManager.getInstance();
+		GameManager gmTest = new GameManager();
+		GameManager.singleton = gmTest;
 		// note: the banditmap will only have one entry because it is being overwritten 3 times below,
 		// but since it does not seem to be used this should be fine
 		gmTest.chosenCharacter(sender, Character.BELLE, 3);
 		gmTest.chosenCharacter(sender, Character.DOC, 3);
 		gmTest.chosenCharacter(sender, Character.GHOST, 3);
 		rtn.putClass("gm", gmTest);
+		System.out.println("sending initialized test game");
 		sendToSender(sender, rtn, "testgame");
+		GameManager.singleton = null;
 	}
 	
 }
