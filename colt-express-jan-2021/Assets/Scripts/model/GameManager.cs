@@ -69,16 +69,17 @@ namespace model {
         }
         
         public void promptDrawCardsOrPlayCard() {
-            Debug.Log("setting 'it works' from prompt");
-            GameBoard.setWorks();
-            GameBoard.clickable = currentBandit.getHand();
-            GameBoard.action = "playcard";
-            Debug.Log("CALLINNGGG");
+            // Debug.Log("setting 'it works' from prompt");
+            // GameBoard.setWorks();
+            // GameBoard.clickable = currentBandit.getHand();
+            // GameBoard.action = "playcard";
+            // Debug.Log("CALLINNGGG");
             // GameObject board = GameObject.Find("GameBoardGO");
             // GameBoard gameboardScript = board.GetComponent<GameBoard>(); 
             // Debug.Log(gameboardScript + "scripttt");
             // gameboardScript.promptDrawCardsOrPlayCardMsg.text = "Please play a card or draw 3 cards!";
 
+            // ASSIGN THIS ATTRIBUTE FOR EVERY PROMPT;
             TestGame.prompt = "play or draw cards";
         }
 

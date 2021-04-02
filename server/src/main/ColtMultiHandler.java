@@ -291,7 +291,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		gmTest.chosenCharacter(sender, Character.BELLE, 3);
 		gmTest.chosenCharacter(sender, Character.DOC, 3);
 		gmTest.chosenCharacter(sender, Character.GHOST, 3);
-		rtn.putClass("gm", gm);
+		rtn.putClass("gm", gmTest);
 		sendToSender(sender, rtn, "testgame");
 	}
 	
