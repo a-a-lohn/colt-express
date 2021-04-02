@@ -298,11 +298,11 @@ namespace model {
             deckBC.Clear();
             foreach (Card c in deck) {
                 if (c is ActionCard) {
-                    Debug.Log("Adding an action card to deck");
+                    //Debug.Log("Adding an action card to deck");
                     deckAC.Add(((ActionCard) c));
                 }
                 else {
-                    Debug.Log("Adding a bullet card to deck");
+                   // Debug.Log("Adding a bullet card to deck");
                     deckBC.Add(((BulletCard) c));
                 }
             }
@@ -324,11 +324,11 @@ namespace model {
             handBC.Clear();
             foreach (Card c in hand) {
                 if (c is ActionCard) {
-                    Debug.Log("Adding an action card to hand");
+                    //Debug.Log("Adding an action card to hand");
                     handAC.Add(((ActionCard) c));
                 }
                 else {
-                    Debug.Log("Adding a bullet card to hand");
+                    //Debug.Log("Adding a bullet card to hand");
                     handBC.Add(((BulletCard) c));
                 }
             }

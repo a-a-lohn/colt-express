@@ -65,9 +65,11 @@ public class WaitingRoom : MonoBehaviour
             // For C# serialization
             DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
             SFS.setSFS(sfs);
+            Debug.Log("SFS was null. Setting it now");
         }
         if (!SFS.IsConnected()) {
             SFS.Connect(username);
+            Debug.Log("was not connected. Connecting now");
         }
 
         HostGameButton.interactable = false;
@@ -123,15 +125,21 @@ public class WaitingRoom : MonoBehaviour
 			SFS.ProcessEvents();
 		}
 
-        GetSessions();
+        // Create a temporary reference to the current scene.
+        Scene currentScene = SceneManager.GetActiveScene();
+         // Retrieve the name of this scene.
+        string sceneName = currentScene.name;
 
-        if(!SFS.enteredGame && numSessions > 0) {
-            if(hosting && !LaunchGameButton.interactable) {
-                ActivateLaunchGameButton();
+        if(sceneName == "WaitingRoom") {
+            GetSessions();
+            if(!SFS.enteredGame && numSessions > 0) {
+                if(hosting && !LaunchGameButton.interactable) {
+                    ActivateLaunchGameButton();
+                }
+                GoToGame();
             }
-            GoToGame();
+            Invoke("Stall",1);
         }
-        Invoke("Stall",1);
     }
 
     private void Stall() { }

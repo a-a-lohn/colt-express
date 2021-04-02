@@ -130,11 +130,17 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		gm = game;
 		ArrayList<Bandit> bandits = game.bandits;
 		assert(bandits.size() > 1);
+		
+		// for testing purposes
+		gm.currentBandit = gm.bandits.get(0);
+		
+		
 		updateGameState(rtn);
 	}
 	
 	public void handleNewGameState(ISFSObject params, ISFSObject rtn) {
 		gm = (GameManager) params.getClass("gm");
+		gm.singleton = gm;
 		//GameManager.singleton = gm;
 		System.out.println("received game state!");
 		//System.out.println(gm.bandits.get(0).position.carTypeAsString);
@@ -236,7 +242,9 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	private void sendToAllUsers(ISFSObject rtn, String response) {
 		ColtExtension parentExt = (ColtExtension)getParentExtension();
 		Zone zone = parentExt.getParentZone();
+		System.out.println("before STAU");
 		parentExt.send(response, rtn, (List<User>) zone.getUserList());
+		System.out.println("after STAU");
 	}
 	
 	private void sendToSender(User sender, ISFSObject rtn, String response) {

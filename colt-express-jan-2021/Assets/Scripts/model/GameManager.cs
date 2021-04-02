@@ -24,7 +24,7 @@ namespace model {
         //  CONVENTION FOR DECK: POSITION DECK(SIZE) IS TOP OF DECK, DECK(0) IS BOTTOM OF DECK
         public PlayedPile playedPileInstance;
         //  CONVENTION FOR TRAIN: POSITION TRAIN(0) IS LOCOMOTIVE, TRAIN(TRAINLENGTH) IS CABOOSE
-        public ArrayList trainRoof ;
+        public ArrayList trainRoof;
         public ArrayList trainCabin;
         public ArrayList stagecoach;
         public int trainLength;
@@ -200,6 +200,7 @@ namespace model {
                             this.currentRound.setNextTurn();
                             this.banditIndex = ((this.banditIndex + 1) % this.bandits.Count);
                             this.currentBandit = (Bandit) this.bandits[this.banditIndex];
+                            Debug.Log("next bandit assigned: " + currentBandit.characterAsString);
                             banditsPlayedThisTurn = 0;
                         }
                         else { // Added by Aaron
