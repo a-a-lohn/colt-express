@@ -859,8 +859,7 @@ namespace model {
         }
         
 	    public void move(TrainUnit targetPosition) {
-		    TrainUnit currentPosition = this.currentBandit.getPosition();
-		    currentPosition.addBandit(this.currentBandit);
+		    targetPosition.addBandit(this.currentBandit);
 		    if (targetPosition.isMarshalHere) {
 			    currentBandit.shotByMarhsal();
 		    }
@@ -892,21 +891,76 @@ namespace model {
 			    	b.shotByMarhsal();
 			    }
 		    }
-		    endOfTurn(); // might have to put this in an if else block for cases like SpeedingUp/Whiskey
+		    endOfTurn(); 
 	    }
 
         //--RIDE--
 
         public ArrayList calculateRide(){
-            //TODO
-            return new ArrayList();
+            TrainUnit currentPosition = currentBandit.getPosition();
+            Horse adjacentHorse = null;
+            foreach(Horse h in this.horses){
+                if(currentPosition.getCarTypeAsString().Equals(h.getAdjacentTo().getCarTypeAsString())){
+                    adjacentHorse = h;
+                    break;
+                }
+            }
+            if(adjacentHorse == null){
+                return new ArrayList();
+            }
+            else{
+                if(currentPosition.getCarFloorAsString().Equals("ROOF")){
+                    currentPosition = currentPosition.getBelow();
+                }
+                ArrayList possibilities = new ArrayList();
+                TrainUnit toLeft = currentPosition.getLeft();
+                for(int i=0; i<3 && toLeft != null; i++){
+                    possibilities.Add(toLeft);
+                    toLeft = toLeft.getLeft();
+                }
+                TrainUnit toRight = currentPosition.getRight();
+                for(int i=0; i<3 && toRight != null; i++){
+                    possibilities.Add(toRight);
+                    toRight = toRight.getRight();
+                }
+                possibilities.Add(currentPosition);
+                return possibilities;
+            }
         }
+
         public void ridePrompt(ArrayList possibilities){
-            //TODO make possibilities clickable
-            TrainUnit clicked = new TrainUnit();
-            ride(clicked);
+            if(possibilities.Count == 0){
+                this.endOfTurn();
+            }
+            else if(possibilities.Count == 1){
+                ride((TrainUnit)possibilities[0]);
+            }
+            else{
+                //TODO make possibilities clickable
+                TrainUnit clicked = new TrainUnit();
+                ride(clicked);
+            }
         }
+
         public void ride(TrainUnit dest){
+            TrainUnit currentPosition = currentBandit.getPosition();
+            if(currentPosition.getCarFloorAsString().Equals("ROOF")){
+                currentPosition = currentPosition.getBelow();
+            }
+            Horse adjacentHorse = null;
+            foreach(Horse h in horses){
+                if(h.getAdjacentTo().getCarTypeAsString().Equals(currentPosition.getCarTypeAsString())){
+                    adjacentHorse = h;
+                    break;
+                }
+            }
+
+            currentBandit.setPosition(dest);
+            if(dest.getIsMarshalHere()){
+                currentBandit.shotByMarhsal();
+            }
+            adjacentHorse.setAdjacentTo(dest);
+
             this.endOfTurn();
         }
 	

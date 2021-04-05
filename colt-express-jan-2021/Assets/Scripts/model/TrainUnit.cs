@@ -20,7 +20,6 @@ namespace model {
         public string carFloorAsString;
         public bool isMarshalHere ;
         public ArrayList lootHere ;
-        public ArrayList horsesHere ;
         
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public TrainUnit() {}
@@ -258,6 +257,17 @@ namespace model {
         public void moveMarshalTo(TrainUnit dest) {
             this.isMarshalHere = false;
             dest.isMarshalHere = true;
+        }
+
+        public ArrayList getHorsesHere(){
+            GameManager gm = GameManager.getInstance();
+            ArrayList horsesHere = new ArrayList();
+            foreach(Horse h in gm.horses){
+                if(h.getAdjacentTo().Equals(this)){
+                    horsesHere.Add(h);
+                }
+            }
+            return horsesHere;
         }
     }
 }
