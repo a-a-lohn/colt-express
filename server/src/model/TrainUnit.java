@@ -78,6 +78,7 @@ public class TrainUnit implements SerializableSFSType {
 				break; 
 			}
 		}
+		System.out.println("train cabin size: " + response.size());
 		return response;
 	}
     
@@ -134,7 +135,7 @@ public class TrainUnit implements SerializableSFSType {
      */
     public void addBandit(Bandit b) {
     	GameManager gm = GameManager.getInstance();
-    	gm.banditPositions.replace(b, this);
+    	gm.banditPositions.replace(b.characterAsString, this);
     }
 
     /**

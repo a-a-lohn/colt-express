@@ -12,8 +12,6 @@ using Sfs2X.Protocol.Serialization;
 // @MultiHandler
 namespace model {
     public class GameManager : SerializableSFSType {
-        //public Hashtable banditLocation; 
-        //public static ColtMultiHandler handler; 
         public static GameManager singleton;
         public string strGameStatus;
         
@@ -47,37 +45,31 @@ namespace model {
         public void playTurn() {
             Debug.Log("playing turn");
             Debug.Log("currentbandit: "+ currentBandit.getCharacter());
-            if(currentBandit.getCharacter().Equals(ChooseCharacter.character)) {
+            //if(currentBandit.getCharacter().Equals(ChooseCharacter.character)) {
                 Debug.Log("my turn");
                 if (this.strGameStatus.Equals("SCHEMIN")) {
-                    // if(this.currentRound.getTurnCounter() == 0){
-                    //     currentBandit.drawCards(6);
-                    //     if(currentBandit.getCharacter().Equals("DOC")){
-                    //         currentBandit.drawCards(1);
-                    //     }
-                    //     currentBandit.updateOtherDecks();
-                    //     currentBandit.updateOtherHands();
-                    // }
+                    if(this.currentRound.getTurnCounter() == 0){
+                        currentBandit.drawCards(6);
+                        if(currentBandit.getCharacter().Equals("DOC")){
+                            currentBandit.drawCards(1);
+                        }
+                        currentBandit.updateOtherDecks();
+                        currentBandit.updateOtherHands();
+                    }
                     Debug.Log("calling prompt");
                     promptDrawCardsOrPlayCard();
                 }
                 else if (this.strGameStatus.Equals("STEALIN")) {
                     this.resolveAction(this.currentBandit.getToResolve());
                 }
-            }
+            //}
             
         }
         
         public void promptDrawCardsOrPlayCard() {
-            Debug.Log("setting 'it works' from prompt");
-            GameBoard.setWorks();
-            GameBoard.clickable = currentBandit.getHand();
-            GameBoard.action = "playcard";
-            Debug.Log("CALLINNGGG");
-            // GameObject board = GameObject.Find("GameBoardGO");
-            // GameBoard gameboardScript = board.GetComponent<GameBoard>(); 
-            // Debug.Log(gameboardScript + "scripttt");
-            // gameboardScript.promptDrawCardsOrPlayCardMsg.text = "Please play a card or draw 3 cards!";
+
+            // ASSIGN THIS ATTRIBUTE ACCORDINGLY IN EVERY PROMPT;
+            TestGame.prompt = "playCard() or drawCards()";
         }
 
         public void resolveAction(ActionCard toResolve) {
@@ -156,7 +148,9 @@ namespace model {
             */
         }
 
-        public void endOfTurn() { }
+        public void endOfTurn() {
+            endOfTurn("use the endOfTurn method that takes a string arg instead indicating the what happened on that turn");
+         }
 
         public void endOfTurn(string message) {
 
@@ -320,8 +314,8 @@ namespace model {
             }
             currentBandit.updateOtherDecks();
             currentBandit.updateOtherHands();
-            Debug.Log("sending new game state");
-            GameBoard.SendNewGameState(message);
+            Debug.Log("ended turn");
+            //GameBoard.SendNewGameState(message);
         }
         
         public GameManager() {

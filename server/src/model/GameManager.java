@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import com.smartfoxserver.v2.entities.User;
 import com.smartfoxserver.v2.entities.Zone;
@@ -45,7 +46,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	public ArrayList<Horse> horses = new ArrayList<Horse>();
 	public ArrayList<Bandit> bandits = new ArrayList<Bandit>();
 	transient public HashMap<User, Bandit> banditmap = new HashMap<User, Bandit>();
-	public HashMap<Bandit, TrainUnit> banditPositions = new HashMap<Bandit, TrainUnit>();
+	public Map<String, TrainUnit> banditPositions = new HashMap<String, TrainUnit>();
 	public ArrayList<Card> neutralBulletCard = new ArrayList<Card>();
 	public int banditsPlayedThisTurn;
 	public int roundIndex;
@@ -151,7 +152,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		
 		// uncommented again for testing purposes
 		this.setUpPositions(this.bandits);
-		
+		System.out.println("bpos size: " + banditPositions.size());
 		
 		
 		
@@ -464,7 +465,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		for (int i=0; i<numOfBandit; i++) {
 			Bandit tbp = this.bandits.get(i);
 			TrainUnit tu = this.trainCabin.get(tracker + numOfBandit - 1);
-			this.banditPositions.put(tbp, tu);
+			this.banditPositions.put(tbp.characterAsString, tu);
 			tracker = (tracker + 1) % 2;
 		}
 	}

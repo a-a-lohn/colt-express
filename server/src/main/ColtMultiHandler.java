@@ -60,6 +60,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		case("removeGame"): handleRemoveGame(params,rtn); break;
 		case("gameOver"): gameOver = true; break;
 		case("choosePosition"): handleChoosePosition(sender, params, rtn); break;
+		case("testgame"): handleTestGame(sender, rtn); break;
 		default: trace("invalid command passed to multihandler");
 		}
 		
@@ -281,6 +282,20 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		gm.initializeGame();
 		rtn.putClass("gm", gm);
 		sendToSender(sender, rtn, "testSerial");
+	}
+	
+	private void handleTestGame(User sender, ISFSObject rtn) {
+		GameManager gmTest = new GameManager();
+		GameManager.singleton = gmTest;
+		// note: the banditmap will only have one entry because it is being overwritten 3 times below,
+		// but since it does not seem to be used this should be fine
+		gmTest.chosenCharacter(sender, Character.BELLE, 3);
+		gmTest.chosenCharacter(sender, Character.DOC, 3);
+		gmTest.chosenCharacter(sender, Character.GHOST, 3);
+		rtn.putClass("gm", gmTest);
+		System.out.println("sending initialized test game");
+		sendToSender(sender, rtn, "testgame");
+		GameManager.singleton = null;
 	}
 	
 }

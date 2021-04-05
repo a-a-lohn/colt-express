@@ -192,7 +192,7 @@ namespace model {
         //change the hashmap for bandit stuff
         public void addBandit(Bandit b) {
             GameManager gm = GameManager.getInstance();
-            gm.banditPositions[b] = this;
+            gm.banditPositions[b.characterAsString] = this;
         }
         
         /*public void removeBandit(Bandit b) {
