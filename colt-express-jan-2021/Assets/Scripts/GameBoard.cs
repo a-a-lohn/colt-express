@@ -404,7 +404,7 @@ public class GameBoard : MonoBehaviour
 		Button banditBtn = buttonToObject.FirstOrDefault(x => x.Value.Equals(b)).Key; 
 		if(carfloor == "CABIN"){
 			if(cartype == "LOCOMOTIVE"){
-				banditBtn.transform.position = new Vector3 (locoBtm[0], locoBtm[1], locoBtm[2]);
+				banditBtn.transform.position = new Vector3 (locBtm[0], locBtm[1], locBtm[2]);
 			}else if(cartype == "CAR1"){
 				banditBtn.transform.position = new Vector3 (oneBtm[0], oneBtm[1], oneBtm[2]);
 			}else if(cartype == "CAR2"){
@@ -423,7 +423,7 @@ public class GameBoard : MonoBehaviour
 			}
 		}else{
 			if(cartype == "LOCOMOTIVE"){
-				banditBtn.transform.position = new Vector3 (locoTop[0], locoTop[1], locoTop[2]);
+				banditBtn.transform.position = new Vector3 (locTop[0], locTop[1], locTop[2]);
 			}else if(cartype == "CAR1"){
 				banditBtn.transform.position = new Vector3 (oneTop[0], oneTop[1], oneTop[2]);
 			}else if(cartype == "CAR2"){
