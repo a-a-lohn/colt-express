@@ -355,6 +355,67 @@ public class GameBoard : MonoBehaviour
 		}
 	}
 
+	public void mapBandit(GameManager gm){
+		foreach(TrainUnit tr in gm.trainRoof){
+            foreach (Bandit b in gm.bandits){
+                TrainUnit tu = (TrainUnit)gm.banditPositions[b.characterAsString];
+                if(tr.containsBandit(b)){
+					placeBanditAt(b, tu.carTypeAsString, tu.carFloorAsString);
+                };
+            }
+        }
+	    foreach(TrainUnit tc in gm.trainCabin){
+			foreach (Bandit b in gm.bandits){
+                TrainUnit tu = (TrainUnit)gm.banditPositions[b.characterAsString];
+                if(tc.containsBandit(b)){
+                    placeBanditAt(b, tu.carTypeAsString, tu.carFloorAsString);
+                };
+            }
+        }
+	}
+
+	public viod placeBanditAt(Bandit b, string cartype, string carfloor){
+		// places the bandit according to the parameters 
+		Button banditBtn = buttonToObject.FirstOrDefault(x => x.Value.Equals(b)).Key; 
+		if(carfloor == "CABIN"){
+			if(cartype == "LOCOMOTIVE"){
+				// loco, cabhin
+			}else if(cartype == "CAR1"){
+
+			}else if(cartype == "CAR2"){
+
+			}else if(cartype == "CAR3"){
+
+			}else if(cartype == "CAR4"){
+
+			}else if(cartype == "CAR5"){
+
+			}else if(cartype == "CAR6"){
+
+			}else{
+				// cartype == "STAGECOACH"
+			}
+		}else{
+			if(cartype == "LOCOMOTIVE"){
+
+			}else if(cartype == "CAR1"){
+
+			}else if(cartype == "CAR2"){
+
+			}else if(cartype == "CAR3"){
+
+			}else if(cartype == "CAR4"){
+
+			}else if(cartype == "CAR5"){
+
+			}else if(cartype == "CAR6"){
+
+			}else{
+				// cartype == "STAGECOACH"
+			}
+		}
+
+	}
 	/* promptDrawOrPlayMessage displays the prompt message on gameboard*/
 	public static void promptDrawOrPlayMessage(){
 		// promptDrawCardsOrPlayCardMsg.text = "Please play a card or draw 3 cards!";
