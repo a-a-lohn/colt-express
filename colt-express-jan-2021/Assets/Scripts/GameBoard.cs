@@ -204,7 +204,8 @@ public class GameBoard : MonoBehaviour
 	private List<float> locBtm = new List<float>() {1597.7F, 816.5F, -364.9F}; 
 
     void Start(){
-		// belle.transform.position = new Vector3 (1597.7F, 816.5F, -364.9F);
+		belle.transform.position = new Vector3 (locBtm[0], locBtm[1], locBtm[2]);
+		cheyenne.transform.position = new Vector3 (locTop[0], locTop[1], locTop[2]);
 		//setAllNonClickable();
 		addAllBandits();
 		Round.text = "ROUND 1:\n-Standard turn\n-Tunnel turn\n-Switching turn";
@@ -399,7 +400,7 @@ public class GameBoard : MonoBehaviour
         // loc btm (1597.7, 816.5, -364.9)
         // loc top (1594.2, 873.5, -364.9) 
 		*/
-
+		Debug.Log("inside placeBanditAt!!");
 		// places the bandit according to the parameters 
 		Button banditBtn = buttonToObject.FirstOrDefault(x => x.Value.Equals(b)).Key; 
 		if(carfloor == "CABIN"){
@@ -505,6 +506,7 @@ public class GameBoard : MonoBehaviour
 		// 	mapTrain(gm);
 		// 	calledMapTrain = true;
 		// }
+
         Debug.Log("updategamestate called");
 		setAllClickable();
 		clearHand();
@@ -515,7 +517,8 @@ public class GameBoard : MonoBehaviour
 		gm = (GameManager)responseParams.GetClass("gm");
 		GameManager.replaceInstance(gm);
 
-		//actionCardList = new List<ActionCard>(); 
+		/* mapping the bandits */
+		mapBandit(gm);
 
 		// REASSIGN ALL GAME buttonToObject USING DICTIONARY
 		ArrayList banditsArray = gm.bandits;
