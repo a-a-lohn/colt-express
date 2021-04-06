@@ -78,6 +78,10 @@ public class TestGame : MonoBehaviour
         // MUST REASSIGN REFERENCES
 		GameManager.replaceInstance(gm);
         gm.currentBandit = (Bandit)gm.bandits[0];
+        gm.currentRound = (Round)gm.rounds[gm.roundIndex];
+        foreach(Round r in gm.rounds) {
+            r.currentTurn = (Turn)r.turns[r.turnCounter];
+        }
         foreach(TrainUnit tr in gm.trainRoof){
             foreach (Bandit b in gm.bandits){
                 TrainUnit tu = (TrainUnit)gm.banditPositions[b.characterAsString];
@@ -100,7 +104,10 @@ public class TestGame : MonoBehaviour
 
     void GameSummary() {
         summary.text = "PROMPT: " + prompt + "\n";
-        summary.text += "\nCURRENT BANDIT: " + gm.currentBandit.characterAsString + "\n\n";
+        summary.text += "CURRENT BANDIT: " + gm.currentBandit.characterAsString + "\n";
+        summary.text += "CURRENT ROUND # and type: #" + gm.roundIndex + ", " + gm.currentRound.roundTypeAsString + "\n";
+        summary.text += "CURRENT TURN # and type: #" + gm.currentRound.turnCounter + ", " + gm.currentRound.currentTurn.turnTypeAsString + "\n";
+
         foreach (Bandit b in gm.bandits){
             summary.text += "BANDIT: " + b.characterAsString + "\n";
             summary.text += "CARDS: ";
@@ -140,7 +147,7 @@ public class TestGame : MonoBehaviour
                 summary.text += tr.carTypeAsString + " (" + tr.carFloorAsString + "): {";
                  foreach (Bandit b in gm.bandits){
                     TrainUnit tu = (TrainUnit)gm.banditPositions[b.characterAsString];
-                     if(tr.containsBandit(b)){
+                    if(tr.containsBandit(b)){
                         summary.text += b.characterAsString + ", ";
                     };
                  }

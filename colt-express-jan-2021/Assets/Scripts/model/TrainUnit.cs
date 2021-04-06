@@ -18,8 +18,8 @@ namespace model {
     
         public string carTypeAsString;
         public string carFloorAsString;
-        public bool isMarshalHere ;
-        public ArrayList lootHere ;
+        public bool isMarshalHere;
+        public ArrayList lootHere;
         
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public TrainUnit() {}
