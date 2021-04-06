@@ -404,15 +404,15 @@ public class GameBoard : MonoBehaviour
 		Button banditBtn = buttonToObject.FirstOrDefault(x => x.Value.Equals(b)).Key; 
 		if(carfloor == "CABIN"){
 			if(cartype == "LOCOMOTIVE"){
-				banditBtn.transform.position = new Vector3 (1597.7F, 816.5F, -364.9F);
+				banditBtn.transform.position = new Vector3 (locoBtm[0], locoBtm[1], locoBtm[2]);
 			}else if(cartype == "CAR1"){
-				banditBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+				banditBtn.transform.position = new Vector3 (oneBtm[0], oneBtm[1], oneBtm[2]);
 			}else if(cartype == "CAR2"){
-				banditBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+				banditBtn.transform.position = new Vector3 (twoBtm[0], twoBtm[1], twoBtm[2]);
 			}else if(cartype == "CAR3"){
-				banditBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+				banditBtn.transform.position = new Vector3 (threeBtm[0], threeBtm[1], threeBtm[2]);
 			}else if(cartype == "CAR4"){
-				banditBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+				banditBtn.transform.position = new Vector3 (fourBtm[0], fourBtm[1], fourBtm[2]);
 			}else if(cartype == "CAR5"){
 				banditBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
 			}else if(cartype == "CAR6"){
@@ -423,15 +423,15 @@ public class GameBoard : MonoBehaviour
 			}
 		}else{
 			if(cartype == "LOCOMOTIVE"){
-				banditBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+				banditBtn.transform.position = new Vector3 (locoTop[0], locoTop[1], locoTop[2]);
 			}else if(cartype == "CAR1"){
-				banditBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+				banditBtn.transform.position = new Vector3 (oneTop[0], oneTop[1], oneTop[2]);
 			}else if(cartype == "CAR2"){
-				banditBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+				banditBtn.transform.position = new Vector3 (twoTop[0], twoTop[1], twoTop[2]);
 			}else if(cartype == "CAR3"){
-				banditBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+				banditBtn.transform.position = new Vector3 (threeTop[0], threeTop[1], threeTop[2]);
 			}else if(cartype == "CAR4"){
-				banditBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+				banditBtn.transform.position = new Vector3 (fourTop[0], fourTop[1], fourTop[2]);
 			}else if(cartype == "CAR5"){
 				banditBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
 			}else if(cartype == "CAR6"){
