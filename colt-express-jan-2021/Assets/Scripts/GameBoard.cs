@@ -192,7 +192,19 @@ public class GameBoard : MonoBehaviour
 
 	bool calledMapTrain = false;
 
+	private List<float> oneBtm = new List<float>() {706.0F, 816.5F, -364.9F}; 
+	private List<float> oneTop = new List<float>() {705.4F, 869.0F, -364.9F}; 
+	private List<float> twoTop = new List<float>() {920.9F, 816.5F, -364.9F}; 
+	private List<float> twoBtm = new List<float>() {922.2F, 870.9F, -364.9F}; 
+	private List<float> threeTop = new List<float>() {1139.7F, 821.5F, -364.9F}; 
+	private List<float> threeBtm = new List<float>() {1138.4F, 872.2F, -364.9F}; 
+	private List<float> fourTop = new List<float>() {1353.2F, 820.2F, -364.9F}; 
+	private List<float> fourBtm = new List<float>() {1357.1F, 873.5F, -364.9F}; 
+	private List<float> locTop = new List<float>() {1594.2F, 873.5F, -364.9F}; 
+	private List<float> locBtm = new List<float>() {1597.7F, 816.5F, -364.9F}; 
+
     void Start(){
+		// belle.transform.position = new Vector3 (1597.7F, 816.5F, -364.9F);
 		//setAllNonClickable();
 		addAllBandits();
 		Round.text = "ROUND 1:\n-Standard turn\n-Tunnel turn\n-Switching turn";
@@ -379,39 +391,41 @@ public class GameBoard : MonoBehaviour
 		Button banditBtn = buttonToObject.FirstOrDefault(x => x.Value.Equals(b)).Key; 
 		if(carfloor == "CABIN"){
 			if(cartype == "LOCOMOTIVE"){
-				// loco, cabhin
+				banditBtn.transform.position = new Vector3 (1597.7F, 816.5F, -364.9F);
 			}else if(cartype == "CAR1"){
-
+				banditBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
 			}else if(cartype == "CAR2"){
-
+				banditBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
 			}else if(cartype == "CAR3"){
-
+				banditBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
 			}else if(cartype == "CAR4"){
-
+				banditBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
 			}else if(cartype == "CAR5"){
-
+				banditBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
 			}else if(cartype == "CAR6"){
-
+				banditBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
 			}else{
 				// cartype == "STAGECOACH"
+				banditBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
 			}
 		}else{
 			if(cartype == "LOCOMOTIVE"){
-
+				banditBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
 			}else if(cartype == "CAR1"){
-
+				banditBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
 			}else if(cartype == "CAR2"){
-
+				banditBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
 			}else if(cartype == "CAR3"){
-
+				banditBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
 			}else if(cartype == "CAR4"){
-
+				banditBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
 			}else if(cartype == "CAR5"){
-
+				banditBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
 			}else if(cartype == "CAR6"){
-
+				banditBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
 			}else{
 				// cartype == "STAGECOACH"
+				banditBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
 			}
 		}
 
