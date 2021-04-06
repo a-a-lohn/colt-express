@@ -44,19 +44,21 @@ namespace model {
         public void playTurn() {
             Debug.Log("playing turn");
             Debug.Log("currentbandit: "+ currentBandit.getCharacter());
-            //if(currentBandit.getCharacter().Equals(ChooseCharacter.character)) {
+            
+            if(currentBandit.getCharacter().Equals(ChooseCharacter.character)) {
+            
                 Debug.Log("my turn");
                 GameBoard.setMyTurn(true);
                 if (this.strGameStatus.Equals("SCHEMIN")) {
 
-                    if(this.currentRound.getTurnCounter() == 0){
-                        currentBandit.drawCards(6);
-                        if(currentBandit.getCharacter().Equals("DOC")){
-                            currentBandit.drawCards(1);
-                        }
-                        currentBandit.updateOtherDecks();
-                        currentBandit.updateOtherHands();
-                    }
+                    // if(this.currentRound.getTurnCounter() == 0){
+                    //     currentBandit.drawCards(6);
+                    //     if(currentBandit.getCharacter().Equals("DOC")){
+                    //         currentBandit.drawCards(1);
+                    //     }
+                    //     currentBandit.updateOtherDecks();
+                    //     currentBandit.updateOtherHands();
+                    // }
 
                     Debug.Log("calling prompt");
                     promptDrawCardsOrPlayCard();
@@ -64,7 +66,8 @@ namespace model {
                 else if (this.strGameStatus.Equals("STEALIN")) {
                     this.resolveAction(this.currentBandit.getToResolve());
                 }
-            //}
+            
+            }
             
         }
         
@@ -119,7 +122,7 @@ namespace model {
             this.currentBandit.removeFromHand(c);
             Debug.Log("removed from hand");
             if (this.currentBandit.getCharacter().Equals("GHOST") && this.currentRound.getTurnCounter() == 0) {
-                //promptPlayFaceUpOrFaceDown(c);
+                //promptPlayFaceUpOrFaceDown(c); -- COMMENTED OUT FOR NOW
                 c.setFaceDown(true);
                 Debug.Log("called for ghost");
             }
@@ -323,7 +326,7 @@ namespace model {
             currentBandit.updateOtherHands();
             GameBoard.setMyTurn(false);
             Debug.Log("ended turn");
-            //GameBoard.SendNewGameState(message);
+            GameBoard.SendNewGameState(message);
         }
         
         public GameManager() {

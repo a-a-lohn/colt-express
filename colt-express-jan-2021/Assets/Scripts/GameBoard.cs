@@ -42,7 +42,7 @@ public class GameBoard : MonoBehaviour
 	// public Button chooseChar;
 
 
-	public static ArrayList clickable = new ArrayList();
+	public static ArrayList clickable;
 	public static string action = "";
 	public Text actionText;
 	private static bool newAction = false;
@@ -101,7 +101,7 @@ public class GameBoard : MonoBehaviour
 	public static Dictionary<Button, object> buttonToObject = new Dictionary<Button, object>();
 
 	// public Text clickableGOsText;
-	public Text currentRound; 
+	public Text currentRoundText; 
 	public Text currentBandit; 
 
 	private List<Button> goNeutralBulletCards;
@@ -374,7 +374,7 @@ public class GameBoard : MonoBehaviour
         }
 	}
 
-	public viod placeBanditAt(Bandit b, string cartype, string carfloor){
+	public void placeBanditAt(Bandit b, string cartype, string carfloor){
 		// places the bandit according to the parameters 
 		Button banditBtn = buttonToObject.FirstOrDefault(x => x.Value.Equals(b)).Key; 
 		if(carfloor == "CABIN"){
@@ -430,7 +430,7 @@ public class GameBoard : MonoBehaviour
 	}
 
  	public void buttonClicked(Button btn){
-		btn.interactable = true;
+		
 		if(!isMyTurn()) {
 			Debug.Log("not my turn!");
 		} else {
@@ -440,7 +440,7 @@ public class GameBoard : MonoBehaviour
 			promptPunchTarget.text = btn.name + "IS CLICKED"; 
 			//punchedBandit = btn.name;
 			// if buttonToObject[btn] is an actioncard, call playCard(buttonToObject[btn])
-			if(clickable.Contains(btn)) {
+			if(clickable.Contains(buttonToObject[btn])) {
 				Debug.Log("this is a clickable item!");
 				//all calls back to GM should be here
 
@@ -454,6 +454,7 @@ public class GameBoard : MonoBehaviour
 				Debug.Log("not an action card");
 			}
 		}
+		btn.interactable = true;
     }
 
 	/* setAllNonClickable sets all buttons to be non-clickable */
@@ -481,12 +482,22 @@ public class GameBoard : MonoBehaviour
         Debug.Log("updategamestate called");
 		setAllClickable();
 		clearHand();
-        
+
         ISFSObject responseParams = (SFSObject)evt.Params["params"];
 		log.text += responseParams.GetUtfString("log") + "\n";
 		Debug.Log("Received log message: "+ (string)responseParams.GetUtfString("log"));
 		gm = (GameManager)responseParams.GetClass("gm");
 		GameManager.replaceInstance(gm);
+		reassignReferences();
+
+		currentRoundText.text = "Round #" + gm.roundIndex + " - " + gm.currentRound.roundTypeAsString + "\n";
+		foreach(Turn t in gm.currentRound.turns) {
+			currentRoundText.text += t.turnTypeAsString + "\n";
+			if(t.Equals(gm.currentRound.currentTurn)) {
+				currentRoundText.text += "- Current turn";
+			}
+		}
+		
 
 		//actionCardList = new List<ActionCard>(); 
 
@@ -495,32 +506,32 @@ public class GameBoard : MonoBehaviour
 		foreach (Bandit b in banditsArray) {
             if (b.characterAsString == "CHEYENNE") {
 				buttonToObject[cheyenne] = b;
-				Debug.Log(b.characterAsString + " added as button");
+				//Debug.Log(b.characterAsString + " added as button");
 				playingBandits.Add(cheyenne);
             }
 			if (b.characterAsString == "BELLE") {
                 buttonToObject[belle] = b;
-				Debug.Log(b.characterAsString + " added as button");
+				//Debug.Log(b.characterAsString + " added as button");
                	playingBandits.Add(belle);
             }
 			if (b.characterAsString == "TUCO") {
                 buttonToObject[tuco] = b;
-				Debug.Log(b.characterAsString + " added as button");
+				//Debug.Log(b.characterAsString + " added as button");
 				playingBandits.Add(tuco);
             }
 			if (b.characterAsString == "DOC") {
                 buttonToObject[doc] = b;
-				Debug.Log(b.characterAsString + " added as button");
+				//Debug.Log(b.characterAsString + " added as button");
                 playingBandits.Add(doc);
             }
 			if (b.characterAsString == "GHOST") {
                 buttonToObject[ghost] = b;
-				Debug.Log(b.characterAsString + " added as button");
+				//Debug.Log(b.characterAsString + " added as button");
                	playingBandits.Add(ghost);
             }
 			if (b.characterAsString == "DJANGO") {
                 buttonToObject[django] = b;
-				Debug.Log(b.characterAsString + " added as button");
+				//Debug.Log(b.characterAsString + " added as button");
                 playingBandits.Add(django);
             }
 			addAllBandits();
@@ -595,6 +606,29 @@ public class GameBoard : MonoBehaviour
 		gm.playTurn();
 
     }
+
+	void reassignReferences() {
+		gm.currentRound = (Round)gm.rounds[gm.roundIndex];
+        foreach(Round r in gm.rounds) {
+            r.currentTurn = (Turn)r.turns[r.turnCounter];
+        }
+        foreach(TrainUnit tr in gm.trainRoof){
+            foreach (Bandit b in gm.bandits){
+                TrainUnit tu = (TrainUnit)gm.banditPositions[b.characterAsString];
+                if(tr.carTypeAsString == tu.carTypeAsString & tr.carFloorAsString == tu.carFloorAsString) {
+                gm.banditPositions[b.characterAsString] = tr;
+                }
+            }
+        }
+        foreach(TrainUnit tc in gm.trainCabin){
+            foreach (Bandit b in gm.bandits){
+                TrainUnit tu = (TrainUnit)gm.banditPositions[b.characterAsString];
+                if(tc.carTypeAsString == tu.carTypeAsString & tc.carFloorAsString == tu.carFloorAsString) {
+                gm.banditPositions[b.characterAsString] = tc;
+                }
+            }
+        }
+	}
 
 	public static bool isMyTurn() {
 		if(gm.currentBandit.getCharacter().Equals(ChooseCharacter.character)){
