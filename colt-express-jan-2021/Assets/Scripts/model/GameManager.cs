@@ -46,7 +46,7 @@ namespace model {
             Debug.Log("currentbandit: "+ currentBandit.getCharacter());
             //if(currentBandit.getCharacter().Equals(ChooseCharacter.character)) {
                 Debug.Log("my turn");
-                GameBoard.setMyTurn();
+                GameBoard.setMyTurn(true);
                 if (this.strGameStatus.Equals("SCHEMIN")) {
 
                     if(this.currentRound.getTurnCounter() == 0){
@@ -321,6 +321,7 @@ namespace model {
             }
             currentBandit.updateOtherDecks();
             currentBandit.updateOtherHands();
+            GameBoard.setMyTurn(false);
             Debug.Log("ended turn");
             //GameBoard.SendNewGameState(message);
         }

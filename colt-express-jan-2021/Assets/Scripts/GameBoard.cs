@@ -51,9 +51,9 @@ public class GameBoard : MonoBehaviour
 	public static bool myTurn = false;
 	public Text myTurnText;
 
-	public static void setMyTurn() {
+	public static void setMyTurn(bool turn) {
 		//Debug.Log("Your turn!");
-		myTurn = true;
+		myTurn = turn;
 	}
 
 	public static void setNextAction(string newActionText) {
@@ -355,7 +355,7 @@ public class GameBoard : MonoBehaviour
 	}
 
 	public void mapTrain(GameManager gm){
-		int index = 0; 
+		int index = 0;
 		foreach(object oneRoof in gm.trainRoof){
 			buttonToObject[trainRoofs[index]] = oneRoof;
 			index++;
@@ -457,9 +457,9 @@ public class GameBoard : MonoBehaviour
 	}
 
  	public void buttonClicked(Button btn){
+		btn.interactable = true;
 		if(!isMyTurn()) {
 			Debug.Log("not my turn!");
-			btn.interactable = true;
 		} else {
 			
 			Debug.Log( btn.name + " IS CLICKED");
