@@ -460,12 +460,12 @@ public class GameBoard : MonoBehaviour
 
 				newAction = false;
 				actionText.text = "";
-			}
-			try {
-				ActionCard currActionCard = (ActionCard)buttonToObject[btn];
-				gm.playCard(currActionCard); 
-			} catch(Exception e) {
-				Debug.Log("not an action card");
+				try {
+					ActionCard currActionCard = (ActionCard)buttonToObject[btn];
+					gm.playCard(currActionCard); 
+				} catch(Exception e) {
+					Debug.Log("not an action card");
+				}
 			}
 		}
 		btn.interactable = true;
@@ -504,17 +504,14 @@ public class GameBoard : MonoBehaviour
 		GameManager.replaceInstance(gm);
 		reassignReferences();
 
-		currentRoundText.text = "Round #" + gm.roundIndex + " - " + gm.currentRound.roundTypeAsString + "\n";
-		foreach(Turn t in gm.currentRound.turns) {
-			currentRoundText.text += t.turnTypeAsString + "\n";
-			if(t.Equals(gm.currentRound.currentTurn)) {
-				currentRoundText.text += "- Current turn";
-			}
-		}
+		// currentRoundText.text = "Round #" + gm.roundIndex + " - " + gm.currentRound.roundTypeAsString + "\n";
+		// foreach(Turn t in gm.currentRound.turns) {
+		// 	currentRoundText.text += t.turnTypeAsString + "\n";
+		// 	if(t.Equals(gm.currentRound.currentTurn)) {
+		// 		currentRoundText.text += "- Current turn";
+		// 	}
+		// }
 		
-
-		//actionCardList = new List<ActionCard>(); 
-
 		// REASSIGN ALL GAME buttonToObject USING DICTIONARY
 		ArrayList banditsArray = gm.bandits;
 		foreach (Bandit b in banditsArray) {
@@ -550,13 +547,13 @@ public class GameBoard : MonoBehaviour
             }
 			addAllBandits();
 			/* only keep the playing bandits */
-			foreach(Button ab in allBandits){
-				if(!playingBandits.Contains(ab)){
-					Destroy(ab);
-				}
-			}
 
-			/* init bandit position */
+			// foreach(Button ab in allBandits){
+			// 	Debug.Log(ab.name);
+			// 	if(!playingBandits.Contains(ab)){
+			// 		Destroy(ab.gameObject);
+			// 	}
+			// }
 
 			//UPDATE HAND/DECK EVERY TIME
 

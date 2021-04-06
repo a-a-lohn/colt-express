@@ -5529,8 +5529,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 192.7901, y: 170.89}
-  m_SizeDelta: {x: 85.4943, y: 71.468}
+  m_AnchoredPosition: {x: 192.7901, y: 167.55}
+  m_SizeDelta: {x: 85.4943, y: 106.58}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &899180540
 MonoBehaviour:
@@ -6383,7 +6383,7 @@ MonoBehaviour:
   promptDrawCardsOrPlayCardMsg: {fileID: 571799349}
   promptChooseLoot: {fileID: 571799349}
   promptPunchTarget: {fileID: 192604584}
-  currentRound: {fileID: 899180540}
+  currentRoundText: {fileID: 0}
   currentBandit: {fileID: 1069952320}
   handCard1: {fileID: 369979177}
   handCard2: {fileID: 541298846}
