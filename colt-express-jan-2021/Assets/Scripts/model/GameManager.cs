@@ -8,8 +8,13 @@ using Sfs2X.Core;
 using Sfs2X.Entities;
 using Sfs2X.Entities.Data;
 using Sfs2X.Protocol.Serialization;
-// @Instantiation(InstantiationMode.SINGLE_INSTANCE)
-// @MultiHandler
+
+// THINGS TO CHANGE FOR RUNNING TESTGAME.CS:
+// - comment out if statement if(currentBandit.getCharacter().Equals(ChooseCharacter.character)) 
+//       around line 53 (keep contents)
+// - uncomment if(this.currentRound.getTurnCounter() == 0) around lines 56-63 (including contents)
+// - comment out sendnewgamestate() at end of turn (around line 354)
+
 namespace model {
     public class GameManager : SerializableSFSType {
         public static GameManager singleton;
@@ -35,19 +40,15 @@ namespace model {
         public int roundIndex;
         public int banditIndex; // NEVER INITIALIZED IN GM.JAVA
         
-        // public static void setHandler(ColtMultiHandler handle) {  
-        //     handler = handle;
-        //     //  ISFSObject rtn = SFSObject.newInstance();
-        //     //  handler.updateGameState(rtn);
-        // }
-        
         
         public void playTurn() {
             Debug.Log("playing turn");
             Debug.Log("currentbandit: "+ currentBandit.getCharacter());
             //if(currentBandit.getCharacter().Equals(ChooseCharacter.character)) {
                 Debug.Log("my turn");
+                GameBoard.setMyTurn();
                 if (this.strGameStatus.Equals("SCHEMIN")) {
+
                     if(this.currentRound.getTurnCounter() == 0){
                         currentBandit.drawCards(6);
                         if(currentBandit.getCharacter().Equals("DOC")){
@@ -56,6 +57,7 @@ namespace model {
                         currentBandit.updateOtherDecks();
                         currentBandit.updateOtherHands();
                     }
+
                     Debug.Log("calling prompt");
                     promptDrawCardsOrPlayCard();
                 }
@@ -67,7 +69,11 @@ namespace model {
         }
         
         public void promptDrawCardsOrPlayCard() {
-
+            Debug.Log("setting 'it works' from prompt");
+            
+            GameBoard.clickable = currentBandit.getHand();
+            GameBoard.setNextAction("playcard");
+            
             // ASSIGN THIS ATTRIBUTE ACCORDINGLY IN EVERY PROMPT;
             TestGame.prompt = "playCard() or drawCards()";
         }
@@ -113,8 +119,9 @@ namespace model {
             this.currentBandit.removeFromHand(c);
             Debug.Log("removed from hand");
             if (this.currentBandit.getCharacter().Equals("GHOST") && this.currentRound.getTurnCounter() == 0) {
-                promptPlayFaceUpOrFaceDown(c);
-                 Debug.Log("called for ghost");
+                //promptPlayFaceUpOrFaceDown(c);
+                c.setFaceDown(true);
+                Debug.Log("called for ghost");
             }
             else if (this.currentRound.getCurrentTurn().getTurnTypeAsString().Equals("TUNNEL")) {
                 //  this.currentRound.getCurrentTurn().getTurnTypeAsString().equals("TUNNEL")

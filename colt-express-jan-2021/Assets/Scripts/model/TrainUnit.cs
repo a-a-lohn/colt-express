@@ -203,7 +203,7 @@ namespace model {
         //query hashmap
         public bool containsBandit(Bandit b) {
             GameManager gm = GameManager.getInstance();
-            if (gm.banditPositions[b] == this) {
+            if (gm.banditPositions[b.characterAsString] == this) {
                 return true;
             }
             return false;
@@ -217,7 +217,7 @@ namespace model {
             GameManager gm = GameManager.getInstance();
             ArrayList bandits = new ArrayList();
             foreach (Bandit b in gm.banditPositions) {
-                if (gm.banditPositions[b] == this) {
+                if (gm.banditPositions[b.characterAsString] == this) {
                     bandits.Add(b);
                 }
             }

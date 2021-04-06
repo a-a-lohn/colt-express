@@ -41,12 +41,24 @@ public class GameBoard : MonoBehaviour
 	// public Button extension;
 	// public Button chooseChar;
 
-	public static bool works = false;
-	public Text doesItWork;
 
-	public static void setWorks() {
-		Debug.Log("it works!");
-		works = true;
+	public static ArrayList clickable = new ArrayList();
+	public static string action = "";
+	public Text actionText;
+	private static bool newAction = false;
+	public Text log;
+
+	public static bool myTurn = false;
+	public Text myTurnText;
+
+	public static void setMyTurn() {
+		//Debug.Log("Your turn!");
+		myTurn = true;
+	}
+
+	public static void setNextAction(string newActionText) {
+		action = newActionText;
+		newAction = true;
 	}
 
 	public GameObject canvas;
@@ -87,9 +99,6 @@ public class GameBoard : MonoBehaviour
 	public Text promptPunchTarget; 
 
 	public static Dictionary<Button, object> buttonToObject = new Dictionary<Button, object>();
-
-	public static ArrayList clickable = new ArrayList();
-	public static string action = "";
 
 	// public Text clickableGOsText;
 	public Text currentRound; 
@@ -190,7 +199,8 @@ public class GameBoard : MonoBehaviour
 		SFS.setGameBoard();
 
 		exitText.text ="";
-		doesItWork.text = "";
+		myTurnText.text = "";
+		log.text = "log";
 		//Invoke("LeaveRoom",5);
 		/*if (SFS.getSFS() == null) {
             // Initialize SFS2X client. This can be done in an earlier scene instead
@@ -363,6 +373,7 @@ public class GameBoard : MonoBehaviour
 			Debug.Log("not my turn!");
 			btn.interactable = true;
 		} else {
+			
 			Debug.Log( btn.name + " IS CLICKED");
 			Debug.Log("Clickable has " + clickable.Count + "items");
 			promptPunchTarget.text = btn.name + "IS CLICKED"; 
@@ -371,6 +382,9 @@ public class GameBoard : MonoBehaviour
 			if(clickable.Contains(btn)) {
 				Debug.Log("this is a clickable item!");
 				//all calls back to GM should be here
+
+				newAction = false;
+				actionText.text = "";
 			}
 			try {
 				ActionCard currActionCard = (ActionCard)buttonToObject[btn];
@@ -408,7 +422,7 @@ public class GameBoard : MonoBehaviour
 		clearHand();
         
         ISFSObject responseParams = (SFSObject)evt.Params["params"];
-		doesItWork.text = responseParams.GetUtfString("log");
+		log.text += responseParams.GetUtfString("log") + "\n";
 		Debug.Log("Received log message: "+ (string)responseParams.GetUtfString("log"));
 		gm = (GameManager)responseParams.GetClass("gm");
 		GameManager.replaceInstance(gm);
@@ -620,7 +634,6 @@ public class GameBoard : MonoBehaviour
 		if (Input.GetMouseButtonDown(0)){
 			// MouseDown();
 			Debug.Log("Clicked");
-			works = false;
 			Debug.Log("currentbandit on mouse: "+ gm.currentBandit.getCharacter());
 			// if(gm != null && gm.currentBandit.getCharacter() == ChooseCharacter.character) {
 			// 	Debug.Log("ending my turn");
@@ -635,10 +648,13 @@ public class GameBoard : MonoBehaviour
 			// }
 		}
 
-		if(works) {
-			doesItWork.text = "it works!";
+		if(myTurn) {
+			myTurnText.text = "Your turn!";
 		} else {
-			doesItWork.text = "";
+			myTurnText.text = "";
+		}
+		if(newAction) {
+			actionText.text = action;
 		}
     }
 
@@ -654,7 +670,7 @@ public class GameBoard : MonoBehaviour
 		ISFSObject obj = SFSObject.NewInstance();
 		//Debug.Log("sending new game state");
 		obj.PutClass("gm", gm);
-		//obj.PutUtfString("log", message);
+		obj.PutUtfString("log", message);
         ExtensionRequest req = new ExtensionRequest("gm.newGameState",obj);
         SFS.Send(req);
         Debug.Log("sent game state");

@@ -14,6 +14,12 @@ using System.Reflection;
 using Sfs2X.Protocol.Serialization;
 using model;
 
+
+// BEFORE USING THIS ON NETWORKING BRANCH, SEE REQUIRED CHANGES IN COMMENTS ON TOP OF GAMEMANAGER.CS
+// MAKE SURE IP IS SET TO "13.72.79.112" IN SFS.CS
+// MAKE SURE BUILD SETTINGS HAS TESTGAME SCENE
+
+
 public class TestGame : MonoBehaviour
 {
     static GameManager gm;
@@ -68,8 +74,26 @@ public class TestGame : MonoBehaviour
 		Debug.Log("Received initialized game");
         ISFSObject responseParams = (SFSObject)evt.Params["params"];
 		gm = (GameManager)responseParams.GetClass("gm");
+        
+        // MUST REASSIGN REFERENCES
 		GameManager.replaceInstance(gm);
         gm.currentBandit = (Bandit)gm.bandits[0];
+        foreach(TrainUnit tr in gm.trainRoof){
+            foreach (Bandit b in gm.bandits){
+                TrainUnit tu = (TrainUnit)gm.banditPositions[b.characterAsString];
+                if(tr.carTypeAsString == tu.carTypeAsString & tr.carFloorAsString == tu.carFloorAsString) {
+                gm.banditPositions[b.characterAsString] = tr;
+                }
+            }
+        }
+        foreach(TrainUnit tc in gm.trainCabin){
+            foreach (Bandit b in gm.bandits){
+                TrainUnit tu = (TrainUnit)gm.banditPositions[b.characterAsString];
+                if(tc.carTypeAsString == tu.carTypeAsString & tc.carFloorAsString == tu.carFloorAsString) {
+                gm.banditPositions[b.characterAsString] = tc;
+                }
+            }
+        }
 
         GameSummary();
     }
@@ -105,16 +129,34 @@ public class TestGame : MonoBehaviour
         }
         summary.text += "\nPLAYED PILE: ";
         foreach(ActionCard c in PlayedPile.getInstance().getPlayedCards()){
-                summary.text += c.actionTypeAsString + ", ";
+                summary.text += c.actionTypeAsString;
+                if(c.getFaceDown()){
+                    summary.text += " (FD)";
+                }
+                summary.text += ", ";
         }
         summary.text += "\n\nCARS: ";
         foreach(TrainUnit tr in gm.trainRoof){
-                summary.text += tr.carTypeAsString + " (" + tr.carFloorAsString + "), ";
-                //TODO: iterate through its loot nd indicate if stagecoach is adjacent
+                summary.text += tr.carTypeAsString + " (" + tr.carFloorAsString + "): {";
+                 foreach (Bandit b in gm.bandits){
+                    TrainUnit tu = (TrainUnit)gm.banditPositions[b.characterAsString];
+                     if(tr.containsBandit(b)){
+                        summary.text += b.characterAsString + ", ";
+                    };
+                 }
+                 summary.text += "}, ";
+                //TODO: iterate through its loot and indicate if stagecoach is adjacent
         }
         summary.text += "\n";
         foreach(TrainUnit tc in gm.trainCabin){
-                summary.text += tc.carTypeAsString + " (" + tc.carFloorAsString + "), ";
+                summary.text += tc.carTypeAsString + " (" + tc.carFloorAsString + "): {";
+                foreach (Bandit b in gm.bandits){
+                    TrainUnit tu = (TrainUnit)gm.banditPositions[b.characterAsString];
+                    if(tc.containsBandit(b)){
+                        summary.text += b.characterAsString + ", ";
+                    };
+                }
+                summary.text += "}, ";
                 //TODO: iterate through its loot and indicate if stagecoach is adjacent
         }
     }
@@ -132,11 +174,11 @@ public class TestGame : MonoBehaviour
                 gm.playTurn();
                 break;
             case 2:
-                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[1]);
                 gm.playTurn();
                 break;
             case 3:
-                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[2]);
                 gm.playTurn();
                 break;
             // ADD MORE CASES!
