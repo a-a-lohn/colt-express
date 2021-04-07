@@ -47,9 +47,9 @@ public class GameBoard : MonoBehaviour
     public Text actionText;
     private static bool newAction = false;
     public Text log;
+    int logCounter = 0;
 
     public static bool myTurn = false;
-    public Text myTurnText;
 
     public static void setMyTurn(bool turn) {
         //Debug.Log("Your turn!");
@@ -63,11 +63,9 @@ public class GameBoard : MonoBehaviour
 
     public GameObject canvas;
 
-    public Text Round;
-    //public GameObject exit;
     public Text exitText;
     
-    public Bandit b;
+    //public Bandit b;
 
     public static GameManager gm;
 
@@ -102,8 +100,9 @@ public class GameBoard : MonoBehaviour
     public static Dictionary<Button, object> buttonToObject = new Dictionary<Button, object>();
 
     // public Text clickableGOsText;
-    public Text currentRoundText; 
-    public Text currentBandit; 
+    public Text currentRoundText;
+    public Text turnNum;
+    public Text currentPlayer;
 
     private List<Button> goNeutralBulletCards;
 
@@ -207,12 +206,13 @@ public class GameBoard : MonoBehaviour
     void Start(){
         //setAllNonClickable();
         addAllBandits();
-        Round.text = "ROUND 1:\n-Standard turn\n-Tunnel turn\n-Switching turn";
         SFS.setGameBoard();
 
+        currentRoundText.text = "";
         exitText.text ="";
-        myTurnText.text = "";
-        log.text = "log";
+        log.text = "";
+        currentPlayer.text = "";
+        actionText.text = "";
         //Invoke("LeaveRoom",5);
         /*if (SFS.getSFS() == null) {
             // Initialize SFS2X client. This can be done in an earlier scene instead
@@ -228,6 +228,237 @@ public class GameBoard : MonoBehaviour
         EnterGameBoardScene();
     }
 
+    // Update is called once per frame
+    void Update()
+    {
+
+        // var selectedBanditName = EventSystem.current.currentSelectedGameObject;
+        //  if (selectedBanditName != null)
+        //      promptPunchTarget.text = "ahh" + selectedBanditName.name;
+        //  else
+        //      promptPunchTarget.text = "ahh NULLL POINTERR";
+
+        if (SFS.IsConnected()) {
+            SFS.ProcessEvents();
+        }
+
+        if (Input.GetMouseButtonDown(0)){
+            // MouseDown();
+            Debug.Log("Clicked");
+            Debug.Log("currentbandit on mouse: "+ gm.currentBandit.getCharacter());
+        }
+
+        if(myTurn) {
+            currentPlayer.text = "You!";
+        } else {
+            currentPlayer.text = gm.currentBandit.characterAsString;
+        }
+        if(newAction) {
+            actionText.text = action;
+        }
+    }
+
+    public void UpdateGameState(BaseEvent evt) {
+        // if(!calledMapTrain){
+        //  mapTrain(gm);
+        //  calledMapTrain = true;
+        // }
+
+        Debug.Log("updategamestate called");
+        setAllClickable();
+        clearHand();
+
+        ISFSObject responseParams = (SFSObject)evt.Params["params"];
+        string logStr = responseParams.GetUtfString("log") + "\n\n";
+        if (logStr != null) {
+            logCounter++;
+            if(logCounter % 3 == 0) {
+                log.text = logStr;
+            } else {
+                log.text += logStr;   
+            }
+        }
+        
+        gm = (GameManager)responseParams.GetClass("gm");
+        GameManager.replaceInstance(gm);
+        reassignReferences();
+
+        if(gm.roundIndex ==  null) {
+            Debug.Log("gm.roundIndex ==  null");
+        }
+        if(gm.currentRound ==  null) {
+            Debug.Log(" gm.currentRound ==  null");
+        }
+        if(gm.currentRound.roundTypeAsString ==  null) {
+            Debug.Log("gm.currentRound.roundTypeAsString ==  null");
+        }
+        if(gm.currentRound.turns ==  null) {
+            Debug.Log("gm.currentRound.turns ==  null");
+        }
+        int num = gm.roundIndex+1;
+        currentRoundText.text = "Round #" + num + " - " + gm.currentRound.roundTypeAsString + "\n";
+        int ti = 1;
+        foreach(Turn t in gm.currentRound.turns) {
+            currentRoundText.text += "Turn " + ti + ": " + t.turnTypeAsString + "\n";
+            if(t.Equals(gm.currentRound.currentTurn)) {
+                turnNum.text = "Turn #: " + ti;
+            }
+            ti++;
+        }
+        
+        //addAllBandits();
+
+        ArrayList banditsArray = gm.bandits;
+        foreach (Bandit b in banditsArray) {
+            if (b.characterAsString == "CHEYENNE") {
+                buttonToObject[cheyenne] = b;
+                //Debug.Log(b.characterAsString + " added as button");
+                playingBandits.Add(cheyenne);
+            }
+            if (b.characterAsString == "BELLE") {
+                buttonToObject[belle] = b;
+                //Debug.Log(b.characterAsString + " added as button");
+                playingBandits.Add(belle);
+            }
+            if (b.characterAsString == "TUCO") {
+                buttonToObject[tuco] = b;
+                //Debug.Log(b.characterAsString + " added as button");
+                playingBandits.Add(tuco);
+            }
+            if (b.characterAsString == "DOC") {
+                buttonToObject[doc] = b;
+                //Debug.Log(b.characterAsString + " added as button");
+                playingBandits.Add(doc);
+            }
+            if (b.characterAsString == "GHOST") {
+                buttonToObject[ghost] = b;
+                //Debug.Log(b.characterAsString + " added as button");
+                playingBandits.Add(ghost);
+            }
+            if (b.characterAsString == "DJANGO") {
+                buttonToObject[django] = b;
+                //Debug.Log(b.characterAsString + " added as button");
+                playingBandits.Add(django);
+            }
+            
+            /* place the bandits in their starting positions */
+            mapBandit(gm);
+
+            if(b.characterAsString == gm.currentBandit.characterAsString){
+                /*
+                * OBJECTS ARE NEWLY CREATED WHEN SERIALIZED. IF MULTIPLE REFERENCES EXIST FOR THE SAME OBJECT, THEY WILL BE TREATED AS DIFFERENT OBJECTS
+                */
+                Debug.Log("reassigning current bandit ref to " + b.characterAsString);
+                gm.currentBandit = b;
+            }
+
+            if(b.characterAsString == ChooseCharacter.character){
+                b.updateMainDeck();
+
+                if (gm.strGameStatus.Equals("SCHEMIN")) {
+                    if(gm.currentRound.getTurnCounter() == 0 && b.hand.Count == 0){
+                        b.drawCards(6);
+                        if(b.getCharacter().Equals("DOC")){
+                            b.drawCards(1);
+                        }
+                        b.updateOtherDecks();
+                        b.updateOtherHands();
+                    }
+                }
+                
+                b.updateMainHand();
+                // assign to gameobjects on screen 
+                //ArrayList currCards = b.hand;
+                int index = 0; 
+                ActionCard ac;
+                BulletCard bc;
+                Debug.Log("num of currcards: " + b.hand.Count);
+                Debug.Log("num of currcards b1: " + gm.currentBandit.hand.Count);
+                foreach(Card currCard in b.hand){
+                    try{
+                        ac = (ActionCard) currCard;
+                        buttonToObject[goHandCard[index]] = ac;
+                        //Debug.Log("trying to cast card as action card");
+                    } catch(Exception e) {
+                        bc = (BulletCard) currCard;
+                        buttonToObject[goHandCard[index]] = bc;
+                        Debug.Log("not initializing an action card");
+                    }
+                    index++;
+                }
+                mapActionCards(handCard1, handCardActionType1);
+                mapActionCards(handCard2, handCardActionType2);
+                mapActionCards(handCard3, handCardActionType3);
+                mapActionCards(handCard4, handCardActionType4);
+                mapActionCards(handCard5, handCardActionType5);
+                mapActionCards(handCard6, handCardActionType6);
+                mapActionCards(handCard7, handCardActionType7);
+                mapActionCards(handCard8, handCardActionType8);
+                mapActionCards(handCard9, handCardActionType9);
+                mapActionCards(handCard10, handCardActionType10);
+                mapActionCards(handCard11, handCardActionType11);
+            }
+        }
+        //Debug.Log(SFS.step);
+
+        gm.playTurn();
+
+    }
+
+    void reassignReferences() {
+        gm.currentRound = (Round)gm.rounds[gm.roundIndex];
+        foreach(Round r in gm.rounds) {
+            if(r.turns ==  null) Debug.Log("r.turns is null");
+            if(r.turnCounter ==  null) Debug.Log("r.turnCounter is null");
+            r.currentTurn = (Turn)r.turns[r.turnCounter];
+        }
+        if(gm.banditPositions ==  null) Debug.Log("gm.bp is null");
+        if(gm.trainRoof ==  null) Debug.Log("gm.trainRoof is null");
+        foreach(TrainUnit tr in gm.trainRoof){
+            foreach (Bandit b in gm.bandits){
+                TrainUnit tu = (TrainUnit)gm.banditPositions[b.characterAsString];
+                if(tr.carTypeAsString == tu.carTypeAsString & tr.carFloorAsString == tu.carFloorAsString) {
+                gm.banditPositions[b.characterAsString] = tr;
+                }
+            }
+        }
+        if(gm.trainCabin ==  null) Debug.Log("gm.trainCabin is null");
+        foreach(TrainUnit tc in gm.trainCabin){
+            foreach (Bandit b in gm.bandits){
+                TrainUnit tu = (TrainUnit)gm.banditPositions[b.characterAsString];
+                if(tc.carTypeAsString == tu.carTypeAsString & tc.carFloorAsString == tu.carFloorAsString) {
+                    gm.banditPositions[b.characterAsString] = tc;
+                }
+            }
+        }
+    }
+
+    public void buttonClicked(Button btn){    
+        if(!myTurn) {
+            Debug.Log("not my turn!");
+        } else {
+            Debug.Log( btn.name + " IS CLICKED");
+            //Debug.Log("Clickable has " + clickable.Count + "items");
+            //promptPunchTarget.text = btn.name + "IS CLICKED"; 
+            //punchedBandit = btn.name;
+            // if buttonToObject[btn] is an actioncard, call playCard(buttonToObject[btn])
+            if(clickable.Contains(buttonToObject[btn])) {
+                Debug.Log("this is a clickable item!");
+                //all calls back to GM should be here
+
+                newAction = false;
+                actionText.text = "";
+                try {
+                    ActionCard currActionCard = (ActionCard)buttonToObject[btn];
+                    gm.playCard(currActionCard); 
+                } catch(Exception e) {
+                    Debug.Log("not an action card");
+                }
+            } else Debug.Log("not clickable!");
+        }
+        btn.interactable = true;
+    }
+
     public void horseBtnOneClicked(){
         promptHorseAttackMsg.text = "Horse Prompt btn one is clicked!";
 
@@ -239,13 +470,13 @@ public class GameBoard : MonoBehaviour
     }
 
     public void addAllBandits(){
-        allBandits.Add(belle);
-        allBandits.Add(cheyenne);
-        allBandits.Add(doc);
-        allBandits.Add(django);
-        allBandits.Add(tuco);
-        allBandits.Add(ghost);
-        allBandits.Add(marshal);
+        if(belle != null) allBandits.Add(belle);
+        if(cheyenne != null) allBandits.Add(cheyenne);
+        if(doc != null) allBandits.Add(doc);
+        if(django != null) allBandits.Add(django);
+        if(tuco != null) allBandits.Add(tuco);
+        if(ghost != null) allBandits.Add(ghost);
+        if(marshal != null) allBandits.Add(marshal);
     }
 
     /* initMap initializes the <Button, object> hashmap */
@@ -396,13 +627,13 @@ public class GameBoard : MonoBehaviour
         }
 
 
-        foreach(Button ab in allBandits){
-                if(!ab == null) {
-                    if(!playingBandits.Contains(ab)){
-                        Destroy(ab.gameObject);
-                    }
-                }
-            }
+        // foreach(Button ab in allBandits){
+        //         if(ab != null) {
+        //             if(!playingBandits.Contains(ab)){
+        //                 Destroy(ab.gameObject);
+        //             }
+        //         }
+        //     }
     }
 
     public void placeBanditAt(Bandit b, string cartype, string carfloor){
@@ -410,14 +641,14 @@ public class GameBoard : MonoBehaviour
         // Button banditBtn = buttonToObject.FirstOrDefault(x => x.Value.Equals(b)).Key; // DOESN'T WORK 
         // Find the button that corresponds to Bandit b 
         Button banditBtn = belle;
-        Debug.Log("Bandit passed in is : " + b.characterAsString); 
+        //Debug.Log("Bandit passed in is : " + b.characterAsString); 
         foreach(Button aBanditBtn in allBandits){
             if(aBanditBtn.name.ToUpper() == b.characterAsString){
                 banditBtn = aBanditBtn;
             }
         }
         
-        Debug.Log(banditBtn.name);
+        //Debug.Log(banditBtn.name);
         if(carfloor == "CABIN"){
             if(cartype == "LOCOMOTIVE"){
                 banditBtn.transform.position = new Vector3 (locBtm[0], locBtm[1], locBtm[2]);
@@ -472,34 +703,6 @@ public class GameBoard : MonoBehaviour
         }
     }
 
-    public void buttonClicked(Button btn){
-        
-        if(!myTurn) {
-            Debug.Log("not my turn!");
-        } else {
-            
-            Debug.Log( btn.name + " IS CLICKED");
-            Debug.Log("Clickable has " + clickable.Count + "items");
-            promptPunchTarget.text = btn.name + "IS CLICKED"; 
-            //punchedBandit = btn.name;
-            // if buttonToObject[btn] is an actioncard, call playCard(buttonToObject[btn])
-            if(clickable.Contains(buttonToObject[btn])) {
-                Debug.Log("this is a clickable item!");
-                //all calls back to GM should be here
-
-                newAction = false;
-                actionText.text = "";
-                try {
-                    ActionCard currActionCard = (ActionCard)buttonToObject[btn];
-                    gm.playCard(currActionCard); 
-                } catch(Exception e) {
-                    Debug.Log("not an action card");
-                }
-            }
-        }
-        btn.interactable = true;
-    }
-
     /* setAllNonClickable sets all buttons to be non-clickable */
     public void setAllNonClickable(){
         Button[] allButtons = UnityEngine.Object.FindObjectsOfType<Button>();
@@ -515,164 +718,6 @@ public class GameBoard : MonoBehaviour
         }
     }
 
-    // prompt message: when a new state comes in, assign the non-static string using the str from the GM 
-    // THIS IS THE FIRST METHOD CALLED FOR RECEIVING NEW GAME STATE
-    public void UpdateGameState(BaseEvent evt) {
-        // if(!calledMapTrain){
-        //  mapTrain(gm);
-        //  calledMapTrain = true;
-        // }
-
-        Debug.Log("updategamestate called");
-        setAllClickable();
-        clearHand();
-
-        ISFSObject responseParams = (SFSObject)evt.Params["params"];
-        log.text += responseParams.GetUtfString("log") + "\n";
-        Debug.Log("Received log message: "+ (string)responseParams.GetUtfString("log"));
-        gm = (GameManager)responseParams.GetClass("gm");
-        GameManager.replaceInstance(gm);
-        //reassignReferences();
-
-        // currentRoundText.text = "Round #" + gm.roundIndex + " - " + gm.currentRound.roundTypeAsString + "\n";
-        // foreach(Turn t in gm.currentRound.turns) {
-        //  currentRoundText.text += t.turnTypeAsString + "\n";
-        //  if(t.Equals(gm.currentRound.currentTurn)) {
-        //      currentRoundText.text += "- Current turn";
-        //  }
-        // }
-        
-        addAllBandits();
-        // REASSIGN ALL GAME buttonToObject USING DICTIONARY
-        ArrayList banditsArray = gm.bandits;
-        foreach (Bandit b in banditsArray) {
-            if (b.characterAsString == "CHEYENNE") {
-                buttonToObject[cheyenne] = b;
-                Debug.Log(b.characterAsString + " added as button");
-                playingBandits.Add(cheyenne);
-            }
-            if (b.characterAsString == "BELLE") {
-                buttonToObject[belle] = b;
-                Debug.Log(b.characterAsString + " added as button");
-                playingBandits.Add(belle);
-            }
-            if (b.characterAsString == "TUCO") {
-                buttonToObject[tuco] = b;
-                Debug.Log(b.characterAsString + " added as button");
-                playingBandits.Add(tuco);
-            }
-            if (b.characterAsString == "DOC") {
-                buttonToObject[doc] = b;
-                Debug.Log(b.characterAsString + " added as button");
-                playingBandits.Add(doc);
-            }
-            if (b.characterAsString == "GHOST") {
-                buttonToObject[ghost] = b;
-                Debug.Log(b.characterAsString + " added as button");
-                playingBandits.Add(ghost);
-            }
-            if (b.characterAsString == "DJANGO") {
-                buttonToObject[django] = b;
-                Debug.Log(b.characterAsString + " added as button");
-                playingBandits.Add(django);
-            }
-            
-            /* place the bandits in their starting positions */
-            //mapBandit(gm);
-
-            // foreach(Button ab in allBandits){
-            //  Debug.Log(ab.name);
-            //  if(!playingBandits.Contains(ab)){
-            //      Destroy(ab.gameObject);
-            //  }
-            // }
-
-            //UPDATE HAND/DECK EVERY TIME
-
-            if(b.characterAsString == gm.currentBandit.characterAsString){
-                /*
-                * OBJECTS ARE NEWLY CREATED WHEN SERIALIZED. IF MULTIPLE REFERENCES EXIST FOR THE SAME OBJECT, THEY WILL BE TREATED AS DIFFERENT OBJECTS
-                */
-                Debug.Log("reassigning current bandit ref to " + b.characterAsString);
-                gm.currentBandit = b;
-            }
-
-            if(b.characterAsString == ChooseCharacter.character){
-                b.updateMainDeck();
-
-                if (gm.strGameStatus.Equals("SCHEMIN")) {
-                    if(gm.currentRound.getTurnCounter() == 0 && b.hand.Count == 0){
-                        b.drawCards(6);
-                        if(b.getCharacter().Equals("DOC")){
-                            b.drawCards(1);
-                        }
-                        b.updateOtherDecks();
-                        b.updateOtherHands();
-                    }
-                }
-                
-                b.updateMainHand();
-                // assign to gameobjects on screen 
-                //ArrayList currCards = b.hand;
-                int index = 0; 
-                ActionCard ac;
-                BulletCard bc;
-                Debug.Log("num of currcards: " + b.hand.Count);
-                Debug.Log("num of currcards b1: " + gm.currentBandit.hand.Count);
-                foreach(Card currCard in b.hand){
-                    try{
-                        ac = (ActionCard) currCard;
-                        buttonToObject[goHandCard[index]] = ac;
-                        //Debug.Log("trying to cast card as action card");
-                    } catch(Exception e) {
-                        bc = (BulletCard) currCard;
-                        buttonToObject[goHandCard[index]] = bc;
-                        Debug.Log("not initializing an action card");
-                    }
-                    index++;
-                }
-                mapActionCards(handCard1, handCardActionType1);
-                mapActionCards(handCard2, handCardActionType2);
-                mapActionCards(handCard3, handCardActionType3);
-                mapActionCards(handCard4, handCardActionType4);
-                mapActionCards(handCard5, handCardActionType5);
-                mapActionCards(handCard6, handCardActionType6);
-                mapActionCards(handCard7, handCardActionType7);
-                mapActionCards(handCard8, handCardActionType8);
-                mapActionCards(handCard9, handCardActionType9);
-                mapActionCards(handCard10, handCardActionType10);
-                mapActionCards(handCard11, handCardActionType11);
-            }
-        }
-        Debug.Log(SFS.step);
-
-        gm.playTurn();
-
-    }
-
-    void reassignReferences() {
-        gm.currentRound = (Round)gm.rounds[gm.roundIndex];
-        foreach(Round r in gm.rounds) {
-            r.currentTurn = (Turn)r.turns[r.turnCounter];
-        }
-        foreach(TrainUnit tr in gm.trainRoof){
-            foreach (Bandit b in gm.bandits){
-                TrainUnit tu = (TrainUnit)gm.banditPositions[b.characterAsString];
-                if(tr.carTypeAsString == tu.carTypeAsString & tr.carFloorAsString == tu.carFloorAsString) {
-                gm.banditPositions[b.characterAsString] = tr;
-                }
-            }
-        }
-        foreach(TrainUnit tc in gm.trainCabin){
-            foreach (Bandit b in gm.bandits){
-                TrainUnit tu = (TrainUnit)gm.banditPositions[b.characterAsString];
-                if(tc.carTypeAsString == tu.carTypeAsString & tc.carFloorAsString == tu.carFloorAsString) {
-                gm.banditPositions[b.characterAsString] = tc;
-                }
-            }
-        }
-    }
-
     // public static bool isMyTurn() {
     //     if(gm.currentBandit.getCharacter().Equals(ChooseCharacter.character)){
     //         return true;
@@ -681,14 +726,7 @@ public class GameBoard : MonoBehaviour
     // }
 
 
-    public void mapActionCards(Button button, Text buttonText/*List<Button> goHand, string actionName, Card c, string banditName*/){
-        // foreach(Button g in goHand){
-        //  string goName = banditName + g.name;
-        //  if(actionName == goName.ToUpper()){
-        //      buttonToObject[g] = c;
-        //  }
-        // }
-        //Debug.Log("Called mapactioncards");
+    public void mapActionCards(Button button, Text buttonText){
 
         try {
             string nullstr = (string)buttonToObject[button];
@@ -701,7 +739,7 @@ public class GameBoard : MonoBehaviour
         try {
             ActionCard card = (ActionCard)buttonToObject[button];
             buttonText.text = card.actionTypeAsString;
-            Debug.Log("setting " + button.name + " to " + card.actionTypeAsString);
+            //Debug.Log("setting " + button.name + " to " + card.actionTypeAsString);
         } catch(Exception e) {
             //Debug.Log("not an action card in MAP");
             buttonText.text = "Bullet";
@@ -711,11 +749,6 @@ public class GameBoard : MonoBehaviour
     public void LeaveRoom() {
         SFS.LeaveRoom();
     }
-
-    // public void playCard(GameObject selectedCard){
-    //     // draws 3 cards randomly and put in the hand
-    //     Destroy(selectedCard);
-    // }
 
     /* Map all Buttons to their GM objects counterparts */
     public void mapAll(){
@@ -755,46 +788,18 @@ public class GameBoard : MonoBehaviour
     }
 
 
-    // Update is called once per frame
-    void Update()
-    {
 
-        // var selectedBanditName = EventSystem.current.currentSelectedGameObject;
-        //  if (selectedBanditName != null)
-        //      promptPunchTarget.text = "ahh" + selectedBanditName.name;
-        //  else
-        //      promptPunchTarget.text = "ahh NULLL POINTERR";
 
-        if (SFS.IsConnected()) {
-            SFS.ProcessEvents();
-        }
+    /*
+    *
+    *
+    * SFS COMMUNICATION METHODS
+    *
+    *
+    */
 
-        if (Input.GetMouseButtonDown(0)){
-            // MouseDown();
-            Debug.Log("Clicked");
-            Debug.Log("currentbandit on mouse: "+ gm.currentBandit.getCharacter());
-            // if(gm != null && gm.currentBandit.getCharacter() == ChooseCharacter.character) {
-            //  Debug.Log("ending my turn");
-                // Bandit b = (Bandit) gm.bandits[0];
-                // if (b.getCharacter() == gm.currentBandit.getCharacter()) {
-                //  gm.currentBandit = (Bandit) gm.bandits[1];
-                // } else {
-                //  gm.currentBandit = (Bandit) gm.bandits[0];
-                // }
-                // gm.endOfTurn();
-                //SendNewGameState();
-            // }
-        }
 
-        if(myTurn) {
-            myTurnText.text = "Your turn!";
-        } else {
-            myTurnText.text = "";
-        }
-        if(newAction) {
-            actionText.text = action;
-        }
-    }
+
 
     public void EnterGameBoardScene() {
         Debug.Log("entering scene");
@@ -813,14 +818,6 @@ public class GameBoard : MonoBehaviour
         SFS.Send(req);
         Debug.Log("sent game state");
     }
-
-    /*private void ChooseCharacter() {
-        ISFSObject obj = SFSObject.NewInstance();
-        obj.PutUtfString("chosenCharacter", "TUCO");
-        ExtensionRequest req = new ExtensionRequest("gm.chosenCharacter",obj);
-        SFS.Send(req);
-        trace("chose Tuco");
-    }*/
 
     public static void trace(string msg) {
     //  debugText.text += (debugText.text != "" ? "\n" : "") + msg;

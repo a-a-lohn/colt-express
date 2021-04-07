@@ -74,10 +74,10 @@ namespace model {
             Debug.Log("setting 'it works' from prompt");
             
             GameBoard.clickable = currentBandit.getHand();
-            GameBoard.setNextAction("playcard");
+            GameBoard.setNextAction("Play a card or draw 3 cards");
             
             // ASSIGN THIS ATTRIBUTE ACCORDINGLY IN EVERY PROMPT;
-            TestGame.prompt = "playCard() or drawCards()";
+            TestGame.prompt = "Play a card or draw 3 cards";
         }
 
         public void resolveAction(ActionCard toResolve) {
@@ -135,7 +135,13 @@ namespace model {
             PlayedPile pile = PlayedPile.getInstance();
             pile.addPlayedCards(c);
             Debug.Log("played card, ending turn");
-            this.endOfTurn(currentBandit + " played " + c.actionTypeAsString);
+            string message;
+            if(c.getFaceDown()) {
+                message = currentBandit.characterAsString + " played a card facedown";
+            } else {
+                message = currentBandit.characterAsString + " played " + c.actionTypeAsString;
+            }
+            this.endOfTurn(message);
             // might have to put this in an if else block for cases like SpeedingUp/Whiskey
         }
         
