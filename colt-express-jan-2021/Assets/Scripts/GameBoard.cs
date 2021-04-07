@@ -236,7 +236,7 @@ public class GameBoard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        makeEmptyCardsUninteractable();
         // var selectedBanditName = EventSystem.current.currentSelectedGameObject;
         //  if (selectedBanditName != null)
         //      promptPunchTarget.text = "ahh" + selectedBanditName.name;
@@ -267,6 +267,7 @@ public class GameBoard : MonoBehaviour
         Debug.Log("updategamestate called");
         setAllClickable();
         clearHand();
+        makeEmptyCardsUninteractable();
 
         ISFSObject responseParams = (SFSObject)evt.Params["params"];
         string logStr = responseParams.GetUtfString("log") + "\n\n";
@@ -344,6 +345,15 @@ public class GameBoard : MonoBehaviour
             /* place the bandits in their starting positions */
             mapBandit(gm);
 
+            foreach(Button ab in allBandits){
+                if(ab != null) {
+                    if(!playingBandits.Contains(ab)){
+                        Debug.Log("Destroying " + ab.name);
+                        Destroy(ab.gameObject);
+                    }
+                }
+            }
+
             if(b.characterAsString == gm.currentBandit.characterAsString){
                 /*
                 * OBJECTS ARE NEWLY CREATED WHEN SERIALIZED. IF MULTIPLE REFERENCES EXIST FOR THE SAME OBJECT, THEY WILL BE TREATED AS DIFFERENT OBJECTS
@@ -403,6 +413,33 @@ public class GameBoard : MonoBehaviour
 
         gm.playTurn();
 
+    }
+
+    void makeEmptyCardsUninteractable(){
+        // make all empty cards uninteractable 
+        if(handCardActionType1.text == ""){
+            handCard1.interactable = false;
+        }else if(handCardActionType2.text == ""){
+           handCard2.interactable = false;
+        }else if(handCardActionType3.text == ""){
+            handCard3.interactable = false;
+        }else if(handCardActionType4.text == ""){
+            handCard4.interactable = false;
+        }else if(handCardActionType5.text == ""){
+            handCard5.interactable = false;
+        }else if(handCardActionType6.text == ""){
+            handCard6.interactable = false;
+        }else if(handCardActionType7.text == ""){
+            handCard7.interactable = false;
+        }else if(handCardActionType8.text == ""){
+            handCard8.interactable = false;
+        }else if(handCardActionType9.text == ""){
+            handCard9.interactable = false;
+        }else if(handCardActionType10.text == ""){
+            handCard10.interactable = false;
+        }else if(handCardActionType11.text == ""){
+            handCard11.interactable = false;
+        }
     }
 
     void reassignReferences() {
@@ -539,6 +576,19 @@ public class GameBoard : MonoBehaviour
         goHandCard.Insert(8, handCard9);
         goHandCard.Insert(9, handCard10);
         goHandCard.Insert(10, handCard11);
+
+        /* init all action texts */
+        handCardActionType1.text = ""; 
+        handCardActionType2.text = ""; 
+        handCardActionType3.text = ""; 
+        handCardActionType4.text = ""; 
+        handCardActionType5.text = ""; 
+        handCardActionType6.text = ""; 
+        handCardActionType7.text = ""; 
+        handCardActionType8.text = ""; 
+        handCardActionType9.text = ""; 
+        handCardActionType10.text = ""; 
+        handCardActionType11.text = ""; 
     }
 
     void clearHand(){
@@ -625,15 +675,6 @@ public class GameBoard : MonoBehaviour
                 };
             }
         }
-
-
-        // foreach(Button ab in allBandits){
-        //         if(ab != null) {
-        //             if(!playingBandits.Contains(ab)){
-        //                 Destroy(ab.gameObject);
-        //             }
-        //         }
-        //     }
     }
 
     public void placeBanditAt(Bandit b, string cartype, string carfloor){
@@ -644,11 +685,11 @@ public class GameBoard : MonoBehaviour
         //Debug.Log("Bandit passed in is : " + b.characterAsString); 
         foreach(Button aBanditBtn in allBandits){
             if(aBanditBtn.name.ToUpper() == b.characterAsString){
+                playingBandits.Add(aBanditBtn);
                 banditBtn = aBanditBtn;
             }
         }
         
-        //Debug.Log(banditBtn.name);
         if(carfloor == "CABIN"){
             if(cartype == "LOCOMOTIVE"){
                 banditBtn.transform.position = new Vector3 (locBtm[0], locBtm[1], locBtm[2]);
