@@ -231,7 +231,7 @@ public class GameBoard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        makeEmptyCardsUninteractable();
         // var selectedBanditName = EventSystem.current.currentSelectedGameObject;
         //  if (selectedBanditName != null)
         //      promptPunchTarget.text = "ahh" + selectedBanditName.name;
@@ -267,6 +267,7 @@ public class GameBoard : MonoBehaviour
         Debug.Log("updategamestate called");
         setAllClickable();
         clearHand();
+        makeEmptyCardsUninteractable();
 
         ISFSObject responseParams = (SFSObject)evt.Params["params"];
         string logStr = responseParams.GetUtfString("log") + "\n\n";
@@ -414,6 +415,33 @@ public class GameBoard : MonoBehaviour
 
     }
 
+    void makeEmptyCardsUninteractable(){
+        // make all empty cards uninteractable 
+        if(handCardActionType1.text == ""){
+            handCard1.interactable = false;
+        }else if(handCardActionType2.text == ""){
+           handCard2.interactable = false;
+        }else if(handCardActionType3.text == ""){
+            handCard3.interactable = false;
+        }else if(handCardActionType4.text == ""){
+            handCard4.interactable = false;
+        }else if(handCardActionType5.text == ""){
+            handCard5.interactable = false;
+        }else if(handCardActionType6.text == ""){
+            handCard6.interactable = false;
+        }else if(handCardActionType7.text == ""){
+            handCard7.interactable = false;
+        }else if(handCardActionType8.text == ""){
+            handCard8.interactable = false;
+        }else if(handCardActionType9.text == ""){
+            handCard9.interactable = false;
+        }else if(handCardActionType10.text == ""){
+            handCard10.interactable = false;
+        }else if(handCardActionType11.text == ""){
+            handCard11.interactable = false;
+        }
+    }
+
     void reassignReferences() {
         gm.currentRound = (Round)gm.rounds[gm.roundIndex];
         foreach(Round r in gm.rounds) {
@@ -548,6 +576,19 @@ public class GameBoard : MonoBehaviour
         goHandCard.Insert(8, handCard9);
         goHandCard.Insert(9, handCard10);
         goHandCard.Insert(10, handCard11);
+
+        /* init all action texts */
+        handCardActionType1.text = ""; 
+        handCardActionType2.text = ""; 
+        handCardActionType3.text = ""; 
+        handCardActionType4.text = ""; 
+        handCardActionType5.text = ""; 
+        handCardActionType6.text = ""; 
+        handCardActionType7.text = ""; 
+        handCardActionType8.text = ""; 
+        handCardActionType9.text = ""; 
+        handCardActionType10.text = ""; 
+        handCardActionType11.text = ""; 
     }
 
     void clearHand(){
