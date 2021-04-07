@@ -22,6 +22,7 @@ using model;
 
 public class TestGame : MonoBehaviour
 {
+    public static bool testing = false;
     static GameManager gm;
     public static string prompt = "";
     static int num = 0;
@@ -31,6 +32,7 @@ public class TestGame : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        testing = true;
         if (SFS.getSFS() == null) {
             // Initialize SFS2X client. This can be done in an earlier scene instead
             SmartFox sfs = new SmartFox();

@@ -97,6 +97,7 @@ public class GameBoard : MonoBehaviour
     public Text promptDrawCardsOrPlayCardMsg;
     public Text promptChooseLoot; 
     public Text promptPunchTarget; 
+    public Text promptHorseAttackMsg;
 
     public static Dictionary<Button, object> buttonToObject = new Dictionary<Button, object>();
 
@@ -225,6 +226,16 @@ public class GameBoard : MonoBehaviour
         }*/
         initMap();
         EnterGameBoardScene();
+    }
+
+    public void horseBtnOneClicked(){
+        promptHorseAttackMsg.text = "Horse Prompt btn one is clicked!";
+
+    }
+
+    public void horseBtnTwoClicked(){
+        promptHorseAttackMsg.text = "Horse Prompt btn two is clicked!";
+
     }
 
     public void addAllBandits(){
@@ -386,9 +397,10 @@ public class GameBoard : MonoBehaviour
 
 
         foreach(Button ab in allBandits){
-                Debug.Log(ab.name);
-                if(!playingBandits.Contains(ab)){
-                    Destroy(ab.gameObject);
+                if(!ab == null) {
+                    if(!playingBandits.Contains(ab)){
+                        Destroy(ab.gameObject);
+                    }
                 }
             }
     }
@@ -462,7 +474,7 @@ public class GameBoard : MonoBehaviour
 
     public void buttonClicked(Button btn){
         
-        if(!isMyTurn()) {
+        if(!myTurn) {
             Debug.Log("not my turn!");
         } else {
             
@@ -520,7 +532,7 @@ public class GameBoard : MonoBehaviour
         Debug.Log("Received log message: "+ (string)responseParams.GetUtfString("log"));
         gm = (GameManager)responseParams.GetClass("gm");
         GameManager.replaceInstance(gm);
-        reassignReferences();
+        //reassignReferences();
 
         // currentRoundText.text = "Round #" + gm.roundIndex + " - " + gm.currentRound.roundTypeAsString + "\n";
         // foreach(Turn t in gm.currentRound.turns) {
@@ -566,7 +578,7 @@ public class GameBoard : MonoBehaviour
             }
             
             /* place the bandits in their starting positions */
-            mapBandit(gm);
+            //mapBandit(gm);
 
             // foreach(Button ab in allBandits){
             //  Debug.Log(ab.name);
@@ -661,12 +673,12 @@ public class GameBoard : MonoBehaviour
         }
     }
 
-    public static bool isMyTurn() {
-        if(gm.currentBandit.getCharacter().Equals(ChooseCharacter.character)){
-            return true;
-        }
-        return false;
-    }
+    // public static bool isMyTurn() {
+    //     if(gm.currentBandit.getCharacter().Equals(ChooseCharacter.character)){
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
 
     public void mapActionCards(Button button, Text buttonText/*List<Button> goHand, string actionName, Card c, string banditName*/){
@@ -700,10 +712,10 @@ public class GameBoard : MonoBehaviour
         SFS.LeaveRoom();
     }
 
-    public void playCard(GameObject selectedCard){
-        // draws 3 cards randomly and put in the hand
-        Destroy(selectedCard);
-    }
+    // public void playCard(GameObject selectedCard){
+    //     // draws 3 cards randomly and put in the hand
+    //     Destroy(selectedCard);
+    // }
 
     /* Map all Buttons to their GM objects counterparts */
     public void mapAll(){

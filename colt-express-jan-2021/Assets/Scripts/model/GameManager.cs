@@ -44,22 +44,21 @@ namespace model {
         public void playTurn() {
             Debug.Log("playing turn");
             Debug.Log("currentbandit: "+ currentBandit.getCharacter());
-            
-            if(currentBandit.getCharacter().Equals(ChooseCharacter.character)) {
+            if(currentBandit.getCharacter().Equals(ChooseCharacter.character) | TestGame.testing) {
             
                 Debug.Log("my turn");
                 GameBoard.setMyTurn(true);
                 if (this.strGameStatus.Equals("SCHEMIN")) {
-
-                    // if(this.currentRound.getTurnCounter() == 0){
-                    //     currentBandit.drawCards(6);
-                    //     if(currentBandit.getCharacter().Equals("DOC")){
-                    //         currentBandit.drawCards(1);
-                    //     }
-                    //     currentBandit.updateOtherDecks();
-                    //     currentBandit.updateOtherHands();
-                    // }
-
+                    if(TestGame.testing) {
+                        if(this.currentRound.getTurnCounter() == 0){
+                            currentBandit.drawCards(6);
+                        if(currentBandit.getCharacter().Equals("DOC")){
+                            currentBandit.drawCards(1);
+                        }
+                        currentBandit.updateOtherDecks();
+                        currentBandit.updateOtherHands();
+                        }
+                    }
                     Debug.Log("calling prompt");
                     promptDrawCardsOrPlayCard();
                 }
@@ -163,7 +162,6 @@ namespace model {
          }
 
         public void endOfTurn(string message) {
-
             //  SCHEMIN PHASE
             if (this.strGameStatus.Equals("SCHEMIN")) {
                 string currentTurnType = this.currentRound.getCurrentTurn().getTurnTypeAsString();
@@ -326,7 +324,9 @@ namespace model {
             currentBandit.updateOtherHands();
             GameBoard.setMyTurn(false);
             Debug.Log("ended turn");
-            GameBoard.SendNewGameState(message);
+            if(!TestGame.testing) {
+                GameBoard.SendNewGameState(message);   
+            }
         }
         
         public GameManager() {
