@@ -8,12 +8,15 @@ using Sfs2X.Core;
 using Sfs2X.Entities;
 using Sfs2X.Entities.Data;
 using Sfs2X.Protocol.Serialization;
-// @Instantiation(InstantiationMode.SINGLE_INSTANCE)
-// @MultiHandler
+
+// THINGS TO CHANGE FOR RUNNING TESTGAME.CS:
+// - comment out if statement if(currentBandit.getCharacter().Equals(ChooseCharacter.character)) 
+//       around line 53 (keep contents)
+// - uncomment if(this.currentRound.getTurnCounter() == 0) around lines 56-63 (including contents)
+// - comment out sendnewgamestate() at end of turn (around line 354)
+
 namespace model {
     public class GameManager : SerializableSFSType {
-        //public Hashtable banditLocation; 
-        //public static ColtMultiHandler handler; 
         public static GameManager singleton;
         public string strGameStatus;
         
@@ -37,19 +40,17 @@ namespace model {
         public int roundIndex;
         public int banditIndex; // NEVER INITIALIZED IN GM.JAVA
         
-        // public static void setHandler(ColtMultiHandler handle) {  
-        //     handler = handle;
-        //     //  ISFSObject rtn = SFSObject.newInstance();
-        //     //  handler.updateGameState(rtn);
-        // }
-        
         
         public void playTurn() {
             Debug.Log("playing turn");
             Debug.Log("currentbandit: "+ currentBandit.getCharacter());
+            
             if(currentBandit.getCharacter().Equals(ChooseCharacter.character)) {
+            
                 Debug.Log("my turn");
+                GameBoard.setMyTurn(true);
                 if (this.strGameStatus.Equals("SCHEMIN")) {
+
                     // if(this.currentRound.getTurnCounter() == 0){
                     //     currentBandit.drawCards(6);
                     //     if(currentBandit.getCharacter().Equals("DOC")){
@@ -58,26 +59,26 @@ namespace model {
                     //     currentBandit.updateOtherDecks();
                     //     currentBandit.updateOtherHands();
                     // }
+
                     Debug.Log("calling prompt");
                     promptDrawCardsOrPlayCard();
                 }
                 else if (this.strGameStatus.Equals("STEALIN")) {
                     this.resolveAction(this.currentBandit.getToResolve());
                 }
+            
             }
             
         }
         
         public void promptDrawCardsOrPlayCard() {
             Debug.Log("setting 'it works' from prompt");
-            GameBoard.setWorks();
+            
             GameBoard.clickable = currentBandit.getHand();
-            GameBoard.action = "playcard";
-            Debug.Log("CALLINNGGG");
-            // GameObject board = GameObject.Find("GameBoardGO");
-            // GameBoard gameboardScript = board.GetComponent<GameBoard>(); 
-            // Debug.Log(gameboardScript + "scripttt");
-            // gameboardScript.promptDrawCardsOrPlayCardMsg.text = "Please play a card or draw 3 cards!";
+            GameBoard.setNextAction("playcard");
+            
+            // ASSIGN THIS ATTRIBUTE ACCORDINGLY IN EVERY PROMPT;
+            TestGame.prompt = "playCard() or drawCards()";
         }
 
         public void resolveAction(ActionCard toResolve) {
@@ -121,8 +122,9 @@ namespace model {
             this.currentBandit.removeFromHand(c);
             Debug.Log("removed from hand");
             if (this.currentBandit.getCharacter().Equals("GHOST") && this.currentRound.getTurnCounter() == 0) {
-                promptPlayFaceUpOrFaceDown(c);
-                 Debug.Log("called for ghost");
+                //promptPlayFaceUpOrFaceDown(c); -- COMMENTED OUT FOR NOW
+                c.setFaceDown(true);
+                Debug.Log("called for ghost");
             }
             else if (this.currentRound.getCurrentTurn().getTurnTypeAsString().Equals("TUNNEL")) {
                 //  this.currentRound.getCurrentTurn().getTurnTypeAsString().equals("TUNNEL")
@@ -156,7 +158,9 @@ namespace model {
             */
         }
 
-        public void endOfTurn() { }
+        public void endOfTurn() {
+            endOfTurn("use the endOfTurn method that takes a string arg instead indicating the what happened on that turn");
+         }
 
         public void endOfTurn(string message) {
 
@@ -320,7 +324,8 @@ namespace model {
             }
             currentBandit.updateOtherDecks();
             currentBandit.updateOtherHands();
-            Debug.Log("sending new game state");
+            GameBoard.setMyTurn(false);
+            Debug.Log("ended turn");
             GameBoard.SendNewGameState(message);
         }
         
@@ -859,8 +864,7 @@ namespace model {
         }
         
 	    public void move(TrainUnit targetPosition) {
-		    TrainUnit currentPosition = this.currentBandit.getPosition();
-		    currentPosition.addBandit(this.currentBandit);
+		    targetPosition.addBandit(this.currentBandit);
 		    if (targetPosition.isMarshalHere) {
 			    currentBandit.shotByMarhsal();
 		    }
@@ -892,21 +896,76 @@ namespace model {
 			    	b.shotByMarhsal();
 			    }
 		    }
-		    endOfTurn(); // might have to put this in an if else block for cases like SpeedingUp/Whiskey
+		    endOfTurn(); 
 	    }
 
         //--RIDE--
 
         public ArrayList calculateRide(){
-            //TODO
-            return new ArrayList();
+            TrainUnit currentPosition = currentBandit.getPosition();
+            Horse adjacentHorse = null;
+            foreach(Horse h in this.horses){
+                if(currentPosition.getCarTypeAsString().Equals(h.getAdjacentTo().getCarTypeAsString())){
+                    adjacentHorse = h;
+                    break;
+                }
+            }
+            if(adjacentHorse == null){
+                return new ArrayList();
+            }
+            else{
+                if(currentPosition.getCarFloorAsString().Equals("ROOF")){
+                    currentPosition = currentPosition.getBelow();
+                }
+                ArrayList possibilities = new ArrayList();
+                TrainUnit toLeft = currentPosition.getLeft();
+                for(int i=0; i<3 && toLeft != null; i++){
+                    possibilities.Add(toLeft);
+                    toLeft = toLeft.getLeft();
+                }
+                TrainUnit toRight = currentPosition.getRight();
+                for(int i=0; i<3 && toRight != null; i++){
+                    possibilities.Add(toRight);
+                    toRight = toRight.getRight();
+                }
+                possibilities.Add(currentPosition);
+                return possibilities;
+            }
         }
+
         public void ridePrompt(ArrayList possibilities){
-            //TODO make possibilities clickable
-            TrainUnit clicked = new TrainUnit();
-            ride(clicked);
+            if(possibilities.Count == 0){
+                this.endOfTurn();
+            }
+            else if(possibilities.Count == 1){
+                ride((TrainUnit)possibilities[0]);
+            }
+            else{
+                //TODO make possibilities clickable
+                TrainUnit clicked = new TrainUnit();
+                ride(clicked);
+            }
         }
+
         public void ride(TrainUnit dest){
+            TrainUnit currentPosition = currentBandit.getPosition();
+            if(currentPosition.getCarFloorAsString().Equals("ROOF")){
+                currentPosition = currentPosition.getBelow();
+            }
+            Horse adjacentHorse = null;
+            foreach(Horse h in horses){
+                if(h.getAdjacentTo().getCarTypeAsString().Equals(currentPosition.getCarTypeAsString())){
+                    adjacentHorse = h;
+                    break;
+                }
+            }
+
+            currentBandit.setPosition(dest);
+            if(dest.getIsMarshalHere()){
+                currentBandit.shotByMarhsal();
+            }
+            adjacentHorse.setAdjacentTo(dest);
+
             this.endOfTurn();
         }
 	

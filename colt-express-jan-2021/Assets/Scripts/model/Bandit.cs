@@ -63,7 +63,7 @@ namespace model {
         public void setPosition(TrainUnit newObject) {
             //change hashmap of bandit-position
             GameManager gm = GameManager.getInstance();
-            gm.banditPositions[this] = newObject;
+            gm.banditPositions[this.characterAsString] = newObject;
         }
         
         //loot

@@ -18,9 +18,8 @@ namespace model {
     
         public string carTypeAsString;
         public string carFloorAsString;
-        public bool isMarshalHere ;
-        public ArrayList lootHere ;
-        public ArrayList horsesHere ;
+        public bool isMarshalHere;
+        public ArrayList lootHere;
         
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public TrainUnit() {}
@@ -193,7 +192,7 @@ namespace model {
         //change the hashmap for bandit stuff
         public void addBandit(Bandit b) {
             GameManager gm = GameManager.getInstance();
-            gm.banditPositions[b] = this;
+            gm.banditPositions[b.characterAsString] = this;
         }
         
         /*public void removeBandit(Bandit b) {
@@ -204,7 +203,7 @@ namespace model {
         //query hashmap
         public bool containsBandit(Bandit b) {
             GameManager gm = GameManager.getInstance();
-            if (gm.banditPositions[b] == this) {
+            if (gm.banditPositions[b.characterAsString] == this) {
                 return true;
             }
             return false;
@@ -218,7 +217,7 @@ namespace model {
             GameManager gm = GameManager.getInstance();
             ArrayList bandits = new ArrayList();
             foreach (Bandit b in gm.banditPositions) {
-                if (gm.banditPositions[b] == this) {
+                if (gm.banditPositions[b.characterAsString] == this) {
                     bandits.Add(b);
                 }
             }
@@ -258,6 +257,17 @@ namespace model {
         public void moveMarshalTo(TrainUnit dest) {
             this.isMarshalHere = false;
             dest.isMarshalHere = true;
+        }
+
+        public ArrayList getHorsesHere(){
+            GameManager gm = GameManager.getInstance();
+            ArrayList horsesHere = new ArrayList();
+            foreach(Horse h in gm.horses){
+                if(h.getAdjacentTo().Equals(this)){
+                    horsesHere.Add(h);
+                }
+            }
+            return horsesHere;
         }
     }
 }
