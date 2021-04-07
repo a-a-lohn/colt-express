@@ -344,6 +344,15 @@ public class GameBoard : MonoBehaviour
             /* place the bandits in their starting positions */
             mapBandit(gm);
 
+            foreach(Button ab in allBandits){
+                if(ab != null) {
+                    if(!playingBandits.Contains(ab)){
+                        Debug.Log("Destroying " + ab.name);
+                        Destroy(ab.gameObject);
+                    }
+                }
+            }
+
             if(b.characterAsString == gm.currentBandit.characterAsString){
                 /*
                 * OBJECTS ARE NEWLY CREATED WHEN SERIALIZED. IF MULTIPLE REFERENCES EXIST FOR THE SAME OBJECT, THEY WILL BE TREATED AS DIFFERENT OBJECTS
@@ -625,15 +634,6 @@ public class GameBoard : MonoBehaviour
                 };
             }
         }
-
-
-        // foreach(Button ab in allBandits){
-        //         if(ab != null) {
-        //             if(!playingBandits.Contains(ab)){
-        //                 Destroy(ab.gameObject);
-        //             }
-        //         }
-        //     }
     }
 
     public void placeBanditAt(Bandit b, string cartype, string carfloor){
@@ -644,11 +644,11 @@ public class GameBoard : MonoBehaviour
         //Debug.Log("Bandit passed in is : " + b.characterAsString); 
         foreach(Button aBanditBtn in allBandits){
             if(aBanditBtn.name.ToUpper() == b.characterAsString){
+                playingBandits.Add(aBanditBtn);
                 banditBtn = aBanditBtn;
             }
         }
         
-        //Debug.Log(banditBtn.name);
         if(carfloor == "CABIN"){
             if(cartype == "LOCOMOTIVE"){
                 banditBtn.transform.position = new Vector3 (locBtm[0], locBtm[1], locBtm[2]);
