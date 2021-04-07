@@ -53,7 +53,8 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		case("chosenCharacter"):handleChosenCharacter(sender, params, rtn); break;
 		case("testSerial"): testSerial(sender, rtn); break;
 		case("newGameState"): handleNewGameState(params,rtn); break;
-		case("enterGameBoardScene"): handleEnterGameBoardScene(params,rtn); break;
+		case("enterGameBoardScene"): handleEnterGameBoardScene(sender, params,rtn); break;
+		//case("fetchLastGameState"): handleFetchLastGameState(sender, rtn); break;
 		case("nextAction"): handleNextAction(params,rtn); break;
 		case("saveGameState"): handleSaveGameState(params,rtn); break;
 		case("loadSavedGame"): handleLoadSavedGame(params,rtn); break;
@@ -125,18 +126,17 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		sendToAllUsers(params, "nextAction");
 	}
 	
-	public void handleEnterGameBoardScene(ISFSObject params, ISFSObject rtn) {
+	public void handleEnterGameBoardScene(User sender, ISFSObject params, ISFSObject rtn) {
 		System.out.println("entering gb scene");
 		GameManager game = GameManager.getInstance();
 		gm = game;
-		ArrayList<Bandit> bandits = game.bandits;
-		assert(bandits.size() > 1);
-		
-		// for testing purposes
+//		ArrayList<Bandit> bandits = game.bandits;
+//		assert(bandits.size() > 1);
+//		
+//		// for testing purposes - shouldn't be any current bandit at the start of game (horse attack)
 		gm.currentBandit = gm.bandits.get(0);
 		
-		
-		updateGameState(rtn);
+		updateGameStateSenderOnly(sender, rtn);
 	}
 	
 	public void handleNewGameState(ISFSObject params, ISFSObject rtn) {
@@ -158,6 +158,13 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		System.out.println("Sending game state to all");
 		System.out.println("Current bandit: " + gm.currentBandit.characterAsString);
 		sendToAllUsers(rtn, "updateGameState");
+	}
+	
+	public void updateGameStateSenderOnly(User sender, ISFSObject rtn) {
+		rtn.putClass("gm", gm);
+		System.out.println("Sending game state to " + sender.getName());
+		System.out.println("Current bandit: " + gm.currentBandit.characterAsString);
+		sendToSender(sender, rtn, "updateGameState");
 	}	
 	
 	private void handleEnterChooseCharacterScene(User sender, ISFSObject params, ISFSObject rtn) {
@@ -288,6 +295,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		rtn.putClass("gm", gm);
 		sendToSender(sender, rtn, "testSerial");
 	}
+	
 	
 	private void handleTestGame(User sender, ISFSObject rtn) {
 		GameManager gmTest = new GameManager();

@@ -34,6 +34,9 @@ public class GameBoard : MonoBehaviour
     public static string savegameId = null;
     public static bool started = false;
 
+    public Button chat;
+    bool returningFromChat = false;
+
     //debug variables
     public static Text debugText;
     public static string debugTextString;
@@ -203,16 +206,7 @@ public class GameBoard : MonoBehaviour
     private List<float> locTop = new List<float>() {1594.2F, 873.5F, -364.9F}; 
     private List<float> locBtm = new List<float>() {1597.7F, 816.5F, -364.9F}; 
 
-    void Start(){
-        //setAllNonClickable();
-        addAllBandits();
-        SFS.setGameBoard();
-
-        currentRoundText.text = "";
-        exitText.text ="";
-        log.text = "";
-        currentPlayer.text = "";
-        actionText.text = "";
+    void Start(){        
         //Invoke("LeaveRoom",5);
         /*if (SFS.getSFS() == null) {
             // Initialize SFS2X client. This can be done in an earlier scene instead
@@ -224,7 +218,18 @@ public class GameBoard : MonoBehaviour
         if (!SFS.IsConnected()) {
             SFS.Connect("test");
         }*/
-        initMap();
+
+        if(!returningFromChat) {
+            currentRoundText.text = "";
+            exitText.text ="";
+            log.text = "";
+            currentPlayer.text = "";
+            actionText.text = "";
+            addAllBandits();
+            SFS.setGameBoard();
+            initMap();
+        }
+        if(returningFromChat) Debug.Log("returning from chat");
         EnterGameBoardScene();
     }
 
@@ -259,11 +264,6 @@ public class GameBoard : MonoBehaviour
     }
 
     public void UpdateGameState(BaseEvent evt) {
-        // if(!calledMapTrain){
-        //  mapTrain(gm);
-        //  calledMapTrain = true;
-        // }
-
         Debug.Log("updategamestate called");
         setAllClickable();
         clearHand();
@@ -640,7 +640,7 @@ public class GameBoard : MonoBehaviour
         // places the bandit according to the parameters 
         // Button banditBtn = buttonToObject.FirstOrDefault(x => x.Value.Equals(b)).Key; // DOESN'T WORK 
         // Find the button that corresponds to Bandit b 
-        Button banditBtn = belle;
+        Button banditBtn = allBandits[0];
         //Debug.Log("Bandit passed in is : " + b.characterAsString); 
         foreach(Button aBanditBtn in allBandits){
             if(aBanditBtn.name.ToUpper() == b.characterAsString){
@@ -832,6 +832,7 @@ public class GameBoard : MonoBehaviour
     }
 
     public void GoToChat(){
+        returningFromChat = true;
         SceneManager.LoadScene("Chat");
     }
 
