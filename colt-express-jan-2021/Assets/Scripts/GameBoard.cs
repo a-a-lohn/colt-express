@@ -199,15 +199,16 @@ public class GameBoard : MonoBehaviour
     bool calledMapTrain = false;
 
     private List<float> oneBtm = new List<float>() {706.0F, 816.5F, -364.9F}; 
-    private List<float> oneTop = new List<float>() {705.4F, 869.0F, -364.9F}; 
-    private List<float> twoTop = new List<float>() {920.9F, 816.5F, -364.9F}; 
-    private List<float> twoBtm = new List<float>() {922.2F, 870.9F, -364.9F}; 
-    private List<float> threeTop = new List<float>() {1139.7F, 821.5F, -364.9F}; 
-    private List<float> threeBtm = new List<float>() {1138.4F, 872.2F, -364.9F}; 
+    private List<float> oneTop = new List<float>() {705.4F, 879.0F, -364.9F}; 
+    private List<float> twoTop = new List<float>() {962.9F, 873.7F, -364.9F}; 
+    private List<float> twoBtm = new List<float>() {918.2F, 815.7F, -364.9F}; 
+    private List<float> threeTop = new List<float>() {1149.4F, 883.2F, -364.9F}; 
+    private List<float> threeBtm = new List<float>() {1139.7F, 821.5F, -364.9F}; 
     private List<float> fourTop = new List<float>() {1353.2F, 820.2F, -364.9F}; 
     private List<float> fourBtm = new List<float>() {1357.1F, 873.5F, -364.9F}; 
     private List<float> locTop = new List<float>() {1594.2F, 873.5F, -364.9F}; 
-    private List<float> locBtm = new List<float>() {1597.7F, 816.5F, -364.9F}; 
+    private List<float> locBtm = new List<float>() {1597.7F, 816.5F, -364.9F};
+
 
     void Start(){  
         //Screen.SetResolution(1080, 1920);  
@@ -257,9 +258,6 @@ public class GameBoard : MonoBehaviour
             Debug.Log("currentbandit on mouse: "+ gm.currentBandit.getCharacter());
         }
 
-        if(canDrawCards) {
-            
-        }
         if(myTurn) {
             currentPlayer.text = "You!";
         } else {
@@ -479,6 +477,13 @@ public class GameBoard : MonoBehaviour
 
     public static void enableDrawCardsButton() {
         canDrawCards = true;
+    }
+
+    public void drawCardsClicked() {
+        if(canDrawCards) {
+            canDrawCards = false;
+            gm.drawCards(3);
+        }
     }
 
     public void buttonClicked(Button btn){    

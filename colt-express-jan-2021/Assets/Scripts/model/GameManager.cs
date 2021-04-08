@@ -153,7 +153,7 @@ namespace model {
         public void drawCards(int cardsToDraw) {
             Debug.Log("Reached gm drawCards");
             currentBandit.drawCards(cardsToDraw);
-            this.endOfTurn();
+            this.endOfTurn(currentBandit.characterAsString + " drew 3 cards");
         }
 
         public void promptPlayFaceUpOrFaceDown(ActionCard c){

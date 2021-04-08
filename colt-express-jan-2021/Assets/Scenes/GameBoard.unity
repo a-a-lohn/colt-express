@@ -654,7 +654,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 406.87, y: 13.42}
+  m_AnchoredPosition: {x: 397, y: 13.42}
   m_SizeDelta: {x: 57.9324, y: 60.635}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &90068768
@@ -703,7 +703,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1013407373}
         m_TargetAssemblyTypeName: GameBoard, Assembly-CSharp
-        m_MethodName: drawThreeCards
+        m_MethodName: drawCardsClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -785,7 +785,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -5686,8 +5686,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 354.58557, y: 134.96957}
-  m_SizeDelta: {x: 163.971, y: 226.091}
+  m_AnchoredPosition: {x: 341.07, y: 134.96957}
+  m_SizeDelta: {x: 136.93, y: 226.091}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &749691589
 MonoBehaviour:
@@ -10308,8 +10308,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 357.0945, y: 120.38}
-  m_SizeDelta: {x: 140.6484, y: 196.91}
+  m_AnchoredPosition: {x: 348.15, y: 120.38}
+  m_SizeDelta: {x: 122.76, y: 196.91}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1569340603
 MonoBehaviour:
