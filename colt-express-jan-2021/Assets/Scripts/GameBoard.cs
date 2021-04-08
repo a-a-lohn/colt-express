@@ -82,13 +82,15 @@ public class GameBoard : MonoBehaviour
     public Button marshal;
     private List<Button> playingBandits = new List<Button>();
     private List<Button> allBandits = new List<Button>();
+    private List<Button> allLoot = new List<Button>();
+
     
-    // public Button gem1; 
-    // public Button gem2; 
-    // public Button gem3; 
-    // public Button gem4;
-    // public Button gem5;
-    // public Button gem6;
+    public Button gem1; 
+    public Button gem2; 
+    public Button gem3; 
+    public Button gem4;
+    public Button gem5;
+    public Button gem6;
 
     // public Button ghoLoot;
 
@@ -416,6 +418,25 @@ public class GameBoard : MonoBehaviour
         }
         //Debug.Log(SFS.step);
 
+        Money m;
+        Whiskey w;
+        int count = 0;
+        foreach (Loot l in gm.loot){
+            try{
+                m = (Money) l;
+                buttonToObject[allLoot[count]] = l;
+                Debug.Log("casting as Money");
+            }
+            catch(Exception e){
+                w = (Whiskey) l;
+                buttonToObject[allLoot[count]] = l;
+                Debug.Log("casting as Whiskey");
+            }
+            count++;
+        }
+
+        mapLoot(gm);
+
         gm.playTurn();
 
     }
@@ -569,6 +590,12 @@ public class GameBoard : MonoBehaviour
         buttonToObject.Add(locoBtm, "null"); 
         buttonToObject.Add(locoTop, "null");
 
+        buttonToObject.Add(gem1, "null");
+        buttonToObject.Add(gem2, "null");
+        buttonToObject.Add(gem3, "null");
+        buttonToObject.Add(gem4, "null");
+        buttonToObject.Add(gem5, "null");
+
         trainCabins.Insert(0, locoBtm);
         trainCabins.Insert(1, trainOneBtm);
         trainCabins.Insert(2, trainTwoBtm);
@@ -581,6 +608,8 @@ public class GameBoard : MonoBehaviour
         trainRoofs.Insert(3, trainThreeTop);
         trainRoofs.Insert(4, trainFourTop);
 
+        
+
         goHandCard.Insert(0, handCard1);
         goHandCard.Insert(1, handCard2);
         goHandCard.Insert(2, handCard3);
@@ -592,6 +621,12 @@ public class GameBoard : MonoBehaviour
         goHandCard.Insert(8, handCard9);
         goHandCard.Insert(9, handCard10);
         goHandCard.Insert(10, handCard11);
+
+        allLoot.Insert(0, gem1);
+        allLoot.Insert(1, gem2);
+        allLoot.Insert(2, gem3);
+        allLoot.Insert(3, gem4);
+        allLoot.Insert(4, gem5);
 
         /* init all action texts */
         handCardActionType1.text = ""; 
@@ -747,6 +782,29 @@ public class GameBoard : MonoBehaviour
         }
 
     }
+
+    public void mapLoot(GameManager gm){
+
+        foreach(Loot l in gm.loot){
+
+            if(l.getBelongsTo() != null){
+
+            } else if(l.getPosition() != null){
+                TrainUnit tr = l.getPosition();
+                placeLootOnTrain(l, tr.carTypeAsString, tr.carFloorAsString);
+            }
+
+        }
+
+
+    }
+
+    public void placeLootOnTrain(Loot l, string carType, string carFloor){
+
+
+
+    }
+
     /* promptDrawOrPlayMessage displays the prompt message on gameboard*/
     public static void promptDrawOrPlayMessage(){
         // promptDrawCardsOrPlayCardMsg.text = "Please play a card or draw 3 cards!";
