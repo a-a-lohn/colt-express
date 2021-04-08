@@ -29,6 +29,7 @@ namespace model {
         //  CONVENTION FOR TRAIN: POSITION TRAIN(0) IS LOCOMOTIVE, TRAIN(TRAINLENGTH) IS CABOOSE
         public ArrayList trainRoof;
         public ArrayList trainCabin;
+        public ArrayList loot;
         public ArrayList stagecoach;
         public int trainLength;
         public ArrayList horses;
