@@ -188,7 +188,18 @@ public class TestGame : MonoBehaviour
                 gm.playCard((ActionCard)gm.currentBandit.getHand()[2]);
                 gm.playTurn();
                 break;
-            // ADD MORE CASES!
+            case 4:
+                gm.drawCards(3);
+                gm.playTurn();
+                break;
+            case 5:
+                gm.drawCards(3);
+                gm.playTurn();
+                break;
+            case 6:
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[3]);
+                gm.playTurn();
+                break;
         }
     }
 

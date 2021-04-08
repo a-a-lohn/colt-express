@@ -75,19 +75,21 @@ namespace model {
             return null;
         }
         public void addLoot(Loot a) {
-            bool contains = this.loot.Contains(a);
-            if (contains) {
-                return;
-            }
             this.loot.Add(a);
         }
         public void removeLoot(Loot a) {
-            if (this.loot.Contains(a)) {
-                this.loot.Remove(a);
-            }
+            this.loot.Remove(a);
         }
         public ArrayList getLoot() {
             return this.loot;
+        }
+        public bool containsLoot(Loot l){
+            if(this.loot.Contains(l)){
+                return true;
+            }
+            else{
+                return false;
+            }
         }
         
         //deck
@@ -99,9 +101,7 @@ namespace model {
             this.deck.Insert(index, a);
         }
         public void removeFromDeckAt(int index) {
-            if ((this.deck.Count > index)) {
-                this.deck.Remove(index);
-            }
+            this.deck.Remove(index);
         }
         public Card getFromDeckAt(int index) {
             if ((this.deck.Count > index)) {
@@ -125,17 +125,12 @@ namespace model {
         
         //hand
         public void addToHand(Card a) {
-            bool contains = this.hand.Contains(a);
-            if (contains) {
-                return;
-            }
             this.hand.Add(a);
             
         }
         public void removeFromHand(Card a) {
-            if (this.hand.Contains(a)) {
-                this.hand.Remove(a);
-            }
+            this.hand.Remove(a);
+
         }
         public int sizeOfHand() {
             int size = this.hand.Count;
@@ -260,7 +255,9 @@ namespace model {
         }
 
         public void drawCards(int cardsToDraw) {
-            for (int i = this.sizeOfDeck()-1; i > this.sizeOfDeck()-cardsToDraw-1; i--) {
+            Debug.Log("cards to draw: " + cardsToDraw);
+            int deckSize = this.sizeOfDeck();
+            for (int i = deckSize-1; i > deckSize-cardsToDraw-1; i--) {
                 Card toAdd = this.getFromDeckAt(i);
                 this.removeFromDeckAt(i);
                 this.addToHand(toAdd);

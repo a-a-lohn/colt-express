@@ -234,11 +234,11 @@ namespace model {
             this.lootHere.Remove(a);
         }
         
-        bool containsLoot(Loot a) {
+        public bool containsLoot(Loot a) {
             return this.lootHere.Contains(a);
         }
         
-        int numOfLootHere() {
+        public int numOfLootHere() {
             return this.lootHere.Count;
         }
         

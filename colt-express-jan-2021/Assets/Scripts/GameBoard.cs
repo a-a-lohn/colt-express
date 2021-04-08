@@ -374,7 +374,7 @@ public class GameBoard : MonoBehaviour
         }
 	}
 
-	public viod placeBanditAt(Bandit b, string cartype, string carfloor){
+	public void placeBanditAt(Bandit b, string cartype, string carfloor){
 		// places the bandit according to the parameters 
 		Button banditBtn = buttonToObject.FirstOrDefault(x => x.Value.Equals(b)).Key; 
 		if(carfloor == "CABIN"){

@@ -50,9 +50,11 @@ namespace model {
                 if (this.strGameStatus.Equals("SCHEMIN")) {
 
                     if(this.currentRound.getTurnCounter() == 0){
-                        currentBandit.drawCards(6);
                         if(currentBandit.getCharacter().Equals("DOC")){
-                            currentBandit.drawCards(1);
+                            currentBandit.drawCards(7);
+                        }
+                        else{
+                            currentBandit.drawCards(6);
                         }
                         currentBandit.updateOtherDecks();
                         currentBandit.updateOtherHands();
@@ -140,6 +142,7 @@ namespace model {
         //  The GM method drawCards will draw cards and end turn
         //  The Bandit method drawCards simply moves cards from deck to hand
         public void drawCards(int cardsToDraw) {
+            Debug.Log("Reached gm drawCards");
             currentBandit.drawCards(cardsToDraw);
             this.endOfTurn();
         }
