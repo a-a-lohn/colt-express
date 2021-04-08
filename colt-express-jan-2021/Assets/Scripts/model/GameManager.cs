@@ -87,31 +87,31 @@ namespace model {
             PlayedPile.getInstance().removePlayedCard(toResolve);
             currentBandit.addToDeck(toResolve);
 
-            if (toResolve.getActionTypeAsString().Equals("CHANGEFLOOR")) {
+            if (currentBandit.toResolve.getActionTypeAsString().Equals("CHANGEFLOOR")) {
                 currentBandit.setToResolve(null);
                 this.changeFloor();
             }
-            else if (toResolve.getActionTypeAsString().Equals("MARSHAL")) {
+            else if (currentBandit.toResolve.getActionTypeAsString().Equals("MARSHAL")) {
                 currentBandit.setToResolve(null);
                 moveMarshalPrompt(calculateMoveMarshal());
             }
-            else if (toResolve.getActionTypeAsString().Equals("MOVE")) {
+            else if (currentBandit.toResolve.getActionTypeAsString().Equals("MOVE")) {
                 currentBandit.setToResolve(null);
                 movePrompt(calculateMove());
             }
-            else if (toResolve.getActionTypeAsString().Equals("PUNCH")) {
+            else if (currentBandit.toResolve.getActionTypeAsString().Equals("PUNCH")) {
                 currentBandit.setToResolve(null);
                 punchPrompt(calculatePunch());
             }
-            else if (toResolve.getActionTypeAsString().Equals("ROB")) {
+            else if (currentBandit.toResolve.getActionTypeAsString().Equals("ROB")) {
                 currentBandit.setToResolve(null);
                 robPrompt(calculateRob());
             }
-            else if (toResolve.getActionTypeAsString().Equals("SHOOT")) {
+            else if (currentBandit.toResolve.getActionTypeAsString().Equals("SHOOT")) {
                 currentBandit.setToResolve(null);
                 shootPrompt(calculateShoot());
             }
-            else if(toResolve.getActionTypeAsString().Equals("RIDE")){
+            else if(currentBandit.toResolve.getActionTypeAsString().Equals("RIDE")){
                 currentBandit.setToResolve(null);
                 ridePrompt(calculateRide());
             }

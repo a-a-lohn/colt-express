@@ -106,6 +106,7 @@ public class TestGame : MonoBehaviour
 
     void GameSummary() {
         summary.text = "PROMPT: " + prompt + "\n";
+        summary.text += "PHASE: " + gm.strGameStatus + "\n";
         summary.text += "CURRENT BANDIT: " + gm.currentBandit.characterAsString + "\n";
         summary.text += "CURRENT ROUND # and type: #" + gm.roundIndex + ", " + gm.currentRound.roundTypeAsString + "\n";
         summary.text += "CURRENT TURN # and type: #" + gm.currentRound.turnCounter + ", " + gm.currentRound.currentTurn.turnTypeAsString + "\n\n";
@@ -177,19 +178,21 @@ public class TestGame : MonoBehaviour
                 // initial playturn()
                 gm.playTurn();
                 break;
+            // R T1
             case 1:
                 gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
                 // ONLY CALL PLAYTURN() IMMEDIATELY AFTER CALLING A METHOD THAT CALLS ENDOFTURN() (such as playCard())
                 gm.playTurn();
                 break;
             case 2:
-                gm.playCard((ActionCard)gm.currentBandit.getHand()[1]);
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
                 gm.playTurn();
                 break;
             case 3:
-                gm.playCard((ActionCard)gm.currentBandit.getHand()[2]);
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
                 gm.playTurn();
                 break;
+            // R1 T2
             case 4:
                 gm.drawCards(3);
                 gm.playTurn();
@@ -199,9 +202,37 @@ public class TestGame : MonoBehaviour
                 gm.playTurn();
                 break;
             case 6:
-                gm.playCard((ActionCard)gm.currentBandit.getHand()[3]);
+                gm.drawCards(3);
                 gm.playTurn();
                 break;
+            // R1 T3
+            case 7:
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
+                gm.playTurn();
+                break;
+            case 8:
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
+                gm.playTurn();
+                break;
+            case 9:
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
+                gm.playTurn();
+                break;
+            // R1 T4
+            case 10:
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
+                gm.playTurn();
+                break;
+            case 11:
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
+                gm.playTurn();
+                break;
+            case 12:
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
+                gm.playTurn();
+                break;
+            
+
         }
     }
 

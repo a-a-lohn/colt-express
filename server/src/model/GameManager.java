@@ -145,7 +145,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		this.marshalInstance = Marshal.getInstance();
 		// initialize round cards, round attributes/create round constructor
 		this.rounds = this.createRoundCards(this.getNumOfPlayers());
-		Collections.shuffle(this.bandits); // <- to decide who goes first, shuffle bandit list
+		//Collections.shuffle(this.bandits);
 		this.currentRound = this.rounds.get(0);
 		
 		
@@ -343,7 +343,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 			return null;
 		}
 
-		Collections.shuffle(RoundCards);
+		//Collections.shuffle(RoundCards);
 
 		return RoundCards;
 	}
