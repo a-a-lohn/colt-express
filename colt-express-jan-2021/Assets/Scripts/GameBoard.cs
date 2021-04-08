@@ -418,22 +418,22 @@ public class GameBoard : MonoBehaviour
         }
         //Debug.Log(SFS.step);
 
-        Money m;
-        Whiskey w;
-        int count = 0;
-        foreach (Loot l in gm.loot){
-            try{
-                m = (Money) l;
-                buttonToObject[allLoot[count]] = l;
-                Debug.Log("casting as Money");
-            }
-            catch(Exception e){
-                w = (Whiskey) l;
-                buttonToObject[allLoot[count]] = l;
-                Debug.Log("casting as Whiskey");
-            }
-            count++;
-        }
+        // Money m;
+        // Whiskey w;
+        // int count = 0;
+        // foreach (Loot l in gm.loot){
+        //     try{
+        //         m = (Money) l;
+        //         buttonToObject[allLoot[count]] = l;
+        //         Debug.Log("casting as Money");
+        //     }
+        //     catch(Exception e){
+        //         w = (Whiskey) l;
+        //         buttonToObject[allLoot[count]] = l;
+        //         Debug.Log("casting as Whiskey");
+        //     }
+        //     count++;
+        // }
 
         //mapLoot(gm);
 
@@ -591,10 +591,10 @@ public class GameBoard : MonoBehaviour
         buttonToObject.Add(locoTop, "null");
 
         buttonToObject.Add(gem1, "null");
-        buttonToObject.Add(gem2, "null");
-        buttonToObject.Add(gem3, "null");
-        buttonToObject.Add(gem4, "null");
-        buttonToObject.Add(gem5, "null");
+        // buttonToObject.Add(gem2, "null");
+        // buttonToObject.Add(gem3, "null");
+        // buttonToObject.Add(gem4, "null");
+        // buttonToObject.Add(gem5, "null");
 
         trainCabins.Insert(0, locoBtm);
         trainCabins.Insert(1, trainOneBtm);
@@ -623,10 +623,10 @@ public class GameBoard : MonoBehaviour
         goHandCard.Insert(10, handCard11);
 
         allLoot.Insert(0, gem1);
-        allLoot.Insert(1, gem2);
-        allLoot.Insert(2, gem3);
-        allLoot.Insert(3, gem4);
-        allLoot.Insert(4, gem5);
+        // allLoot.Insert(1, gem2);
+        // allLoot.Insert(2, gem3);
+        // allLoot.Insert(3, gem4);
+        // allLoot.Insert(4, gem5);
 
         /* init all action texts */
         handCardActionType1.text = ""; 
