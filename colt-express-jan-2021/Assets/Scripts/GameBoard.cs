@@ -206,7 +206,8 @@ public class GameBoard : MonoBehaviour
     private List<float> locTop = new List<float>() {1594.2F, 873.5F, -364.9F}; 
     private List<float> locBtm = new List<float>() {1597.7F, 816.5F, -364.9F}; 
 
-    void Start(){        
+    void Start(){  
+        //Screen.SetResolution(1080, 1920);  
         //Invoke("LeaveRoom",5);
         /*if (SFS.getSFS() == null) {
             // Initialize SFS2X client. This can be done in an earlier scene instead
@@ -236,7 +237,7 @@ public class GameBoard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        makeEmptyCardsUninteractable();
+        //makeEmptyCardsUninteractable();
         // var selectedBanditName = EventSystem.current.currentSelectedGameObject;
         //  if (selectedBanditName != null)
         //      promptPunchTarget.text = "ahh" + selectedBanditName.name;
@@ -267,7 +268,7 @@ public class GameBoard : MonoBehaviour
         Debug.Log("updategamestate called");
         setAllClickable();
         clearHand();
-        makeEmptyCardsUninteractable();
+        //makeEmptyCardsUninteractable();
 
         ISFSObject responseParams = (SFSObject)evt.Params["params"];
         string logStr = responseParams.GetUtfString("log") + "\n\n";
@@ -345,14 +346,14 @@ public class GameBoard : MonoBehaviour
             /* place the bandits in their starting positions */
             mapBandit(gm);
 
-            foreach(Button ab in allBandits){
-                if(ab != null) {
-                    if(!playingBandits.Contains(ab)){
-                        Debug.Log("Destroying " + ab.name);
-                        Destroy(ab.gameObject);
-                    }
-                }
-            }
+            // foreach(Button ab in allBandits){
+            //     if(ab != null) {
+            //         if(!playingBandits.Contains(ab)){
+            //             Debug.Log("Destroying " + ab.name);
+            //             Destroy(ab.gameObject);
+            //         }
+            //     }
+            // }
 
             if(b.characterAsString == gm.currentBandit.characterAsString){
                 /*
@@ -685,7 +686,7 @@ public class GameBoard : MonoBehaviour
         //Debug.Log("Bandit passed in is : " + b.characterAsString); 
         foreach(Button aBanditBtn in allBandits){
             if(aBanditBtn.name.ToUpper() == b.characterAsString){
-                playingBandits.Add(aBanditBtn);
+                //playingBandits.Add(aBanditBtn);
                 banditBtn = aBanditBtn;
             }
         }
