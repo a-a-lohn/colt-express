@@ -144,6 +144,11 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		gm.singleton = gm;
 		//GameManager.singleton = gm;
 		System.out.println("received game state!");
+		String log = (String) params.getUtfString("log");
+		if(log != null) {
+			System.out.println("Received log message: " + log);
+			rtn.putUtfString("log", log);
+		}
 		//System.out.println(gm.bandits.get(0).position.carTypeAsString);
 		updateGameState(rtn);
 	}

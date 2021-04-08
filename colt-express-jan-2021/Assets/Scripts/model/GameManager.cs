@@ -44,12 +44,14 @@ namespace model {
         public void playTurn() {
             Debug.Log("playing turn");
             Debug.Log("currentbandit: "+ currentBandit.getCharacter());
-            //if(currentBandit.getCharacter().Equals(ChooseCharacter.character)) {
+            if(currentBandit.getCharacter().Equals(ChooseCharacter.character) | TestGame.testing) {
+            
                 Debug.Log("my turn");
                 GameBoard.setMyTurn(true);
                 if (this.strGameStatus.Equals("SCHEMIN")) {
-
-                    if(this.currentRound.getTurnCounter() == 0){
+                    if(TestGame.testing) {
+                        if(this.currentRound.getTurnCounter() == 0){
+                            currentBandit.drawCards(6);
                         if(currentBandit.getCharacter().Equals("DOC")){
                             currentBandit.drawCards(7);
                         }
@@ -58,15 +60,16 @@ namespace model {
                         }
                         currentBandit.updateOtherDecks();
                         currentBandit.updateOtherHands();
+                        }
                     }
-
                     Debug.Log("calling prompt");
                     promptDrawCardsOrPlayCard();
                 }
                 else if (this.strGameStatus.Equals("STEALIN")) {
                     this.resolveAction(this.currentBandit.getToResolve());
                 }
-            //}
+            
+            }
             
         }
         
@@ -74,10 +77,10 @@ namespace model {
             Debug.Log("setting 'it works' from prompt");
             
             GameBoard.clickable = currentBandit.getHand();
-            GameBoard.setNextAction("playcard");
+            GameBoard.setNextAction("Play a card or draw 3 cards");
             
             // ASSIGN THIS ATTRIBUTE ACCORDINGLY IN EVERY PROMPT;
-            TestGame.prompt = "playCard() or drawCards()";
+            TestGame.prompt = "Play a card or draw 3 cards";
         }
 
         public void resolveAction(ActionCard toResolve) {
@@ -121,7 +124,7 @@ namespace model {
             this.currentBandit.removeFromHand(c);
             Debug.Log("removed from hand");
             if (this.currentBandit.getCharacter().Equals("GHOST") && this.currentRound.getTurnCounter() == 0) {
-                //promptPlayFaceUpOrFaceDown(c);
+                //promptPlayFaceUpOrFaceDown(c); -- COMMENTED OUT FOR NOW
                 c.setFaceDown(true);
                 Debug.Log("called for ghost");
             }
@@ -135,7 +138,13 @@ namespace model {
             PlayedPile pile = PlayedPile.getInstance();
             pile.addPlayedCards(c);
             Debug.Log("played card, ending turn");
-            this.endOfTurn(currentBandit + " played " + c.actionTypeAsString);
+            string message;
+            if(c.getFaceDown()) {
+                message = currentBandit.characterAsString + " played a card facedown";
+            } else {
+                message = currentBandit.characterAsString + " played " + c.actionTypeAsString;
+            }
+            this.endOfTurn(message);
             // might have to put this in an if else block for cases like SpeedingUp/Whiskey
         }
         
@@ -163,7 +172,6 @@ namespace model {
          }
 
         public void endOfTurn(string message) {
-
             //  SCHEMIN PHASE
             if (this.strGameStatus.Equals("SCHEMIN")) {
                 string currentTurnType = this.currentRound.getCurrentTurn().getTurnTypeAsString();
@@ -326,7 +334,9 @@ namespace model {
             currentBandit.updateOtherHands();
             GameBoard.setMyTurn(false);
             Debug.Log("ended turn");
-            //GameBoard.SendNewGameState(message);
+            if(!TestGame.testing) {
+                GameBoard.SendNewGameState(message);   
+            }
         }
         
         public GameManager() {

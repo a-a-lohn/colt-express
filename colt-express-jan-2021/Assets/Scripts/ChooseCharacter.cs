@@ -117,43 +117,6 @@ public class ChooseCharacter : MonoBehaviour
 			SFS.ProcessEvents();
 		}
 
-        /*if (Input.GetMouseButtonDown(0)){
-            //string name =  EventSystem.current.currentSelectedGameObject.name;
-            //  Debug.Log(name + "ahh"); 
-            //selected.text = "Your bandit is: " + name;
-            // CALLS CharacterChoice AND PASSES IN THE CHOSEN CHARACTER AS A STRING
-             string name =  EventSystem.current.currentSelectedGameObject.name;
-             // Debug.Log(name + " ahh"); 
-             selected.text = "Your bandit is: " + name;
-             CharacterChoice();
-
-             // SET AVAILABILITY OF THE CHOSEN CHARACTER TO FALSE 
-             if(name == "Belle"){
-                BelleIsAvailable = false; 
-             }else if(name == "Cheyenne"){
-                CheyenneIsAvailable = false; 
-             }else if(name == "Doc"){
-                DocIsAvailable = false; 
-             }else if(name == "Tuco"){
-                TucoIsAvailable = false; 
-             }else if(name == "Ghost"){
-                GhostIsAvailable = false; 
-             }else if(name == "Django"){
-                DjangoIsAvailable = false; 
-             }
-
-            // uncomment the following to check if the code in DisplayRemainingCharacters is working
-            // var foundButtonObjects = FindObjectsOfType<Button>();
-            // foreach(Button btn in foundButtonObjects){
-            //     // Debug.Log(btn);
-            //     if(btn.interactable == true){
-            //         Debug.Log(btn.name);
-            //     }
-            // }
-
-             // DisplayRemainingCharacters(evt);
-        }*/
-
         // for debugging
         /*if (SFS.moreText) {
             debugText += SFS.debugText;
@@ -197,19 +160,11 @@ public class ChooseCharacter : MonoBehaviour
 	}
 
 
-
-    // private void CharacterChoice(/*string chosen*/) {
-    //     ISFSObject obj = SFSObject.NewInstance();
-	// 	obj.PutUtfString("chosenCharacter", "BELLE");//hardcoded for now, replace "BELLE" with "chosen"
-    //     ExtensionRequest req = new ExtensionRequest("gm.chosenCharacter",obj);
-    //     SFS.Send(req);
-    //     trace("chose Belle");
-    // }
     public void CharacterChoice(Button b) {
-        Debug.Log("called character choice");
+        //Debug.Log("called character choice");
         //var go = EventSystem.current.currentSelectedGameObject;
         character = b.name.ToUpper();
-        Debug.Log(character);
+        //Debug.Log(character);
         SetAllNotInteractable();
         ISFSObject obj = SFSObject.NewInstance();
 		obj.PutUtfString("chosenCharacter", character);
@@ -225,17 +180,10 @@ public class ChooseCharacter : MonoBehaviour
 
 	public void DisplayRemainingCharacters(BaseEvent evt) {
 		ISFSObject responseParams = (SFSObject)evt.Params["params"];
-        //string player = responseParams.GetUtfString("player");
-        /*if(player != null) {
-            string chosen = responseParams.GetUtfString("chosenCharacter");
-            display.text += "\n" + player + " chose " + chosen + "!";
-        }*/
-        //display.text += SFS.chosenCharText;
-        //SFS.chosenCharText = "";
         try {
             ISFSArray a = responseParams.GetSFSArray("characterList");
             int size = responseParams.GetSFSArray("characterList").Size();
-            Debug.Log("Characters to choose from: " + size);
+            //Debug.Log("Characters to choose from: " + size);
             // loop through all the buttons
             // if a character's name is in the input list -> active the button // otherwise deactive the btn 
             SetAllNotInteractable();
@@ -246,7 +194,7 @@ public class ChooseCharacter : MonoBehaviour
                         string banditName = (string)a.GetUtfString(i);
                         //Debug.Log(banditName);
                         if(btn.name == "Tuco" && banditName == "TUCO"){
-                            Debug.Log("setting tuco btn to true");
+                            //Debug.Log("setting tuco btn to true");
                             // save in a variable so we can use it later 
                             //character = "Tuco"; 
                             btn.interactable = true; 
@@ -256,7 +204,7 @@ public class ChooseCharacter : MonoBehaviour
                             btn.interactable = true; 
                         }
                         if(btn.name == "Cheyenne" && banditName == "CHEYENNE"){
-                            Debug.Log("setting cheyenne btn to true");
+                            //Debug.Log("setting cheyenne btn to true");
                             //character = "Cheyenne"; 
                             btn.interactable = true; 
                         }
@@ -282,10 +230,9 @@ public class ChooseCharacter : MonoBehaviour
 
     private void SetAllNotInteractable() {
         var foundButtonObjects = FindObjectsOfType<Button>();
-        Debug.Log(foundButtonObjects.Length);
         foreach(Button btn in foundButtonObjects){
             if(btn.name == "Tuco"){
-                Debug.Log("setting tuco btn to false");
+                //Debug.Log("setting tuco btn to false");
                 btn.interactable = false; 
             }
             if(btn.name == "Belle"){
