@@ -1080,9 +1080,361 @@ namespace model {
 
             return winner;
         }
-	    
-	    
-	    
+
+        public void angryMarshal()
+        {
+            Marshal marshal = Marshal.getInstance();
+            TrainUnit marshalPosition = marshal.getMarshalPosition();
+            TrainUnit roofOfMP = marshalPosition.getAbove();
+            foreach (Bandit b in this.bandits)
+            {
+                if (b.getPosition() == roofOfMP)
+                {
+                    if (this.neutralBulletCard.Count > 0)
+                    {
+                        b.addToDeck(this.popNeutralBullet());
+                    }
+                }
+            }
+
+            if (marshalPosition != (TrainUnit)this.trainCabin[trainLength])
+            {
+                TrainUnit rightOfMP = marshalPosition.getRight();
+                marshal.setMarshalPosition(rightOfMP);
+                foreach (Bandit b in this.bandits)
+                {
+                    if (b.getPosition() == rightOfMP)
+                    {
+                        b.shotByMarhsal();
+                    }
+                }
+            }
+        }
+
+        public void swivelArm()
+        {
+            foreach (Bandit b in this.bandits)
+            {
+                TrainUnit banditPosition = b.getPosition();
+                int index = this.trainRoof.IndexOf(banditPosition);
+                bool isRoof = false;
+                if (index > -1)
+                {
+                    isRoof = true;
+                }
+                if (isRoof)
+                {
+                    b.setPosition((TrainUnit)this.trainRoof[trainLength]);
+                }
+            }
+        }
+
+        public void braking()
+        {
+            foreach (Bandit b in this.bandits)
+            {
+                TrainUnit banditPosition = b.getPosition();
+                int index = this.trainRoof.IndexOf(banditPosition);
+                bool isRoof = false;
+                if (index > -1)
+                {
+                    isRoof = true;
+                }
+                if (isRoof)
+                {
+                    if (banditPosition != (TrainUnit)this.trainRoof[0])
+                    {
+                        TrainUnit leftOfBandit = banditPosition.getLeft();
+                        b.setPosition(leftOfBandit);
+                    }
+                }
+            }
+        }
+
+        public void takeItAll()
+        {
+            Marshal marshal = Marshal.getInstance();
+            TrainUnit marshalPosition = marshal.getMarshalPosition();
+            Money strongBox = new Money("STRONGBOX", 1000);
+            marshalPosition.addLoot(strongBox);
+        }
+
+        public void passengersRebellion()
+        {
+            foreach (Bandit b in this.bandits)
+            {
+                TrainUnit banditPosition = b.getPosition();
+                int index = this.trainCabin.IndexOf(banditPosition);
+                bool isCabin = false;
+                if (index > -1)
+                {
+                    isCabin = true;
+                }
+                if (isCabin)
+                {
+                    if (this.neutralBulletCard.Count > 0)
+                    {
+                        b.addToDeck(this.popNeutralBullet());
+                    }
+                }
+            }
+        }
+
+        public void marshalsRevenge()
+        {
+            Marshal marshal = Marshal.getInstance();
+            TrainUnit marshalPosition = marshal.getMarshalPosition();
+            TrainUnit topOfMP = marshalPosition.getAbove();
+            foreach (Bandit b in this.bandits)
+            {
+                TrainUnit banditPosition = b.getPosition();
+                if (banditPosition == topOfMP)
+                {
+                    ArrayList loots = b.getLoot();
+                    int indexx = -1;
+                    int value = 2000;
+                    foreach (Money money in loots)
+                    {
+                        if (money.getMoneyTypeAsString() == "PURSE")
+                        {
+                            if (money.getValue() < value)
+                            {
+                                value = money.getValue();
+                                indexx = loots.IndexOf(money);
+                            }
+                        }
+                    }
+                    if (indexx > -1)
+                    {
+                        b.removeLoot((Money)loots[indexx]);
+                    }
+                }
+            }
+        }
+
+        public void pickpocketing()
+        {
+            foreach (Bandit b in this.bandits)
+            {
+                TrainUnit banditPosition = b.getPosition();
+                if (banditPosition.numOfBanditsHere() == 1)
+                { // here add the first purse
+                    if (banditPosition.getLootHere().Count != 0)
+                    {
+                        foreach (Money money in banditPosition.getLootHere())
+                        {
+                            if (money.getMoneyTypeAsString() == "PURSE")
+                            {
+                                b.addLoot(money);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public void hostageConductor()
+        {
+            foreach (Bandit b in this.bandits)
+            {
+                TrainUnit banditPosition = b.getPosition();
+                int index = -1;
+                index = this.trainCabin.IndexOf(banditPosition);
+                if (index == -1)
+                {
+                    index = this.trainRoof.IndexOf(banditPosition);
+                }
+                if (index == 0)
+                {
+                    b.addLoot(new Money("PURSE", 250));
+                }
+            }
+        }
+
+        public void pantingHorses()
+        {
+            if (this.sizeOfBandits() <= 4)
+            {
+                for (int index = trainLength; index > 0; index--)
+                {
+                    TrainUnit trainunit = (TrainUnit)this.trainCabin[index];
+                    ArrayList horsesHere = trainunit.getHorsesHere();
+                    if ((Horse)horsesHere[0] != null)
+                    {
+                        horsesHere.RemoveAt(0);
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                int num = 0;
+                for (int index = trainLength; index > 0; index--)
+                {
+                    if (num == 2)
+                    {
+                        break;
+                    }
+                    TrainUnit trainunit = (TrainUnit)this.trainCabin[index];
+                    ArrayList horsesHere = trainunit.getHorsesHere();
+                    if ((Horse)horsesHere[0] != null)
+                    {
+                        horsesHere.RemoveAt(0);
+                        num++;
+                    }
+                }
+            }
+        }
+
+        public void aShotOfWhiskeyForTheMarshall()
+        {
+            Marshal marshal = Marshal.getInstance();
+            TrainUnit marshalPosition = marshal.getMarshalPosition();
+            ArrayList loots = marshalPosition.getLootHere();
+            foreach (Whiskey whiskey in loots)
+            {
+                string whiskeyType = whiskey.getWhiskeyTypeAsString();
+                if (whiskeyType == "NORMAL")
+                { // classic
+                    TrainUnit RightOfMP = marshalPosition.getRight();
+                    marshal.setMarshalPosition(RightOfMP);
+                    foreach (Bandit b in RightOfMP.getBanditsHere())
+                    {
+                        b.shotByMarhsal();
+                    }
+                    break;
+                }
+                else if (whiskeyType == "OLD")
+                {
+                    int index = 0;
+                    index = trainCabin.IndexOf(marshalPosition);
+                    for (int i = index; i < trainLength + 1; i++)
+                    {
+                        TrainUnit RightOfMP = marshalPosition.getRight();
+                        marshal.setMarshalPosition(RightOfMP);
+                        foreach (Bandit b in RightOfMP.getBanditsHere())
+                        {
+                            b.shotByMarhsal();
+                        }
+                    }
+                }
+            }
+
+        }
+
+        public void higherSpeed()
+        {
+            Marshal marshal = Marshal.getInstance();
+            TrainUnit marshalPosition = marshal.getMarshalPosition();
+            foreach (Bandit b in this.bandits)
+            {
+                TrainUnit banditPosition = b.getPosition();
+                int index = this.trainRoof.IndexOf(banditPosition);
+                bool isRoof = false;
+                if (index > -1)
+                {
+                    isRoof = true;
+                }
+                if (isRoof)
+                {
+                    TrainUnit RightOfBandit = banditPosition.getRight();
+                    b.setPosition(RightOfBandit);
+                    if (RightOfBandit == marshalPosition)
+                    {
+                        b.shotByMarhsal();
+                    }
+                }
+            }
+
+            foreach (Horse horse in this.horses)
+            {
+                TrainUnit tu = horse.getAdjacentTo();
+                TrainUnit rightOfTU = tu.getRight();
+                horse.setAdjacentTo(rightOfTU);
+            }
+
+            foreach (TrainUnit tu in this.stagecoach)
+            {
+                TrainUnit RightOfTU = tu.getRight();
+                this.stagecoach.Remove(tu);
+                this.stagecoach.Add(RightOfTU);
+            }
+
+            // TODO: shotGun move to right 
+
+        }
+
+        public void theShotgunsRage()
+        {
+            TrainUnit stagecoachCabin = (TrainUnit)this.stagecoach[0];
+            TrainUnit stagecoachRoof = (TrainUnit)this.stagecoach[1];
+            // TODO: get beside of the stagecoach and shoot the bandits on this 4 trainUnit
+            //TrainUnit carCabin = stagecoachCabin
+        }
+
+        public void sharingTheLoot()
+        {
+            foreach (Bandit b in this.bandits)
+            {
+                ArrayList loots = b.getLoot();
+                foreach (Money money in loots)
+                {
+                    if ((string)money.getMoneyTypeAsString() == "STRONGBOX")
+                    {
+                        TrainUnit BanditPosition = b.getPosition();
+                        if (BanditPosition.numOfBanditsHere() >= 2)
+                        {
+                            int count = BanditPosition.numOfBanditsHere();
+                            b.removeLoot(money);
+                            foreach (Bandit bb in BanditPosition.getBanditsHere())
+                            {
+                                Money m = new Money();
+                                int value = 1000 / count;
+                                m.setValue(value);
+                                bb.addLoot(m);
+                            }
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+
+        public void escape()
+        {
+            ArrayList newBanditList = new ArrayList();
+            foreach (Bandit b in this.bandits)
+            {
+                foreach (ActionCard c in b.getHand())
+                {
+                    if (c.getActionTypeAsString() == "RIDE")
+                    {
+                        newBanditList.Add(b);
+                    }
+                }
+                if (!newBanditList.Contains(b))
+                {
+                    TrainUnit tu = b.getPosition();
+                    if (this.stagecoach.Contains(tu))
+                    {
+                        newBanditList.Add(b);
+                    }
+                }
+            }
+            this.bandits = newBanditList;
+        }
+
+        public void mortalBullet()
+        {
+            // TODO : 
+            // Each player looses $150 for each Bullet received during 
+            // this Round.This includes the Neutral Bullets and those
+            // from all the Bandits.In order to facilitate the count of those Bullets, it is 
+            // advised to play them apart during this Round.
+        }
+
+
     }
 
 
