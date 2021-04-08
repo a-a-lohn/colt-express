@@ -504,6 +504,9 @@ public class GameBoard : MonoBehaviour
         if(canDrawCards) {
             canDrawCards = false;
             gm.drawCards(3);
+            newAction = false;
+            actionText.text = "";
+            Debug.Log("drawing cards");
         }
     }
 
