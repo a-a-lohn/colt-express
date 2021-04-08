@@ -435,7 +435,7 @@ public class GameBoard : MonoBehaviour
             count++;
         }
 
-        mapLoot(gm);
+        //mapLoot(gm);
 
         gm.playTurn();
 
@@ -783,21 +783,21 @@ public class GameBoard : MonoBehaviour
 
     }
 
-    public void mapLoot(GameManager gm){
+    // public void mapLoot(GameManager gm){
 
-        foreach(Loot l in gm.loot){
+    //     foreach(Loot l in gm.loot){
 
-            if(l.getBelongsTo() != null){
+    //         if(l.getBelongsTo() != null){
 
-            } else if(l.getPosition() != null){
-                TrainUnit tr = l.getPosition();
-                placeLootOnTrain(l, tr.carTypeAsString, tr.carFloorAsString);
-            }
+    //         } else if(l.getPosition() != null){
+    //             TrainUnit tr = l.getPosition();
+    //             placeLootOnTrain(l, tr.carTypeAsString, tr.carFloorAsString);
+    //         }
 
-        }
+    //     }
 
 
-    }
+    // }
 
     public void placeLootOnTrain(Loot l, string carType, string carFloor){
 
