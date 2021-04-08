@@ -96,7 +96,7 @@ public class TestGame : MonoBehaviour
             foreach (Bandit b in gm.bandits){
                 TrainUnit tu = (TrainUnit)gm.banditPositions[b.characterAsString];
                 if(tc.carTypeAsString == tu.carTypeAsString & tc.carFloorAsString == tu.carFloorAsString) {
-                gm.banditPositions[b.characterAsString] = tc;
+                    gm.banditPositions[b.characterAsString] = tc;
                 }
             }
         }
@@ -108,7 +108,7 @@ public class TestGame : MonoBehaviour
         summary.text = "PROMPT: " + prompt + "\n";
         summary.text += "CURRENT BANDIT: " + gm.currentBandit.characterAsString + "\n";
         summary.text += "CURRENT ROUND # and type: #" + gm.roundIndex + ", " + gm.currentRound.roundTypeAsString + "\n";
-        summary.text += "CURRENT TURN # and type: #" + gm.currentRound.turnCounter + ", " + gm.currentRound.currentTurn.turnTypeAsString + "\n";
+        summary.text += "CURRENT TURN # and type: #" + gm.currentRound.turnCounter + ", " + gm.currentRound.currentTurn.turnTypeAsString + "\n\n";
 
         foreach (Bandit b in gm.bandits){
             summary.text += "BANDIT: " + b.characterAsString + "\n";

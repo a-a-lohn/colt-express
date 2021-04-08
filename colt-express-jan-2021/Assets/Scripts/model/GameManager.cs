@@ -51,13 +51,12 @@ namespace model {
                 if (this.strGameStatus.Equals("SCHEMIN")) {
                     if(TestGame.testing) {
                         if(this.currentRound.getTurnCounter() == 0){
-                            currentBandit.drawCards(6);
-                        if(currentBandit.getCharacter().Equals("DOC")){
-                            currentBandit.drawCards(7);
-                        }
-                        else{
-                            currentBandit.drawCards(6);
-                        }
+                            if(currentBandit.getCharacter().Equals("DOC")){
+                                currentBandit.drawCards(7);
+                            }
+                            else{
+                                currentBandit.drawCards(6);
+                            }
                         currentBandit.updateOtherDecks();
                         currentBandit.updateOtherHands();
                         }

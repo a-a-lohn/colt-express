@@ -303,7 +303,7 @@ public class GameBoard : MonoBehaviour
         foreach(Turn t in gm.currentRound.turns) {
             currentRoundText.text += "Turn " + ti + ": " + t.turnTypeAsString + "\n";
             if(t.Equals(gm.currentRound.currentTurn)) {
-                turnNum.text = "Turn #: " + ti;
+                turnNum.text = "Current turn #: " + ti;
             }
             ti++;
         }
