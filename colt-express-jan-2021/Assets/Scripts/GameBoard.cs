@@ -140,6 +140,9 @@ public class GameBoard : MonoBehaviour
     public Button handCard10; 
     public Button handCard11; 
     private List<Button> goHandCard = new List<Button>(); 
+
+    public Button drawCardsButton;
+    static bool canDrawCards = false;
     
     /* a card has 4 attributes */
     public Text handCardActionType1; 
@@ -254,6 +257,9 @@ public class GameBoard : MonoBehaviour
             Debug.Log("currentbandit on mouse: "+ gm.currentBandit.getCharacter());
         }
 
+        if(canDrawCards) {
+            
+        }
         if(myTurn) {
             currentPlayer.text = "You!";
         } else {
@@ -469,6 +475,10 @@ public class GameBoard : MonoBehaviour
                 }
             }
         }
+    }
+
+    public static void enableDrawCardsButton() {
+        canDrawCards = true;
     }
 
     public void buttonClicked(Button btn){    

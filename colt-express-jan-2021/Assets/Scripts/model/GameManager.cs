@@ -76,6 +76,7 @@ namespace model {
             Debug.Log("setting 'it works' from prompt");
             
             GameBoard.clickable = currentBandit.getHand();
+            GameBoard.enableDrawCardsButton();
             GameBoard.setNextAction("Play a card or draw 3 cards");
             
             // ASSIGN THIS ATTRIBUTE ACCORDINGLY IN EVERY PROMPT;
