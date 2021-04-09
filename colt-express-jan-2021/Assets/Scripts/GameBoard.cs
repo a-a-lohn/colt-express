@@ -984,33 +984,46 @@ public class GameBoard : MonoBehaviour
     }
 
     public static void SaveGameState(string savegameID) {
-        //ONLY NEED TO SEND THE SAVEGAME REQUEST TO THE LS ONCE
-        //(although making the same call multiple times can't hurt, and is simpler)
-        /*var request = new RestRequest("api/sessions/" + gameHash, Method.GET)
+        Debug.Log("SaveGameState is called!"); 
+		//ONLY NEED TO SEND THE SAVEGAME REQUEST TO THE LS ONCE
+		//(although making the same call multiple times can't hurt, and is simpler)
+		var request = new RestRequest("api/sessions/" + gameHash, Method.GET)
             .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
         IRestResponse response = client.Execute(request);
         var JObj = JObject.Parse(response.Content);
         Dictionary<string, object> sessionDetails = JObj.ToObject<Dictionary<string, object>>();
 
-        dynamic j = new JObject();
-        var temp = JsonConvert.SerializeObject(sessionDetails["gameParameters"]);
-        var gameParameters = JsonConvert.DeserializeObject<Dictionary<string, string>>(temp);
+		var temp = JsonConvert.SerializeObject(sessionDetails["gameParameters"]);
+		var gameParameters = JsonConvert.DeserializeObject<Dictionary<string, string>>(temp);
 
-        string gameName = gameParameters["name"];
-        j.gamename = gameName; // can replace with "ColtExpress"
-        //below I deserialize a JSON object to a collection     
-        temp = JsonConvert.SerializeObject(sessionDetails["players"]);
-        j.players = JsonConvert.DeserializeObject<List<string>>(temp);//In case it doesn't work, debug by adding a .ToArray()
-        j.savegameid = savegameID;
+		string gameName = gameParameters["name"];
+        Debug.Log("gamename: " + gameName);
+		//below I deserialize a JSON object to a collection
+        List<string> players = JsonConvert.DeserializeObject<List<string>>(sessionDetails["players"].ToString());
+	
+        Dictionary<string, object> body = new Dictionary<string, object>
+        {
+            { "gamename", gameName },
+            { "players", players },
+            { "savegameid", savegameID }
+        };
 
-        request = new RestRequest("api/gameservices/" + gameName + "/savegames/" + savegameID + "?access_token=" + GetAdminToken(), Method.POST)
-            .AddParameter("application/json", j.ToString(), ParameterType.RequestBody)
+        string json = JsonConvert.SerializeObject(body, Formatting.Indented);
+
+
+        JObject jObjectbody = new JObject();
+        jObjectbody.Add("gamename", gameName);
+        jObjectbody.Add("players", JsonConvert.SerializeObject(players));
+        jObjectbody.Add("savegameid", savegameID);
+
+		var request1 = new RestRequest("api/gameservices/" + gameName + "/savegames/" + savegameID + "?access_token=" + GetAdminToken(), Method.PUT)
+            .AddParameter("application/json", json, ParameterType.RequestBody)
             .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
 
-        response = client.Execute(request);*/
-
-        // After saving the game, store the information to the server
-
+        IRestResponse response2 = client.Execute(request1);
+        Debug.Log("Here is the game saving return: "+ response2.ErrorMessage + "   " + response2.StatusCode);
+        
+        // Save game on the server
         ISFSObject obj = SFSObject.NewInstance();
         Debug.Log("saving the current game state on the server");
         obj.PutUtfString("savegameId", savegameID);
