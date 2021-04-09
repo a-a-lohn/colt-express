@@ -160,6 +160,10 @@ public class WaitingRoom : MonoBehaviour
                     //create an sfs request that assigns the game in the hashmap with the given id as the working game on the server and returns a string saying which bandit you will be playing as
                     // assign chosencharacter string to the received string in SFS.cs
                     // go directly to gameboard scene
+                    ISFSObject obj2 = SFSObject.NewInstance();
+                    obj2.PutUtfString("savegameId", GameBoard.savegameId);
+                    ExtensionRequest req = new ExtensionRequest("gm.loadSavedGame",obj2);
+                    SFS.Send(req);
                 }
             }
             
@@ -492,29 +496,13 @@ public class WaitingRoom : MonoBehaviour
         jObjectbody.Add("gamename", gameName);
         jObjectbody.Add("players", JsonConvert.SerializeObject(players));
         jObjectbody.Add("savegameid", savegameID);
-    
-
-		Debug.Log("!!!!!!!players: " + players[0]); 
-
-        Debug.Log("!!!!!j: " + jObjectbody.ToString());
 
 		var request1 = new RestRequest("api/gameservices/" + gameName + "/savegames/" + savegameID + "?access_token=" + GetAdminToken(), Method.PUT)
-            .AddParameter("application/json", jObjectbody, ParameterType.RequestBody)
+            .AddParameter("application/json", json, ParameterType.RequestBody)
             .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
 
         IRestResponse response2 = client.Execute(request1);
         Debug.Log("Here is the game saving return: "+ response2.ErrorMessage + "   " + response2.StatusCode);
-        //var obj = JObject.Parse(response2.Content);
-        //Debug.Log("Here is the game saving return: "+ obj.ToString());
-
-        /*
-        ISFSObject obj = SFSObject.NewInstance();
-		Debug.Log("saving the current game state on the server");
-		obj.PutUtfString("savegameId", savegameID);
-		obj.PutClass("gm", gm);
-        ExtensionRequest req = new ExtensionRequest("gm.saveGameState",obj);
-        SFS.Send(req);
-        */
 
 	}
 
