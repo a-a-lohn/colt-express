@@ -32,7 +32,7 @@ public class Money extends Loot implements SerializableSFSType {
 	 * 2x $300
 	 * 8x $250
 	 * 
-	 * 6 gems worth:
+	 * 6 jewels worth:
 	 * 6x $500
 	 * 
 	 * 2 strongboxes worth:

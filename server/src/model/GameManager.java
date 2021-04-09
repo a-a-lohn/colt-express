@@ -111,7 +111,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	 * --INITIALIZING THE GAME--
 	 * 1. Create locomotive, stagecoach and 1 train car for each bandit
 	 * 2. Give each bandit a $250 purse, 11 action cards, and 6 bullet cards
-	 * 3. Create 4 purses, 1 gem, and 1 whiskey for each car
+	 * 3. Create loot for each train cabin
 	 * 4. Place marshal and strongbox in locomotive
 	 * 5. Place shotgun and strongbox on roof of stagecoach
 	 * 6. Create number of bandits minus 1 hostages
@@ -137,7 +137,8 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 			b.createBulletCards();
 		}
 
-		//this.horses = Horse.createHorses();
+		// 3. Create loot for each train cabin (CAR1 3 PURSE, CAR2 3 GEM, CAR3 1 PURSE 1 GEM, CAR4 3 PURSE 1 GEM, CAR5 4 PURSE 1 GEM, CAR6 1 PURSE)
+		Loot.createLoot();
 		
 		// Horse Attack
 		this.horseAttack();

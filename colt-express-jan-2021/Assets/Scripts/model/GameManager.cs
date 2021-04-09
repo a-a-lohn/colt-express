@@ -314,6 +314,7 @@ namespace model {
                 ActionCard toResolve = this.playedPileInstance.takeTopCard();
                 if ((toResolve != null)) {
                     this.currentBandit = toResolve.getBelongsTo();
+                    this.currentBandit.setToResolve(toResolve);
                 }
                 else {
                     //  played pile is empty
