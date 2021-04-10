@@ -23,9 +23,7 @@ public class TrainUnit implements SerializableSFSType {
     public String carFloorAsString;
     
     public boolean isMarshalHere = false;
-    //public HashSet<Bandit> banditsHere = new HashSet<Bandit>();
     public HashSet<Loot> lootHere = new HashSet<Loot>();
-    public HashSet<Horse> horsesHere = new HashSet<Horse>();
     
     //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
     public TrainUnit() {}
@@ -57,7 +55,7 @@ public class TrainUnit implements SerializableSFSType {
 			i++;
 			TrainUnit tu = new TrainUnit(cr, CarFloor.ROOF);
 			response.add(tu);
-			if (i == (GameManager.getInstance().trainLength + 1)) { 
+			if (i == (GameManager.getInstance().trainLength)) { 
 				break; 
 			}
 		}
@@ -74,7 +72,7 @@ public class TrainUnit implements SerializableSFSType {
 			i++;
 			TrainUnit tu = new TrainUnit(cr, CarFloor.CABIN);
 			response.add(tu);
-			if (i == (GameManager.getInstance().trainLength + 1)) { 
+			if (i == (GameManager.getInstance().trainLength)) { 
 				break; 
 			}
 		}
@@ -156,11 +154,11 @@ public class TrainUnit implements SerializableSFSType {
      * @param a
      */
     public void addLoot(Loot a) {
-        //TODO
+        this.lootHere.add(a);
     }
 
     public void removeLoot(Loot a) {
-        //TODO
+        this.lootHere.remove(a);
     }
 
     boolean containsLoot(Loot a) {

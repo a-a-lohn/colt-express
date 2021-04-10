@@ -107,6 +107,19 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 
 	// this method should only be called from if-else block in chosenCharacter
 	
+	public static void main(String[]args) {
+		Bandit b1 = new Bandit(Character.DJANGO);
+		Bandit b2 = new Bandit(Character.BELLE);
+		Bandit b3 = new Bandit(Character.CHEYENNE);
+		GameManager.getInstance().bandits.add(b1);
+		GameManager.getInstance().bandits.add(b2);
+		GameManager.getInstance().bandits.add(b3);
+		GameManager.getInstance().currentBandit = GameManager.getInstance().bandits.get(0);
+		GameManager.getInstance().initializeGame();
+		GameManager gm = GameManager.getInstance();
+		System.out.println();
+	}
+	
 	/**
 	 * --INITIALIZING THE GAME--
 	 * 1. Create locomotive, stagecoach and 1 train car for each bandit
@@ -140,10 +153,16 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		// 3. Create loot for each train cabin (CAR1 3 PURSE, CAR2 3 GEM, CAR3 1 PURSE 1 GEM, CAR4 3 PURSE 1 GEM, CAR5 4 PURSE 1 GEM, CAR6 1 PURSE)
 		Loot.createLoot();
 		
+		// 4. Place marshal and strongbox in locomotive
+		this.marshalInstance = Marshal.getInstance();
+		this.trainCabin.get(0).setIsMarshalHere(true);
+		Money strongbox = new Money(MoneyType.STRONGBOX, 1000);
+		this.trainCabin.get(0).addLoot(strongbox);
+		
 		// Horse Attack
 		this.horseAttack();
 
-		this.marshalInstance = Marshal.getInstance();
+		
 		// initialize round cards, round attributes/create round constructor
 		this.rounds = this.createRoundCards(this.getNumOfPlayers());
 		//Collections.shuffle(this.bandits);
@@ -158,9 +177,9 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		
 		
 		
-		Money strongbox = new Money(MoneyType.STRONGBOX, 1000);
-		this.trainCabin.get(0).setIsMarshalHere(true);
-		this.trainCabin.get(0).addLoot(strongbox);
+		
+		
+		
 		// create neutral bullet card
 		Card NBullet1 = new BulletCard();
 		Card NBullet2 = new BulletCard();
