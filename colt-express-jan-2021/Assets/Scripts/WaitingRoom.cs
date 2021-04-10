@@ -153,19 +153,22 @@ public class WaitingRoom : MonoBehaviour
             Dictionary<string, object> sessionDetails = obj.ToObject<Dictionary<string, object>>();
             
             if (Launched(gameHash)) {
-                if(GameBoard.savegameId == null/*savegameid of the game is empty*/) {
+                if(SavedSessionIDButtonAText.text == ""/*savegameid of the game is empty*/) {
                     numPlayers = 1 + sessionDetails["players"].ToString().ToCharArray().Count(c => c == ',');
-                    SceneManager.LoadScene("ChooseYourCharacter");
+                    
                 } else {
                     //create an sfs request that assigns the game in the hashmap with the given id as the working game on the server and returns a string saying which bandit you will be playing as
                     // assign chosencharacter string to the received string in SFS.cs
                     // go directly to gameboard scene
+                    Debug.Log("GameID content : " + SavedSessionIDButtonAText.text);
                     ISFSObject obj2 = SFSObject.NewInstance();
-                    obj2.PutUtfString("savegameId", GameBoard.savegameId);
+                    obj2.PutUtfString("savegameId", SavedSessionIDButtonAText.text);
                     ExtensionRequest req = new ExtensionRequest("gm.loadSavedGame",obj2);
                     SFS.Send(req);
-                    SceneManager.LoadScene("GameBoard");
+            
                 }
+
+                SceneManager.LoadScene("ChooseYourCharacter");
             }
             
         }
