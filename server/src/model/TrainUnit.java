@@ -57,7 +57,7 @@ public class TrainUnit implements SerializableSFSType {
 			i++;
 			TrainUnit tu = new TrainUnit(cr, CarFloor.ROOF);
 			response.add(tu);
-			if (i == (GameManager.getInstance().trainLength + 1)) { 
+			if (i == (GameManager.getInstance().trainLength)) { 
 				break; 
 			}
 		}
@@ -74,7 +74,7 @@ public class TrainUnit implements SerializableSFSType {
 			i++;
 			TrainUnit tu = new TrainUnit(cr, CarFloor.CABIN);
 			response.add(tu);
-			if (i == (GameManager.getInstance().trainLength + 1)) { 
+			if (i == (GameManager.getInstance().trainLength)) { 
 				break; 
 			}
 		}

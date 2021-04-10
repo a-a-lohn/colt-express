@@ -140,10 +140,16 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		// 3. Create loot for each train cabin (CAR1 3 PURSE, CAR2 3 GEM, CAR3 1 PURSE 1 GEM, CAR4 3 PURSE 1 GEM, CAR5 4 PURSE 1 GEM, CAR6 1 PURSE)
 		Loot.createLoot();
 		
+		// 4. Place marshal and strongbox in locomotive
+		this.marshalInstance = Marshal.getInstance();
+		this.trainCabin.get(0).setIsMarshalHere(true);
+		Money strongbox = new Money(MoneyType.STRONGBOX, 1000);
+		this.trainCabin.get(0).addLoot(strongbox);
+		
 		// Horse Attack
 		this.horseAttack();
 
-		this.marshalInstance = Marshal.getInstance();
+		
 		// initialize round cards, round attributes/create round constructor
 		this.rounds = this.createRoundCards(this.getNumOfPlayers());
 		//Collections.shuffle(this.bandits);
@@ -158,9 +164,9 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		
 		
 		
-		Money strongbox = new Money(MoneyType.STRONGBOX, 1000);
-		this.trainCabin.get(0).setIsMarshalHere(true);
-		this.trainCabin.get(0).addLoot(strongbox);
+		
+		
+		
 		// create neutral bullet card
 		Card NBullet1 = new BulletCard();
 		Card NBullet2 = new BulletCard();
