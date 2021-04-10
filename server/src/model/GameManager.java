@@ -107,6 +107,19 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 
 	// this method should only be called from if-else block in chosenCharacter
 	
+	public static void main(String[]args) {
+		Bandit b1 = new Bandit(Character.DJANGO);
+		Bandit b2 = new Bandit(Character.BELLE);
+		Bandit b3 = new Bandit(Character.CHEYENNE);
+		GameManager.getInstance().bandits.add(b1);
+		GameManager.getInstance().bandits.add(b2);
+		GameManager.getInstance().bandits.add(b3);
+		GameManager.getInstance().currentBandit = GameManager.getInstance().bandits.get(0);
+		GameManager.getInstance().initializeGame();
+		GameManager gm = GameManager.getInstance();
+		System.out.println();
+	}
+	
 	/**
 	 * --INITIALIZING THE GAME--
 	 * 1. Create locomotive, stagecoach and 1 train car for each bandit
