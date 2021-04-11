@@ -418,24 +418,70 @@ public class GameBoard : MonoBehaviour
         }
         //Debug.Log(SFS.step);
 
-        // Money m;
-        // Whiskey w;
-        // int count = 0;
-        // foreach (Loot l in gm.loot){
-        //     try{
-        //         m = (Money) l;
-        //         buttonToObject[allLoot[count]] = l;
-        //         Debug.Log("casting as Money");
-        //     }
-        //     catch(Exception e){
-        //         w = (Whiskey) l;
-        //         buttonToObject[allLoot[count]] = l;
-        //         Debug.Log("casting as Whiskey");
-        //     }
-        //     count++;
-        // }
+        Money m;
+        Whiskey w;
+    
+        foreach(Bandit b in gm.bandits){
+            foreach(Loot l in b.getLoot()){
+            try{
+                m = (Money) l;
+                Button lootBtn = availLoot(m.getMoneyTypeAsString(), l);
+                buttonToObject[lootBtn] = l;
+                Debug.Log("casting as Money");
+            }
+            catch(Exception e){
+                w = (Whiskey) l;
+                Button lootBtn = availLoot(w.getWhiskeyTypeAsString(), l);
+                buttonToObject[lootBtn] = l;
+                Debug.Log("casting as Whiskey");
+            }
+            }
+        }
 
-        //mapLoot(gm);
+        foreach(TrainUnit tr in gm.trainRoof){
+            foreach(Loot l in tr.getLootHere()){
+            try{
+                Debug.Log("ROOD1wq");
+                m = (Money) l;
+                Button lootBtn = availLoot(m.getMoneyTypeAsString(), l);
+                buttonToObject[lootBtn] = l;
+                Debug.Log("casting as Money");
+                placeLootOnTrain(lootBtn, tr.getCarTypeAsString(), tr.getCarFloorAsString());
+            }
+            catch(Exception e){
+                Debug.Log("roodwhiskewy");
+                w = (Whiskey) l;
+                Button lootBtn = availLoot(w.getWhiskeyTypeAsString(), l);
+                buttonToObject[lootBtn] = l;
+                Debug.Log("casting as Whiskey");
+                placeLootOnTrain(lootBtn, tr.getCarTypeAsString(), tr.getCarFloorAsString());
+            }
+            }
+        }
+
+        foreach(TrainUnit tc in gm.trainCabin){
+        foreach(Loot l in tc.getLootHere()){
+            try{
+                Debug.Log("cabin assign");
+                m = (Money) l;
+                Button lootBtn = availLoot(m.getMoneyTypeAsString(), l);
+                buttonToObject[lootBtn] = l;
+                Debug.Log("casting as Money");
+                placeLootOnTrain(lootBtn, tc.getCarTypeAsString(), tc.getCarFloorAsString());
+            }
+            catch(Exception e){
+
+                Debug.Log("cabin wiskey assign");
+                w = (Whiskey) l;
+                Button lootBtn = availLoot(w.getWhiskeyTypeAsString(), l);
+                buttonToObject[lootBtn] = l;
+                Debug.Log("casting as Whiskey");
+                placeLootOnTrain(lootBtn, tc.getCarTypeAsString(), tc.getCarFloorAsString());
+            }
+            }
+        }
+
+
 
         gm.playTurn();
 
@@ -594,10 +640,11 @@ public class GameBoard : MonoBehaviour
         buttonToObject.Add(locoTop, "null");
 
         buttonToObject.Add(gem1, "null");
-        // buttonToObject.Add(gem2, "null");
-        // buttonToObject.Add(gem3, "null");
-        // buttonToObject.Add(gem4, "null");
-        // buttonToObject.Add(gem5, "null");
+        buttonToObject.Add(gem2, "null");
+        buttonToObject.Add(gem3, "null");
+        buttonToObject.Add(gem4, "null");
+        buttonToObject.Add(gem5, "null");
+        buttonToObject.Add(gem6, "null");
 
         trainCabins.Insert(0, locoBtm);
         trainCabins.Insert(1, trainOneBtm);
@@ -611,7 +658,6 @@ public class GameBoard : MonoBehaviour
         trainRoofs.Insert(3, trainThreeTop);
         trainRoofs.Insert(4, trainFourTop);
 
-        
 
         goHandCard.Insert(0, handCard1);
         goHandCard.Insert(1, handCard2);
@@ -626,10 +672,11 @@ public class GameBoard : MonoBehaviour
         goHandCard.Insert(10, handCard11);
 
         allLoot.Insert(0, gem1);
-        // allLoot.Insert(1, gem2);
-        // allLoot.Insert(2, gem3);
-        // allLoot.Insert(3, gem4);
-        // allLoot.Insert(4, gem5);
+        allLoot.Insert(1, gem2);
+        allLoot.Insert(2, gem3);
+        allLoot.Insert(3, gem4);
+        allLoot.Insert(4, gem5);
+        allLoot.Insert(5, gem6);
 
         /* init all action texts */
         handCardActionType1.text = ""; 
@@ -785,6 +832,74 @@ public class GameBoard : MonoBehaviour
         }
 
     }
+
+    public Button availLoot(string moneyType, Loot l){
+        Button temp = gem1;
+        string money = moneyType.ToLower();
+
+        foreach(Button b in allLoot){
+            object value;
+            buttonToObject.TryGetValue(b, out value);
+            Debug.Log("WOW VALUE:" + value);
+            if (value == ((object)"null") && b.gameObject.tag == money){
+                temp =  b;
+            } else if (value == l && b.gameObject.tag == money){
+                temp =  b;
+            }
+        }
+        Debug.Log("WOW name:" + temp.name);
+        return temp;
+    }
+
+
+    public void placeLootOnTrain(Button lootBtn, string cartype, string carfloor){
+
+        Debug.Log("TIME TO PLACE GEM6");
+
+            if(carfloor == "CABIN"){
+            if(cartype == "LOCOMOTIVE"){
+                lootBtn.transform.position = new Vector3 (locBtm[0], locBtm[1], locBtm[2]);
+            }else if(cartype == "CAR1"){
+                lootBtn.transform.position = new Vector3 (oneBtm[0], oneBtm[1], oneBtm[2]);
+            }else if(cartype == "CAR2"){
+                lootBtn.transform.position = new Vector3 (twoBtm[0], twoBtm[1], twoBtm[2]);
+            }else if(cartype == "CAR3"){
+                lootBtn.transform.position = new Vector3 (threeBtm[0], threeBtm[1], threeBtm[2]);
+            }else if(cartype == "CAR4"){
+                lootBtn.transform.position = new Vector3 (fourBtm[0], fourBtm[1], fourBtm[2]);
+            }else if(cartype == "CAR5"){
+                lootBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+            }else if(cartype == "CAR6"){
+                lootBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+            }else{
+                // cartype == "STAGECOACH"
+                lootBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+            }
+        }else{
+            if(cartype == "LOCOMOTIVE"){
+                lootBtn.transform.position = new Vector3 (locTop[0], locTop[1], locTop[2]);
+            }else if(cartype == "CAR1"){
+                lootBtn.transform.position = new Vector3 (oneTop[0], oneTop[1], oneTop[2]);
+            }else if(cartype == "CAR2"){
+                lootBtn.transform.position = new Vector3 (twoTop[0], twoTop[1], twoTop[2]);
+            }else if(cartype == "CAR3"){
+                lootBtn.transform.position = new Vector3 (threeTop[0], threeTop[1], threeTop[2]);
+            }else if(cartype == "CAR4"){
+                lootBtn.transform.position = new Vector3 (fourTop[0], fourTop[1], fourTop[2]);
+            }else if(cartype == "CAR5"){
+                lootBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+            }else if(cartype == "CAR6"){
+                lootBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+            }else{
+                // cartype == "STAGECOACH"
+                lootBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+            }
+        }
+
+
+
+    }
+
 
     // public void mapLoot(GameManager gm){
 
