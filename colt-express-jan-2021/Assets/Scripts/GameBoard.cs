@@ -498,36 +498,36 @@ public class GameBoard : MonoBehaviour
             }
         }
 
-        foreach(TrainUnit tc in gm.trainCabin){
-        foreach(Loot l in tc.lootHere){
-            try{
-                m = (Money) l;
-                if (m.getMoneyTypeAsString() == "JEWEL"){
-                buttonToObject[allGem[gemCount]] = m;
-                placeLootOnTrain(allGem[gemCount], tc.carTypeAsString, tc.carFloorAsString);
-                gemCount++;
-                Debug.Log("casting as Gem");
-                } else if (m.getMoneyTypeAsString() == "PURSE"){
-                buttonToObject[allPurse[purseCount]] = m;
-                placeLootOnTrain(allPurse[purseCount], tc.carTypeAsString, tc.carFloorAsString);
-                purseCount++;
-                Debug.Log("casting as Purse");
-                } else if (m.getMoneyTypeAsString() == "STRONGBOX"){
-                buttonToObject[allBox[boxCount]] = m;
-                placeLootOnTrain(allBox[boxCount], tc.carTypeAsString, tc.carFloorAsString);
-                boxCount++;
-                Debug.Log("casting as Box");
-                }
-            }
-            catch(Exception e){
-                w = (Whiskey) l;
-                buttonToObject[allWhiskey[whiskeyCount]] = w;
-                placeLootOnTrain(allWhiskey[whiskeyCount], tc.carTypeAsString, tc.carFloorAsString);
-                whiskeyCount++;
-                Debug.Log("casting as Whiskey");
-                }
-            }
-        }
+        // foreach(TrainUnit tc in gm.trainCabin){
+        //     foreach(Loot l in tc.lootHere){
+        //         try{
+        //             m = (Money) l;
+        //             if (m.getMoneyTypeAsString() == "JEWEL"){
+        //             buttonToObject[allGem[gemCount]] = m;
+        //             placeLootOnTrain(allGem[gemCount], tc.carTypeAsString, tc.carFloorAsString);
+        //             gemCount++;
+        //             Debug.Log("casting as Gem");
+        //             } else if (m.getMoneyTypeAsString() == "PURSE"){
+        //             buttonToObject[allPurse[purseCount]] = m;
+        //             placeLootOnTrain(allPurse[purseCount], tc.carTypeAsString, tc.carFloorAsString);
+        //             purseCount++;
+        //             Debug.Log("casting as Purse");
+        //             } else if (m.getMoneyTypeAsString() == "STRONGBOX"){
+        //             buttonToObject[allBox[boxCount]] = m;
+        //             placeLootOnTrain(allBox[boxCount], tc.carTypeAsString, tc.carFloorAsString);
+        //             boxCount++;
+        //             Debug.Log("casting as Box");
+        //             }
+        //         }
+        //         catch(Exception e){
+        //             w = (Whiskey) l;
+        //             buttonToObject[allWhiskey[whiskeyCount]] = w;
+        //             placeLootOnTrain(allWhiskey[whiskeyCount], tc.carTypeAsString, tc.carFloorAsString);
+        //             whiskeyCount++;
+        //             Debug.Log("casting as Whiskey");
+        //             }
+        //         }
+        // }
 
 
 
