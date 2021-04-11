@@ -154,6 +154,14 @@ public class TestGame : MonoBehaviour
                         summary.text += b.characterAsString + ", ";
                     };
                  }
+                 foreach (Loot l in tr.lootHere){
+                     if(l is Money){
+                         summary.text += ((Money)l).moneyTypeAsString + ", ";
+                     }
+                     else if(l is Whiskey){
+                         summary.text += ((Whiskey)l).whiskeyTypeAsString + ", ";
+                     }
+                 }
                  summary.text += "}, ";
                 //TODO: iterate through its loot and indicate if stagecoach is adjacent
         }
@@ -166,6 +174,14 @@ public class TestGame : MonoBehaviour
                         summary.text += b.characterAsString + ", ";
                     };
                 }
+                foreach (Loot l in tc.lootHere){
+                     if(l is Money){
+                         summary.text += ((Money)l).moneyTypeAsString + ", ";
+                     }
+                     else if(l is Whiskey){
+                         summary.text += ((Whiskey)l).whiskeyTypeAsString + ", ";
+                     }
+                 }
                 summary.text += "}, ";
                 //TODO: iterate through its loot and indicate if stagecoach is adjacent
         }
@@ -231,7 +247,9 @@ public class TestGame : MonoBehaviour
                 gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
                 gm.playTurn();
                 break;
-            
+            case 13:
+                gm.resolveAction((ActionCard)gm.currentBandit.toResolve);
+                break;
 
         }
     }
