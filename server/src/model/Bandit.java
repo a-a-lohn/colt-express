@@ -248,17 +248,18 @@ public class Bandit implements SerializableSFSType {
 		ActionCard acShoot2 = new ActionCard(ActionType.SHOOT, this.characterAsString);
 		ActionCard acRide = new ActionCard(ActionType.RIDE, this.characterAsString);
 
+		this.deck.add(acRide);
 		this.deck.add(acMove1);
-		this.deck.add(acMove2);
+		this.deck.add(acShoot1);
 		this.deck.add(acChangeFloor1);
-		this.deck.add(acChangeFloor2);
+		this.deck.add(acRob1);
 		this.deck.add(acMarshal);
 		this.deck.add(acPunch);
-		this.deck.add(acRob1);
+		this.deck.add(acMove2);
+		this.deck.add(acChangeFloor2);
 		this.deck.add(acRob2);
-		this.deck.add(acShoot1);
 		this.deck.add(acShoot2);
-		this.deck.add(acRide);
+		
 		
 		//updateOtherDecks();
 	}

@@ -20,6 +20,7 @@ public class Money extends Loot implements SerializableSFSType {
     
 	public Money(MoneyType mt, int value) {
 		this.moneyType = mt;
+		this.moneyTypeAsString = mt.toString();
 		this.value = value;
 	}
     

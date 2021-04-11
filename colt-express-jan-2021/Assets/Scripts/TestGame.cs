@@ -81,6 +81,7 @@ public class TestGame : MonoBehaviour
 		GameManager.replaceInstance(gm);
         gm.currentBandit = (Bandit)gm.bandits[0];
         gm.currentRound = (Round)gm.rounds[gm.roundIndex];
+        gm.playedPileInstance = PlayedPile.getInstance();
         foreach(Round r in gm.rounds) {
             r.currentTurn = (Turn)r.turns[r.turnCounter];
         }
@@ -139,7 +140,7 @@ public class TestGame : MonoBehaviour
         }
         summary.text += "\nPLAYED PILE: ";
         foreach(ActionCard c in PlayedPile.getInstance().getPlayedCards()){
-                summary.text += c.actionTypeAsString;
+                summary.text += c.actionTypeAsString + "(" + c.belongsToAsString + ") ";
                 if(c.getFaceDown()){
                     summary.text += " (FD)";
                 }
@@ -196,9 +197,9 @@ public class TestGame : MonoBehaviour
                 break;
             // R T1
             case 1:
-                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[2]);
                 // ONLY CALL PLAYTURN() IMMEDIATELY AFTER CALLING A METHOD THAT CALLS ENDOFTURN() (such as playCard())
-                gm.playTurn();
+                gm.playTurn(); // this method would be called automatically at the BEGINNING of a turn on all clients
                 break;
             case 2:
                 gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
@@ -249,6 +250,10 @@ public class TestGame : MonoBehaviour
                 break;
             case 13:
                 gm.resolveAction((ActionCard)gm.currentBandit.toResolve);
+                //gm.shoot(with a legal bandit);
+                
+                
+                gm.playTurn();
                 break;
 
         }

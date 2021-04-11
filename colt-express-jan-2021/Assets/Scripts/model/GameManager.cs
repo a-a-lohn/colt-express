@@ -88,30 +88,38 @@ namespace model {
             currentBandit.addToDeck(toResolve);
 
             if (currentBandit.toResolve.getActionTypeAsString().Equals("CHANGEFLOOR")) {
+                TestGame.prompt = "Changing floor";
                 currentBandit.setToResolve(null);
                 this.changeFloor();
             }
             else if (currentBandit.toResolve.getActionTypeAsString().Equals("MARSHAL")) {
+                TestGame.prompt = "Choose a position for the marshall";
                 currentBandit.setToResolve(null);
                 moveMarshalPrompt(calculateMoveMarshal());
             }
             else if (currentBandit.toResolve.getActionTypeAsString().Equals("MOVE")) {
+                TestGame.prompt = "Choose a position to move";
+                currentBandit.setToResolve(null);
                 currentBandit.setToResolve(null);
                 movePrompt(calculateMove());
             }
             else if (currentBandit.toResolve.getActionTypeAsString().Equals("PUNCH")) {
+                TestGame.prompt = "Choose a bandit to punch";
                 currentBandit.setToResolve(null);
                 punchPrompt(calculatePunch());
             }
             else if (currentBandit.toResolve.getActionTypeAsString().Equals("ROB")) {
+                TestGame.prompt = "Choose a loot to rob";
                 currentBandit.setToResolve(null);
                 robPrompt(calculateRob());
             }
             else if (currentBandit.toResolve.getActionTypeAsString().Equals("SHOOT")) {
+                TestGame.prompt = "Choose a bandit to shoot";
                 currentBandit.setToResolve(null);
                 shootPrompt(calculateShoot());
             }
             else if(currentBandit.toResolve.getActionTypeAsString().Equals("RIDE")){
+                 TestGame.prompt = "Choose a position to ride";
                 currentBandit.setToResolve(null);
                 ridePrompt(calculateRide());
             }
@@ -237,13 +245,15 @@ namespace model {
 
                 //  SWITCHING TURN CASE
                 else if (currentTurnType.Equals("SWITCHING")) {
+                    Debug.Log("switching turn");
 				    banditsPlayedThisTurn++;
 
 				    // ALL BANDITS HAVE PLAYED
 				    if (banditsPlayedThisTurn == this.bandits.Count) {
-
+                        Debug.Log("all bandits have played");
 				    	// THERE ARE MORE TURNS IN THE ROUND - NEXT TURN
 				    	if (this.currentRound.hasNextTurn() == true) {
+                            Debug.Log("THERE ARE MORE TURNS IN THE ROUND - NEXT TURN");
                             this.currentRound.setNextTurn();
                             banditIndex = (banditIndex + 1) % this.bandits.Count;
 				    		this.currentBandit = (Bandit) this.bandits[this.banditIndex];
@@ -251,12 +261,14 @@ namespace model {
 				    	}
 				    	// NO MORE TURNS IN ROUND - END OF SCHEMIN PHASE
 				    	else {
+                            Debug.Log("NO MORE TURNS IN ROUND - END OF SCHEMIN PHASE");
                             foreach (Bandit b in this.bandits){
                                 b.clearHand();
                             }
                             banditIndex = (banditIndex + 1) % this.bandits.Count;
 				    		banditsPlayedThisTurn = 0;
 				    		this.setGameStatus("STEALIN");
+                            Debug.Log("GAME STATUS: " + this.strGameStatus);
 				    	}
 				    }
 				    // NOT ALL BANDITS HAVE PLAYED - NEXT BANDIT'S TURN
@@ -298,6 +310,7 @@ namespace model {
                                 banditIndex = (banditIndex + 1) % this.bandits.Count;
 						    	banditsPlayedThisTurn = 0;
 						    	this.setGameStatus("STEALIN");
+                                Debug.Log("GAME STATUS: " + this.strGameStatus);
 						    }
 					    }
 
@@ -310,9 +323,12 @@ namespace model {
                 }
             }
 
-            else if (this.strGameStatus.Equals("STEALIN")) {
+            if (this.strGameStatus.Equals("STEALIN")) {
                 ActionCard toResolve = this.playedPileInstance.takeTopCard();
-                if ((toResolve != null)) {
+                Debug.Log("toresolve string: " + toResolve.actionTypeAsString);
+                if (toResolve != null) {
+                    Bandit b = toResolve.getBelongsTo();
+                    Debug.Log("toresolve belongsto: " + b.characterAsString);
                     this.currentBandit = toResolve.getBelongsTo();
                     this.currentBandit.setToResolve(toResolve);
                 }
@@ -331,8 +347,8 @@ namespace model {
                 }
                 
             }
-            currentBandit.updateOtherDecks();
-            currentBandit.updateOtherHands();
+            //currentBandit.updateOtherDecks();
+            //currentBandit.updateOtherHands();
             GameBoard.setMyTurn(false);
             Debug.Log("ended turn");
             if(!TestGame.testing) {
@@ -678,10 +694,7 @@ namespace model {
         }
 
         public void shootPrompt(ArrayList possibilities){
-            //TODO make possibilities clickable
             GameBoard.makeShootPossibilitiesClickable(possibilities);
-            Bandit clicked = new Bandit();
-            shoot(clicked);
         }
         
 	    public void shoot(Bandit toShoot) {
