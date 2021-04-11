@@ -370,7 +370,7 @@ public class GameBoard : MonoBehaviour
             }
 
             if(b.characterAsString == ChooseCharacter.character){
-                b.updateMainDeck();
+                //b.updateMainDeck();
 
                 if (gm.strGameStatus.Equals("SCHEMIN")) {
                     if(gm.currentRound.getTurnCounter() == 0 && b.hand.Count == 0){
@@ -378,12 +378,12 @@ public class GameBoard : MonoBehaviour
                         if(b.getCharacter().Equals("DOC")){
                             b.drawCards(1);
                         }
-                        b.updateOtherDecks();
-                        b.updateOtherHands();
+                        //b.updateOtherDecks();
+                        //b.updateOtherHands();
                     }
                 }
                 
-                b.updateMainHand();
+                //b.updateMainHand();
                 // assign to gameobjects on screen 
                 //ArrayList currCards = b.hand;
                 int index = 0; 

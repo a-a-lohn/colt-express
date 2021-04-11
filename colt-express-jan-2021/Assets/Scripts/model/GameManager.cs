@@ -57,8 +57,8 @@ namespace model {
                             else{
                                 currentBandit.drawCards(6);
                             }
-                        currentBandit.updateOtherDecks();
-                        currentBandit.updateOtherHands();
+                        //currentBandit.updateOtherDecks();
+                        //currentBandit.updateOtherHands();
                         }
                     }
                     Debug.Log("calling prompt");
