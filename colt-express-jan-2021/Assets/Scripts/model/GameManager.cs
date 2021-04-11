@@ -9,11 +9,9 @@ using Sfs2X.Entities;
 using Sfs2X.Entities.Data;
 using Sfs2X.Protocol.Serialization;
 
-// THINGS TO CHANGE FOR RUNNING TESTGAME.CS:
-// - comment out if statement if(currentBandit.getCharacter().Equals(ChooseCharacter.character)) 
-//       around line 53 (keep contents)
-// - uncomment if(this.currentRound.getTurnCounter() == 0) around lines 56-63 (including contents)
-// - comment out sendnewgamestate() at end of turn (around line 354)
+// DONT HAVE TO CHANGE ANYTHING ANYMORE FOR TESTING
+//// THINGS TO CHANGE FOR RUNNING TESTGAME.CS:
+
 
 namespace model {
     public class GameManager : SerializableSFSType {
@@ -44,7 +42,7 @@ namespace model {
         public void playTurn() {
             Debug.Log("playing turn");
             Debug.Log("currentbandit: "+ currentBandit.getCharacter());
-            //if(currentBandit.getCharacter().Equals(ChooseCharacter.character) | TestGame.testing) {
+            if(currentBandit.getCharacter().Equals(ChooseCharacter.character) | TestGame.testing) {
             
                 Debug.Log("my turn");
                 GameBoard.setMyTurn(true);
@@ -57,8 +55,8 @@ namespace model {
                             else{
                                 currentBandit.drawCards(6);
                             }
-                        currentBandit.updateOtherDecks();
-                        currentBandit.updateOtherHands();
+                        //currentBandit.updateOtherDecks();
+                        //currentBandit.updateOtherHands();
                         }
                     }
                     Debug.Log("calling prompt");
@@ -68,7 +66,7 @@ namespace model {
                     this.resolveAction(this.currentBandit.getToResolve());
                 }
             
-           //}
+           }
             
         }
         
@@ -352,7 +350,7 @@ namespace model {
             GameBoard.setMyTurn(false);
             Debug.Log("ended turn");
             if(!TestGame.testing) {
-                //GameBoard.SendNewGameState(message);   
+                GameBoard.SendNewGameState(message);   
             }
         }
         
