@@ -39,6 +39,7 @@ public class WaitingRoom : MonoBehaviour
     public Text launchText;
     public Text deleteText;
 
+    bool playingSaveGame = false;
 
     public static string gameHash = null;
     private static string token;
@@ -153,7 +154,7 @@ public class WaitingRoom : MonoBehaviour
             Dictionary<string, object> sessionDetails = obj.ToObject<Dictionary<string, object>>();
             
             if (Launched(gameHash)) {
-                if(SavedSessionIDButtonAText.text == ""/*savegameid of the game is empty*/) {
+                if(SavedSessionIDButtonAText.text == "" | playingSaveGame == false/*savegameid of the game is empty*/) {
                     numPlayers = 1 + sessionDetails["players"].ToString().ToCharArray().Count(c => c == ',');
                     
                 } else {
@@ -172,6 +173,10 @@ public class WaitingRoom : MonoBehaviour
             }
             
         }
+    }
+
+    public void PlayingSaveGame() {
+        playingSaveGame = true;
     }
 
     private bool Launched(string hash) {
