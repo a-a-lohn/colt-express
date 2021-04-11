@@ -42,6 +42,9 @@ namespace model {
         
         
         public void playTurn() {
+            if (currentBandit == null) {
+                return;
+            }
             Debug.Log("playing turn");
             Debug.Log("currentbandit: "+ currentBandit.getCharacter());
             if(currentBandit.getCharacter().Equals(ChooseCharacter.character) | TestGame.testing) {

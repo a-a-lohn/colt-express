@@ -230,7 +230,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 					h.adjacentTo = tu;
 			}
 		}
-		if (ans.equals("n") && trainIndex == gm.bandits.size()-1) {
+		else if (ans.equals("n") && trainIndex == gm.bandits.size()-1) {
 			Bandit curr = gm.banditmap.get(sender);
 			TrainUnit tu = gm.trainCabin.get(trainIndex+1);
 			curr.setPosition(tu);

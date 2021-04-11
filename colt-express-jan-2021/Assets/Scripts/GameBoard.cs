@@ -32,7 +32,7 @@ public class GameBoard : MonoBehaviour
     private static RestClient client = new RestClient("http://13.72.79.112:4242");
     public static string gameHash = WaitingRoom.gameHash;
     public static string savegameId = null;
-    public static bool started = false;
+    public bool started = false;
 
     public Button chat;
     bool returningFromChat = false;
@@ -91,6 +91,10 @@ public class GameBoard : MonoBehaviour
     public Button gem4;
     public Button gem5;
     public Button gem6;
+
+    //
+    public Button horseBtnOne;
+    public Button horseBtnTwo;
 
     // public Button ghoLoot;
 
@@ -536,14 +540,21 @@ public class GameBoard : MonoBehaviour
         btn.interactable = true;
     }
 
-    public void horseBtnOneClicked(){
-        promptHorseAttackMsg.text = "Horse Prompt btn one is clicked!";
-
-    }
-
-    public void horseBtnTwoClicked(){
-        promptHorseAttackMsg.text = "Horse Prompt btn two is clicked!";
-
+    public void horseBtnClicked(Button btn) {
+        String response;
+        if (btn.name == "horseBtnOne") {
+            response = "y";
+            GameObject.Find("horseBtnOne").SetActive(false);
+            GameObject.Find("horseBtnTwo").SetActive(false);
+        }
+        else {
+            response = "n";
+        }
+        promptHorseAttackMsg.text="Waiting for other players..";
+        ISFSObject obj = SFSObject.NewInstance();
+        obj.PutUtfString("ans", response);
+        ExtensionRequest req = new ExtensionRequest("gm.choosePosition", obj);
+        SFS.Send(req);
     }
 
     public void addAllBandits(){
@@ -1019,20 +1030,23 @@ public class GameBoard : MonoBehaviour
         SFS.Send(req);
     }
 
-    public static void promptHorseAttack(int trainIndex) {
+    public void promptHorseAttack(int trainIndex) {
         if (gm.bandits.Count == gm.banditPositions.Count) {
+            promptHorseAttackMsg.text = "";
             started = true;
+            Destroy(GameObject.Find("horseBtnOne"));
+            Destroy(GameObject.Find("horseBtnTwo"));
             return;
         }
-        ISFSObject obj = SFSObject.NewInstance();
-        if (1==1) { //gm.banditPositions.Contains()
-            return;
+        foreach(DictionaryEntry s in GameManager.getInstance().banditPositions) {
+            Bandit b = (Bandit)s.Key;
+            if (b.characterAsString.Equals(ChooseCharacter.character)) {
+                promptHorseAttackMsg.text = "";
+                return;
+            }
         }
-        String response;
         //prompt user whether they want to get off at this train (indicated by trainIndex). If yes, response should be "y", if no then "n"
-        obj.PutUtfString("ans", response);
-        ExtensionRequest req = new ExtensionRequest("gm.choosePosition", obj);
-        SFS.Send(req);
+        promptHorseAttackMsg.text = "Would you like to get on the train at cabin number "+trainIndex+"?";
     }
 }
 
