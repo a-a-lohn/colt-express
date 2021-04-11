@@ -52,6 +52,7 @@ public abstract class Loot implements SerializableSFSType {
     	GameManager gm = GameManager.getInstance();
     	for(TrainUnit t : gm.trainCabin) {
     		if(t.carType.equals(CarType.CAR1)) {
+    			System.out.println("Initializing Loot for CAR1");
     			Loot purse1 = new Money(MoneyType.PURSE, 500);
     			Loot purse2 = new Money(MoneyType.PURSE, 350);
     			Loot purse3 = new Money(MoneyType.PURSE, 250);
@@ -62,6 +63,7 @@ public abstract class Loot implements SerializableSFSType {
     			t.addLoot(whiskey);
     		}
     		else if(t.carType.equals(CarType.CAR2)) {
+    			System.out.println("Initializing Loot for CAR2");
     			Loot jewel1 = new Money(MoneyType.JEWEL, 500);
     			Loot jewel2 = new Money(MoneyType.JEWEL, 500);
     			Loot jewel3 = new Money(MoneyType.JEWEL, 500);
@@ -72,6 +74,7 @@ public abstract class Loot implements SerializableSFSType {
     			t.addLoot(whiskey);
     		}
     		else if(t.carType.equals(CarType.CAR3)) {
+    			System.out.println("Initializing Loot for CAR3");
     			Loot purse = new Money(MoneyType.PURSE, 400);
     			Loot jewel = new Money(MoneyType.JEWEL, 500);
     			Loot whiskey = new Whiskey(WhiskeyType.NORMAL);
@@ -80,6 +83,7 @@ public abstract class Loot implements SerializableSFSType {
     			t.addLoot(whiskey);
     		}
     		else if(t.carType.equals(CarType.CAR4)) {
+    			System.out.println("Initializing Loot for CAR4");
     			Loot purse1 = new Money(MoneyType.PURSE, 450);
     			Loot purse2 = new Money(MoneyType.PURSE, 400);
     			Loot purse3 = new Money(MoneyType.PURSE, 350);
@@ -92,6 +96,7 @@ public abstract class Loot implements SerializableSFSType {
     			t.addLoot(whiskey);
     		}
     		else if(t.carType.equals(CarType.CAR5)) {
+    			System.out.println("Initializing Loot for CAR5");
     			Loot purse1 = new Money(MoneyType.PURSE, 500);
     			Loot purse2 = new Money(MoneyType.PURSE, 450);
     			Loot purse3 = new Money(MoneyType.PURSE, 300);
@@ -106,6 +111,7 @@ public abstract class Loot implements SerializableSFSType {
     			t.addLoot(whiskey);
     		}
     		else if(t.carType.equals(CarType.CAR6)) {
+    			System.out.println("Initializing Loot for CAR6");
     			Loot purse = new Money(MoneyType.PURSE, 300);
     			Loot whiskey = new Whiskey(WhiskeyType.OLD);
     			t.addLoot(purse);

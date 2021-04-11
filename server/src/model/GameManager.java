@@ -131,6 +131,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	 * 7. Create 16 neutral bullet cards
 	 * 8. Create 4 round cards and 1 train station card
 	 * 9. Create a horse for each bandit
+	 * 10. Game Status set to Schemin, indices initialized
 	 */
 	public void initializeGame() {
 		System.out.println("Initializing the game now!");
@@ -159,61 +160,41 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		Money strongbox = new Money(MoneyType.STRONGBOX, 1000);
 		this.trainCabin.get(0).addLoot(strongbox);
 		
-		// Horse Attack
-		this.horseAttack();
+		// 5. Place shotgun and strongbox on roof of stagecoach
+		//TODO
 
+		// 6. Create number of bandits minus 1 hostages
+		//TODO
 		
-		// initialize round cards, round attributes/create round constructor
+		// 7. Create 16 neutral bullet cards
+		for(int i=0; i<16; i++) {
+			Card neutralBullet = new BulletCard("NEUTRAL");
+			neutralBulletCard.add(neutralBullet);
+		}
+		
+		// 8. Create 4 round cards and 1 train station card
 		this.rounds = this.createRoundCards(this.getNumOfPlayers());
-		//Collections.shuffle(this.bandits);
 		this.currentRound = this.rounds.get(0);
 		
-		
-		
-		// uncommented again for testing purposes
-		this.setUpPositions(this.bandits);
-		System.out.println("bpos size: " + banditPositions.size());
-		
-		
-		
-		
-		
-		
-		
-		// create neutral bullet card
-		Card NBullet1 = new BulletCard();
-		Card NBullet2 = new BulletCard();
-		Card NBullet3 = new BulletCard();
-		Card NBullet4 = new BulletCard();
-		Card NBullet5 = new BulletCard();
-		Card NBullet6 = new BulletCard();
-		Card NBullet7 = new BulletCard();
-		Card NBullet8 = new BulletCard();
-		Card NBullet9 = new BulletCard();
-		Card NBullet10 = new BulletCard();
-		Card NBullet11 = new BulletCard();
-		Card NBullet12 = new BulletCard();
-		Card NBullet13 = new BulletCard();
-		this.neutralBulletCard.add(NBullet1);
-		this.neutralBulletCard.add(NBullet2);
-		this.neutralBulletCard.add(NBullet3);
-		this.neutralBulletCard.add(NBullet4);
-		this.neutralBulletCard.add(NBullet5);
-		this.neutralBulletCard.add(NBullet6);
-		this.neutralBulletCard.add(NBullet7);
-		this.neutralBulletCard.add(NBullet8);
-		this.neutralBulletCard.add(NBullet9);
-		this.neutralBulletCard.add(NBullet10);
-		this.neutralBulletCard.add(NBullet11);
-		this.neutralBulletCard.add(NBullet12);
-		this.neutralBulletCard.add(NBullet13);
+		// 9. Create a horse for each bandit
 		this.horses = Horse.createHorses();
 		
+		// --FOR TESTING--
+		this.setUpPositions(this.bandits);
+		System.out.println("bpos size: " + banditPositions.size());
+		// --END--
+		
+		// 10. Game Status set to Schemin, indices initialized
+		this.banditIndex = 0;
 		this.roundIndex = 0;
+		this.currentRound = rounds.get(roundIndex);
 		this.banditsPlayedThisTurn = 0;
 		this.gameStatus = GameStatus.SCHEMIN;
 		this.strGameStatus = "SCHEMIN";
 
+		// Horse Attack
+		this.horseAttack();
+		
 	}
 
 	public void horseAttack() {
