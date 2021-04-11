@@ -82,15 +82,29 @@ public class GameBoard : MonoBehaviour
     public Button marshal;
     private List<Button> playingBandits = new List<Button>();
     private List<Button> allBandits = new List<Button>();
-    private List<Button> allLoot = new List<Button>();
 
-    
+    private List<Button> allGem = new List<Button>();
+    private List<Button> allPurse = new List<Button>();
+    private List<Button> allBox = new List<Button>();
+    private List<Button> allWhiskey = new List<Button>();
+
     public Button gem1; 
     public Button gem2; 
     public Button gem3; 
     public Button gem4;
     public Button gem5;
     public Button gem6;
+
+    public Button purse1;
+    public Button purse2;
+    public Button purse3;
+    public Button purse4;
+
+    public Button box1;
+
+    public Button whiskey1;
+    public Button whiskey2;
+    public Button whiskey3;
 
     // public Button ghoLoot;
 
@@ -420,66 +434,101 @@ public class GameBoard : MonoBehaviour
 
         Money m;
         Whiskey w;
+        int gemCount = 0;
+        int purseCount = 0;
+        int boxCount = 0;
+        int whiskeyCount = 0;
     
-        // foreach(Bandit b in gm.bandits){
-        //     foreach(Loot l in b.getLoot()){
-        //     try{
-        //         m = (Money) l;
-        //         Button lootBtn = availLoot(m.getMoneyTypeAsString(), l);
-        //         buttonToObject[lootBtn] = l;
-        //         Debug.Log("casting as Money");
-        //     }
-        //     catch(Exception e){
-        //         w = (Whiskey) l;
-        //         Button lootBtn = availLoot(w.getWhiskeyTypeAsString(), l);
-        //         buttonToObject[lootBtn] = l;
-        //         Debug.Log("casting as Whiskey");
-        //     }
-        //     }
-        // }
+        foreach(Bandit b in gm.bandits){
+            foreach(Loot l in b.loot){
+                Debug.Log("Bandit Here!");
+            try{
+                m = (Money) l;
+                if (m.getMoneyTypeAsString() == "JEWEL"){
+                buttonToObject[allGem[gemCount]] = m;
+                gemCount++;
+                Debug.Log("casting as Gem");
+                } else if (m.getMoneyTypeAsString() == "PURSE"){
+                buttonToObject[allPurse[purseCount]] = m;
+                purseCount++;
+                Debug.Log("casting as Purse");
+                } else if (m.getMoneyTypeAsString() == "STRONGBOX"){
+                buttonToObject[allGem[boxCount]] = m;
+                boxCount++;
+                Debug.Log("casting as Box");
+                }
+            }
+            catch(Exception e){
+                w = (Whiskey) l;
+                buttonToObject[allWhiskey[whiskeyCount]] = w;
+                whiskeyCount++;
+                Debug.Log("casting as Whiskey");
+                }
+            }
+        }
 
-        // foreach(TrainUnit tr in gm.trainRoof){
-        //     foreach(Loot l in tr.getLootHere()){
-        //     try{
-        //         Debug.Log("ROOD1wq");
-        //         m = (Money) l;
-        //         Button lootBtn = availLoot(m.getMoneyTypeAsString(), l);
-        //         buttonToObject[lootBtn] = l;
-        //         Debug.Log("casting as Money");
-        //         placeLootOnTrain(lootBtn, tr.getCarTypeAsString(), tr.getCarFloorAsString());
-        //     }
-        //     catch(Exception e){
-        //         Debug.Log("roodwhiskewy");
-        //         w = (Whiskey) l;
-        //         Button lootBtn = availLoot(w.getWhiskeyTypeAsString(), l);
-        //         buttonToObject[lootBtn] = l;
-        //         Debug.Log("casting as Whiskey");
-        //         placeLootOnTrain(lootBtn, tr.getCarTypeAsString(), tr.getCarFloorAsString());
-        //     }
-        //     }
-        // }
+        foreach(TrainUnit tr in gm.trainRoof){
+            foreach(Loot l in tr.lootHere){
+            try{
+                m = (Money) l;
+                if (m.getMoneyTypeAsString() == "JEWEL"){
+                buttonToObject[allGem[gemCount]] = m;
+                placeLootOnTrain(allGem[gemCount], tr.carTypeAsString, tr.carFloorAsString);
+                gemCount++;
+                Debug.Log("casting as Gem");
+                } else if (m.getMoneyTypeAsString() == "PURSE"){
+                buttonToObject[allPurse[purseCount]] = m;
+                placeLootOnTrain(allPurse[purseCount], tr.carTypeAsString, tr.carFloorAsString);
+                purseCount++;
+                Debug.Log("casting as Purse");
+                } else if (m.getMoneyTypeAsString() == "STRONGBOX"){
+                buttonToObject[allBox[boxCount]] = m;
+                placeLootOnTrain(allBox[boxCount], tr.carTypeAsString, tr.carFloorAsString);
+                boxCount++;
+                Debug.Log("casting as Box");
+                }
+            }
+            catch(Exception e){
+                w = (Whiskey) l;
+                buttonToObject[allWhiskey[whiskeyCount]] = w;
+                placeLootOnTrain(allWhiskey[whiskeyCount], tr.carTypeAsString, tr.carFloorAsString);
+                whiskeyCount++;
+                Debug.Log("casting as Whiskey");
+                }
+            }
+        }
 
-        // foreach(TrainUnit tc in gm.trainCabin){
-        // foreach(Loot l in tc.getLootHere()){
-        //     try{
-        //         Debug.Log("cabin assign");
-        //         m = (Money) l;
-        //         Button lootBtn = availLoot(m.getMoneyTypeAsString(), l);
-        //         buttonToObject[lootBtn] = l;
-        //         Debug.Log("casting as Money");
-        //         placeLootOnTrain(lootBtn, tc.getCarTypeAsString(), tc.getCarFloorAsString());
-        //     }
-        //     catch(Exception e){
+        foreach(TrainUnit tc in gm.trainCabin){
+        foreach(Loot l in tc.lootHere){
+            try{
+                m = (Money) l;
+                if (m.getMoneyTypeAsString() == "JEWEL"){
+                buttonToObject[allGem[gemCount]] = m;
+                placeLootOnTrain(allGem[gemCount], tc.carTypeAsString, tc.carFloorAsString);
+                gemCount++;
+                Debug.Log("casting as Gem");
+                } else if (m.getMoneyTypeAsString() == "PURSE"){
+                buttonToObject[allPurse[purseCount]] = m;
+                placeLootOnTrain(allPurse[purseCount], tc.carTypeAsString, tc.carFloorAsString);
+                purseCount++;
+                Debug.Log("casting as Purse");
+                } else if (m.getMoneyTypeAsString() == "STRONGBOX"){
+                buttonToObject[allBox[boxCount]] = m;
+                placeLootOnTrain(allBox[boxCount], tc.carTypeAsString, tc.carFloorAsString);
+                boxCount++;
+                Debug.Log("casting as Box");
+                }
+            }
+            catch(Exception e){
+                w = (Whiskey) l;
+                buttonToObject[allWhiskey[whiskeyCount]] = w;
+                placeLootOnTrain(allWhiskey[whiskeyCount], tc.carTypeAsString, tc.carFloorAsString);
+                whiskeyCount++;
+                Debug.Log("casting as Whiskey");
+                }
+            }
+        }
 
-        //         Debug.Log("cabin wiskey assign");
-        //         w = (Whiskey) l;
-        //         Button lootBtn = availLoot(w.getWhiskeyTypeAsString(), l);
-        //         buttonToObject[lootBtn] = l;
-        //         Debug.Log("casting as Whiskey");
-        //         placeLootOnTrain(lootBtn, tc.getCarTypeAsString(), tc.getCarFloorAsString());
-        //     }
-        //     }
-        // }
 
 
 
@@ -655,6 +704,18 @@ public class GameBoard : MonoBehaviour
         buttonToObject.Add(gem5, "null");
         buttonToObject.Add(gem6, "null");
 
+        buttonToObject.Add(purse1, "null");
+        buttonToObject.Add(purse2, "null");
+        buttonToObject.Add(purse3, "null");
+        buttonToObject.Add(purse4, "null");
+
+        buttonToObject.Add(box1, "null");
+
+        buttonToObject.Add(whiskey1, "null");
+        buttonToObject.Add(whiskey2, "null");
+        buttonToObject.Add(whiskey3, "null");
+
+
         trainCabins.Insert(0, locoBtm);
         trainCabins.Insert(1, trainOneBtm);
         trainCabins.Insert(2, trainTwoBtm);
@@ -680,12 +741,23 @@ public class GameBoard : MonoBehaviour
         goHandCard.Insert(9, handCard10);
         goHandCard.Insert(10, handCard11);
 
-        allLoot.Insert(0, gem1);
-        allLoot.Insert(1, gem2);
-        allLoot.Insert(2, gem3);
-        allLoot.Insert(3, gem4);
-        allLoot.Insert(4, gem5);
-        allLoot.Insert(5, gem6);
+        allGem.Insert(0, gem1);
+        allGem.Insert(1, gem2);
+        allGem.Insert(2, gem3);
+        allGem.Insert(3, gem4);
+        allGem.Insert(4, gem5);
+        allGem.Insert(5, gem6);
+
+        allPurse.Insert(0, purse1);
+        allPurse.Insert(1, purse2);
+        allPurse.Insert(2, purse1);
+        allPurse.Insert(3, purse2);
+
+        allBox.Insert(0, box1);
+
+        allWhiskey.Insert(0, whiskey1);
+        allWhiskey.Insert(1, whiskey2);
+        allWhiskey.Insert(2, whiskey2);
 
         /* init all action texts */
         handCardActionType1.text = ""; 
@@ -842,24 +914,6 @@ public class GameBoard : MonoBehaviour
 
     }
 
-    public Button availLoot(string moneyType, Loot l){
-        Button temp = gem1;
-        string money = moneyType.ToLower();
-
-        foreach(Button b in allLoot){
-            object value;
-            buttonToObject.TryGetValue(b, out value);
-            Debug.Log("WOW VALUE:" + value);
-            if (value == ((object)"null") && b.gameObject.tag == money){
-                temp =  b;
-            } else if (value == l && b.gameObject.tag == money){
-                temp =  b;
-            }
-        }
-        Debug.Log("WOW name:" + temp.name);
-        return temp;
-    }
-
 
     public void placeLootOnTrain(Button lootBtn, string cartype, string carfloor){
 
@@ -910,21 +964,7 @@ public class GameBoard : MonoBehaviour
     }
 
 
-    // public void mapLoot(GameManager gm){
 
-    //     foreach(Loot l in gm.loot){
-
-    //         if(l.getBelongsTo() != null){
-
-    //         } else if(l.getPosition() != null){
-    //             TrainUnit tr = l.getPosition();
-    //             placeLootOnTrain(l, tr.carTypeAsString, tr.carFloorAsString);
-    //         }
-
-    //     }
-
-
-    // }
 
     public void placeLootOnTrain(Loot l, string carType, string carFloor){
 
