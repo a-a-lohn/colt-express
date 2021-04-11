@@ -441,7 +441,7 @@ public static class SFS
 		string message = (string) evt.Params["message"];
 		
 		printUserMessage(sender, message);
-		chat.printUserMessage();
+		if(chat != null) chat.printUserMessage();
 	}
 
 	private static void printUserMessage(User user, string message) {

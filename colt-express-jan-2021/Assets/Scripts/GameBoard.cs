@@ -536,6 +536,15 @@ public class GameBoard : MonoBehaviour
         btn.interactable = true;
     }
 
+    public void horseBtnClicked(Button btn){
+        if(btn.name == "horseBtnOne") {
+            //send sfs req  y
+        } else {
+            // no
+        }
+        //destroy both buttons
+    }
+
     public void horseBtnOneClicked(){
         promptHorseAttackMsg.text = "Horse Prompt btn one is clicked!";
 
