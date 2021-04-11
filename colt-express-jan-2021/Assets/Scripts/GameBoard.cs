@@ -82,9 +82,12 @@ public class GameBoard : MonoBehaviour
     public Button marshal;
     private List<Button> playingBandits = new List<Button>();
     private List<Button> allBandits = new List<Button>();
-    private List<Button> allLoot = new List<Button>();
 
-    
+    private List<Button> allGem = new List<Button>();
+    private List<Button> allPurse = new List<Button>();
+    private List<Button> allBox = new List<Button>();
+    private List<Button> allWhiskey = new List<Button>();
+
     public Button gem1; 
     public Button gem2; 
     public Button gem3; 
@@ -97,6 +100,34 @@ public class GameBoard : MonoBehaviour
     public Button horseBtnTwo;
 
     // public Button ghoLoot;
+    public Button purse1;
+    public Button purse2;
+    public Button purse3;
+    public Button purse4;
+    public Button purse5;
+    public Button purse6;
+    public Button purse7;
+    public Button purse8;
+    public Button purse9;
+    public Button purse10;
+    public Button purse11;
+    public Button purse12;
+    public Button purse13;
+    public Button purse14;
+    public Button purse15;
+    public Button purse16;
+    public Button purse17;
+    public Button purse18;
+
+    public Button box1;
+    public Button box2;
+
+    public Button whiskey1;
+    public Button whiskey2;
+    public Button whiskey3;
+    public Button whiskey4;
+    public Button whiskey5;
+    public Button whiskey6;
 
     public GameObject bulletCard;
 
@@ -374,7 +405,7 @@ public class GameBoard : MonoBehaviour
             }
 
             if(b.characterAsString == ChooseCharacter.character){
-                b.updateMainDeck();
+                //b.updateMainDeck();
 
                 if (gm.strGameStatus.Equals("SCHEMIN")) {
                     if(gm.currentRound.getTurnCounter() == 0 && b.hand.Count == 0){
@@ -382,12 +413,12 @@ public class GameBoard : MonoBehaviour
                         if(b.getCharacter().Equals("DOC")){
                             b.drawCards(1);
                         }
-                        b.updateOtherDecks();
-                        b.updateOtherHands();
+                        //b.updateOtherDecks();
+                        //b.updateOtherHands();
                     }
                 }
                 
-                b.updateMainHand();
+                //b.updateMainHand();
                 // assign to gameobjects on screen 
                 //ArrayList currCards = b.hand;
                 int index = 0; 
@@ -422,24 +453,104 @@ public class GameBoard : MonoBehaviour
         }
         //Debug.Log(SFS.step);
 
-        // Money m;
-        // Whiskey w;
-        // int count = 0;
-        // foreach (Loot l in gm.loot){
-        //     try{
-        //         m = (Money) l;
-        //         buttonToObject[allLoot[count]] = l;
-        //         Debug.Log("casting as Money");
-        //     }
-        //     catch(Exception e){
-        //         w = (Whiskey) l;
-        //         buttonToObject[allLoot[count]] = l;
-        //         Debug.Log("casting as Whiskey");
-        //     }
-        //     count++;
-        // }
+        Money m;
+        Whiskey w;
+        int gemCount = 0;
+        int purseCount = 0;
+        int boxCount = 0;
+        int whiskeyCount = 0;
+    
+        foreach(Bandit b in gm.bandits){
+            foreach(Loot l in b.loot){
+            try{
+                m = (Money) l;
+                if (m.moneyTypeAsString == "JEWEL"){
+                buttonToObject[allGem[gemCount]] = m;
+                Debug.Log("casting as Gem " + gemCount);
+                gemCount++;
+                } else if (m.moneyTypeAsString == "PURSE"){
+                buttonToObject[allPurse[purseCount]] = m;
+                Debug.Log("casting as Purse " + purseCount);
+                purseCount++;
+                } else if (m.moneyTypeAsString == "STRONGBOX"){
+                buttonToObject[allGem[boxCount]] = m;
+                Debug.Log("casting as Box " + boxCount);
+                boxCount++;
+                }
+            }
+            catch(Exception e){
+                w = (Whiskey) l;
+                buttonToObject[allWhiskey[whiskeyCount]] = w;
+                Debug.Log("casting as Whiskey" + whiskeyCount);
+                whiskeyCount++;
+                }
+            }
+        }
 
-        //mapLoot(gm);
+        foreach(TrainUnit tr in gm.trainRoof){
+            foreach(Loot l in tr.lootHere){
+            try{
+                m = (Money) l;
+                if (m.moneyTypeAsString == "JEWEL"){
+                buttonToObject[allGem[gemCount]] = m;
+                placeLootOnTrain(allGem[gemCount], tr.carTypeAsString, tr.carFloorAsString);
+                Debug.Log("casting as Gem " + gemCount);
+                gemCount++;
+                } else if (m.moneyTypeAsString == "PURSE"){
+                buttonToObject[allPurse[purseCount]] = m;
+                placeLootOnTrain(allPurse[purseCount], tr.carTypeAsString, tr.carFloorAsString);
+                Debug.Log("casting as Purse " + purseCount);
+                purseCount++;
+                } else if (m.moneyTypeAsString == "STRONGBOX"){
+                buttonToObject[allBox[boxCount]] = m;
+                placeLootOnTrain(allBox[boxCount], tr.carTypeAsString, tr.carFloorAsString);
+                Debug.Log("casting as Box" + boxCount);
+                boxCount++;
+                }
+            }
+            catch(Exception e){
+                w = (Whiskey) l;
+                buttonToObject[allWhiskey[whiskeyCount]] = w;
+                placeLootOnTrain(allWhiskey[whiskeyCount], tr.carTypeAsString, tr.carFloorAsString);
+                Debug.Log("casting as Whiskey " + whiskeyCount);
+                whiskeyCount++;
+                }
+            }
+        }
+
+        foreach(TrainUnit tc in gm.trainCabin){
+            foreach(Loot l in tc.lootHere){
+                try{
+                    m = (Money) l;
+                    if (m.moneyTypeAsString == "JEWEL"){
+                    buttonToObject[allGem[gemCount]] = m;
+                    placeLootOnTrain(allGem[gemCount], tc.carTypeAsString, tc.carFloorAsString);
+                    Debug.Log("casting as Gem " + gemCount);
+                    gemCount++;
+                    } else if (m.moneyTypeAsString == "PURSE"){
+                    buttonToObject[allPurse[purseCount]] = m;
+                    placeLootOnTrain(allPurse[purseCount], tc.carTypeAsString, tc.carFloorAsString);
+                    Debug.Log("casting as Purse " + purseCount);
+                    purseCount++;
+                    } else if (m.moneyTypeAsString == "STRONGBOX"){
+                    buttonToObject[allBox[boxCount]] = m;
+                    placeLootOnTrain(allBox[boxCount], tc.carTypeAsString, tc.carFloorAsString);
+                    Debug.Log("casting as Box" + boxCount);
+                    boxCount++;
+                    }
+                }
+                catch(Exception e){
+                    w = (Whiskey) l;
+                    buttonToObject[allWhiskey[whiskeyCount]] = w;
+                    placeLootOnTrain(allWhiskey[whiskeyCount], tc.carTypeAsString, tc.carFloorAsString);
+                    Debug.Log("casting as Whiskey " + whiskeyCount);
+                    whiskeyCount++;
+                    }
+                }
+        }
+
+
+
 
         gm.playTurn();
 
@@ -605,10 +716,41 @@ public class GameBoard : MonoBehaviour
         buttonToObject.Add(locoTop, "null");
 
         buttonToObject.Add(gem1, "null");
-        // buttonToObject.Add(gem2, "null");
-        // buttonToObject.Add(gem3, "null");
-        // buttonToObject.Add(gem4, "null");
-        // buttonToObject.Add(gem5, "null");
+        buttonToObject.Add(gem2, "null");
+        buttonToObject.Add(gem3, "null");
+        buttonToObject.Add(gem4, "null");
+        buttonToObject.Add(gem5, "null");
+        buttonToObject.Add(gem6, "null");
+
+        buttonToObject.Add(purse1, "null");
+        buttonToObject.Add(purse2, "null");
+        buttonToObject.Add(purse3, "null");
+        buttonToObject.Add(purse4, "null");
+        buttonToObject.Add(purse5, "null");
+        buttonToObject.Add(purse6, "null");
+        buttonToObject.Add(purse7, "null");
+        buttonToObject.Add(purse8, "null");
+        buttonToObject.Add(purse9, "null");
+        buttonToObject.Add(purse10, "null");
+        buttonToObject.Add(purse11, "null");
+        buttonToObject.Add(purse12, "null");
+        buttonToObject.Add(purse13, "null");
+        buttonToObject.Add(purse14, "null");
+        buttonToObject.Add(purse15, "null");
+        buttonToObject.Add(purse16, "null");
+        buttonToObject.Add(purse17, "null");
+        buttonToObject.Add(purse18, "null");
+
+        buttonToObject.Add(box1, "null");
+        buttonToObject.Add(box2, "null");
+
+        buttonToObject.Add(whiskey1, "null");
+        buttonToObject.Add(whiskey2, "null");
+        buttonToObject.Add(whiskey3, "null");
+        buttonToObject.Add(whiskey4, "null");
+        buttonToObject.Add(whiskey5, "null");
+        buttonToObject.Add(whiskey6, "null");
+
 
         trainCabins.Insert(0, locoBtm);
         trainCabins.Insert(1, trainOneBtm);
@@ -622,7 +764,6 @@ public class GameBoard : MonoBehaviour
         trainRoofs.Insert(3, trainThreeTop);
         trainRoofs.Insert(4, trainFourTop);
 
-        
 
         goHandCard.Insert(0, handCard1);
         goHandCard.Insert(1, handCard2);
@@ -636,11 +777,41 @@ public class GameBoard : MonoBehaviour
         goHandCard.Insert(9, handCard10);
         goHandCard.Insert(10, handCard11);
 
-        allLoot.Insert(0, gem1);
-        // allLoot.Insert(1, gem2);
-        // allLoot.Insert(2, gem3);
-        // allLoot.Insert(3, gem4);
-        // allLoot.Insert(4, gem5);
+        allGem.Insert(0, gem1);
+        allGem.Insert(1, gem2);
+        allGem.Insert(2, gem3);
+        allGem.Insert(3, gem4);
+        allGem.Insert(4, gem5);
+        allGem.Insert(5, gem6);
+
+        allPurse.Insert(0, purse1);
+        allPurse.Insert(1, purse2);
+        allPurse.Insert(2, purse3);
+        allPurse.Insert(3, purse4);
+        allPurse.Insert(4, purse5);
+        allPurse.Insert(5, purse6);
+        allPurse.Insert(6, purse7);
+        allPurse.Insert(7, purse8);
+        allPurse.Insert(8, purse9);
+        allPurse.Insert(9, purse10);
+        allPurse.Insert(10, purse11);
+        allPurse.Insert(11, purse12);
+        allPurse.Insert(12, purse13);
+        allPurse.Insert(13, purse14);
+        allPurse.Insert(14, purse15);
+        allPurse.Insert(15, purse16);
+        allPurse.Insert(16, purse17);
+        allPurse.Insert(17, purse18);
+
+        allBox.Insert(0, box1);
+        allBox.Insert(1, box1);
+
+        allWhiskey.Insert(0, whiskey1);
+        allWhiskey.Insert(1, whiskey2);
+        allWhiskey.Insert(2, whiskey3);
+        allWhiskey.Insert(3, whiskey4);
+        allWhiskey.Insert(4, whiskey5);
+        allWhiskey.Insert(5, whiskey6);
 
         /* init all action texts */
         handCardActionType1.text = ""; 
@@ -797,27 +968,53 @@ public class GameBoard : MonoBehaviour
 
     }
 
-    // public void mapLoot(GameManager gm){
 
-    //     foreach(Loot l in gm.loot){
+    public void placeLootOnTrain(Button lootBtn, string cartype, string carfloor){
 
-    //         if(l.getBelongsTo() != null){
-
-    //         } else if(l.getPosition() != null){
-    //             TrainUnit tr = l.getPosition();
-    //             placeLootOnTrain(l, tr.carTypeAsString, tr.carFloorAsString);
-    //         }
-
-    //     }
-
-
-    // }
-
-    public void placeLootOnTrain(Loot l, string carType, string carFloor){
+            if(carfloor == "CABIN"){
+            if(cartype == "LOCOMOTIVE"){
+                lootBtn.transform.position = new Vector3 (locBtm[0], locBtm[1], locBtm[2]);
+            }else if(cartype == "CAR1"){
+                lootBtn.transform.position = new Vector3 (oneBtm[0], oneBtm[1], oneBtm[2]);
+            }else if(cartype == "CAR2"){
+                lootBtn.transform.position = new Vector3 (twoBtm[0], twoBtm[1], twoBtm[2]);
+            }else if(cartype == "CAR3"){
+                lootBtn.transform.position = new Vector3 (threeBtm[0], threeBtm[1], threeBtm[2]);
+            }else if(cartype == "CAR4"){
+                lootBtn.transform.position = new Vector3 (fourBtm[0], fourBtm[1], fourBtm[2]);
+            }else if(cartype == "CAR5"){
+                lootBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+            }else if(cartype == "CAR6"){
+                lootBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+            }else{
+                // cartype == "STAGECOACH"
+                lootBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+            }
+        }else{
+            if(cartype == "LOCOMOTIVE"){
+                lootBtn.transform.position = new Vector3 (locTop[0], locTop[1], locTop[2]);
+            }else if(cartype == "CAR1"){
+                lootBtn.transform.position = new Vector3 (oneTop[0], oneTop[1], oneTop[2]);
+            }else if(cartype == "CAR2"){
+                lootBtn.transform.position = new Vector3 (twoTop[0], twoTop[1], twoTop[2]);
+            }else if(cartype == "CAR3"){
+                lootBtn.transform.position = new Vector3 (threeTop[0], threeTop[1], threeTop[2]);
+            }else if(cartype == "CAR4"){
+                lootBtn.transform.position = new Vector3 (fourTop[0], fourTop[1], fourTop[2]);
+            }else if(cartype == "CAR5"){
+                lootBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+            }else if(cartype == "CAR6"){
+                lootBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+            }else{
+                // cartype == "STAGECOACH"
+                lootBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+            }
+        }
 
 
 
     }
+
 
     /* promptDrawOrPlayMessage displays the prompt message on gameboard*/
     public static void promptDrawOrPlayMessage(){
@@ -995,33 +1192,46 @@ public class GameBoard : MonoBehaviour
     }
 
     public static void SaveGameState(string savegameID) {
-        //ONLY NEED TO SEND THE SAVEGAME REQUEST TO THE LS ONCE
-        //(although making the same call multiple times can't hurt, and is simpler)
-        /*var request = new RestRequest("api/sessions/" + gameHash, Method.GET)
+        Debug.Log("SaveGameState is called!"); 
+		//ONLY NEED TO SEND THE SAVEGAME REQUEST TO THE LS ONCE
+		//(although making the same call multiple times can't hurt, and is simpler)
+		var request = new RestRequest("api/sessions/" + gameHash, Method.GET)
             .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
         IRestResponse response = client.Execute(request);
         var JObj = JObject.Parse(response.Content);
         Dictionary<string, object> sessionDetails = JObj.ToObject<Dictionary<string, object>>();
 
-        dynamic j = new JObject();
-        var temp = JsonConvert.SerializeObject(sessionDetails["gameParameters"]);
-        var gameParameters = JsonConvert.DeserializeObject<Dictionary<string, string>>(temp);
+		var temp = JsonConvert.SerializeObject(sessionDetails["gameParameters"]);
+		var gameParameters = JsonConvert.DeserializeObject<Dictionary<string, string>>(temp);
 
-        string gameName = gameParameters["name"];
-        j.gamename = gameName; // can replace with "ColtExpress"
-        //below I deserialize a JSON object to a collection     
-        temp = JsonConvert.SerializeObject(sessionDetails["players"]);
-        j.players = JsonConvert.DeserializeObject<List<string>>(temp);//In case it doesn't work, debug by adding a .ToArray()
-        j.savegameid = savegameID;
+		string gameName = gameParameters["name"];
+        Debug.Log("gamename: " + gameName);
+		//below I deserialize a JSON object to a collection
+        List<string> players = JsonConvert.DeserializeObject<List<string>>(sessionDetails["players"].ToString());
+	
+        Dictionary<string, object> body = new Dictionary<string, object>
+        {
+            { "gamename", gameName },
+            { "players", players },
+            { "savegameid", savegameID }
+        };
 
-        request = new RestRequest("api/gameservices/" + gameName + "/savegames/" + savegameID + "?access_token=" + GetAdminToken(), Method.POST)
-            .AddParameter("application/json", j.ToString(), ParameterType.RequestBody)
+        string json = JsonConvert.SerializeObject(body, Formatting.Indented);
+
+
+        JObject jObjectbody = new JObject();
+        jObjectbody.Add("gamename", gameName);
+        jObjectbody.Add("players", JsonConvert.SerializeObject(players));
+        jObjectbody.Add("savegameid", savegameID);
+
+		var request1 = new RestRequest("api/gameservices/" + gameName + "/savegames/" + savegameID + "?access_token=" + GetAdminToken(), Method.PUT)
+            .AddParameter("application/json", json, ParameterType.RequestBody)
             .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
 
-        response = client.Execute(request);*/
-
-        // After saving the game, store the information to the server
-
+        IRestResponse response2 = client.Execute(request1);
+        Debug.Log("Here is the game saving return: "+ response2.ErrorMessage + "   " + response2.StatusCode);
+        
+        // Save game on the server
         ISFSObject obj = SFSObject.NewInstance();
         Debug.Log("saving the current game state on the server");
         obj.PutUtfString("savegameId", savegameID);

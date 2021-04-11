@@ -39,6 +39,7 @@ public class WaitingRoom : MonoBehaviour
     public Text launchText;
     public Text deleteText;
 
+    bool playingSaveGame = false;
 
     public static string gameHash = null;
     private static string token;
@@ -153,17 +154,29 @@ public class WaitingRoom : MonoBehaviour
             Dictionary<string, object> sessionDetails = obj.ToObject<Dictionary<string, object>>();
             
             if (Launched(gameHash)) {
-                if(GameBoard.savegameId == null/*savegameid of the game is empty*/) {
+                if(SavedSessionIDButtonAText.text == "" | playingSaveGame == false/*savegameid of the game is empty*/) {
                     numPlayers = 1 + sessionDetails["players"].ToString().ToCharArray().Count(c => c == ',');
-                    SceneManager.LoadScene("ChooseYourCharacter");
+                    
                 } else {
                     //create an sfs request that assigns the game in the hashmap with the given id as the working game on the server and returns a string saying which bandit you will be playing as
                     // assign chosencharacter string to the received string in SFS.cs
                     // go directly to gameboard scene
+                    Debug.Log("GameID content : " + SavedSessionIDButtonAText.text);
+                    ISFSObject obj2 = SFSObject.NewInstance();
+                    obj2.PutUtfString("savegameId", SavedSessionIDButtonAText.text);
+                    ExtensionRequest req = new ExtensionRequest("gm.loadSavedGame",obj2);
+                    SFS.Send(req);
+            
                 }
+
+                SceneManager.LoadScene("ChooseYourCharacter");
             }
             
         }
+    }
+
+    public void PlayingSaveGame() {
+        playingSaveGame = true;
     }
 
     private bool Launched(string hash) {
@@ -460,62 +473,7 @@ public class WaitingRoom : MonoBehaviour
         SaveGameState("test");
     }
 
-    public void SaveGameState(string savegameID) {
-        Debug.Log("SaveGameState is called!"); 
-		//ONLY NEED TO SEND THE SAVEGAME REQUEST TO THE LS ONCE
-		//(although making the same call multiple times can't hurt, and is simpler)
-		var request = new RestRequest("api/sessions/" + gameHash, Method.GET)
-            .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
-        IRestResponse response = client.Execute(request);
-        var JObj = JObject.Parse(response.Content);
-        Dictionary<string, object> sessionDetails = JObj.ToObject<Dictionary<string, object>>();
-
-		var temp = JsonConvert.SerializeObject(sessionDetails["gameParameters"]);
-		var gameParameters = JsonConvert.DeserializeObject<Dictionary<string, string>>(temp);
-
-		string gameName = gameParameters["name"];
-        Debug.Log("gamename: " + gameName);
-		//below I deserialize a JSON object to a collection
-        List<string> players = JsonConvert.DeserializeObject<List<string>>(sessionDetails["players"].ToString());
-	
-        Dictionary<string, object> body = new Dictionary<string, object>
-        {
-            { "gamename", gameName },
-            { "players", players },
-            { "savegameid", savegameID }
-        };
-
-        string json = JsonConvert.SerializeObject(body, Formatting.Indented);
-
-
-        JObject jObjectbody = new JObject();
-        jObjectbody.Add("gamename", gameName);
-        jObjectbody.Add("players", JsonConvert.SerializeObject(players));
-        jObjectbody.Add("savegameid", savegameID);
-    
-
-		Debug.Log("!!!!!!!players: " + players[0]); 
-
-        Debug.Log("!!!!!j: " + jObjectbody.ToString());
-
-		var request1 = new RestRequest("api/gameservices/" + gameName + "/savegames/" + savegameID + "?access_token=" + GetAdminToken(), Method.PUT)
-            .AddParameter("application/json", jObjectbody, ParameterType.RequestBody)
-            .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
-
-        IRestResponse response2 = client.Execute(request1);
-        Debug.Log("Here is the game saving return: "+ response2.ErrorMessage + "   " + response2.StatusCode);
-        //var obj = JObject.Parse(response2.Content);
-        //Debug.Log("Here is the game saving return: "+ obj.ToString());
-
-        /*
-        ISFSObject obj = SFSObject.NewInstance();
-		Debug.Log("saving the current game state on the server");
-		obj.PutUtfString("savegameId", savegameID);
-		obj.PutClass("gm", gm);
-        ExtensionRequest req = new ExtensionRequest("gm.saveGameState",obj);
-        SFS.Send(req);
-        */
-
+    public void SaveGameState(string savegameID) {    
+        GameBoard.SaveGameState(savegameID);
 	}
-
 }

@@ -40,7 +40,7 @@ namespace model {
         }
 
         public void addPlayedCards(ActionCard a) {
-            this.playedCards.Add(a);
+            this.playedCards.Insert(0, a);
         }
         
         public void removePlayedCard(ActionCard a) {
