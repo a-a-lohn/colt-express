@@ -421,65 +421,65 @@ public class GameBoard : MonoBehaviour
         Money m;
         Whiskey w;
     
-        foreach(Bandit b in gm.bandits){
-            foreach(Loot l in b.getLoot()){
-            try{
-                m = (Money) l;
-                Button lootBtn = availLoot(m.getMoneyTypeAsString(), l);
-                buttonToObject[lootBtn] = l;
-                Debug.Log("casting as Money");
-            }
-            catch(Exception e){
-                w = (Whiskey) l;
-                Button lootBtn = availLoot(w.getWhiskeyTypeAsString(), l);
-                buttonToObject[lootBtn] = l;
-                Debug.Log("casting as Whiskey");
-            }
-            }
-        }
+        // foreach(Bandit b in gm.bandits){
+        //     foreach(Loot l in b.getLoot()){
+        //     try{
+        //         m = (Money) l;
+        //         Button lootBtn = availLoot(m.getMoneyTypeAsString(), l);
+        //         buttonToObject[lootBtn] = l;
+        //         Debug.Log("casting as Money");
+        //     }
+        //     catch(Exception e){
+        //         w = (Whiskey) l;
+        //         Button lootBtn = availLoot(w.getWhiskeyTypeAsString(), l);
+        //         buttonToObject[lootBtn] = l;
+        //         Debug.Log("casting as Whiskey");
+        //     }
+        //     }
+        // }
 
-        foreach(TrainUnit tr in gm.trainRoof){
-            foreach(Loot l in tr.getLootHere()){
-            try{
-                Debug.Log("ROOD1wq");
-                m = (Money) l;
-                Button lootBtn = availLoot(m.getMoneyTypeAsString(), l);
-                buttonToObject[lootBtn] = l;
-                Debug.Log("casting as Money");
-                placeLootOnTrain(lootBtn, tr.getCarTypeAsString(), tr.getCarFloorAsString());
-            }
-            catch(Exception e){
-                Debug.Log("roodwhiskewy");
-                w = (Whiskey) l;
-                Button lootBtn = availLoot(w.getWhiskeyTypeAsString(), l);
-                buttonToObject[lootBtn] = l;
-                Debug.Log("casting as Whiskey");
-                placeLootOnTrain(lootBtn, tr.getCarTypeAsString(), tr.getCarFloorAsString());
-            }
-            }
-        }
+        // foreach(TrainUnit tr in gm.trainRoof){
+        //     foreach(Loot l in tr.getLootHere()){
+        //     try{
+        //         Debug.Log("ROOD1wq");
+        //         m = (Money) l;
+        //         Button lootBtn = availLoot(m.getMoneyTypeAsString(), l);
+        //         buttonToObject[lootBtn] = l;
+        //         Debug.Log("casting as Money");
+        //         placeLootOnTrain(lootBtn, tr.getCarTypeAsString(), tr.getCarFloorAsString());
+        //     }
+        //     catch(Exception e){
+        //         Debug.Log("roodwhiskewy");
+        //         w = (Whiskey) l;
+        //         Button lootBtn = availLoot(w.getWhiskeyTypeAsString(), l);
+        //         buttonToObject[lootBtn] = l;
+        //         Debug.Log("casting as Whiskey");
+        //         placeLootOnTrain(lootBtn, tr.getCarTypeAsString(), tr.getCarFloorAsString());
+        //     }
+        //     }
+        // }
 
-        foreach(TrainUnit tc in gm.trainCabin){
-        foreach(Loot l in tc.getLootHere()){
-            try{
-                Debug.Log("cabin assign");
-                m = (Money) l;
-                Button lootBtn = availLoot(m.getMoneyTypeAsString(), l);
-                buttonToObject[lootBtn] = l;
-                Debug.Log("casting as Money");
-                placeLootOnTrain(lootBtn, tc.getCarTypeAsString(), tc.getCarFloorAsString());
-            }
-            catch(Exception e){
+        // foreach(TrainUnit tc in gm.trainCabin){
+        // foreach(Loot l in tc.getLootHere()){
+        //     try{
+        //         Debug.Log("cabin assign");
+        //         m = (Money) l;
+        //         Button lootBtn = availLoot(m.getMoneyTypeAsString(), l);
+        //         buttonToObject[lootBtn] = l;
+        //         Debug.Log("casting as Money");
+        //         placeLootOnTrain(lootBtn, tc.getCarTypeAsString(), tc.getCarFloorAsString());
+        //     }
+        //     catch(Exception e){
 
-                Debug.Log("cabin wiskey assign");
-                w = (Whiskey) l;
-                Button lootBtn = availLoot(w.getWhiskeyTypeAsString(), l);
-                buttonToObject[lootBtn] = l;
-                Debug.Log("casting as Whiskey");
-                placeLootOnTrain(lootBtn, tc.getCarTypeAsString(), tc.getCarFloorAsString());
-            }
-            }
-        }
+        //         Debug.Log("cabin wiskey assign");
+        //         w = (Whiskey) l;
+        //         Button lootBtn = availLoot(w.getWhiskeyTypeAsString(), l);
+        //         buttonToObject[lootBtn] = l;
+        //         Debug.Log("casting as Whiskey");
+        //         placeLootOnTrain(lootBtn, tc.getCarTypeAsString(), tc.getCarFloorAsString());
+        //     }
+        //     }
+        // }
 
 
 
