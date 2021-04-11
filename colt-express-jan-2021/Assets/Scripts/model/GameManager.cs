@@ -26,7 +26,7 @@ namespace model {
         public Marshal marshalInstance;
         //  CONVENTION FOR DECK: POSITION DECK(SIZE) IS TOP OF DECK, DECK(0) IS BOTTOM OF DECK
         public PlayedPile playedPileInstance;
-        //  CONVENTION FOR TRAIN: POSITION TRAIN(0) IS LOCOMOTIVE, TRAIN(TRAINLENGTH) IS CABOOSE
+        //  CONVENTION FOR TRAIN: POSITION TRAIN(0) IS LOCOMOTIVE, TRAIN(TRAINLENGTH - 1) IS CABOOSE
         public ArrayList trainRoof;
         public ArrayList trainCabin;
         public ArrayList stagecoach;
@@ -44,7 +44,7 @@ namespace model {
         public void playTurn() {
             Debug.Log("playing turn");
             Debug.Log("currentbandit: "+ currentBandit.getCharacter());
-            if(currentBandit.getCharacter().Equals(ChooseCharacter.character) | TestGame.testing) {
+            //if(currentBandit.getCharacter().Equals(ChooseCharacter.character) | TestGame.testing) {
             
                 Debug.Log("my turn");
                 GameBoard.setMyTurn(true);
@@ -57,8 +57,8 @@ namespace model {
                             else{
                                 currentBandit.drawCards(6);
                             }
-                        //currentBandit.updateOtherDecks();
-                        //currentBandit.updateOtherHands();
+                        currentBandit.updateOtherDecks();
+                        currentBandit.updateOtherHands();
                         }
                     }
                     Debug.Log("calling prompt");
@@ -68,7 +68,7 @@ namespace model {
                     this.resolveAction(this.currentBandit.getToResolve());
                 }
             
-            }
+           //}
             
         }
         
@@ -352,7 +352,7 @@ namespace model {
             GameBoard.setMyTurn(false);
             Debug.Log("ended turn");
             if(!TestGame.testing) {
-                GameBoard.SendNewGameState(message);   
+                //GameBoard.SendNewGameState(message);   
             }
         }
         
@@ -819,7 +819,7 @@ namespace model {
                     this.currentBandit.addLoot(dropped);
                 }
                 else{
-                    this.currentBandit.getPosition().addLoot(dropped);
+                    punched.getPosition().addLoot(dropped);
                 }
 			}
 			knockedTo.addBandit(punched);
@@ -1111,7 +1111,7 @@ namespace model {
                 }
             }
 
-            if (marshalPosition != (TrainUnit)this.trainCabin[trainLength])
+            if (marshalPosition != (TrainUnit)this.trainCabin[trainLength-1])
             {
                 TrainUnit rightOfMP = marshalPosition.getRight();
                 marshal.setMarshalPosition(rightOfMP);
@@ -1138,7 +1138,7 @@ namespace model {
                 }
                 if (isRoof)
                 {
-                    b.setPosition((TrainUnit)this.trainRoof[trainLength]);
+                    b.setPosition((TrainUnit)this.trainRoof[trainLength-1]);
                 }
             }
         }
@@ -1270,7 +1270,7 @@ namespace model {
         {
             if (this.sizeOfBandits() <= 4)
             {
-                for (int index = trainLength; index > 0; index--)
+                for (int index = trainLength-1; index > 0; index--)
                 {
                     TrainUnit trainunit = (TrainUnit)this.trainCabin[index];
                     ArrayList horsesHere = trainunit.getHorsesHere();
@@ -1284,7 +1284,7 @@ namespace model {
             else
             {
                 int num = 0;
-                for (int index = trainLength; index > 0; index--)
+                for (int index = trainLength-1; index > 0; index--)
                 {
                     if (num == 2)
                     {
@@ -1323,7 +1323,7 @@ namespace model {
                 {
                     int index = 0;
                     index = trainCabin.IndexOf(marshalPosition);
-                    for (int i = index; i < trainLength + 1; i++)
+                    for (int i = index; i < trainLength; i++)
                     {
                         TrainUnit RightOfMP = marshalPosition.getRight();
                         marshal.setMarshalPosition(RightOfMP);
