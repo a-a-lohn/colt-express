@@ -291,17 +291,6 @@ public class Bandit implements SerializableSFSType {
 		}
 	}
 	
-	public void createHand() {
-		System.out.println("create hand is called");
-		Collections.shuffle(this.deck, new Random(System.currentTimeMillis()));
-		for (int i =0; i<6; i++) {
-			Card c = this.deck.get(0);
-			this.hand.add(c);
-			this.deck.remove(c);
-		}
-		updateOtherDecks();
-		updateOtherHands();
-	}
 
 	public void createBulletCards() {
 

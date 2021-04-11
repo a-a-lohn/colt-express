@@ -16,6 +16,6 @@
 // namespace model {
 //     public enum MoneyType
 //     {
-//         PURSE, STRONGBOX, RUBY
+//         PURSE, STRONGBOX, JEWEL
 //     }
 // }

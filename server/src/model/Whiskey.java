@@ -20,7 +20,12 @@ public class Whiskey extends Loot implements SerializableSFSType {
     //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
     public Whiskey() { }
 
-    
+    public Whiskey(WhiskeyType w) {
+    	this.whiskeyType = w;
+    	this.whiskeyTypeAsString = w.name();
+    	this.whiskeyStatus = WhiskeyStatus.UNFLIPPED;
+    	this.whiskeyStatusAsString = whiskeyStatus.name();
+    }
     /**
      * --GETTERS AND SETTERS--
      */

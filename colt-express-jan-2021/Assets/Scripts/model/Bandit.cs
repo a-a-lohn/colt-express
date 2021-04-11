@@ -178,47 +178,6 @@ namespace model {
 		    this.consecutiveTurnCounter = i;
 	    }
         
-
-        //initializing methods
-        public void createStartingCards() {
-            string[] actions= {"MOVE", "MOVE", "CHANGE_FLOOR","CHANGE_FLOOR", "MOVE_MARSHAL", "PUNCH", "ROB", "ROB", "SHOOT","SHOOT"};
-            for (int i = 0; i<actions.Length; i++) {
-                Card c = new ActionCard (actions[i], this.characterAsString);
-                this.deck.Add(c);
-            }
-        }
-        
-        public void createHand() {
-            this.shuffle();
-            for (int i = 0; (i < 6); i++) {
-                Card c = (Card)this.deck[0];
-                this.hand.Add(c);
-                this.deck.Remove(c);
-            }
-            
-        }
-        
-        public void createBulletCards() {
-            BulletCard bc1 = new BulletCard(this.characterAsString);
-            BulletCard bc2 = new BulletCard(this.characterAsString);
-            BulletCard bc3 = new BulletCard(this.characterAsString);
-            BulletCard bc4 = new BulletCard(this.characterAsString);
-            BulletCard bc5 = new BulletCard(this.characterAsString);
-            BulletCard bc6 = new BulletCard(this.characterAsString);
-            this.bullets.Add(bc1);
-            this.bullets.Add(bc2);
-            this.bullets.Add(bc3);
-            this.bullets.Add(bc4);
-            this.bullets.Add(bc5);
-            this.bullets.Add(bc6);
-        }
-        
-        public void createStartingPurse() {
-            Money startingPurse = new Money("PURSE", 250); 
-            this.loot.Add(startingPurse);
-        }
-
-        //TODO: combine this game manager
         public void clearHand(){
             foreach (Card c in this.hand){
                 this.deck.Add(c);
