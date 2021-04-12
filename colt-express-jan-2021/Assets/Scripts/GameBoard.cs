@@ -31,7 +31,7 @@ public class GameBoard : MonoBehaviour
 {
     private static RestClient client = new RestClient("http://13.72.79.112:4242");
     public static string gameHash = WaitingRoom.gameHash;
-    public static string savegameId = null;
+    // public static string savegameId = null;
     public bool started = false;
 
     public Button chat;
@@ -140,12 +140,6 @@ public class GameBoard : MonoBehaviour
     public Button whiskey5;
     public Button whiskey6;
 
-<<<<<<< HEAD
-=======
-    //public Button horseBtnOne;
-    //public Button horseBtnTwo;
-
->>>>>>> 637846a3830c7434d7ae930caa6bf08499c724a4
     public GameObject bulletCard;
 
     // propmpt messages 
@@ -169,12 +163,12 @@ public class GameBoard : MonoBehaviour
     private List<Button> goGHOSTBulletCards; 
 
     // a list of action cards for each and every bandit's hand 
-    private List<Button> goBELLEHand; 
-    private List<Button> goCHEYENNEHand; 
-    private List<Button> goDOCHand; 
-    private List<Button> goGHOSTHand; 
-    private List<Button> goTUCOHand; 
-    private List<Button> goDJANGOHand; 
+    // private List<Button> goBELLEHand; 
+    // private List<Button> goCHEYENNEHand; 
+    // private List<Button> goDOCHand; 
+    // private List<Button> goGHOSTHand; 
+    // private List<Button> goTUCOHand; 
+    // private List<Button> goDJANGOHand; 
 
 
     private List<GameObject> clickableGOs; 
@@ -282,17 +276,6 @@ public class GameBoard : MonoBehaviour
         Debug.Log("bel belStrGo: " + belStrGo.transform.position); 
         Debug.Log("bel belPurGo: " + belPurGo.transform.position); 
         belleWhisGO.transform.position = new Vector3 (belWhi[0], belWhi[1], belWhi[2]);
-        //Invoke("LeaveRoom",5);
-        /*if (SFS.getSFS() == null) {
-            // Initialize SFS2X client. This can be done in an earlier scene instead
-            SmartFox sfs = new SmartFox();
-            // For C# serialization
-            DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
-            SFS.setSFS(sfs);
-        }
-        if (!SFS.IsConnected()) {
-            SFS.Connect("test");
-        }*/
 
         if(!returningFromChat) {
             currentRoundText.text = "";
@@ -304,8 +287,9 @@ public class GameBoard : MonoBehaviour
             addAllBandits();
             SFS.setGameBoard();
             initMap();
+
+            resetGB();
         }
-        if(returningFromChat) Debug.Log("returning from chat");
         EnterGameBoardScene();
     }
 
@@ -1091,6 +1075,8 @@ public class GameBoard : MonoBehaviour
     }
 
     public void LeaveRoom() {
+        ChooseCharacter.RemoveLaunchedSession();
+        returningFromChat = false;
         SFS.LeaveRoom();
     }
 
@@ -1132,7 +1118,20 @@ public class GameBoard : MonoBehaviour
     }
 
 
-
+    private void resetGB() {
+        gameHash = WaitingRoom.gameHash;
+        returningFromChat = false;
+        newAction = false;
+        newAction = false;
+        myTurn = false;
+        playingBandits = new List<Button>();
+        allGem = new List<Button>();
+        allPurse = new List<Button>();
+        allBox = new List<Button>();
+        allWhiskey = new List<Button>();
+        canDrawCards = false;
+        calledMapTrain = false;
+    }
 
     /*
     *

@@ -40,19 +40,19 @@ public class ChooseCharacter : MonoBehaviour
 
 
     // debugging variables
-    public Text selected;
-    public static string debugText;
+    // public Text selected;
+    // public static string debugText;
     //public Button button;
 
     public Text display;
     public Text info;
 
-    private static bool alreadyCalled = false;
+    private static bool alreadyCalled;
 
     private static RestClient client = new RestClient("http://13.72.79.112:4242");
 
     //SAVE THE CHOSEN CHARACTER IN THIS STRING SO IT CAN BE USED BY GAMEMANAGER
-    public static string character = "";
+    public static string character;
 
     // BOOLEANS FOR CHARACTER AVAILABILITY
     public bool BelleIsAvailable; 
@@ -75,6 +75,8 @@ public class ChooseCharacter : MonoBehaviour
             //        //  btn.interactable = false; 
             //     }
         //////
+        character = "";
+        alreadyCalled = false;
 
         info.text = "You will be brought to the game once all " + WaitingRoom.numPlayers + " players have chosen a character!";
         display.text = "";
@@ -149,7 +151,7 @@ public class ChooseCharacter : MonoBehaviour
  	}
 
     public static void trace(string msg) {
-		debugText += (debugText != "" ? "\n" : "") + msg;
+		//debugText += (debugText != "" ? "\n" : "") + msg;
 	}
 
 	public void EnterChooseCharacterScene() {

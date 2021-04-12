@@ -80,6 +80,8 @@ public class WaitingRoom : MonoBehaviour
         SavedSessionButtonB.interactable = false;
         DeleteButton.interactable = false;
 
+        SetFields();
+
         GetSessions();
 
         //TODO:
@@ -117,6 +119,17 @@ public class WaitingRoom : MonoBehaviour
         - do not allow for more than 2/3 savegames to ever be created
         - add savegame api call logic to a 'settings' scene--no savegames are created in WR
         */
+    }
+
+    void SetFields() {
+        gameHash = null;
+        joined = false;
+        hosting = false;
+        numSessions = 0;
+        intentToDelete = false;
+
+        hashes = new Dictionary<Button, string>();
+        saveMap = new Dictionary<Button, string>();
     }
 
     // Update is called once per frame
@@ -210,6 +223,8 @@ public class WaitingRoom : MonoBehaviour
         //HostGameButton.interactable = false;
         joined = true;
         InfoText.text = "You will be brought to the next scene once the host launches the game!";
+        
+        SFS.JoinRoom();
     }
 
     public void CreateSession(Text savegameID)
@@ -234,6 +249,8 @@ public class WaitingRoom : MonoBehaviour
             hosting = true;
             joined = true;
             InfoText.text = "You will be brought to the next scene once you launch your game!";
+
+            SFS.JoinRoom();
         }
     }
 

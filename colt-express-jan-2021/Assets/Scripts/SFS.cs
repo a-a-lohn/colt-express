@@ -42,7 +42,7 @@ public static class SFS
 	public static int trainIndex = 1;
 
     static SFS(){
-        defaultHost = "13.72.79.112";//"127.0.0.1";
+        defaultHost = "127.0.0.1";//"13.72.79.112";//"127.0.0.1";
 	    defaultTcpPort = 9933;
         zone = "MergedExt";
     }
@@ -289,7 +289,9 @@ public static class SFS
 
 		// Populate Room list
 		populateRoomList(sfs.RoomList);*/
+	}
 
+	public static void JoinRoom() {
 		// Join first Room in Zone
 		if (sfs.RoomList.Count > 0) {
 			sfs.Send(new Sfs2X.Requests.JoinRoomRequest(sfs.RoomList[0].Name));
