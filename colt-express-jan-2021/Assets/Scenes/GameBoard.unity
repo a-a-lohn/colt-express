@@ -2549,7 +2549,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Horse Button1
+  m_Text: 'Yes
+
+'
 --- !u!222 &316276647
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2646,11 +2648,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1013407373}
         m_TargetAssemblyTypeName: GameBoard, Assembly-CSharp
-        m_MethodName: horseBtnTwoClicked
-        m_Mode: 1
+        m_MethodName: horseBtnClicked
+        m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
           m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
@@ -8614,7 +8616,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Horse Attack!
+  m_Text: 
 --- !u!222 &683461269
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8813,9 +8815,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Horse Button2
-
-'
+  m_Text: No
 --- !u!222 &706906107
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10329,7 +10329,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1013407372}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -11772,11 +11772,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1013407373}
         m_TargetAssemblyTypeName: GameBoard, Assembly-CSharp
-        m_MethodName: horseBtnOneClicked
-        m_Mode: 1
+        m_MethodName: horseBtnClicked
+        m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
           m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
@@ -12315,8 +12315,6 @@ MonoBehaviour:
   whiskey4: {fileID: 2055807857}
   whiskey5: {fileID: 917783894}
   whiskey6: {fileID: 1802947024}
-  horseBtnOne: {fileID: 0}
-  horseBtnTwo: {fileID: 0}
   bulletCard: {fileID: 1838625225}
   promptDrawCardsOrPlayCardMsg: {fileID: 571799349}
   promptChooseLoot: {fileID: 571799349}
