@@ -140,9 +140,6 @@ public class GameBoard : MonoBehaviour
     public Button whiskey5;
     public Button whiskey6;
 
-    public Button horseBtnOne;
-    public Button horseBtnTwo;
-
     public GameObject bulletCard;
 
     // propmpt messages 
