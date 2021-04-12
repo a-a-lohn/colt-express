@@ -58,8 +58,6 @@ namespace model {
                             else{
                                 currentBandit.drawCards(6);
                             }
-                        //currentBandit.updateOtherDecks();
-                        //currentBandit.updateOtherHands();
                         }
                     }
                     Debug.Log("calling prompt");
@@ -77,7 +75,7 @@ namespace model {
             Debug.Log("setting 'it works' from prompt");
             
             GameBoard.clickable = currentBandit.getHand();
-            GameBoard.enableDrawCardsButton();
+            if(currentBandit.getHand().Count > 0) GameBoard.enableDrawCardsButton();
             GameBoard.setNextAction("Play a card or draw 3 cards");
             
             // ASSIGN THIS ATTRIBUTE ACCORDINGLY IN EVERY PROMPT;
@@ -85,42 +83,49 @@ namespace model {
         }
 
         public void resolveAction(ActionCard toResolve) {
-            PlayedPile.getInstance().removePlayedCard(toResolve);
+           // PlayedPile.getInstance().removePlayedCard(toResolve);
+            playedPileInstance.removePlayedCard(toResolve);
             currentBandit.addToDeck(toResolve);
 
             if (currentBandit.toResolve.getActionTypeAsString().Equals("CHANGEFLOOR")) {
                 TestGame.prompt = "Changing floor";
+                GameBoard.setNextAction("Changing floors");
                 currentBandit.setToResolve(null);
                 this.changeFloor();
             }
             else if (currentBandit.toResolve.getActionTypeAsString().Equals("MARSHAL")) {
-                TestGame.prompt = "Choose a position for the marshall";
+                TestGame.prompt = "Choose a position for the marshal";
+                GameBoard.setNextAction("Choose a position for the marshal");
                 currentBandit.setToResolve(null);
                 moveMarshalPrompt(calculateMoveMarshal());
             }
             else if (currentBandit.toResolve.getActionTypeAsString().Equals("MOVE")) {
                 TestGame.prompt = "Choose a position to move";
-                currentBandit.setToResolve(null);
+                GameBoard.setNextAction("Choose a position to move");
                 currentBandit.setToResolve(null);
                 movePrompt(calculateMove());
             }
             else if (currentBandit.toResolve.getActionTypeAsString().Equals("PUNCH")) {
                 TestGame.prompt = "Choose a bandit to punch";
+                GameBoard.setNextAction("Choose a bandit to punch");
                 currentBandit.setToResolve(null);
                 punchPrompt(calculatePunch());
             }
             else if (currentBandit.toResolve.getActionTypeAsString().Equals("ROB")) {
                 TestGame.prompt = "Choose a loot to rob";
+                GameBoard.setNextAction("Choose a loot to rob");
                 currentBandit.setToResolve(null);
                 robPrompt(calculateRob());
             }
             else if (currentBandit.toResolve.getActionTypeAsString().Equals("SHOOT")) {
                 TestGame.prompt = "Choose a bandit to shoot";
+                GameBoard.setNextAction("Choose a bandit to shoot");
                 currentBandit.setToResolve(null);
                 shootPrompt(calculateShoot());
             }
             else if(currentBandit.toResolve.getActionTypeAsString().Equals("RIDE")){
                  TestGame.prompt = "Choose a position to ride";
+                 GameBoard.setNextAction("Choose a position to ride");
                 currentBandit.setToResolve(null);
                 ridePrompt(calculateRide());
             }
@@ -144,8 +149,9 @@ namespace model {
             }
             
             //  Assign card to played pile
-            PlayedPile pile = PlayedPile.getInstance();
-            pile.addPlayedCards(c);
+            //PlayedPile pile = PlayedPile.getInstance();
+            //pile.addPlayedCards(c);
+            playedPileInstance.addPlayedCards(c);
             Debug.Log("played card, ending turn");
             string message;
             if(c.getFaceDown()) {
@@ -162,7 +168,7 @@ namespace model {
         public void drawCards(int cardsToDraw) {
             Debug.Log("Reached gm drawCards");
             currentBandit.drawCards(cardsToDraw);
-            this.endOfTurn(currentBandit.characterAsString + " drew 3 cards");
+            this.endOfTurn(currentBandit.characterAsString + " drew cards");
         }
 
         public void promptPlayFaceUpOrFaceDown(ActionCard c){
@@ -180,7 +186,11 @@ namespace model {
             endOfTurn("use the endOfTurn method that takes a string arg instead indicating the what happened on that turn");
          }
 
-        public void endOfTurn(string message) {
+         public void endOfTurn(string message) {
+            endOfTurn(message, false);
+         }
+
+        public void endOfTurn(string message, bool noAction) {
             //  SCHEMIN PHASE
             if (this.strGameStatus.Equals("SCHEMIN")) {
                 string currentTurnType = this.currentRound.getCurrentTurn().getTurnTypeAsString();
@@ -326,10 +336,10 @@ namespace model {
 
             if (this.strGameStatus.Equals("STEALIN")) {
                 ActionCard toResolve = this.playedPileInstance.takeTopCard();
-                Debug.Log("toresolve string: " + toResolve.actionTypeAsString);
+                Debug.Log("toresolve string for NEXT card: " + toResolve.actionTypeAsString);
                 if (toResolve != null) {
                     Bandit b = toResolve.getBelongsTo();
-                    Debug.Log("toresolve belongsto: " + b.characterAsString);
+                    Debug.Log("toresolve belongsto for NEXT card: " + b.characterAsString);
                     this.currentBandit = toResolve.getBelongsTo();
                     this.currentBandit.setToResolve(toResolve);
                 }
@@ -348,12 +358,19 @@ namespace model {
                 }
                 
             }
+            //playedPileInstance = PlayedPile.getInstance();
+            marshalInstance = Marshal.getInstance();
             //currentBandit.updateOtherDecks();
             //currentBandit.updateOtherHands();
-            GameBoard.setMyTurn(false);
-            Debug.Log("ended turn");
+            
+            Debug.Log("ending turn");
             if(!TestGame.testing) {
-                GameBoard.SendNewGameState(message);   
+                if(noAction) {
+                    GameBoard.setNoAction(message);
+                } else {
+                    GameBoard.setMyTurn(false);
+                    GameBoard.SendNewGameState(message);
+                }
             }
         }
         
@@ -363,7 +380,7 @@ namespace model {
         
         public static GameManager getInstance() {
             GameManager gm = null;
-            if ((singleton == null)) {
+            if (singleton == null) {
                 gm = new GameManager();
             }
             else {
@@ -844,8 +861,8 @@ namespace model {
             else if (currentPosition.getAbove() != null) {
                 currentBandit.setPosition(currentPosition.getAbove());
             }
-            
-            this.endOfTurn();
+            TrainUnit newpos = (TrainUnit)banditPositions[currentBandit.characterAsString];
+            this.endOfTurn(currentBandit.getCharacter() + " changed floors to the " + newpos.getCarFloorAsString() + " of " + newpos.getCarTypeAsString(), true);
             // might have to put this in an if else block for cases like SpeedingUp/Whiskey
         }
         
@@ -915,7 +932,10 @@ namespace model {
         
 	    public void moveMarshal(TrainUnit targetPosition) {
 		    Marshal marshal = Marshal.getInstance();
+            TrainUnit oldp = marshal.getMarshalPosition();
+            oldp.setIsMarshalHere(false);
 		    marshal.setMarshalPosition(targetPosition);
+            targetPosition.setIsMarshalHere(true);
 		    foreach (Bandit b in this.getBandits()) {
 		    	if (b.getPosition() == targetPosition) {
 			    	b.shotByMarhsal();

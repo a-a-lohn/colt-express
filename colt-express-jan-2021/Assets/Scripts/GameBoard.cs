@@ -49,13 +49,21 @@ public class GameBoard : MonoBehaviour
     public static string action = "";
     public Text actionText;
     private static bool newAction = false;
+    public Text currentRoundText;
+    public Text turnNum;
+    public Text currentPlayer;
+    public Text gameStatus;
+    public Text resolveCard;
+    public Button proceed;
+    static bool noAction;
+    static string heldMessage;
+
     public Text log;
     int logCounter = 0;
 
     public static bool myTurn = false;
 
     public static void setMyTurn(bool turn) {
-        //Debug.Log("Your turn!");
         myTurn = turn;
     }
 
@@ -64,12 +72,15 @@ public class GameBoard : MonoBehaviour
         newAction = true;
     }
 
+    public static void setNoAction(string message) {
+        noAction = true;
+        heldMessage = message;
+    }
+
     public GameObject canvas;
 
     public Text exitText;
     
-    //public Bandit b;
-
     public static GameManager gm;
 
     // LIST OF ALL GAME buttonToObject HERE
@@ -140,9 +151,6 @@ public class GameBoard : MonoBehaviour
     public static Dictionary<Button, object> buttonToObject = new Dictionary<Button, object>();
 
     // public Text clickableGOsText;
-    public Text currentRoundText;
-    public Text turnNum;
-    public Text currentPlayer;
 
     private List<Button> goNeutralBulletCards;
 
@@ -180,6 +188,7 @@ public class GameBoard : MonoBehaviour
 
     public Button drawCardsButton;
     static bool canDrawCards = false;
+    //bool sleepInvoked = false;
     
     /* a card has 4 attributes */
     public Text handCardActionType1; 
@@ -267,6 +276,7 @@ public class GameBoard : MonoBehaviour
             log.text = "";
             currentPlayer.text = "";
             actionText.text = "";
+            resolveCard.text = "";
             addAllBandits();
             SFS.setGameBoard();
             initMap();
@@ -278,21 +288,20 @@ public class GameBoard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //makeEmptyCardsUninteractable();
-        // var selectedBanditName = EventSystem.current.currentSelectedGameObject;
-        //  if (selectedBanditName != null)
-        //      promptPunchTarget.text = "ahh" + selectedBanditName.name;
-        //  else
-        //      promptPunchTarget.text = "ahh NULLL POINTERR";
-
+        if(newAction) {
+            actionText.text = action;
+        }
+        if(noAction & proceed.interactable == false) {
+            actionText.text += ". Click to proceed";
+            proceed.interactable = true;
+        }
         if (SFS.IsConnected()) {
             SFS.ProcessEvents();
         }
 
         if (Input.GetMouseButtonDown(0)){
-            // MouseDown();
             Debug.Log("Clicked");
-            Debug.Log("currentbandit on mouse: "+ gm.currentBandit.getCharacter());
+            Debug.Log("currentbandit on mouse: " + gm.currentBandit.getCharacter());
         }
 
         if(myTurn) {
@@ -300,16 +309,23 @@ public class GameBoard : MonoBehaviour
         } else {
             currentPlayer.text = gm.currentBandit.characterAsString;
         }
-        if(newAction) {
-            actionText.text = action;
-        }
+    }
+
+    public void onProceed() {
+        Debug.Log("sending held game state");
+        setMyTurn(false);
+        noAction = false;
+        newAction = false;
+        actionText.text = "";
+        SendNewGameState(heldMessage);
+        heldMessage = "";
     }
 
     public void UpdateGameState(BaseEvent evt) {
         Debug.Log("updategamestate called");
         setAllClickable();
+        proceed.interactable = false;
         clearHand();
-        //makeEmptyCardsUninteractable();
 
         ISFSObject responseParams = (SFSObject)evt.Params["params"];
         string logStr = responseParams.GetUtfString("log") + "\n\n";
@@ -318,7 +334,7 @@ public class GameBoard : MonoBehaviour
             if(logCounter % 3 == 0) {
                 log.text = logStr;
             } else {
-                log.text += logStr;   
+                log.text += logStr;
             }
         }
         
@@ -326,28 +342,8 @@ public class GameBoard : MonoBehaviour
         GameManager.replaceInstance(gm);
         reassignReferences();
 
-        if(gm.roundIndex ==  null) {
-            Debug.Log("gm.roundIndex ==  null");
-        }
-        if(gm.currentRound ==  null) {
-            Debug.Log(" gm.currentRound ==  null");
-        }
-        if(gm.currentRound.roundTypeAsString ==  null) {
-            Debug.Log("gm.currentRound.roundTypeAsString ==  null");
-        }
-        if(gm.currentRound.turns ==  null) {
-            Debug.Log("gm.currentRound.turns ==  null");
-        }
-        int num = gm.roundIndex+1;
-        currentRoundText.text = "Round #" + num + " - " + gm.currentRound.roundTypeAsString + "\n";
-        int ti = 1;
-        foreach(Turn t in gm.currentRound.turns) {
-            currentRoundText.text += "Turn " + ti + ": " + t.turnTypeAsString + "\n";
-            if(t.Equals(gm.currentRound.currentTurn)) {
-                turnNum.text = "Current turn #: " + ti;
-            }
-            ti++;
-        }
+        displayGameInfo();
+        
         
         //addAllBandits();
 
@@ -424,8 +420,8 @@ public class GameBoard : MonoBehaviour
                 int index = 0; 
                 ActionCard ac;
                 BulletCard bc;
-                Debug.Log("num of currcards: " + b.hand.Count);
-                Debug.Log("num of currcards b1: " + gm.currentBandit.hand.Count);
+                //Debug.Log("num of currcards: " + b.hand.Count);
+                //Debug.Log("num of currcards b1: " + gm.currentBandit.hand.Count);
                 foreach(Card currCard in b.hand){
                     try{
                         ac = (ActionCard) currCard;
@@ -451,7 +447,6 @@ public class GameBoard : MonoBehaviour
                 mapActionCards(handCard11, handCardActionType11);
             }
         }
-        //Debug.Log(SFS.step);
 
         Money m;
         Whiskey w;
@@ -466,22 +461,22 @@ public class GameBoard : MonoBehaviour
                 m = (Money) l;
                 if (m.moneyTypeAsString == "JEWEL"){
                 buttonToObject[allGem[gemCount]] = m;
-                Debug.Log("casting as Gem " + gemCount);
+                //Debug.Log("casting as Gem " + gemCount);
                 gemCount++;
                 } else if (m.moneyTypeAsString == "PURSE"){
                 buttonToObject[allPurse[purseCount]] = m;
-                Debug.Log("casting as Purse " + purseCount);
+                //Debug.Log("casting as Purse " + purseCount);
                 purseCount++;
                 } else if (m.moneyTypeAsString == "STRONGBOX"){
                 buttonToObject[allGem[boxCount]] = m;
-                Debug.Log("casting as Box " + boxCount);
+                //Debug.Log("casting as Box " + boxCount);
                 boxCount++;
                 }
             }
             catch(Exception e){
                 w = (Whiskey) l;
                 buttonToObject[allWhiskey[whiskeyCount]] = w;
-                Debug.Log("casting as Whiskey" + whiskeyCount);
+                //Debug.Log("casting as Whiskey" + whiskeyCount);
                 whiskeyCount++;
                 }
             }
@@ -494,17 +489,17 @@ public class GameBoard : MonoBehaviour
                 if (m.moneyTypeAsString == "JEWEL"){
                 buttonToObject[allGem[gemCount]] = m;
                 placeLootOnTrain(allGem[gemCount], tr.carTypeAsString, tr.carFloorAsString);
-                Debug.Log("casting as Gem " + gemCount);
+                //Debug.Log("casting as Gem " + gemCount);
                 gemCount++;
                 } else if (m.moneyTypeAsString == "PURSE"){
                 buttonToObject[allPurse[purseCount]] = m;
                 placeLootOnTrain(allPurse[purseCount], tr.carTypeAsString, tr.carFloorAsString);
-                Debug.Log("casting as Purse " + purseCount);
+                //Debug.Log("casting as Purse " + purseCount);
                 purseCount++;
                 } else if (m.moneyTypeAsString == "STRONGBOX"){
                 buttonToObject[allBox[boxCount]] = m;
                 placeLootOnTrain(allBox[boxCount], tr.carTypeAsString, tr.carFloorAsString);
-                Debug.Log("casting as Box" + boxCount);
+                //Debug.Log("casting as Box" + boxCount);
                 boxCount++;
                 }
             }
@@ -525,17 +520,17 @@ public class GameBoard : MonoBehaviour
                     if (m.moneyTypeAsString == "JEWEL"){
                     buttonToObject[allGem[gemCount]] = m;
                     placeLootOnTrain(allGem[gemCount], tc.carTypeAsString, tc.carFloorAsString);
-                    Debug.Log("casting as Gem " + gemCount);
+                   // Debug.Log("casting as Gem " + gemCount);
                     gemCount++;
                     } else if (m.moneyTypeAsString == "PURSE"){
                     buttonToObject[allPurse[purseCount]] = m;
                     placeLootOnTrain(allPurse[purseCount], tc.carTypeAsString, tc.carFloorAsString);
-                    Debug.Log("casting as Purse " + purseCount);
+                    //Debug.Log("casting as Purse " + purseCount);
                     purseCount++;
                     } else if (m.moneyTypeAsString == "STRONGBOX"){
                     buttonToObject[allBox[boxCount]] = m;
                     placeLootOnTrain(allBox[boxCount], tc.carTypeAsString, tc.carFloorAsString);
-                    Debug.Log("casting as Box" + boxCount);
+                    //Debug.Log("casting as Box" + boxCount);
                     boxCount++;
                     }
                 }
@@ -543,47 +538,53 @@ public class GameBoard : MonoBehaviour
                     w = (Whiskey) l;
                     buttonToObject[allWhiskey[whiskeyCount]] = w;
                     placeLootOnTrain(allWhiskey[whiskeyCount], tc.carTypeAsString, tc.carFloorAsString);
-                    Debug.Log("casting as Whiskey " + whiskeyCount);
+                    //Debug.Log("casting as Whiskey " + whiskeyCount);
                     whiskeyCount++;
                     }
                 }
         }
 
-
-
-
         gm.playTurn();
 
     }
 
-    void makeEmptyCardsUninteractable(){
-        // make all empty cards uninteractable 
-        if(handCardActionType1.text == ""){
-            handCard1.interactable = false;
-        }else if(handCardActionType2.text == ""){
-           handCard2.interactable = false;
-        }else if(handCardActionType3.text == ""){
-            handCard3.interactable = false;
-        }else if(handCardActionType4.text == ""){
-            handCard4.interactable = false;
-        }else if(handCardActionType5.text == ""){
-            handCard5.interactable = false;
-        }else if(handCardActionType6.text == ""){
-            handCard6.interactable = false;
-        }else if(handCardActionType7.text == ""){
-            handCard7.interactable = false;
-        }else if(handCardActionType8.text == ""){
-            handCard8.interactable = false;
-        }else if(handCardActionType9.text == ""){
-            handCard9.interactable = false;
-        }else if(handCardActionType10.text == ""){
-            handCard10.interactable = false;
-        }else if(handCardActionType11.text == ""){
-            handCard11.interactable = false;
+    void displayGameInfo() {
+        gameStatus.text = gm.getGameStatus();
+        if(gm.currentBandit.getToResolve() != null) {
+            resolveCard.text = gm.currentBandit.getToResolve().getActionTypeAsString();
+        }
+        if(gm.roundIndex ==  null) {
+            Debug.Log("gm.roundIndex ==  null");
+        }
+        if(gm.currentRound ==  null) {
+            Debug.Log(" gm.currentRound ==  null");
+        }
+        if(gm.currentRound.roundTypeAsString ==  null) {
+            Debug.Log("gm.currentRound.roundTypeAsString ==  null");
+        }
+        if(gm.currentRound.turns ==  null) {
+            Debug.Log("gm.currentRound.turns ==  null");
+        }
+        int num = gm.roundIndex+1;
+        currentRoundText.text = "Round #" + num + " - " + gm.currentRound.roundTypeAsString + "\n";
+
+        if(gm.getGameStatus() == "STEALIN") {
+            turnNum.text = "";
+        } else {
+            int ti = 1;
+            foreach(Turn t in gm.currentRound.turns) {
+                currentRoundText.text += "Turn " + ti + ": " + t.turnTypeAsString + "\n";
+                if(t.Equals(gm.currentRound.currentTurn)) {
+                    turnNum.text = "Current turn #: " + ti;
+                }
+                ti++;
+            }
         }
     }
 
     void reassignReferences() {
+        if(gm.playedPileInstance == null) gm.playedPileInstance = PlayedPile.getInstance();
+        Marshal.instance = gm.marshalInstance;
         gm.currentRound = (Round)gm.rounds[gm.roundIndex];
         foreach(Round r in gm.rounds) {
             if(r.turns ==  null) Debug.Log("r.turns is null");
@@ -618,7 +619,8 @@ public class GameBoard : MonoBehaviour
     public void drawCardsClicked() {
         if(canDrawCards) {
             canDrawCards = false;
-            gm.drawCards(3);
+            if(gm.currentBandit.getDeck().Count >= 3) gm.drawCards(3);
+            else gm.drawCards(gm.currentBandit.getDeck().Count);
             newAction = false;
             actionText.text = "";
             Debug.Log("drawing cards");
@@ -850,37 +852,6 @@ public class GameBoard : MonoBehaviour
     //  }
     // }
 
-    // public void mapBanditPositions(GameManager gm){
-    //  foreach(TrainUnit cabin in gm.trainCabin){
-    //      ArrayList occupied = cabin.getBanditsHere();
-    //      foreach(Bandit b in occupied) {
-
-    //          TrainUnit t = b.getPosition();
-    //          Button button = buttonToObject.FirstOrDefault(x => x.Value.Equals(t)).Key;
-
-    //          if(b.getCharacter().ToLower() == "belle"){
-    //              Vector3 temp = button.transform.position;
-    //              belle.transform.position = temp; // might need a delta function here 
-    //          } else if(b.getCharacter().ToLower() == "cheyenne"){
-    //              Vector3 temp = button.transform.position;
-    //              cheyenne.transform.position = temp;
-    //          } else if(b.getCharacter().ToLower() == "django"){
-    //              Vector3 temp = button.transform.position;
-    //              django.transform.position = temp;
-    //          }else if(b.getCharacter().ToLower() == "doc"){
-    //              Vector3 temp = button.transform.position;
-    //              doc.transform.position = temp;
-    //          }else if(b.getCharacter().ToLower() == "ghost"){
-    //              Vector3 temp = button.transform.position;
-    //              cheyenne.transform.position = temp;
-    //          }else if(b.getCharacter().ToLower() == "tuco"){
-    //              Vector3 temp = button.transform.position;
-    //              cheyenne.transform.position = temp;
-    //          }   
-    //      }
-    //      }    
-    // }
-
     public void mapTrain(GameManager gm){
         int index = 0;
         foreach(object oneRoof in gm.trainRoof){
@@ -908,8 +879,9 @@ public class GameBoard : MonoBehaviour
                 TrainUnit tu = (TrainUnit)gm.banditPositions[b.characterAsString];
                 if(tc.containsBandit(b)){
                     placeBanditAt(b, tu.carTypeAsString, tu.carFloorAsString);
-                };
+                }
             }
+            if(tc.getIsMarshalHere()) placeMarshalAt(tc.carTypeAsString);
         }
     }
 
@@ -966,6 +938,24 @@ public class GameBoard : MonoBehaviour
             }
         }
 
+    }
+
+    public void placeMarshalAt(string cartype){
+        if(cartype == "LOCOMOTIVE"){
+            marshal.transform.position = new Vector3 (locBtm[0], locBtm[1], locBtm[2]);
+        }else if(cartype == "CAR1"){
+            marshal.transform.position = new Vector3 (oneBtm[0], oneBtm[1], oneBtm[2]);
+        }else if(cartype == "CAR2"){
+            marshal.transform.position = new Vector3 (twoBtm[0], twoBtm[1], twoBtm[2]);
+        }else if(cartype == "CAR3"){
+            marshal.transform.position = new Vector3 (threeBtm[0], threeBtm[1], threeBtm[2]);
+        }else if(cartype == "CAR4"){
+            marshal.transform.position = new Vector3 (fourBtm[0], fourBtm[1], fourBtm[2]);
+        }else if(cartype == "CAR5"){
+            marshal.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+        }else if(cartype == "CAR6"){
+            marshal.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+        }
     }
 
 
@@ -1043,14 +1033,6 @@ public class GameBoard : MonoBehaviour
             aBtn.interactable = true; 
         }
     }
-
-    // public static bool isMyTurn() {
-    //     if(gm.currentBandit.getCharacter().Equals(ChooseCharacter.character)){
-    //         return true;
-    //     }
-    //     return false;
-    // }
-
 
     public void mapActionCards(Button button, Text buttonText){
 
