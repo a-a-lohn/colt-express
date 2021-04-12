@@ -109,10 +109,10 @@ public static class SFS
 		} else if (cmd == "updateGameState") {
 			GameManager gm = GameManager.getInstance();
             gb.UpdateGameState(evt);
-			// if (gb.started==false) {
-			// 	gb.promptHorseAttack(trainIndex);
-			//  	trainIndex++;
-			// }
+			 if (gb.started==false) {
+			 	gb.promptHorseAttack(trainIndex);
+			  	trainIndex++;
+			 }
         } else if (cmd == "nextAction") {
 			ISFSObject responseParams = (SFSObject)evt.Params["params"];
 			step = responseParams.GetInt("step");
