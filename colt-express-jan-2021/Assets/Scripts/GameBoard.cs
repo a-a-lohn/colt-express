@@ -140,6 +140,12 @@ public class GameBoard : MonoBehaviour
     public Button whiskey5;
     public Button whiskey6;
 
+<<<<<<< HEAD
+=======
+    //public Button horseBtnOne;
+    //public Button horseBtnTwo;
+
+>>>>>>> 637846a3830c7434d7ae930caa6bf08499c724a4
     public GameObject bulletCard;
 
     // propmpt messages 
