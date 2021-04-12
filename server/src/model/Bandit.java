@@ -115,14 +115,14 @@ public class Bandit implements SerializableSFSType {
 		}
 		this.deck.add(index, a);
 		
-		updateOtherDecks();
+		//updateOtherDecks();
 	}
 
 	public Card removeDeckAt(int index) {
 		assert this.deck.size() > index;
 		Card c = this.deck.remove(index);
 		
-		updateOtherDecks();
+		//updateOtherDecks();
 		return c;
 	}
 
@@ -135,12 +135,12 @@ public class Bandit implements SerializableSFSType {
 
 	public void addDeck(Card a) {
 		this.deck.add(a);
-		updateOtherDecks();
+		//updateOtherDecks();
 	}
 
 	public void removeDeck(Card a) {
 		this.deck.remove(a);
-		updateOtherDecks();
+		//updateOtherDecks();
 	}
 
 	public boolean containsDeck(Card a) {
@@ -163,14 +163,14 @@ public class Bandit implements SerializableSFSType {
 			return;
 		}
 		hand.add(index, a);
-		updateOtherHands();
+		//updateOtherHands();
 	}
 
 	public void removeHandAt(int index) {
 		if (this.hand.size() > index){
 			this.hand.remove(index);
 		}
-		updateOtherHands();
+		//updateOtherHands();
 	}
 
 	public Card getHandAt(int index) {
@@ -183,12 +183,12 @@ public class Bandit implements SerializableSFSType {
 
 	public void addHand(Card a) {
 		this.hand.add(a);
-		updateOtherHands();
+		//updateOtherHands();
 	}
 
 	public void removeHand(Card a) {
 		this.hand.remove(a);
-		updateOtherHands();
+		//updateOtherHands();
 	}
 
 	public boolean containsHand(Card a) {
@@ -248,48 +248,49 @@ public class Bandit implements SerializableSFSType {
 		ActionCard acShoot2 = new ActionCard(ActionType.SHOOT, this.characterAsString);
 		ActionCard acRide = new ActionCard(ActionType.RIDE, this.characterAsString);
 
+		this.deck.add(acRide);
 		this.deck.add(acMove1);
-		this.deck.add(acMove2);
+		this.deck.add(acShoot1);
 		this.deck.add(acChangeFloor1);
-		this.deck.add(acChangeFloor2);
+		this.deck.add(acRob1);
 		this.deck.add(acMarshal);
 		this.deck.add(acPunch);
-		this.deck.add(acRob1);
+		this.deck.add(acMove2);
+		this.deck.add(acChangeFloor2);
 		this.deck.add(acRob2);
-		this.deck.add(acShoot1);
 		this.deck.add(acShoot2);
-		this.deck.add(acRide);
 		
-		updateOtherDecks();
+		
+		//updateOtherDecks();
 	}
 	
-	public void updateOtherDecks() {
-		deckAC.clear();
-		deckBC.clear();
-		for(Card c : deck) {
-			if(c instanceof ActionCard) {
-				System.out.println("Adding an action card");
-				deckAC.add((ActionCard) c);
-			} else {
-				System.out.println("Adding a bullet card");
-				deckBC.add((BulletCard) c);
-			}
-		}
-	}
-	
-	public void updateOtherHands() {
-		handAC.clear();
-		handBC.clear();
-		for(Card c : hand) {
-			if(c instanceof ActionCard) {
-				System.out.println("Adding an action card");
-				handAC.add((ActionCard) c);
-			} else {
-				System.out.println("Adding a bullet card");
-				handBC.add((BulletCard) c);
-			}
-		}
-	}
+//	public void updateOtherDecks() {
+//		deckAC.clear();
+//		deckBC.clear();
+//		for(Card c : deck) {
+//			if(c instanceof ActionCard) {
+//				System.out.println("Adding an action card");
+//				deckAC.add((ActionCard) c);
+//			} else {
+//				System.out.println("Adding a bullet card");
+//				deckBC.add((BulletCard) c);
+//			}
+//		}
+//	}
+//	
+//	public void updateOtherHands() {
+//		handAC.clear();
+//		handBC.clear();
+//		for(Card c : hand) {
+//			if(c instanceof ActionCard) {
+//				System.out.println("Adding an action card");
+//				handAC.add((ActionCard) c);
+//			} else {
+//				System.out.println("Adding a bullet card");
+//				handBC.add((BulletCard) c);
+//			}
+//		}
+//	}
 	
 
 	public void createBulletCards() {

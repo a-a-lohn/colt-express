@@ -140,7 +140,10 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 //		assert(bandits.size() > 1);
 //		
 //		// for testing purposes - shouldn't be any current bandit at the start of game (horse attack)
-		if(gm.currentBandit == null) gm.currentBandit = gm.bandits.get(0);
+		if(gm.currentBandit == null) {
+			System.out.println("current bandit is null");
+			gm.currentBandit = gm.bandits.get(0);
+		}
 		
 		updateGameStateSenderOnly(sender, rtn);
 	}
@@ -239,7 +242,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 					h.adjacentTo = tu;
 			}
 		}
-		if (ans.equals("n") && trainIndex == gm.bandits.size()-1) {
+		else if (ans.equals("n") && trainIndex == gm.bandits.size()-1) {
 			Bandit curr = gm.banditmap.get(sender);
 			TrainUnit tu = gm.trainCabin.get(trainIndex+1);
 			curr.setPosition(tu);

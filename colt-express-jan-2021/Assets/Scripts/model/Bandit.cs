@@ -57,7 +57,7 @@ namespace model {
         //position
         public TrainUnit getPosition() {
             GameManager gm = GameManager.getInstance();
-            TrainUnit pos = (TrainUnit)gm.banditPositions[this];
+            TrainUnit pos = (TrainUnit)gm.banditPositions[this.characterAsString];
             return (TrainUnit)pos;
         }
         public void setPosition(TrainUnit newObject) {
@@ -101,7 +101,7 @@ namespace model {
             this.deck.Insert(index, a);
         }
         public void removeFromDeckAt(int index) {
-            this.deck.Remove(index);
+            this.deck.RemoveAt(index);
         }
         public Card getFromDeckAt(int index) {
             if ((this.deck.Count > index)) {

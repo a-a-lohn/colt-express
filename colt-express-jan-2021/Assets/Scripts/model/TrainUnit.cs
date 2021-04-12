@@ -61,7 +61,7 @@ namespace model {
         
         // carFloorAsString
         public string getCarFloorAsString() {
-            return this.getCarFloorAsString();
+            return this.carFloorAsString;
         }
         
         public void setCarFloorAsString(string floor) {
@@ -216,11 +216,15 @@ namespace model {
         public ArrayList getBanditsHere() {
             GameManager gm = GameManager.getInstance();
             ArrayList bandits = new ArrayList();
-            foreach (Bandit b in gm.banditPositions) {
-                if (gm.banditPositions[b.characterAsString] == this) {
-                    bandits.Add(b);
+            foreach (Bandit b in gm.bandits) {
+                foreach (DictionaryEntry de in gm.banditPositions) {
+                    if (b.characterAsString == de.Key & gm.banditPositions[de.Key] == this) {
+                        bandits.Add(b);
+                        break;
+                    }
                 }
             }
+            
             return bandits;
         }
         
@@ -254,10 +258,10 @@ namespace model {
             this.isMarshalHere = b;
         }
         
-        public void moveMarshalTo(TrainUnit dest) {
-            this.isMarshalHere = false;
-            dest.isMarshalHere = true;
-        }
+        // public void moveMarshalTo(TrainUnit dest) {
+        //     this.isMarshalHere = false;
+        //     dest.isMarshalHere = true;
+        // }
 
         public ArrayList getHorsesHere(){
             GameManager gm = GameManager.getInstance();
