@@ -140,6 +140,9 @@ public class GameBoard : MonoBehaviour
     public Button whiskey5;
     public Button whiskey6;
 
+    public Button horseBtnOne;
+    public Button horseBtnTwo;
+
     public GameObject bulletCard;
 
     // propmpt messages 
@@ -236,6 +239,13 @@ public class GameBoard : MonoBehaviour
     public List<Button> trainRoofs; 
     public List<Button> trainCabins; 
 
+
+    /* Bandit Loots */ 
+    public Button belleGemGO;
+    public Button belleWhisGO;
+    public Button belStrGo; 
+    public Button belPurGo;
+
     /* horses ?*/
     
     public static string punchedBandit;
@@ -254,10 +264,21 @@ public class GameBoard : MonoBehaviour
     private List<float> fourBtm = new List<float>() {1357.1F, 873.5F, -364.9F}; 
     private List<float> locTop = new List<float>() {1594.2F, 873.5F, -364.9F}; 
     private List<float> locBtm = new List<float>() {1597.7F, 816.5F, -364.9F};
+    private List<float> belGem = new List<float>() {834.7F, 1121.2F, -364.9F};
+    private List<float> belPur = new List<float>() {779.6F, 1146.8F, -364.9F};
+    private List<float> belStr = new List<float>() {863.3F, 1121.2F, -364.9F};
+    private List<float> belWhi= new List<float>() {842.5F, 1105.3F, -364.9F};
+
+
 
 
     void Start(){  
-        //Screen.SetResolution(1080, 1920);  
+        Screen.SetResolution(1080, 1920, false);  
+        Debug.Log("bel gem: " + belleGemGO.transform.position); 
+        Debug.Log("bel belleWhisGO: " + belleWhisGO.transform.position); 
+        Debug.Log("bel belStrGo: " + belStrGo.transform.position); 
+        Debug.Log("bel belPurGo: " + belPurGo.transform.position); 
+        belleWhisGO.transform.position = new Vector3 (belWhi[0], belWhi[1], belWhi[2]);
         //Invoke("LeaveRoom",5);
         /*if (SFS.getSFS() == null) {
             // Initialize SFS2X client. This can be done in an earlier scene instead
@@ -460,17 +481,20 @@ public class GameBoard : MonoBehaviour
             try{
                 m = (Money) l;
                 if (m.moneyTypeAsString == "JEWEL"){
-                buttonToObject[allGem[gemCount]] = m;
-                //Debug.Log("casting as Gem " + gemCount);
-                gemCount++;
+                    buttonToObject[allGem[gemCount]] = m;
+                    Debug.Log("casting as Gem " + gemCount);
+                    gemCount++;
+                    placeLootOnBandit(allGem[gemCount], "JEW", b.characterAsString); 
                 } else if (m.moneyTypeAsString == "PURSE"){
-                buttonToObject[allPurse[purseCount]] = m;
-                //Debug.Log("casting as Purse " + purseCount);
-                purseCount++;
+                    buttonToObject[allPurse[purseCount]] = m;
+                    Debug.Log("casting as Purse " + purseCount);
+                    purseCount++;
+                    placeLootOnBandit(allGem[gemCount], "PUR", b.characterAsString); 
                 } else if (m.moneyTypeAsString == "STRONGBOX"){
-                buttonToObject[allGem[boxCount]] = m;
-                //Debug.Log("casting as Box " + boxCount);
-                boxCount++;
+                    buttonToObject[allGem[boxCount]] = m;
+                    Debug.Log("casting as Box " + boxCount);
+                    boxCount++;
+                    placeLootOnBandit(allGem[gemCount], "STR", b.characterAsString); 
                 }
             }
             catch(Exception e){
@@ -478,6 +502,7 @@ public class GameBoard : MonoBehaviour
                 buttonToObject[allWhiskey[whiskeyCount]] = w;
                 //Debug.Log("casting as Whiskey" + whiskeyCount);
                 whiskeyCount++;
+                placeLootOnBandit(allGem[gemCount], "WHI", b.characterAsString); 
                 }
             }
         }
@@ -843,15 +868,6 @@ public class GameBoard : MonoBehaviour
         buttonToObject[handCard11] = "null"; 
     }
 
-    // public void mapTrain(GameManager gm){
-    //   public ArrayList trainRoof ;
-    //     public ArrayList trainCabin;
-    //  foreach(object oneRoof in gm.trainRoof){
-    //      buttonToObject[] = oneRoof;
-
-    //  }
-    // }
-
     public void mapTrain(GameManager gm){
         int index = 0;
         foreach(object oneRoof in gm.trainRoof){
@@ -1000,9 +1016,24 @@ public class GameBoard : MonoBehaviour
                 lootBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
             }
         }
+    }
 
 
+    public void placeLootOnBandit(Button lootBtn, string lootType, string bandit){
+            if(bandit == "BELLE"){
+                if(lootType == "JEW"){
+                    lootBtn.transform.position = new Vector3 (locBtm[0], locBtm[1], locBtm[2]);
+                    lootBtn.transform.position += lootBtn.transform.forward * Time.deltaTime * 2f;
+                }else if(lootType == "PUR"){
 
+                }else if(lootType == "STR"){
+
+                }else{
+                    // whiskey 
+
+                }
+            }
+           
     }
 
 
