@@ -75,7 +75,8 @@ namespace model {
             Debug.Log("setting 'it works' from prompt");
             
             GameBoard.clickable = currentBandit.getHand();
-            if(currentBandit.getHand().Count > 0) GameBoard.enableDrawCardsButton();
+            if(currentBandit.getHand().Count > 0) GameBoard.setDrawCardsButton(true);
+            else GameBoard.setDrawCardsButton(false);
             GameBoard.setNextAction("Play a card or draw 3 cards");
             
             // ASSIGN THIS ATTRIBUTE ACCORDINGLY IN EVERY PROMPT;
@@ -335,18 +336,17 @@ namespace model {
             }
 
             if (this.strGameStatus.Equals("STEALIN")) {
-                ActionCard toResolve = this.playedPileInstance.takeTopCard();
-                Debug.Log("toresolve string for NEXT card: " + toResolve.actionTypeAsString);
-                if (toResolve != null) {
+                if(playedPileInstance.getPlayedCards().Count > 0) {
+                    ActionCard toResolve = this.playedPileInstance.takeTopCard();
+                    Debug.Log("toresolve string for NEXT card: " + toResolve.actionTypeAsString);
                     Bandit b = toResolve.getBelongsTo();
                     Debug.Log("toresolve belongsto for NEXT card: " + b.characterAsString);
                     this.currentBandit = toResolve.getBelongsTo();
                     this.currentBandit.setToResolve(toResolve);
-                }
-                else {
+                } else {
                     //  played pile is empty
                     this.roundIndex++;
-                    if ((this.roundIndex == this.rounds.Count)) {
+                    if (this.roundIndex == this.rounds.Count) {
                         this.setGameStatus("COMPLETED");
                     }
                     else {
@@ -354,9 +354,7 @@ namespace model {
                         this.setGameStatus("SCHEMIN");
                         this.banditsPlayedThisTurn = 0;
                     }
-                    
                 }
-                
             }
             //playedPileInstance = PlayedPile.getInstance();
             marshalInstance = Marshal.getInstance();
