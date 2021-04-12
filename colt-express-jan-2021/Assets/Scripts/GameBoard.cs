@@ -291,7 +291,7 @@ public class GameBoard : MonoBehaviour
         if(newAction) {
             actionText.text = action;
         }
-        if(noAction & proceed.interactable == false) {
+        if(noAction) {
             actionText.text += ". Click to proceed";
             proceed.interactable = true;
         }
@@ -325,6 +325,8 @@ public class GameBoard : MonoBehaviour
         Debug.Log("updategamestate called");
         setAllClickable();
         proceed.interactable = false;
+        canDrawCards = false;
+
         clearHand();
 
         ISFSObject responseParams = (SFSObject)evt.Params["params"];
@@ -612,8 +614,8 @@ public class GameBoard : MonoBehaviour
         }
     }
 
-    public static void enableDrawCardsButton() {
-        canDrawCards = true;
+    public static void setDrawCardsButton(bool canDraw) {
+        canDrawCards = canDraw;
     }
 
     public void drawCardsClicked() {
