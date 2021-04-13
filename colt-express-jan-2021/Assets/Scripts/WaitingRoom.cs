@@ -481,6 +481,6 @@ public class WaitingRoom : MonoBehaviour
     }
 
     public void SaveGameState(string savegameID) {    
-        GameBoard.SaveGameState(savegameID);
+        GameBoard.TestSave();
 	}
 }

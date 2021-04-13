@@ -1529,10 +1529,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1442082506}
-        m_TargetAssemblyTypeName: WaitingRoom, Assembly-CSharp
-        m_MethodName: SaveGameState
-        m_Mode: 5
+      - m_Target: {fileID: 1013407373}
+        m_TargetAssemblyTypeName: GameBoard, Assembly-CSharp
+        m_MethodName: TestSave
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -22132,7 +22132,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -357.1, y: -54.844}
+  m_AnchoredPosition: {x: -343.9, y: -52}
   m_SizeDelta: {x: 163.4294, y: 70.3511}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2101742118
