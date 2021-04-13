@@ -202,11 +202,11 @@ public class TestGame : MonoBehaviour
                 gm.playTurn(); // this method would be called automatically at the BEGINNING of a turn on all clients
                 break;
             case 2:
-                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[3]);
                 gm.playTurn();
                 break;
             case 3:
-                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[3]);
                 gm.playTurn();
                 break;
             // R1 T2
@@ -250,12 +250,14 @@ public class TestGame : MonoBehaviour
                 break;
             case 13:
                 gm.resolveAction((ActionCard)gm.currentBandit.toResolve);
-                //gm.shoot(with a legal bandit);
-                
-                
+                gm.move((TrainUnit)gm.trainCabin[0]);
                 gm.playTurn();
                 break;
-
+            case 14:
+                gm.resolveAction((ActionCard)gm.currentBandit.toResolve);
+                gm.move((TrainUnit)gm.trainCabin[2]);
+                gm.playTurn();
+                break;
         }
     }
 
