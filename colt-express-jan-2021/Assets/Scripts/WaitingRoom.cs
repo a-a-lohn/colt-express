@@ -403,6 +403,13 @@ public class WaitingRoom : MonoBehaviour
             var request = new RestRequest("api/gameservices/ColtExpress/savegames/" + savegameID.text + "?access_token=" + adminToken, Method.DELETE)
                 .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
             IRestResponse response = client.Execute(request);
+            Debug.Log("Here is the delete saved game return: "+ response.ErrorMessage + "   " + response.StatusCode);
+
+            Debug.Log("GameID of saved game to be deleted content : " + savegameID.text);
+            ISFSObject obj = SFSObject.NewInstance();
+            obj.PutUtfString("savegameId", savegameID.text);
+            ExtensionRequest req = new ExtensionRequest("gm.deleteSavedGame",obj);
+            SFS.Send(req);
         }
         //TODO: DELETE FROM SFS AS WELL
     }

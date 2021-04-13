@@ -60,6 +60,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		case("nextAction"): handleNextAction(params,rtn); break;
 		case("saveGameState"): handleSaveGameState(params,rtn); break;
 		case("loadSavedGame"): handleLoadSavedGame(params,rtn); break;
+		case("deleteSavedGame"): handleDeleteSavedGame(params,rtn); break;
 		case("removeGame"): handleRemoveGame(params,rtn); break;
 		case("gameOver"): gameOver = true; break;
 		case("choosePosition"): handleChoosePosition(sender, params, rtn); break;
@@ -105,6 +106,16 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 //				i++;
 //			}
 //		}
+	}
+	
+	public void handleDeleteSavedGame(ISFSObject params, ISFSObject rtn) {
+
+		String currentSaveGameId = params.getUtfString("savegameId");
+		System.out.println("currently saved Games to be deleted: "+ currentSaveGameId + " : "+ saveGames.containsKey(currentSaveGameId));
+		gm = saveGames.get(currentSaveGameId);
+		boolean result = saveGames.remove(currentSaveGameId, gm);
+		System.out.println("successfully removed saved Games: "+ result);
+		
 	}
 	
 	public void handleSaveGameState(ISFSObject params, ISFSObject rtn) {
