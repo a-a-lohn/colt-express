@@ -710,7 +710,15 @@ namespace model {
         }
 
         public void shootPrompt(ArrayList possibilities){
-            GameBoard.makeShootPossibilitiesClickable(possibilities);
+            if(possibilities.Count == 0){
+                endOfTurn();
+            }
+            else if(possibilities.Count == 1){
+                shoot((Bandit)possibilities[0]);
+            }
+            else if(possibilities.Count > 1){
+                GameBoard.makeShootPossibilitiesClickable(possibilities);
+            }
         }
         
 	    public void shoot(Bandit toShoot) {
@@ -898,9 +906,16 @@ namespace model {
             return possibleMoving;
         }
         
-        public TrainUnit movePrompt(ArrayList possibilities) {
-            // TODO
-            return new TrainUnit();
+        public void movePrompt(ArrayList possibilities) {
+            if(possibilities.Count == 0){
+                endOfTurn();
+            }
+            else if(possibilities.Count == 1){
+                move((TrainUnit)possibilities[0]);
+            }
+            else if(possibilities.Count > 1){
+                //make clickable
+            }
         }
         
 	    public void move(TrainUnit targetPosition) {
