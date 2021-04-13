@@ -175,11 +175,13 @@ public class WaitingRoom : MonoBehaviour
     }
 
     public void PlayingSaveGame(Text savegameID) {
-        Debug.Log("GameID content : " + savegameID.text);
-        ISFSObject obj2 = SFSObject.NewInstance();
-        obj2.PutUtfString("savegameId", savegameID.text);
-        ExtensionRequest req = new ExtensionRequest("gm.loadSavedGame",obj2);
-        SFS.Send(req);
+        if(!intentToDelete) {
+            Debug.Log("GameID content : " + savegameID.text);
+            ISFSObject obj2 = SFSObject.NewInstance();
+            obj2.PutUtfString("savegameId", savegameID.text);
+            ExtensionRequest req = new ExtensionRequest("gm.loadSavedGame",obj2);
+            SFS.Send(req);
+        }
     }
 
     private bool Launched(string hash) {
@@ -402,6 +404,7 @@ public class WaitingRoom : MonoBehaviour
                 .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
             IRestResponse response = client.Execute(request);
         }
+        //TODO: DELETE FROM SFS AS WELL
     }
 
     private void LeaveSession() {

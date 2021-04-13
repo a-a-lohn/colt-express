@@ -472,6 +472,7 @@ public class GameBoard : MonoBehaviour
                     }
                     index++;
                 }
+                
                 mapActionCards(handCard1, handCardActionType1);
                 mapActionCards(handCard2, handCardActionType2);
                 mapActionCards(handCard3, handCardActionType3);
@@ -486,6 +487,8 @@ public class GameBoard : MonoBehaviour
             }
         }
 
+        mapTrain(gm);
+
         Money m;
         Whiskey w;
         int gemCount = 0;
@@ -495,31 +498,31 @@ public class GameBoard : MonoBehaviour
     
         foreach(Bandit b in gm.bandits){
             foreach(Loot l in b.loot){
-            try{
-                m = (Money) l;
-                if (m.moneyTypeAsString == "JEWEL"){
-                    buttonToObject[allGem[gemCount]] = m;
-                    Debug.Log("casting as Gem " + gemCount);
-                    gemCount++;
-                    placeLootOnBandit(allGem[gemCount], "JEW", b.characterAsString); 
-                } else if (m.moneyTypeAsString == "PURSE"){
-                    buttonToObject[allPurse[purseCount]] = m;
-                    Debug.Log("casting as Purse " + purseCount);
-                    purseCount++;
-                    placeLootOnBandit(allGem[gemCount], "PUR", b.characterAsString); 
-                } else if (m.moneyTypeAsString == "STRONGBOX"){
-                    buttonToObject[allGem[boxCount]] = m;
-                    Debug.Log("casting as Box " + boxCount);
-                    boxCount++;
-                    placeLootOnBandit(allGem[gemCount], "STR", b.characterAsString); 
+                try{
+                    m = (Money) l;
+                    if (m.moneyTypeAsString == "JEWEL"){
+                        buttonToObject[allGem[gemCount]] = m;
+                        Debug.Log("casting as Gem " + gemCount);
+                        gemCount++;
+                        placeLootOnBandit(allGem[gemCount], "JEW", b.characterAsString); 
+                    } else if (m.moneyTypeAsString == "PURSE"){
+                        buttonToObject[allPurse[purseCount]] = m;
+                        Debug.Log("casting as Purse " + purseCount);
+                        purseCount++;
+                        placeLootOnBandit(allGem[gemCount], "PUR", b.characterAsString); 
+                    } else if (m.moneyTypeAsString == "STRONGBOX"){
+                        buttonToObject[allGem[boxCount]] = m;
+                        Debug.Log("casting as Box " + boxCount);
+                        boxCount++;
+                        placeLootOnBandit(allGem[gemCount], "STR", b.characterAsString); 
+                    }
                 }
-            }
-            catch(Exception e){
-                w = (Whiskey) l;
-                buttonToObject[allWhiskey[whiskeyCount]] = w;
-                //Debug.Log("casting as Whiskey" + whiskeyCount);
-                whiskeyCount++;
-                placeLootOnBandit(allGem[gemCount], "WHI", b.characterAsString); 
+                catch(Exception e){
+                    w = (Whiskey) l;
+                    buttonToObject[allWhiskey[whiskeyCount]] = w;
+                    //Debug.Log("casting as Whiskey" + whiskeyCount);
+                    whiskeyCount++;
+                    placeLootOnBandit(allGem[gemCount], "WHI", b.characterAsString); 
                 }
             }
         }
@@ -678,27 +681,45 @@ public class GameBoard : MonoBehaviour
             //punchedBandit = btn.name;
             // if buttonToObject[btn] is an actioncard, call playCard(buttonToObject[btn])
 
-            clickable.Add(buttonToObject[btn]); 
-            TrainUnit clickedTU = (TrainUnit)buttonToObject[btn]; 
+            //clickable.Add(buttonToObject[btn]); 
+            //TrainUnit clickedTU = (TrainUnit)buttonToObject[btn]; 
 
-            Debug.Log("CLICKED TRAIN TYPE" + clickedTU.carTypeAsString);
-            Debug.Log("CLICKED TRAIN FLOOR" + clickedTU.carFloorAsString);
+            // Debug.Log("CLICKED TRAIN TYPE" + clickedTU.carTypeAsString);
+            // Debug.Log("CLICKED TRAIN FLOOR" + clickedTU.carFloorAsString);
 
             if(clickable.Contains(buttonToObject[btn])) {
                 Debug.Log("this is a clickable item!");
                 //all calls back to GM should be here
-      
-                // TODO: CLICK ON THAT TRAIN BUTTON 
+                if(actionText.text == "Play a card or draw cards") {
+                    try {
+                        ActionCard currActionCard = (ActionCard)buttonToObject[btn];
+                        gm.playCard(currActionCard); 
+                    } catch(Exception e) {
+                        Debug.Log("not casting to card");
+                    }
+                } else if(actionText.text == "Choose a position to move the Marshal") {
+                    Debug.Log("choose a marshal pos");
+                    try {
+                        TrainUnit clickedTU = (TrainUnit)buttonToObject[btn]; 
+                        gm.moveMarshal(clickedTU);
+                        Debug.Log("moving marshal");
+                    } catch(Exception e) {
+                        Debug.Log("not moving the marshal");
+                    }
+                } else if(actionText.text == "Choose a position to move") {
+                    Debug.Log("choose a moving pos");
+                    try {
+                        TrainUnit clickedTU = (TrainUnit)buttonToObject[btn]; 
+                        gm.move(clickedTU);
+                        Debug.Log("moving");
+                    } catch(Exception e) {
+                        Debug.Log("not moving");
+                    }
+                }
+
                 newAction = false;
                 actionText.text = "";
-                try {
-                    // ActionCard currActionCard = (ActionCard)buttonToObject[btn];
-                    // gm.playCard(currActionCard); 
-                    gm.moveMarshal(clickedTU);
 
-                } catch(Exception e) {
-                    Debug.Log("not an action card");
-                }
             } else Debug.Log("not clickable!");
         }
         btn.interactable = true;
@@ -897,13 +918,13 @@ public class GameBoard : MonoBehaviour
     public void mapTrain(GameManager gm){
         int index = 0;
         foreach(object oneRoof in gm.trainRoof){
-            buttonToObject[trainRoofs[index]] = oneRoof;
+            buttonToObject[trainRoofs[index]] = (TrainUnit)oneRoof;
             index++;
         }
         index = 0;
         Debug.Log("ALL TRAIN ROOFS ARE MAPPED");
         foreach(object oneCab in gm.trainCabin){
-            buttonToObject[trainCabins[index]] = oneCab;
+            buttonToObject[trainCabins[index]] = (TrainUnit)oneCab;
             index++;
         }
         Debug.Log("ALL TRAIN CABINS ARE MAPPED");
@@ -915,7 +936,7 @@ public class GameBoard : MonoBehaviour
                 TrainUnit tu = (TrainUnit)gm.banditPositions[b.characterAsString];
                 if(tr.containsBandit(b)){
                     placeBanditAt(b, tu.carTypeAsString, tu.carFloorAsString);
-                };
+                }
             }
         }
         foreach(TrainUnit tc in gm.trainCabin){
@@ -925,7 +946,10 @@ public class GameBoard : MonoBehaviour
                     placeBanditAt(b, tu.carTypeAsString, tu.carFloorAsString);
                 }
             }
-            if(tc.getIsMarshalHere()) placeMarshalAt(tc.carTypeAsString);
+            if(tc.getIsMarshalHere()) {
+                gm.marshalInstance.marshalPosition = tc;
+                placeMarshalAt(tc.carTypeAsString);
+            }
         }
     }
 
@@ -946,13 +970,13 @@ public class GameBoard : MonoBehaviour
             if(cartype == "LOCOMOTIVE"){
                 banditBtn.transform.position = new Vector3 (locBtm[0] + getRandOffset(), locBtm[1], locBtm[2]);
             }else if(cartype == "CAR1"){
-                banditBtn.transform.position = new Vector3 (oneBtm[0] + getRandOffset(), oneBtm[1], oneBtm[2]);
-            }else if(cartype == "CAR2"){
-                banditBtn.transform.position = new Vector3 (twoBtm[0] + getRandOffset(), twoBtm[1], twoBtm[2]);
-            }else if(cartype == "CAR3"){
-                banditBtn.transform.position = new Vector3 (threeBtm[0] + getRandOffset(), threeBtm[1], threeBtm[2]);
-            }else if(cartype == "CAR4"){
                 banditBtn.transform.position = new Vector3 (fourBtm[0] + getRandOffset(), fourBtm[1], fourBtm[2]);
+            }else if(cartype == "CAR2"){
+                banditBtn.transform.position = new Vector3 (threeBtm[0] + getRandOffset(), threeBtm[1], threeBtm[2]);
+            }else if(cartype == "CAR3"){
+                banditBtn.transform.position = new Vector3 (twoBtm[0] + getRandOffset(), twoBtm[1], twoBtm[2]);
+            }else if(cartype == "CAR4"){
+                banditBtn.transform.position = new Vector3 (oneBtm[0] + getRandOffset(), oneBtm[1], oneBtm[2]);
             }else if(cartype == "CAR5"){
                 banditBtn.transform.position = new Vector3 (706.0F + getRandOffset(), 816.5F, -364.9F);
             }else if(cartype == "CAR6"){
@@ -965,13 +989,13 @@ public class GameBoard : MonoBehaviour
             if(cartype == "LOCOMOTIVE"){
                 banditBtn.transform.position = new Vector3 (locTop[0] + getRandOffset(), locTop[1], locTop[2]);
             }else if(cartype == "CAR1"){
-                banditBtn.transform.position = new Vector3 (oneTop[0] + getRandOffset(), oneTop[1], oneTop[2]);
-            }else if(cartype == "CAR2"){
-                banditBtn.transform.position = new Vector3 (twoTop[0] + getRandOffset(), twoTop[1], twoTop[2]);
-            }else if(cartype == "CAR3"){
-                banditBtn.transform.position = new Vector3 (threeTop[0] + getRandOffset(), threeTop[1], threeTop[2]);
-            }else if(cartype == "CAR4"){
                 banditBtn.transform.position = new Vector3 (fourTop[0] + getRandOffset(), fourTop[1], fourTop[2]);
+            }else if(cartype == "CAR2"){
+                banditBtn.transform.position = new Vector3 (threeTop[0] + getRandOffset(), threeTop[1], threeTop[2]);
+            }else if(cartype == "CAR3"){
+                banditBtn.transform.position = new Vector3 (twoTop[0] + getRandOffset(), twoTop[1], twoTop[2]);
+            }else if(cartype == "CAR4"){
+                banditBtn.transform.position = new Vector3 (oneTop[0] + getRandOffset(), oneTop[1], oneTop[2]);
             }else if(cartype == "CAR5"){
                 banditBtn.transform.position = new Vector3 (706.0F + getRandOffset(), 816.5F, -364.9F);
             }else if(cartype == "CAR6"){
@@ -988,13 +1012,13 @@ public class GameBoard : MonoBehaviour
         if(cartype == "LOCOMOTIVE"){
             marshal.transform.position = new Vector3 (locBtm[0] + getRandOffset(), locBtm[1], locBtm[2]);
         }else if(cartype == "CAR1"){
-            marshal.transform.position = new Vector3 (oneBtm[0] + getRandOffset(), oneBtm[1], oneBtm[2]);
-        }else if(cartype == "CAR2"){
-            marshal.transform.position = new Vector3 (twoBtm[0] + getRandOffset(), twoBtm[1], twoBtm[2]);
-        }else if(cartype == "CAR3"){
-            marshal.transform.position = new Vector3 (threeBtm[0] + getRandOffset(), threeBtm[1], threeBtm[2]);
-        }else if(cartype == "CAR4"){
             marshal.transform.position = new Vector3 (fourBtm[0] + getRandOffset(), fourBtm[1], fourBtm[2]);
+        }else if(cartype == "CAR2"){
+            marshal.transform.position = new Vector3 (threeBtm[0] + getRandOffset(), threeBtm[1], threeBtm[2]);
+        }else if(cartype == "CAR3"){
+            marshal.transform.position = new Vector3 (twoBtm[0] + getRandOffset(), twoBtm[1], twoBtm[2]);
+        }else if(cartype == "CAR4"){
+            marshal.transform.position = new Vector3 (oneBtm[0] + getRandOffset(), oneBtm[1], oneBtm[2]);
         }else if(cartype == "CAR5"){
             marshal.transform.position = new Vector3 (706.0F + getRandOffset(), 816.5F, -364.9F);
         }else if(cartype == "CAR6"){

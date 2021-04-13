@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -74,10 +75,19 @@ namespace model {
         public void promptDrawCardsOrPlayCard() {
             Debug.Log("setting 'it works' from prompt");
             
-            GameBoard.clickable = currentBandit.getHand();
+            ArrayList cards = new ArrayList();
+            foreach(Card c in currentBandit.getHand()) {
+                try {
+                    ActionCard ac = (ActionCard) c;
+                    cards.Add(ac);
+                } catch(Exception e) {
+                    Debug.Log("can't add a bullet");
+                }
+            }
+            GameBoard.clickable = cards;
             if(currentBandit.getHand().Count > 0) GameBoard.setDrawCardsButton(true);
             else GameBoard.setDrawCardsButton(false);
-            GameBoard.setNextAction("Play a card or draw 3 cards");
+            GameBoard.setNextAction("Play a card or draw cards");
             
             // ASSIGN THIS ATTRIBUTE ACCORDINGLY IN EVERY PROMPT;
             TestGame.prompt = "Play a card or draw 3 cards";
@@ -96,13 +106,11 @@ namespace model {
             }
             else if (currentBandit.toResolve.getActionTypeAsString().Equals("MARSHAL")) {
                 TestGame.prompt = "Choose a position for the marshal";
-                GameBoard.setNextAction("Choose a position for the marshal");
                 currentBandit.setToResolve(null);
                 moveMarshalPrompt(calculateMoveMarshal());
             }
             else if (currentBandit.toResolve.getActionTypeAsString().Equals("MOVE")) {
                 TestGame.prompt = "Choose a position to move";
-                GameBoard.setNextAction("Choose a position to move");
                 currentBandit.setToResolve(null);
                 movePrompt(calculateMove());
             }
@@ -886,35 +894,58 @@ namespace model {
             }
             
             if (currentPosition.carFloorAsString.Equals("ROOF")) {
-                if ((currentPosition.getLeft().getLeft() != null)) {
-                    possibleMoving.Add(currentPosition.getLeft());
+                if (currentPosition.getLeft() != null) {
+                    if (currentPosition.getLeft().getLeft() != null) {
+                        possibleMoving.Add(currentPosition.getLeft().getLeft());
+                    }
                 }
-                
-                if ((currentPosition.getRight().getRight() != null)) {
-                    possibleMoving.Add(currentPosition.getLeft());
+
+                if (currentPosition.getRight() != null)
+                {
+                    if (currentPosition.getRight().getRight() != null)
+                    {
+                        possibleMoving.Add(currentPosition.getRight().getRight());
+                    }
                 }
-                
-                if ((currentPosition.getLeft().getLeft().getLeft() != null)) {
-                    possibleMoving.Add(currentPosition.getLeft());
+
+                if (currentPosition.getLeft() != null)
+                {
+                    if (currentPosition.getLeft().getLeft() != null)
+                    {
+                        if (currentPosition.getLeft().getLeft().getLeft() != null) {
+                            possibleMoving.Add(currentPosition.getLeft().getLeft().getLeft());
+                        }       
+                    }
                 }
-                
-                if ((currentPosition.getRight().getRight().getRight() != null)) {
-                    possibleMoving.Add(currentPosition.getLeft());
+
+                if (currentPosition.getRight() != null)
+                {
+                    if (currentPosition.getRight().getRight() != null)
+                    {
+                        if (currentPosition.getRight().getRight().getRight() != null)
+                        {
+                            possibleMoving.Add(currentPosition.getRight().getRight().getRight());
+                        }
+                    }
                 }
-                
+
             }
             return possibleMoving;
         }
         
         public void movePrompt(ArrayList possibilities) {
             if(possibilities.Count == 0){
+                Debug.Log("this shouldn't happen!");
                 endOfTurn();
             }
             else if(possibilities.Count == 1){
+                GameBoard.setNextAction("Moving positions");
                 move((TrainUnit)possibilities[0]);
+                endOfTurn(currentBandit.getCharacter() + " moved to the " + currentBandit.getPosition().getCarFloorAsString() + " of " + currentBandit.getPosition().getCarTypeAsString(), true);
             }
             else if(possibilities.Count > 1){
-                //make clickable
+                GameBoard.setNextAction("Choose a position to move");
+                GameBoard.clickable = possibilities;
             }
         }
         
@@ -923,7 +954,8 @@ namespace model {
 		    if (targetPosition.isMarshalHere) {
 			    currentBandit.shotByMarhsal();
 		    }
-		    endOfTurn(); // might have to put this in an if else block for cases like SpeedingUp/Whiskey
+		    // might have to put this in an if else block for cases like SpeedingUp/Whiskey
+            endOfTurn(currentBandit.getCharacter() + " moved to the " + currentBandit.getPosition().getCarFloorAsString() + " of " + currentBandit.getPosition().getCarTypeAsString());
 	    }
         
         //--MOVE MARSHAL--
@@ -941,9 +973,22 @@ namespace model {
 	    }
         
         public void moveMarshalPrompt(ArrayList possibilities) {
+            Debug.Log("num possibilities: " + possibilities.Count);
+            if(possibilities.Count == 1) {
+                GameBoard.setNextAction("Moving Marshal"); 
+                moveMarshal((TrainUnit)possibilities[0], true);
+            } else {
+                GameBoard.clickable = possibilities;
+                GameBoard.setNextAction("Choose a position to move the Marshal"); 
+            }
         }
         
-	    public void moveMarshal(TrainUnit targetPosition) {
+        public void moveMarshal(TrainUnit targetPosition) {
+            moveMarshal(targetPosition, false);
+        }
+
+	    public void moveMarshal(TrainUnit targetPosition, bool noChoice) {
+            Debug.Log("moving the marshal from gm");
 		    Marshal marshal = Marshal.getInstance();
             TrainUnit oldp = marshal.getMarshalPosition();
             oldp.setIsMarshalHere(false);
@@ -954,7 +999,11 @@ namespace model {
 			    	b.shotByMarhsal();
 			    }
 		    }
-		    endOfTurn(); 
+            if(noChoice) {
+                endOfTurn(currentBandit.getCharacter() + " moved the Marshal to " + marshal.getMarshalPosition().getCarTypeAsString(), true);
+            } else {
+                endOfTurn(currentBandit.getCharacter() + " moved the Marshal to " + marshal.getMarshalPosition().getCarTypeAsString()); 
+            }
 	    }
 
         //--RIDE--

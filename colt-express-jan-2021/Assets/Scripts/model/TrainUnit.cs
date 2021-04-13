@@ -115,7 +115,7 @@ namespace model {
             otherTrainUnit.above = this;
         }*/
         
-        public TrainUnit getRight() {
+        public TrainUnit getLeft() {
             GameManager gm = GameManager.getInstance();
             int index = gm.trainCabin.IndexOf(this);
             bool isRoof = false;
@@ -145,7 +145,7 @@ namespace model {
             otherTrainUnit.left = this;
         }*/
         
-        public TrainUnit getLeft() {
+        public TrainUnit getRight() {
             GameManager gm = GameManager.getInstance();
             int index = gm.trainCabin.IndexOf(this);
             bool isRoof = false;
