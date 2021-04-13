@@ -261,7 +261,10 @@ public class ChooseCharacter : MonoBehaviour
     }
 
     public static void RemoveLaunchedSession() {
+        Debug.Log("removing session?");
         if (WaitingRoom.hosting) {
+            Debug.Log("removing session!");
+            Debug.Log("hash: " + WaitingRoom.gameHash);
             var request = new RestRequest("oauth/token", Method.POST)
             .AddParameter("grant_type", "password")
             .AddParameter("username", "admin")
