@@ -222,7 +222,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 16
+  m_fontStyle: 17
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -1441,7 +1441,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selected: {fileID: 0}
-  button: {fileID: 0}
   display: {fileID: 0}
   info: {fileID: 0}
   BelleIsAvailable: 0
@@ -2684,7 +2683,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selected: {fileID: 1599678048}
-  button: {fileID: 0}
   display: {fileID: 1641181633}
   info: {fileID: 1503880334}
   BelleIsAvailable: 0

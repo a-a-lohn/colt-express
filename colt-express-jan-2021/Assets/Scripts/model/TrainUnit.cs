@@ -258,10 +258,10 @@ namespace model {
             this.isMarshalHere = b;
         }
         
-        public void moveMarshalTo(TrainUnit dest) {
-            this.isMarshalHere = false;
-            dest.isMarshalHere = true;
-        }
+        // public void moveMarshalTo(TrainUnit dest) {
+        //     this.isMarshalHere = false;
+        //     dest.isMarshalHere = true;
+        // }
 
         public ArrayList getHorsesHere(){
             GameManager gm = GameManager.getInstance();
