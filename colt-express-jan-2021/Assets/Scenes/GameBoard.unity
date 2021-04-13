@@ -2730,7 +2730,7 @@ MonoBehaviour:
         m_MethodName: horseBtnClicked
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgument: {fileID: 340333969}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
           m_IntArgument: 1
           m_FloatArgument: 0
@@ -12249,7 +12249,7 @@ MonoBehaviour:
         m_MethodName: horseBtnClicked
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgument: {fileID: 1000362053}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
           m_IntArgument: 1
           m_FloatArgument: 0
@@ -12755,14 +12755,20 @@ MonoBehaviour:
   ghost: {fileID: 488911558}
   django: {fileID: 2061015344}
   marshal: {fileID: 364579988}
+  cheyenneProf: {fileID: 1486546629}
+  belleProf: {fileID: 1852480733}
+  tucoProf: {fileID: 2136816129}
+  docProf: {fileID: 1298034418}
+  ghostProf: {fileID: 576121108}
+  djangoProf: {fileID: 1669489751}
   gem1: {fileID: 661213820}
   gem2: {fileID: 851639121}
   gem3: {fileID: 1451054902}
   gem4: {fileID: 1156454794}
   gem5: {fileID: 1182906602}
   gem6: {fileID: 2059967292}
-  horseBtnOne: {fileID: 0}
-  horseBtnTwo: {fileID: 0}
+  horseBtnOne: {fileID: 1000362053}
+  horseBtnTwo: {fileID: 340333969}
   purse1: {fileID: 780992995}
   purse2: {fileID: 237004282}
   purse3: {fileID: 1267446942}

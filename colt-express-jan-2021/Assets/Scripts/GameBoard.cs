@@ -92,6 +92,14 @@ public class GameBoard : MonoBehaviour
     public Button ghost; 
     public Button django; 
     public Button marshal;
+
+    public GameObject cheyenneProf;
+    public GameObject belleProf; 
+    public GameObject tucoProf; 
+    public GameObject docProf; 
+    public GameObject ghostProf; 
+    public GameObject djangoProf; 
+    
     private List<Button> playingBandits = new List<Button>();
     private List<Button> allBandits = new List<Button>();
 
@@ -353,22 +361,54 @@ public class GameBoard : MonoBehaviour
     }
 
     /* removeBandits non-playing bandits */
-    public void removeBandits(ArrayList playingBandits) {
-        foreach(object aBandit in playingBandits){
+    public void removeBandits(ArrayList playingBanditsObject) {
+        bool belIsPlaying = false; 
+        bool cheIsPlaying = false; 
+        bool docIsPlaying = false; 
+        bool djaIsPlaying = false; 
+        bool ghoIsPlaying = false;
+        bool tucIsPlaying = false;  
+
+        foreach(object aBandit in playingBanditsObject){
             Bandit currABandit = (Bandit) aBandit;
             if(currABandit.characterAsString == "BELLE"){
-                 belle.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+                belIsPlaying = true; 
             }else if(currABandit.characterAsString == "CHEYENNE"){
-                cheyenne.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+                cheIsPlaying = true;
             }else if(currABandit.characterAsString == "DOC"){
-                doc.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+                docIsPlaying = true; 
             }else if(currABandit.characterAsString == "DJANGO"){
-                django.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+                djaIsPlaying = true; 
             }else if(currABandit.characterAsString == "GHOST"){
-                ghost.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+                ghoIsPlaying = true; 
             }else if(currABandit.characterAsString == "TUCO"){
-                tuco.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+                tucIsPlaying = true;
             }
+        }
+
+        if(belIsPlaying == false){
+            belle.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+            belleProf.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+        }
+        if(cheIsPlaying == false){
+            cheyenne.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+            cheyenneProf.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+        }
+        if(djaIsPlaying == false){
+            django.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+            djangoProf.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+        }
+        if(ghoIsPlaying == false){
+            ghost.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+            ghostProf.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+        }
+        if(tucIsPlaying == false){
+            tuco.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+            tucoProf.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+        }
+        if(docIsPlaying == false){
+            doc.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+            docProf.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
         }
     }
 
@@ -402,7 +442,7 @@ public class GameBoard : MonoBehaviour
 
         Debug.Log("THERE ARE " + numberOfBandits + " IN THE GAME!");
         removeTrainCarts(numberOfBandits);
-        removeBandits(gm.bandits);
+        // removeBandits(gm.bandits);
         
         //addAllBandits();
 
@@ -441,7 +481,7 @@ public class GameBoard : MonoBehaviour
             
             /* place the bandits in their starting positions */
             mapBandit(gm);
-
+            removeBandits(gm.bandits);
             // foreach(Button ab in allBandits){
             //     if(ab != null) {
             //         if(!playingBandits.Contains(ab)){
