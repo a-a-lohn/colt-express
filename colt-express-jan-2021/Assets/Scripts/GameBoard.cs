@@ -141,9 +141,6 @@ public class GameBoard : MonoBehaviour
     public Button whiskey5;
     public Button whiskey6;
 
-    //public Button horseBtnOne;
-    //public Button horseBtnTwo;
-
     public GameObject bulletCard;
 
     // propmpt messages 
@@ -271,15 +268,14 @@ public class GameBoard : MonoBehaviour
     private List<float> belWhi= new List<float>() {842.5F, 1105.3F, -364.9F};
 
 
-
-
     void Start(){  
-        Screen.SetResolution(1080, 1920, false);  
-        Debug.Log("bel gem: " + belleGemGO.transform.position); 
-        Debug.Log("bel belleWhisGO: " + belleWhisGO.transform.position); 
-        Debug.Log("bel belStrGo: " + belStrGo.transform.position); 
-        Debug.Log("bel belPurGo: " + belPurGo.transform.position); 
-        belleWhisGO.transform.position = new Vector3 (belWhi[0], belWhi[1], belWhi[2]);
+        // Screen.SetResolution(1080, 1920, false);  
+        // Debug.Log("bel gem: " + belleGemGO.transform.position); 
+        // Debug.Log("bel belleWhisGO: " + belleWhisGO.transform.position); 
+        // Debug.Log("bel belStrGo: " + belStrGo.transform.position); 
+        // Debug.Log("bel belPurGo: " + belPurGo.transform.position); 
+        // belleWhisGO.transform.position = new Vector3 (belWhi[0], belWhi[1], belWhi[2]);
+
         //Invoke("LeaveRoom",5);
         /*if (SFS.getSFS() == null) {
             // Initialize SFS2X client. This can be done in an earlier scene instead
@@ -343,8 +339,18 @@ public class GameBoard : MonoBehaviour
         heldMessage = "";
     }
 
+    /* getRandOffset() picks and returns a random float from a set of pre-defined floats */
+    public float getRandOffset(){
+        Random r = new Random();
+        var values = new[] { 20.0F, 40.0F, 50.0F, -20.0F, -30.0F, -50.0F, 46.0F, 35.0F, -46.0F, -35.0F };
+        float result = values[r.Next(values.Length)];
+        return result; 
+    }
+
     public void UpdateGameState(BaseEvent evt) {
         Debug.Log("updategamestate called");
+
+        Debug.Log("update the "); 
         setAllClickable();
         proceed.interactable = false;
         canDrawCards = false;
@@ -834,7 +840,7 @@ public class GameBoard : MonoBehaviour
         allPurse.Insert(17, purse18);
 
         allBox.Insert(0, box1);
-        allBox.Insert(1, box1);
+        allBox.Insert(1, box2);
 
         allWhiskey.Insert(0, whiskey1);
         allWhiskey.Insert(1, whiskey2);
@@ -919,41 +925,41 @@ public class GameBoard : MonoBehaviour
         
         if(carfloor == "CABIN"){
             if(cartype == "LOCOMOTIVE"){
-                banditBtn.transform.position = new Vector3 (locBtm[0], locBtm[1], locBtm[2]);
+                banditBtn.transform.position = new Vector3 (locBtm[0] + getRandOffset(), locBtm[1], locBtm[2]);
             }else if(cartype == "CAR1"){
-                banditBtn.transform.position = new Vector3 (oneBtm[0], oneBtm[1], oneBtm[2]);
+                banditBtn.transform.position = new Vector3 (oneBtm[0] + getRandOffset(), oneBtm[1], oneBtm[2]);
             }else if(cartype == "CAR2"){
-                banditBtn.transform.position = new Vector3 (twoBtm[0], twoBtm[1], twoBtm[2]);
+                banditBtn.transform.position = new Vector3 (twoBtm[0] + getRandOffset(), twoBtm[1], twoBtm[2]);
             }else if(cartype == "CAR3"){
-                banditBtn.transform.position = new Vector3 (threeBtm[0], threeBtm[1], threeBtm[2]);
+                banditBtn.transform.position = new Vector3 (threeBtm[0] + getRandOffset(), threeBtm[1], threeBtm[2]);
             }else if(cartype == "CAR4"){
-                banditBtn.transform.position = new Vector3 (fourBtm[0], fourBtm[1], fourBtm[2]);
+                banditBtn.transform.position = new Vector3 (fourBtm[0] + getRandOffset(), fourBtm[1], fourBtm[2]);
             }else if(cartype == "CAR5"){
-                banditBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+                banditBtn.transform.position = new Vector3 (706.0F + getRandOffset(), 816.5F, -364.9F);
             }else if(cartype == "CAR6"){
-                banditBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+                banditBtn.transform.position = new Vector3 (706.0F + getRandOffset(), 816.5F, -364.9F);
             }else{
                 // cartype == "STAGECOACH"
-                banditBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+                banditBtn.transform.position = new Vector3 (706.0F + getRandOffset(), 816.5F, -364.9F);
             }
         }else{
             if(cartype == "LOCOMOTIVE"){
-                banditBtn.transform.position = new Vector3 (locTop[0], locTop[1], locTop[2]);
+                banditBtn.transform.position = new Vector3 (locTop[0] + getRandOffset(), locTop[1], locTop[2]);
             }else if(cartype == "CAR1"){
-                banditBtn.transform.position = new Vector3 (oneTop[0], oneTop[1], oneTop[2]);
+                banditBtn.transform.position = new Vector3 (oneTop[0] + getRandOffset(), oneTop[1], oneTop[2]);
             }else if(cartype == "CAR2"){
-                banditBtn.transform.position = new Vector3 (twoTop[0], twoTop[1], twoTop[2]);
+                banditBtn.transform.position = new Vector3 (twoTop[0] + getRandOffset(), twoTop[1], twoTop[2]);
             }else if(cartype == "CAR3"){
-                banditBtn.transform.position = new Vector3 (threeTop[0], threeTop[1], threeTop[2]);
+                banditBtn.transform.position = new Vector3 (threeTop[0] + getRandOffset(), threeTop[1], threeTop[2]);
             }else if(cartype == "CAR4"){
-                banditBtn.transform.position = new Vector3 (fourTop[0], fourTop[1], fourTop[2]);
+                banditBtn.transform.position = new Vector3 (fourTop[0] + getRandOffset(), fourTop[1], fourTop[2]);
             }else if(cartype == "CAR5"){
-                banditBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+                banditBtn.transform.position = new Vector3 (706.0F + getRandOffset(), 816.5F, -364.9F);
             }else if(cartype == "CAR6"){
-                banditBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+                banditBtn.transform.position = new Vector3 (706.0F + getRandOffset(), 816.5F, -364.9F);
             }else{
                 // cartype == "STAGECOACH"
-                banditBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+                banditBtn.transform.position = new Vector3 (706.0F + getRandOffset(), 816.5F, -364.9F);
             }
         }
 
@@ -961,19 +967,19 @@ public class GameBoard : MonoBehaviour
 
     public void placeMarshalAt(string cartype){
         if(cartype == "LOCOMOTIVE"){
-            marshal.transform.position = new Vector3 (locBtm[0], locBtm[1], locBtm[2]);
+            marshal.transform.position = new Vector3 (locBtm[0] + getRandOffset(), locBtm[1], locBtm[2]);
         }else if(cartype == "CAR1"){
-            marshal.transform.position = new Vector3 (oneBtm[0], oneBtm[1], oneBtm[2]);
+            marshal.transform.position = new Vector3 (oneBtm[0] + getRandOffset(), oneBtm[1], oneBtm[2]);
         }else if(cartype == "CAR2"){
-            marshal.transform.position = new Vector3 (twoBtm[0], twoBtm[1], twoBtm[2]);
+            marshal.transform.position = new Vector3 (twoBtm[0] + getRandOffset(), twoBtm[1], twoBtm[2]);
         }else if(cartype == "CAR3"){
-            marshal.transform.position = new Vector3 (threeBtm[0], threeBtm[1], threeBtm[2]);
+            marshal.transform.position = new Vector3 (threeBtm[0] + getRandOffset(), threeBtm[1], threeBtm[2]);
         }else if(cartype == "CAR4"){
-            marshal.transform.position = new Vector3 (fourBtm[0], fourBtm[1], fourBtm[2]);
+            marshal.transform.position = new Vector3 (fourBtm[0] + getRandOffset(), fourBtm[1], fourBtm[2]);
         }else if(cartype == "CAR5"){
-            marshal.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+            marshal.transform.position = new Vector3 (706.0F + getRandOffset(), 816.5F, -364.9F);
         }else if(cartype == "CAR6"){
-            marshal.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+            marshal.transform.position = new Vector3 (706.0F + getRandOffset(), 816.5F, -364.9F);
         }
     }
 
@@ -1024,19 +1030,18 @@ public class GameBoard : MonoBehaviour
 
     public void placeLootOnBandit(Button lootBtn, string lootType, string bandit){
             if(bandit == "BELLE"){
-                if(lootType == "JEW"){
-                    lootBtn.transform.position = new Vector3 (locBtm[0], locBtm[1], locBtm[2]);
-                    lootBtn.transform.position += lootBtn.transform.forward * Time.deltaTime * 2f;
-                }else if(lootType == "PUR"){
+                // move to belle's loot position
+            }else if(bandit == "CHEYENNE"){
 
-                }else if(lootType == "STR"){
+            }else if(bandit == "DOC"){
 
-                }else{
-                    // whiskey 
+            }else if(bandit == "DJANGO"){
 
-                }
+            }else if(bandit == "GHOST"){
+
+            }else if(bandit == "TUCO"){
+
             }
-           
     }
 
 
