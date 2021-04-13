@@ -26,6 +26,7 @@ using System.Reflection;
 using System;
 using Random=System.Random;
 using UnityEngine.EventSystems;
+using System.Text;
 
 public class GameBoard : MonoBehaviour
 {
@@ -1202,8 +1203,8 @@ public class GameBoard : MonoBehaviour
         return adminToken;
     }
 
-    public void TestSave() {
-        SaveGameState("test");
+    public static void TestSave() {
+        SaveGameState(generateRandomString(7));
     }
 
     public static void SaveGameState(string savegameID) {
@@ -1272,6 +1273,25 @@ public class GameBoard : MonoBehaviour
         }
         //prompt user whether they want to get off at this train (indicated by trainIndex). If yes, response should be "y", if no then "n"
         promptHorseAttackMsg.text = "Would you like to get on the train at cabin number "+trainIndex+"?";
+    }
+
+    public static String generateRandomString(int length)
+    {
+        StringBuilder str_build = new StringBuilder();  
+        Random random = new Random();  
+
+        char letter;  
+
+        for (int i = 0; i < length; i++)
+        {
+            double flt = random.NextDouble();
+            int shift = Convert.ToInt32(Math.Floor(25 * flt));
+            letter = Convert.ToChar(shift + 65);
+            str_build.Append(letter);  
+        }
+        
+        return str_build.ToString();
+        
     }
 }
 

@@ -1529,10 +1529,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1442082506}
-        m_TargetAssemblyTypeName: WaitingRoom, Assembly-CSharp
-        m_MethodName: SaveGameState
-        m_Mode: 5
+      - m_Target: {fileID: 1013407373}
+        m_TargetAssemblyTypeName: GameBoard, Assembly-CSharp
+        m_MethodName: TestSave
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -10329,7 +10329,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1013407372}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -12315,8 +12315,6 @@ MonoBehaviour:
   whiskey4: {fileID: 2055807857}
   whiskey5: {fileID: 917783894}
   whiskey6: {fileID: 1802947024}
-  horseBtnOne: {fileID: 0}
-  horseBtnTwo: {fileID: 0}
   bulletCard: {fileID: 1838625225}
   promptDrawCardsOrPlayCardMsg: {fileID: 571799349}
   promptChooseLoot: {fileID: 571799349}
