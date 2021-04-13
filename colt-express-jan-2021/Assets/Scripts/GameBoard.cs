@@ -227,8 +227,8 @@ public class GameBoard : MonoBehaviour
     public Button trainTwoTop;
     public Button trainThreeBtm; 
     public Button trainThreeTop;
-    public Button trainFourBtm; 
-    public Button trainFourTop;
+    public Button trainfourTop; 
+    public Button trainfourBtm;
     // public Button trainFiveBtm; 
     // public Button trainFiveTop;
     public Button locoBtm; 
@@ -258,8 +258,8 @@ public class GameBoard : MonoBehaviour
     private List<float> twoBtm = new List<float>() {918.2F, 815.7F, -364.9F}; 
     private List<float> threeTop = new List<float>() {1149.4F, 883.2F, -364.9F}; 
     private List<float> threeBtm = new List<float>() {1139.7F, 821.5F, -364.9F}; 
-    private List<float> fourTop = new List<float>() {1353.2F, 820.2F, -364.9F}; 
-    private List<float> fourBtm = new List<float>() {1357.1F, 873.5F, -364.9F}; 
+    private List<float> fourBtm = new List<float>() {1353.2F, 820.2F, -364.9F}; 
+    private List<float> fourTop = new List<float>() {1357.1F, 873.5F, -364.9F}; 
     private List<float> locTop = new List<float>() {1594.2F, 873.5F, -364.9F}; 
     private List<float> locBtm = new List<float>() {1597.7F, 816.5F, -364.9F};
     private List<float> belGem = new List<float>() {834.7F, 1121.2F, -364.9F};
@@ -343,7 +343,7 @@ public class GameBoard : MonoBehaviour
     /* getRandOffset() picks and returns a random float from a set of pre-defined floats */
     public float getRandOffset(){
         Random r = new Random();
-        var values = new[] { 20.0F, 40.0F, 50.0F, -20.0F, -30.0F, -50.0F, 46.0F, 35.0F, -46.0F, -35.0F };
+        var values = new[] { 20.0F, 40.0F, 50.0F, -20.0F, -30.0F, -50.0F, 46.0F, 35.0F, -46.0F, -35.0F, 20.0F, 40.0F, 50.0F, -20.0F, -30.0F, -50.0F, 46.0F, 35.0F, -46.0F, -35.0F, 20.0F, 40.0F, 50.0F, -20.0F, -30.0F, -50.0F, 46.0F, 35.0F, -46.0F, -35.0F, -20.0F, -30.0F, -50.0F, 46.0F, 35.0F, -46.0F, -35.0F, 20.0F, 40.0F, 50.0F, -20.0F, -30.0F, -50.0F, 46.0F, 35.0F, -46.0F, -35.0F };
         float result = values[r.Next(values.Length)];
         Debug.Log("THE RANDOM OFFSET IS: " + result);
         return result; 
@@ -353,13 +353,33 @@ public class GameBoard : MonoBehaviour
     /* removeTrainCarts removes extra train carts */
     public void removeTrainCarts(int numberOfBandits) {
         if(numberOfBandits == 3){
-            trainFourBtm.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
-            trainFourTop.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+            trainfourTop.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+            trainfourBtm.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
         }else if(numberOfBandits == 2){
             trainThreeBtm.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
             trainThreeTop.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
-            trainFourBtm.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
-            trainFourTop.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+            trainfourTop.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+            trainfourBtm.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+        }
+    }
+
+    /* removeBandits non-playing bandits */
+    public void removeBandits(ArrayList playingBandits) {
+        foreach(object aBandit in playingBandits){
+            Bandit currABandit = (Bandit) aBandit;
+            if(currABandit.characterAsString == "BELLE"){
+                 belle.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+            }else if(currABandit.characterAsString == "CHEYENNE"){
+                cheyenne.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+            }else if(currABandit.characterAsString == "DOC"){
+                doc.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+            }else if(currABandit.characterAsString == "DJANGO"){
+                django.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+            }else if(currABandit.characterAsString == "GHOST"){
+                ghost.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+            }else if(currABandit.characterAsString == "TUCO"){
+                tuco.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+            }
         }
     }
 
@@ -392,6 +412,8 @@ public class GameBoard : MonoBehaviour
         int numberOfBandits = gm.bandits.Count;
         Debug.Log("THERE ARE " + numberOfBandits + " IN THE GAME!");
         removeTrainCarts(numberOfBandits);
+        removeBandits(gm.bandits);
+        
         //addAllBandits();
 
         ArrayList banditsArray = gm.bandits;
@@ -771,8 +793,8 @@ public class GameBoard : MonoBehaviour
         buttonToObject.Add(trainTwoTop, "null"); 
         buttonToObject.Add(trainThreeBtm, "null"); 
         buttonToObject.Add(trainThreeTop, "null"); 
-        buttonToObject.Add(trainFourBtm, "null"); 
-        buttonToObject.Add(trainFourTop, "null");
+        buttonToObject.Add(trainfourTop, "null"); 
+        buttonToObject.Add(trainfourBtm, "null");
         buttonToObject.Add(locoBtm, "null"); 
         buttonToObject.Add(locoTop, "null");
 
@@ -817,13 +839,13 @@ public class GameBoard : MonoBehaviour
         trainCabins.Insert(1, trainOneBtm);
         trainCabins.Insert(2, trainTwoBtm);
         trainCabins.Insert(3, trainThreeBtm);
-        trainCabins.Insert(4, trainFourBtm);
+        trainCabins.Insert(4, trainfourTop);
 
         trainRoofs.Insert(0, locoTop);
         trainRoofs.Insert(1, trainOneTop);
         trainRoofs.Insert(2, trainTwoTop);
         trainRoofs.Insert(3, trainThreeTop);
-        trainRoofs.Insert(4, trainFourTop);
+        trainRoofs.Insert(4, trainfourBtm);
 
 
         goHandCard.Insert(0, handCard1);
@@ -952,41 +974,57 @@ public class GameBoard : MonoBehaviour
         
         if(carfloor == "CABIN"){
             if(cartype == "LOCOMOTIVE"){
-                banditBtn.transform.position = new Vector3 (locBtm[0] + getRandOffset(), locBtm[1], locBtm[2]);
+                float newRandOffset = getRandOffset(); 
+                banditBtn.transform.position = new Vector3 (locBtm[0] + newRandOffset, locBtm[1], locBtm[2]);
             }else if(cartype == "CAR1"){
-                banditBtn.transform.position = new Vector3 (oneBtm[0] + getRandOffset(), oneBtm[1], oneBtm[2]);
+                float newRandOffset = getRandOffset(); 
+                banditBtn.transform.position = new Vector3 (fourTop[0] + newRandOffset, fourTop[1], fourTop[2]);
             }else if(cartype == "CAR2"){
-                banditBtn.transform.position = new Vector3 (twoBtm[0] + getRandOffset(), twoBtm[1], twoBtm[2]);
+                float newRandOffset = getRandOffset(); 
+                banditBtn.transform.position = new Vector3 (threeBtm[0] + newRandOffset, threeBtm[1], threeBtm[2]);
             }else if(cartype == "CAR3"){
-                banditBtn.transform.position = new Vector3 (threeBtm[0] + getRandOffset(), threeBtm[1], threeBtm[2]);
+                float newRandOffset = getRandOffset(); 
+                banditBtn.transform.position = new Vector3 (twoBtm[0] + newRandOffset, twoBtm[1], twoBtm[2]);
             }else if(cartype == "CAR4"){
-                banditBtn.transform.position = new Vector3 (fourBtm[0] + getRandOffset(), fourBtm[1], fourBtm[2]);
+                float newRandOffset = getRandOffset(); 
+                banditBtn.transform.position = new Vector3 (oneBtm[0] + newRandOffset, oneBtm[1], oneBtm[2]);
             }else if(cartype == "CAR5"){
-                banditBtn.transform.position = new Vector3 (706.0F + getRandOffset(), 816.5F, -364.9F);
+                float newRandOffset = getRandOffset(); 
+                banditBtn.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
             }else if(cartype == "CAR6"){
-                banditBtn.transform.position = new Vector3 (706.0F + getRandOffset(), 816.5F, -364.9F);
+                float newRandOffset = getRandOffset(); 
+                banditBtn.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
             }else{
                 // cartype == "STAGECOACH"
-                banditBtn.transform.position = new Vector3 (706.0F + getRandOffset(), 816.5F, -364.9F);
+                float newRandOffset = getRandOffset(); 
+                banditBtn.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
             }
         }else{
             if(cartype == "LOCOMOTIVE"){
-                banditBtn.transform.position = new Vector3 (locTop[0] + getRandOffset(), locTop[1], locTop[2]);
+                float newRandOffset = getRandOffset(); 
+                banditBtn.transform.position = new Vector3 (locTop[0] + newRandOffset, locTop[1], locTop[2]);
             }else if(cartype == "CAR1"){
-                banditBtn.transform.position = new Vector3 (oneTop[0] + getRandOffset(), oneTop[1], oneTop[2]);
+                float newRandOffset = getRandOffset(); 
+                banditBtn.transform.position = new Vector3 (fourBtm[0] + newRandOffset, fourBtm[1], fourBtm[2]);
             }else if(cartype == "CAR2"){
-                banditBtn.transform.position = new Vector3 (twoTop[0] + getRandOffset(), twoTop[1], twoTop[2]);
+                float newRandOffset = getRandOffset(); 
+                banditBtn.transform.position = new Vector3 (threeTop[0] + newRandOffset, threeTop[1], threeTop[2]);
             }else if(cartype == "CAR3"){
-                banditBtn.transform.position = new Vector3 (threeTop[0] + getRandOffset(), threeTop[1], threeTop[2]);
+                float newRandOffset = getRandOffset(); 
+                banditBtn.transform.position = new Vector3 (twoTop[0] + newRandOffset, twoTop[1], twoTop[2]);
             }else if(cartype == "CAR4"){
-                banditBtn.transform.position = new Vector3 (fourTop[0] + getRandOffset(), fourTop[1], fourTop[2]);
+                float newRandOffset = getRandOffset(); 
+                banditBtn.transform.position = new Vector3 (oneTop[0] + newRandOffset, oneTop[1], oneTop[2]);
             }else if(cartype == "CAR5"){
-                banditBtn.transform.position = new Vector3 (706.0F + getRandOffset(), 816.5F, -364.9F);
+                float newRandOffset = getRandOffset(); 
+                banditBtn.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
             }else if(cartype == "CAR6"){
-                banditBtn.transform.position = new Vector3 (706.0F + getRandOffset(), 816.5F, -364.9F);
+                float newRandOffset = getRandOffset(); 
+                banditBtn.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
             }else{
                 // cartype == "STAGECOACH"
-                banditBtn.transform.position = new Vector3 (706.0F + getRandOffset(), 816.5F, -364.9F);
+                 float newRandOffset = getRandOffset(); 
+                banditBtn.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
             }
         }
 
@@ -994,19 +1032,26 @@ public class GameBoard : MonoBehaviour
 
     public void placeMarshalAt(string cartype){
         if(cartype == "LOCOMOTIVE"){
-            marshal.transform.position = new Vector3 (locBtm[0] + getRandOffset(), locBtm[1], locBtm[2]);
+            float newRandOffset = getRandOffset(); 
+            marshal.transform.position = new Vector3 (locBtm[0] + newRandOffset, locBtm[1], locBtm[2]);
         }else if(cartype == "CAR1"){
-            marshal.transform.position = new Vector3 (oneBtm[0] + getRandOffset(), oneBtm[1], oneBtm[2]);
+            float newRandOffset = getRandOffset(); 
+            marshal.transform.position = new Vector3 (fourTop[0] + newRandOffset, fourTop[1], fourTop[2]);
         }else if(cartype == "CAR2"){
-            marshal.transform.position = new Vector3 (twoBtm[0] + getRandOffset(), twoBtm[1], twoBtm[2]);
+            float newRandOffset = getRandOffset(); 
+            marshal.transform.position = new Vector3 (threeBtm[0] + newRandOffset, threeBtm[1], threeBtm[2]);
         }else if(cartype == "CAR3"){
-            marshal.transform.position = new Vector3 (threeBtm[0] + getRandOffset(), threeBtm[1], threeBtm[2]);
+            float newRandOffset = getRandOffset(); 
+            marshal.transform.position = new Vector3 (twoBtm[0] + newRandOffset, twoBtm[1], twoBtm[2]);
         }else if(cartype == "CAR4"){
-            marshal.transform.position = new Vector3 (fourBtm[0] + getRandOffset(), fourBtm[1], fourBtm[2]);
+             float newRandOffset = getRandOffset(); 
+            marshal.transform.position = new Vector3 (oneBtm[0] + newRandOffset, oneBtm[1], oneBtm[2]);
         }else if(cartype == "CAR5"){
-            marshal.transform.position = new Vector3 (706.0F + getRandOffset(), 816.5F, -364.9F);
+             float newRandOffset = getRandOffset(); 
+            marshal.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
         }else if(cartype == "CAR6"){
-            marshal.transform.position = new Vector3 (706.0F + getRandOffset(), 816.5F, -364.9F);
+             float newRandOffset = getRandOffset(); 
+            marshal.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
         }
     }
 
@@ -1014,41 +1059,57 @@ public class GameBoard : MonoBehaviour
     public void placeLootOnTrain(Button lootBtn, string cartype, string carfloor){
             if(carfloor == "CABIN"){
             if(cartype == "LOCOMOTIVE"){
-                lootBtn.transform.position = new Vector3 (locBtm[0], locBtm[1], locBtm[2]);
+                float newRandOffset = getRandOffset(); 
+                lootBtn.transform.position = new Vector3 (locBtm[0] + newRandOffset, locBtm[1], locBtm[2]);
             }else if(cartype == "CAR1"){
-                lootBtn.transform.position = new Vector3 (oneBtm[0], oneBtm[1], oneBtm[2]);
+                float newRandOffset = getRandOffset(); 
+                lootBtn.transform.position = new Vector3 (fourTop[0] + newRandOffset, fourTop[1], fourTop[2]);
             }else if(cartype == "CAR2"){
-                lootBtn.transform.position = new Vector3 (twoBtm[0], twoBtm[1], twoBtm[2]);
+                float newRandOffset = getRandOffset(); 
+                lootBtn.transform.position = new Vector3 (threeBtm[0] + newRandOffset, threeBtm[1], threeBtm[2]);
             }else if(cartype == "CAR3"){
-                lootBtn.transform.position = new Vector3 (threeBtm[0], threeBtm[1], threeBtm[2]);
+                float newRandOffset = getRandOffset(); 
+                lootBtn.transform.position = new Vector3 (twoBtm[0] + newRandOffset, twoBtm[1], twoBtm[2]);
             }else if(cartype == "CAR4"){
-                lootBtn.transform.position = new Vector3 (fourBtm[0], fourBtm[1], fourBtm[2]);
+                float newRandOffset = getRandOffset(); 
+                lootBtn.transform.position = new Vector3 (oneBtm[0] + newRandOffset, oneBtm[1], oneBtm[2]);
             }else if(cartype == "CAR5"){
-                lootBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+                float newRandOffset = getRandOffset(); 
+                lootBtn.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
             }else if(cartype == "CAR6"){
-                lootBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+                float newRandOffset = getRandOffset(); 
+                lootBtn.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
             }else{
                 // cartype == "STAGECOACH"
-                lootBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+                float newRandOffset = getRandOffset(); 
+                lootBtn.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
             }
         }else{
             if(cartype == "LOCOMOTIVE"){
-                lootBtn.transform.position = new Vector3 (locTop[0], locTop[1], locTop[2]);
+                float newRandOffset = getRandOffset(); 
+                lootBtn.transform.position = new Vector3 (locTop[0] + newRandOffset, locTop[1], locTop[2]);
             }else if(cartype == "CAR1"){
-                lootBtn.transform.position = new Vector3 (oneTop[0], oneTop[1], oneTop[2]);
+                float newRandOffset = getRandOffset(); 
+                lootBtn.transform.position = new Vector3 (fourBtm[0] + newRandOffset, fourBtm[1], fourBtm[2]);
             }else if(cartype == "CAR2"){
-                lootBtn.transform.position = new Vector3 (twoTop[0], twoTop[1], twoTop[2]);
+                float newRandOffset = getRandOffset(); 
+                lootBtn.transform.position = new Vector3 (threeTop[0]+ newRandOffset, threeTop[1], threeTop[2]);
             }else if(cartype == "CAR3"){
-                lootBtn.transform.position = new Vector3 (threeTop[0], threeTop[1], threeTop[2]);
+                float newRandOffset = getRandOffset(); 
+                lootBtn.transform.position = new Vector3 (twoTop[0] + newRandOffset, twoTop[1], twoTop[2]);
             }else if(cartype == "CAR4"){
-                lootBtn.transform.position = new Vector3 (fourTop[0], fourTop[1], fourTop[2]);
+                float newRandOffset = getRandOffset(); 
+                lootBtn.transform.position = new Vector3 (oneTop[0] + newRandOffset, oneTop[1], oneTop[2]);
             }else if(cartype == "CAR5"){
-                lootBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+                float newRandOffset = getRandOffset(); 
+                lootBtn.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
             }else if(cartype == "CAR6"){
-                lootBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+                float newRandOffset = getRandOffset(); 
+                lootBtn.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
             }else{
                 // cartype == "STAGECOACH"
-                lootBtn.transform.position = new Vector3 (706.0F, 816.5F, -364.9F);
+                float newRandOffset = getRandOffset(); 
+                lootBtn.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
             }
         }
     }
