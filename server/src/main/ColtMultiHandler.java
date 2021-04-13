@@ -112,8 +112,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 
 		String currentSaveGameId = params.getUtfString("savegameId");
 		System.out.println("currently saved Games to be deleted: "+ currentSaveGameId + " : "+ saveGames.containsKey(currentSaveGameId));
-		gm = saveGames.get(currentSaveGameId);
-		boolean result = saveGames.remove(currentSaveGameId, gm);
+		boolean result = saveGames.remove(currentSaveGameId, saveGames.get(currentSaveGameId));
 		System.out.println("successfully removed saved Games: "+ result);
 		
 	}
