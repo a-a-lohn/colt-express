@@ -143,10 +143,32 @@ public class TestGame : MonoBehaviour
                     summary.text += "bullet card, ";
                 }
             }
+            summary.text += "\nDECK: ";
+            foreach (Card c in b.getDeck())
+            {
+                try
+                {
+                    ActionCard ac = (ActionCard)c;
+                    summary.text += ac.actionTypeAsString + ", ";
+                }
+                catch (Exception e)
+                {
+                    summary.text += "bullet card, ";
+                }
+            }
             summary.text += "\nLOOT: ";
             foreach (Loot l in b.getLoot())
             { 
-                summary.text += "l, ";
+                try
+                {
+                    Money m = (Money)l;
+                    summary.text += m.moneyTypeAsString + ", ";
+                }
+                catch (Exception e)
+                {
+                    Whiskey w = (Whiskey)l;
+                    summary.text += w.whiskeyTypeAsString + ", ";
+                }
             }
             summary.text += "\nPOSITION: ";
             foreach (DictionaryEntry e in gm.banditPositions)
@@ -242,116 +264,117 @@ public class TestGame : MonoBehaviour
                 break;
             // R T1
             case 1:
+                //BELLE PLAYS CHANGEFLOOR
                 gm.playCard((ActionCard)gm.currentBandit.getHand()[2]);
                 // ONLY CALL PLAYTURN() IMMEDIATELY AFTER CALLING A METHOD THAT CALLS ENDOFTURN() (such as playCard())
                 gm.playTurn(); // this method would be called automatically at the BEGINNING of a turn on all clients
                 break;
             case 2:
+                //DOC PLAYS MOVE MARSHAL
                 gm.playCard((ActionCard)gm.currentBandit.getHand()[5]); // DOC MOVES MARSHAL - case 14
                 gm.playTurn();
                 break;
             case 3:
+                //GHOST PLAYS MOVE
                 gm.playCard((ActionCard)gm.currentBandit.getHand()[3]); // Ghost moves to car3 roof - case 15
                 gm.playTurn();
                 break;
             // R1 T2
             case 4:
+                //BELLE DRAWS 3
                 gm.drawCards(3);
                 gm.playTurn();
                 break;
             case 5:
+                //DOC DRAWS 3
                 gm.drawCards(3);
                 gm.playTurn();
                 break;
             case 6:
+                //GHOST DRAWS 3
                 gm.drawCards(3);
                 gm.playTurn();
                 break;
             // R1 T3
             case 7:
+                //BELLE PLAYS SHOOT
                 gm.playCard((ActionCard)gm.currentBandit.getHand()[0]); // Belle shoot Ghost - case 16
                 gm.playTurn();
                 break;
             case 8:
+                //DOC PLAYS PUNCH
                 gm.playCard((ActionCard)gm.currentBandit.getHand()[4]); // Doc punches Belle - case 17
                 gm.playTurn();
                 break;
             case 9:
+                //GHOST PLAYS SHOOT
                 gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
                 gm.playTurn();
                 break;
             // R1 T4
+                //BELLE PLAYS CHANGEFLOOR
             case 10:
-                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[5]);
                 gm.playTurn();
                 break;
             case 11:
-                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
+                //GHOST PLAYS CHANGEFLOOR
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[1]);
                 gm.playTurn();
                 break;
             case 12:
-                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
+                //DOC PLAYS ROB
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[1]);
                 gm.playTurn();
                 break;
-            // stealing phase R1 T1
+            // stealing phase R1 T1 STANDARD
             case 13:
+                //BELLE CHANGE FLOOR to trainRoof[1] (roof1)
                 gm.resolveAction((ActionCard)gm.currentBandit.toResolve);
-                GameSummary();
-                //gm.shoot(with a legal bandit);
-                //gm.playTurn();
                 break;
             case 14:
-                gm.moveMarshal((TrainUnit)gm.trainCabin[1]); // move marshal to trainCabin[1] (car1)
-                GameSummary();
+                //DOC MOVE MARSHAL to trainCabin[1] (car1) doc and ghost shot by marshal, both move to roof1
+                gm.resolveAction((ActionCard)gm.currentBandit.toResolve);
+                gm.moveMarshal((TrainUnit)gm.trainCabin[1]); 
                 break;
             case 15:
-                gm.move((TrainUnit)gm.trainRoof[3]); // Ghost moves to trainRoof[3] (car3)
-                GameSummary();
+                //GHOST MOVE to trainRoof[3] (roof3)
+                gm.resolveAction((ActionCard)gm.currentBandit.toResolve);
+                gm.move((TrainUnit)gm.trainRoof[3]);
                 break;
-            // R1 T2
+            // R1 T2 EVERYONE DRAWS CARDS - no stealin to resolve
+            // R1 T3 TUNNEL
             case 16:
-                Bandit Ghost = (Bandit)gm.bandits[2];
-                int numOfDeckBefore = Ghost.deck.Count;
-                gm.shoot((Bandit)gm.bandits[2]);        // Belle shoot Ghost
-                int numOfDeckAfter = Ghost.deck.Count;
-                if (numOfDeckBefore + 1 == numOfDeckAfter) {
-                    Debug.Log("Shoot success!");
-                }
-                GameSummary();
+                //BELLE SHOOT Ghost
+                gm.resolveAction((ActionCard)gm.currentBandit.toResolve);
+                gm.shoot((Bandit)gm.bandits[2]);
                 break;
             case 17:
+                //DOC PUNCH Belle to locoRoof, Belle leaves her purse on roof1
+                gm.resolveAction((ActionCard)gm.currentBandit.toResolve);
                 Bandit Belle = (Bandit)gm.bandits[0];
-                Loot l = (Loot)Belle.getLoot()[0];
-                TrainUnit locoCabin = (TrainUnit)gm.trainCabin[0];
-                gm.punch(Belle, l, locoCabin); // Doc punches Belle moves to locoCabin and leaves her purse (locoCabin just for test)
-                if (Belle.getPosition() == (TrainUnit)gm.trainRoof[0])
-                {
-                    Debug.Log("Something Wrong!");
-                }
-                GameSummary();
+                gm.punch(Belle, (Loot)Belle.getLoot()[0], (TrainUnit)gm.trainRoof[0]);
                 break;
             case 18:
+                //GHOST SHOOT Doc
+                gm.resolveAction((ActionCard)gm.currentBandit.toResolve);
                 Bandit Doc = (Bandit)gm.bandits[1];
-                int numOfDeckBefore1 = Doc.deck.Count;
-                gm.shoot(Doc);                   // Ghost shoot Doc
-                int numOfDeckAfter1 = Doc.deck.Count;
-                if (numOfDeckBefore1 + 1 == numOfDeckAfter1)
-                {
-                    Debug.Log("Shoot2 success!");
-                }
-                GameSummary();
+                gm.shoot(Doc);
                 break;
-            // R1 T3
+            // R1 T4 SWITCHING
             case 19:
-                Bandit Belle1 = (Bandit)gm.bandits[0];
-                TrainUnit locoCabin1 = (TrainUnit)gm.trainCabin[0];
-                Loot l1 = (Loot)locoCabin1.getLootHere()[0];
-                Belle1.setPosition(locoCabin1);
-                gm.rob(l1);          // Belle robs and get the strongbox
-                GameSummary();
+                //BELLE CHANGEFLOOR
+                gm.resolveAction((ActionCard)gm.currentBandit.toResolve);
                 break;
-
-
+            case 20:
+                //GHOST CHANGEFLOOR
+                gm.resolveAction((ActionCard)gm.currentBandit.toResolve);
+                break;
+            case 21:
+                //DOC ROB
+                gm.resolveAction((ActionCard)gm.currentBandit.toResolve);
+                gm.rob((Loot)gm.currentBandit.getPosition().getLootHere()[0]);
+                break;
 
         }
     }
