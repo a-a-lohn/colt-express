@@ -271,7 +271,6 @@ public class GameBoard : MonoBehaviour
 
     void Start(){  
         // Screen.SetResolution(1080, 1920, false);  
-
         // Debug.Log("bel gem: " + belleGemGO.transform.position); 
         // Debug.Log("bel belleWhisGO: " + belleWhisGO.transform.position); 
         // Debug.Log("bel belStrGo: " + belStrGo.transform.position); 
@@ -359,16 +358,14 @@ public class GameBoard : MonoBehaviour
         }else if(numberOfBandits == 2){
             trainThreeBtm.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
             trainThreeTop.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+            trainFourBtm.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+            trainFourTop.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
         }
     }
 
     public void UpdateGameState(BaseEvent evt) {
         Debug.Log("updategamestate called");
 
-        int numberOfBandits = gm.bandits.Count;
-
-        Debug.Log("THERE ARE " + numberOfBandits + " IN THE GAME!");
-        removeTrainCarts(numberOfBandits);
 
         setAllClickable();
         proceed.interactable = false;
@@ -390,10 +387,11 @@ public class GameBoard : MonoBehaviour
         gm = (GameManager)responseParams.GetClass("gm");
         GameManager.replaceInstance(gm);
         reassignReferences();
-
         displayGameInfo();
-        
-        
+
+        int numberOfBandits = gm.bandits.Count;
+        Debug.Log("THERE ARE " + numberOfBandits + " IN THE GAME!");
+        removeTrainCarts(numberOfBandits);
         //addAllBandits();
 
         ArrayList banditsArray = gm.bandits;
@@ -680,24 +678,32 @@ public class GameBoard : MonoBehaviour
         }
     }
 
-    public void buttonClicked(Button btn){    
+    public void buttonClicked(Button btn){
         if(!myTurn) {
             Debug.Log("not my turn!");
         } else {
             Debug.Log( btn.name + " IS CLICKED");
-            //Debug.Log("Clickable has " + clickable.Count + "items");
-            //promptPunchTarget.text = btn.name + "IS CLICKED"; 
             //punchedBandit = btn.name;
             // if buttonToObject[btn] is an actioncard, call playCard(buttonToObject[btn])
+
+            clickable.Add(buttonToObject[btn]); 
+            TrainUnit clickedTU = (TrainUnit)buttonToObject[btn]; 
+
+            Debug.Log("CLICKED TRAIN TYPE" + clickedTU.carTypeAsString);
+            Debug.Log("CLICKED TRAIN FLOOR" + clickedTU.carFloorAsString);
+
             if(clickable.Contains(buttonToObject[btn])) {
                 Debug.Log("this is a clickable item!");
                 //all calls back to GM should be here
-
+      
+                // TODO: CLICK ON THAT TRAIN BUTTON 
                 newAction = false;
                 actionText.text = "";
                 try {
-                    ActionCard currActionCard = (ActionCard)buttonToObject[btn];
-                    gm.playCard(currActionCard); 
+                    // ActionCard currActionCard = (ActionCard)buttonToObject[btn];
+                    // gm.playCard(currActionCard); 
+                    gm.moveMarshal(clickedTU);
+
                 } catch(Exception e) {
                     Debug.Log("not an action card");
                 }
