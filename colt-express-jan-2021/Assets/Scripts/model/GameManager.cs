@@ -886,22 +886,41 @@ namespace model {
             }
             
             if (currentPosition.carFloorAsString.Equals("ROOF")) {
-                if ((currentPosition.getLeft().getLeft() != null)) {
-                    possibleMoving.Add(currentPosition.getLeft());
+                if (currentPosition.getLeft() != null) {
+                    if (currentPosition.getLeft().getLeft() != null) {
+                        possibleMoving.Add(currentPosition.getLeft().getLeft());
+                    }
                 }
-                
-                if ((currentPosition.getRight().getRight() != null)) {
-                    possibleMoving.Add(currentPosition.getLeft());
+
+                if (currentPosition.getRight() != null)
+                {
+                    if (currentPosition.getRight().getRight() != null)
+                    {
+                        possibleMoving.Add(currentPosition.getRight().getRight());
+                    }
                 }
-                
-                if ((currentPosition.getLeft().getLeft().getLeft() != null)) {
-                    possibleMoving.Add(currentPosition.getLeft());
+
+                if (currentPosition.getLeft() != null)
+                {
+                    if (currentPosition.getLeft().getLeft() != null)
+                    {
+                        if (currentPosition.getLeft().getLeft().getLeft() != null) {
+                            possibleMoving.Add(currentPosition.getLeft().getLeft().getLeft());
+                        }       
+                    }
                 }
-                
-                if ((currentPosition.getRight().getRight().getRight() != null)) {
-                    possibleMoving.Add(currentPosition.getLeft());
+
+                if (currentPosition.getRight() != null)
+                {
+                    if (currentPosition.getRight().getRight() != null)
+                    {
+                        if (currentPosition.getRight().getRight().getRight() != null)
+                        {
+                            possibleMoving.Add(currentPosition.getRight().getRight().getRight());
+                        }
+                    }
                 }
-                
+
             }
             return possibleMoving;
         }
