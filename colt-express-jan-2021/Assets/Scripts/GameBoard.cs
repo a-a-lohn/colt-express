@@ -267,9 +267,11 @@ public class GameBoard : MonoBehaviour
     private List<float> belStr = new List<float>() {863.3F, 1121.2F, -364.9F};
     private List<float> belWhi= new List<float>() {842.5F, 1105.3F, -364.9F};
 
+    private List<float> faraway= new List<float>() {-1452.5F, 920.9F, -364.9F};
 
     void Start(){  
         // Screen.SetResolution(1080, 1920, false);  
+
         // Debug.Log("bel gem: " + belleGemGO.transform.position); 
         // Debug.Log("bel belleWhisGO: " + belleWhisGO.transform.position); 
         // Debug.Log("bel belStrGo: " + belStrGo.transform.position); 
@@ -344,13 +346,30 @@ public class GameBoard : MonoBehaviour
         Random r = new Random();
         var values = new[] { 20.0F, 40.0F, 50.0F, -20.0F, -30.0F, -50.0F, 46.0F, 35.0F, -46.0F, -35.0F };
         float result = values[r.Next(values.Length)];
+        Debug.Log("THE RANDOM OFFSET IS: " + result);
         return result; 
+    }
+
+
+    /* removeTrainCarts removes extra train carts */
+    public void removeTrainCarts(int numberOfBandits) {
+        if(numberOfBandits == 3){
+            trainFourBtm.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+            trainFourTop.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+        }else if(numberOfBandits == 2){
+            trainThreeBtm.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+            trainThreeTop.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+        }
     }
 
     public void UpdateGameState(BaseEvent evt) {
         Debug.Log("updategamestate called");
 
-        Debug.Log("update the "); 
+        int numberOfBandits = gm.bandits.Count;
+
+        Debug.Log("THERE ARE " + numberOfBandits + " IN THE GAME!");
+        removeTrainCarts(numberOfBandits);
+
         setAllClickable();
         proceed.interactable = false;
         canDrawCards = false;
@@ -884,10 +903,12 @@ public class GameBoard : MonoBehaviour
             index++;
         }
         index = 0;
+        Debug.Log("ALL TRAIN ROOFS ARE MAPPED");
         foreach(object oneCab in gm.trainCabin){
             buttonToObject[trainCabins[index]] = oneCab;
             index++;
         }
+        Debug.Log("ALL TRAIN CABINS ARE MAPPED");
     }
 
     public void mapBandit(GameManager gm){
@@ -985,7 +1006,6 @@ public class GameBoard : MonoBehaviour
 
 
     public void placeLootOnTrain(Button lootBtn, string cartype, string carfloor){
-
             if(carfloor == "CABIN"){
             if(cartype == "LOCOMOTIVE"){
                 lootBtn.transform.position = new Vector3 (locBtm[0], locBtm[1], locBtm[2]);
@@ -1031,16 +1051,17 @@ public class GameBoard : MonoBehaviour
     public void placeLootOnBandit(Button lootBtn, string lootType, string bandit){
             if(bandit == "BELLE"){
                 // move to belle's loot position
+                Debug.Log("MOVE LOOT OF TYPE" + lootType + " TO BELLE'S NAME'S POSITION"); 
             }else if(bandit == "CHEYENNE"){
-
+                Debug.Log("MOVE LOOT OF TYPE" + lootType + " TO CHEYENNE'S NAME'S POSITION"); 
             }else if(bandit == "DOC"){
-
+                Debug.Log("MOVE LOOT OF TYPE" + lootType + " TO DOC'S NAME'S POSITION"); 
             }else if(bandit == "DJANGO"){
-
+                Debug.Log("MOVE LOOT OF TYPE" + lootType + " TO DJANGO'S NAME'S POSITION"); 
             }else if(bandit == "GHOST"){
-
+                Debug.Log("MOVE LOOT OF TYPE" + lootType + " TO GHOST'S NAME'S POSITION"); 
             }else if(bandit == "TUCO"){
-
+                Debug.Log("MOVE LOOT OF TYPE" + lootType + " TO TUCO'S NAME'S POSITION"); 
             }
     }
 
