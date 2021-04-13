@@ -877,10 +877,10 @@ MonoBehaviour:
       - m_Target: {fileID: 1572605318}
         m_TargetAssemblyTypeName: WaitingRoom, Assembly-CSharp
         m_MethodName: PlayingSaveGame
-        m_Mode: 1
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1452644579}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1127,10 +1127,10 @@ MonoBehaviour:
       - m_Target: {fileID: 1572605318}
         m_TargetAssemblyTypeName: WaitingRoom, Assembly-CSharp
         m_MethodName: PlayingSaveGame
-        m_Mode: 1
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 566921856}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

@@ -174,10 +174,10 @@ public class WaitingRoom : MonoBehaviour
         }
     }
 
-    public void PlayingSaveGame() {
-        Debug.Log("GameID content : " + SavedSessionIDButtonAText.text);
+    public void PlayingSaveGame(Text savegameID) {
+        Debug.Log("GameID content : " + savegameID.text);
         ISFSObject obj2 = SFSObject.NewInstance();
-        obj2.PutUtfString("savegameId", SavedSessionIDButtonAText.text);
+        obj2.PutUtfString("savegameId", savegameID.text);
         ExtensionRequest req = new ExtensionRequest("gm.loadSavedGame",obj2);
         SFS.Send(req);
     }

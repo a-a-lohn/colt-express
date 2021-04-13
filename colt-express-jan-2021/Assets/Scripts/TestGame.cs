@@ -291,12 +291,12 @@ public class TestGame : MonoBehaviour
                 break;
             case 12:
                 gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
-                gm.playTurn();
+                gm.playTurn(); // changefloor -- plays changefloor (automatic), calls end of turn (sets new toresolve)
                 break;
             // stealing phase R1 T1
             case 13:
-                gm.resolveAction((ActionCard)gm.currentBandit.toResolve);
-                GameSummary();
+                gm.playTurn(); // plays the next card -- if it's automatic, calls end of turn immediately
+                //gm.resolveAction((ActionCard)gm.currentBandit.toResolve);
                 //gm.shoot(with a legal bandit);
                 //gm.playTurn();
                 break;

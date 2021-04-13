@@ -348,16 +348,14 @@ public class GameBoard : MonoBehaviour
         }else if(numberOfBandits == 2){
             trainThreeBtm.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
             trainThreeTop.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+            trainFourBtm.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+            trainFourTop.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
         }
     }
 
+
     public void UpdateGameState(BaseEvent evt) {
         Debug.Log("updategamestate called");
-
-        int numberOfBandits = gm.bandits.Count;
-
-        Debug.Log("THERE ARE " + numberOfBandits + " IN THE GAME!");
-        removeTrainCarts(numberOfBandits);
 
         setAllClickable();
         proceed.interactable = false;
@@ -382,6 +380,10 @@ public class GameBoard : MonoBehaviour
 
         displayGameInfo();
         
+        int numberOfBandits = gm.bandits.Count;
+
+        Debug.Log("THERE ARE " + numberOfBandits + " IN THE GAME!");
+        removeTrainCarts(numberOfBandits);
         
         //addAllBandits();
 
@@ -1154,11 +1156,12 @@ public class GameBoard : MonoBehaviour
         newAction = false;
         newAction = false;
         myTurn = false;
-        playingBandits = new List<Button>();
-        allGem = new List<Button>();
-        allPurse = new List<Button>();
-        allBox = new List<Button>();
-        allWhiskey = new List<Button>();
+        // these cause issues
+        // playingBandits = new List<Button>();
+        // allGem = new List<Button>();
+        // allPurse = new List<Button>();
+        // allBox = new List<Button>();
+        // allWhiskey = new List<Button>();
         canDrawCards = false;
         calledMapTrain = false;
     }
@@ -1240,11 +1243,7 @@ public class GameBoard : MonoBehaviour
 
     public static void SaveGameState(string savegameID) {
         Debug.Log("SaveGameState is called!"); 
-		
         
-        //MAKE SURE SAVEGAMEID IS DIFFERENT FROM THAT OF EXISTING SAVEGAMES
-
-
 		var request = new RestRequest("api/sessions/" + gameHash, Method.GET)
             .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
         IRestResponse response = client.Execute(request);

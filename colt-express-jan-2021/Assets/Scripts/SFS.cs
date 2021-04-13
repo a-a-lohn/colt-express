@@ -294,11 +294,13 @@ public static class SFS
 	public static void JoinRoom() {
 		// Join first Room in Zone
 		if (sfs.RoomList.Count > 0) {
+			Debug.Log("joining a room");
 			sfs.Send(new Sfs2X.Requests.JoinRoomRequest(sfs.RoomList[0].Name));
 		}
 	}
 
 	public static void LeaveRoom() {
+		Debug.Log("leaving room");
 		sfs.Send(new Sfs2X.Requests.LeaveRoomRequest());
 	}
 	
