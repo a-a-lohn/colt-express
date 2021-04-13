@@ -42,7 +42,7 @@ public static class SFS
 	public static int trainIndex = 1;
 
     static SFS(){
-        defaultHost = "13.72.79.112";//"127.0.0.1";// "13.72.79.112";
+        defaultHost = "13.72.79.112";//"127.0.0.1";
 	    defaultTcpPort = 9933;
         zone = "MergedExt";
     }
