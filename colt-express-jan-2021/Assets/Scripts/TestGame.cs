@@ -330,49 +330,48 @@ public class TestGame : MonoBehaviour
             // stealing phase R1 T1 STANDARD
             case 13:
                 //BELLE CHANGE FLOOR to trainRoof[1] (roof1)
-                gm.resolveAction((ActionCard)gm.currentBandit.toResolve);
                 break;
             case 14:
                 //DOC MOVE MARSHAL to trainCabin[1] (car1) doc and ghost shot by marshal, both move to roof1
-                gm.resolveAction((ActionCard)gm.currentBandit.toResolve);
+                gm.playTurn();
                 gm.moveMarshal((TrainUnit)gm.trainCabin[1]); 
                 break;
             case 15:
                 //GHOST MOVE to trainRoof[3] (roof3)
-                gm.resolveAction((ActionCard)gm.currentBandit.toResolve);
+                gm.playTurn();
                 gm.move((TrainUnit)gm.trainRoof[3]);
                 break;
             // R1 T2 EVERYONE DRAWS CARDS - no stealin to resolve
             // R1 T3 TUNNEL
             case 16:
                 //BELLE SHOOT Ghost
-                gm.resolveAction((ActionCard)gm.currentBandit.toResolve);
+                gm.playTurn();
                 gm.shoot((Bandit)gm.bandits[2]);
                 break;
             case 17:
                 //DOC PUNCH Belle to locoRoof, Belle leaves her purse on roof1
-                gm.resolveAction((ActionCard)gm.currentBandit.toResolve);
+                gm.playTurn();
                 Bandit Belle = (Bandit)gm.bandits[0];
                 gm.punch(Belle, (Loot)Belle.getLoot()[0], (TrainUnit)gm.trainRoof[0]);
                 break;
             case 18:
                 //GHOST SHOOT Doc
-                gm.resolveAction((ActionCard)gm.currentBandit.toResolve);
+                gm.playTurn();
                 Bandit Doc = (Bandit)gm.bandits[1];
                 gm.shoot(Doc);
                 break;
             // R1 T4 SWITCHING
             case 19:
                 //BELLE CHANGEFLOOR
-                gm.resolveAction((ActionCard)gm.currentBandit.toResolve);
+                //gm.playTurn();
                 break;
             case 20:
                 //GHOST CHANGEFLOOR
-                gm.resolveAction((ActionCard)gm.currentBandit.toResolve);
+                //gm.playTurn();
                 break;
             case 21:
                 //DOC ROB
-                gm.resolveAction((ActionCard)gm.currentBandit.toResolve);
+                gm.playTurn();
                 gm.rob((Loot)gm.currentBandit.getPosition().getLootHere()[0]);
                 break;
 
