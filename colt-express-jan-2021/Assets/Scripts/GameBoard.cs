@@ -348,8 +348,8 @@ public class GameBoard : MonoBehaviour
     /* getRandOffset() picks and returns a random float from a set of pre-defined floats */
     public float getRandOffset(){
         var values = new[] { 20.0F, 40.0F, 50.0F, -20.0F, -30.0F, -50.0F, 46.0F, 35.0F, -46.0F, -35.0F, 20.0F, 40.0F, 50.0F, -20.0F, -30.0F, -50.0F, 46.0F, 35.0F, -46.0F, -35.0F, 20.0F, 40.0F, 50.0F, -20.0F, -30.0F, -50.0F, 46.0F, 35.0F, -46.0F, -35.0F, -20.0F, -30.0F, -50.0F, 46.0F, 35.0F, -46.0F, -35.0F, 20.0F, 40.0F, 50.0F, -20.0F, -30.0F, -50.0F, 46.0F, 35.0F, -46.0F, -35.0F };
-        r = r.Next(0, values.Count);
-        float result = values[r.Next(values.Length)];
+        int ri = r.Next(0, values.Length);
+        float result = values[ri];
         //Debug.Log("THE RANDOM OFFSET IS: " + result);
         return result; 
     }
@@ -573,17 +573,17 @@ public class GameBoard : MonoBehaviour
                         buttonToObject[allGem[gemCount]] = m;
                         Debug.Log("casting as Gem " + gemCount);
                         gemCount++;
-                        placeLootOnBandit(allGem[gemCount], "JEW", b.characterAsString); 
+                        moveLootToBanditPos(allGem[gemCount], b.characterAsString); 
                     } else if (m.moneyTypeAsString == "PURSE"){
                         buttonToObject[allPurse[purseCount]] = m;
                         Debug.Log("casting as Purse " + purseCount);
                         purseCount++;
-                        placeLootOnBandit(allGem[gemCount], "PUR", b.characterAsString); 
+                        moveLootToBanditPos(allPurse[purseCount], b.characterAsString); 
                     } else if (m.moneyTypeAsString == "STRONGBOX"){
-                        buttonToObject[allGem[boxCount]] = m;
+                        buttonToObject[allBox[boxCount]] = m;
                         Debug.Log("casting as Box " + boxCount);
                         boxCount++;
-                        placeLootOnBandit(allGem[gemCount], "STR", b.characterAsString); 
+                        moveLootToBanditPos(allBox[boxCount], b.characterAsString); 
                     }
                 }
                 catch(Exception e){
@@ -591,7 +591,7 @@ public class GameBoard : MonoBehaviour
                     buttonToObject[allWhiskey[whiskeyCount]] = w;
                     //Debug.Log("casting as Whiskey" + whiskeyCount);
                     whiskeyCount++;
-                    placeLootOnBandit(allGem[gemCount], "WHI", b.characterAsString); 
+                    moveLootToBanditPos(allWhiskey[whiskeyCount], b.characterAsString); 
                 }
             }
         }
@@ -787,11 +787,10 @@ public class GameBoard : MonoBehaviour
                     Debug.Log("choose a loot");
                     try {
                         Loot clickedLoot = (Loot)buttonToObject[btn]; 
-                        moveLootToBanditPos(btn); 
                         gm.rob(clickedLoot);
-                        Debug.Log("loot chosen and moved");
+                        Debug.Log("loot chosen for rob");
                     } catch(Exception e) {
-                        Debug.Log("wrong btn?");
+                        Debug.Log("wrong btn for rob?");
                     }
                 }
 
@@ -803,22 +802,6 @@ public class GameBoard : MonoBehaviour
         btn.interactable = true;
     }
 
-    public void moveLootToBanditPos(Button chosenLootBtn) {
-        Bandit currBandit = gm.currentBandit; 
-        if(currBandit.characterAsString == "BELLE"){
-            chosenLootBtn.transform.position = new Vector3(belLoot[0], belLoot[1], belLoot[2]); 
-        }else if(currBandit.characterAsString == "CHEYENNE"){
-            chosenLootBtn.transform.position = new Vector3(cheLoot[0], cheLoot[1], cheLoot[2]); 
-        }else if(currBandit.characterAsString == "DOC"){
-            chosenLootBtn.transform.position = new Vector3(docLoot[0], docLoot[1], docLoot[2]); 
-        }else if(currBandit.characterAsString == "DJANGO"){
-            chosenLootBtn.transform.position = new Vector3(djaLoot[0], djaLoot[1], djaLoot[2]); 
-        }else if(currBandit.characterAsString == "GHOST"){
-            chosenLootBtn.transform.position = new Vector3(ghoLoot[0], ghoLoot[1], ghoLoot[2]); 
-        }else if(currBandit.characterAsString == "TUCO"){
-            chosenLootBtn.transform.position = new Vector3(tucLoot[0], tucLoot[1], tucLoot[2]); 
-        }
-    }
     public void horseBtnClicked(Button btn) {
         String response;
         if (btn.name == "horseBtnOne") {
@@ -1202,23 +1185,40 @@ public class GameBoard : MonoBehaviour
         }
     }
 
-
-    public void placeLootOnBandit(Button lootBtn, string lootType, string bandit){
-            if(bandit == "BELLE"){
-                // move to belle's loot position
-                Debug.Log("MOVE LOOT OF TYPE" + lootType + " TO BELLE'S NAME'S POSITION"); 
-            }else if(bandit == "CHEYENNE"){
-                Debug.Log("MOVE LOOT OF TYPE" + lootType + " TO CHEYENNE'S NAME'S POSITION"); 
-            }else if(bandit == "DOC"){
-                Debug.Log("MOVE LOOT OF TYPE" + lootType + " TO DOC'S NAME'S POSITION"); 
-            }else if(bandit == "DJANGO"){
-                Debug.Log("MOVE LOOT OF TYPE" + lootType + " TO DJANGO'S NAME'S POSITION"); 
-            }else if(bandit == "GHOST"){
-                Debug.Log("MOVE LOOT OF TYPE" + lootType + " TO GHOST'S NAME'S POSITION"); 
-            }else if(bandit == "TUCO"){
-                Debug.Log("MOVE LOOT OF TYPE" + lootType + " TO TUCO'S NAME'S POSITION"); 
-            }
+    public void moveLootToBanditPos(Button chosenLootBtn, string banditName) {
+        //Bandit currBandit = gm.currentBandit; 
+        if(banditName == "BELLE"){
+            chosenLootBtn.transform.position = new Vector3(belLoot[0], belLoot[1], belLoot[2]); 
+        }else if(banditName == "CHEYENNE"){
+            chosenLootBtn.transform.position = new Vector3(cheLoot[0], cheLoot[1], cheLoot[2]); 
+        }else if(banditName == "DOC"){
+            chosenLootBtn.transform.position = new Vector3(docLoot[0], docLoot[1], docLoot[2]); 
+        }else if(banditName == "DJANGO"){
+            chosenLootBtn.transform.position = new Vector3(djaLoot[0], djaLoot[1], djaLoot[2]); 
+        }else if(banditName == "GHOST"){
+            chosenLootBtn.transform.position = new Vector3(ghoLoot[0], ghoLoot[1], ghoLoot[2]); 
+        }else if(banditName == "TUCO"){
+            chosenLootBtn.transform.position = new Vector3(tucLoot[0], tucLoot[1], tucLoot[2]); 
+        }
     }
+
+
+    // public void placeLootOnBandit(Button lootBtn, string lootType, string bandit){
+    //         if(bandit == "BELLE"){
+    //             // move to belle's loot position
+    //             Debug.Log("MOVE LOOT OF TYPE" + lootType + " TO BELLE'S NAME'S POSITION"); 
+    //         }else if(bandit == "CHEYENNE"){
+    //             Debug.Log("MOVE LOOT OF TYPE" + lootType + " TO CHEYENNE'S NAME'S POSITION"); 
+    //         }else if(bandit == "DOC"){
+    //             Debug.Log("MOVE LOOT OF TYPE" + lootType + " TO DOC'S NAME'S POSITION"); 
+    //         }else if(bandit == "DJANGO"){
+    //             Debug.Log("MOVE LOOT OF TYPE" + lootType + " TO DJANGO'S NAME'S POSITION"); 
+    //         }else if(bandit == "GHOST"){
+    //             Debug.Log("MOVE LOOT OF TYPE" + lootType + " TO GHOST'S NAME'S POSITION"); 
+    //         }else if(bandit == "TUCO"){
+    //             Debug.Log("MOVE LOOT OF TYPE" + lootType + " TO TUCO'S NAME'S POSITION"); 
+    //         }
+    // }
 
 
     /* promptDrawOrPlayMessage displays the prompt message on gameboard*/

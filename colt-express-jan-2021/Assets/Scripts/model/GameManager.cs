@@ -122,7 +122,6 @@ namespace model {
             }
             else if (currentBandit.toResolve.getActionTypeAsString().Equals("ROB")) {
                 TestGame.prompt = "Choose a loot to rob";
-                GameBoard.setNextAction("Choose a loot to rob");
                 currentBandit.setToResolve(null);
                 robPrompt(calculateRob());
             }
@@ -611,19 +610,46 @@ namespace model {
             return currentPosition.getLootHere();
         }
         public void robPrompt(ArrayList possibilities){
-            if(possibilities.Count > 0 ){
-                this.endOfTurn();
+            if(possibilities.Count == 1){
+                GameBoard.setNextAction("Choosing a loot to rob");
+                rob((Loot)possibilities[0], true);
             }
             else{
-                //TODO make possibilities clickable
-                Loot clicked = new Money();
-                rob(clicked);
+                GameBoard.setNextAction("Choose a loot to rob");
+                GameBoard.clickable = possibilities;
             }
         }
+
         public void rob(Loot chosen) {
+            rob(chosen, false);
+        }
+
+        public void rob(Loot chosen, bool noChoice) {
             this.currentBandit.getPosition().removeLoot(chosen);
             this.currentBandit.addLoot(chosen);
-            this.endOfTurn();
+            if(noChoice) {
+                this.endOfTurn(currentBandit.getCharacter() + " robbed a " + printRobbed(chosen));
+            } else {
+                this.endOfTurn(currentBandit.getCharacter() + " robbed a " + printRobbed(chosen), true);
+            }
+        }
+
+        private string printRobbed(Loot l) {
+            try{
+                Money m = (Money) l;
+                if (m.moneyTypeAsString == "JEWEL"){
+                    return "JEWEL";
+                } else if (m.moneyTypeAsString == "PURSE"){
+                    return "PURSE";
+                } else if (m.moneyTypeAsString == "STRONGBOX"){
+                    return "STRONGBOX";
+                }
+            }
+            catch(Exception e){
+                Whiskey w = (Whiskey) l;
+                 return "WHISKEY";
+            }
+            return null;
         }
         
         //--SHOOT--
@@ -940,8 +966,7 @@ namespace model {
             }
             else if(possibilities.Count == 1){
                 GameBoard.setNextAction("Moving positions");
-                move((TrainUnit)possibilities[0]);
-                endOfTurn(currentBandit.getCharacter() + " moved to the " + currentBandit.getPosition().getCarFloorAsString() + " of " + currentBandit.getPosition().getCarTypeAsString(), true);
+                move((TrainUnit)possibilities[0], true);
             }
             else if(possibilities.Count > 1){
                 GameBoard.setNextAction("Choose a position to move");
@@ -949,13 +974,22 @@ namespace model {
             }
         }
         
-	    public void move(TrainUnit targetPosition) {
+        public void move(TrainUnit targetPosition) {
+            moveMarshal(targetPosition, false);
+        }
+
+	    public void move(TrainUnit targetPosition, bool noChoice) {
 		    targetPosition.addBandit(this.currentBandit);
 		    if (targetPosition.isMarshalHere) {
 			    currentBandit.shotByMarhsal();
 		    }
 		    // might have to put this in an if else block for cases like SpeedingUp/Whiskey
-            endOfTurn(currentBandit.getCharacter() + " moved to the " + currentBandit.getPosition().getCarFloorAsString() + " of " + currentBandit.getPosition().getCarTypeAsString());
+            if(noChoice) {
+                endOfTurn(currentBandit.getCharacter() + " moved to the " + currentBandit.getPosition().getCarFloorAsString() + " of " + currentBandit.getPosition().getCarTypeAsString(), true);
+
+            } else {
+                endOfTurn(currentBandit.getCharacter() + " moved to the " + currentBandit.getPosition().getCarFloorAsString() + " of " + currentBandit.getPosition().getCarTypeAsString());
+            }
 	    }
         
         //--MOVE MARSHAL--
