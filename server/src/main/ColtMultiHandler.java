@@ -211,14 +211,14 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		String ans = params.getUtfString("ans");
 		if (ans.equals("y")) {
 			Bandit curr = gm.banditmap.get(sender);
-			TrainUnit tu = gm.trainCabin.get(trainIndex);
+			TrainUnit tu = gm.trainCabin.get(gm.trainIndex);
 			gm.banditPositions.put(curr.characterAsString, tu);
 			for (Horse h: gm.horses) {
 				if (h.riddenBy == curr)
 					h.adjacentTo = tu;
 			}
 		}
-		else if (ans.equals("n") && trainIndex == 2) {
+		else if (ans.equals("n") && gm.trainIndex == 2) {
 			Bandit curr = gm.banditmap.get(sender);
 			TrainUnit tu = gm.trainCabin.get(1);
 			gm.banditPositions.put(curr.characterAsString, tu);
