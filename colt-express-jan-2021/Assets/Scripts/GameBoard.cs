@@ -130,6 +130,13 @@ public class GameBoard : MonoBehaviour
     public Button horseBtnOne;
     public Button horseBtnTwo;
 
+    public Button horseOne;
+    public Button horseTwo;
+    public Button horseThree;
+    public Button horseFour;
+
+    public Button stagecoach;
+
     // public Button ghoLoot;
     public Button purse1;
     public Button purse2;
@@ -253,15 +260,6 @@ public class GameBoard : MonoBehaviour
 
     public List<Button> trainRoofs; 
     public List<Button> trainCabins; 
-
-
-    /* Bandit Loots */ 
-    public Button belleGemGO;
-    public Button belleWhisGO;
-    public Button belStrGo; 
-    public Button belPurGo;
-
-    /* horses ?*/
     
     public static string punchedBandit;
 
@@ -329,6 +327,18 @@ public class GameBoard : MonoBehaviour
         // Debug.Log("tuc prof" + tucoProf.transform.position); 
         // Debug.Log("gho prof" + ghostProf.transform.position);
 
+        locBtm = new List<float>() {locoBtm.transform.position[0], locoBtm.transform.position[1], locoBtm.transform.position[2]};
+        locTop = new List<float>() {locoTop.transform.position[0], locoTop.transform.position[1], locoTop.transform.position[2]};
+        oneBtm = new List<float>() {trainOneBtm.transform.position[0], trainOneBtm.transform.position[1], trainOneBtm.transform.position[2]};
+        oneTop = new List<float>() {trainOneTop.transform.position[0], trainOneTop.transform.position[1], trainOneTop.transform.position[2]};
+        twoBtm = new List<float>() {trainTwoBtm.transform.position[0], trainTwoBtm.transform.position[1], trainTwoBtm.transform.position[2]};
+        twoTop = new List<float>() {trainTwoTop.transform.position[0], trainTwoTop.transform.position[1], trainTwoTop.transform.position[2]};
+        threeBtm = new List<float>() {trainThreeBtm.transform.position[0], trainThreeBtm.transform.position[1], trainThreeBtm.transform.position[2]};
+        threeTop = new List<float>() {trainThreeTop.transform.position[0], trainThreeTop.transform.position[1], trainThreeTop.transform.position[2]};
+        fourBtm = new List<float>() {trainfourBtm.transform.position[0], trainfourBtm.transform.position[1], trainfourBtm.transform.position[2]};
+        fourTop = new List<float>() {trainfourTop.transform.position[0], trainfourTop.transform.position[1], trainfourTop.transform.position[2]};
+
+
         // testing 
         // belle.transform.position = new Vector3(oneTop[0], oneTop[1], oneTop[2]);
         // cheyenne.transform.position = new Vector3(twoTop[0], twoTop[1], twoTop[2]);
@@ -349,6 +359,9 @@ public class GameBoard : MonoBehaviour
         fourBtm = new List<float>() {trainfourBtm.transform.position[0], trainfourBtm.transform.position[1], trainfourBtm.transform.position[2]};
         fourTop = new List<float>() {trainfourTop.transform.position[0], trainfourTop.transform.position[1], trainfourTop.transform.position[2]};
 
+
+        // oneBtm = new Vector3(trainOneBtm.transform.position[0], trainOneBtm.transform.position[1], trainOneBtm.transform.position[2]);
+        // oneTop = new Vector3(trainOneBtm.transform.position[0], trainOneBtm.transform.position[1], trainOneBtm.transform.position[2]);
 
         if(!returningFromChat) {
             currentRoundText.text = "";
