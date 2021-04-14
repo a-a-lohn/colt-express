@@ -58,7 +58,7 @@ public class GameBoard : MonoBehaviour
     public Text gameStatus;
     public Text resolveCard;
     public Button proceed;
-    static bool noAction;
+    static bool noChoice;
     static string heldMessage;
     public static string saveGameId = "";
     static bool saveGameOnLobby = false;
@@ -77,9 +77,9 @@ public class GameBoard : MonoBehaviour
         newAction = true;
     }
 
-    public static void setNoAction(string message) {
-        Debug.Log("setting noaction to true");
-        noAction = true;
+    public static void setNoChoice(string message) {
+        Debug.Log("setting noChoice to true");
+        noChoice = true;
         heldMessage = message;
     }
 
@@ -336,7 +336,7 @@ public class GameBoard : MonoBehaviour
         if(newAction) {
             actionText.text = action;
         }
-        if(noAction) {
+        if(noChoice) {
             actionText.text += ". Click to proceed";
             proceed.interactable = true;
         }
@@ -359,7 +359,7 @@ public class GameBoard : MonoBehaviour
     public void onProceed() {
         Debug.Log("sending held game state");
         setMyTurn(false);
-        noAction = false;
+        noChoice = false;
         newAction = false;
         actionText.text = "";
         SendNewGameState(heldMessage);
