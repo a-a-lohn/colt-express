@@ -30,6 +30,7 @@ namespace model {
         public ArrayList trainCabin;
         public ArrayList stagecoach;
         public int trainLength;
+        public int trainIndex;
         public ArrayList horses;
         public ArrayList bandits;
         public Hashtable banditmap;
@@ -41,7 +42,7 @@ namespace model {
         
         
         public void playTurn() {
-            if (currentBandit == null) {
+            if (currentBandit.characterAsString == null) {
                 return;
             }
             Debug.Log("playing turn");

@@ -39,7 +39,7 @@ public static class SFS
 	public static GameBoard gb;
 	public static ChooseCharacter cc;
 	public static Chat chat;
-	public static int trainIndex = 1;
+	public static int trainIndex;
 
     static SFS(){
         defaultHost = "13.72.79.112";//"127.0.0.1";
@@ -107,12 +107,12 @@ public static class SFS
 				cc.DisplayRemainingCharacters(evt);
 			}
 		} else if (cmd == "updateGameState") {
-			GameManager gm = GameManager.getInstance();
-            gb.UpdateGameState(evt);
-			 if (gb.started==false) {
-			 	gb.promptHorseAttack(trainIndex);
-			  	trainIndex++;
-			 }
+			Debug.Log("UGS called in SFS.cs");
+			gb.UpdateGameState(evt);
+			if (gb.started==false) {
+				Debug.Log("Condition triggered, started = false");
+			 	gb.promptHorseAttack();
+			}
         } else if (cmd == "nextAction") {
 			ISFSObject responseParams = (SFSObject)evt.Params["params"];
 			step = responseParams.GetInt("step");
