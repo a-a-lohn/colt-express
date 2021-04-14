@@ -14,10 +14,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Register.unity
     guid: 4170255a3ccb54c91a975ff302fc1dd3
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Login.unity
     guid: 4b2f43c7e98a24c41943255c0a365e73
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/WaitingRoom.unity
     guid: 42eac5977139f4f7eb8699378c8e37cf
   - enabled: 1
@@ -50,7 +50,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Game.unity
     guid: acdd72460fd25413cac75eab8356bf22
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Chat.unity
     guid: 5b25d147b3527bc489eb3363720baafb
   m_configObjects: {}

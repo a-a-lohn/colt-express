@@ -336,12 +336,12 @@ public class GameBoard : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0)){
             Debug.Log("Clicked");
-            Debug.Log("currentbandit on mouse: " + gm.currentBandit.getCharacter());
+            //Debug.Log("currentbandit on mouse: " + gm.currentBandit.getCharacter());
         }
 
         if(myTurn) {
-            currentPlayer.text = "You!";
-        } else {
+            currentPlayer.text = "Your turn!";
+        } else if (gm.currentBandit != null){
             currentPlayer.text = gm.currentBandit.characterAsString;
         }
     }
@@ -1347,6 +1347,8 @@ public class GameBoard : MonoBehaviour
 
 
     public void EnterGameBoardScene() {
+        gm = GameManager.getInstance();
+        //gm.currentBandit = new Bandit();
         Debug.Log("entering scene");
         ISFSObject obj = SFSObject.NewInstance();
         ExtensionRequest req = new ExtensionRequest("gm.enterGameBoardScene",obj);
@@ -1458,7 +1460,9 @@ public class GameBoard : MonoBehaviour
         SFS.Send(req);
     }
 
-    public void promptHorseAttack(int trainIndex) {
+    public void promptHorseAttack() {
+        Debug.Log("prompt horse attack called");
+        promptHorseAttackMsg.text = "pha called";
         if (gm.bandits.Count == gm.banditPositions.Count) {
             promptHorseAttackMsg.text = "";
             started = true;
@@ -1466,7 +1470,8 @@ public class GameBoard : MonoBehaviour
             Destroy(GameObject.Find("horseBtnTwo"));
             return;
         }
-        foreach(DictionaryEntry s in GameManager.getInstance().banditPositions) {
+
+        foreach(DictionaryEntry s in gm.banditPositions) {
             Bandit b = (Bandit)s.Key;
             if (b.characterAsString.Equals(ChooseCharacter.character)) {
                 promptHorseAttackMsg.text = "";
@@ -1474,7 +1479,7 @@ public class GameBoard : MonoBehaviour
             }
         }
         //prompt user whether they want to get off at this train (indicated by trainIndex). If yes, response should be "y", if no then "n"
-        promptHorseAttackMsg.text = "Would you like to get on the train at cabin number "+trainIndex+"?";
+        promptHorseAttackMsg.text = "Would you like to get on the train at cabin number "+gm.trainIndex+"?";
     }
 
     public static String generateRandomString(int length)

@@ -113,24 +113,21 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	
 	public void handleEnterGameBoardScene(User sender, ISFSObject params, ISFSObject rtn) {
 		System.out.println("entering gb scene");
-		GameManager game = GameManager.getInstance();
-		gm = game;
+		gm = GameManager.getInstance();
 //		ArrayList<Bandit> bandits = game.bandits;
 //		assert(bandits.size() > 1);
 //		
 //		// for testing purposes - shouldn't be any current bandit at the start of game (horse attack)
-		if(gm.currentBandit == null) {
-			System.out.println("current bandit is null");
-			gm.currentBandit = gm.bandits.get(0);
-		}
+		gm.currentBandit = new Bandit();
+			//gm.currentBandit = gm.bandits.get(0);
 		
 		updateGameStateSenderOnly(sender, rtn);
 	}
 	
 	public void handleNewGameState(ISFSObject params, ISFSObject rtn) {
 		gm = (GameManager) params.getClass("gm");
-//		gm.singleton = gm;
 		GameManager.singleton = gm;
+		//GameManager.singleton = gm;
 		System.out.println("received game state!");
 		String log = (String) params.getUtfString("log");
 		if(log != null) {
@@ -144,14 +141,14 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	public void updateGameState(ISFSObject rtn) {
 		rtn.putClass("gm", gm);
 		System.out.println("Sending game state to all");
-		System.out.println("Current bandit: " + gm.currentBandit.characterAsString);
+		//System.out.println("Current bandit: " + gm.currentBandit.characterAsString);
 		sendToAllUsers(rtn, "updateGameState");
 	}
 	
 	public void updateGameStateSenderOnly(User sender, ISFSObject rtn) {
 		rtn.putClass("gm", gm);
 		System.out.println("Sending game state to " + sender.getName());
-		System.out.println("Current bandit: " + gm.currentBandit.characterAsString);
+		//System.out.println("Current bandit: " + gm.currentBandit.characterAsString);
 		sendToSender(sender, rtn, "updateGameState");
 	}	
 	
@@ -169,7 +166,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	}
 	
 	private void handleChosenCharacter(User sender, ISFSObject params, ISFSObject rtn) {
-		
+		gm =GameManager.getInstance();
 		ColtExtension parentExt = (ColtExtension)getParentExtension();
 		Zone zone = parentExt.getParentZone();
 		int numPlayers = zone.getUserList().size();
@@ -211,26 +208,27 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	private void handleChoosePosition(User sender, ISFSObject params, ISFSObject rtn) {
 		positionTurns++;
 		gm = GameManager.getInstance();
-		String ans = rtn.getUtfString("ans");
+		String ans = params.getUtfString("ans");
 		if (ans.equals("y")) {
 			Bandit curr = gm.banditmap.get(sender);
-			TrainUnit tu = gm.trainCabin.get(trainIndex);
-			curr.setPosition(tu);
+			TrainUnit tu = gm.trainCabin.get(gm.trainIndex);
+			gm.banditPositions.put(curr.characterAsString, tu);
 			for (Horse h: gm.horses) {
 				if (h.riddenBy == curr)
 					h.adjacentTo = tu;
 			}
 		}
-		else if (ans.equals("n") && trainIndex == gm.bandits.size()-1) {
+		else if (ans.equals("n") && gm.trainIndex == 2) {
 			Bandit curr = gm.banditmap.get(sender);
-			TrainUnit tu = gm.trainCabin.get(trainIndex+1);
-			curr.setPosition(tu);
+			TrainUnit tu = gm.trainCabin.get(1);
+			gm.banditPositions.put(curr.characterAsString, tu);
 			for (Horse h: gm.horses) {
 				if (h.riddenBy == curr)
 					h.adjacentTo = tu;
 			}
 		}
-		if (positionTurns == (gm.bandits.size()- gm.banditPositions.size()) && gm.bandits.size() > gm.banditPositions.size()) { 
+		if (positionTurns == (gm.bandits.size()- gm.banditPositions.size()) && gm.bandits.size() > gm.banditPositions.size()) {
+			gm.trainIndex -= 1;
 			updateGameState(rtn);
 			positionTurns = 0;
 		}
@@ -239,7 +237,6 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 			gm.currentBandit = gm.bandits.get(0);
 			updateGameState(rtn);
 		}
-		
 	}
 	
 	
