@@ -126,6 +126,7 @@ namespace model {
                 robPrompt(calculateRob());
             }
             else if (currentBandit.toResolve.getActionTypeAsString().Equals("SHOOT")) {
+                Debug.Log("resolving shoot");
                 TestGame.prompt = "Choose a bandit to shoot";
                 currentBandit.setToResolve(null);
                 shootPrompt(calculateShoot());
@@ -383,15 +384,18 @@ namespace model {
         }
         
         public static GameManager getInstance() {
-            GameManager gm = null;
-            if (singleton == null) {
-                gm = new GameManager();
-            }
-            else {
-                gm = singleton;
-            }
-            
-            return gm;
+            // GameManager gm = null;
+            // if (singleton == null) {
+            //     gm = new GameManager();
+            // }
+            // else {
+            //     gm = singleton;
+            // }
+
+            // THIS WILL FAIL IF GM IS NULL
+            //Debug.Log("calling getinstance");
+            if(singleton == null) Debug.Log("SINGLETON IS NULL");
+            return singleton;
         }
 
         public static void replaceInstance(GameManager gm) {
@@ -612,8 +616,7 @@ namespace model {
             if(possibilities.Count == 0) {
                 GameBoard.setNextAction("No loot to rob");
                 this.endOfTurn(currentBandit.getCharacter() + " was unable to rob", true);
-            }
-            if(possibilities.Count == 1){
+            } else if(possibilities.Count == 1){
                 GameBoard.setNextAction("Choosing a loot to rob");
                 rob((Loot)possibilities[0], true);
             }
@@ -705,10 +708,19 @@ namespace model {
                     }
                 }
                 //BELLE ABILITY
+                // foreach (Bandit b in possibilities){
+                //     if(b.getCharacter().Equals("BELLE") && possibilities.Count > 1){
+                //         possibilities.Remove(b);
+                //     }
+                // }
+                bool includesBelle = false;
+                int ind = 0;
                 foreach (Bandit b in possibilities){
                     if(b.getCharacter().Equals("BELLE") && possibilities.Count > 1){
-                        possibilities.Remove(b);
+                        includesBelle = true;
+                        break;
                     }
+                    ind++;
                 }
                 return possibilities;
 		    } 
@@ -718,12 +730,18 @@ namespace model {
                 ArrayList possibilities = new ArrayList();
                 TrainUnit leftCabin = this.currentBandit.getPosition().getLeft();
                 TrainUnit rightCabin = this.currentBandit.getPosition().getRight();
-			    foreach (Bandit bl in leftCabin.getBanditsHere()) {
-				    possibilities.Add(bl);
-			    }
-			    foreach (Bandit br in rightCabin.getBanditsHere()) {
-				    possibilities.Add(br);
-			    }
+			    if(leftCabin != null) {
+                    //Debug.Log("left cabin: " + leftCabin.carTypeAsString + " " + leftCabin.carFloorAsString);
+                    foreach (Bandit bl in leftCabin.getBanditsHere()) {
+                        possibilities.Add(bl);
+			        }
+                }
+                if(rightCabin != null) {
+                    //Debug.Log("right cabin: " + rightCabin.carTypeAsString + " " + rightCabin.carFloorAsString);
+                    foreach (Bandit br in rightCabin.getBanditsHere()) {
+                        possibilities.Add(br);
+                    }
+                }
                 //TUCO ABILITY
                 if(currentBandit.getCharacter().Equals("TUCO")){
                     TrainUnit aboveCabin = this.currentBandit.getPosition().getAbove();
@@ -732,11 +750,18 @@ namespace model {
                     }
                 }
                 //BELLE ABILITY
+                bool includesBelle = false;
+                int ind = 0;
                 foreach (Bandit b in possibilities){
                     if(b.getCharacter().Equals("BELLE") && possibilities.Count > 1){
-                        possibilities.Remove(b);
+                        includesBelle = true;
+                        break;
                     }
+                    ind++;
                 }
+                Debug.Log("num of bandits to shoot: " + possibilities.Count);
+                if(includesBelle) possibilities.RemoveAt(ind);
+
                 return possibilities;
 		    }
 
@@ -748,6 +773,7 @@ namespace model {
                 this.endOfTurn(currentBandit.getCharacter() + " was unable to pew-pew", true);
             }
             else if(possibilities.Count == 1){
+                GameBoard.setNextAction("Shooting");
                 shoot((Bandit)possibilities[0], true);
             }
             else if(possibilities.Count > 1){
@@ -815,22 +841,30 @@ namespace model {
 		    		possibilities.Add(b);
 		    	}
 		    }
+            //BELLE ABILITY
+            bool includesBelle = false;
+            int ind = 0;
+            foreach (Bandit b in possibilities){
+                if(b.getCharacter().Equals("BELLE") && possibilities.Count > 1){
+                    includesBelle = true;
+                    break;
+                }
+                ind++;
+            }
             return possibilities;
 	    }
 
         public void punchPrompt(ArrayList possibilities) {
-            if(possibilities.Count == 0){
-                this.endOfTurn();
-            }
-            else if(possibilities.Count == 1){
-                Bandit punched = (Bandit) possibilities[0];
-                dropPrompt(punched, calculateDrop(punched));
+            if(possibilities.Count == 0) {
+                GameBoard.setNextAction("No bandit to punch");
+                this.endOfTurn(currentBandit.getCharacter() + " was unable to punch", true);
+            } else if(possibilities.Count == 1){
+                GameBoard.setNextAction("Choosing a bandit to punch");
+                dropPrompt((Bandit)possibilities[0], null);//, true); // TO CHANGE
             }
             else{
-                //TODO make possibilities clickable (replace new Bandit with the Bandit the client chooses)
-                string punchedBanditName = GameBoard.makePunchPossibilitiesClickable(possibilities); 
-                Bandit punched = new Bandit(punchedBanditName.ToUpper());
-                dropPrompt(punched, calculateDrop(punched));
+                GameBoard.setNextAction("Choose a bandit to punch");
+                GameBoard.clickable = possibilities;
             }
         }
         
@@ -982,7 +1016,7 @@ namespace model {
         }
         
         public void move(TrainUnit targetPosition) {
-            moveMarshal(targetPosition, false);
+            move(targetPosition, false);
         }
 
 	    public void move(TrainUnit targetPosition, bool noChoice) {

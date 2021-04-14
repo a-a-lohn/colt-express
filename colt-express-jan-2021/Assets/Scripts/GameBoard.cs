@@ -714,10 +714,9 @@ public class GameBoard : MonoBehaviour
         if(gm.trainRoof ==  null) Debug.Log("gm.trainRoof is null");
         foreach(TrainUnit tr in gm.trainRoof){
             foreach (Bandit b in gm.bandits){
-
                 TrainUnit tu = (TrainUnit)gm.banditPositions[b.characterAsString];
                 if(tr.carTypeAsString == tu.carTypeAsString & tr.carFloorAsString == tu.carFloorAsString) {
-                gm.banditPositions[b.characterAsString] = tr;
+                    gm.banditPositions[b.characterAsString] = tr;
                 }
             }
         }
