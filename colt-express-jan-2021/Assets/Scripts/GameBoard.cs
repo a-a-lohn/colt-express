@@ -249,8 +249,6 @@ public class GameBoard : MonoBehaviour
     public Button trainThreeTop;
     public Button trainfourTop; 
     public Button trainfourBtm;
-    // public Button trainFiveBtm; 
-    // public Button trainFiveTop;
     public Button locoBtm; 
     public Button locoTop;
 
@@ -272,47 +270,53 @@ public class GameBoard : MonoBehaviour
 
     bool calledMapTrain = false;
 
-    private List<float> oneBtm = new List<float>() {706.0F, 816.5F, -364.9F}; 
-    private List<float> oneTop = new List<float>() {705.4F, 879.0F, -364.9F}; 
-    private List<float> twoTop = new List<float>() {962.9F, 873.7F, -364.9F}; 
-    private List<float> twoBtm = new List<float>() {918.2F, 815.7F, -364.9F}; 
-    private List<float> threeTop = new List<float>() {1149.4F, 883.2F, -364.9F}; 
-    private List<float> threeBtm = new List<float>() {1139.7F, 821.5F, -364.9F}; 
-    private List<float> fourBtm = new List<float>() {1353.2F, 820.2F, -364.9F}; 
-    private List<float> fourTop = new List<float>() {1357.1F, 873.5F, -364.9F}; 
-    private List<float> locTop = new List<float>() {1594.2F, 873.5F, -364.9F}; 
-    private List<float> locBtm = new List<float>() {1597.7F, 816.5F, -364.9F};
-
-    private List<float> belPur = new List<float>() {779.6F, 1146.8F, -364.9F};
-    private List<float> belStr = new List<float>() {863.3F, 1121.2F, -364.9F};
-    private List<float> belWhi= new List<float>() {842.5F, 1105.3F, -364.9F};
+    private List<float> oneBtm = new List<float>() {1311.9F, 838.5F, -364.9F}; 
+    private List<float> oneTop = new List<float>() {1314.9F, 885.5F, -364.9F}; 
+    private List<float> twoTop = new List<float>() {1147.9F, 884.4F, -364.9F}; 
+    private List<float> twoBtm = new List<float>() {1148.9F, 839.6F, -364.9F}; 
+    private List<float> threeTop = new List<float>() {982.9F, 883.2F, -364.9F}; 
+    private List<float> threeBtm = new List<float>() {982.0F, 835.2F, -364.9F}; 
+    private List<float> fourBtm = new List<float>() {831.0F, 838.5F, -364.9F}; 
+    private List<float> fourTop = new List<float>() {824.1F, 883.0F, -364.9F}; 
+    private List<float> locTop = new List<float>() {1495.9F, 885.5F, -364.9F}; 
+    private List<float> locBtm = new List<float>() {1498.6F, 835.2F, -364.9F};
 
     private List<float> belLoot = new List<float>() {834.7F, 1121.2F, -364.9F};
-    private List<float> cheLoot = new List<float>() {957.1F, 1102.6F, -364.9F};
-    private List<float> docLoot = new List<float>() {1092.0F, 1115.7F, -364.9F};
-    private List<float> djaLoot = new List<float>() {1206.1F, 1119.6F, -364.9F};
-    private List<float> ghoLoot = new List<float>() {1314.7F, 1121.2F, -364.9F};
-    private List<float> tucLoot = new List<float>() {1394.9F, 1121.2F, -364.9F};
+    private List<float> cheLoot = new List<float>() {1047.6F, 1002.1F, -364.9F};
+    private List<float> docLoot = new List<float>() {1075.4F, 1000.8F, -364.9F};
+    private List<float> djaLoot = new List<float>() {1099.4F, 1000.8F, -364.9F};
+    private List<float> ghoLoot = new List<float>() {1061.2F, 1000.3F, -364.9F};
+    private List<float> tucLoot = new List<float>() {1126.7F, 1003.6F, -364.9F};
 
-    private List<float> faraway= new List<float>() {-1452.5F, 920.9F, -364.9F};
+    private List<float> faraway= new List<float>() {117.7F, -373.8F, -364.5F};
 
     void Start(){  
-        // Screen.SetResolution(1080, 1920, false);  
-        // Debug.Log("bel gem: " + belleGemGO.transform.position); 
-        // Debug.Log("bel belleWhisGO: " + belleWhisGO.transform.position); 
-        // Debug.Log("bel belStrGo: " + belStrGo.transform.position); 
-        // Debug.Log("bel belPurGo: " + belPurGo.transform.position); 
-        Debug.Log(gem3.transform.position + " is the position of gem3 on the board"); 
-        Debug.Log(gem5.transform.position + " is the position of gem5 on the board"); 
-        Debug.Log(belle.transform.position + " is the position of belle on the board"); 
-        Debug.Log(doc.transform.position + " is the position of doc on the board"); 
-        Debug.Log(tuco.transform.position + " is the position of doc on the board");
+        Debug.Log("locoTop" + locoTop.transform.position); 
+        Debug.Log("locoBTM" + locoBtm.transform.position); 
+        Debug.Log("cartOneTop" + trainOneTop.transform.position); 
+        Debug.Log("cartOneBtm" + trainOneBtm.transform.position); 
+        Debug.Log("cartTwoTop" + trainTwoTop.transform.position); 
+        Debug.Log("cartTwoBtm" + trainTwoBtm.transform.position); 
+        Debug.Log("cartThreeTop" + trainThreeTop.transform.position); 
+        Debug.Log("cartThreeBtm" + trainThreeBtm.transform.position); 
+        Debug.Log("cartFourTop" + trainfourTop.transform.position); 
+        Debug.Log("cartFourBtm" + trainfourBtm.transform.position); 
 
-        cheyenne.transform.position = new Vector3(1047.6F, 893.7F, -364.9F);
-        log.text =  "gem3: " + gem3.transform.position + "\n" + "gem5: " +  gem5.transform.position + "\n" + "belle: " + belle.transform.position + "\n" + "doc: " + doc.transform.position + "\n" + "tuco: " + tuco.transform.position;
+        Debug.Log("bel prof" + belleProf.transform.position); 
+        Debug.Log("che prof" + cheyenneProf.transform.position); 
+        Debug.Log("doc prof" + docProf.transform.position); 
+        Debug.Log("dja prof" + djangoProf.transform.position); 
+        Debug.Log("tuc prof" + tucoProf.transform.position); 
+        Debug.Log("gho prof" + ghostProf.transform.position);
 
-        //belle.transform.position = new Vector3(fourTop[0], fourTop[1], fourTop[2]);
-
+        // testing 
+        belle.transform.position = new Vector3(oneTop[0], oneTop[1], oneTop[2]);
+        cheyenne.transform.position = new Vector3(twoTop[0], twoTop[1], twoTop[2]);
+        doc.transform.position = new Vector3(threeTop[0], threeTop[1], threeTop[2]);
+        django.transform.position = new Vector3(fourTop[0], fourTop[1], fourTop[2]);
+        tuco.transform.position = new Vector3(fourBtm[0], fourBtm[1], fourBtm[2]);
+        ghost.transform.position = new Vector3(locTop[0], locTop[1], locTop[2]);
+        marshal.transform.position = new Vector3(locBtm[0], locBtm[1], locBtm[2]);
 
         if(!returningFromChat) {
             currentRoundText.text = "";
