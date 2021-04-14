@@ -610,6 +610,10 @@ namespace model {
             return currentPosition.getLootHere();
         }
         public void robPrompt(ArrayList possibilities){
+            if(possibilities.Count == 0) {
+                GameBoard.setNextAction("No loot to rob");
+                this.endOfTurn(currentBandit.getCharacter() + " was unable to rob", true);
+            }
             if(possibilities.Count == 1){
                 GameBoard.setNextAction("Choosing a loot to rob");
                 rob((Loot)possibilities[0], true);
@@ -628,9 +632,9 @@ namespace model {
             this.currentBandit.getPosition().removeLoot(chosen);
             this.currentBandit.addLoot(chosen);
             if(noChoice) {
-                this.endOfTurn(currentBandit.getCharacter() + " robbed a " + printRobbed(chosen));
-            } else {
                 this.endOfTurn(currentBandit.getCharacter() + " robbed a " + printRobbed(chosen), true);
+            } else {
+                this.endOfTurn(currentBandit.getCharacter() + " robbed a " + printRobbed(chosen));
             }
         }
 

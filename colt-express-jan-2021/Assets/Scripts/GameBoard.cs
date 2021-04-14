@@ -76,6 +76,7 @@ public class GameBoard : MonoBehaviour
     }
 
     public static void setNoAction(string message) {
+        Debug.Log("setting noaction to true");
         noAction = true;
         heldMessage = message;
     }
@@ -292,6 +293,9 @@ public class GameBoard : MonoBehaviour
         // Debug.Log("bel belleWhisGO: " + belleWhisGO.transform.position); 
         // Debug.Log("bel belStrGo: " + belStrGo.transform.position); 
         // Debug.Log("bel belPurGo: " + belPurGo.transform.position); 
+
+        //belle.transform.position = new Vector3(fourTop[0], fourTop[1], fourTop[2]);
+
 
         if(!returningFromChat) {
             currentRoundText.text = "";
@@ -576,7 +580,7 @@ public class GameBoard : MonoBehaviour
                         moveLootToBanditPos(allGem[gemCount], b.characterAsString); 
                     } else if (m.moneyTypeAsString == "PURSE"){
                         buttonToObject[allPurse[purseCount]] = m;
-                        Debug.Log("casting as Purse " + purseCount);
+                        //Debug.Log("casting as Purse " + purseCount);
                         purseCount++;
                         moveLootToBanditPos(allPurse[purseCount], b.characterAsString); 
                     } else if (m.moneyTypeAsString == "STRONGBOX"){
@@ -654,13 +658,15 @@ public class GameBoard : MonoBehaviour
                     placeLootOnTrain(allWhiskey[whiskeyCount], tc.carTypeAsString, tc.carFloorAsString);
                     //Debug.Log("casting as Whiskey " + whiskeyCount);
                     whiskeyCount++;
-                    }
                 }
+            }
         }
 
         gm.playTurn();
 
     }
+
+    
 
     void displayGameInfo() {
         gameStatus.text = gm.getGameStatus();
@@ -792,7 +798,7 @@ public class GameBoard : MonoBehaviour
                     } catch(Exception e) {
                         Debug.Log("wrong btn for rob?");
                     }
-                }
+                } //else if()
 
                 newAction = false;
                 actionText.text = "";
@@ -999,12 +1005,12 @@ public class GameBoard : MonoBehaviour
             index++;
         }
         index = 0;
-        Debug.Log("ALL TRAIN ROOFS ARE MAPPED");
+       // Debug.Log("ALL TRAIN ROOFS ARE MAPPED");
         foreach(object oneCab in gm.trainCabin){
             buttonToObject[trainCabins[index]] = (TrainUnit)oneCab;
             index++;
         }
-        Debug.Log("ALL TRAIN CABINS ARE MAPPED");
+       // Debug.Log("ALL TRAIN CABINS ARE MAPPED");
     }
 
     public void mapBandit(GameManager gm){
@@ -1134,7 +1140,7 @@ public class GameBoard : MonoBehaviour
                 lootBtn.transform.position = new Vector3 (locBtm[0] + newRandOffset, locBtm[1], locBtm[2]);
             }else if(cartype == "CAR1"){
                 float newRandOffset = getRandOffset(); 
-                lootBtn.transform.position = new Vector3 (fourTop[0] + newRandOffset, fourTop[1], fourTop[2]);
+                lootBtn.transform.position = new Vector3 (fourBtm[0] + newRandOffset, fourBtm[1], fourBtm[2]);
             }else if(cartype == "CAR2"){
                 float newRandOffset = getRandOffset(); 
                 lootBtn.transform.position = new Vector3 (threeBtm[0] + newRandOffset, threeBtm[1], threeBtm[2]);
@@ -1161,7 +1167,7 @@ public class GameBoard : MonoBehaviour
                 lootBtn.transform.position = new Vector3 (locTop[0] + newRandOffset, locTop[1], locTop[2]);
             }else if(cartype == "CAR1"){
                 float newRandOffset = getRandOffset(); 
-                lootBtn.transform.position = new Vector3 (fourBtm[0] + newRandOffset, fourBtm[1], fourBtm[2]);
+                lootBtn.transform.position = new Vector3 (fourTop[0] + newRandOffset, fourTop[1], fourTop[2]);
             }else if(cartype == "CAR2"){
                 float newRandOffset = getRandOffset(); 
                 lootBtn.transform.position = new Vector3 (threeTop[0]+ newRandOffset, threeTop[1], threeTop[2]);
