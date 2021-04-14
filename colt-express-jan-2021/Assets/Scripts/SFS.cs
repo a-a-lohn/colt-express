@@ -42,7 +42,7 @@ public static class SFS
 	public static int trainIndex;
 
     static SFS(){
-        defaultHost = "13.72.79.112";//"127.0.0.1";
+        defaultHost = "127.0.0.1";// "13.72.79.112";//"127.0.0.1";
 	    defaultTcpPort = 9933;
         zone = "MergedExt";
     }
@@ -109,7 +109,7 @@ public static class SFS
 		} else if (cmd == "updateGameState") {
 			Debug.Log("UGS called in SFS.cs");
 			gb.UpdateGameState(evt);
-			if (gb.started==false) {
+			if (gb.started==false & GameBoard.saveGameId == "") {
 				Debug.Log("Condition triggered, started = false");
 			 	gb.promptHorseAttack();
 			}

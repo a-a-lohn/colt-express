@@ -32,7 +32,6 @@ public class GameBoard : MonoBehaviour
 {
     private static RestClient client = new RestClient("http://13.72.79.112:4242");
     public static string gameHash = WaitingRoom.gameHash;
-    // public static string savegameId = null;
     public bool started = false;
 
     public Button chat;
@@ -61,7 +60,7 @@ public class GameBoard : MonoBehaviour
     static bool noChoice;
     static string heldMessage;
     public static string saveGameId = "";
-    static bool saveGameOnLobby = false;
+    public static bool saveGameOnLobby = false;
 
     public Text log;
     int logCounter = 0;
@@ -302,14 +301,14 @@ public class GameBoard : MonoBehaviour
         // Debug.Log("bel belleWhisGO: " + belleWhisGO.transform.position); 
         // Debug.Log("bel belStrGo: " + belStrGo.transform.position); 
         // Debug.Log("bel belPurGo: " + belPurGo.transform.position); 
-        Debug.Log(gem3.transform.position + " is the position of gem3 on the board"); 
-        Debug.Log(gem5.transform.position + " is the position of gem5 on the board"); 
-        Debug.Log(belle.transform.position + " is the position of belle on the board"); 
-        Debug.Log(doc.transform.position + " is the position of doc on the board"); 
-        Debug.Log(tuco.transform.position + " is the position of doc on the board");
+        // Debug.Log(gem3.transform.position + " is the position of gem3 on the board"); 
+        // Debug.Log(gem5.transform.position + " is the position of gem5 on the board"); 
+        // Debug.Log(belle.transform.position + " is the position of belle on the board"); 
+        // Debug.Log(doc.transform.position + " is the position of doc on the board"); 
+        // Debug.Log(tuco.transform.position + " is the position of doc on the board");
 
-        cheyenne.transform.position = new Vector3(1047.6F, 893.7F, -364.9F);
-        log.text =  "gem3: " + gem3.transform.position + "\n" + "gem5: " +  gem5.transform.position + "\n" + "belle: " + belle.transform.position + "\n" + "doc: " + doc.transform.position + "\n" + "tuco: " + tuco.transform.position;
+        // cheyenne.transform.position = new Vector3(1047.6F, 893.7F, -364.9F);
+        // log.text =  "gem3: " + gem3.transform.position + "\n" + "gem5: " +  gem5.transform.position + "\n" + "belle: " + belle.transform.position + "\n" + "doc: " + doc.transform.position + "\n" + "tuco: " + tuco.transform.position;
 
         //belle.transform.position = new Vector3(fourTop[0], fourTop[1], fourTop[2]);
 
@@ -351,7 +350,7 @@ public class GameBoard : MonoBehaviour
 
         if(myTurn) {
             currentPlayer.text = "Your turn!";
-        } else if (gm.currentBandit != null){
+        } else if (gm != null & gm.currentBandit != null){
             currentPlayer.text = gm.currentBandit.characterAsString;
         }
     }
@@ -1288,7 +1287,13 @@ public class GameBoard : MonoBehaviour
     public void LeaveRoom() {
         ChooseCharacter.RemoveLaunchedSession();
         returningFromChat = false;
-        SFS.LeaveRoom();
+        playingBandits.Clear();
+        allGem.Clear();
+        allPurse.Clear();
+        allBox.Clear();
+        allWhiskey.Clear();
+
+        SFS.LeaveRoom(); // triggers exit to WaitingRoom scene
     }
 
     /* Map all Buttons to their GM objects counterparts */
@@ -1335,6 +1340,8 @@ public class GameBoard : MonoBehaviour
         newAction = false;
         newAction = false;
         myTurn = false;
+        saveGameId = "";
+        saveGameOnLobby = false;
         // these cause issues
         // playingBandits = new List<Button>();
         // allGem = new List<Button>();
@@ -1420,6 +1427,7 @@ public class GameBoard : MonoBehaviour
 
     public static void TestSave() {
         if(saveGameId == ""){
+            Debug.Log("creating new savegame");
             saveGameOnLobby = true;
             saveGameId = generateRandomString(7);
         }
@@ -1500,7 +1508,7 @@ public class GameBoard : MonoBehaviour
             }
         }
         //prompt user whether they want to get off at this train (indicated by trainIndex). If yes, response should be "y", if no then "n"
-        promptHorseAttackMsg.text = "Would you like to get on the train at cabin number "+gm.trainIndex+"?";
+        //promptHorseAttackMsg.text = "Would you like to get on the train at cabin number "+gm.trainIndex+"?";
     }
 
     public static String generateRandomString(int length)

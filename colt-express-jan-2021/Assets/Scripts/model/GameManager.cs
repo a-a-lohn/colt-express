@@ -30,7 +30,7 @@ namespace model {
         public ArrayList trainCabin;
         public ArrayList stagecoach;
         public int trainLength;
-        public int trainIndex;
+        //public int trainIndex;
         public ArrayList horses;
         public ArrayList bandits;
         public Hashtable banditmap;
@@ -52,7 +52,8 @@ namespace model {
                 Debug.Log("my turn");
                 GameBoard.setMyTurn(true);
                 if (this.strGameStatus.Equals("SCHEMIN")) {
-                    if(TestGame.testing) {
+                    
+                    if(TestGame.testing) { // otherwise drawcards() is called in GameBoard.cs
                         if(this.currentRound.getTurnCounter() == 0){
                             if(currentBandit.getCharacter().Equals("DOC")){
                                 currentBandit.drawCards(7);
@@ -62,6 +63,7 @@ namespace model {
                             }
                         }
                     }
+
                     Debug.Log("calling prompt");
                     promptDrawCardsOrPlayCard();
                 }
@@ -73,9 +75,7 @@ namespace model {
             
         }
         
-        public void promptDrawCardsOrPlayCard() {
-            Debug.Log("setting 'it works' from prompt");
-            
+        public void promptDrawCardsOrPlayCard() {            
             ArrayList cards = new ArrayList();
             foreach(Card c in currentBandit.getHand()) {
                 try {
@@ -191,7 +191,7 @@ namespace model {
         }
 
         public void endOfTurn() {
-            endOfTurn("use the endOfTurn method that takes a string arg instead indicating the what happened on that turn");
+            endOfTurn("use the endOfTurn method that takes a string arg indicating the what happened on that turn");
          }
 
          public void endOfTurn(string message) {
@@ -242,7 +242,7 @@ namespace model {
                             Debug.Log("next bandit assigned: " + currentBandit.characterAsString);
                             banditsPlayedThisTurn = 0;
                         }
-                        else { // Added by Aaron
+                        else {
                             //  NO MORE TURNS IN ROUND - END OF SCHEMIN PHASE
                             Debug.Log("NO MORE TURNS IN ROUND - END OF SCHEMIN PHASE");
                             foreach (Bandit b in this.bandits) {
@@ -250,9 +250,14 @@ namespace model {
                             }
                             banditIndex = (banditIndex + 2) % this.bandits.Count;
                             this.banditsPlayedThisTurn = 0;
-                            ActionCard toResolve = (ActionCard)playedPileInstance.getPlayedCardsAt(playedPileInstance.playedCards.Count-1);
+                            ActionCard toResolve = (ActionCard)this.playedPileInstance.takeTopCard();//playedPileInstance.getPlayedCardsAt(playedPileInstance.playedCards.Count-1);
                             currentBandit = toResolve.getBelongsTo();
                             currentBandit.toResolve = toResolve;
+
+                            Debug.Log("toresolve string for NEXT card: " + toResolve.actionTypeAsString);
+                            Bandit b1 = toResolve.getBelongsTo();
+                            Debug.Log("toresolve belongsto for NEXT card: " + b1.characterAsString);
+
                             this.setGameStatus("STEALIN");
                         }
                     }
@@ -289,9 +294,15 @@ namespace model {
                             }
                             Debug.Log("Bandit Index at end of schemin phase: " + banditIndex);
 				    		banditsPlayedThisTurn = 0;
-                            ActionCard toResolve = (ActionCard)playedPileInstance.getPlayedCardsAt(playedPileInstance.playedCards.Count-1);
+                            banditIndex = (banditIndex + 1) % this.bandits.Count; //ADDED
+                            ActionCard toResolve = (ActionCard)this.playedPileInstance.takeTopCard();//playedPileInstance.getPlayedCardsAt(playedPileInstance.playedCards.Count-1);
                             currentBandit = toResolve.getBelongsTo();
                             currentBandit.toResolve = toResolve;
+
+                            Debug.Log("toresolve string for NEXT card: " + toResolve.actionTypeAsString);
+                            Bandit b1 = toResolve.getBelongsTo();
+                            Debug.Log("toresolve belongsto for NEXT card: " + b1.characterAsString);
+
 				    		this.setGameStatus("STEALIN");
                             Debug.Log("GAME STATUS: " + this.strGameStatus);
 				    	}
@@ -334,9 +345,14 @@ namespace model {
                                 }
                                 banditIndex = (banditIndex + 2) % this.bandits.Count;
 						    	banditsPlayedThisTurn = 0;
-                                ActionCard toResolve = (ActionCard)playedPileInstance.getPlayedCardsAt(playedPileInstance.playedCards.Count-1);
+                                ActionCard toResolve = (ActionCard)this.playedPileInstance.takeTopCard();//playedPileInstance.getPlayedCardsAt(playedPileInstance.playedCards.Count-1);
                                 currentBandit = toResolve.getBelongsTo();
                                 currentBandit.toResolve = toResolve;
+
+                                Debug.Log("toresolve string for NEXT card: " + toResolve.actionTypeAsString);
+                                Bandit b1 = toResolve.getBelongsTo();
+                                Debug.Log("toresolve belongsto for NEXT card: " + b1.characterAsString);
+
 						    	this.setGameStatus("STEALIN");
                                 Debug.Log("GAME STATUS: " + this.strGameStatus);
 						    }
@@ -369,13 +385,12 @@ namespace model {
                         this.currentRound = (Round) this.rounds[this.roundIndex];
                         this.setGameStatus("SCHEMIN");
                         this.banditsPlayedThisTurn = 0;
+                        currentBandit = (Bandit) this.bandits[banditIndex]; //ADDED
                     }
                 }
             }
             //playedPileInstance = PlayedPile.getInstance();
             marshalInstance = Marshal.getInstance();
-            //currentBandit.updateOtherDecks();
-            //currentBandit.updateOtherHands();
             
             Debug.Log("ending turn");
             if(!TestGame.testing) {
@@ -963,7 +978,7 @@ namespace model {
             }
             
             if ((currentPosition.getRight() != null)) {
-                possibleMoving.Add(currentPosition.getLeft());
+                possibleMoving.Add(currentPosition.getRight());
             }
             
             if (currentPosition.carFloorAsString.Equals("ROOF")) {
