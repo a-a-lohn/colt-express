@@ -18,6 +18,7 @@ public class Login : MonoBehaviour {
     // public static string password;
 
     public void VerifyUser(){
+        Debug.Log("what?");
         var request = new RestRequest("oauth/token", Method.POST)
             .AddParameter("grant_type", "password")
             .AddParameter("username", username.text)

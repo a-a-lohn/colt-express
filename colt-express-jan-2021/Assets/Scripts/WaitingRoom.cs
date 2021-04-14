@@ -80,6 +80,8 @@ public class WaitingRoom : MonoBehaviour
         SavedSessionButtonB.interactable = false;
         DeleteButton.interactable = false;
 
+        SetFields();
+
         GetSessions();
 
         //TODO:
@@ -117,6 +119,17 @@ public class WaitingRoom : MonoBehaviour
         - do not allow for more than 2/3 savegames to ever be created
         - add savegame api call logic to a 'settings' scene--no savegames are created in WR
         */
+    }
+
+    void SetFields() {
+        gameHash = null;
+        joined = false;
+        hosting = false;
+        numSessions = 0;
+        intentToDelete = false;
+
+        hashes = new Dictionary<Button, string>();
+        saveMap = new Dictionary<Button, string>();
     }
 
     // Update is called once per frame
@@ -161,12 +174,14 @@ public class WaitingRoom : MonoBehaviour
         }
     }
 
-    public void PlayingSaveGame() {
-        Debug.Log("GameID content : " + SavedSessionIDButtonAText.text);
-        ISFSObject obj2 = SFSObject.NewInstance();
-        obj2.PutUtfString("savegameId", SavedSessionIDButtonAText.text);
-        ExtensionRequest req = new ExtensionRequest("gm.loadSavedGame",obj2);
-        SFS.Send(req);
+    public void PlayingSaveGame(Text savegameID) {
+        if(!intentToDelete) {
+            Debug.Log("GameID content : " + savegameID.text);
+            ISFSObject obj2 = SFSObject.NewInstance();
+            obj2.PutUtfString("savegameId", savegameID.text);
+            ExtensionRequest req = new ExtensionRequest("gm.loadSavedGame",obj2);
+            SFS.Send(req);
+        }
     }
 
     private bool Launched(string hash) {
@@ -210,6 +225,8 @@ public class WaitingRoom : MonoBehaviour
         //HostGameButton.interactable = false;
         joined = true;
         InfoText.text = "You will be brought to the next scene once the host launches the game!";
+        
+        SFS.JoinRoom();
     }
 
     public void CreateSession(Text savegameID)
@@ -234,6 +251,8 @@ public class WaitingRoom : MonoBehaviour
             hosting = true;
             joined = true;
             InfoText.text = "You will be brought to the next scene once you launch your game!";
+
+            SFS.JoinRoom();
         }
     }
 
@@ -384,7 +403,15 @@ public class WaitingRoom : MonoBehaviour
             var request = new RestRequest("api/gameservices/ColtExpress/savegames/" + savegameID.text + "?access_token=" + adminToken, Method.DELETE)
                 .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
             IRestResponse response = client.Execute(request);
+            Debug.Log("Here is the delete saved game return: "+ response.ErrorMessage + "   " + response.StatusCode);
+
+            Debug.Log("GameID of saved game to be deleted content : " + savegameID.text);
+            ISFSObject obj = SFSObject.NewInstance();
+            obj.PutUtfString("savegameId", savegameID.text);
+            ExtensionRequest req = new ExtensionRequest("gm.deleteSavedGame",obj);
+            SFS.Send(req);
         }
+        //TODO: DELETE FROM SFS AS WELL
     }
 
     private void LeaveSession() {

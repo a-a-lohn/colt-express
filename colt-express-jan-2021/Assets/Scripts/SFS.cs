@@ -39,10 +39,10 @@ public static class SFS
 	public static GameBoard gb;
 	public static ChooseCharacter cc;
 	public static Chat chat;
-	public static int trainIndex = 1;
+	public static int trainIndex;
 
     static SFS(){
-        defaultHost = "13.72.79.112"; //"127.0.0.1";
+        defaultHost = "13.72.79.112";//"127.0.0.1";
 	    defaultTcpPort = 9933;
         zone = "MergedExt";
     }
@@ -107,12 +107,12 @@ public static class SFS
 				cc.DisplayRemainingCharacters(evt);
 			}
 		} else if (cmd == "updateGameState") {
-			GameManager gm = GameManager.getInstance();
-            gb.UpdateGameState(evt);
-			 if (gb.started==false) {
-			 	gb.promptHorseAttack(trainIndex);
-			  	trainIndex++;
-			 }
+			Debug.Log("UGS called in SFS.cs");
+			gb.UpdateGameState(evt);
+			if (gb.started==false) {
+				Debug.Log("Condition triggered, started = false");
+			 	gb.promptHorseAttack();
+			}
         } else if (cmd == "nextAction") {
 			ISFSObject responseParams = (SFSObject)evt.Params["params"];
 			step = responseParams.GetInt("step");
@@ -137,6 +137,12 @@ public static class SFS
 			//GameBoard.SendNewGameState();
 		}  else if (cmd == "testgame") {
 			tg.ReceiveInitializedGame(evt);
+		}  else if (cmd == "currentSaveGameID") {
+			ISFSObject responseParams = (SFSObject)evt.Params["params"];
+			string saveGame = responseParams.GetUtfString("savegameID");
+			if(saveGame != null){
+				GameBoard.saveGameId = saveGame;
+			}
 		}
     }
 
@@ -289,14 +295,18 @@ public static class SFS
 
 		// Populate Room list
 		populateRoomList(sfs.RoomList);*/
+	}
 
+	public static void JoinRoom() {
 		// Join first Room in Zone
 		if (sfs.RoomList.Count > 0) {
+			Debug.Log("joining a room");
 			sfs.Send(new Sfs2X.Requests.JoinRoomRequest(sfs.RoomList[0].Name));
 		}
 	}
 
 	public static void LeaveRoom() {
+		Debug.Log("leaving room");
 		sfs.Send(new Sfs2X.Requests.LeaveRoomRequest());
 	}
 	

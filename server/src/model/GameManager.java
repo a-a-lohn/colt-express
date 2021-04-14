@@ -35,7 +35,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 	public Round currentRound;
 	public Bandit currentBandit;
 	public ArrayList<Round> rounds = new ArrayList<Round>(); // CONVENTION FOR DECK: POSITION DECK.SIZE() IS TOP OF
-																// DECK, POSITION 0 IS BOTTOM OF DECK
+	public int trainIndex;															// DECK, POSITION 0 IS BOTTOM OF DECK
 	public Marshal marshalInstance;
 	public PlayedPile playedPileInstance; // CONVENTION FOR DECK: POSITION DECK.SIZE() IS TOP OF DECK, POSITION 0 IS
 											// BOTTOM OF DECK
@@ -107,7 +107,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 
 	// this method should only be called from if-else block in chosenCharacter
 	
-	public static void main(String[]args) {
+	/*public static void main(String[]args) {
 		Bandit b1 = new Bandit(Character.DJANGO);
 		Bandit b2 = new Bandit(Character.BELLE);
 		Bandit b3 = new Bandit(Character.CHEYENNE);
@@ -118,7 +118,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		GameManager.getInstance().initializeGame();
 		GameManager gm = GameManager.getInstance();
 		System.out.println();
-	}
+	}*/
 	
 	/**
 	 * --INITIALIZING THE GAME--
@@ -137,6 +137,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		System.out.println("Initializing the game now!");
 		// 1. Create locomotive and 1 train car for each bandit
 		this.trainLength = this.getNumOfPlayers() + 1;
+		this.trainIndex = this.trainLength;
 		System.out.println("trainlength: " + trainLength);
 		this.trainRoof = TrainUnit.createTrainRoof();
 		this.trainCabin = TrainUnit.createTrainCabin();
@@ -180,7 +181,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		this.horses = Horse.createHorses();
 		
 		// --FOR TESTING--
-		this.setUpPositions(this.bandits);
+		//this.setUpPositions(this.bandits);
 		System.out.println("bpos size: " + banditPositions.size());
 		// --END--
 		
@@ -193,7 +194,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		this.strGameStatus = "SCHEMIN";
 
 		// Horse Attack
-		this.horseAttack();
+		//this.horseAttack();
 		
 	}
 

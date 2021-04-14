@@ -115,36 +115,6 @@ namespace model {
             otherTrainUnit.above = this;
         }*/
         
-        public TrainUnit getRight() {
-            GameManager gm = GameManager.getInstance();
-            int index = gm.trainCabin.IndexOf(this);
-            bool isRoof = false;
-            if (index == -1) {
-                index = gm.trainRoof.IndexOf(this);
-                if (index > -1) {
-                    isRoof = true;
-                }
-                else {
-                    return null;
-                }
-            }
-            int size = gm.trainCabin.Count;
-            if (index + 1 < size) {
-                if (isRoof) {
-                    return (TrainUnit)gm.trainRoof[index+1];
-                }
-                else {
-                    return (TrainUnit)gm.trainCabin[index+1];
-                }
-            }
-            return null;
-        }
-        
-        /*public void setRight(TrainUnit otherTrainUnit) {
-            this.right = otherTrainUnit;
-            otherTrainUnit.left = this;
-        }*/
-        
         public TrainUnit getLeft() {
             GameManager gm = GameManager.getInstance();
             int index = gm.trainCabin.IndexOf(this);
@@ -159,6 +129,41 @@ namespace model {
                 }
             }
             int size = gm.trainCabin.Count;
+            //Debug.Log("cabin count in left: " + size);
+            //Debug.Log("index of train in left: " + index);
+            if (index + 1 < size) {
+                if (isRoof) {
+                    return (TrainUnit)gm.trainRoof[index+1];
+                }
+                else {
+                    return (TrainUnit)gm.trainCabin[index+1];
+                }
+            }
+            Debug.Log("returning null");
+            return null;
+        }
+        
+        /*public void setRight(TrainUnit otherTrainUnit) {
+            this.right = otherTrainUnit;
+            otherTrainUnit.left = this;
+        }*/
+        
+        public TrainUnit getRight() {
+            GameManager gm = GameManager.getInstance();
+            int index = gm.trainCabin.IndexOf(this);
+            bool isRoof = false;
+            if (index == -1) {
+                index = gm.trainRoof.IndexOf(this);
+                if (index > -1) {
+                    isRoof = true;
+                }
+                else {
+                    return null;
+                }
+            }
+            int size = gm.trainCabin.Count;
+            //Debug.Log("cabin count in right: " + size);
+            //Debug.Log("index of train in right: " + index);
             if (index-1  >= 0) {
                 if (isRoof) {
                     return (TrainUnit)gm.trainRoof[index-1];
@@ -167,6 +172,7 @@ namespace model {
                     return (TrainUnit)gm.trainCabin[index-1];
                 }
             }
+            Debug.Log("returning null");
             return null;
         }
         
@@ -215,17 +221,17 @@ namespace model {
         
         public ArrayList getBanditsHere() {
             GameManager gm = GameManager.getInstance();
-            ArrayList bandits = new ArrayList();
+            ArrayList banditsArr = new ArrayList();
             foreach (Bandit b in gm.bandits) {
                 foreach (DictionaryEntry de in gm.banditPositions) {
-                    if (b.characterAsString == de.Key & gm.banditPositions[de.Key] == this) {
-                        bandits.Add(b);
+                    TrainUnit t = (TrainUnit) de.Value;
+                    if (b.characterAsString.Equals(de.Key) && de.Value.Equals(this)) {
+                        banditsArr.Add(b);
                         break;
                     }
                 }
             }
-            
-            return bandits;
+            return banditsArr;
         }
         
         public void addLoot(Loot a) {
