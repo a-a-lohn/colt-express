@@ -81,6 +81,13 @@ public class GameBoard : MonoBehaviour
         heldMessage = message;
     }
 
+    public Text belleRevolver;
+    public Text cheyenneRevolver;
+    public Text docRevolver;
+    public Text djangoRevolver;
+    public Text ghostRevolver;
+    public Text tucoRevolver;
+
     public GameObject canvas;
 
     public Text exitText;
@@ -462,46 +469,44 @@ public class GameBoard : MonoBehaviour
         foreach (Bandit b in banditsArray) {
             if (b.characterAsString == "CHEYENNE") {
                 buttonToObject[cheyenne] = b;
-                //Debug.Log(b.characterAsString + " added as button");
+                Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
                 playingBandits.Add(cheyenne);
+                cheyenneRevolver.text = b.getSizeOfBullets().ToString();
             }
             if (b.characterAsString == "BELLE") {
                 buttonToObject[belle] = b;
-                //Debug.Log(b.characterAsString + " added as button");
+                Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
                 playingBandits.Add(belle);
+                belleRevolver.text = b.getSizeOfBullets().ToString();
             }
             if (b.characterAsString == "TUCO") {
                 buttonToObject[tuco] = b;
-                //Debug.Log(b.characterAsString + " added as button");
+                Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
                 playingBandits.Add(tuco);
+                tucoRevolver.text = b.getSizeOfBullets().ToString();
             }
             if (b.characterAsString == "DOC") {
                 buttonToObject[doc] = b;
-                //Debug.Log(b.characterAsString + " added as button");
+                Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
                 playingBandits.Add(doc);
+                docRevolver.text = b.getSizeOfBullets().ToString();
             }
             if (b.characterAsString == "GHOST") {
                 buttonToObject[ghost] = b;
-                //Debug.Log(b.characterAsString + " added as button");
+                Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
                 playingBandits.Add(ghost);
+                ghostRevolver.text = b.getSizeOfBullets().ToString();
             }
             if (b.characterAsString == "DJANGO") {
                 buttonToObject[django] = b;
-                //Debug.Log(b.characterAsString + " added as button");
+                Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
                 playingBandits.Add(django);
+                djangoRevolver.text = b.getSizeOfBullets().ToString();
             }
             
             /* place the bandits in their starting positions */
             mapBandit(gm);
             removeBandits(gm.bandits);
-            // foreach(Button ab in allBandits){
-            //     if(ab != null) {
-            //         if(!playingBandits.Contains(ab)){
-            //             Debug.Log("Destroying " + ab.name);
-            //             Destroy(ab.gameObject);
-            //         }
-            //     }
-            // }
 
             if(b.characterAsString == gm.currentBandit.characterAsString){
                 /*
@@ -512,7 +517,6 @@ public class GameBoard : MonoBehaviour
             }
 
             if(b.characterAsString == ChooseCharacter.character){
-                //b.updateMainDeck();
 
                 if (gm.strGameStatus.Equals("SCHEMIN")) {
                     if(gm.currentRound.getTurnCounter() == 0 && b.hand.Count == 0){
@@ -520,14 +524,9 @@ public class GameBoard : MonoBehaviour
                         if(b.getCharacter().Equals("DOC")){
                             b.drawCards(1);
                         }
-                        //b.updateOtherDecks();
-                        //b.updateOtherHands();
                     }
                 }
-                
-                //b.updateMainHand();
-                // assign to gameobjects on screen 
-                //ArrayList currCards = b.hand;
+
                 int index = 0; 
                 ActionCard ac;
                 BulletCard bc;
@@ -666,7 +665,7 @@ public class GameBoard : MonoBehaviour
 
     }
 
-    
+
 
     void displayGameInfo() {
         gameStatus.text = gm.getGameStatus();
@@ -753,13 +752,6 @@ public class GameBoard : MonoBehaviour
             Debug.Log("not my turn!");
         } else {
             Debug.Log( btn.name + " IS CLICKED");
-            //punchedBandit = btn.name;
-            // if buttonToObject[btn] is an actioncard, call playCard(buttonToObject[btn])
-
-            //TrainUnit clickedTU = (TrainUnit)buttonToObject[btn]; 
-
-            // Debug.Log("CLICKED TRAIN TYPE" + clickedTU.carTypeAsString);
-            // Debug.Log("CLICKED TRAIN FLOOR" + clickedTU.carFloorAsString);
 
             if(clickable.Contains(buttonToObject[btn])) {
                 Debug.Log("this is a clickable item!");
@@ -798,7 +790,16 @@ public class GameBoard : MonoBehaviour
                     } catch(Exception e) {
                         Debug.Log("wrong btn for rob?");
                     }
-                } //else if()
+                } else if(actionText.text == "Choose a bandit to shoot") {
+                    Debug.Log("choose a bandit to shoot");
+                    try {
+                        Bandit clickedB = (Bandit)buttonToObject[btn]; 
+                        gm.shoot(clickedB);
+                        Debug.Log("shooting");
+                    } catch(Exception e) {
+                        Debug.Log("not shooting");
+                    }
+                }
 
                 newAction = false;
                 actionText.text = "";

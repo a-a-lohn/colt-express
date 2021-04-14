@@ -127,7 +127,6 @@ namespace model {
             }
             else if (currentBandit.toResolve.getActionTypeAsString().Equals("SHOOT")) {
                 TestGame.prompt = "Choose a bandit to shoot";
-                GameBoard.setNextAction("Choose a bandit to shoot");
                 currentBandit.setToResolve(null);
                 shootPrompt(calculateShoot());
             }
@@ -631,11 +630,7 @@ namespace model {
         public void rob(Loot chosen, bool noChoice) {
             this.currentBandit.getPosition().removeLoot(chosen);
             this.currentBandit.addLoot(chosen);
-            if(noChoice) {
-                this.endOfTurn(currentBandit.getCharacter() + " robbed a " + printRobbed(chosen), true);
-            } else {
-                this.endOfTurn(currentBandit.getCharacter() + " robbed a " + printRobbed(chosen));
-            }
+            this.endOfTurn(currentBandit.getCharacter() + " robbed a " + printRobbed(chosen), noChoice);
         }
 
         private string printRobbed(Loot l) {
@@ -749,20 +744,27 @@ namespace model {
 
         public void shootPrompt(ArrayList possibilities){
             if(possibilities.Count == 0){
-                endOfTurn();
+                GameBoard.setNextAction("No pew-pew for you");
+                this.endOfTurn(currentBandit.getCharacter() + " was unable to pew-pew", true);
             }
             else if(possibilities.Count == 1){
-                shoot((Bandit)possibilities[0]);
+                shoot((Bandit)possibilities[0], true);
             }
             else if(possibilities.Count > 1){
-                GameBoard.makeShootPossibilitiesClickable(possibilities);
+                GameBoard.setNextAction("Choose a bandit to shoot");
+                //GameBoard.makeShootPossibilitiesClickable(possibilities);
+                GameBoard.clickable = possibilities;
             }
         }
         
-	    public void shoot(Bandit toShoot) {
+        public void shoot(Bandit toShoot) {
+            shoot(toShoot, false);
+        }
+
+	    public void shoot(Bandit toShoot, bool noChoice) {
 
 		    if (currentBandit.getSizeOfBullets() > 0) {
-		    	toShoot.addToDeck(currentBandit.popBullet()); // TODO <- graphical response
+		    	toShoot.addToDeck(currentBandit.popBullet());
 		    }
 
 		    if (currentBandit.getCharacter().Equals("DJANGO")) {
@@ -800,7 +802,8 @@ namespace model {
                     toShoot.shotByMarhsal();
                 }
 		    }
-		    endOfTurn(); // might have to put this in an if else block for cases like SpeedingUp/Whiskey
+            // might have to put this in an if else block for cases like SpeedingUp/Whiskey
+             endOfTurn(currentBandit.getCharacter() + " shot " + toShoot.getCharacter(), noChoice);
 	    }
         
         //--PUNCH--
@@ -988,12 +991,7 @@ namespace model {
 			    currentBandit.shotByMarhsal();
 		    }
 		    // might have to put this in an if else block for cases like SpeedingUp/Whiskey
-            if(noChoice) {
-                endOfTurn(currentBandit.getCharacter() + " moved to the " + currentBandit.getPosition().getCarFloorAsString() + " of " + currentBandit.getPosition().getCarTypeAsString(), true);
-
-            } else {
-                endOfTurn(currentBandit.getCharacter() + " moved to the " + currentBandit.getPosition().getCarFloorAsString() + " of " + currentBandit.getPosition().getCarTypeAsString());
-            }
+            endOfTurn(currentBandit.getCharacter() + " moved to the " + currentBandit.getPosition().getCarFloorAsString() + " of " + currentBandit.getPosition().getCarTypeAsString(), noChoice);
 	    }
         
         //--MOVE MARSHAL--
@@ -1037,11 +1035,7 @@ namespace model {
 			    	b.shotByMarhsal();
 			    }
 		    }
-            if(noChoice) {
-                endOfTurn(currentBandit.getCharacter() + " moved the Marshal to " + marshal.getMarshalPosition().getCarTypeAsString(), true);
-            } else {
-                endOfTurn(currentBandit.getCharacter() + " moved the Marshal to " + marshal.getMarshalPosition().getCarTypeAsString()); 
-            }
+            endOfTurn(currentBandit.getCharacter() + " moved the Marshal to " + marshal.getMarshalPosition().getCarTypeAsString(), noChoice);
 	    }
 
         //--RIDE--
