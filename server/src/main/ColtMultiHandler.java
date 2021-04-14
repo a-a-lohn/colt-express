@@ -93,19 +93,10 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		//gm.singleton = gm;
 		GameManager.singleton = gm;
 		savedCurrentGameAtLeastOnce = true;
-//		ArrayList<Bandit> bandits = gm.getBandits();
-//		ColtExtension parentExt = (ColtExtension)getParentExtension();
-//		Zone zone = parentExt.getParentZone();
-//		Collection<User> users = zone.getUserList();
-//		if(numCallsToLoadSaveGame == users.size()) {
-//			int i = 0;
-//			for(User user : users) {
-//				String banditName = bandits.get(i).getCharacterAsString();
-//				rtn.putUtfString("character", banditName);
-//				sendToSender(user, rtn, "saveGameBandit");
-//				i++;
-//			}
-//		}
+		
+		rtn.putUtfString("savegameID", currentSaveGameId);		
+		sendToAllUsers(rtn, "currentSaveGameID");
+		
 	}
 	
 	public void handleDeleteSavedGame(ISFSObject params, ISFSObject rtn) {
@@ -122,8 +113,18 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		savedCurrentGameAtLeastOnce = true;
 		currentSaveGameId = params.getUtfString("savegameId");
 		GameManager saveGame = (GameManager) params.getClass("gm");
-		saveGames.put(currentSaveGameId, saveGame);
+		
+		if(saveGames.containsKey(currentSaveGameId)) {
+			saveGames.replace(currentSaveGameId, saveGame);
+		}else {
+			saveGames.put(currentSaveGameId, saveGame);
+		}
+	
+		rtn.putUtfString("savegameID", currentSaveGameId);
 		System.out.println("currently saved Games: "+ saveGames.containsKey(currentSaveGameId));
+		
+		sendToAllUsers(rtn, "currentSaveGameID");
+		
 	}
 	
 	public void handleRemoveGame(ISFSObject params, ISFSObject rtn) {

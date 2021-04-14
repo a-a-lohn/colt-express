@@ -58,6 +58,8 @@ public class GameBoard : MonoBehaviour
     public Button proceed;
     static bool noAction;
     static string heldMessage;
+    public static string saveGameId = "";
+    static bool saveGameOnLobby = false;
 
     public Text log;
     int logCounter = 0;
@@ -1368,48 +1370,59 @@ public class GameBoard : MonoBehaviour
     }
 
     public static void TestSave() {
-        SaveGameState(generateRandomString(7));
+        if(saveGameId == ""){
+            saveGameOnLobby = true;
+            saveGameId = generateRandomString(7);
+        }
+
+        SaveGameState(saveGameId);
     }
 
     public static void SaveGameState(string savegameID) {
         Debug.Log("SaveGameState is called!"); 
 
-		var request = new RestRequest("api/sessions/" + gameHash, Method.GET)
+        if (saveGameOnLobby){
+
+            var request = new RestRequest("api/sessions/" + gameHash, Method.GET)
             .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
-        IRestResponse response = client.Execute(request);
-        var JObj = JObject.Parse(response.Content);
-        Dictionary<string, object> sessionDetails = JObj.ToObject<Dictionary<string, object>>();
+            IRestResponse response = client.Execute(request);
+            var JObj = JObject.Parse(response.Content);
+            Dictionary<string, object> sessionDetails = JObj.ToObject<Dictionary<string, object>>();
 
-		var temp = JsonConvert.SerializeObject(sessionDetails["gameParameters"]);
-		var gameParameters = JsonConvert.DeserializeObject<Dictionary<string, string>>(temp);
+            var temp = JsonConvert.SerializeObject(sessionDetails["gameParameters"]);
+            var gameParameters = JsonConvert.DeserializeObject<Dictionary<string, string>>(temp);
 
-		string gameName = gameParameters["name"];
-        Debug.Log("gamename: " + gameName);
-		//below I deserialize a JSON object to a collection
-        List<string> players = JsonConvert.DeserializeObject<List<string>>(sessionDetails["players"].ToString());
-	
-        Dictionary<string, object> body = new Dictionary<string, object>
-        {
-            { "gamename", gameName },
-            { "players", players },
-            { "savegameid", savegameID }
-        };
-
-        string json = JsonConvert.SerializeObject(body, Formatting.Indented);
-
-
-        JObject jObjectbody = new JObject();
-        jObjectbody.Add("gamename", gameName);
-        jObjectbody.Add("players", JsonConvert.SerializeObject(players));
-        jObjectbody.Add("savegameid", savegameID);
-
-		var request1 = new RestRequest("api/gameservices/" + gameName + "/savegames/" + savegameID + "?access_token=" + GetAdminToken(), Method.PUT)
-            .AddParameter("application/json", json, ParameterType.RequestBody)
-            .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
-
-        IRestResponse response2 = client.Execute(request1);
-        Debug.Log("Here is the game saving return: "+ response2.ErrorMessage + "   " + response2.StatusCode);
+            string gameName = gameParameters["name"];
+            Debug.Log("gamename: " + gameName);
+            //below I deserialize a JSON object to a collection
+            List<string> players = JsonConvert.DeserializeObject<List<string>>(sessionDetails["players"].ToString());
         
+            Dictionary<string, object> body = new Dictionary<string, object>
+            {
+                { "gamename", gameName },
+                { "players", players },
+                { "savegameid", savegameID }
+            };
+
+            string json = JsonConvert.SerializeObject(body, Formatting.Indented);
+
+
+            JObject jObjectbody = new JObject();
+            jObjectbody.Add("gamename", gameName);
+            jObjectbody.Add("players", JsonConvert.SerializeObject(players));
+            jObjectbody.Add("savegameid", savegameID);
+
+            var request1 = new RestRequest("api/gameservices/" + gameName + "/savegames/" + savegameID + "?access_token=" + GetAdminToken(), Method.PUT)
+                .AddParameter("application/json", json, ParameterType.RequestBody)
+                .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+
+            IRestResponse response2 = client.Execute(request1);
+            Debug.Log("Here is the game saving return: "+ response2.ErrorMessage + "   " + response2.StatusCode);
+
+            saveGameOnLobby = false;
+
+        }
+       
         // Save game on the server
         ISFSObject obj = SFSObject.NewInstance();
         Debug.Log("saving the current game state on the server");

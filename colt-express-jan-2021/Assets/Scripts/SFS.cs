@@ -137,6 +137,12 @@ public static class SFS
 			//GameBoard.SendNewGameState();
 		}  else if (cmd == "testgame") {
 			tg.ReceiveInitializedGame(evt);
+		}  else if (cmd == "currentSaveGameID") {
+			ISFSObject responseParams = (SFSObject)evt.Params["params"];
+			string saveGame = responseParams.GetUtfString("savegameID");
+			if(saveGame != null){
+				GameBoard.saveGameId = saveGame;
+			}
 		}
     }
 
