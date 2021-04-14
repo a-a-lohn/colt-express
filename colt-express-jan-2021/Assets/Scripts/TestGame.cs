@@ -256,85 +256,83 @@ public class TestGame : MonoBehaviour
     // MAKE MOCK PROMPT METHODS IN GAMEMANAGER.CS THAT ASSIGN THE PROMPT STRING IN TESTGAME.CS. SEE promptDrawCardsOrPlayCard() IN GM FOR REFERENCE
     void RunGame(int num)
     {
+        GameManager gm = GameManager.getInstance();
         switch (num)
         {
-            case 0:
-                // initial playturn()
-                gm.playTurn();
-                break;
             // R T1
             case 1:
                 //BELLE PLAYS CHANGEFLOOR
+                gm.playTurn();
                 gm.playCard((ActionCard)gm.currentBandit.getHand()[2]);
                 // ONLY CALL PLAYTURN() IMMEDIATELY AFTER CALLING A METHOD THAT CALLS ENDOFTURN() (such as playCard())
-                gm.playTurn(); // this method would be called automatically at the BEGINNING of a turn on all clients
                 break;
             case 2:
                 //DOC PLAYS MOVE MARSHAL
-                gm.playCard((ActionCard)gm.currentBandit.getHand()[5]); // DOC MOVES MARSHAL - case 14
                 gm.playTurn();
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[5]); // DOC MOVES MARSHAL - case 14
                 break;
             case 3:
                 //GHOST PLAYS MOVE
-                gm.playCard((ActionCard)gm.currentBandit.getHand()[3]); // Ghost moves to car3 roof - case 15
                 gm.playTurn();
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[3]); // Ghost moves to car3 roof - case 15
                 break;
             // R1 T2
             case 4:
                 //BELLE DRAWS 3
-                gm.drawCards(3);
                 gm.playTurn();
+                gm.drawCards(3);
                 break;
             case 5:
                 //DOC DRAWS 3
-                gm.drawCards(3);
                 gm.playTurn();
+                gm.drawCards(3);
                 break;
             case 6:
                 //GHOST DRAWS 3
-                gm.drawCards(3);
                 gm.playTurn();
+                gm.drawCards(3);
                 break;
             // R1 T3
             case 7:
                 //BELLE PLAYS SHOOT
-                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]); // Belle shoot Ghost - case 16
                 gm.playTurn();
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]); // Belle shoot Ghost - case 16
                 break;
             case 8:
                 //DOC PLAYS PUNCH
-                gm.playCard((ActionCard)gm.currentBandit.getHand()[4]); // Doc punches Belle - case 17
                 gm.playTurn();
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[4]); // Doc punches Belle - case 17
                 break;
             case 9:
                 //GHOST PLAYS SHOOT
-                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
                 gm.playTurn();
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
                 break;
             // R1 T4
                 //BELLE PLAYS CHANGEFLOOR
             case 10:
-                gm.playCard((ActionCard)gm.currentBandit.getHand()[5]);
                 gm.playTurn();
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[5]);
                 break;
             case 11:
                 //GHOST PLAYS CHANGEFLOOR
-                gm.playCard((ActionCard)gm.currentBandit.getHand()[1]);
                 gm.playTurn();
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[1]);
                 break;
             case 12:
                 //DOC PLAYS ROB
                 gm.playCard((ActionCard)gm.currentBandit.getHand()[1]);
-                gm.playTurn();
                 break;
             // stealing phase R1 T1 STANDARD
             case 13:
                 //BELLE CHANGE FLOOR to trainRoof[1] (roof1)
+                gm.playTurn();
+                //1 CHOICE
                 break;
             case 14:
                 //DOC MOVE MARSHAL to trainCabin[1] (car1) doc and ghost shot by marshal, both move to roof1
                 gm.playTurn();
-                gm.moveMarshal((TrainUnit)gm.trainCabin[1]); 
+                //1 CHOICE
                 break;
             case 15:
                 //GHOST MOVE to trainRoof[3] (roof3)
@@ -344,9 +342,9 @@ public class TestGame : MonoBehaviour
             // R1 T2 EVERYONE DRAWS CARDS - no stealin to resolve
             // R1 T3 TUNNEL
             case 16:
-                //BELLE SHOOT Ghost
+                //BELLE SHOOT Doc
                 gm.playTurn();
-                gm.shoot((Bandit)gm.bandits[2]);
+                //1 CHOICE
                 break;
             case 17:
                 //DOC PUNCH Belle to locoRoof, Belle leaves her purse on roof1
@@ -357,23 +355,114 @@ public class TestGame : MonoBehaviour
             case 18:
                 //GHOST SHOOT Doc
                 gm.playTurn();
-                Bandit Doc = (Bandit)gm.bandits[1];
-                gm.shoot(Doc);
+                //1 CHOICE
                 break;
             // R1 T4 SWITCHING
             case 19:
                 //BELLE CHANGEFLOOR
-                //gm.playTurn();
+                gm.playTurn();
+                //1 CHOICE
                 break;
             case 20:
                 //GHOST CHANGEFLOOR
-                //gm.playTurn();
+                gm.playTurn();
+                //1 CHOICE
                 break;
             case 21:
                 //DOC ROB
                 gm.playTurn();
-                gm.rob((Loot)gm.currentBandit.getPosition().getLootHere()[0]);
+                //1 CHOICE
                 break;
+            //--ROUND 1 FINISH--
+            // R2 T1
+            case 22:
+                //DOC DRAWS 3
+                gm.playTurn();
+                gm.drawCards(3);
+                break;
+            case 23:
+                //GHOST PLAYS FD
+                gm.playTurn();
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
+                break;
+            case 24:
+                //BELLE PLAYS
+                gm.playTurn();
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
+                break;
+            // R2 T2
+            case 25:
+                //DOC DRAWS 3
+                gm.playTurn();
+                gm.drawCards(3);
+                break;
+            case 26:
+                //GHOST PLAYS
+                gm.playTurn();
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
+                break;
+            case 27:
+                //BELLE PLAYS
+                gm.playTurn();
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
+                break;
+            // R2 T3
+            case 28:
+                //DOC DRAWS 3
+                gm.playTurn();
+                gm.drawCards(3);
+                break;
+            case 29:
+                //GHOST PLAYS
+                gm.playTurn();
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
+                break;
+            case 30:
+                //BELLE PLAYS
+                gm.playTurn();
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
+                break;
+            // R2 T4
+            case 31:
+                //DOC PLAYS RIDE
+                gm.playTurn();
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[13]);
+                break;
+            case 32:
+                //GHOST PLAYS
+                gm.playTurn();
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[1]);
+                break;
+            case 33:
+                //BELLE PLAYS
+                gm.playTurn();
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
+                break;
+            //R2 STEALIN
+            //GHOST CHANGE FLOOR to roof3
+            case 34:
+                gm.playTurn();
+                //1 CHOICE
+                break;
+            //BELLE CHANGE FLOOR to locoroof
+            case 35:
+                gm.playTurn();
+                //1 CHOICE
+                break;
+            //BELLE SHOOTS DOC
+            case 36:
+                gm.playTurn();
+                //1 CHOICE
+                break;
+            //GHOST MOVES to roof2
+            //BELLE CHANGE FLOOR to lococabin
+            //1 CHOICE
+            //DOC RIDE no adjacent horse
+            //1 CHOICE
+            //GHOST SHOOT doc
+            //1 CHOICE
+            //BELLE SHOOT no adjacent bandit
+            //1 CHOICE
 
         }
     }

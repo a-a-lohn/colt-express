@@ -58,8 +58,10 @@ public class GameBoard : MonoBehaviour
     public Text gameStatus;
     public Text resolveCard;
     public Button proceed;
-    static bool noAction;
+    static bool noChoice;
     static string heldMessage;
+    public static string saveGameId = "";
+    static bool saveGameOnLobby = false;
 
     public Text log;
     int logCounter = 0;
@@ -75,11 +77,18 @@ public class GameBoard : MonoBehaviour
         newAction = true;
     }
 
-    public static void setNoAction(string message) {
-        Debug.Log("setting noaction to true");
-        noAction = true;
+    public static void setNoChoice(string message) {
+        Debug.Log("setting noChoice to true");
+        noChoice = true;
         heldMessage = message;
     }
+
+    public Text belleRevolver;
+    public Text cheyenneRevolver;
+    public Text docRevolver;
+    public Text djangoRevolver;
+    public Text ghostRevolver;
+    public Text tucoRevolver;
 
     public GameObject canvas;
 
@@ -240,8 +249,6 @@ public class GameBoard : MonoBehaviour
     public Button trainThreeTop;
     public Button trainfourTop; 
     public Button trainfourBtm;
-    // public Button trainFiveBtm; 
-    // public Button trainFiveTop;
     public Button locoBtm; 
     public Button locoTop;
 
@@ -263,29 +270,25 @@ public class GameBoard : MonoBehaviour
 
     bool calledMapTrain = false;
 
-    private List<float> oneBtm = new List<float>() {706.0F, 816.5F, -364.9F}; 
-    private List<float> oneTop = new List<float>() {705.4F, 879.0F, -364.9F}; 
-    private List<float> twoTop = new List<float>() {962.9F, 873.7F, -364.9F}; 
-    private List<float> twoBtm = new List<float>() {918.2F, 815.7F, -364.9F}; 
-    private List<float> threeTop = new List<float>() {1149.4F, 883.2F, -364.9F}; 
-    private List<float> threeBtm = new List<float>() {1139.7F, 821.5F, -364.9F}; 
-    private List<float> fourBtm = new List<float>() {1353.2F, 820.2F, -364.9F}; 
-    private List<float> fourTop = new List<float>() {1357.1F, 873.5F, -364.9F}; 
-    private List<float> locTop = new List<float>() {1594.2F, 873.5F, -364.9F}; 
-    private List<float> locBtm = new List<float>() {1597.7F, 816.5F, -364.9F};
-
-    private List<float> belPur = new List<float>() {779.6F, 1146.8F, -364.9F};
-    private List<float> belStr = new List<float>() {863.3F, 1121.2F, -364.9F};
-    private List<float> belWhi= new List<float>() {842.5F, 1105.3F, -364.9F};
+    private List<float> oneBtm = new List<float>() {1311.9F, 838.5F, -364.9F}; 
+    private List<float> oneTop = new List<float>() {1314.9F, 885.5F, -364.9F}; 
+    private List<float> twoTop = new List<float>() {1147.9F, 884.4F, -364.9F}; 
+    private List<float> twoBtm = new List<float>() {1148.9F, 839.6F, -364.9F}; 
+    private List<float> threeTop = new List<float>() {982.9F, 883.2F, -364.9F}; 
+    private List<float> threeBtm = new List<float>() {982.0F, 835.2F, -364.9F}; 
+    private List<float> fourBtm = new List<float>() {831.0F, 838.5F, -364.9F}; 
+    private List<float> fourTop = new List<float>() {824.1F, 883.0F, -364.9F}; 
+    private List<float> locTop = new List<float>() {1495.9F, 885.5F, -364.9F}; 
+    private List<float> locBtm = new List<float>() {1498.6F, 835.2F, -364.9F};
 
     private List<float> belLoot = new List<float>() {834.7F, 1121.2F, -364.9F};
-    private List<float> cheLoot = new List<float>() {957.1F, 1102.6F, -364.9F};
-    private List<float> docLoot = new List<float>() {1092.0F, 1115.7F, -364.9F};
-    private List<float> djaLoot = new List<float>() {1206.1F, 1119.6F, -364.9F};
-    private List<float> ghoLoot = new List<float>() {1314.7F, 1121.2F, -364.9F};
-    private List<float> tucLoot = new List<float>() {1394.9F, 1121.2F, -364.9F};
+    private List<float> cheLoot = new List<float>() {1047.6F, 1002.1F, -364.9F};
+    private List<float> docLoot = new List<float>() {1075.4F, 1000.8F, -364.9F};
+    private List<float> djaLoot = new List<float>() {1099.4F, 1000.8F, -364.9F};
+    private List<float> ghoLoot = new List<float>() {1061.2F, 1000.3F, -364.9F};
+    private List<float> tucLoot = new List<float>() {1126.7F, 1003.6F, -364.9F};
 
-    private List<float> faraway= new List<float>() {-1452.5F, 920.9F, -364.9F};
+    private List<float> faraway= new List<float>() {117.7F, -373.8F, -364.5F};
 
     void Start(){  
         /*
@@ -309,6 +312,32 @@ public class GameBoard : MonoBehaviour
 
         //belle.transform.position = new Vector3(fourTop[0], fourTop[1], fourTop[2]);
 
+        Debug.Log("locoTop" + locoTop.transform.position); 
+        Debug.Log("locoBTM" + locoBtm.transform.position); 
+        Debug.Log("cartOneTop" + trainOneTop.transform.position); 
+        Debug.Log("cartOneBtm" + trainOneBtm.transform.position); 
+        Debug.Log("cartTwoTop" + trainTwoTop.transform.position); 
+        Debug.Log("cartTwoBtm" + trainTwoBtm.transform.position); 
+        Debug.Log("cartThreeTop" + trainThreeTop.transform.position); 
+        Debug.Log("cartThreeBtm" + trainThreeBtm.transform.position); 
+        Debug.Log("cartFourTop" + trainfourTop.transform.position); 
+        Debug.Log("cartFourBtm" + trainfourBtm.transform.position); 
+
+        Debug.Log("bel prof" + belleProf.transform.position); 
+        Debug.Log("che prof" + cheyenneProf.transform.position); 
+        Debug.Log("doc prof" + docProf.transform.position); 
+        Debug.Log("dja prof" + djangoProf.transform.position); 
+        Debug.Log("tuc prof" + tucoProf.transform.position); 
+        Debug.Log("gho prof" + ghostProf.transform.position);
+
+        // testing 
+        belle.transform.position = new Vector3(oneTop[0], oneTop[1], oneTop[2]);
+        cheyenne.transform.position = new Vector3(twoTop[0], twoTop[1], twoTop[2]);
+        doc.transform.position = new Vector3(threeTop[0], threeTop[1], threeTop[2]);
+        django.transform.position = new Vector3(fourTop[0], fourTop[1], fourTop[2]);
+        tuco.transform.position = new Vector3(fourBtm[0], fourBtm[1], fourBtm[2]);
+        ghost.transform.position = new Vector3(locTop[0], locTop[1], locTop[2]);
+        marshal.transform.position = new Vector3(locBtm[0], locBtm[1], locBtm[2]);
 
         if(!returningFromChat) {
             currentRoundText.text = "";
@@ -332,7 +361,7 @@ public class GameBoard : MonoBehaviour
         if(newAction) {
             actionText.text = action;
         }
-        if(noAction) {
+        if(noChoice) {
             actionText.text += ". Click to proceed";
             proceed.interactable = true;
         }
@@ -355,7 +384,7 @@ public class GameBoard : MonoBehaviour
     public void onProceed() {
         Debug.Log("sending held game state");
         setMyTurn(false);
-        noAction = false;
+        noChoice = false;
         newAction = false;
         actionText.text = "";
         SendNewGameState(heldMessage);
@@ -475,46 +504,44 @@ public class GameBoard : MonoBehaviour
         foreach (Bandit b in banditsArray) {
             if (b.characterAsString == "CHEYENNE") {
                 buttonToObject[cheyenne] = b;
-                //Debug.Log(b.characterAsString + " added as button");
+                Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
                 playingBandits.Add(cheyenne);
+                cheyenneRevolver.text = b.getSizeOfBullets().ToString();
             }
             if (b.characterAsString == "BELLE") {
                 buttonToObject[belle] = b;
-                //Debug.Log(b.characterAsString + " added as button");
+                Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
                 playingBandits.Add(belle);
+                belleRevolver.text = b.getSizeOfBullets().ToString();
             }
             if (b.characterAsString == "TUCO") {
                 buttonToObject[tuco] = b;
-                //Debug.Log(b.characterAsString + " added as button");
+                Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
                 playingBandits.Add(tuco);
+                tucoRevolver.text = b.getSizeOfBullets().ToString();
             }
             if (b.characterAsString == "DOC") {
                 buttonToObject[doc] = b;
-                //Debug.Log(b.characterAsString + " added as button");
+                Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
                 playingBandits.Add(doc);
+                docRevolver.text = b.getSizeOfBullets().ToString();
             }
             if (b.characterAsString == "GHOST") {
                 buttonToObject[ghost] = b;
-                //Debug.Log(b.characterAsString + " added as button");
+                Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
                 playingBandits.Add(ghost);
+                ghostRevolver.text = b.getSizeOfBullets().ToString();
             }
             if (b.characterAsString == "DJANGO") {
                 buttonToObject[django] = b;
-                //Debug.Log(b.characterAsString + " added as button");
+                Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
                 playingBandits.Add(django);
+                djangoRevolver.text = b.getSizeOfBullets().ToString();
             }
             
             /* place the bandits in their starting positions */
             mapBandit(gm);
             removeBandits(gm.bandits);
-            // foreach(Button ab in allBandits){
-            //     if(ab != null) {
-            //         if(!playingBandits.Contains(ab)){
-            //             Debug.Log("Destroying " + ab.name);
-            //             Destroy(ab.gameObject);
-            //         }
-            //     }
-            // }
 
             if(b.characterAsString == gm.currentBandit.characterAsString){
                 /*
@@ -525,7 +552,6 @@ public class GameBoard : MonoBehaviour
             }
 
             if(b.characterAsString == ChooseCharacter.character){
-                //b.updateMainDeck();
 
                 if (gm.strGameStatus.Equals("SCHEMIN")) {
                     if(gm.currentRound.getTurnCounter() == 0 && b.hand.Count == 0){
@@ -533,14 +559,9 @@ public class GameBoard : MonoBehaviour
                         if(b.getCharacter().Equals("DOC")){
                             b.drawCards(1);
                         }
-                        //b.updateOtherDecks();
-                        //b.updateOtherHands();
                     }
                 }
-                
-                //b.updateMainHand();
-                // assign to gameobjects on screen 
-                //ArrayList currCards = b.hand;
+
                 int index = 0; 
                 ActionCard ac;
                 BulletCard bc;
@@ -679,7 +700,7 @@ public class GameBoard : MonoBehaviour
 
     }
 
-    
+
 
     void displayGameInfo() {
         gameStatus.text = gm.getGameStatus();
@@ -769,13 +790,6 @@ public class GameBoard : MonoBehaviour
             Debug.Log("not my turn!");
         } else {
             Debug.Log( btn.name + " IS CLICKED");
-            //punchedBandit = btn.name;
-            // if buttonToObject[btn] is an actioncard, call playCard(buttonToObject[btn])
-
-            //TrainUnit clickedTU = (TrainUnit)buttonToObject[btn]; 
-
-            // Debug.Log("CLICKED TRAIN TYPE" + clickedTU.carTypeAsString);
-            // Debug.Log("CLICKED TRAIN FLOOR" + clickedTU.carFloorAsString);
 
             if(clickable.Contains(buttonToObject[btn])) {
                 Debug.Log("this is a clickable item!");
@@ -814,7 +828,16 @@ public class GameBoard : MonoBehaviour
                     } catch(Exception e) {
                         Debug.Log("wrong btn for rob?");
                     }
-                } //else if()
+                } else if(actionText.text == "Choose a bandit to shoot") {
+                    Debug.Log("choose a bandit to shoot");
+                    try {
+                        Bandit clickedB = (Bandit)buttonToObject[btn]; 
+                        gm.shoot(clickedB);
+                        Debug.Log("shooting");
+                    } catch(Exception e) {
+                        Debug.Log("not shooting");
+                    }
+                }
 
                 newAction = false;
                 actionText.text = "";
@@ -1425,48 +1448,59 @@ public class GameBoard : MonoBehaviour
     }
 
     public static void TestSave() {
-        SaveGameState(generateRandomString(7));
+        if(saveGameId == ""){
+            saveGameOnLobby = true;
+            saveGameId = generateRandomString(7);
+        }
+
+        SaveGameState(saveGameId);
     }
 
     public static void SaveGameState(string savegameID) {
         Debug.Log("SaveGameState is called!"); 
 
-		var request = new RestRequest("api/sessions/" + gameHash, Method.GET)
+        if (saveGameOnLobby){
+
+            var request = new RestRequest("api/sessions/" + gameHash, Method.GET)
             .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
-        IRestResponse response = client.Execute(request);
-        var JObj = JObject.Parse(response.Content);
-        Dictionary<string, object> sessionDetails = JObj.ToObject<Dictionary<string, object>>();
+            IRestResponse response = client.Execute(request);
+            var JObj = JObject.Parse(response.Content);
+            Dictionary<string, object> sessionDetails = JObj.ToObject<Dictionary<string, object>>();
 
-		var temp = JsonConvert.SerializeObject(sessionDetails["gameParameters"]);
-		var gameParameters = JsonConvert.DeserializeObject<Dictionary<string, string>>(temp);
+            var temp = JsonConvert.SerializeObject(sessionDetails["gameParameters"]);
+            var gameParameters = JsonConvert.DeserializeObject<Dictionary<string, string>>(temp);
 
-		string gameName = gameParameters["name"];
-        Debug.Log("gamename: " + gameName);
-		//below I deserialize a JSON object to a collection
-        List<string> players = JsonConvert.DeserializeObject<List<string>>(sessionDetails["players"].ToString());
-	
-        Dictionary<string, object> body = new Dictionary<string, object>
-        {
-            { "gamename", gameName },
-            { "players", players },
-            { "savegameid", savegameID }
-        };
-
-        string json = JsonConvert.SerializeObject(body, Formatting.Indented);
-
-
-        JObject jObjectbody = new JObject();
-        jObjectbody.Add("gamename", gameName);
-        jObjectbody.Add("players", JsonConvert.SerializeObject(players));
-        jObjectbody.Add("savegameid", savegameID);
-
-		var request1 = new RestRequest("api/gameservices/" + gameName + "/savegames/" + savegameID + "?access_token=" + GetAdminToken(), Method.PUT)
-            .AddParameter("application/json", json, ParameterType.RequestBody)
-            .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
-
-        IRestResponse response2 = client.Execute(request1);
-        Debug.Log("Here is the game saving return: "+ response2.ErrorMessage + "   " + response2.StatusCode);
+            string gameName = gameParameters["name"];
+            Debug.Log("gamename: " + gameName);
+            //below I deserialize a JSON object to a collection
+            List<string> players = JsonConvert.DeserializeObject<List<string>>(sessionDetails["players"].ToString());
         
+            Dictionary<string, object> body = new Dictionary<string, object>
+            {
+                { "gamename", gameName },
+                { "players", players },
+                { "savegameid", savegameID }
+            };
+
+            string json = JsonConvert.SerializeObject(body, Formatting.Indented);
+
+
+            JObject jObjectbody = new JObject();
+            jObjectbody.Add("gamename", gameName);
+            jObjectbody.Add("players", JsonConvert.SerializeObject(players));
+            jObjectbody.Add("savegameid", savegameID);
+
+            var request1 = new RestRequest("api/gameservices/" + gameName + "/savegames/" + savegameID + "?access_token=" + GetAdminToken(), Method.PUT)
+                .AddParameter("application/json", json, ParameterType.RequestBody)
+                .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+
+            IRestResponse response2 = client.Execute(request1);
+            Debug.Log("Here is the game saving return: "+ response2.ErrorMessage + "   " + response2.StatusCode);
+
+            saveGameOnLobby = false;
+
+        }
+       
         // Save game on the server
         ISFSObject obj = SFSObject.NewInstance();
         Debug.Log("saving the current game state on the server");

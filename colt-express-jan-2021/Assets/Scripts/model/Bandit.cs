@@ -216,10 +216,22 @@ namespace model {
         public void drawCards(int cardsToDraw) {
             Debug.Log("cards to draw: " + cardsToDraw);
             int deckSize = this.sizeOfDeck();
-            for (int i = deckSize-1; i > deckSize-cardsToDraw-1; i--) {
-                Card toAdd = this.getFromDeckAt(i);
-                this.removeFromDeckAt(i);
-                this.addToHand(toAdd);
+            if(deckSize == 0){
+                return;
+            }
+            else if(deckSize <= cardsToDraw){
+                for (int i = 0; i<deckSize; i++) {
+                    Card toAdd = this.getFromDeckAt(i);
+                    this.removeFromDeckAt(i);
+                    this.addToHand(toAdd);
+                }
+            }
+            else{
+                for (int i = deckSize-1; i > deckSize-cardsToDraw-1; i--) {
+                    Card toAdd = this.getFromDeckAt(i);
+                    this.removeFromDeckAt(i);
+                    this.addToHand(toAdd);
+                }
             }
         }
 
