@@ -272,10 +272,17 @@ public class GameBoard : MonoBehaviour
     private List<float> fourTop = new List<float>() {1357.1F, 873.5F, -364.9F}; 
     private List<float> locTop = new List<float>() {1594.2F, 873.5F, -364.9F}; 
     private List<float> locBtm = new List<float>() {1597.7F, 816.5F, -364.9F};
-    private List<float> belGem = new List<float>() {834.7F, 1121.2F, -364.9F};
+
     private List<float> belPur = new List<float>() {779.6F, 1146.8F, -364.9F};
     private List<float> belStr = new List<float>() {863.3F, 1121.2F, -364.9F};
     private List<float> belWhi= new List<float>() {842.5F, 1105.3F, -364.9F};
+
+    private List<float> belLoot = new List<float>() {834.7F, 1121.2F, -364.9F};
+    private List<float> cheLoot = new List<float>() {957.1F, 1102.6F, -364.9F};
+    private List<float> docLoot = new List<float>() {1092.0F, 1115.7F, -364.9F};
+    private List<float> djaLoot = new List<float>() {1206.1F, 1119.6F, -364.9F};
+    private List<float> ghoLoot = new List<float>() {1314.7F, 1121.2F, -364.9F};
+    private List<float> tucLoot = new List<float>() {1394.9F, 1121.2F, -364.9F};
 
     private List<float> faraway= new List<float>() {-1452.5F, 920.9F, -364.9F};
 
@@ -285,7 +292,6 @@ public class GameBoard : MonoBehaviour
         // Debug.Log("bel belleWhisGO: " + belleWhisGO.transform.position); 
         // Debug.Log("bel belStrGo: " + belStrGo.transform.position); 
         // Debug.Log("bel belPurGo: " + belPurGo.transform.position); 
-        // belleWhisGO.transform.position = new Vector3 (belWhi[0], belWhi[1], belWhi[2]);
 
         if(!returningFromChat) {
             currentRoundText.text = "";
@@ -744,7 +750,6 @@ public class GameBoard : MonoBehaviour
             //punchedBandit = btn.name;
             // if buttonToObject[btn] is an actioncard, call playCard(buttonToObject[btn])
 
-            //clickable.Add(buttonToObject[btn]); 
             //TrainUnit clickedTU = (TrainUnit)buttonToObject[btn]; 
 
             // Debug.Log("CLICKED TRAIN TYPE" + clickedTU.carTypeAsString);
@@ -778,6 +783,16 @@ public class GameBoard : MonoBehaviour
                     } catch(Exception e) {
                         Debug.Log("not moving");
                     }
+                } else if(actionText.text == "Choose a loot to rob") {
+                    Debug.Log("choose a loot");
+                    try {
+                        Loot clickedLoot = (Loot)buttonToObject[btn]; 
+                        moveLootToBanditPos(btn); 
+                        gm.rob(clickedLoot);
+                        Debug.Log("loot chosen and moved");
+                    } catch(Exception e) {
+                        Debug.Log("wrong btn?");
+                    }
                 }
 
                 newAction = false;
@@ -788,6 +803,22 @@ public class GameBoard : MonoBehaviour
         btn.interactable = true;
     }
 
+    public void moveLootToBanditPos(Button chosenLootBtn) {
+        Bandit currBandit = gm.currentBandit; 
+        if(currBandit.characterAsString == "BELLE"){
+            chosenLootBtn.transform.position = new Vector3(belLoot[0], belLoot[1], belLoot[2]); 
+        }else if(currBandit.characterAsString == "CHEYENNE"){
+            chosenLootBtn.transform.position = new Vector3(cheLoot[0], cheLoot[1], cheLoot[2]); 
+        }else if(currBandit.characterAsString == "DOC"){
+            chosenLootBtn.transform.position = new Vector3(docLoot[0], docLoot[1], docLoot[2]); 
+        }else if(currBandit.characterAsString == "DJANGO"){
+            chosenLootBtn.transform.position = new Vector3(djaLoot[0], djaLoot[1], djaLoot[2]); 
+        }else if(currBandit.characterAsString == "GHOST"){
+            chosenLootBtn.transform.position = new Vector3(ghoLoot[0], ghoLoot[1], ghoLoot[2]); 
+        }else if(currBandit.characterAsString == "TUCO"){
+            chosenLootBtn.transform.position = new Vector3(tucLoot[0], tucLoot[1], tucLoot[2]); 
+        }
+    }
     public void horseBtnClicked(Button btn) {
         String response;
         if (btn.name == "horseBtnOne") {
