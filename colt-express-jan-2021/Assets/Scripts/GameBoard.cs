@@ -311,32 +311,44 @@ public class GameBoard : MonoBehaviour
 
         //belle.transform.position = new Vector3(fourTop[0], fourTop[1], fourTop[2]);
 
-        Debug.Log("locoTop" + locoTop.transform.position); 
-        Debug.Log("locoBTM" + locoBtm.transform.position); 
-        Debug.Log("cartOneTop" + trainOneTop.transform.position); 
-        Debug.Log("cartOneBtm" + trainOneBtm.transform.position); 
-        Debug.Log("cartTwoTop" + trainTwoTop.transform.position); 
-        Debug.Log("cartTwoBtm" + trainTwoBtm.transform.position); 
-        Debug.Log("cartThreeTop" + trainThreeTop.transform.position); 
-        Debug.Log("cartThreeBtm" + trainThreeBtm.transform.position); 
-        Debug.Log("cartFourTop" + trainfourTop.transform.position); 
-        Debug.Log("cartFourBtm" + trainfourBtm.transform.position); 
+        // Debug.Log("locoTop" + locoTop.transform.position); 
+        // Debug.Log("locoBTM" + locoBtm.transform.position); 
+        // Debug.Log("cartOneTop" + trainOneTop.transform.position); 
+        // Debug.Log("cartOneBtm" + trainOneBtm.transform.position); 
+        // Debug.Log("cartTwoTop" + trainTwoTop.transform.position); 
+        // Debug.Log("cartTwoBtm" + trainTwoBtm.transform.position); 
+        // Debug.Log("cartThreeTop" + trainThreeTop.transform.position); 
+        // Debug.Log("cartThreeBtm" + trainThreeBtm.transform.position); 
+        // Debug.Log("cartFourTop" + trainfourTop.transform.position); 
+        // Debug.Log("cartFourBtm" + trainfourBtm.transform.position); 
 
-        Debug.Log("bel prof" + belleProf.transform.position); 
-        Debug.Log("che prof" + cheyenneProf.transform.position); 
-        Debug.Log("doc prof" + docProf.transform.position); 
-        Debug.Log("dja prof" + djangoProf.transform.position); 
-        Debug.Log("tuc prof" + tucoProf.transform.position); 
-        Debug.Log("gho prof" + ghostProf.transform.position);
+        // Debug.Log("bel prof" + belleProf.transform.position); 
+        // Debug.Log("che prof" + cheyenneProf.transform.position); 
+        // Debug.Log("doc prof" + docProf.transform.position); 
+        // Debug.Log("dja prof" + djangoProf.transform.position); 
+        // Debug.Log("tuc prof" + tucoProf.transform.position); 
+        // Debug.Log("gho prof" + ghostProf.transform.position);
 
         // testing 
-        belle.transform.position = new Vector3(oneTop[0], oneTop[1], oneTop[2]);
-        cheyenne.transform.position = new Vector3(twoTop[0], twoTop[1], twoTop[2]);
-        doc.transform.position = new Vector3(threeTop[0], threeTop[1], threeTop[2]);
-        django.transform.position = new Vector3(fourTop[0], fourTop[1], fourTop[2]);
-        tuco.transform.position = new Vector3(fourBtm[0], fourBtm[1], fourBtm[2]);
-        ghost.transform.position = new Vector3(locTop[0], locTop[1], locTop[2]);
-        marshal.transform.position = new Vector3(locBtm[0], locBtm[1], locBtm[2]);
+        // belle.transform.position = new Vector3(oneTop[0], oneTop[1], oneTop[2]);
+        // cheyenne.transform.position = new Vector3(twoTop[0], twoTop[1], twoTop[2]);
+        // doc.transform.position = new Vector3(threeTop[0], threeTop[1], threeTop[2]);
+        // django.transform.position = new Vector3(fourTop[0], fourTop[1], fourTop[2]);
+        // tuco.transform.position = new Vector3(fourBtm[0], fourBtm[1], fourBtm[2]);
+        // ghost.transform.position = new Vector3(locTop[0], locTop[1], locTop[2]);
+        // marshal.transform.position = new Vector3(locBtm[0], locBtm[1], locBtm[2]);
+
+        locBtm = new List<float>() {locoBtm.transform.position[0], locoBtm.transform.position[1], locoBtm.transform.position[2]};
+        locTop = new List<float>() {locoTop.transform.position[0], locoTop.transform.position[1], locoTop.transform.position[2]};
+        oneBtm = new List<float>() {trainOneBtm.transform.position[0], trainOneBtm.transform.position[1], trainOneBtm.transform.position[2]};
+        oneTop = new List<float>() {trainOneTop.transform.position[0], trainOneTop.transform.position[1], trainOneTop.transform.position[2]};
+        twoBtm = new List<float>() {trainTwoBtm.transform.position[0], trainTwoBtm.transform.position[1], trainTwoBtm.transform.position[2]};
+        twoTop = new List<float>() {trainTwoTop.transform.position[0], trainTwoTop.transform.position[1], trainTwoTop.transform.position[2]};
+        threeBtm = new List<float>() {trainThreeBtm.transform.position[0], trainThreeBtm.transform.position[1], trainThreeBtm.transform.position[2]};
+        threeTop = new List<float>() {trainThreeTop.transform.position[0], trainThreeTop.transform.position[1], trainThreeTop.transform.position[2]};
+        fourBtm = new List<float>() {trainfourBtm.transform.position[0], trainfourBtm.transform.position[1], trainfourBtm.transform.position[2]};
+        fourTop = new List<float>() {trainfourTop.transform.position[0], trainfourTop.transform.position[1], trainfourTop.transform.position[2]};
+
 
         if(!returningFromChat) {
             currentRoundText.text = "";
@@ -748,7 +760,7 @@ public class GameBoard : MonoBehaviour
         if(gm.trainRoof ==  null) Debug.Log("gm.trainRoof is null");
         foreach(TrainUnit tr in gm.trainRoof){
             foreach (Bandit b in gm.bandits){
-                if (gm.banditPositions.Contains(b)) {
+                if (gm.banditPositions.Contains(b.getCharacter())) {
                     TrainUnit tu = (TrainUnit)gm.banditPositions[b.characterAsString];
                     if(tr.carTypeAsString == tu.carTypeAsString & tr.carFloorAsString == tu.carFloorAsString) {
                         gm.banditPositions[b.characterAsString] = tr;
@@ -759,7 +771,7 @@ public class GameBoard : MonoBehaviour
         if(gm.trainCabin ==  null) Debug.Log("gm.trainCabin is null");
         foreach(TrainUnit tc in gm.trainCabin){
             foreach (Bandit b in gm.bandits){
-                if (gm.banditPositions.Contains(b)) {
+                if (gm.banditPositions.Contains(b.getCharacter())) {
                     TrainUnit tu = (TrainUnit)gm.banditPositions[b.characterAsString];
                     if(tc.carTypeAsString == tu.carTypeAsString & tc.carFloorAsString == tu.carFloorAsString) {
                         gm.banditPositions[b.characterAsString] = tc;
@@ -856,6 +868,9 @@ public class GameBoard : MonoBehaviour
         else {
             response = "n";
         }
+        horseBtnOne.interactable = false;
+        horseBtnTwo.interactable = false;
+
         promptHorseAttackMsg.text="Waiting for other players..";
         ISFSObject obj = SFSObject.NewInstance();
         obj.PutUtfString("ans", response);
@@ -1520,8 +1535,18 @@ public class GameBoard : MonoBehaviour
 
     public void promptHorseAttack() {
         Debug.Log("prompt horse attack called");
+        horseBtnOne.interactable = true;
+        horseBtnTwo.interactable = true;
+
         promptHorseAttackMsg.text = "pha called";
         if (gm.bandits.Count == gm.banditPositions.Count) {
+            Debug.Log("ending horse attack");
+
+            foreach(DictionaryEntry s in gm.banditPositions) {
+                String b = (String)s.Key;
+                TrainUnit u = (TrainUnit)s.Value;
+                Debug.Log("bandit: " + b + " is in " + u.carTypeAsString);
+            }
             promptHorseAttackMsg.text = "";
             started = true;
             Destroy(GameObject.Find("horseBtnOne"));

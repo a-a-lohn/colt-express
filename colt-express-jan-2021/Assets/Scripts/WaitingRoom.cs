@@ -80,7 +80,7 @@ public class WaitingRoom : MonoBehaviour
         SavedSessionButtonB.interactable = false;
         DeleteButton.interactable = false;
 
-        SetFields();
+        //SetFields();
 
         GetSessions();
 

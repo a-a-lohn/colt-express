@@ -30,7 +30,7 @@ namespace model {
         public ArrayList trainCabin;
         public ArrayList stagecoach;
         public int trainLength;
-        //public int trainIndex;
+        public int trainIndex;
         public ArrayList horses;
         public ArrayList bandits;
         public Hashtable banditmap;
