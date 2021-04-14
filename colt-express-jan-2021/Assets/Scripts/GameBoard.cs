@@ -288,6 +288,19 @@ public class GameBoard : MonoBehaviour
     private List<float> faraway= new List<float>() {-1452.5F, 920.9F, -364.9F};
 
     void Start(){  
+        /*
+        if (SFS.getSFS() == null) {
+            // Initialize SFS2X client. This can be done in an earlier scene instead
+            SmartFox sfs = new SmartFox();
+            // For C# serialization
+            DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
+            SFS.setSFS(sfs);
+            Debug.Log("SFS was null. Setting it now");
+        }
+        if (!SFS.IsConnected()) {
+            SFS.Connect("test");
+            Debug.Log("was not connected. Connecting now");
+        }*/
         // Screen.SetResolution(1080, 1920, false);  
         // Debug.Log("bel gem: " + belleGemGO.transform.position); 
         // Debug.Log("bel belleWhisGO: " + belleWhisGO.transform.position); 
@@ -715,19 +728,22 @@ public class GameBoard : MonoBehaviour
         if(gm.trainRoof ==  null) Debug.Log("gm.trainRoof is null");
         foreach(TrainUnit tr in gm.trainRoof){
             foreach (Bandit b in gm.bandits){
-
-                TrainUnit tu = (TrainUnit)gm.banditPositions[b.characterAsString];
-                if(tr.carTypeAsString == tu.carTypeAsString & tr.carFloorAsString == tu.carFloorAsString) {
-                gm.banditPositions[b.characterAsString] = tr;
+                if (gm.banditPositions.Contains(b)) {
+                    TrainUnit tu = (TrainUnit)gm.banditPositions[b.characterAsString];
+                    if(tr.carTypeAsString == tu.carTypeAsString & tr.carFloorAsString == tu.carFloorAsString) {
+                        gm.banditPositions[b.characterAsString] = tr;
+                    }
                 }
             }
         }
         if(gm.trainCabin ==  null) Debug.Log("gm.trainCabin is null");
         foreach(TrainUnit tc in gm.trainCabin){
             foreach (Bandit b in gm.bandits){
-                TrainUnit tu = (TrainUnit)gm.banditPositions[b.characterAsString];
-                if(tc.carTypeAsString == tu.carTypeAsString & tc.carFloorAsString == tu.carFloorAsString) {
-                    gm.banditPositions[b.characterAsString] = tc;
+                if (gm.banditPositions.Contains(b)) {
+                    TrainUnit tu = (TrainUnit)gm.banditPositions[b.characterAsString];
+                    if(tc.carTypeAsString == tu.carTypeAsString & tc.carFloorAsString == tu.carFloorAsString) {
+                        gm.banditPositions[b.characterAsString] = tc;
+                    }
                 }
             }
         }
@@ -1472,8 +1488,8 @@ public class GameBoard : MonoBehaviour
         }
 
         foreach(DictionaryEntry s in gm.banditPositions) {
-            Bandit b = (Bandit)s.Key;
-            if (b.characterAsString.Equals(ChooseCharacter.character)) {
+            String b = (String)s.Key;
+            if (b.Equals(ChooseCharacter.character)) {
                 promptHorseAttackMsg.text = "";
                 return;
             }

@@ -137,7 +137,7 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		System.out.println("Initializing the game now!");
 		// 1. Create locomotive and 1 train car for each bandit
 		this.trainLength = this.getNumOfPlayers() + 1;
-		this.trainIndex = this.trainLength;
+		this.trainIndex = this.trainLength-1;
 		System.out.println("trainlength: " + trainLength);
 		this.trainRoof = TrainUnit.createTrainRoof();
 		this.trainCabin = TrainUnit.createTrainCabin();
