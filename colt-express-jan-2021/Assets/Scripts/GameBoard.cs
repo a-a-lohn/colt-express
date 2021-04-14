@@ -38,6 +38,8 @@ public class GameBoard : MonoBehaviour
     public Button chat;
     bool returningFromChat = false;
 
+    Random r = new Random(10);
+
     //debug variables
     public static Text debugText;
     public static string debugTextString;
@@ -339,10 +341,10 @@ public class GameBoard : MonoBehaviour
 
     /* getRandOffset() picks and returns a random float from a set of pre-defined floats */
     public float getRandOffset(){
-        Random r = new Random();
         var values = new[] { 20.0F, 40.0F, 50.0F, -20.0F, -30.0F, -50.0F, 46.0F, 35.0F, -46.0F, -35.0F, 20.0F, 40.0F, 50.0F, -20.0F, -30.0F, -50.0F, 46.0F, 35.0F, -46.0F, -35.0F, 20.0F, 40.0F, 50.0F, -20.0F, -30.0F, -50.0F, 46.0F, 35.0F, -46.0F, -35.0F, -20.0F, -30.0F, -50.0F, 46.0F, 35.0F, -46.0F, -35.0F, 20.0F, 40.0F, 50.0F, -20.0F, -30.0F, -50.0F, 46.0F, 35.0F, -46.0F, -35.0F };
+        r = r.Next(0, values.Count);
         float result = values[r.Next(values.Length)];
-        Debug.Log("THE RANDOM OFFSET IS: " + result);
+        //Debug.Log("THE RANDOM OFFSET IS: " + result);
         return result; 
     }
 

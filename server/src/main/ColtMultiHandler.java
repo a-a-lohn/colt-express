@@ -38,7 +38,6 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	String currentSaveGameId;
 	int positionTurns = 0;
 	int trainIndex = 1;
-	//int numCallsToLoadSaveGame = 0;
 	private static List<String> chosenCharactersSavedGame = new ArrayList<String>();
 	
 	boolean gameOver = false;
@@ -56,7 +55,6 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		case("testSerial"): testSerial(sender, rtn); break;
 		case("newGameState"): handleNewGameState(params,rtn); break;
 		case("enterGameBoardScene"): handleEnterGameBoardScene(sender, params,rtn); break;
-		//case("fetchLastGameState"): handleFetchLastGameState(sender, rtn); break;
 		case("nextAction"): handleNextAction(params,rtn); break;
 		case("saveGameState"): handleSaveGameState(params,rtn); break;
 		case("loadSavedGame"): handleLoadSavedGame(params,rtn); break;
@@ -68,44 +66,15 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		default: trace("invalid command passed to multihandler");
 		}
 		
-		/*if(command.equals("enterChooseCharacterScene")) {
-			 handleEnterChooseCharacterScene(sender, params, rtn);
-		}
-		else if(command.equals("chosenCharacter")) {
-			handleChosenCharacter(sender, params, rtn);
-		}*/
-		
-		//ISFSArray banditsArray = SFSArray.newInstance();
-		//banditsArray.addClass(b);
-		//gameState.putSFSArray("banditsArr", banditsArray);
-
-		//String received = params.getUtfString("sentData");
-		//gameState.putUtfString("testStr", "evenbetterData");
-		
 	}
 	
 	public void handleLoadSavedGame(ISFSObject params, ISFSObject rtn) {
-//		numCallsToLoadSaveGame++;
 		String currentSaveGameId = params.getUtfString("savegameId");
 		System.out.println("id: " + currentSaveGameId);
 		System.out.println("currently saved Games: "+ saveGames.containsKey(currentSaveGameId));
 		gm = saveGames.get(currentSaveGameId);
-		//gm.singleton = gm;
 		GameManager.singleton = gm;
 		savedCurrentGameAtLeastOnce = true;
-//		ArrayList<Bandit> bandits = gm.getBandits();
-//		ColtExtension parentExt = (ColtExtension)getParentExtension();
-//		Zone zone = parentExt.getParentZone();
-//		Collection<User> users = zone.getUserList();
-//		if(numCallsToLoadSaveGame == users.size()) {
-//			int i = 0;
-//			for(User user : users) {
-//				String banditName = bandits.get(i).getCharacterAsString();
-//				rtn.putUtfString("character", banditName);
-//				sendToSender(user, rtn, "saveGameBandit");
-//				i++;
-//			}
-//		}
 	}
 	
 	public void handleDeleteSavedGame(ISFSObject params, ISFSObject rtn) {
@@ -160,8 +129,8 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	
 	public void handleNewGameState(ISFSObject params, ISFSObject rtn) {
 		gm = (GameManager) params.getClass("gm");
-		gm.singleton = gm;
-		//GameManager.singleton = gm;
+//		gm.singleton = gm;
+		GameManager.singleton = gm;
 		System.out.println("received game state!");
 		String log = (String) params.getUtfString("log");
 		if(log != null) {
@@ -210,7 +179,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		try {
 			character = Character.valueOf(chosen);
 		} catch(IllegalArgumentException e) {
-			//TODO: handle error
+			System.out.println("Invalid character");
 		}
 		if(savedCurrentGameAtLeastOnce == true) {
 			chosenCharactersSavedGame.add(chosen);
