@@ -216,6 +216,12 @@ namespace model {
         public void drawCards(int cardsToDraw) {
             Debug.Log("cards to draw: " + cardsToDraw);
             int deckSize = this.sizeOfDeck();
+            if(deckSize <= cardsToDraw){
+                foreach (Card c in this.deck){
+                    this.hand.Add(c);
+                    this.deck.Remove(c);
+                }
+            }
             for (int i = deckSize-1; i > deckSize-cardsToDraw-1; i--) {
                 Card toAdd = this.getFromDeckAt(i);
                 this.removeFromDeckAt(i);

@@ -363,18 +363,65 @@ public class TestGame : MonoBehaviour
             // R1 T4 SWITCHING
             case 19:
                 //BELLE CHANGEFLOOR
-                //gm.playTurn();
                 break;
             case 20:
                 //GHOST CHANGEFLOOR
-                //gm.playTurn();
                 break;
             case 21:
                 //DOC ROB
                 gm.playTurn();
                 gm.rob((Loot)gm.currentBandit.getPosition().getLootHere()[0]);
                 break;
-
+            //--ROUND 1 FINISH--
+            // R2 T1
+            case 22:
+                //DOC DRAWS 3
+                gm.drawCards(3);
+                gm.playTurn();
+                break;
+            case 23:
+                //GHOST PLAYS FD
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
+                gm.playTurn();
+                break;
+            case 24:
+                //BELLE PLAYS
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
+                gm.playTurn();
+                break;
+            // R2 T2
+            case 25:
+                //DOC DRAWS 3
+                gm.drawCards(3);
+                gm.playTurn();
+                break;
+            case 26:
+                //GHOST PLAYS
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
+                gm.playTurn();
+                break;
+            case 27:
+                //BELLE PLAYS
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
+                gm.playTurn();
+                break;
+            // R2 T3
+            case 28:
+                //DOC DRAWS 3
+                gm.drawCards(3);
+                gm.playTurn();
+                break;
+            case 29:
+                //GHOST PLAYS
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
+                gm.playTurn();
+                break;
+            case 30:
+                //BELLE PLAYS
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[0]);
+                gm.playTurn();
+                break;
+            
         }
     }
 
