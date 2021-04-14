@@ -300,6 +300,14 @@ public class GameBoard : MonoBehaviour
         // Debug.Log("bel belleWhisGO: " + belleWhisGO.transform.position); 
         // Debug.Log("bel belStrGo: " + belStrGo.transform.position); 
         // Debug.Log("bel belPurGo: " + belPurGo.transform.position); 
+        Debug.Log(gem3.transform.position + " is the position of gem3 on the board"); 
+        Debug.Log(gem5.transform.position + " is the position of gem5 on the board"); 
+        Debug.Log(belle.transform.position + " is the position of belle on the board"); 
+        Debug.Log(doc.transform.position + " is the position of doc on the board"); 
+        Debug.Log(tuco.transform.position + " is the position of doc on the board");
+
+        cheyenne.transform.position = new Vector3(1047.6F, 893.7F, -364.9F);
+        log.text =  "gem3: " + gem3.transform.position + "\n" + "gem5: " +  gem5.transform.position + "\n" + "belle: " + belle.transform.position + "\n" + "doc: " + doc.transform.position + "\n" + "tuco: " + tuco.transform.position;
 
         //belle.transform.position = new Vector3(fourTop[0], fourTop[1], fourTop[2]);
 
