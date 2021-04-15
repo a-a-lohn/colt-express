@@ -116,7 +116,6 @@ namespace model {
             }
             else if (currentBandit.toResolve.getActionTypeAsString().Equals("PUNCH")) {
                 TestGame.prompt = "Choose a bandit to punch";
-                GameBoard.setNextAction("Choose a bandit to punch");
                 currentBandit.setToResolve(null);
                 punchPrompt(calculatePunch());
             }
@@ -132,8 +131,8 @@ namespace model {
                 shootPrompt(calculateShoot());
             }
             else if(currentBandit.toResolve.getActionTypeAsString().Equals("RIDE")){
-                 TestGame.prompt = "Choose a position to ride";
-                 GameBoard.setNextAction("Choose a position to ride");
+                TestGame.prompt = "Choose a position to ride";
+                GameBoard.setNextAction("Choose a position to ride");
                 currentBandit.setToResolve(null);
                 ridePrompt(calculateRide());
             }
@@ -802,7 +801,6 @@ namespace model {
             }
             else if(possibilities.Count > 1){
                 GameBoard.setNextAction("Choose a bandit to shoot");
-                //GameBoard.makeShootPossibilitiesClickable(possibilities);
                 GameBoard.clickable = possibilities;
             }
         }
@@ -878,17 +876,23 @@ namespace model {
             return possibilities;
 	    }
 
-        public void punchPrompt(ArrayList possibilities) {
+        public void punchPrompt(ArrayList possibilities) { // arraylist of bandits to punch
+            GameBoard.punchStep = 1;
             if(possibilities.Count == 0) {
+                GameBoard.punchStep = 0;
                 GameBoard.setNextAction("No bandit to punch");
                 this.endOfTurn(currentBandit.getCharacter() + " was unable to punch", true);
             } else if(possibilities.Count == 1){
-                GameBoard.setNextAction("Choosing a bandit to punch");
                 Bandit punched = (Bandit)possibilities[0];
-                dropPrompt(punched, calculateDrop(punched));//, true); // TO CHANGE
+                GameBoard.setNextAction("Choosing a bandit to punch: " + punched.getCharacter());
+                GameBoard.setNoChoice(currentBandit.getCharacter() + " chose to punch " + punched.getCharacter());
+                GameBoard.banditTopunch = punched;
+                Debug.Log("one bandit to choose for punch");
+                //dropPrompt(punched, calculateDrop(punched), true);
             }
             else{
                 GameBoard.setNextAction("Choose a bandit to punch");
+                Debug.Log("multiple bandits to choose for punch");
                 GameBoard.clickable = possibilities;
             }
         }
@@ -897,15 +901,32 @@ namespace model {
             return punched.getLoot();
         }
 
+        // public void dropPrompt(Bandit punched, ArrayList possibilities){
+        //     dropPrompt(punched, possibilities, false);
+        // }
+
+        
+
         public void dropPrompt(Bandit punched, ArrayList possibilities){
+            GameBoard.punchStep = 2;
             if(possibilities.Count == 0){
+                Debug.Log("no loot to choose for punch");
+                GameBoard.setNextAction("\nNo loots to drop for " + punched.getCharacter());
+                GameBoard.setNoChoice(punched.getCharacter() + " has no loot to drop");
                 knockbackPrompt(punched, null, calculateKnockback(punched));
             }
             else if(possibilities.Count == 1){
-                knockbackPrompt(punched, (Loot) possibilities[0], calculateKnockback(punched));
+                Debug.Log("one loot to choose for punch");
+                GameBoard.setNextAction("\nDropping loot for punched action");
+                Loot dropped = (Loot) possibilities[0];
+                GameBoard.setNoChoice(currentBandit.getCharacter() + " chose to make " + punched.getCharacter() + " drop a " + printRobbed(dropped));
+                GameBoard.lootToDrop = dropped;
+                //knockbackPrompt(punched, (Loot) possibilities[0], calculateKnockback(punched));
             }
             else{
-                //TODO make possibilities clickable (replace new Money with the Loot the client chooses)
+                GameBoard.setNextAction("\nChoose a loot for " + punched.getCharacter() + " to drop");
+                Debug.Log("multiple loots to choose for punch");
+                GameBoard.clickable = possibilities;
             }
         }
 
@@ -917,22 +938,33 @@ namespace model {
             if(punched.getPosition().getRight() != null){
                 possibilities.Add(punched.getPosition().getRight());
             }
-            return possibilities;
+            return possibilities; // trainunits
         }
 
         public void knockbackPrompt(Bandit punched, Loot dropped, ArrayList possibilities){
+            GameBoard.punchStep = 3;
             if(possibilities.Count == 0){
+                GameBoard.punchStep = 0;
+                Debug.Log("no place to punch the bandit.. this shouldn't happen");
                 punch(punched, dropped, null);
             }
             else if(possibilities.Count == 1){
-                punch(punched, dropped, (TrainUnit)possibilities[0]);
+                Debug.Log("one place to punch bandit");
+                GameBoard.setNextAction("\nChoosing a trainunit as a punch destination");
+                punch(punched, dropped, (TrainUnit)possibilities[0], true);
             }
             else{
-                //TDOO make possibilities clickable (replace new TrainUnit with the TrainUnit the client chooses)
+                Debug.Log("choosing a place to punch the bandit");
+                GameBoard.setNextAction("\nChoose a trainunit as a punch destination");
+                GameBoard.clickable = possibilities;
             }
         }
 
         public void punch(Bandit punched, Loot dropped, TrainUnit knockedTo) {
+            punch(punched, dropped, knockedTo, false);
+        }
+
+        public void punch(Bandit punched, Loot dropped, TrainUnit knockedTo, bool noChoice) {
 			if (dropped != null) {
 			    punched.removeLoot(dropped);
                 if(this.currentBandit.getCharacter().Equals("CHEYENNE") && dropped is Money && ((Money)dropped).getMoneyTypeAsString().Equals("PURSE")){

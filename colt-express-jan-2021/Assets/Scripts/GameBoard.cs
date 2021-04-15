@@ -348,18 +348,6 @@ public class GameBoard : MonoBehaviour
         // ghost.transform.position = new Vector3(locTop[0], locTop[1], locTop[2]);
         // marshal.transform.position = new Vector3(locBtm[0], locBtm[1], locBtm[2]);
 
-        locBtm = new List<float>() {locoBtm.transform.position[0], locoBtm.transform.position[1], locoBtm.transform.position[2]};
-        locTop = new List<float>() {locoTop.transform.position[0], locoTop.transform.position[1], locoTop.transform.position[2]};
-        oneBtm = new List<float>() {trainOneBtm.transform.position[0], trainOneBtm.transform.position[1], trainOneBtm.transform.position[2]};
-        oneTop = new List<float>() {trainOneTop.transform.position[0], trainOneTop.transform.position[1], trainOneTop.transform.position[2]};
-        twoBtm = new List<float>() {trainTwoBtm.transform.position[0], trainTwoBtm.transform.position[1], trainTwoBtm.transform.position[2]};
-        twoTop = new List<float>() {trainTwoTop.transform.position[0], trainTwoTop.transform.position[1], trainTwoTop.transform.position[2]};
-        threeBtm = new List<float>() {trainThreeBtm.transform.position[0], trainThreeBtm.transform.position[1], trainThreeBtm.transform.position[2]};
-        threeTop = new List<float>() {trainThreeTop.transform.position[0], trainThreeTop.transform.position[1], trainThreeTop.transform.position[2]};
-        fourBtm = new List<float>() {trainfourBtm.transform.position[0], trainfourBtm.transform.position[1], trainfourBtm.transform.position[2]};
-        fourTop = new List<float>() {trainfourTop.transform.position[0], trainfourTop.transform.position[1], trainfourTop.transform.position[2]};
-
-
         // oneBtm = new Vector3(trainOneBtm.transform.position[0], trainOneBtm.transform.position[1], trainOneBtm.transform.position[2]);
         // oneTop = new Vector3(trainOneBtm.transform.position[0], trainOneBtm.transform.position[1], trainOneBtm.transform.position[2]);
 
@@ -406,14 +394,41 @@ public class GameBoard : MonoBehaviour
     }
 
     public void onProceed() {
-        Debug.Log("sending held game state");
-        setMyTurn(false);
         noChoice = false;
         newAction = false;
         actionText.text = "";
-        SendNewGameState(heldMessage);
-        heldMessage = "";
+        
+        if(!gm.currentBandit.toResolve.getActionTypeAsString().Equals("PUNCH")) {
+            setMyTurn(false);
+            Debug.Log("sending held game state");
+            SendNewGameState(heldMessage);
+            heldMessage = "";
+            //punchMessage = "";
+        } // no choice of target bandit to punch
+        else if(punchStep == 1) {
+            Debug.Log("punch step 1");
+            punchMessage = heldMessage;
+            gm.dropPrompt(banditTopunch, gm.calculateDrop(banditTopunch));
+        } else if(punchStep == 2) {
+            Debug.Log("punch step 2");
+            punchMessage += "\n" + heldMessage;
+            gm.knockbackPrompt(banditTopunch, lootToDrop, gm.calculateKnockback(banditTopunch));
+        } else if(punchStep == 3) {
+            Debug.Log("punch step 3");
+            punchMessage += "\n" + heldMessage;
+            SendNewGameState(heldMessage);
+            heldMessage = "";
+            punchMessage = "";
+            punchStep = 0;
+            banditTopunch = null;
+            lootToDrop = null;
+        }
     }
+
+    string punchMessage = "";
+    public static Bandit banditTopunch;
+    public static Loot lootToDrop;
+    public static int punchStep = 0; // step 1 is choosing a bandit, 2 is choosing a loot to drop, 3 is choosing a trainunit
 
     /* getRandOffset() picks and returns a random float from a set of pre-defined floats */
     public float getRandOffset(){
@@ -727,7 +742,8 @@ public class GameBoard : MonoBehaviour
 
 
     void displayGameInfo() {
-        gameStatus.text = gm.getGameStatus();
+        if(!started) gameStatus.text = "Horse Attack";
+        else gameStatus.text = gm.getGameStatus();
         if(gm.currentBandit.getToResolve() != null) {
             resolveCard.text = gm.currentBandit.getToResolve().getActionTypeAsString();
         }
@@ -801,8 +817,9 @@ public class GameBoard : MonoBehaviour
     public void drawCardsClicked() {
         if(canDrawCards) {
             canDrawCards = false;
-            if(gm.currentBandit.getDeck().Count >= 3) gm.drawCards(3);
-            else gm.drawCards(gm.currentBandit.getDeck().Count);
+            // cap hand with 11 cards
+            if(gm.currentBandit.getHand().Count <= 8) gm.drawCards(3);
+            else gm.drawCards(11 - gm.currentBandit.getHand().Count);
             newAction = false;
             actionText.text = "";
             Debug.Log("drawing cards");
@@ -860,6 +877,36 @@ public class GameBoard : MonoBehaviour
                         Debug.Log("shooting");
                     } catch(Exception e) {
                         Debug.Log("not shooting");
+                    }
+                } else if (actionText.text == "Choose a bandit to punch") {
+                    Debug.Log("choose a bandit to punch");
+                    try {
+                        Bandit clickedB = (Bandit)buttonToObject[btn]; 
+                        gm.dropPrompt(clickedB, gm.calculateDrop(clickedB));
+                        Debug.Log("choosing punch target");
+                    } catch(Exception e) {
+                        Debug.Log("not choosing punch target");
+                    }
+                } else if (actionText.text == "\nChoose a loot for " + banditTopunch.getCharacter() + " to drop") {
+                    Debug.Log("choose a loot to drop");
+                    try {
+                        Loot clickedL = (Loot)buttonToObject[btn]; 
+                        gm.knockbackPrompt(banditTopunch, clickedL, gm.calculateKnockback(banditTopunch));
+                        Debug.Log("choosing loot to drop");
+                    } catch(Exception e) {
+                        Debug.Log("not choosing loot to drop");
+                    }
+                } else if (actionText.text == "\nChoose a trainunit as a punch destination") {
+                    Debug.Log("choosing a trainunit for punch");
+                    try {
+                        TrainUnit clickedTU = (TrainUnit)buttonToObject[btn]; 
+                        gm.punch(banditTopunch, lootToDrop, clickedTU);
+                        banditTopunch = null;
+                        lootToDrop = null;
+                        punchStep = 0;
+                        Debug.Log("punching here");
+                    } catch(Exception e) {
+                        Debug.Log("not punching here");
                     }
                 }
 
@@ -1317,7 +1364,7 @@ public class GameBoard : MonoBehaviour
     public void setAllClickable(){
         Button[] allButtons = UnityEngine.Object.FindObjectsOfType<Button>();
         foreach(Button aBtn in allButtons){
-            aBtn.interactable = true; 
+            if(aBtn != horseBtnOne & aBtn != horseBtnTwo) aBtn.interactable = true; 
         }
     }
 
