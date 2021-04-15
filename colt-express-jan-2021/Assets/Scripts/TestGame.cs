@@ -466,7 +466,7 @@ public class TestGame : MonoBehaviour
                 break;
             //DOC RIDE to car2
             case 39:
-                (Horse)gm.horses[0].setAdjacentTo((TrainUnit)gm.trainCabin(1));
+                ((Horse)gm.horses[0]).setAdjacentTo((TrainUnit)gm.trainCabin[1]);
                 gm.playTurn();
                 gm.ride((TrainUnit)gm.trainCabin[2]);
                 break;

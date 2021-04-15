@@ -403,7 +403,7 @@ public class GameBoard : MonoBehaviour
         newAction = false;
         actionText.text = "";
         
-        if(!gm.currentBandit.toResolve.getActionTypeAsString().Equals("PUNCH")) {
+        if(punchStep == 0) { // always true unless in the process of punching
             setMyTurn(false);
             Debug.Log("sending held game state");
             SendNewGameState(heldMessage);
@@ -413,15 +413,19 @@ public class GameBoard : MonoBehaviour
         else if(punchStep == 1) {
             Debug.Log("punch step 1");
             punchMessage = heldMessage;
+            Debug.Log("punch message 1: " + punchMessage);
             gm.dropPrompt(banditTopunch, gm.calculateDrop(banditTopunch));
         } else if(punchStep == 2) {
             Debug.Log("punch step 2");
             punchMessage += "\n" + heldMessage;
+            Debug.Log("punch message 2: " + punchMessage);
             gm.knockbackPrompt(banditTopunch, lootToDrop, gm.calculateKnockback(banditTopunch));
         } else if(punchStep == 3) {
             Debug.Log("punch step 3");
-            punchMessage += "\n" + heldMessage;
-            SendNewGameState(heldMessage);
+            setMyTurn(false);
+            punchMessage += "\n" + ChooseCharacter.character + " punched " + banditTopunch.getCharacter() + " to " + banditTopunch.getPosition().getCarTypeAsString();
+            SendNewGameState(punchMessage);
+            Debug.Log("punch message 3: " + punchMessage);
             heldMessage = "";
             punchMessage = "";
             punchStep = 0;
@@ -430,7 +434,7 @@ public class GameBoard : MonoBehaviour
         }
     }
 
-    string punchMessage = "";
+    public static string punchMessage = "";
     public static Bandit banditTopunch;
     public static Loot lootToDrop;
     public static int punchStep = 0; // step 1 is choosing a bandit, 2 is choosing a loot to drop, 3 is choosing a trainunit
@@ -663,26 +667,26 @@ public class GameBoard : MonoBehaviour
                     if (m.moneyTypeAsString == "JEWEL"){
                         buttonToObject[allGem[gemCount]] = m;
                         Debug.Log("casting as Gem " + gemCount);
+                        moveLootToBanditPos(allGem[gemCount], b.characterAsString);
                         gemCount++;
-                        moveLootToBanditPos(allGem[gemCount], b.characterAsString); 
                     } else if (m.moneyTypeAsString == "PURSE"){
                         buttonToObject[allPurse[purseCount]] = m;
                         //Debug.Log("casting as Purse " + purseCount);
+                        moveLootToBanditPos(allPurse[purseCount], b.characterAsString);
                         purseCount++;
-                        moveLootToBanditPos(allPurse[purseCount], b.characterAsString); 
                     } else if (m.moneyTypeAsString == "STRONGBOX"){
                         buttonToObject[allBox[boxCount]] = m;
                         Debug.Log("casting as Box " + boxCount);
-                        boxCount++;
                         moveLootToBanditPos(allBox[boxCount], b.characterAsString); 
+                        boxCount++;
                     }
                 }
                 catch(Exception e){
                     w = (Whiskey) l;
                     buttonToObject[allWhiskey[whiskeyCount]] = w;
                     //Debug.Log("casting as Whiskey" + whiskeyCount);
-                    whiskeyCount++;
                     moveLootToBanditPos(allWhiskey[whiskeyCount], b.characterAsString); 
+                    whiskeyCount++;
                 }
             }
         }
@@ -897,6 +901,8 @@ public class GameBoard : MonoBehaviour
                     try {
                         Bandit clickedB = (Bandit)buttonToObject[btn]; 
                         gm.dropPrompt(clickedB, gm.calculateDrop(clickedB));
+                        punchMessage = gm.currentBandit.getCharacter() + " chose to punch " + banditTopunch.getCharacter();
+                        Debug.Log("punch message 1: " + punchMessage);
                         Debug.Log("choosing punch target");
                     } catch(Exception e) {
                         Debug.Log("not choosing punch target");
@@ -906,6 +912,8 @@ public class GameBoard : MonoBehaviour
                     try {
                         Loot clickedL = (Loot)buttonToObject[btn]; 
                         gm.knockbackPrompt(banditTopunch, clickedL, gm.calculateKnockback(banditTopunch));
+                        punchMessage += "\n" + gm.currentBandit.getCharacter() + " chose to make " + banditTopunch.getCharacter() + " drop a " + gm.printRobbed(clickedL);
+                        Debug.Log("punch message 2: " + punchMessage);
                         Debug.Log("choosing loot to drop");
                     } catch(Exception e) {
                         Debug.Log("not choosing loot to drop");
@@ -918,6 +926,8 @@ public class GameBoard : MonoBehaviour
                         banditTopunch = null;
                         lootToDrop = null;
                         punchStep = 0;
+                        punchMessage += "\n" + ChooseCharacter.character + " punched " + banditTopunch.getCharacter() + " to " + clickedTU.getCarTypeAsString();
+                        Debug.Log("punch message 3: " + punchMessage);
                         Debug.Log("punching here");
                     } catch(Exception e) {
                         Debug.Log("not punching here");
