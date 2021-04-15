@@ -505,26 +505,32 @@ public class GameBoard : MonoBehaviour
         if(belIsPlaying == false){
             belle.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
             belleProf.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+            horseBelle.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
         }
         if(cheIsPlaying == false){
             cheyenne.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
             cheyenneProf.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+            horseCheyenne.transform.position  = new Vector3(faraway[0], faraway[1], faraway[2]);
         }
         if(djaIsPlaying == false){
             django.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
             djangoProf.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+            horseDjango.transform.position  = new Vector3(faraway[0], faraway[1], faraway[2]);
         }
         if(ghoIsPlaying == false){
             ghost.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
             ghostProf.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+            horseGhost.transform.position  = new Vector3(faraway[0], faraway[1], faraway[2]);
         }
         if(tucIsPlaying == false){
             tuco.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
             tucoProf.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+            horseTuco.transform.position  = new Vector3(faraway[0], faraway[1], faraway[2]);
         }
         if(docIsPlaying == false){
             doc.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
             docProf.transform.position = new Vector3(faraway[0], faraway[1], faraway[2]);
+            horseDoc.transform.position  = new Vector3(faraway[0], faraway[1], faraway[2]);
         }
     }
 
@@ -1202,11 +1208,14 @@ public class GameBoard : MonoBehaviour
             }
         }
 
+        Debug.Log("BEFORE GM.HORSES!!!!!!");
         foreach(object ahobj in gm.horses){
+            Debug.Log("INSIDE GM.HORSES!!!!!!");
             Horse aHorse = (Horse) ahobj;
             TrainUnit aHorseTU = aHorse.adjacentTo; 
             string aHorseCarType = aHorseTU.getCarTypeAsString();
-            placeHorseAt(aHorse, aHorseCarType, "CABIN");
+            string aHorseFloorAsString = aHorseTU.getCarTypeAsString();
+            placeHorseAt(aHorse, aHorseCarType, aHorseFloorAsString);
         }
     }
 
@@ -1239,7 +1248,7 @@ public class GameBoard : MonoBehaviour
                     float newRandOffset = getRandOffset(); 
                     bToMove.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
                 }
-            }else{
+        }else{
                 if(cartype == "LOCOMOTIVE"){
                     float newRandOffset = getRandOffset(); 
                     bToMove.transform.position = new Vector3 (locTop[0] + newRandOffset, locTop[1], locTop[2]);
@@ -1266,10 +1275,12 @@ public class GameBoard : MonoBehaviour
                     float newRandOffset = getRandOffset(); 
                     bToMove.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
                 }
-            }
-        if((bToMove.name == "belle" || bToMove.name == "cheyenne" || bToMove.name == "tuco" || bToMove.name == "django" || bToMove.name == "doc" || bToMove.name == "ghost") == false) {
+        }
+
+        if(bToMove.name == "horseBelle" || bToMove.name == "horseCheyenne" || bToMove.name == "horseDoc" || bToMove.name == "horseDjango" || bToMove.name == "horseGhost" || bToMove.name == "horseTuco"){
             // it's a horse! 
             // shift the horse forward by -50.0F 
+            Debug.Log(bToMove.name + " IS A HORSE!!!");
             Vector3 oldPos = bToMove.transform.position;
             bToMove.transform.position = new Vector3(oldPos[0], oldPos[1] - 50.0F, oldPos[2]);
         }
@@ -1576,6 +1587,11 @@ public class GameBoard : MonoBehaviour
         SFS.Disconnect();
     }
 
+    public void onSettingsBtnClick(){
+        Debug.Log("leavingggg");
+        LeaveRoom();
+        OnApplicationQuit();
+    }
 
     /*
      The methods below implements the save game and launch saved game features
