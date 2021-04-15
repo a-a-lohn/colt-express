@@ -426,7 +426,7 @@ public class TestGame : MonoBehaviour
             case 31:
                 //DOC PLAYS RIDE
                 gm.playTurn();
-                gm.playCard((ActionCard)gm.currentBandit.getHand()[8]);
+                gm.playCard((ActionCard)gm.currentBandit.getHand()[10]);
                 break;
             case 32:
                 //GHOST PLAYS

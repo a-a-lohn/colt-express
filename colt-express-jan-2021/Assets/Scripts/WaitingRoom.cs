@@ -29,6 +29,7 @@ public class WaitingRoom : MonoBehaviour
     public Button SavedSessionButtonA;
     public Button SavedSessionButtonB;
     public Button DeleteButton;
+    public Button DeleteSessionButton;
 
     public Text fToken; // newgamebutton text
     public Text SavedSessionButtonAText;
@@ -38,6 +39,7 @@ public class WaitingRoom : MonoBehaviour
     public Text InfoText;
     public Text launchText;
     public Text deleteText;
+    public Text deleteSessionText;
 
     //bool playingSaveGame = false;
 
@@ -50,6 +52,7 @@ public class WaitingRoom : MonoBehaviour
     public static int numPlayers;
     public static int numSessions = 0;
     public static bool intentToDelete = false;
+    public static bool intentToDeleteSession = false;
 
     private static Dictionary<Button, string> hashes = new Dictionary<Button, string>();
     private static Dictionary<Button, string> saveMap = new Dictionary<Button, string>();
@@ -79,6 +82,7 @@ public class WaitingRoom : MonoBehaviour
         SavedSessionButtonA.interactable = false;
         SavedSessionButtonB.interactable = false;
         DeleteButton.interactable = false;
+        DeleteSessionButton.interactable = false;
 
         //SetFields();
 
@@ -127,6 +131,7 @@ public class WaitingRoom : MonoBehaviour
         hosting = false;
         numSessions = 0;
         intentToDelete = false;
+        intentToDeleteSession = false;
 
         hashes = new Dictionary<Button, string>();
         saveMap = new Dictionary<Button, string>();
@@ -213,20 +218,46 @@ public class WaitingRoom : MonoBehaviour
     }
 
     public void JoinGame(Button gameToJoin)
-    {
-        gameHash = hashes[gameToJoin];
-        var request = new RestRequest("api/sessions/" + gameHash + "/players/" + username + "?access_token=" + token, Method.PUT)
+    {   
+        if(!intentToDeleteSession){
+            gameHash = hashes[gameToJoin];
+            var request = new RestRequest("api/sessions/" + gameHash + "/players/" + username + "?access_token=" + token, Method.PUT)
             .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
-        IRestResponse response = client.Execute(request);
-        foreach(KeyValuePair<Button, string> entry in hashes){
-            entry.Key.interactable = false;
-        } 
-        LaunchGameButton.interactable = false;
-        //HostGameButton.interactable = false;
-        joined = true;
-        InfoText.text = "You will be brought to the next scene once the host launches the game!";
+            IRestResponse response = client.Execute(request);
+            foreach(KeyValuePair<Button, string> entry in hashes){
+                entry.Key.interactable = false;
+            } 
+            LaunchGameButton.interactable = false;
+            //HostGameButton.interactable = false;
+            joined = true;
+            InfoText.text = "You will be brought to the next scene once the host launches the game!";
         
-        SFS.JoinRoom();
+            SFS.JoinRoom();
+        }else{
+            if(joined){
+                LaunchGameButton.interactable = false;
+                joined = false;
+            }
+            if(!Launched(gameHash)) {
+                DeleteSession();
+            }else{
+                var request = new RestRequest("api/sessions/" + gameHash + "?access_token=" + GetAdminToken(), Method.DELETE)
+                .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+                IRestResponse response = client.Execute(request);
+            } 
+            hosting = false;
+            deleteSessionText.text = "Delete a session";
+            gameHash = null;
+            joined = false;
+
+            if (hashes.ContainsKey(gameToJoin)) {
+                hashes.Remove(gameToJoin);
+                fToken.text = "";
+                NewGameButton.interactable = false;
+                InfoText.text = "You can:\n-Host a new game\n-Click on a saved game to host it\n-Click on a game session to join it";
+            }
+        }
+        
     }
 
     public void CreateSession(Text savegameID)
@@ -301,6 +332,7 @@ public class WaitingRoom : MonoBehaviour
 
         if(numSessions==0) {
             DeleteButton.interactable = true;
+            DeleteSessionButton.interactable = false;
             if(intentToDelete) {
                 HostGameButton.interactable = false;
             } else {
@@ -319,6 +351,14 @@ public class WaitingRoom : MonoBehaviour
             SavedSessionButtonB.interactable = false;
             if(joined) {
                 NewGameButton.interactable = false;
+            }
+            if(hosting){
+                DeleteSessionButton.interactable = true;
+                if(intentToDeleteSession){
+                    NewGameButton.interactable = true;
+                }else{
+                    NewGameButton.interactable = false;
+                }
             }
         }
 
@@ -393,6 +433,17 @@ public class WaitingRoom : MonoBehaviour
         } else {
             intentToDelete = true;
             deleteText.text = "Go back";
+        }
+
+    }
+
+     public void IntentToDeleteSession() {
+        if(intentToDeleteSession) {
+            intentToDeleteSession = false;
+            deleteSessionText.text = "Delete a session";
+        } else {
+            intentToDeleteSession = true;
+            deleteSessionText.text = "Go back";
         }
 
     }

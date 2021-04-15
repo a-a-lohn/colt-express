@@ -304,6 +304,7 @@ public class GameBoard : MonoBehaviour
             SFS.Connect("test");
             Debug.Log("was not connected. Connecting now");
         }*/
+
         // Screen.SetResolution(1080, 1920, false);  
         // Debug.Log("bel gem: " + belleGemGO.transform.position); 
         // Debug.Log("bel belleWhisGO: " + belleWhisGO.transform.position); 
@@ -1208,77 +1209,83 @@ public class GameBoard : MonoBehaviour
 
     // move the button(bandit or horse) that is passed in to the 
     public void moveButtonTo(Button bToMove, string cartype, string carfloor){
-       if(carfloor == "CABIN"){
-            if(cartype == "LOCOMOTIVE"){
-                float newRandOffset = getRandOffset(); 
-                bToMove.transform.position = new Vector3 (locBtm[0] + newRandOffset, locBtm[1], locBtm[2]);
-            }else if(cartype == "CAR1"){
-                float newRandOffset = getRandOffset(); 
-                bToMove.transform.position = new Vector3 (oneBtm[0] + newRandOffset, oneBtm[1], oneBtm[2]);
-            }else if(cartype == "CAR2"){
-                float newRandOffset = getRandOffset(); 
-                bToMove.transform.position = new Vector3 (twoBtm[0] + newRandOffset, twoBtm[1], twoBtm[2]);
-            }else if(cartype == "CAR3"){
-                float newRandOffset = getRandOffset(); 
-                bToMove.transform.position = new Vector3 (threeBtm[0] + newRandOffset, threeBtm[1], threeBtm[2]);
-            }else if(cartype == "CAR4"){
-                float newRandOffset = getRandOffset(); 
-                bToMove.transform.position = new Vector3 (fourBtm[0] + newRandOffset, fourBtm[1], fourBtm[2]);
-            }else if(cartype == "CAR5"){
-                float newRandOffset = getRandOffset(); 
-                bToMove.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
-            }else if(cartype == "CAR6"){
-                float newRandOffset = getRandOffset(); 
-                bToMove.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
+        if(carfloor == "CABIN"){
+                if(cartype == "LOCOMOTIVE"){
+                    float newRandOffset = getRandOffset(); 
+                    bToMove.transform.position = new Vector3 (locBtm[0] + newRandOffset, locBtm[1], locBtm[2]);
+                }else if(cartype == "CAR1"){
+                    float newRandOffset = getRandOffset(); 
+                    bToMove.transform.position = new Vector3 (oneBtm[0] + newRandOffset, oneBtm[1], oneBtm[2]);
+                }else if(cartype == "CAR2"){
+                    float newRandOffset = getRandOffset(); 
+                    bToMove.transform.position = new Vector3 (twoBtm[0] + newRandOffset, twoBtm[1], twoBtm[2]);
+                }else if(cartype == "CAR3"){
+                    float newRandOffset = getRandOffset(); 
+                    bToMove.transform.position = new Vector3 (threeBtm[0] + newRandOffset, threeBtm[1], threeBtm[2]);
+                }else if(cartype == "CAR4"){
+                    float newRandOffset = getRandOffset(); 
+                    bToMove.transform.position = new Vector3 (fourBtm[0] + newRandOffset, fourBtm[1], fourBtm[2]);
+                }else if(cartype == "CAR5"){
+                    float newRandOffset = getRandOffset(); 
+                    bToMove.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
+                }else if(cartype == "CAR6"){
+                    float newRandOffset = getRandOffset(); 
+                    bToMove.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
+                }else{
+                    // cartype == "STAGECOACH"
+                    float newRandOffset = getRandOffset(); 
+                    bToMove.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
+                }
             }else{
-                // cartype == "STAGECOACH"
-                float newRandOffset = getRandOffset(); 
-                bToMove.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
+                if(cartype == "LOCOMOTIVE"){
+                    float newRandOffset = getRandOffset(); 
+                    bToMove.transform.position = new Vector3 (locTop[0] + newRandOffset, locTop[1], locTop[2]);
+                }else if(cartype == "CAR1"){
+                    float newRandOffset = getRandOffset(); 
+                    bToMove.transform.position = new Vector3 (oneTop[0] + newRandOffset, oneTop[1], oneTop[2]);
+                }else if(cartype == "CAR2"){
+                    float newRandOffset = getRandOffset(); 
+                    bToMove.transform.position = new Vector3 (twoTop[0] + newRandOffset, twoTop[1], twoTop[2]);
+                }else if(cartype == "CAR3"){
+                    float newRandOffset = getRandOffset(); 
+                    bToMove.transform.position = new Vector3 (threeTop[0] + newRandOffset, threeTop[1], threeTop[2]);
+                }else if(cartype == "CAR4"){
+                    float newRandOffset = getRandOffset(); 
+                    bToMove.transform.position = new Vector3 (fourTop[0] + newRandOffset, fourTop[1], fourTop[2]);
+                }else if(cartype == "CAR5"){
+                    float newRandOffset = getRandOffset(); 
+                    bToMove.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
+                }else if(cartype == "CAR6"){
+                    float newRandOffset = getRandOffset(); 
+                    bToMove.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
+                }else{
+                    // cartype == "STAGECOACH"
+                    float newRandOffset = getRandOffset(); 
+                    bToMove.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
+                }
             }
-        }else{
-            if(cartype == "LOCOMOTIVE"){
-                float newRandOffset = getRandOffset(); 
-                bToMove.transform.position = new Vector3 (locTop[0] + newRandOffset, locTop[1], locTop[2]);
-            }else if(cartype == "CAR1"){
-                float newRandOffset = getRandOffset(); 
-                bToMove.transform.position = new Vector3 (oneTop[0] + newRandOffset, oneTop[1], oneTop[2]);
-            }else if(cartype == "CAR2"){
-                float newRandOffset = getRandOffset(); 
-                bToMove.transform.position = new Vector3 (twoTop[0] + newRandOffset, twoTop[1], twoTop[2]);
-            }else if(cartype == "CAR3"){
-                float newRandOffset = getRandOffset(); 
-                bToMove.transform.position = new Vector3 (threeTop[0] + newRandOffset, threeTop[1], threeTop[2]);
-            }else if(cartype == "CAR4"){
-                float newRandOffset = getRandOffset(); 
-                bToMove.transform.position = new Vector3 (fourTop[0] + newRandOffset, fourTop[1], fourTop[2]);
-            }else if(cartype == "CAR5"){
-                float newRandOffset = getRandOffset(); 
-                bToMove.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
-            }else if(cartype == "CAR6"){
-                float newRandOffset = getRandOffset(); 
-                bToMove.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
-            }else{
-                // cartype == "STAGECOACH"
-                 float newRandOffset = getRandOffset(); 
-                bToMove.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
-            }
+        if((bToMove.name == "belle" || bToMove.name == "cheyenne" || bToMove.name == "tuco" || bToMove.name == "django" || bToMove.name == "doc" || bToMove.name == "ghost") == false) {
+            // it's a horse! 
+            // shift the horse forward by -50.0F 
+            Vector3 oldPos = bToMove.transform.position;
+            bToMove.transform.position = new Vector3(oldPos[0], oldPos[1] - 50.0F, oldPos[2]);
         }
     }
 
     public void placeHorseAt(Horse h, string cartype, string carfloor){
         Button horseBtn = allHorses[0];
         foreach(Button aHorse in allHorses){
-            if(aHorse.name == "HorseOne" && h.riddenBy.characterAsString == "BELLE"){
+            if(aHorse.name == "HorseBelle" && h.riddenBy.characterAsString == "BELLE"){
                 moveButtonTo(horseBelle, cartype, carfloor);
-            }else if(aHorse.name == "HorseTwo" && h.riddenBy.characterAsString == "CHEYENNE"){
+            }else if(aHorse.name == "HorseCheyenne" && h.riddenBy.characterAsString == "CHEYENNE"){
                 moveButtonTo(horseCheyenne, cartype, carfloor);
-            }else if(aHorse.name == "HorseThree" && h.riddenBy.characterAsString == "DOC"){
+            }else if(aHorse.name == "HorseDoc" && h.riddenBy.characterAsString == "DOC"){
                 moveButtonTo(horseDoc, cartype, carfloor);
-            }else if(aHorse.name == "HorseFour" && h.riddenBy.characterAsString == "DJANGO"){
+            }else if(aHorse.name == "HorseDjango" && h.riddenBy.characterAsString == "DJANGO"){
                 moveButtonTo(horseDjango, cartype, carfloor);
-            }else if(aHorse.name == "HorseFive" && h.riddenBy.characterAsString == "GHOST"){
+            }else if(aHorse.name == "HorseGhost" && h.riddenBy.characterAsString == "GHOST"){
                 moveButtonTo(horseGhost, cartype, carfloor);
-            }else if(aHorse.name == "HorseSix" && h.riddenBy.characterAsString == "TUCO"){
+            }else if(aHorse.name == "HorseTuco" && h.riddenBy.characterAsString == "TUCO"){
                 moveButtonTo(horseTuco, cartype, carfloor);
             }
         }
