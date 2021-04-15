@@ -12,7 +12,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Gems
   - 
   - 
   - 
@@ -47,4 +47,7 @@ TagManager:
     locked: 0
   - name: GameObjects
     uniqueID: 4270537005
+    locked: 0
+  - name: Gems
+    uniqueID: 4190123369
     locked: 0

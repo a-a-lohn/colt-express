@@ -688,47 +688,50 @@ namespace model {
 		    //ROOF CASE:
 		    if (this.currentBandit.getPosition().getCarFloorAsString().Equals("ROOF")) {
                 ArrayList possibilities = new ArrayList();
-                TrainUnit currentCabin = currentBandit.getPosition();
-                if(currentCabin.numOfBanditsHere() > 1){
-                    foreach(Bandit b in currentCabin.getBanditsHere()){
-                        if(!b.getCharacter().Equals(currentBandit.getCharacter())){
-                            possibilities.Add(b);
-                        }
-                    }
-                }
                 //TRAVERSE TRAIN UNITS TOWARDS RIGHT AND LEFT TO FIND BANDITS IN LINE OF SIGHT
-                else{
-                    TrainUnit toLeft = currentCabin.getLeft();
-                    while(toLeft != null){
-                        if(toLeft.numOfBanditsHere()>0){
-                            break;
-                        }
-                        else{
-                            toLeft = toLeft.getLeft();
-                        }
+                TrainUnit currentRoof = this.currentBandit.getPosition();
+                TrainUnit toLeft = currentRoof.getLeft();
+                while (toLeft != null)
+                {
+                    if (toLeft.numOfBanditsHere() > 0)
+                    {
+                        break;
                     }
-                    TrainUnit toRight = currentCabin.getRight();
-                    while(toRight != null){
-                        if(toRight.numOfBanditsHere()>0){
-                            break;
-                        }
-                        else{
-                            toRight = toRight.getRight();
-                        }
-                    }
-                    if(toLeft != null){
-                        foreach(Bandit b in toLeft.getBanditsHere()){
-                            possibilities.Add(b);
-                        }
-                    }
-                    if(toRight != null){
-                        foreach(Bandit b in toRight.getBanditsHere()){
-                            possibilities.Add(b);
-                        }
+                    else
+                    {
+                        toLeft = toLeft.getLeft();
                     }
                 }
+                TrainUnit toRight = currentRoof.getRight();
+                while (toRight != null)
+                {
+                    if (toRight.numOfBanditsHere() > 0)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        toRight = toRight.getRight();
+                    }
+                }
+                if (toLeft != null)
+                {
+                    foreach (Bandit b in toLeft.getBanditsHere())
+                    {
+                        possibilities.Add(b);
+                    }
+                }
+                if (toRight != null)
+                {
+                    foreach (Bandit b in toRight.getBanditsHere())
+                    {
+                        possibilities.Add(b);
+                    }
+                }
+
+
                 //TUCO ABILITY
-                if(currentBandit.getCharacter().Equals("TUCO")){
+                if (currentBandit.getCharacter().Equals("TUCO")){
                     TrainUnit belowCabin = this.currentBandit.getPosition().getBelow();
                     foreach(Bandit bb in belowCabin.getBanditsHere()){
                         possibilities.Add(bb);
@@ -1320,11 +1323,11 @@ namespace model {
 
             if (marshalPosition != (TrainUnit)this.trainCabin[trainLength-1])
             {
-                TrainUnit rightOfMP = marshalPosition.getRight();
-                marshal.setMarshalPosition(rightOfMP);
+                TrainUnit leftOfMP = marshalPosition.getLeft();
+                marshal.setMarshalPosition(leftOfMP);
                 foreach (Bandit b in this.bandits)
                 {
-                    if (b.getPosition() == rightOfMP)
+                    if (b.getPosition() == leftOfMP)
                     {
                         b.shotByMarhsal();
                     }
@@ -1365,8 +1368,8 @@ namespace model {
                 {
                     if (banditPosition != (TrainUnit)this.trainRoof[0])
                     {
-                        TrainUnit leftOfBandit = banditPosition.getLeft();
-                        b.setPosition(leftOfBandit);
+                        TrainUnit rightOfBandit = banditPosition.getRight();
+                        b.setPosition(rightOfBandit);
                     }
                 }
             }
@@ -1406,6 +1409,7 @@ namespace model {
             Marshal marshal = Marshal.getInstance();
             TrainUnit marshalPosition = marshal.getMarshalPosition();
             TrainUnit topOfMP = marshalPosition.getAbove();
+   
             foreach (Bandit b in this.bandits)
             {
                 TrainUnit banditPosition = b.getPosition();
@@ -1416,6 +1420,9 @@ namespace model {
                     int value = 2000;
                     foreach (Money money in loots)
                     {
+                        Bandit bandit = money.getBelongsTo();
+                        Debug.Log(bandit.getCharacter());
+                        Debug.Log(money.getMoneyTypeAsString());
                         if (money.getMoneyTypeAsString() == "PURSE")
                         {
                             if (money.getValue() < value)
