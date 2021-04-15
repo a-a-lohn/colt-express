@@ -278,7 +278,7 @@ public class GameBoard : MonoBehaviour
     private List<float> locTop = new List<float>() {1495.9F, 885.5F, -364.9F}; 
     private List<float> locBtm = new List<float>() {1498.6F, 835.2F, -364.9F};
 
-    private List<float> belLoot = new List<float>() {1036.5F, 975.6F, -364.9F};
+    private List<float> belLoot = new List<float>() {875.5F, 1098.2F, -364.9F};
     private List<float> cheLoot = new List<float>() {1058.0F, 971.9F, -364.9F};
     private List<float> docLoot = new List<float>() {1075.4F, 1000.8F, -364.9F};
     private List<float> djaLoot = new List<float>() {1099.4F, 1000.8F, -364.9F};
@@ -320,7 +320,7 @@ public class GameBoard : MonoBehaviour
         // Debug.Log("cartFourTop" + trainfourTop.transform.position); 
         // Debug.Log("cartFourBtm" + trainfourBtm.transform.position); 
 
-        // Debug.Log("bel prof" + belleProf.transform.position); 
+  
         // Debug.Log("che prof" + cheyenneProf.transform.position); 
         // Debug.Log("doc prof" + docProf.transform.position); 
         // Debug.Log("dja prof" + djangoProf.transform.position); 
@@ -414,6 +414,15 @@ public class GameBoard : MonoBehaviour
         int ri = r.Next(0, values.Length);
         float result = values[ri];
         //Debug.Log("THE RANDOM OFFSET IS: " + result);
+        return result; 
+    }
+
+
+    /* getRandOffset() picks and returns a random float from a set of pre-defined floats */
+    public float getRandOffsetBanditLoot(){
+        var values = new[] { 8.0F, 10.0F, 12.0F, -8.0F, -10.0F, -12.0F, 8.0F, 10.0F, 12.0F, -8.0F, -10.0F, -12.0F, 8.0F, 10.0F, 12.0F, -8.0F, -10.0F, -12.0F, 8.0F, 10.0F, 12.0F, -8.0F, -10.0F, -12.0F, 8.0F, 10.0F, 12.0F, -8.0F, -10.0F, -12.0F, 8.0F, 10.0F, 12.0F, -8.0F, -10.0F, -12.0F };
+        int ri = r.Next(0, values.Length);
+        float result = values[ri];
         return result; 
     }
 
@@ -1253,38 +1262,19 @@ public class GameBoard : MonoBehaviour
     public void moveLootToBanditPos(Button chosenLootBtn, string banditName) {
         //Bandit currBandit = gm.currentBandit; 
         if(banditName == "BELLE"){
-            chosenLootBtn.transform.position = new Vector3(belLoot[0], belLoot[1], belLoot[2]); 
+            chosenLootBtn.transform.position = new Vector3(belLoot[0] + getRandOffsetBanditLoot(), belLoot[1], belLoot[2]); 
         }else if(banditName == "CHEYENNE"){
-            chosenLootBtn.transform.position = new Vector3(cheLoot[0], cheLoot[1], cheLoot[2]); 
+            chosenLootBtn.transform.position = new Vector3(cheLoot[0] + getRandOffsetBanditLoot(), cheLoot[1], cheLoot[2]); 
         }else if(banditName == "DOC"){
-            chosenLootBtn.transform.position = new Vector3(docLoot[0], docLoot[1], docLoot[2]); 
+            chosenLootBtn.transform.position = new Vector3(docLoot[0] + getRandOffsetBanditLoot(), docLoot[1], docLoot[2]); 
         }else if(banditName == "DJANGO"){
-            chosenLootBtn.transform.position = new Vector3(djaLoot[0], djaLoot[1], djaLoot[2]); 
+            chosenLootBtn.transform.position = new Vector3(djaLoot[0] + getRandOffsetBanditLoot(), djaLoot[1], djaLoot[2]); 
         }else if(banditName == "GHOST"){
-            chosenLootBtn.transform.position = new Vector3(ghoLoot[0], ghoLoot[1], ghoLoot[2]); 
+            chosenLootBtn.transform.position = new Vector3(ghoLoot[0] + getRandOffsetBanditLoot(), ghoLoot[1], ghoLoot[2]); 
         }else if(banditName == "TUCO"){
-            chosenLootBtn.transform.position = new Vector3(tucLoot[0], tucLoot[1], tucLoot[2]); 
+            chosenLootBtn.transform.position = new Vector3(tucLoot[0] + getRandOffsetBanditLoot(), tucLoot[1], tucLoot[2]); 
         }
     }
-
-
-    // public void placeLootOnBandit(Button lootBtn, string lootType, string bandit){
-    //         if(bandit == "BELLE"){
-    //             // move to belle's loot position
-    //             Debug.Log("MOVE LOOT OF TYPE" + lootType + " TO BELLE'S NAME'S POSITION"); 
-    //         }else if(bandit == "CHEYENNE"){
-    //             Debug.Log("MOVE LOOT OF TYPE" + lootType + " TO CHEYENNE'S NAME'S POSITION"); 
-    //         }else if(bandit == "DOC"){
-    //             Debug.Log("MOVE LOOT OF TYPE" + lootType + " TO DOC'S NAME'S POSITION"); 
-    //         }else if(bandit == "DJANGO"){
-    //             Debug.Log("MOVE LOOT OF TYPE" + lootType + " TO DJANGO'S NAME'S POSITION"); 
-    //         }else if(bandit == "GHOST"){
-    //             Debug.Log("MOVE LOOT OF TYPE" + lootType + " TO GHOST'S NAME'S POSITION"); 
-    //         }else if(bandit == "TUCO"){
-    //             Debug.Log("MOVE LOOT OF TYPE" + lootType + " TO TUCO'S NAME'S POSITION"); 
-    //         }
-    // }
-
 
     /* promptDrawOrPlayMessage displays the prompt message on gameboard*/
     public static void promptDrawOrPlayMessage(){
