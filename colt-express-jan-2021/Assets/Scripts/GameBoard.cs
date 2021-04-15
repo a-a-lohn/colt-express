@@ -977,7 +977,12 @@ public class GameBoard : MonoBehaviour
         else {
             response = "n";
         }
+<<<<<<< HEAD
 
+=======
+        horseBtnOne.interactable = false;
+        horseBtnTwo.interactable = false;
+>>>>>>> 6b9a7e4d8784ba7070a40c951f46be01ed09573c
         promptHorseAttackMsg.text="Waiting for other players..";
         ISFSObject obj = SFSObject.NewInstance();
         obj.PutUtfString("ans", response);

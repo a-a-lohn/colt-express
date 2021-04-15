@@ -95,12 +95,12 @@ public class ChooseCharacter : MonoBehaviour
         // selected.text = "";
 
         // Initialize SFS2X client. This can be done in an earlier scene instead
-		/*SmartFox sfs = new SmartFox();
+		SmartFox sfs = new SmartFox();
         // For C# serialization
 		DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
         SFS.setSFS(sfs);
 
-        SFS.Connect("teseest");*/
+        SFS.Connect("teseegst");
     }
 
     // Update is called once per frame
