@@ -251,6 +251,7 @@ namespace model {
                             this.banditsPlayedThisTurn = 0;
                             ActionCard toResolve = (ActionCard)this.playedPileInstance.takeTopCard();//.getPlayedCardsAt(playedPileInstance.playedCards.Count-1);
                             currentBandit = toResolve.getBelongsTo();
+                            currentBandit.addToDeck(toResolve);
                             currentBandit.toResolve = toResolve;
 
                             Debug.Log("toresolve string for NEXT card: " + toResolve.actionTypeAsString);
@@ -295,6 +296,7 @@ namespace model {
 				    		banditsPlayedThisTurn = 0;
                             ActionCard toResolve = (ActionCard)this.playedPileInstance.takeTopCard();//.getPlayedCardsAt(playedPileInstance.playedCards.Count-1);
                             currentBandit = toResolve.getBelongsTo();
+                            currentBandit.addToDeck(toResolve);
                             currentBandit.toResolve = toResolve;
 
                             Debug.Log("toresolve string for NEXT card: " + toResolve.actionTypeAsString);
@@ -345,6 +347,7 @@ namespace model {
 						    	banditsPlayedThisTurn = 0;
                                 ActionCard toResolve = (ActionCard)this.playedPileInstance.takeTopCard();//.getPlayedCardsAt(playedPileInstance.playedCards.Count-1);
                                 currentBandit = toResolve.getBelongsTo();
+                                currentBandit.addToDeck(toResolve);
                                 currentBandit.toResolve = toResolve;
 
                                 Debug.Log("toresolve string for NEXT card: " + toResolve.actionTypeAsString);
@@ -368,11 +371,8 @@ namespace model {
             else if (this.strGameStatus.Equals("STEALIN")) {
                 if(playedPileInstance.getPlayedCards().Count > 0) {
                     ActionCard toResolve = this.playedPileInstance.takeTopCard();
-                    currentBandit.addToDeck(toResolve);
-                    Debug.Log("toresolve string for NEXT card: " + toResolve.actionTypeAsString);
-                    Bandit b = toResolve.getBelongsTo();
-                    Debug.Log("toresolve belongsto for NEXT card: " + b.characterAsString);
                     this.currentBandit = toResolve.getBelongsTo();
+                    currentBandit.addToDeck(toResolve);
                     this.currentBandit.setToResolve(toResolve);
                     
                 } else {
@@ -690,6 +690,14 @@ namespace model {
                 ArrayList possibilities = new ArrayList();
                 //TRAVERSE TRAIN UNITS TOWARDS RIGHT AND LEFT TO FIND BANDITS IN LINE OF SIGHT
                 TrainUnit currentRoof = this.currentBandit.getPosition();
+                if(currentRoof.numOfBanditsHere()>1){
+                    foreach (Bandit b in currentRoof.getBanditsHere()){
+                        if(b.getCharacter() != currentBandit.getCharacter()){
+                            possibilities.Add(b);
+                        }
+                    }
+                    return possibilities;
+                }
                 TrainUnit toLeft = currentRoof.getLeft();
                 while (toLeft != null)
                 {

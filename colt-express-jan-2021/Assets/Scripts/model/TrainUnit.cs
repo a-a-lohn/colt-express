@@ -21,6 +21,7 @@ namespace model {
         public bool isMarshalHere;
         public ArrayList lootHere;
         
+        
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public TrainUnit() {}
         
