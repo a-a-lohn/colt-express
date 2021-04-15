@@ -686,7 +686,8 @@ namespace model {
 		    if (this.currentBandit.getPosition().getCarFloorAsString().Equals("ROOF")) {
                 ArrayList possibilities = new ArrayList();
                 //TRAVERSE TRAIN UNITS TOWARDS RIGHT AND LEFT TO FIND BANDITS IN LINE OF SIGHT
-                TrainUnit toLeft = currentCabin.getLeft();
+                TrainUnit currentRoof = this.currentBandit.getPosition();
+                TrainUnit toLeft = currentRoof.getLeft();
                 while (toLeft != null)
                 {
                     if (toLeft.numOfBanditsHere() > 0)
@@ -698,7 +699,7 @@ namespace model {
                         toLeft = toLeft.getLeft();
                     }
                 }
-                TrainUnit toRight = currentCabin.getRight();
+                TrainUnit toRight = currentRoof.getRight();
                 while (toRight != null)
                 {
                     if (toRight.numOfBanditsHere() > 0)
