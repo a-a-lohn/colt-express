@@ -801,7 +801,7 @@ GameObject:
   - component: {fileID: 83683878}
   - component: {fileID: 83683877}
   m_Layer: 6
-  m_Name: Canvas (1)
+  m_Name: Gems
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -949,7 +949,7 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
 --- !u!223 &83683881
 Canvas:
   m_ObjectHideFlags: 0
@@ -969,7 +969,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!224 &83683882
 RectTransform:
@@ -984,7 +984,7 @@ RectTransform:
   m_Children:
   - {fileID: 154138434}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1421,7 +1421,7 @@ RectTransform:
   m_LocalScale: {x: 1.0545117, y: 1.0135168, z: 1}
   m_Children: []
   m_Father: {fileID: 734506206}
-  m_RootOrder: 36
+  m_RootOrder: 35
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1987,7 +1987,7 @@ GameObject:
   - component: {fileID: 192604586}
   - component: {fileID: 192604585}
   - component: {fileID: 192604584}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: punchPrompt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2085,7 +2085,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 734506206}
-  m_RootOrder: 40
+  m_RootOrder: 39
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -2637,7 +2637,7 @@ GameObject:
   - component: {fileID: 253989677}
   - component: {fileID: 253989676}
   - component: {fileID: 253989675}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HorseDjango
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2777,7 +2777,7 @@ RectTransform:
   m_Children:
   - {fileID: 623603422}
   m_Father: {fileID: 734506206}
-  m_RootOrder: 32
+  m_RootOrder: 31
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3051,6 +3051,211 @@ RectTransform:
   m_AnchoredPosition: {x: 225.57973, y: -0.9900284}
   m_SizeDelta: {x: 89.192, y: 95.519}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &314125374
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 314125380}
+  - component: {fileID: 314125379}
+  - component: {fileID: 314125378}
+  - component: {fileID: 314125377}
+  - component: {fileID: 314125376}
+  - component: {fileID: 314125375}
+  m_Layer: 7
+  m_Name: Bandits
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &314125375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 314125374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c762940606b6494d81a3d079c4ebe99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backgroundMusic: {fileID: 0}
+--- !u!82 &314125376
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 314125374}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 34cb998828eedac4cbbe0762ebccbf2c, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &314125377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 314125374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UiScaleMode: 0
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 0.5
+  m_ReferenceResolution: {x: 1920, y: 1080}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
+--- !u!210 &314125378
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 314125374}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 1
+--- !u!223 &314125379
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 314125374}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 1
+  m_Camera: {fileID: 519420031}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 25
+  m_SortingLayerID: 0
+  m_SortingOrder: 1
+  m_TargetDisplay: 0
+--- !u!224 &314125380
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 314125374}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_Children:
+  - {fileID: 1013407372}
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 0}
 --- !u!1 &314524066
 GameObject:
   m_ObjectHideFlags: 0
@@ -3141,7 +3346,7 @@ GameObject:
   - component: {fileID: 316276645}
   - component: {fileID: 316276647}
   - component: {fileID: 316276646}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3226,7 +3431,7 @@ GameObject:
   - component: {fileID: 340333972}
   - component: {fileID: 340333974}
   - component: {fileID: 340333973}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: horseBtnTwo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3501,7 +3706,7 @@ GameObject:
   - component: {fileID: 351078154}
   - component: {fileID: 351078156}
   - component: {fileID: 351078155}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Clickables
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3580,7 +3785,7 @@ GameObject:
   - component: {fileID: 354536677}
   - component: {fileID: 354536679}
   - component: {fileID: 354536678}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3663,7 +3868,7 @@ GameObject:
   - component: {fileID: 364579987}
   - component: {fileID: 364579992}
   - component: {fileID: 364579991}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Marshal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4920,7 +5125,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &442808384
 GameObject:
@@ -4937,7 +5142,7 @@ GameObject:
   - component: {fileID: 442808391}
   - component: {fileID: 442808390}
   - component: {fileID: 442808389}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Cheyenne
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5561,7 +5766,7 @@ GameObject:
   - component: {fileID: 488911564}
   - component: {fileID: 488911563}
   - component: {fileID: 488911562}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Ghost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5584,7 +5789,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 350, y: -470}
+  m_AnchoredPosition: {x: 305, y: -264}
   m_SizeDelta: {x: 82.4798, y: 135.5176}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &488911558
@@ -5821,7 +6026,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
@@ -6583,7 +6788,7 @@ GameObject:
   - component: {fileID: 571799348}
   - component: {fileID: 571799350}
   - component: {fileID: 571799349}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: promptDrawCardsOrPlayCardMsg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6760,7 +6965,7 @@ RectTransform:
   m_LocalScale: {x: 1.0545117, y: 1.0135168, z: 1}
   m_Children: []
   m_Father: {fileID: 734506206}
-  m_RootOrder: 37
+  m_RootOrder: 36
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -6824,7 +7029,7 @@ GameObject:
   - component: {fileID: 611999303}
   - component: {fileID: 611999302}
   - component: {fileID: 611999301}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: proceed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7373,7 +7578,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 734506206}
-  m_RootOrder: 42
+  m_RootOrder: 41
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -7437,7 +7642,7 @@ GameObject:
   - component: {fileID: 657001359}
   - component: {fileID: 657001358}
   - component: {fileID: 657001357}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Belle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7972,7 +8177,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 734506206}
-  m_RootOrder: 44
+  m_RootOrder: 43
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -8053,7 +8258,7 @@ RectTransform:
   m_Children:
   - {fileID: 1902157147}
   m_Father: {fileID: 734506206}
-  m_RootOrder: 31
+  m_RootOrder: 30
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -8341,7 +8546,7 @@ GameObject:
   - component: {fileID: 683461272}
   - component: {fileID: 683461271}
   - component: {fileID: 683461270}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: horseAttackPrompt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8484,7 +8689,7 @@ GameObject:
   - component: {fileID: 706906105}
   - component: {fileID: 706906107}
   - component: {fileID: 706906106}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8983,7 +9188,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!224 &734506206
 RectTransform:
@@ -9025,7 +9230,6 @@ RectTransform:
   - {fileID: 979177575}
   - {fileID: 937023444}
   - {fileID: 165741275}
-  - {fileID: 1013407372}
   - {fileID: 2084038109}
   - {fileID: 666369477}
   - {fileID: 260595219}
@@ -9269,7 +9473,7 @@ RectTransform:
   m_Children:
   - {fileID: 897888932}
   m_Father: {fileID: 734506206}
-  m_RootOrder: 34
+  m_RootOrder: 33
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -9730,7 +9934,7 @@ GameObject:
   - component: {fileID: 821670921}
   - component: {fileID: 821670920}
   - component: {fileID: 821670919}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Tuco
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10446,7 +10650,7 @@ GameObject:
   - component: {fileID: 883162805}
   - component: {fileID: 883162804}
   - component: {fileID: 883162803}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HorseBelle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11475,7 +11679,7 @@ RectTransform:
   m_Children:
   - {fileID: 657442855}
   m_Father: {fileID: 734506206}
-  m_RootOrder: 35
+  m_RootOrder: 34
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -11991,7 +12195,7 @@ GameObject:
   - component: {fileID: 1000362056}
   - component: {fileID: 1000362058}
   - component: {fileID: 1000362057}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: horseBtnOne
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12191,7 +12395,7 @@ GameObject:
   - component: {fileID: 1000371556}
   - component: {fileID: 1000371555}
   - component: {fileID: 1000371554}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Doc
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12452,7 +12656,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1013407372}
   - component: {fileID: 1013407373}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GameBoardGO
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12467,8 +12671,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1013407371}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 31.9178, y: 136.7504, z: 0.11182352}
-  m_LocalScale: {x: 1.0031824, y: 0.9760771, z: 0.69888103}
+  m_LocalPosition: {x: 31.917809, y: 136.75035, z: 0.111805476}
+  m_LocalScale: {x: 1.0031825, y: 0.9760771, z: 0.69888103}
   m_Children:
   - {fileID: 442808385}
   - {fileID: 488911557}
@@ -12491,8 +12695,8 @@ Transform:
   - {fileID: 1033471840}
   - {fileID: 1685218106}
   - {fileID: 1764711571}
-  m_Father: {fileID: 734506206}
-  m_RootOrder: 29
+  m_Father: {fileID: 314125380}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1013407373
 MonoBehaviour:
@@ -12825,7 +13029,7 @@ GameObject:
   - component: {fileID: 1033471843}
   - component: {fileID: 1033471842}
   - component: {fileID: 1033471841}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HorseGhost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13085,7 +13289,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 565.20386, y: 719.78906}
+  m_AnchoredPosition: {x: 1391, y: -346}
   m_SizeDelta: {x: 217.266, y: 51.317}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1079574372
@@ -14691,7 +14895,7 @@ RectTransform:
   m_LocalScale: {x: 1.0545117, y: 1.0135168, z: 1}
   m_Children: []
   m_Father: {fileID: 734506206}
-  m_RootOrder: 38
+  m_RootOrder: 37
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -15789,7 +15993,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 734506206}
-  m_RootOrder: 45
+  m_RootOrder: 44
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -15850,7 +16054,7 @@ GameObject:
   - component: {fileID: 1418836710}
   - component: {fileID: 1418836709}
   - component: {fileID: 1418836708}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HorseDoc
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16826,7 +17030,7 @@ RectTransform:
   m_LocalScale: {x: 1.0545117, y: 1.0135168, z: 1}
   m_Children: []
   m_Father: {fileID: 734506206}
-  m_RootOrder: 39
+  m_RootOrder: 38
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -17305,7 +17509,7 @@ RectTransform:
   m_Children:
   - {fileID: 1891012261}
   m_Father: {fileID: 734506206}
-  m_RootOrder: 33
+  m_RootOrder: 32
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -17752,7 +17956,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 734506206}
-  m_RootOrder: 43
+  m_RootOrder: 42
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -17831,7 +18035,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 734506206}
-  m_RootOrder: 41
+  m_RootOrder: 40
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -18503,7 +18707,7 @@ GameObject:
   - component: {fileID: 1685218109}
   - component: {fileID: 1685218108}
   - component: {fileID: 1685218107}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HorseTuco
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18822,7 +19026,7 @@ GameObject:
   - component: {fileID: 1764711574}
   - component: {fileID: 1764711573}
   - component: {fileID: 1764711572}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: stagecoach
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19863,7 +20067,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1902157146
 GameObject:
@@ -20011,7 +20215,7 @@ GameObject:
   - component: {fileID: 1910071498}
   - component: {fileID: 1910071497}
   - component: {fileID: 1910071496}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HorseCheyenne
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21329,7 +21533,7 @@ GameObject:
   - component: {fileID: 2061015350}
   - component: {fileID: 2061015349}
   - component: {fileID: 2061015348}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Django
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21730,7 +21934,7 @@ RectTransform:
   m_Children:
   - {fileID: 877179259}
   m_Father: {fileID: 734506206}
-  m_RootOrder: 30
+  m_RootOrder: 29
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
