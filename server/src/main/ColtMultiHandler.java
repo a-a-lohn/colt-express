@@ -256,8 +256,9 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		}
 		int chosen = 0;
 		TrainUnit current = gm.trainCabin.get(gm.trainIndex);
+		TrainUnit last = gm.trainCabin.get(1);
 		for (TrainUnit tu: gm.banditPositions.values()) {
-			if (!tu.carTypeAsString.equals(current.carTypeAsString)) {
+			if (!tu.carTypeAsString.equals(current.carTypeAsString) && !tu.carTypeAsString.equals(last.carTypeAsString)) {
 				chosen += 1;
 			}
 		}
