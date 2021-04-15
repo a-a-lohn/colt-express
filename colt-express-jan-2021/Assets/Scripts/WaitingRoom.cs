@@ -379,8 +379,11 @@ public class WaitingRoom : MonoBehaviour
         int gameNo = 0;
         Text saveGameText;
         Text saveGameIDText;
+        int i = 0;
         foreach(Dictionary<string, object> saveGame in saveGames)
         {
+            if(i>1) break;
+            i++;
             // create a gamebutton for each game here
 
             if (gameNo == 0) {

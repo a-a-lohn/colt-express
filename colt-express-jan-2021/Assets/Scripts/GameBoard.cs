@@ -917,7 +917,7 @@ public class GameBoard : MonoBehaviour
                     Debug.Log("choose a bandit to punch");
                     try {
                         Bandit clickedB = (Bandit)buttonToObject[btn];
-                        punchMessage = gm.currentBandit.getCharacter() + " chose to punch " + banditTopunch.getCharacter();
+                        punchMessage = gm.currentBandit.getCharacter() + " chose to punch " + clickedB.getCharacter();
                         Debug.Log("punch message 1: " + punchMessage);
                         Debug.Log("choosing punch target");
                         gm.dropPrompt(clickedB, gm.calculateDrop(clickedB));
