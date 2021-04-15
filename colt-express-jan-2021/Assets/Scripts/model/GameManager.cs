@@ -376,6 +376,14 @@ namespace model {
                     this.currentBandit.setToResolve(toResolve);
                     
                 } else {
+                    if(currentRound.roundTypeAsString != "Cave" & currentRound.roundTypeAsString != "Bridge") {
+                        message = message + "\nEND OF ROUND EVENT: " + currentRound.roundTypeAsString + ". ";
+                        if(currentRound.roundTypeAsString == "AngryMarshal"); //message = message + angryMarshal();
+                        else if(currentRound.roundTypeAsString == "SwivelArm") swivelArm();
+                        else if(currentRound.roundTypeAsString == "Braking") braking();
+                        else if(currentRound.roundTypeAsString == "TakeItAll") takeItAll();
+                        else if(currentRound.roundTypeAsString == "PassengersRebellion") passengersRebellion();
+                    }
                     //  played pile is empty
                     this.roundIndex++;
                     if (this.roundIndex == this.rounds.Count) {
@@ -387,7 +395,7 @@ namespace model {
                         this.banditsPlayedThisTurn = 0;
                         currentBandit = (Bandit) this.bandits[banditIndex]; //ADDED
                         foreach (Bandit b in bandits) {
-                            b.deck = Bandit.shuffle(b.getDeck());
+                            //b.deck = Bandit.shuffle(b.getDeck());
                         }
                     }
                 }
@@ -931,7 +939,7 @@ namespace model {
                 //knockbackPrompt(punched, (Loot) possibilities[0], calculateKnockback(punched));
             }
             else{
-                GameBoard.setNextAction("Choose a loot for " + punched.getCharacter() + " to drop");
+                GameBoard.setNextAction("Choose a loot to be dropped");
                 Debug.Log("multiple loots to choose for punch");
                 GameBoard.clickable = possibilities;
             }
@@ -1172,22 +1180,28 @@ namespace model {
                 this.endOfTurn();
             }
             else if(possibilities.Count == 1){
-                ride((TrainUnit)possibilities[0]);
+                GameBoard.setNextAction("Riding");
+                ride((TrainUnit)possibilities[0], true);
             }
             else{
-                //TODO make possibilities clickable
-                TrainUnit clicked = new TrainUnit();
-                ride(clicked);
+                GameBoard.setNextAction("Choose a position to ride");
+                GameBoard.clickable = possibilities;
             }
         }
 
-        public void ride(TrainUnit dest){
+        public void ride(TrainUnit dest) {
+            ride(dest, false);
+        }
+
+        public void ride(TrainUnit dest, bool noChoice){
             TrainUnit currentPosition = currentBandit.getPosition();
             if(currentPosition.getCarFloorAsString().Equals("ROOF")){
                 currentPosition = currentPosition.getBelow();
             }
             Horse adjacentHorse = null;
             foreach(Horse h in horses){
+                Debug.Log("iterating through horses");
+                if(h.getAdjacentTo() == null) Debug.Log("no adj car");
                 if(h.getAdjacentTo().getCarTypeAsString().Equals(currentPosition.getCarTypeAsString())){
                     adjacentHorse = h;
                     break;
@@ -1198,9 +1212,9 @@ namespace model {
             if(dest.getIsMarshalHere()){
                 currentBandit.shotByMarhsal();
             }
-            adjacentHorse.setAdjacentTo(dest);
+            if(adjacentHorse != null) adjacentHorse.setAdjacentTo(dest);
 
-            this.endOfTurn();
+            this.endOfTurn(currentBandit.getCharacter() + " rode to " + currentBandit.getPosition().getCarTypeAsString(), noChoice);
         }
 	
 	public ArrayList calculateGunslinger()
@@ -1305,8 +1319,9 @@ namespace model {
             return winner;
         }
 
-        public void angryMarshal()
+        public string angryMarshal()
         {
+            string desc = "MARSHAL shot ";
             Marshal marshal = Marshal.getInstance();
             TrainUnit marshalPosition = marshal.getMarshalPosition();
             TrainUnit roofOfMP = marshalPosition.getAbove();
@@ -1317,6 +1332,7 @@ namespace model {
                     if (this.neutralBulletCard.Count > 0)
                     {
                         b.addToDeck(this.popNeutralBullet());
+                        desc = desc + b.getCharacter() + ", ";
                     }
                 }
             }
@@ -1324,15 +1340,24 @@ namespace model {
             if (marshalPosition != (TrainUnit)this.trainCabin[trainLength-1])
             {
                 TrainUnit leftOfMP = marshalPosition.getLeft();
+                //marshal.setMarshalPosition(leftOfMP);
+
+                TrainUnit oldp = marshal.getMarshalPosition();
+                oldp.setIsMarshalHere(false);
                 marshal.setMarshalPosition(leftOfMP);
+                leftOfMP.setIsMarshalHere(true);
+
                 foreach (Bandit b in this.bandits)
                 {
                     if (b.getPosition() == leftOfMP)
                     {
                         b.shotByMarhsal();
+                        desc = desc + b.getCharacter() + ", ";
                     }
                 }
+                desc = desc + "and moved to " + marshal.getMarshalPosition().getCarTypeAsString();
             }
+            return desc;
         }
 
         public void swivelArm()

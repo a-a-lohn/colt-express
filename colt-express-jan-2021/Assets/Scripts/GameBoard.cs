@@ -911,7 +911,7 @@ public class GameBoard : MonoBehaviour
                     } catch(Exception e) {
                         Debug.Log("not choosing punch target");
                     }
-                } else if (actionText.text == "Choose a loot for " + banditTopunch.getCharacter() + " to drop") {
+                } else if (actionText.text == "Choose a loot to be dropped") {
                     Debug.Log("choose a loot to drop");
                     try {
                         Loot clickedL = (Loot)buttonToObject[btn];
@@ -936,6 +936,15 @@ public class GameBoard : MonoBehaviour
                         punchStep = 0;
                     } catch(Exception e) {
                         Debug.Log("not punching here");
+                    }
+                } else if (actionText.text == "Choose a position to ride") {
+                    Debug.Log("choose a ride dest");
+                    try {
+                        TrainUnit clickedTU = (TrainUnit)buttonToObject[btn]; 
+                        gm.ride(clickedTU);
+                        Debug.Log("riding");
+                    } catch(Exception e) {
+                        Debug.Log("not riding");
                     }
                 }
 
@@ -1269,7 +1278,7 @@ public class GameBoard : MonoBehaviour
                 moveButtonTo(horseDjango, cartype, carfloor);
             }else if(aHorse.name == "HorseFive" && h.riddenBy.characterAsString == "GHOST"){
                 moveButtonTo(horseGhost, cartype, carfloor);
-            }else if(aHorse.name == "horseSix" && h.riddenBy.characterAsString == "TUCO"){
+            }else if(aHorse.name == "HorseSix" && h.riddenBy.characterAsString == "TUCO"){
                 moveButtonTo(horseTuco, cartype, carfloor);
             }
         }
