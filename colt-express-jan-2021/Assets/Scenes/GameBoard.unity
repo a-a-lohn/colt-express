@@ -1230,7 +1230,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -807.97, y: 324.69}
+  m_AnchoredPosition: {x: -1442, y: 315.57}
   m_SizeDelta: {x: 136.9, y: 55.401}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &93328304
@@ -2052,7 +2052,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1178, y: -264}
+  m_AnchoredPosition: {x: 1334, y: -477}
   m_SizeDelta: {x: 160, y: 71.4957}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &200717398
@@ -3949,19 +3949,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 364579989}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameBoard, Assembly-CSharp
-        m_MethodName: shoot
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &364579989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5211,7 +5199,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 442808387}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1013407373}
+        m_TargetAssemblyTypeName: GameBoard, Assembly-CSharp
+        m_MethodName: buttonClicked
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 442808386}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &442808387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5789,7 +5789,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 305, y: -264}
+  m_AnchoredPosition: {x: 345, y: -452}
   m_SizeDelta: {x: 82.4798, y: 135.5176}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &488911558
@@ -7711,7 +7711,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 657001355}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1013407373}
+        m_TargetAssemblyTypeName: GameBoard, Assembly-CSharp
+        m_MethodName: buttonClicked
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 657001354}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &657001355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10003,7 +10015,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 821670917}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1013407373}
+        m_TargetAssemblyTypeName: GameBoard, Assembly-CSharp
+        m_MethodName: buttonClicked
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 821670916}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &821670917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10144,7 +10168,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1820, y: -810}
+  m_AnchoredPosition: {x: -618.04, y: -613}
   m_SizeDelta: {x: 282.811, y: 91.738}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &851639121
@@ -12464,7 +12488,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1000371552}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1013407373}
+        m_TargetAssemblyTypeName: GameBoard, Assembly-CSharp
+        m_MethodName: buttonClicked
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1000371551}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1000371552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13289,8 +13325,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1391, y: -346}
-  m_SizeDelta: {x: 217.266, y: 51.317}
+  m_AnchoredPosition: {x: -605.28, y: -417.676}
+  m_SizeDelta: {x: 257.296, y: 67.996}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1079574372
 MonoBehaviour:
@@ -21602,7 +21638,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2061015345}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1013407373}
+        m_TargetAssemblyTypeName: GameBoard, Assembly-CSharp
+        m_MethodName: buttonClicked
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2061015344}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2061015345
 MonoBehaviour:
   m_ObjectHideFlags: 0
