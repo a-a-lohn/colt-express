@@ -975,10 +975,6 @@ public class GameBoard : MonoBehaviour
         }
         horseBtnOne.interactable = false;
         horseBtnTwo.interactable = false;
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
         promptHorseAttackMsg.text="Waiting for other players..";
         ISFSObject obj = SFSObject.NewInstance();
         obj.PutUtfString("ans", response);

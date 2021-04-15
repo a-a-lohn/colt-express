@@ -221,7 +221,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	}
 	
 	private void handleChoosePosition(User sender, ISFSObject params, ISFSObject rtn) {
-		positionTurns++;
+		positionTurns += 1;
 		gm = GameManager.getInstance();
 		String ans = params.getUtfString("ans");
 		if (ans.equals("y")) {
@@ -249,7 +249,14 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 				}
 			}
 		}
-		if (positionTurns == (gm.bandits.size()- gm.banditPositions.size()) && gm.bandits.size() > gm.banditPositions.size()) {
+		int chosen = 0;
+		TrainUnit current = gm.trainCabin.get(gm.trainIndex);
+		for (TrainUnit tu: gm.banditPositions.values()) {
+			if (tu != current) {
+				chosen += 1;
+			}
+		}
+		if (positionTurns == (gm.bandits.size()- chosen) && gm.bandits.size() > gm.banditPositions.size()) {
 			if (gm.trainIndex > 0) {
 			gm.trainIndex -= 1;
 			}
