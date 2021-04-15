@@ -278,8 +278,8 @@ public class GameBoard : MonoBehaviour
     private List<float> locTop = new List<float>() {1495.9F, 885.5F, -364.9F}; 
     private List<float> locBtm = new List<float>() {1498.6F, 835.2F, -364.9F};
 
-    private List<float> belLoot = new List<float>() {834.7F, 1121.2F, -364.9F};
-    private List<float> cheLoot = new List<float>() {1047.6F, 1002.1F, -364.9F};
+    private List<float> belLoot = new List<float>() {875.5F, 1098.2F, -364.9F};
+    private List<float> cheLoot = new List<float>() {1058.0F, 971.9F, -364.9F};
     private List<float> docLoot = new List<float>() {1075.4F, 1000.8F, -364.9F};
     private List<float> djaLoot = new List<float>() {1099.4F, 1000.8F, -364.9F};
     private List<float> ghoLoot = new List<float>() {1061.2F, 1000.3F, -364.9F};
@@ -320,7 +320,7 @@ public class GameBoard : MonoBehaviour
         // Debug.Log("cartFourTop" + trainfourTop.transform.position); 
         // Debug.Log("cartFourBtm" + trainfourBtm.transform.position); 
 
-        // Debug.Log("bel prof" + belleProf.transform.position); 
+  
         // Debug.Log("che prof" + cheyenneProf.transform.position); 
         // Debug.Log("doc prof" + docProf.transform.position); 
         // Debug.Log("dja prof" + djangoProf.transform.position); 
@@ -338,6 +338,12 @@ public class GameBoard : MonoBehaviour
         fourBtm = new List<float>() {trainfourBtm.transform.position[0], trainfourBtm.transform.position[1], trainfourBtm.transform.position[2]};
         fourTop = new List<float>() {trainfourTop.transform.position[0], trainfourTop.transform.position[1], trainfourTop.transform.position[2]};
 
+        belLoot = new List<float>() {belleProf.transform.position[0], belleProf.transform.position[1], belleProf.transform.position[2]};
+        cheLoot = new List<float>() {cheyenneProf.transform.position[0], cheyenneProf.transform.position[1], cheyenneProf.transform.position[2]};
+        docLoot = new List<float>() {docProf.transform.position[0], docProf.transform.position[1], docProf.transform.position[2]};
+        djaLoot = new List<float>() {djangoProf.transform.position[0], djangoProf.transform.position[1], djangoProf.transform.position[2]};
+        tucLoot = new List<float>() {tucoProf.transform.position[0], tucoProf.transform.position[1], tucoProf.transform.position[2]};
+        ghoLoot = new List<float>() {ghostProf.transform.position[0], ghostProf.transform.position[1], ghostProf.transform.position[2]};
 
         // testing 
         // belle.transform.position = new Vector3(oneTop[0], oneTop[1], oneTop[2]);
@@ -347,7 +353,10 @@ public class GameBoard : MonoBehaviour
         // tuco.transform.position = new Vector3(fourBtm[0], fourBtm[1], fourBtm[2]);
         // ghost.transform.position = new Vector3(locTop[0], locTop[1], locTop[2]);
         // marshal.transform.position = new Vector3(locBtm[0], locBtm[1], locBtm[2]);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4b509ddd7cd1a7099f236bc81277502ada9a68eb
         // oneBtm = new Vector3(trainOneBtm.transform.position[0], trainOneBtm.transform.position[1], trainOneBtm.transform.position[2]);
         // oneTop = new Vector3(trainOneBtm.transform.position[0], trainOneBtm.transform.position[1], trainOneBtm.transform.position[2]);
 
@@ -436,6 +445,15 @@ public class GameBoard : MonoBehaviour
         int ri = r.Next(0, values.Length);
         float result = values[ri];
         //Debug.Log("THE RANDOM OFFSET IS: " + result);
+        return result; 
+    }
+
+
+    /* getRandOffset() picks and returns a random float from a set of pre-defined floats */
+    public float getRandOffsetBanditLoot(){
+        var values = new[] { 8.0F, 10.0F, 12.0F, -8.0F, -10.0F, -12.0F, 8.0F, 10.0F, 12.0F, -8.0F, -10.0F, -12.0F, 8.0F, 10.0F, 12.0F, -8.0F, -10.0F, -12.0F, 8.0F, 10.0F, 12.0F, -8.0F, -10.0F, -12.0F, 8.0F, 10.0F, 12.0F, -8.0F, -10.0F, -12.0F, 8.0F, 10.0F, 12.0F, -8.0F, -10.0F, -12.0F };
+        int ri = r.Next(0, values.Length);
+        float result = values[ri];
         return result; 
     }
 
@@ -1168,16 +1186,16 @@ public class GameBoard : MonoBehaviour
                 banditBtn.transform.position = new Vector3 (locBtm[0] + newRandOffset, locBtm[1], locBtm[2]);
             }else if(cartype == "CAR1"){
                 float newRandOffset = getRandOffset(); 
-                banditBtn.transform.position = new Vector3 (fourBtm[0] + newRandOffset, fourBtm[1], fourBtm[2]);
+                banditBtn.transform.position = new Vector3 (oneBtm[0] + newRandOffset, oneBtm[1], oneBtm[2]);
             }else if(cartype == "CAR2"){
                 float newRandOffset = getRandOffset(); 
-                banditBtn.transform.position = new Vector3 (threeBtm[0] + newRandOffset, threeBtm[1], threeBtm[2]);
+                banditBtn.transform.position = new Vector3 (twoBtm[0] + newRandOffset, twoBtm[1], twoBtm[2]);
             }else if(cartype == "CAR3"){
                 float newRandOffset = getRandOffset(); 
-                banditBtn.transform.position = new Vector3 (twoBtm[0] + newRandOffset, twoBtm[1], twoBtm[2]);
+                banditBtn.transform.position = new Vector3 (threeBtm[0] + newRandOffset, threeBtm[1], threeBtm[2]);
             }else if(cartype == "CAR4"){
                 float newRandOffset = getRandOffset(); 
-                banditBtn.transform.position = new Vector3 (oneBtm[0] + newRandOffset, oneBtm[1], oneBtm[2]);
+                banditBtn.transform.position = new Vector3 (fourBtm[0] + newRandOffset, fourBtm[1], fourBtm[2]);
             }else if(cartype == "CAR5"){
                 float newRandOffset = getRandOffset(); 
                 banditBtn.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
@@ -1195,16 +1213,16 @@ public class GameBoard : MonoBehaviour
                 banditBtn.transform.position = new Vector3 (locTop[0] + newRandOffset, locTop[1], locTop[2]);
             }else if(cartype == "CAR1"){
                 float newRandOffset = getRandOffset(); 
-                banditBtn.transform.position = new Vector3 (fourTop[0] + newRandOffset, fourTop[1], fourTop[2]);
+                banditBtn.transform.position = new Vector3 (oneTop[0] + newRandOffset, oneTop[1], oneTop[2]);
             }else if(cartype == "CAR2"){
                 float newRandOffset = getRandOffset(); 
-                banditBtn.transform.position = new Vector3 (threeTop[0] + newRandOffset, threeTop[1], threeTop[2]);
+                banditBtn.transform.position = new Vector3 (twoTop[0] + newRandOffset, twoTop[1], twoTop[2]);
             }else if(cartype == "CAR3"){
                 float newRandOffset = getRandOffset(); 
-                banditBtn.transform.position = new Vector3 (twoTop[0] + newRandOffset, twoTop[1], twoTop[2]);
+                banditBtn.transform.position = new Vector3 (threeTop[0] + newRandOffset, threeTop[1], threeTop[2]);
             }else if(cartype == "CAR4"){
                 float newRandOffset = getRandOffset(); 
-                banditBtn.transform.position = new Vector3 (oneTop[0] + newRandOffset, oneTop[1], oneTop[2]);
+                banditBtn.transform.position = new Vector3 (fourTop[0] + newRandOffset, fourTop[1], fourTop[2]);
             }else if(cartype == "CAR5"){
                 float newRandOffset = getRandOffset(); 
                 banditBtn.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
@@ -1226,16 +1244,16 @@ public class GameBoard : MonoBehaviour
             marshal.transform.position = new Vector3 (locBtm[0] + newRandOffset, locBtm[1], locBtm[2]);
         }else if(cartype == "CAR1"){
             float newRandOffset = getRandOffset(); 
-            marshal.transform.position = new Vector3 (fourBtm[0] + newRandOffset, fourBtm[1], fourBtm[2]);
+            marshal.transform.position = new Vector3 (oneBtm[0] + newRandOffset, oneBtm[1], oneBtm[2]);
         }else if(cartype == "CAR2"){
             float newRandOffset = getRandOffset(); 
-            marshal.transform.position = new Vector3 (threeBtm[0] + newRandOffset, threeBtm[1], threeBtm[2]);
+            marshal.transform.position = new Vector3 (twoBtm[0] + newRandOffset, twoBtm[1], twoBtm[2]);
         }else if(cartype == "CAR3"){
             float newRandOffset = getRandOffset(); 
-            marshal.transform.position = new Vector3 (twoBtm[0] + newRandOffset, twoBtm[1], twoBtm[2]);
+            marshal.transform.position = new Vector3 (threeBtm[0] + newRandOffset, threeBtm[1], threeBtm[2]);
         }else if(cartype == "CAR4"){
              float newRandOffset = getRandOffset(); 
-            marshal.transform.position = new Vector3 (oneBtm[0] + newRandOffset, oneBtm[1], oneBtm[2]);
+            marshal.transform.position = new Vector3 (fourBtm[0] + newRandOffset, fourBtm[1], fourBtm[2]);
         }else if(cartype == "CAR5"){
              float newRandOffset = getRandOffset(); 
             marshal.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
@@ -1253,16 +1271,16 @@ public class GameBoard : MonoBehaviour
                 lootBtn.transform.position = new Vector3 (locBtm[0] + newRandOffset, locBtm[1], locBtm[2]);
             }else if(cartype == "CAR1"){
                 float newRandOffset = getRandOffset(); 
-                lootBtn.transform.position = new Vector3 (fourBtm[0] + newRandOffset, fourBtm[1], fourBtm[2]);
+                lootBtn.transform.position = new Vector3 (oneBtm[0] + newRandOffset, oneBtm[1], oneBtm[2]);
             }else if(cartype == "CAR2"){
                 float newRandOffset = getRandOffset(); 
-                lootBtn.transform.position = new Vector3 (threeBtm[0] + newRandOffset, threeBtm[1], threeBtm[2]);
+                lootBtn.transform.position = new Vector3 (twoBtm[0] + newRandOffset, twoBtm[1], twoBtm[2]);
             }else if(cartype == "CAR3"){
                 float newRandOffset = getRandOffset(); 
-                lootBtn.transform.position = new Vector3 (twoBtm[0] + newRandOffset, twoBtm[1], twoBtm[2]);
+                lootBtn.transform.position = new Vector3 (threeBtm[0] + newRandOffset, threeBtm[1], threeBtm[2]);
             }else if(cartype == "CAR4"){
                 float newRandOffset = getRandOffset(); 
-                lootBtn.transform.position = new Vector3 (oneBtm[0] + newRandOffset, oneBtm[1], oneBtm[2]);
+                lootBtn.transform.position = new Vector3 (fourBtm[0] + newRandOffset, fourBtm[1], fourBtm[2]);
             }else if(cartype == "CAR5"){
                 float newRandOffset = getRandOffset(); 
                 lootBtn.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
@@ -1280,16 +1298,16 @@ public class GameBoard : MonoBehaviour
                 lootBtn.transform.position = new Vector3 (locTop[0] + newRandOffset, locTop[1], locTop[2]);
             }else if(cartype == "CAR1"){
                 float newRandOffset = getRandOffset(); 
-                lootBtn.transform.position = new Vector3 (fourTop[0] + newRandOffset, fourTop[1], fourTop[2]);
+                lootBtn.transform.position = new Vector3 (oneTop[0] + newRandOffset, oneTop[1], oneTop[2]);
             }else if(cartype == "CAR2"){
                 float newRandOffset = getRandOffset(); 
-                lootBtn.transform.position = new Vector3 (threeTop[0]+ newRandOffset, threeTop[1], threeTop[2]);
+                lootBtn.transform.position = new Vector3 (twoTop[0]+ newRandOffset, twoTop[1], twoTop[2]);
             }else if(cartype == "CAR3"){
                 float newRandOffset = getRandOffset(); 
-                lootBtn.transform.position = new Vector3 (twoTop[0] + newRandOffset, twoTop[1], twoTop[2]);
+                lootBtn.transform.position = new Vector3 (threeTop[0] + newRandOffset, threeTop[1], threeTop[2]);
             }else if(cartype == "CAR4"){
                 float newRandOffset = getRandOffset(); 
-                lootBtn.transform.position = new Vector3 (oneTop[0] + newRandOffset, oneTop[1], oneTop[2]);
+                lootBtn.transform.position = new Vector3 (fourTop[0] + newRandOffset, fourTop[1], fourTop[2]);
             }else if(cartype == "CAR5"){
                 float newRandOffset = getRandOffset(); 
                 lootBtn.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
@@ -1307,38 +1325,19 @@ public class GameBoard : MonoBehaviour
     public void moveLootToBanditPos(Button chosenLootBtn, string banditName) {
         //Bandit currBandit = gm.currentBandit; 
         if(banditName == "BELLE"){
-            chosenLootBtn.transform.position = new Vector3(belLoot[0], belLoot[1], belLoot[2]); 
+            chosenLootBtn.transform.position = new Vector3(belLoot[0] + getRandOffsetBanditLoot(), belLoot[1], belLoot[2]); 
         }else if(banditName == "CHEYENNE"){
-            chosenLootBtn.transform.position = new Vector3(cheLoot[0], cheLoot[1], cheLoot[2]); 
+            chosenLootBtn.transform.position = new Vector3(cheLoot[0] + getRandOffsetBanditLoot(), cheLoot[1], cheLoot[2]); 
         }else if(banditName == "DOC"){
-            chosenLootBtn.transform.position = new Vector3(docLoot[0], docLoot[1], docLoot[2]); 
+            chosenLootBtn.transform.position = new Vector3(docLoot[0] + getRandOffsetBanditLoot(), docLoot[1], docLoot[2]); 
         }else if(banditName == "DJANGO"){
-            chosenLootBtn.transform.position = new Vector3(djaLoot[0], djaLoot[1], djaLoot[2]); 
+            chosenLootBtn.transform.position = new Vector3(djaLoot[0] + getRandOffsetBanditLoot(), djaLoot[1], djaLoot[2]); 
         }else if(banditName == "GHOST"){
-            chosenLootBtn.transform.position = new Vector3(ghoLoot[0], ghoLoot[1], ghoLoot[2]); 
+            chosenLootBtn.transform.position = new Vector3(ghoLoot[0] + getRandOffsetBanditLoot(), ghoLoot[1], ghoLoot[2]); 
         }else if(banditName == "TUCO"){
-            chosenLootBtn.transform.position = new Vector3(tucLoot[0], tucLoot[1], tucLoot[2]); 
+            chosenLootBtn.transform.position = new Vector3(tucLoot[0] + getRandOffsetBanditLoot(), tucLoot[1], tucLoot[2]); 
         }
     }
-
-
-    // public void placeLootOnBandit(Button lootBtn, string lootType, string bandit){
-    //         if(bandit == "BELLE"){
-    //             // move to belle's loot position
-    //             Debug.Log("MOVE LOOT OF TYPE" + lootType + " TO BELLE'S NAME'S POSITION"); 
-    //         }else if(bandit == "CHEYENNE"){
-    //             Debug.Log("MOVE LOOT OF TYPE" + lootType + " TO CHEYENNE'S NAME'S POSITION"); 
-    //         }else if(bandit == "DOC"){
-    //             Debug.Log("MOVE LOOT OF TYPE" + lootType + " TO DOC'S NAME'S POSITION"); 
-    //         }else if(bandit == "DJANGO"){
-    //             Debug.Log("MOVE LOOT OF TYPE" + lootType + " TO DJANGO'S NAME'S POSITION"); 
-    //         }else if(bandit == "GHOST"){
-    //             Debug.Log("MOVE LOOT OF TYPE" + lootType + " TO GHOST'S NAME'S POSITION"); 
-    //         }else if(bandit == "TUCO"){
-    //             Debug.Log("MOVE LOOT OF TYPE" + lootType + " TO TUCO'S NAME'S POSITION"); 
-    //         }
-    // }
-
 
     /* promptDrawOrPlayMessage displays the prompt message on gameboard*/
     public static void promptDrawOrPlayMessage(){
