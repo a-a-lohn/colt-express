@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,7 +38,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	boolean savedCurrentGameAtLeastOnce = false;
 	String currentSaveGameId;
 	int positionTurns = 0;
-	int trainIndex = 1;
+	//int trainIndex = 1;
 	private static List<String> chosenCharactersSavedGame = new ArrayList<String>();
 	
 	boolean gameOver = false;
@@ -241,13 +242,36 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 					h.adjacentTo = tu;
 			}
 		}
+		if (gm.trainIndex == 1) {
+			for (Bandit b: gm.bandits) {
+				if (!gm.banditPositions.containsKey(b.characterAsString)) {
+					gm.banditPositions.put(b.characterAsString, gm.trainCabin.get(1));
+				}
+			}
+		}
 		if (positionTurns == (gm.bandits.size()- gm.banditPositions.size()) && gm.bandits.size() > gm.banditPositions.size()) {
+			if (gm.trainIndex > 0) {
 			gm.trainIndex -= 1;
+			}
 			updateGameState(rtn);
 			positionTurns = 0;
 		}
 		else if (gm.bandits.size() == gm.banditPositions.size()) {
 			//note: currentBandit not being null is the trigger for game start
+			if (gm.currentBandit.characterAsString != null) 
+				return;
+			ArrayList<Bandit> bd = new ArrayList<Bandit>();
+			Iterator it = gm.banditPositions.entrySet().iterator();
+			while (it.hasNext()) {
+				HashMap.Entry pair = (HashMap.Entry)it.next();
+				String name = (String)pair.getKey();
+				for (Bandit b: gm.bandits) {
+					if (b.characterAsString.equals(name))
+							bd.add(b);
+							break;
+				}
+			}
+			gm.bandits = bd;
 			gm.currentBandit = gm.bandits.get(0);
 			updateGameState(rtn);
 		}

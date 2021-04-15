@@ -100,7 +100,7 @@ public class ChooseCharacter : MonoBehaviour
 		DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
         SFS.setSFS(sfs);
 
-        SFS.Connect("test");*/
+        SFS.Connect("teseest");*/
     }
 
     // Update is called once per frame
