@@ -455,9 +455,22 @@ public class TestGame : MonoBehaviour
                 //1 CHOICE
                 break;
             //GHOST MOVES to roof2
+            case 37:
+                gm.playTurn();
+                gm.move((TrainUnit)gm.trainRoof[2]);
+                break;
             //BELLE CHANGE FLOOR to lococabin
-            //1 CHOICE
-            //DOC RIDE no adjacent horse
+            case 38:
+                gm.playTurn();
+                //1 CHOICE
+                break;
+            //DOC RIDE to car2
+            case 39:
+                ((Horse)gm.horses[0]).setAdjacentTo((TrainUnit)gm.trainCabin[1]);
+                gm.playTurn();
+                gm.ride((TrainUnit)gm.trainCabin[2]);
+                break;
+
             //1 CHOICE
             //GHOST SHOOT doc
             //1 CHOICE

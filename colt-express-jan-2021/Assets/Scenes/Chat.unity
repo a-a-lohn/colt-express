@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 74161033}
   - component: {fileID: 74161035}
   - component: {fileID: 74161034}
+  - component: {fileID: 74161036}
   m_Layer: 5
   m_Name: background
   m_TagString: Untagged
@@ -157,8 +158,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -1.519989, y: -38.58}
+  m_SizeDelta: {x: 120.7, y: 667.05}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &74161034
 MonoBehaviour:
@@ -180,7 +181,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9c40e070c52454d86b0bde75d2b0e78b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 713bf5238a970469c9a5635e542d36d7, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -198,6 +199,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 74161032}
   m_CullTransparentMesh: 1
+--- !u!210 &74161036
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 74161032}
+  m_Enabled: 1
+  m_SortingLayerID: -1960150805
+  m_SortingLayer: -1
+  m_SortingOrder: 0
 --- !u!1 &388870521
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,7 +294,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 4beb055f07aaff244873dec698d0363e, type: 3}
+    m_Font: {fileID: 12800000, guid: 8a2b9e2a607dd2143b58c44bc32410b4, type: 3}
     m_FontSize: 4
     m_FontStyle: 0
     m_BestFit: 1
@@ -319,8 +331,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 885.91235, y: 350.309}
-  m_SizeDelta: {x: 1584.224, y: 726.568}
+  m_AnchoredPosition: {x: 917.47, y: 390.89}
+  m_SizeDelta: {x: 1972.07, y: 645.39}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &999664050
 GameObject:
@@ -464,8 +476,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Send
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
+  m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -599,7 +611,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 30
-    m_FontStyle: 2
+    m_FontStyle: 3
     m_BestFit: 0
     m_MinSize: 3
     m_MaxSize: 40
@@ -609,7 +621,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: i.e. Hello Colt Express!
+  m_Text: i.e. Hello from Colt Express!
 --- !u!222 &1155751132
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -791,7 +803,7 @@ RectTransform:
   m_GameObject: {fileID: 1339175497}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.301761, y: 2.301761, z: 2.301761}
+  m_LocalScale: {x: 2.7273567, y: 2.7273567, z: 2.7273567}
   m_Children:
   - {fileID: 1010329357}
   m_Father: {fileID: 1999267124}
@@ -799,7 +811,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1209.5754, y: -108.895}
+  m_AnchoredPosition: {x: 1739, y: 7}
   m_SizeDelta: {x: 100.079, y: 40.465}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1339175499
@@ -871,7 +883,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.33035606, g: 0.7169812, b: 0.11160557, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -930,7 +942,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -112, y: 247}
+  m_AnchoredPosition: {x: -122, y: 173}
   m_SizeDelta: {x: 235.0282, y: 48.7027}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1402022606
@@ -955,8 +967,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: COLT EXPRESS CHAT ROOM
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
+  m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -980,15 +992,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
-  m_fontSizeBase: 32
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -1016,7 +1028,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 1
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -281.52264, w: 0}
+  m_margin: {x: -231.37636, y: 0, z: -475.94308, w: 14.461054}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1099,7 +1111,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 1
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 999664052}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -1166,7 +1178,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.006149292, y: 3.0044994}
+  m_AnchoredPosition: {x: -0.0061035156, y: 3.0044975}
   m_SizeDelta: {x: -19.988, y: -5.9907}
   m_Pivot: {x: 0.5000001, y: 0.5}
 --- !u!114 &1653573042
@@ -1248,8 +1260,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 850.686, y: -109.79}
-  m_SizeDelta: {x: 404.081, y: 91.428}
+  m_AnchoredPosition: {x: 707, y: 4}
+  m_SizeDelta: {x: 1645.28, y: 77.92}
   m_Pivot: {x: 0.49999967, y: 0.49999934}
 --- !u!114 &1704821758
 MonoBehaviour:
@@ -1272,7 +1284,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.8490566, g: 0.6928622, b: 0.7539817, a: 1}
+    m_NormalColor: {r: 0.9450981, g: 0.73333335, b: 0.6117647, a: 0.5176471}
     m_HighlightedColor: {r: 0.8509804, g: 0.69411767, b: 0.7529412, a: 0.7372549}
     m_PressedColor: {r: 0.8509804, g: 0.69411767, b: 0.7529412, a: 0.7176471}
     m_SelectedColor: {r: 0.8509804, g: 0.69411767, b: 0.7529412, a: 0.6509804}
@@ -1387,7 +1399,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 395, y: -100}
+  m_AnchoredPosition: {x: 166, y: 129}
   m_SizeDelta: {x: 456.879, y: 58.387}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1730259890
@@ -1559,7 +1571,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 190.00012, y: 878}
+  m_AnchoredPosition: {x: -41, y: 816}
   m_SizeDelta: {x: 300, y: 58.188}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2113448913

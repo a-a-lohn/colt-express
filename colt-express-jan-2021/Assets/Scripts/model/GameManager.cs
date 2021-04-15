@@ -96,8 +96,8 @@ namespace model {
 
         public void resolveAction(ActionCard toResolve) {
            // PlayedPile.getInstance().removePlayedCard(toResolve);
-            playedPileInstance.removePlayedCard(toResolve);
-            currentBandit.addToDeck(toResolve);
+            //playedPileInstance.removePlayedCard(toResolve);
+            
             if (currentBandit.toResolve.getActionTypeAsString().Equals("CHANGEFLOOR")) {
                 TestGame.prompt = "Changing floor";
                 GameBoard.setNextAction("Changing floors");
@@ -116,7 +116,6 @@ namespace model {
             }
             else if (currentBandit.toResolve.getActionTypeAsString().Equals("PUNCH")) {
                 TestGame.prompt = "Choose a bandit to punch";
-                GameBoard.setNextAction("Choose a bandit to punch");
                 currentBandit.setToResolve(null);
                 punchPrompt(calculatePunch());
             }
@@ -132,8 +131,8 @@ namespace model {
                 shootPrompt(calculateShoot());
             }
             else if(currentBandit.toResolve.getActionTypeAsString().Equals("RIDE")){
-                 TestGame.prompt = "Choose a position to ride";
-                 GameBoard.setNextAction("Choose a position to ride");
+                TestGame.prompt = "Choose a position to ride";
+                GameBoard.setNextAction("Choose a position to ride");
                 currentBandit.setToResolve(null);
                 ridePrompt(calculateRide());
             }
@@ -250,7 +249,7 @@ namespace model {
                             }
                             banditIndex = (banditIndex + 2) % this.bandits.Count;
                             this.banditsPlayedThisTurn = 0;
-                            ActionCard toResolve = (ActionCard)this.playedPileInstance.takeTopCard();//playedPileInstance.getPlayedCardsAt(playedPileInstance.playedCards.Count-1);
+                            ActionCard toResolve = (ActionCard)this.playedPileInstance.takeTopCard();//.getPlayedCardsAt(playedPileInstance.playedCards.Count-1);
                             currentBandit = toResolve.getBelongsTo();
                             currentBandit.toResolve = toResolve;
 
@@ -294,8 +293,7 @@ namespace model {
                             }
                             Debug.Log("Bandit Index at end of schemin phase: " + banditIndex);
 				    		banditsPlayedThisTurn = 0;
-                            banditIndex = (banditIndex + 1) % this.bandits.Count; //ADDED
-                            ActionCard toResolve = (ActionCard)this.playedPileInstance.takeTopCard();//playedPileInstance.getPlayedCardsAt(playedPileInstance.playedCards.Count-1);
+                            ActionCard toResolve = (ActionCard)this.playedPileInstance.takeTopCard();//.getPlayedCardsAt(playedPileInstance.playedCards.Count-1);
                             currentBandit = toResolve.getBelongsTo();
                             currentBandit.toResolve = toResolve;
 
@@ -345,7 +343,7 @@ namespace model {
                                 }
                                 banditIndex = (banditIndex + 2) % this.bandits.Count;
 						    	banditsPlayedThisTurn = 0;
-                                ActionCard toResolve = (ActionCard)this.playedPileInstance.takeTopCard();//playedPileInstance.getPlayedCardsAt(playedPileInstance.playedCards.Count-1);
+                                ActionCard toResolve = (ActionCard)this.playedPileInstance.takeTopCard();//.getPlayedCardsAt(playedPileInstance.playedCards.Count-1);
                                 currentBandit = toResolve.getBelongsTo();
                                 currentBandit.toResolve = toResolve;
 
@@ -370,11 +368,13 @@ namespace model {
             else if (this.strGameStatus.Equals("STEALIN")) {
                 if(playedPileInstance.getPlayedCards().Count > 0) {
                     ActionCard toResolve = this.playedPileInstance.takeTopCard();
+                    currentBandit.addToDeck(toResolve);
                     Debug.Log("toresolve string for NEXT card: " + toResolve.actionTypeAsString);
                     Bandit b = toResolve.getBelongsTo();
                     Debug.Log("toresolve belongsto for NEXT card: " + b.characterAsString);
                     this.currentBandit = toResolve.getBelongsTo();
                     this.currentBandit.setToResolve(toResolve);
+                    
                 } else {
                     //  played pile is empty
                     this.roundIndex++;
@@ -386,6 +386,9 @@ namespace model {
                         this.setGameStatus("SCHEMIN");
                         this.banditsPlayedThisTurn = 0;
                         currentBandit = (Bandit) this.bandits[banditIndex]; //ADDED
+                        foreach (Bandit b in bandits) {
+                            b.deck = Bandit.shuffle(b.getDeck());
+                        }
                     }
                 }
             }
@@ -660,7 +663,7 @@ namespace model {
             this.endOfTurn(currentBandit.getCharacter() + " robbed a " + printRobbed(chosen), noChoice);
         }
 
-        private string printRobbed(Loot l) {
+        public string printRobbed(Loot l) {
             try{
                 Money m = (Money) l;
                 if (m.moneyTypeAsString == "JEWEL"){
@@ -685,47 +688,50 @@ namespace model {
 		    //ROOF CASE:
 		    if (this.currentBandit.getPosition().getCarFloorAsString().Equals("ROOF")) {
                 ArrayList possibilities = new ArrayList();
-                TrainUnit currentCabin = currentBandit.getPosition();
-                if(currentCabin.numOfBanditsHere() > 1){
-                    foreach(Bandit b in currentCabin.getBanditsHere()){
-                        if(!b.getCharacter().Equals(currentBandit.getCharacter())){
-                            possibilities.Add(b);
-                        }
-                    }
-                }
                 //TRAVERSE TRAIN UNITS TOWARDS RIGHT AND LEFT TO FIND BANDITS IN LINE OF SIGHT
-                else{
-                    TrainUnit toLeft = currentCabin.getLeft();
-                    while(toLeft != null){
-                        if(toLeft.numOfBanditsHere()>0){
-                            break;
-                        }
-                        else{
-                            toLeft = toLeft.getLeft();
-                        }
+                TrainUnit currentRoof = this.currentBandit.getPosition();
+                TrainUnit toLeft = currentRoof.getLeft();
+                while (toLeft != null)
+                {
+                    if (toLeft.numOfBanditsHere() > 0)
+                    {
+                        break;
                     }
-                    TrainUnit toRight = currentCabin.getRight();
-                    while(toRight != null){
-                        if(toRight.numOfBanditsHere()>0){
-                            break;
-                        }
-                        else{
-                            toRight = toRight.getRight();
-                        }
-                    }
-                    if(toLeft != null){
-                        foreach(Bandit b in toLeft.getBanditsHere()){
-                            possibilities.Add(b);
-                        }
-                    }
-                    if(toRight != null){
-                        foreach(Bandit b in toRight.getBanditsHere()){
-                            possibilities.Add(b);
-                        }
+                    else
+                    {
+                        toLeft = toLeft.getLeft();
                     }
                 }
+                TrainUnit toRight = currentRoof.getRight();
+                while (toRight != null)
+                {
+                    if (toRight.numOfBanditsHere() > 0)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        toRight = toRight.getRight();
+                    }
+                }
+                if (toLeft != null)
+                {
+                    foreach (Bandit b in toLeft.getBanditsHere())
+                    {
+                        possibilities.Add(b);
+                    }
+                }
+                if (toRight != null)
+                {
+                    foreach (Bandit b in toRight.getBanditsHere())
+                    {
+                        possibilities.Add(b);
+                    }
+                }
+
+
                 //TUCO ABILITY
-                if(currentBandit.getCharacter().Equals("TUCO")){
+                if (currentBandit.getCharacter().Equals("TUCO")){
                     TrainUnit belowCabin = this.currentBandit.getPosition().getBelow();
                     foreach(Bandit bb in belowCabin.getBanditsHere()){
                         possibilities.Add(bb);
@@ -802,7 +808,6 @@ namespace model {
             }
             else if(possibilities.Count > 1){
                 GameBoard.setNextAction("Choose a bandit to shoot");
-                //GameBoard.makeShootPossibilitiesClickable(possibilities);
                 GameBoard.clickable = possibilities;
             }
         }
@@ -875,20 +880,26 @@ namespace model {
                 }
                 ind++;
             }
-            return possibilities;
+            return possibilities; // arraylist of bandits
 	    }
 
-        public void punchPrompt(ArrayList possibilities) {
+        public void punchPrompt(ArrayList possibilities) { // arraylist of bandits to punch
+            GameBoard.punchStep = 1;
             if(possibilities.Count == 0) {
+                GameBoard.punchStep = 0;
                 GameBoard.setNextAction("No bandit to punch");
                 this.endOfTurn(currentBandit.getCharacter() + " was unable to punch", true);
             } else if(possibilities.Count == 1){
-                GameBoard.setNextAction("Choosing a bandit to punch");
                 Bandit punched = (Bandit)possibilities[0];
-                dropPrompt(punched, calculateDrop(punched));//, true); // TO CHANGE
+                GameBoard.banditTopunch = punched;
+                GameBoard.setNextAction("Choosing a bandit to punch: " + punched.getCharacter());
+                GameBoard.setNoChoice(currentBandit.getCharacter() + " chose to punch " + punched.getCharacter());
+                Debug.Log("one bandit to choose for punch");
+                //dropPrompt(punched, calculateDrop(punched), true);
             }
             else{
                 GameBoard.setNextAction("Choose a bandit to punch");
+                Debug.Log("multiple bandits to choose for punch");
                 GameBoard.clickable = possibilities;
             }
         }
@@ -897,15 +908,32 @@ namespace model {
             return punched.getLoot();
         }
 
+        // public void dropPrompt(Bandit punched, ArrayList possibilities){
+        //     dropPrompt(punched, possibilities, false);
+        // }
+
+        
+
         public void dropPrompt(Bandit punched, ArrayList possibilities){
+            GameBoard.punchStep = 2;
             if(possibilities.Count == 0){
-                knockbackPrompt(punched, null, calculateKnockback(punched));
+                Debug.Log("no loot to choose for punch");
+                GameBoard.setNextAction("No loots to drop for " + punched.getCharacter());
+                GameBoard.setNoChoice(punched.getCharacter() + " has no loot to drop");
+                //knockbackPrompt(punched, null, calculateKnockback(punched));
             }
             else if(possibilities.Count == 1){
-                knockbackPrompt(punched, (Loot) possibilities[0], calculateKnockback(punched));
+                Debug.Log("one loot to choose for punch");
+                GameBoard.setNextAction("Dropping loot for punched action");
+                Loot dropped = (Loot) possibilities[0];
+                GameBoard.lootToDrop = dropped;
+                GameBoard.setNoChoice(currentBandit.getCharacter() + " chose to make " + punched.getCharacter() + " drop a " + printRobbed(dropped));
+                //knockbackPrompt(punched, (Loot) possibilities[0], calculateKnockback(punched));
             }
             else{
-                //TODO make possibilities clickable (replace new Money with the Loot the client chooses)
+                GameBoard.setNextAction("Choose a loot for " + punched.getCharacter() + " to drop");
+                Debug.Log("multiple loots to choose for punch");
+                GameBoard.clickable = possibilities;
             }
         }
 
@@ -917,22 +945,33 @@ namespace model {
             if(punched.getPosition().getRight() != null){
                 possibilities.Add(punched.getPosition().getRight());
             }
-            return possibilities;
+            return possibilities; // trainunits
         }
 
         public void knockbackPrompt(Bandit punched, Loot dropped, ArrayList possibilities){
-            if(possibilities.Count == 0){
+            GameBoard.punchStep = 3;
+            if(possibilities.Count == 0){ // ERROR
+                GameBoard.punchStep = 0;
+                Debug.Log("no place to punch the bandit.. this shouldn't happen");
                 punch(punched, dropped, null);
             }
             else if(possibilities.Count == 1){
-                punch(punched, dropped, (TrainUnit)possibilities[0]);
+                Debug.Log("one place to punch bandit");
+                GameBoard.setNextAction("Choosing a trainunit as a punch destination");
+                punch(punched, dropped, (TrainUnit)possibilities[0], true);
             }
             else{
-                //TDOO make possibilities clickable (replace new TrainUnit with the TrainUnit the client chooses)
+                Debug.Log("choosing a place to punch the bandit");
+                GameBoard.setNextAction("Choose a trainunit as a punch destination");
+                GameBoard.clickable = possibilities;
             }
         }
 
         public void punch(Bandit punched, Loot dropped, TrainUnit knockedTo) {
+            punch(punched, dropped, knockedTo, false);
+        }
+
+        public void punch(Bandit punched, Loot dropped, TrainUnit knockedTo, bool noChoice) {
 			if (dropped != null) {
 			    punched.removeLoot(dropped);
                 if(this.currentBandit.getCharacter().Equals("CHEYENNE") && dropped is Money && ((Money)dropped).getMoneyTypeAsString().Equals("PURSE")){
@@ -946,7 +985,8 @@ namespace model {
 			if (knockedTo.getIsMarshalHere()) {
 				punched.shotByMarhsal();
 			}
-		    endOfTurn();
+		    endOfTurn(GameBoard.punchMessage, noChoice);
+            GameBoard.punchMessage = "";
 	    }
         
         //--CHANGE FLOOR--
@@ -1283,11 +1323,11 @@ namespace model {
 
             if (marshalPosition != (TrainUnit)this.trainCabin[trainLength-1])
             {
-                TrainUnit rightOfMP = marshalPosition.getRight();
-                marshal.setMarshalPosition(rightOfMP);
+                TrainUnit leftOfMP = marshalPosition.getLeft();
+                marshal.setMarshalPosition(leftOfMP);
                 foreach (Bandit b in this.bandits)
                 {
-                    if (b.getPosition() == rightOfMP)
+                    if (b.getPosition() == leftOfMP)
                     {
                         b.shotByMarhsal();
                     }
@@ -1328,8 +1368,8 @@ namespace model {
                 {
                     if (banditPosition != (TrainUnit)this.trainRoof[0])
                     {
-                        TrainUnit leftOfBandit = banditPosition.getLeft();
-                        b.setPosition(leftOfBandit);
+                        TrainUnit rightOfBandit = banditPosition.getRight();
+                        b.setPosition(rightOfBandit);
                     }
                 }
             }
@@ -1369,6 +1409,7 @@ namespace model {
             Marshal marshal = Marshal.getInstance();
             TrainUnit marshalPosition = marshal.getMarshalPosition();
             TrainUnit topOfMP = marshalPosition.getAbove();
+   
             foreach (Bandit b in this.bandits)
             {
                 TrainUnit banditPosition = b.getPosition();
@@ -1379,6 +1420,9 @@ namespace model {
                     int value = 2000;
                     foreach (Money money in loots)
                     {
+                        Bandit bandit = money.getBelongsTo();
+                        Debug.Log(bandit.getCharacter());
+                        Debug.Log(money.getMoneyTypeAsString());
                         if (money.getMoneyTypeAsString() == "PURSE")
                         {
                             if (money.getValue() < value)
