@@ -126,14 +126,17 @@ public class GameBoard : MonoBehaviour
     public Button gem5;
     public Button gem6;
 
-    //
+    // buttons for horse attack
     public Button horseBtnOne;
     public Button horseBtnTwo;
 
-    public Button horseOne;
-    public Button horseTwo;
-    public Button horseThree;
-    public Button horseFour;
+    public Button horseBelle;
+    public Button horseCheyenne;
+    public Button horseDoc;
+    public Button horseDjango;
+    public Button horseGhost;
+    public Button horseTuco;
+    private List<Button> allHorses = new List<Button>();
 
     public Button stagecoach;
 
@@ -1046,6 +1049,12 @@ public class GameBoard : MonoBehaviour
         buttonToObject.Add(whiskey5, "null");
         buttonToObject.Add(whiskey6, "null");
 
+        buttonToObject.Add(horseBelle, "null");
+        buttonToObject.Add(horseDoc, "null");
+        buttonToObject.Add(horseDjango, "null");
+        buttonToObject.Add(horseGhost, "null");
+        buttonToObject.Add(horseCheyenne, "null");
+        buttonToObject.Add(horseTuco, "null");
 
         trainCabins.Insert(0, locoBtm);
         trainCabins.Insert(1, trainOneBtm);
@@ -1058,7 +1067,6 @@ public class GameBoard : MonoBehaviour
         trainRoofs.Insert(2, trainTwoTop);
         trainRoofs.Insert(3, trainThreeTop);
         trainRoofs.Insert(4, trainfourBtm);
-
 
         goHandCard.Insert(0, handCard1);
         goHandCard.Insert(1, handCard2);
@@ -1107,6 +1115,13 @@ public class GameBoard : MonoBehaviour
         allWhiskey.Insert(3, whiskey4);
         allWhiskey.Insert(4, whiskey5);
         allWhiskey.Insert(5, whiskey6);
+
+        allHorses.Insert(0, horseBelle);
+        allHorses.Insert(1, horseCheyenne);
+        allHorses.Insert(2, horseDoc);
+        allHorses.Insert(3, horseDjango);
+        allHorses.Insert(3, horseGhost);
+        allHorses.Insert(3, horseTuco);
 
         /* init all action texts */
         handCardActionType1.text = ""; 
@@ -1172,77 +1187,103 @@ public class GameBoard : MonoBehaviour
                 placeMarshalAt(tc.carTypeAsString);
             }
         }
+
+        foreach(object ahobj in gm.horses){
+            Horse aHorse = (Horse) ahobj;
+            TrainUnit aHorseTU = aHorse.adjacentTo; 
+            string aHorseCarType = aHorseTU.getCarTypeAsString(); 
+            string aHorseCarFloor = aHorseTU.getCarFloorAsString(); 
+            placeHorseAt(aHorse, aHorseCarType, aHorseCarFloor);
+        }
+    }
+
+    // move the button(bandit or horse) that is passed in to the 
+    public void moveButtonTo(Button bToMove, string cartype, string carfloor){
+       if(carfloor == "CABIN"){
+            if(cartype == "LOCOMOTIVE"){
+                float newRandOffset = getRandOffset(); 
+                bToMove.transform.position = new Vector3 (locBtm[0] + newRandOffset, locBtm[1], locBtm[2]);
+            }else if(cartype == "CAR1"){
+                float newRandOffset = getRandOffset(); 
+                bToMove.transform.position = new Vector3 (oneBtm[0] + newRandOffset, oneBtm[1], oneBtm[2]);
+            }else if(cartype == "CAR2"){
+                float newRandOffset = getRandOffset(); 
+                bToMove.transform.position = new Vector3 (twoBtm[0] + newRandOffset, twoBtm[1], twoBtm[2]);
+            }else if(cartype == "CAR3"){
+                float newRandOffset = getRandOffset(); 
+                bToMove.transform.position = new Vector3 (threeBtm[0] + newRandOffset, threeBtm[1], threeBtm[2]);
+            }else if(cartype == "CAR4"){
+                float newRandOffset = getRandOffset(); 
+                bToMove.transform.position = new Vector3 (fourBtm[0] + newRandOffset, fourBtm[1], fourBtm[2]);
+            }else if(cartype == "CAR5"){
+                float newRandOffset = getRandOffset(); 
+                bToMove.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
+            }else if(cartype == "CAR6"){
+                float newRandOffset = getRandOffset(); 
+                bToMove.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
+            }else{
+                // cartype == "STAGECOACH"
+                float newRandOffset = getRandOffset(); 
+                bToMove.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
+            }
+        }else{
+            if(cartype == "LOCOMOTIVE"){
+                float newRandOffset = getRandOffset(); 
+                bToMove.transform.position = new Vector3 (locTop[0] + newRandOffset, locTop[1], locTop[2]);
+            }else if(cartype == "CAR1"){
+                float newRandOffset = getRandOffset(); 
+                bToMove.transform.position = new Vector3 (oneTop[0] + newRandOffset, oneTop[1], oneTop[2]);
+            }else if(cartype == "CAR2"){
+                float newRandOffset = getRandOffset(); 
+                bToMove.transform.position = new Vector3 (twoTop[0] + newRandOffset, twoTop[1], twoTop[2]);
+            }else if(cartype == "CAR3"){
+                float newRandOffset = getRandOffset(); 
+                bToMove.transform.position = new Vector3 (threeTop[0] + newRandOffset, threeTop[1], threeTop[2]);
+            }else if(cartype == "CAR4"){
+                float newRandOffset = getRandOffset(); 
+                bToMove.transform.position = new Vector3 (fourTop[0] + newRandOffset, fourTop[1], fourTop[2]);
+            }else if(cartype == "CAR5"){
+                float newRandOffset = getRandOffset(); 
+                bToMove.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
+            }else if(cartype == "CAR6"){
+                float newRandOffset = getRandOffset(); 
+                bToMove.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
+            }else{
+                // cartype == "STAGECOACH"
+                 float newRandOffset = getRandOffset(); 
+                bToMove.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
+            }
+        }
+    }
+
+    public void placeHorseAt(Horse h, string cartype, string carfloor){ 
+        Button horseBtn = allHorses[0];
+        foreach(Button aHorse in allHorses){
+            if(aHorse.name == "horseBelle" && h.riddenBy.characterAsString == "BELLE"){
+                moveButtonTo(horseBelle, cartype, carfloor);
+            }else if(aHorse.name == "horseCheyenne" && h.riddenBy.characterAsString == "CHEYENNE"){
+                moveButtonTo(horseCheyenne, cartype, carfloor);
+            }else if(aHorse.name == "horseDoc" && h.riddenBy.characterAsString == "DOC"){
+                moveButtonTo(horseDoc, cartype, carfloor);
+            }else if(aHorse.name == "horseDjango" && h.riddenBy.characterAsString == "DJANGO"){
+                moveButtonTo(horseDjango, cartype, carfloor);
+            }else if(aHorse.name == "horseGhost" && h.riddenBy.characterAsString == "GHOST"){
+                moveButtonTo(horseGhost, cartype, carfloor);
+            }else if(aHorse.name == "horseTuco" && h.riddenBy.characterAsString == "TUCO"){
+                moveButtonTo(horseTuco, cartype, carfloor);
+            }
+        }
     }
 
     public void placeBanditAt(Bandit b, string cartype, string carfloor){
-        // places the bandit according to the parameters 
-        // Button banditBtn = buttonToObject.FirstOrDefault(x => x.Value.Equals(b)).Key; // DOESN'T WORK 
-        // Find the button that corresponds to Bandit b 
         Button banditBtn = allBandits[0];
-        //Debug.Log("Bandit passed in is : " + b.characterAsString); 
         foreach(Button aBanditBtn in allBandits){
             if(aBanditBtn.name.ToUpper() == b.characterAsString){
                 //playingBandits.Add(aBanditBtn);
                 banditBtn = aBanditBtn;
             }
         }
-        
-        if(carfloor == "CABIN"){
-            if(cartype == "LOCOMOTIVE"){
-                float newRandOffset = getRandOffset(); 
-                banditBtn.transform.position = new Vector3 (locBtm[0] + newRandOffset, locBtm[1], locBtm[2]);
-            }else if(cartype == "CAR1"){
-                float newRandOffset = getRandOffset(); 
-                banditBtn.transform.position = new Vector3 (oneBtm[0] + newRandOffset, oneBtm[1], oneBtm[2]);
-            }else if(cartype == "CAR2"){
-                float newRandOffset = getRandOffset(); 
-                banditBtn.transform.position = new Vector3 (twoBtm[0] + newRandOffset, twoBtm[1], twoBtm[2]);
-            }else if(cartype == "CAR3"){
-                float newRandOffset = getRandOffset(); 
-                banditBtn.transform.position = new Vector3 (threeBtm[0] + newRandOffset, threeBtm[1], threeBtm[2]);
-            }else if(cartype == "CAR4"){
-                float newRandOffset = getRandOffset(); 
-                banditBtn.transform.position = new Vector3 (fourBtm[0] + newRandOffset, fourBtm[1], fourBtm[2]);
-            }else if(cartype == "CAR5"){
-                float newRandOffset = getRandOffset(); 
-                banditBtn.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
-            }else if(cartype == "CAR6"){
-                float newRandOffset = getRandOffset(); 
-                banditBtn.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
-            }else{
-                // cartype == "STAGECOACH"
-                float newRandOffset = getRandOffset(); 
-                banditBtn.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
-            }
-        }else{
-            if(cartype == "LOCOMOTIVE"){
-                float newRandOffset = getRandOffset(); 
-                banditBtn.transform.position = new Vector3 (locTop[0] + newRandOffset, locTop[1], locTop[2]);
-            }else if(cartype == "CAR1"){
-                float newRandOffset = getRandOffset(); 
-                banditBtn.transform.position = new Vector3 (oneTop[0] + newRandOffset, oneTop[1], oneTop[2]);
-            }else if(cartype == "CAR2"){
-                float newRandOffset = getRandOffset(); 
-                banditBtn.transform.position = new Vector3 (twoTop[0] + newRandOffset, twoTop[1], twoTop[2]);
-            }else if(cartype == "CAR3"){
-                float newRandOffset = getRandOffset(); 
-                banditBtn.transform.position = new Vector3 (threeTop[0] + newRandOffset, threeTop[1], threeTop[2]);
-            }else if(cartype == "CAR4"){
-                float newRandOffset = getRandOffset(); 
-                banditBtn.transform.position = new Vector3 (fourTop[0] + newRandOffset, fourTop[1], fourTop[2]);
-            }else if(cartype == "CAR5"){
-                float newRandOffset = getRandOffset(); 
-                banditBtn.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
-            }else if(cartype == "CAR6"){
-                float newRandOffset = getRandOffset(); 
-                banditBtn.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
-            }else{
-                // cartype == "STAGECOACH"
-                 float newRandOffset = getRandOffset(); 
-                banditBtn.transform.position = new Vector3 (706.0F + newRandOffset, 816.5F, -364.9F);
-            }
-        }
-
+        moveButtonTo(banditBtn, cartype, carfloor);
     }
 
     public void placeMarshalAt(string cartype){
