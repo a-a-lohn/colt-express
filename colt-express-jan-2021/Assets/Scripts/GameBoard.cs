@@ -432,6 +432,7 @@ public class GameBoard : MonoBehaviour
             banditTopunch = null;
             lootToDrop = null;
         }
+        proceed.interactable = false;
     }
 
     public static string punchMessage = "";
@@ -907,7 +908,7 @@ public class GameBoard : MonoBehaviour
                     } catch(Exception e) {
                         Debug.Log("not choosing punch target");
                     }
-                } else if (actionText.text == "\nChoose a loot for " + banditTopunch.getCharacter() + " to drop") {
+                } else if (actionText.text == "Choose a loot for " + banditTopunch.getCharacter() + " to drop") {
                     Debug.Log("choose a loot to drop");
                     try {
                         Loot clickedL = (Loot)buttonToObject[btn]; 
@@ -918,7 +919,7 @@ public class GameBoard : MonoBehaviour
                     } catch(Exception e) {
                         Debug.Log("not choosing loot to drop");
                     }
-                } else if (actionText.text == "\nChoose a trainunit as a punch destination") {
+                } else if (actionText.text == "Choose a trainunit as a punch destination") {
                     Debug.Log("choosing a trainunit for punch");
                     try {
                         TrainUnit clickedTU = (TrainUnit)buttonToObject[btn]; 
