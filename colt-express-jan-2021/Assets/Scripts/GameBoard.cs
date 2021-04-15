@@ -969,7 +969,10 @@ public class GameBoard : MonoBehaviour
         }
         horseBtnOne.interactable = false;
         horseBtnTwo.interactable = false;
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
         promptHorseAttackMsg.text="Waiting for other players..";
         ISFSObject obj = SFSObject.NewInstance();
         obj.PutUtfString("ans", response);
@@ -1657,11 +1660,12 @@ public class GameBoard : MonoBehaviour
     }
 
     public void promptHorseAttack() {
+        foreach(DictionaryEntry s in gm.banditPositions) {
+            String b = (String)s.Key;
+            TrainUnit t = (TrainUnit)s.Value;
+            Debug.Log(b + " is at " + t.carTypeAsString);
+        }
         Debug.Log("prompt horse attack called");
-        horseBtnOne.interactable = true;
-        horseBtnTwo.interactable = true;
-
-        promptHorseAttackMsg.text = "pha called";
         if (gm.bandits.Count == gm.banditPositions.Count) {
             Debug.Log("ending horse attack");
 
@@ -1684,6 +1688,8 @@ public class GameBoard : MonoBehaviour
                 return;
             }
         }
+        horseBtnOne.interactable = true;
+        horseBtnTwo.interactable = true;
         //prompt user whether they want to get off at this train (indicated by trainIndex). If yes, response should be "y", if no then "n"
         //promptHorseAttackMsg.text = "Would you like to get on the train at cabin number "+gm.trainIndex+"?";
     }
