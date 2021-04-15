@@ -386,6 +386,9 @@ namespace model {
                         this.setGameStatus("SCHEMIN");
                         this.banditsPlayedThisTurn = 0;
                         currentBandit = (Bandit) this.bandits[banditIndex]; //ADDED
+                        foreach (Bandit b in bandits) {
+                            b.deck = Bandit.shuffle(b.getDeck());
+                        }
                     }
                 }
             }
@@ -924,7 +927,7 @@ namespace model {
                 GameBoard.setNextAction("Dropping loot for punched action");
                 Loot dropped = (Loot) possibilities[0];
                 GameBoard.lootToDrop = dropped;
-                GameBoard.setNoChoice("\n" + currentBandit.getCharacter() + " chose to make " + punched.getCharacter() + " drop a " + printRobbed(dropped));
+                GameBoard.setNoChoice(currentBandit.getCharacter() + " chose to make " + punched.getCharacter() + " drop a " + printRobbed(dropped));
                 //knockbackPrompt(punched, (Loot) possibilities[0], calculateKnockback(punched));
             }
             else{

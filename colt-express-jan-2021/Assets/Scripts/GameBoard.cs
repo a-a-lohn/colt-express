@@ -420,13 +420,13 @@ public class GameBoard : MonoBehaviour
             gm.dropPrompt(banditTopunch, gm.calculateDrop(banditTopunch));
         } else if(punchStep == 2) {
             Debug.Log("punch step 2");
-            punchMessage += "\n" + heldMessage;
+            punchMessage = punchMessage + "\n" + heldMessage;
             Debug.Log("punch message 2: " + punchMessage);
             gm.knockbackPrompt(banditTopunch, lootToDrop, gm.calculateKnockback(banditTopunch));
         } else if(punchStep == 3) {
             Debug.Log("punch step 3");
             setMyTurn(false);
-            punchMessage += "\n" + ChooseCharacter.character + " punched " + banditTopunch.getCharacter() + " to " + banditTopunch.getPosition().getCarTypeAsString();
+            punchMessage = punchMessage + "\n" + ChooseCharacter.character + " punched " + banditTopunch.getCharacter() + " to " + banditTopunch.getPosition().getCarTypeAsString();
             SendNewGameState(punchMessage);
             Debug.Log("punch message 3: " + punchMessage);
             heldMessage = "";
@@ -435,6 +435,7 @@ public class GameBoard : MonoBehaviour
             banditTopunch = null;
             lootToDrop = null;
         }
+        proceed.interactable = false;
     }
 
     public static string punchMessage = "";
@@ -902,36 +903,37 @@ public class GameBoard : MonoBehaviour
                 } else if (actionText.text == "Choose a bandit to punch") {
                     Debug.Log("choose a bandit to punch");
                     try {
-                        Bandit clickedB = (Bandit)buttonToObject[btn]; 
-                        gm.dropPrompt(clickedB, gm.calculateDrop(clickedB));
+                        Bandit clickedB = (Bandit)buttonToObject[btn];
                         punchMessage = gm.currentBandit.getCharacter() + " chose to punch " + banditTopunch.getCharacter();
                         Debug.Log("punch message 1: " + punchMessage);
                         Debug.Log("choosing punch target");
+                        gm.dropPrompt(clickedB, gm.calculateDrop(clickedB));
                     } catch(Exception e) {
                         Debug.Log("not choosing punch target");
                     }
-                } else if (actionText.text == "\nChoose a loot for " + banditTopunch.getCharacter() + " to drop") {
+                } else if (actionText.text == "Choose a loot for " + banditTopunch.getCharacter() + " to drop") {
                     Debug.Log("choose a loot to drop");
                     try {
-                        Loot clickedL = (Loot)buttonToObject[btn]; 
-                        gm.knockbackPrompt(banditTopunch, clickedL, gm.calculateKnockback(banditTopunch));
-                        punchMessage += "\n" + gm.currentBandit.getCharacter() + " chose to make " + banditTopunch.getCharacter() + " drop a " + gm.printRobbed(clickedL);
+                        Loot clickedL = (Loot)buttonToObject[btn];
+                        punchMessage = punchMessage + "\n" + gm.currentBandit.getCharacter() + " chose to make " + banditTopunch.getCharacter() + " drop a " + gm.printRobbed(clickedL);
                         Debug.Log("punch message 2: " + punchMessage);
                         Debug.Log("choosing loot to drop");
+                        gm.knockbackPrompt(banditTopunch, clickedL, gm.calculateKnockback(banditTopunch));
                     } catch(Exception e) {
                         Debug.Log("not choosing loot to drop");
                     }
-                } else if (actionText.text == "\nChoose a trainunit as a punch destination") {
+                } else if (actionText.text == "Choose a trainunit as a punch destination") {
                     Debug.Log("choosing a trainunit for punch");
                     try {
-                        TrainUnit clickedTU = (TrainUnit)buttonToObject[btn]; 
+                        TrainUnit clickedTU = (TrainUnit)buttonToObject[btn];
+                        punchMessage = punchMessage + "\n" + ChooseCharacter.character + " punched " + banditTopunch.getCharacter() + " to " + clickedTU.getCarTypeAsString();
+                        Debug.Log("punch message 3: " + punchMessage);
+                        Debug.Log("punching here");
                         gm.punch(banditTopunch, lootToDrop, clickedTU);
+                        Debug.Log("after punching");
                         banditTopunch = null;
                         lootToDrop = null;
                         punchStep = 0;
-                        punchMessage += "\n" + ChooseCharacter.character + " punched " + banditTopunch.getCharacter() + " to " + clickedTU.getCarTypeAsString();
-                        Debug.Log("punch message 3: " + punchMessage);
-                        Debug.Log("punching here");
                     } catch(Exception e) {
                         Debug.Log("not punching here");
                     }
@@ -1119,8 +1121,8 @@ public class GameBoard : MonoBehaviour
         allHorses.Insert(1, horseCheyenne);
         allHorses.Insert(2, horseDoc);
         allHorses.Insert(3, horseDjango);
-        allHorses.Insert(3, horseGhost);
-        allHorses.Insert(3, horseTuco);
+        allHorses.Insert(4, horseGhost);
+        allHorses.Insert(5, horseTuco);
 
         /* init all action texts */
         handCardActionType1.text = ""; 
@@ -1190,9 +1192,8 @@ public class GameBoard : MonoBehaviour
         foreach(object ahobj in gm.horses){
             Horse aHorse = (Horse) ahobj;
             TrainUnit aHorseTU = aHorse.adjacentTo; 
-            string aHorseCarType = aHorseTU.getCarTypeAsString(); 
-            string aHorseCarFloor = aHorseTU.getCarFloorAsString(); 
-            placeHorseAt(aHorse, aHorseCarType, aHorseCarFloor);
+            string aHorseCarType = aHorseTU.getCarTypeAsString();
+            placeHorseAt(aHorse, aHorseCarType, "CABIN");
         }
     }
 
@@ -1255,20 +1256,20 @@ public class GameBoard : MonoBehaviour
         }
     }
 
-    public void placeHorseAt(Horse h, string cartype, string carfloor){ 
+    public void placeHorseAt(Horse h, string cartype, string carfloor){
         Button horseBtn = allHorses[0];
         foreach(Button aHorse in allHorses){
-            if(aHorse.name == "horseBelle" && h.riddenBy.characterAsString == "BELLE"){
+            if(aHorse.name == "HorseOne" && h.riddenBy.characterAsString == "BELLE"){
                 moveButtonTo(horseBelle, cartype, carfloor);
-            }else if(aHorse.name == "horseCheyenne" && h.riddenBy.characterAsString == "CHEYENNE"){
+            }else if(aHorse.name == "HorseTwo" && h.riddenBy.characterAsString == "CHEYENNE"){
                 moveButtonTo(horseCheyenne, cartype, carfloor);
-            }else if(aHorse.name == "horseDoc" && h.riddenBy.characterAsString == "DOC"){
+            }else if(aHorse.name == "HorseThree" && h.riddenBy.characterAsString == "DOC"){
                 moveButtonTo(horseDoc, cartype, carfloor);
-            }else if(aHorse.name == "horseDjango" && h.riddenBy.characterAsString == "DJANGO"){
+            }else if(aHorse.name == "HorseFour" && h.riddenBy.characterAsString == "DJANGO"){
                 moveButtonTo(horseDjango, cartype, carfloor);
-            }else if(aHorse.name == "horseGhost" && h.riddenBy.characterAsString == "GHOST"){
+            }else if(aHorse.name == "HorseFive" && h.riddenBy.characterAsString == "GHOST"){
                 moveButtonTo(horseGhost, cartype, carfloor);
-            }else if(aHorse.name == "horseTuco" && h.riddenBy.characterAsString == "TUCO"){
+            }else if(aHorse.name == "horseSix" && h.riddenBy.characterAsString == "TUCO"){
                 moveButtonTo(horseTuco, cartype, carfloor);
             }
         }
