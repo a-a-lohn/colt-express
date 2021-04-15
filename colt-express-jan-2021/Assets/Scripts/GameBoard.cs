@@ -353,10 +353,6 @@ public class GameBoard : MonoBehaviour
         // tuco.transform.position = new Vector3(fourBtm[0], fourBtm[1], fourBtm[2]);
         // ghost.transform.position = new Vector3(locTop[0], locTop[1], locTop[2]);
         // marshal.transform.position = new Vector3(locBtm[0], locBtm[1], locBtm[2]);
-<<<<<<< HEAD
-
-=======
->>>>>>> 4b509ddd7cd1a7099f236bc81277502ada9a68eb
         // oneBtm = new Vector3(trainOneBtm.transform.position[0], trainOneBtm.transform.position[1], trainOneBtm.transform.position[2]);
         // oneTop = new Vector3(trainOneBtm.transform.position[0], trainOneBtm.transform.position[1], trainOneBtm.transform.position[2]);
 
