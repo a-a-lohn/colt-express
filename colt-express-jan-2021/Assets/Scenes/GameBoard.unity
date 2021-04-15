@@ -2438,7 +2438,7 @@ GameObject:
   - component: {fileID: 253989676}
   - component: {fileID: 253989675}
   m_Layer: 0
-  m_Name: HorseThree
+  m_Name: HorseDjango
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2456,7 +2456,7 @@ RectTransform:
   m_LocalScale: {x: 1.32, y: 1.7820001, z: 1.32}
   m_Children: []
   m_Father: {fileID: 1013407372}
-  m_RootOrder: 16
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -6888,6 +6888,10 @@ MonoBehaviour:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
+    m_SelectedTrigger: Highlighted
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 617869410}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -10163,7 +10167,7 @@ GameObject:
   - component: {fileID: 883162804}
   - component: {fileID: 883162803}
   m_Layer: 0
-  m_Name: HorseOne
+  m_Name: HorseBelle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10185,7 +10189,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -860, y: -381}
+  m_AnchoredPosition: {x: -975, y: -331}
   m_SizeDelta: {x: 133.1033, y: 140.0027}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &883162803
@@ -12202,6 +12206,7 @@ Transform:
   - {fileID: 683461267}
   - {fileID: 883162802}
   - {fileID: 1910071495}
+  - {fileID: 1418836707}
   - {fileID: 253989674}
   - {fileID: 1033471840}
   - {fileID: 1685218106}
@@ -12259,12 +12264,12 @@ MonoBehaviour:
   gem6: {fileID: 2059967292}
   horseBtnOne: {fileID: 1000362053}
   horseBtnTwo: {fileID: 340333969}
-  horseBelle: {fileID: 0}
-  horseCheyenne: {fileID: 0}
-  horseDoc: {fileID: 0}
-  horseDjango: {fileID: 0}
-  horseGhost: {fileID: 0}
-  horseTuco: {fileID: 0}
+  horseBelle: {fileID: 883162803}
+  horseCheyenne: {fileID: 1910071496}
+  horseDoc: {fileID: 1418836708}
+  horseDjango: {fileID: 253989675}
+  horseGhost: {fileID: 1033471841}
+  horseTuco: {fileID: 1685218107}
   stagecoach: {fileID: 1685218107}
   purse1: {fileID: 780992995}
   purse2: {fileID: 237004282}
@@ -12540,7 +12545,7 @@ GameObject:
   - component: {fileID: 1033471842}
   - component: {fileID: 1033471841}
   m_Layer: 0
-  m_Name: HorseFour
+  m_Name: HorseGhost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12558,7 +12563,7 @@ RectTransform:
   m_LocalScale: {x: 1.32, y: 1.7820001, z: 1.32}
   m_Children: []
   m_Father: {fileID: 1013407372}
-  m_RootOrder: 17
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -15552,6 +15557,126 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1404031232}
   m_CullTransparentMesh: 1
+--- !u!1 &1418836706
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1418836707}
+  - component: {fileID: 1418836710}
+  - component: {fileID: 1418836709}
+  - component: {fileID: 1418836708}
+  m_Layer: 0
+  m_Name: HorseDoc
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1418836707
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1418836706}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.32, y: 1.7820001, z: 1.32}
+  m_Children: []
+  m_Father: {fileID: 1013407372}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 628, y: -434.71017}
+  m_SizeDelta: {x: 335.3898, y: 159.2466}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1418836708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1418836706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1418836709}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1418836709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1418836706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 3c1abc6bd83874a02bd6c276d14e30c5, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1418836710
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1418836706}
+  m_CullTransparentMesh: 1
 --- !u!1 &1440249217
 GameObject:
   m_ObjectHideFlags: 0
@@ -18096,7 +18221,7 @@ GameObject:
   - component: {fileID: 1685218108}
   - component: {fileID: 1685218107}
   m_Layer: 0
-  m_Name: Stagecoach
+  m_Name: HorseTuco
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18114,7 +18239,7 @@ RectTransform:
   m_LocalScale: {x: 1.32, y: 1.7820001, z: 1.32}
   m_Children: []
   m_Father: {fileID: 1013407372}
-  m_RootOrder: 18
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -19484,7 +19609,7 @@ GameObject:
   - component: {fileID: 1910071497}
   - component: {fileID: 1910071496}
   m_Layer: 0
-  m_Name: HorseTwo
+  m_Name: HorseCheyenne
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19506,7 +19631,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -738, y: -376}
+  m_AnchoredPosition: {x: -767, y: -245}
   m_SizeDelta: {x: 133.1033, y: 140.0027}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1910071496
