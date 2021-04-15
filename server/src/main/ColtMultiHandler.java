@@ -40,7 +40,8 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	int positionTurns = 0;
 	//int trainIndex = 1;
 	private static List<String> chosenCharactersSavedGame = new ArrayList<String>();
-	private static ArrayList<Bandit> orderedBandits = new ArrayList<Bandit>();
+	private static ArrayList<Bandit> firstBandits = new ArrayList<Bandit>();
+	private static ArrayList<Bandit> nextBandits = new ArrayList<Bandit>();
 	
 	boolean gameOver = false;
 	
@@ -229,7 +230,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 			Bandit curr = gm.banditmap.get(sender);
 			TrainUnit tu = gm.trainCabin.get(gm.trainIndex);
 			gm.banditPositions.put(curr.characterAsString, tu);
-			orderedBandits.add(curr);
+			firstBandits.add(curr);
 			for (Horse h: gm.horses) {
 				if (h.riddenBy == curr)
 					h.adjacentTo = tu;
@@ -239,7 +240,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 			Bandit curr = gm.banditmap.get(sender);
 			TrainUnit tu = gm.trainCabin.get(1);
 			gm.banditPositions.put(curr.characterAsString, tu);
-			orderedBandits.add(curr);
+			nextBandits.add(curr);
 			for (Horse h: gm.horses) {
 				if (h.riddenBy == curr)
 					h.adjacentTo = tu;
@@ -250,7 +251,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 			for (Bandit b: gm.bandits) {
 				if (!gm.banditPositions.containsKey(b.characterAsString)) {
 					gm.banditPositions.put(b.characterAsString, gm.trainCabin.get(1));
-					orderedBandits.add(b);
+					firstBandits.add(b);
 				}
 			}
 		}
@@ -286,10 +287,14 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 //							bd.add(b);
 //				}
 //			}
-			if(gm.bandits.size() == orderedBandits.size()) System.out.println("same size");
-			gm.bandits = orderedBandits;
+			//if(gm.bandits.size() == firstBandits.size()) System.out.println("same size");
+			gm.bandits = firstBandits;
+			for(Bandit b : nextBandits) {
+				gm.bandits.add(b);
+			}
 			gm.currentBandit = gm.bandits.get(0);
-			orderedBandits = new ArrayList<Bandit>();
+			firstBandits = new ArrayList<Bandit>();
+			nextBandits = new ArrayList<Bandit>();
 			updateGameState(rtn);
 		}
 	}

@@ -373,6 +373,9 @@ public class GameBoard : MonoBehaviour
 
             resetGB();
         }
+        if(saveGameId == "") {
+            promptHorseAttackMsg.text = "Click 'yes' or 'no' to get off at a train car during Horse Attack";
+        }
         EnterGameBoardScene();
     }
 
@@ -397,8 +400,10 @@ public class GameBoard : MonoBehaviour
 
         if(myTurn) {
             currentPlayer.text = "Your turn!";
-        } else if (gm != null & gm.currentBandit != null){
+        } else if (gm != null & gm.currentBandit != null & gm.currentBandit.getCharacter() != null){
             currentPlayer.text = gm.currentBandit.characterAsString;
+        } else {
+            currentPlayer.text = "ALL";
         }
     }
 
@@ -1705,7 +1710,7 @@ public class GameBoard : MonoBehaviour
         horseBtnOne.interactable = true;
         horseBtnTwo.interactable = true;
         //prompt user whether they want to get off at this train (indicated by trainIndex). If yes, response should be "y", if no then "n"
-        //promptHorseAttackMsg.text = "Would you like to get on the train at cabin number "+gm.trainIndex+"?";
+        promptHorseAttackMsg.text = "Would you like to get on the train at cabin number "+gm.trainIndex+"?";
     }
 
     public static String generateRandomString(int length)
