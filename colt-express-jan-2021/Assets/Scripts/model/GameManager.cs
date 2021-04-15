@@ -86,7 +86,7 @@ namespace model {
                 }
             }
             GameBoard.clickable = cards;
-            if(currentBandit.getHand().Count > 0) GameBoard.setDrawCardsButton(true);
+            if(currentBandit.getDeck().Count > 0) GameBoard.setDrawCardsButton(true);
             else GameBoard.setDrawCardsButton(false);
             GameBoard.setNextAction("Play a card or draw cards");
             
@@ -1029,11 +1029,11 @@ namespace model {
         public ArrayList calculateMove() {
             ArrayList possibleMoving = new ArrayList();
             TrainUnit currentPosition = currentBandit.getPosition();
-            if ((currentPosition.getLeft() != null)) {
+            if (currentPosition.getLeft() != null) {
                 possibleMoving.Add(currentPosition.getLeft());
             }
             
-            if ((currentPosition.getRight() != null)) {
+            if (currentPosition.getRight() != null) {
                 possibleMoving.Add(currentPosition.getRight());
             }
             
