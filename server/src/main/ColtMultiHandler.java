@@ -40,6 +40,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	int positionTurns = 0;
 	//int trainIndex = 1;
 	private static List<String> chosenCharactersSavedGame = new ArrayList<String>();
+	private static ArrayList<Bandit> orderedBandits = new ArrayList<Bandit>();
 	
 	boolean gameOver = false;
 	
@@ -228,6 +229,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 			Bandit curr = gm.banditmap.get(sender);
 			TrainUnit tu = gm.trainCabin.get(gm.trainIndex);
 			gm.banditPositions.put(curr.characterAsString, tu);
+			orderedBandits.add(curr);
 			for (Horse h: gm.horses) {
 				if (h.riddenBy == curr)
 					h.adjacentTo = tu;
@@ -237,49 +239,56 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 			Bandit curr = gm.banditmap.get(sender);
 			TrainUnit tu = gm.trainCabin.get(1);
 			gm.banditPositions.put(curr.characterAsString, tu);
+			orderedBandits.add(curr);
 			for (Horse h: gm.horses) {
 				if (h.riddenBy == curr)
 					h.adjacentTo = tu;
 			}
 		}
 		if (gm.trainIndex == 1) {
+			System.out.println("this should not be called");
 			for (Bandit b: gm.bandits) {
 				if (!gm.banditPositions.containsKey(b.characterAsString)) {
 					gm.banditPositions.put(b.characterAsString, gm.trainCabin.get(1));
+					orderedBandits.add(b);
 				}
 			}
 		}
 		int chosen = 0;
 		TrainUnit current = gm.trainCabin.get(gm.trainIndex);
 		for (TrainUnit tu: gm.banditPositions.values()) {
-			if (tu != current) {
+			if (!tu.carTypeAsString.equals(current.carTypeAsString)) {
 				chosen += 1;
 			}
 		}
+		System.out.println("Num chosen: " + chosen);
 		if (positionTurns == (gm.bandits.size()- chosen) && gm.bandits.size() > gm.banditPositions.size()) {
 			if (gm.trainIndex > 0) {
 			gm.trainIndex -= 1;
 			}
 			updateGameState(rtn);
 			positionTurns = 0;
+			System.out.println("first condition met");
 		}
 		else if (gm.bandits.size() == gm.banditPositions.size()) {
+			System.out.println("second condition met");
 			//note: currentBandit not being null is the trigger for game start
 			if (gm.currentBandit.characterAsString != null) 
 				return;
 			ArrayList<Bandit> bd = new ArrayList<Bandit>();
 //			Iterator it = gm.banditPositions.entrySet().iterator();
-			for(String s : gm.banditPositions.keySet()) {
-//				HashMap.Entry pair = (HashMap.Entry)it.next();
-//				String name = (String)pair.getKey();
-				for (Bandit b: gm.bandits) {
-					if (b.characterAsString.equals(s))
-							bd.add(b);
-							break;
-				}
-			}
-			gm.bandits = bd;
+//			for(String s : orderedBandits) {
+////				HashMap.Entry pair = (HashMap.Entry)it.next();
+////				String name = (String)pair.getKey();
+//				for (Bandit b: gm.bandits) {
+//					if (b.characterAsString.equals(s))
+//							bd.add(b);
+//				}
+//			}
+			if(gm.bandits.size() == orderedBandits.size()) System.out.println("same size");
+			gm.bandits = orderedBandits;
 			gm.currentBandit = gm.bandits.get(0);
+			orderedBandits = new ArrayList<Bandit>();
 			updateGameState(rtn);
 		}
 	}

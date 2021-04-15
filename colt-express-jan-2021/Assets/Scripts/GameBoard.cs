@@ -977,12 +977,6 @@ public class GameBoard : MonoBehaviour
         else {
             response = "n";
         }
-<<<<<<< HEAD
-
-=======
-        horseBtnOne.interactable = false;
-        horseBtnTwo.interactable = false;
->>>>>>> 6b9a7e4d8784ba7070a40c951f46be01ed09573c
         promptHorseAttackMsg.text="Waiting for other players..";
         ISFSObject obj = SFSObject.NewInstance();
         obj.PutUtfString("ans", response);
@@ -1281,7 +1275,7 @@ public class GameBoard : MonoBehaviour
                 }
         }
 
-        if(bToMove.name == "horseBelle" || bToMove.name == "horseCheyenne" || bToMove.name == "horseDoc" || bToMove.name == "horseDjango" || bToMove.name == "horseGhost" || bToMove.name == "horseTuco"){
+        if(bToMove.name == "HorseBelle" || bToMove.name == "HorseCheyenne" || bToMove.name == "HorseDoc" || bToMove.name == "HorseDjango" || bToMove.name == "HorseGhost" || bToMove.name == "HorseTuco"){
             // it's a horse! 
             // shift the horse forward by -50.0F 
             Debug.Log(bToMove.name + " IS A HORSE!!!");
