@@ -250,7 +250,7 @@ namespace model {
                             }
                             banditIndex = (banditIndex + 2) % this.bandits.Count;
                             this.banditsPlayedThisTurn = 0;
-                            ActionCard toResolve = (ActionCard)this.playedPileInstance.takeTopCard();//playedPileInstance.getPlayedCardsAt(playedPileInstance.playedCards.Count-1);
+                            ActionCard toResolve = (ActionCard)this.playedPileInstance.getPlayedCardsAt(playedPileInstance.playedCards.Count-1);
                             currentBandit = toResolve.getBelongsTo();
                             currentBandit.toResolve = toResolve;
 
@@ -295,7 +295,7 @@ namespace model {
                             Debug.Log("Bandit Index at end of schemin phase: " + banditIndex);
 				    		banditsPlayedThisTurn = 0;
                             banditIndex = (banditIndex + 1) % this.bandits.Count; //ADDED
-                            ActionCard toResolve = (ActionCard)this.playedPileInstance.takeTopCard();//playedPileInstance.getPlayedCardsAt(playedPileInstance.playedCards.Count-1);
+                            ActionCard toResolve = (ActionCard)this.playedPileInstance.getPlayedCardsAt(playedPileInstance.playedCards.Count-1);
                             currentBandit = toResolve.getBelongsTo();
                             currentBandit.toResolve = toResolve;
 
@@ -345,7 +345,7 @@ namespace model {
                                 }
                                 banditIndex = (banditIndex + 2) % this.bandits.Count;
 						    	banditsPlayedThisTurn = 0;
-                                ActionCard toResolve = (ActionCard)this.playedPileInstance.takeTopCard();//playedPileInstance.getPlayedCardsAt(playedPileInstance.playedCards.Count-1);
+                                ActionCard toResolve = (ActionCard)this.playedPileInstance.getPlayedCardsAt(playedPileInstance.playedCards.Count-1);
                                 currentBandit = toResolve.getBelongsTo();
                                 currentBandit.toResolve = toResolve;
 
