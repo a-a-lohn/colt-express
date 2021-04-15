@@ -261,12 +261,12 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 			if (gm.currentBandit.characterAsString != null) 
 				return;
 			ArrayList<Bandit> bd = new ArrayList<Bandit>();
-			Iterator it = gm.banditPositions.entrySet().iterator();
-			while (it.hasNext()) {
-				HashMap.Entry pair = (HashMap.Entry)it.next();
-				String name = (String)pair.getKey();
+//			Iterator it = gm.banditPositions.entrySet().iterator();
+			for(String s : gm.banditPositions.keySet()) {
+//				HashMap.Entry pair = (HashMap.Entry)it.next();
+//				String name = (String)pair.getKey();
 				for (Bandit b: gm.bandits) {
-					if (b.characterAsString.equals(name))
+					if (b.characterAsString.equals(s))
 							bd.add(b);
 							break;
 				}

@@ -966,6 +966,8 @@ public class GameBoard : MonoBehaviour
     }
 
     public void horseBtnClicked(Button btn) {
+        horseBtnOne.interactable = false;
+        horseBtnTwo.interactable = false;
         String response;
         if (btn.name == "horseBtnOne") {
             response = "y";
@@ -975,8 +977,7 @@ public class GameBoard : MonoBehaviour
         else {
             response = "n";
         }
-        horseBtnOne.interactable = false;
-        horseBtnTwo.interactable = false;
+
         promptHorseAttackMsg.text="Waiting for other players..";
         ISFSObject obj = SFSObject.NewInstance();
         obj.PutUtfString("ans", response);
@@ -1212,8 +1213,8 @@ public class GameBoard : MonoBehaviour
             Horse aHorse = (Horse) ahobj;
             TrainUnit aHorseTU = aHorse.adjacentTo; 
             string aHorseCarType = aHorseTU.getCarTypeAsString();
-            string aHorseFloorAsString = aHorseTU.getCarTypeAsString();
-            placeHorseAt(aHorse, aHorseCarType, aHorseFloorAsString);
+            // string aHorseFloorAsString = aHorseTU.getCarTypeAsString();
+            placeHorseAt(aHorse, aHorseCarType, "CABIN");
         }
     }
 
