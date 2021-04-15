@@ -1211,7 +1211,7 @@ public class GameBoard : MonoBehaviour
             TrainUnit aHorseTU = aHorse.adjacentTo; 
             string aHorseCarType = aHorseTU.getCarTypeAsString();
             string aHorseFloorAsString = aHorseTU.getCarTypeAsString();
-            placeHorseAt(aHorse, aHorseCarType, aHorseFloorAsString);
+            placeHorseAt(aHorse, aHorseCarType, "CABIN");
         }
     }
 
@@ -1273,7 +1273,7 @@ public class GameBoard : MonoBehaviour
                 }
         }
 
-        if(bToMove.name == "horseBelle" || bToMove.name == "horseCheyenne" || bToMove.name == "horseDoc" || bToMove.name == "horseDjango" || bToMove.name == "horseGhost" || bToMove.name == "horseTuco"){
+        if(bToMove.name == "HorseBelle" || bToMove.name == "HorseCheyenne" || bToMove.name == "HorseDoc" || bToMove.name == "HorseDjango" || bToMove.name == "HorseGhost" || bToMove.name == "HorseTuco"){
             // it's a horse! 
             // shift the horse forward by -50.0F 
             Debug.Log(bToMove.name + " IS A HORSE!!!");
