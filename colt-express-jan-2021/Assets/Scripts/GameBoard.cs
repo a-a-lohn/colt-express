@@ -556,7 +556,7 @@ public class GameBoard : MonoBehaviour
         
         int numberOfBandits = gm.bandits.Count;
 
-        Debug.Log("THERE ARE " + numberOfBandits + " IN THE GAME!");
+        //Debug.Log("THERE ARE " + numberOfBandits + " IN THE GAME!");
         removeTrainCarts(numberOfBandits);
         // removeBandits(gm.bandits);
         
@@ -566,37 +566,37 @@ public class GameBoard : MonoBehaviour
         foreach (Bandit b in banditsArray) {
             if (b.characterAsString == "CHEYENNE") {
                 buttonToObject[cheyenne] = b;
-                Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
+                //Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
                 playingBandits.Add(cheyenne);
                 cheyenneRevolver.text = b.getSizeOfBullets().ToString();
             }
             if (b.characterAsString == "BELLE") {
                 buttonToObject[belle] = b;
-                Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
+                //Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
                 playingBandits.Add(belle);
                 belleRevolver.text = b.getSizeOfBullets().ToString();
             }
             if (b.characterAsString == "TUCO") {
                 buttonToObject[tuco] = b;
-                Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
+                //Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
                 playingBandits.Add(tuco);
                 tucoRevolver.text = b.getSizeOfBullets().ToString();
             }
             if (b.characterAsString == "DOC") {
                 buttonToObject[doc] = b;
-                Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
+                //Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
                 playingBandits.Add(doc);
                 docRevolver.text = b.getSizeOfBullets().ToString();
             }
             if (b.characterAsString == "GHOST") {
                 buttonToObject[ghost] = b;
-                Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
+                //Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
                 playingBandits.Add(ghost);
                 ghostRevolver.text = b.getSizeOfBullets().ToString();
             }
             if (b.characterAsString == "DJANGO") {
                 buttonToObject[django] = b;
-                Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
+                //Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
                 playingBandits.Add(django);
                 djangoRevolver.text = b.getSizeOfBullets().ToString();
             }
@@ -627,8 +627,8 @@ public class GameBoard : MonoBehaviour
                 int index = 0; 
                 ActionCard ac;
                 BulletCard bc;
-                //Debug.Log("num of currcards: " + b.hand.Count);
-                //Debug.Log("num of currcards b1: " + gm.currentBandit.hand.Count);
+                Debug.Log("num of currcards: " + b.hand.Count);
+                Debug.Log("num of currcards b1: " + gm.currentBandit.hand.Count);
                 foreach(Card currCard in b.hand){
                     try{
                         ac = (ActionCard) currCard;
@@ -857,6 +857,7 @@ public class GameBoard : MonoBehaviour
 
             if(clickable.Contains(buttonToObject[btn])) {
                 Debug.Log("this is a clickable item!");
+                newAction = false;
                 //all calls back to GM should be here
                 if(actionText.text == "Play a card or draw cards") {
                     try {
@@ -949,8 +950,9 @@ public class GameBoard : MonoBehaviour
                     }
                 }
 
-                newAction = false;
-                actionText.text = "";
+                if(punchStep == 0) {
+                    actionText.text = "";
+                }
 
             } else Debug.Log("not clickable!");
         }

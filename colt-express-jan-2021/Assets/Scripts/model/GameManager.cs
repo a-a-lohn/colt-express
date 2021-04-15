@@ -132,7 +132,6 @@ namespace model {
             }
             else if(currentBandit.toResolve.getActionTypeAsString().Equals("RIDE")){
                 TestGame.prompt = "Choose a position to ride";
-                GameBoard.setNextAction("Choose a position to ride");
                 currentBandit.setToResolve(null);
                 ridePrompt(calculateRide());
             }
@@ -378,7 +377,7 @@ namespace model {
                 } else {
                     if(currentRound.roundTypeAsString != "Cave" & currentRound.roundTypeAsString != "Bridge") {
                         message = message + "\nEND OF ROUND EVENT: " + currentRound.roundTypeAsString + ". ";
-                        if(currentRound.roundTypeAsString == "AngryMarshal"); //message = message + angryMarshal();
+                        if(currentRound.roundTypeAsString == "AngryMarshal") message = message + angryMarshal();
                         else if(currentRound.roundTypeAsString == "SwivelArm") swivelArm();
                         else if(currentRound.roundTypeAsString == "Braking") braking();
                         else if(currentRound.roundTypeAsString == "TakeItAll") takeItAll();
@@ -410,6 +409,7 @@ namespace model {
                 } else {
                     GameBoard.setMyTurn(false);
                     GameBoard.SendNewGameState(message);
+                    GameBoard.punchMessage = "";
                 }
             }
         }
@@ -835,6 +835,7 @@ namespace model {
 	    public void shoot(Bandit toShoot, bool noChoice) {
 
 		    if (currentBandit.getSizeOfBullets() > 0) {
+                Debug.Log("adding bullet to " + toShoot.getCharacter());
 		    	toShoot.addToDeck(currentBandit.popBullet());
 		    }
 
@@ -1002,7 +1003,6 @@ namespace model {
 				punched.shotByMarhsal();
 			}
 		    endOfTurn(GameBoard.punchMessage, noChoice);
-            GameBoard.punchMessage = "";
 	    }
         
         //--CHANGE FLOOR--
@@ -1344,6 +1344,7 @@ namespace model {
                     }
                 }
             }
+            if(desc == "MARSHAL shot ") desc = "MARSHAL shot no one ";
 
             if (marshalPosition != (TrainUnit)this.trainCabin[trainLength-1])
             {
