@@ -1617,7 +1617,7 @@ namespace model {
             }
 
             if (desc == "Bandit get one purse if there're no other bandits around!!!") {
-                desc = "No one earned purses!"
+                desc = "No one earned purses!";
             }
             else {
                 desc = desc + "earned a purse!";
