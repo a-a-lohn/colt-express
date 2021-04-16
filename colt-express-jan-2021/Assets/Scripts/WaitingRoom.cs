@@ -215,9 +215,9 @@ public class WaitingRoom : MonoBehaviour
         numPlayers = 1 + sessionDetails["players"].ToString().ToCharArray().Count(c => c == ',');
 
         //Dictionary<string, object> sessionGameParams = (Dictionary<string, object>)sessionDetails["gameParameters"];
-        int minPlayers = 2; //number of players from savegame //(int)sessionGameParams["minSessionPlayers"];
+        int minPlayers = 3; //number of players from savegame //(int)sessionGameParams["minSessionPlayers"];
         // get savegame if it is one, check how many players it needs
-        if (numPlayers >= Mathf.Max(2, minPlayers)) { //change to 3
+        if (numPlayers >= minPlayers) {
             LaunchGameButton.interactable = true;
         }
     }
