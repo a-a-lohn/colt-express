@@ -397,6 +397,11 @@ public class GameBoard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(returningFromChat){
+            horseBtnOne.gameObject.SetActive(false);
+            horseBtnTwo.gameObject.SetActive(false);
+        }
+
         if(newAction) {
             actionText.text = action;
         }
