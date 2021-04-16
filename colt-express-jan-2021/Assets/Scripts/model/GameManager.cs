@@ -382,9 +382,9 @@ namespace model {
                         else if (currentRound.roundTypeAsString == "Braking") message = message + braking();
                         else if (currentRound.roundTypeAsString == "TakeItAll") message = message + takeItAll();
                         else if (currentRound.roundTypeAsString == "PassengersRebellion") message = message + passengersRebellion();
-                        else if (currentRound.roundTypeAsString == "pantingHorses") message = message + pantingHorses();
-                        else if (currentRound.roundTypeAsString == "marshalsRevenge") message = message + marshalsRevenge();
-                        else if (currentRound.roundTypeAsString == "hostageConductor") message = message + hostageConductor();
+                        else if (currentRound.roundTypeAsString == "PantingHorses") message = message + pantingHorses();
+                        else if (currentRound.roundTypeAsString == "MarshalsRevenge") message = message + marshalsRevenge();
+                        else if (currentRound.roundTypeAsString == "HostageConductor") message = message + hostageConductor();
                         else if (currentRound.roundTypeAsString == "pickpocketing") message = message + pickpocketing(); 
                     }
                     //  played pile is empty
