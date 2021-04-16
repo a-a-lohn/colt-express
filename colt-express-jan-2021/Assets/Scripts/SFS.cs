@@ -141,6 +141,7 @@ public static class SFS
 			ISFSObject responseParams = (SFSObject)evt.Params["params"];
 			string saveGame = responseParams.GetUtfString("savegameID");
 			if(saveGame != null){
+				Debug.Log("savegameid: " + saveGame);
 				GameBoard.saveGameId = saveGame;
 			}
 		}

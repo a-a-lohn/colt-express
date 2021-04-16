@@ -1125,8 +1125,8 @@ namespace model {
                 GameBoard.setNextAction("Moving Marshal"); 
                 moveMarshal((TrainUnit)possibilities[0], true);
             } else {
-                GameBoard.clickable = possibilities;
                 GameBoard.setNextAction("Choose a position to move the Marshal"); 
+                GameBoard.clickable = possibilities;
             }
         }
         
@@ -1185,7 +1185,8 @@ namespace model {
 
         public void ridePrompt(ArrayList possibilities){
             if(possibilities.Count == 0){
-                this.endOfTurn();
+                GameBoard.setNextAction("No horse to ride");
+                this.endOfTurn(currentBandit.getCharacter() + " was unable to ride", true);
             }
             else if(possibilities.Count == 1){
                 GameBoard.setNextAction("Riding");
