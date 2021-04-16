@@ -360,9 +360,11 @@ public class GameBoard : MonoBehaviour
         // oneBtm = new Vector3(trainOneBtm.transform.position[0], trainOneBtm.transform.position[1], trainOneBtm.transform.position[2]);
         // oneTop = new Vector3(trainOneBtm.transform.position[0], trainOneBtm.transform.position[1], trainOneBtm.transform.position[2]);
 
-        // if(saveGameId == "") {
-        //     promptHorseAttackMsg.text = "Click 'yes' or 'no' to get off at a train car during Horse Attack";
-        // }
+        if(saveGameId != "") {
+            started = true;
+            Destroy(GameObject.Find("horseBtnOne"));
+            Destroy(GameObject.Find("horseBtnTwo"));
+        }
 
         if(!returningFromChat) {
             currentRoundText.text = "";
@@ -383,9 +385,6 @@ public class GameBoard : MonoBehaviour
             tucoRevolver.text = "";
 
             resetGB();
-        } else {
-            Destroy(GameObject.Find("horseBtnOne"));
-            Destroy(GameObject.Find("horseBtnTwo"));
         }
         
         EnterGameBoardScene();
@@ -807,6 +806,9 @@ public class GameBoard : MonoBehaviour
         else gameStatus.text = gm.getGameStatus();
         if(gm.currentBandit.getToResolve() != null) {
             resolveCard.text = gm.currentBandit.getToResolve().getActionTypeAsString();
+        }
+        if(gm.strGameStatus != "STEALIN") {
+            resolveCard.text = "";
         }
         if(gm.roundIndex ==  null) {
             Debug.Log("gm.roundIndex ==  null");

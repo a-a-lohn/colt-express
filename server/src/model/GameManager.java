@@ -346,6 +346,8 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		}
 
 		Collections.shuffle(RoundCards);
+		RoundCards.remove(0);
+		RoundCards.remove(0);
 
 		return RoundCards;
 	}
