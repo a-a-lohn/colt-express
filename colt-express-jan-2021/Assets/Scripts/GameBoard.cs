@@ -360,6 +360,10 @@ public class GameBoard : MonoBehaviour
         // oneBtm = new Vector3(trainOneBtm.transform.position[0], trainOneBtm.transform.position[1], trainOneBtm.transform.position[2]);
         // oneTop = new Vector3(trainOneBtm.transform.position[0], trainOneBtm.transform.position[1], trainOneBtm.transform.position[2]);
 
+        // if(saveGameId == "") {
+        //     promptHorseAttackMsg.text = "Click 'yes' or 'no' to get off at a train car during Horse Attack";
+        // }
+
         if(!returningFromChat) {
             currentRoundText.text = "";
             exitText.text ="";
@@ -371,11 +375,19 @@ public class GameBoard : MonoBehaviour
             SFS.setGameBoard();
             initMap();
 
+            belleRevolver.text = "";
+            cheyenneRevolver.text = "";
+            docRevolver.text = "";
+            djangoRevolver.text = "";
+            ghostRevolver.text = "";
+            tucoRevolver.text = "";
+
             resetGB();
+        } else {
+            Destroy(GameObject.Find("horseBtnOne"));
+            Destroy(GameObject.Find("horseBtnTwo"));
         }
-        if(saveGameId == "") {
-            promptHorseAttackMsg.text = "Click 'yes' or 'no' to get off at a train car during Horse Attack";
-        }
+        
         EnterGameBoardScene();
     }
 
@@ -1714,7 +1726,7 @@ public class GameBoard : MonoBehaviour
         horseBtnOne.interactable = true;
         horseBtnTwo.interactable = true;
         //prompt user whether they want to get off at this train (indicated by trainIndex). If yes, response should be "y", if no then "n"
-        promptHorseAttackMsg.text = "Would you like to get on the train at cabin number "+gm.trainIndex+"?";
+        promptHorseAttackMsg.text = "Horse attack: Would you like to get on the train at cabin number "+gm.trainIndex+"?";
     }
 
     public static String generateRandomString(int length)

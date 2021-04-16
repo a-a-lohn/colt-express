@@ -382,6 +382,7 @@ namespace model {
                         else if(currentRound.roundTypeAsString == "Braking") message = message + braking();
                         else if(currentRound.roundTypeAsString == "TakeItAll") message = message + takeItAll();
                         else if(currentRound.roundTypeAsString == "PassengersRebellion") message = message + passengersRebellion();
+                        else if (currentRound.roundTypeAsString == "marshalsRevenge") message = message + marshalsRevenge();
                     }
                     //  played pile is empty
                     this.roundIndex++;
@@ -1592,7 +1593,7 @@ namespace model {
             }
         }
 
-        public void aShotOfWhiskeyForTheMarshall()
+        /*public void aShotOfWhiskeyForTheMarshall()
         {
             Marshal marshal = Marshal.getInstance();
             TrainUnit marshalPosition = marshal.getMarshalPosition();
@@ -1732,12 +1733,8 @@ namespace model {
 
         public void mortalBullet()
         {
-            // TODO : 
-            // Each player looses $150 for each Bullet received during 
-            // this Round.This includes the Neutral Bullets and those
-            // from all the Bandits.In order to facilitate the count of those Bullets, it is 
-            // advised to play them apart during this Round.
-        }
+
+        }*/
 
 
     }
