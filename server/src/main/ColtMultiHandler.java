@@ -133,10 +133,9 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 		gm = GameManager.getInstance();
 //		ArrayList<Bandit> bandits = game.bandits;
 //		assert(bandits.size() > 1);
-//		
-//		// for testing purposes - shouldn't be any current bandit at the start of game (horse attack)
-		gm.currentBandit = new Bandit();
-			//gm.currentBandit = gm.bandits.get(0);
+		
+		// currentbandit will only be null upon the first time entering gb scene for a non-saved game (triggering horse attack)
+		if(gm.currentBandit == null) gm.currentBandit = new Bandit();
 		
 		updateGameStateSenderOnly(sender, rtn);
 	}
