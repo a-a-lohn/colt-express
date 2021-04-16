@@ -378,10 +378,10 @@ namespace model {
                     if(currentRound.roundTypeAsString != "Cave" & currentRound.roundTypeAsString != "Bridge") {
                         message = message + "\nEND OF ROUND EVENT: " + currentRound.roundTypeAsString + ". ";
                         if(currentRound.roundTypeAsString == "AngryMarshal") message = message + angryMarshal();
-                        else if(currentRound.roundTypeAsString == "SwivelArm") swivelArm();
-                        else if(currentRound.roundTypeAsString == "Braking") braking();
-                        else if(currentRound.roundTypeAsString == "TakeItAll") takeItAll();
-                        else if(currentRound.roundTypeAsString == "PassengersRebellion") passengersRebellion();
+                        else if(currentRound.roundTypeAsString == "SwivelArm") message = message + swivelArm();
+                        else if(currentRound.roundTypeAsString == "Braking") message = message + braking();
+                        else if(currentRound.roundTypeAsString == "TakeItAll") message = message + takeItAll();
+                        else if(currentRound.roundTypeAsString == "PassengersRebellion") message = message + passengersRebellion();
                     }
                     //  played pile is empty
                     this.roundIndex++;
@@ -1385,10 +1385,12 @@ namespace model {
             return desc;
         }
 
-        public void swivelArm()
+        public string swivelArm()
         {
+            string desc = "Bandits are moving!!!";
             foreach (Bandit b in this.bandits)
             {
+                string banditName = b.getCharacter();
                 TrainUnit banditPosition = b.getPosition();
                 int index = this.trainRoof.IndexOf(banditPosition);
                 bool isRoof = false;
@@ -1399,12 +1401,22 @@ namespace model {
                 if (isRoof)
                 {
                     b.setPosition((TrainUnit)this.trainRoof[trainLength-1]);
+                    desc = desc + banditName + ", ";
                 }
             }
+            if (desc == "Bandits are moving!!!")
+            {
+                desc = "No bandits are moving this round!!!";
+            }
+            else {
+                desc = desc + "moves to the roof of the caboose!";
+            }
+            return desc;
         }
 
-        public void braking()
+        public string braking()
         {
+            string desc = "Bandits on roof are moving!!!";
             foreach (Bandit b in this.bandits)
             {
                 TrainUnit banditPosition = b.getPosition();
@@ -1420,21 +1432,29 @@ namespace model {
                     {
                         TrainUnit rightOfBandit = banditPosition.getRight();
                         b.setPosition(rightOfBandit);
+                        desc = desc + "Bandit " + b.getCharacter() + " moved to roof of " + rightOfBandit.getCarTypeAsString();
                     }
                 }
             }
+            if (desc == "Bandits on roof are moving!!!") {
+                desc = "No bandits are moving this round!!!";
+            }
+            return desc;
         }
 
-        public void takeItAll()
+        public string takeItAll()
         {
             Marshal marshal = Marshal.getInstance();
             TrainUnit marshalPosition = marshal.getMarshalPosition();
             Money strongBox = new Money("STRONGBOX", 1000);
             marshalPosition.addLoot(strongBox);
+            string desc = "Second strongBox is placed at marshal's position!!!" + " (" + marshalPosition.getCarTypeAsString() + ")";
+            return desc;
         }
 
-        public void passengersRebellion()
+        public string passengersRebellion()
         {
+            string desc = "Bandits inside cabin are shot!!!";
             foreach (Bandit b in this.bandits)
             {
                 TrainUnit banditPosition = b.getPosition();
@@ -1449,9 +1469,16 @@ namespace model {
                     if (this.neutralBulletCard.Count > 0)
                     {
                         b.addToDeck(this.popNeutralBullet());
+                        desc = desc + b.getCharacter() + ", ";
                     }
                 }
             }
+            if (desc == "Bandits inside cabin are shot!!!") {
+                desc = "No one got shot!!!";
+            } else {
+                desc = desc + "got shot!";
+            }
+            return desc;
         }
 
         public void marshalsRevenge()
