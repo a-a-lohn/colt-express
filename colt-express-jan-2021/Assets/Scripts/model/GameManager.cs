@@ -86,7 +86,7 @@ namespace model {
                 }
             }
             GameBoard.clickable = cards;
-            if(currentBandit.getDeck().Count > 0) GameBoard.setDrawCardsButton(true);
+            if(currentBandit.getDeck().Count > 0 & currentBandit.getHand().Count < 11) GameBoard.setDrawCardsButton(true);
             else GameBoard.setDrawCardsButton(false);
             GameBoard.setNextAction("Play a card or draw cards");
             
@@ -229,7 +229,7 @@ namespace model {
                     this.banditsPlayedThisTurn++;
 
                     //  ALL BANDITS HAVE PLAYED
-                    if ((this.banditsPlayedThisTurn == this.bandits.Count)) {
+                    if (this.banditsPlayedThisTurn == this.bandits.Count) {
                         Debug.Log("all have played");
                         if (this.currentRound.hasNextTurn() == true) {
                             //  THERE ARE MORE TURNS IN THE ROUND - NEXT TURN
@@ -378,10 +378,15 @@ namespace model {
                     if(currentRound.roundTypeAsString != "Cave" & currentRound.roundTypeAsString != "Bridge") {
                         message = message + "\nEND OF ROUND EVENT: " + currentRound.roundTypeAsString + ". ";
                         if(currentRound.roundTypeAsString == "AngryMarshal") message = message + angryMarshal();
-                        else if(currentRound.roundTypeAsString == "SwivelArm") swivelArm();
-                        else if(currentRound.roundTypeAsString == "Braking") braking();
-                        else if(currentRound.roundTypeAsString == "TakeItAll") takeItAll();
-                        else if(currentRound.roundTypeAsString == "PassengersRebellion") passengersRebellion();
+                        else if(currentRound.roundTypeAsString == "SwivelArm") message = message + swivelArm();
+                        else if(currentRound.roundTypeAsString == "Braking") message = message + braking();
+                        else if(currentRound.roundTypeAsString == "TakeItAll") message = message + takeItAll();
+                        else if(currentRound.roundTypeAsString == "PassengersRebellion") message = message + passengersRebellion();
+                        else if (currentRound.roundTypeAsString == "pantingHorses") message = message + pantingHorses();
+                        else if (currentRound.roundTypeAsString == "marshalsRevenge") message = message + marshalsRevenge();
+                        else if (currentRound.roundTypeAsString == "hostageConductor") message = message + hostageConductor();
+
+
                     }
                     //  played pile is empty
                     this.roundIndex++;
@@ -698,14 +703,14 @@ namespace model {
                 ArrayList possibilities = new ArrayList();
                 //TRAVERSE TRAIN UNITS TOWARDS RIGHT AND LEFT TO FIND BANDITS IN LINE OF SIGHT
                 TrainUnit currentRoof = this.currentBandit.getPosition();
-                if(currentRoof.numOfBanditsHere()>1){
-                    foreach (Bandit b in currentRoof.getBanditsHere()){
-                        if(b.getCharacter() != currentBandit.getCharacter()){
-                            possibilities.Add(b);
-                        }
-                    }
-                    return possibilities;
-                }
+                // if(currentRoof.numOfBanditsHere()>1){
+                //     foreach (Bandit b in currentRoof.getBanditsHere()){
+                //         if(b.getCharacter() != currentBandit.getCharacter()){
+                //             possibilities.Add(b);
+                //         }
+                //     }
+                //     return possibilities;
+                // }
                 TrainUnit toLeft = currentRoof.getLeft();
                 while (toLeft != null)
                 {
@@ -754,20 +759,21 @@ namespace model {
                     }
                 }
                 //BELLE ABILITY
-                // foreach (Bandit b in possibilities){
-                //     if(b.getCharacter().Equals("BELLE") && possibilities.Count > 1){
-                //         possibilities.Remove(b);
-                //     }
-                // }
-                bool includesBelle = false;
-                int ind = 0;
                 foreach (Bandit b in possibilities){
                     if(b.getCharacter().Equals("BELLE") && possibilities.Count > 1){
-                        includesBelle = true;
+                        possibilities.Remove(b);
                         break;
                     }
-                    ind++;
                 }
+                // bool includesBelle = false;
+                // int ind = 0;
+                // foreach (Bandit b in possibilities){
+                //     if(b.getCharacter().Equals("BELLE") && possibilities.Count > 1){
+                //         includesBelle = true;
+                //         break;
+                //     }
+                //     ind++;
+                // }
                 return possibilities;
 		    } 
 
@@ -796,17 +802,23 @@ namespace model {
                     }
                 }
                 //BELLE ABILITY
-                bool includesBelle = false;
-                int ind = 0;
                 foreach (Bandit b in possibilities){
                     if(b.getCharacter().Equals("BELLE") && possibilities.Count > 1){
-                        includesBelle = true;
+                        possibilities.Remove(b);
                         break;
                     }
-                    ind++;
                 }
-                Debug.Log("num of bandits to shoot: " + possibilities.Count);
-                if(includesBelle) possibilities.RemoveAt(ind);
+                // bool includesBelle = false;
+                // int ind = 0;
+                // foreach (Bandit b in possibilities){
+                //     if(b.getCharacter().Equals("BELLE") && possibilities.Count > 1){
+                //         includesBelle = true;
+                //         break;
+                //     }
+                //     ind++;
+                // }
+                // Debug.Log("num of bandits to shoot: " + possibilities.Count);
+                // if(includesBelle) possibilities.RemoveAt(ind);
 
                 return possibilities;
 		    }
@@ -888,15 +900,21 @@ namespace model {
 		    	}
 		    }
             //BELLE ABILITY
-            bool includesBelle = false;
-            int ind = 0;
             foreach (Bandit b in possibilities){
                 if(b.getCharacter().Equals("BELLE") && possibilities.Count > 1){
-                    includesBelle = true;
+                    possibilities.Remove(b);
                     break;
                 }
-                ind++;
             }
+            // bool includesBelle = false;
+            // int ind = 0;
+            // foreach (Bandit b in possibilities){
+            //     if(b.getCharacter().Equals("BELLE") && possibilities.Count > 1){
+            //         includesBelle = true;
+            //         break;
+            //     }
+            //     ind++;
+            // }
             return possibilities; // arraylist of bandits
 	    }
 
@@ -933,6 +951,7 @@ namespace model {
 
         public void dropPrompt(Bandit punched, ArrayList possibilities){
             GameBoard.punchStep = 2;
+            GameBoard.banditTopunch = punched;
             if(possibilities.Count == 0){
                 Debug.Log("no loot to choose for punch");
                 GameBoard.setNextAction("No loots to drop for " + punched.getCharacter());
@@ -967,6 +986,7 @@ namespace model {
 
         public void knockbackPrompt(Bandit punched, Loot dropped, ArrayList possibilities){
             GameBoard.punchStep = 3;
+            GameBoard.lootToDrop = dropped;
             if(possibilities.Count == 0){ // ERROR
                 GameBoard.punchStep = 0;
                 Debug.Log("no place to punch the bandit.. this shouldn't happen");
@@ -1125,8 +1145,8 @@ namespace model {
                 GameBoard.setNextAction("Moving Marshal"); 
                 moveMarshal((TrainUnit)possibilities[0], true);
             } else {
-                GameBoard.clickable = possibilities;
                 GameBoard.setNextAction("Choose a position to move the Marshal"); 
+                GameBoard.clickable = possibilities;
             }
         }
         
@@ -1185,7 +1205,8 @@ namespace model {
 
         public void ridePrompt(ArrayList possibilities){
             if(possibilities.Count == 0){
-                this.endOfTurn();
+                GameBoard.setNextAction("No horse to ride");
+                this.endOfTurn(currentBandit.getCharacter() + " was unable to ride", true);
             }
             else if(possibilities.Count == 1){
                 GameBoard.setNextAction("Riding");
@@ -1327,6 +1348,70 @@ namespace model {
             return winner;
         }
 
+        public ArrayList getFinalWinner(ArrayList winner) {
+            ArrayList result = new ArrayList();
+            int highestScore = 0;
+            for (int i = 0; i < winner.Count; i++)
+            {
+                if (highestScore <= (int)winner[i]) {
+                    highestScore = (int)winner[i];
+                }
+            }
+            for (int i = 0; i < winner.Count; i++)
+            {
+                if ((int)winner[i] == highestScore) {
+                    result.Add(bandits[i]);
+                }
+            }
+            if (result.Count == 1)
+            {
+                Bandit bandit = (Bandit)result[0];
+                Debug.Log(bandit.getCharacter() + " is the final winner!!!");
+            }
+            else {
+                ArrayList bullets = new ArrayList();
+                ArrayList finalResult = new ArrayList();
+                foreach (Bandit b in result) {
+                    int count = 0;
+                    ArrayList deck = b.getDeck();
+                    foreach (BulletCard bc in deck) {
+                        count++;
+                    }
+                    bullets.Add(count);
+                }
+
+                int lowestBullets = 99;
+                foreach (int anInt in bullets)
+                {
+                    if (anInt <= lowestBullets) {
+                        lowestBullets = anInt;
+                    }
+                }
+
+                for (int i = 0; i < bullets.Count; i++)
+                {
+                    if ((int)bullets[i] == lowestBullets) {
+                        finalResult.Add((Bandit)result[i]) ;
+                    }
+                }
+
+                if (finalResult.Count == 1)
+                {
+                    Bandit bandit = (Bandit)result[0];
+                    Debug.Log(bandit.getCharacter() + " is the final winner!!!");
+                }
+                else {
+                    foreach (Bandit b in finalResult)
+                    {
+                        Debug.Log(b.getCharacter() + ", ");
+                    }
+                    Debug.Log("win simultaneously");
+                    return finalResult;
+                }
+            }
+            return result;
+        }
+
         public string angryMarshal()
         {
             string desc = "MARSHAL shot ";
@@ -1369,10 +1454,12 @@ namespace model {
             return desc;
         }
 
-        public void swivelArm()
+        public string swivelArm()
         {
+            string desc = "Bandits are moving!!!";
             foreach (Bandit b in this.bandits)
             {
+                string banditName = b.getCharacter();
                 TrainUnit banditPosition = b.getPosition();
                 int index = this.trainRoof.IndexOf(banditPosition);
                 bool isRoof = false;
@@ -1383,12 +1470,22 @@ namespace model {
                 if (isRoof)
                 {
                     b.setPosition((TrainUnit)this.trainRoof[trainLength-1]);
+                    desc = desc + banditName + ", ";
                 }
             }
+            if (desc == "Bandits are moving!!!")
+            {
+                desc = "No bandits moved!!!";
+            }
+            else {
+                desc = desc + "all moved to the roof of the caboose!";
+            }
+            return desc;
         }
 
-        public void braking()
+        public string braking()
         {
+            string desc = "Bandits on roof are moving!!!";
             foreach (Bandit b in this.bandits)
             {
                 TrainUnit banditPosition = b.getPosition();
@@ -1404,21 +1501,29 @@ namespace model {
                     {
                         TrainUnit rightOfBandit = banditPosition.getRight();
                         b.setPosition(rightOfBandit);
+                        desc = desc + b.getCharacter() + " moved to roof of " + rightOfBandit.getCarTypeAsString();
                     }
                 }
             }
+            if (desc == "Bandits on roof moved!!!") {
+                desc = "No bandits are moved!!!";
+            }
+            return desc;
         }
 
-        public void takeItAll()
+        public string takeItAll()
         {
             Marshal marshal = Marshal.getInstance();
             TrainUnit marshalPosition = marshal.getMarshalPosition();
             Money strongBox = new Money("STRONGBOX", 1000);
             marshalPosition.addLoot(strongBox);
+            string desc = "Second strongBox is placed at marshal's position!!!" + " (" + marshalPosition.getCarTypeAsString() + ")";
+            return desc;
         }
 
-        public void passengersRebellion()
+        public string passengersRebellion()
         {
+            string desc = "Bandits inside cabin are shot!!!";
             foreach (Bandit b in this.bandits)
             {
                 TrainUnit banditPosition = b.getPosition();
@@ -1433,13 +1538,21 @@ namespace model {
                     if (this.neutralBulletCard.Count > 0)
                     {
                         b.addToDeck(this.popNeutralBullet());
+                        desc = desc + b.getCharacter() + ", ";
                     }
                 }
             }
+            if (desc == "Bandits inside cabin are shot!!!") {
+                desc = "No one got shot!!!";
+            } else {
+                desc = desc + "got shot!";
+            }
+            return desc;
         }
 
-        public void marshalsRevenge()
+        public string marshalsRevenge()
         {
+            string desc = "Marshal starts his revenge!!!";
             Marshal marshal = Marshal.getInstance();
             TrainUnit marshalPosition = marshal.getMarshalPosition();
             TrainUnit topOfMP = marshalPosition.getAbove();
@@ -1452,30 +1565,37 @@ namespace model {
                     ArrayList loots = b.getLoot();
                     int indexx = -1;
                     int value = 2000;
+                    string moneyType = "";
                     foreach (Money money in loots)
                     {
-                        Bandit bandit = money.getBelongsTo();
-                        Debug.Log(bandit.getCharacter());
-                        Debug.Log(money.getMoneyTypeAsString());
                         if (money.getMoneyTypeAsString() == "PURSE")
                         {
                             if (money.getValue() < value)
                             {
                                 value = money.getValue();
                                 indexx = loots.IndexOf(money);
+                                moneyType = money.getMoneyTypeAsString();
                             }
                         }
                     }
                     if (indexx > -1)
                     {
                         b.removeLoot((Money)loots[indexx]);
+                        desc = desc + b.getCharacter() + "lost his " + moneyType + ", ";
                     }
                 }
             }
+
+            if (desc == "Marshal starts his revenge!!!") {
+                desc = "No one has a purse!Marshal failed his revenge!";
+            }
+
+            return desc;
         }
 
-        public void pickpocketing()
+        public string pickpocketing()
         {
+            string desc = "Bandit get one purse if there're no other bandits around!!!";
             foreach (Bandit b in this.bandits)
             {
                 TrainUnit banditPosition = b.getPosition();
@@ -1487,6 +1607,7 @@ namespace model {
                         {
                             if (money.getMoneyTypeAsString() == "PURSE")
                             {
+                                desc = desc + b.getCharacter() + ", ";
                                 b.addLoot(money);
                                 break;
                             }
@@ -1494,10 +1615,19 @@ namespace model {
                     }
                 }
             }
+
+            if (desc == "Bandit get one purse if there're no other bandits around!!!") {
+                desc = "No one earned purses!";
+            }
+            else {
+                desc = desc + "earned a purse!";
+            }
+            return desc;
         }
 
-        public void hostageConductor()
+        public string hostageConductor()
         {
+            string desc = "Bandits in locomotive will get one more purse!!!";
             foreach (Bandit b in this.bandits)
             {
                 TrainUnit banditPosition = b.getPosition();
@@ -1509,13 +1639,23 @@ namespace model {
                 }
                 if (index == 0)
                 {
+                    desc = desc + b.getCharacter() + ", ";
                     b.addLoot(new Money("PURSE", 250));
                 }
             }
+            if (desc == "Bandits in locomotive will get one more purse!!!")
+            {
+                desc = "No one is in locomotive!";
+            }
+            else { 
+                desc = desc + "earned a purse!";
+            }
+            return desc;
         }
 
-        public void pantingHorses()
+        public string pantingHorses()
         {
+            string desc = "Horses are removed!!!";
             if (this.sizeOfBandits() <= 4)
             {
                 for (int index = trainLength-1; index > 0; index--)
@@ -1525,6 +1665,7 @@ namespace model {
                     if ((Horse)horsesHere[0] != null)
                     {
                         horsesHere.RemoveAt(0);
+                        desc = desc + "One horse is removed!";
                         break;
                     }
                 }
@@ -1536,6 +1677,7 @@ namespace model {
                 {
                     if (num == 2)
                     {
+                        desc = desc + "Two horses are removed!";
                         break;
                     }
                     TrainUnit trainunit = (TrainUnit)this.trainCabin[index];
@@ -1547,9 +1689,11 @@ namespace model {
                     }
                 }
             }
+
+            return desc;
         }
 
-        public void aShotOfWhiskeyForTheMarshall()
+        /*public void aShotOfWhiskeyForTheMarshall()
         {
             Marshal marshal = Marshal.getInstance();
             TrainUnit marshalPosition = marshal.getMarshalPosition();
@@ -1689,12 +1833,8 @@ namespace model {
 
         public void mortalBullet()
         {
-            // TODO : 
-            // Each player looses $150 for each Bullet received during 
-            // this Round.This includes the Neutral Bullets and those
-            // from all the Bandits.In order to facilitate the count of those Bullets, it is 
-            // advised to play them apart during this Round.
-        }
+
+        }*/
 
 
     }
