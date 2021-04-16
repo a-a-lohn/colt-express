@@ -220,44 +220,79 @@ public class WaitingRoom : MonoBehaviour
 
     public void JoinGame(Button gameToJoin)
     {   
-        if(!intentToDeleteSession){
-            gameHash = hashes[gameToJoin];
-            var request = new RestRequest("api/sessions/" + gameHash + "/players/" + username + "?access_token=" + token, Method.PUT)
-            .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
-            IRestResponse response = client.Execute(request);
-            foreach(KeyValuePair<Button, string> entry in hashes){
-                entry.Key.interactable = false;
-            } 
-            LaunchGameButton.interactable = false;
-            //HostGameButton.interactable = false;
-            joined = true;
-            InfoText.text = "You will be brought to the next scene once the host launches the game!";
-        
-            SFS.JoinRoom();
-        }else{
-            if(joined){
-                LaunchGameButton.interactable = false;
-                joined = false;
-            }
-            if(!Launched(gameHash)) {
-                DeleteSession();
-            }else{
-                var request = new RestRequest("api/sessions/" + gameHash + "?access_token=" + GetAdminToken(), Method.DELETE)
-                .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
-                IRestResponse response = client.Execute(request);
-            } 
-            hosting = false;
-            deleteSessionText.text = "Delete a session";
-            gameHash = null;
-            joined = false;
 
-            if (hashes.ContainsKey(gameToJoin)) {
-                hashes.Remove(gameToJoin);
-                fToken.text = "";
-                NewGameButton.interactable = false;
-                InfoText.text = "You can:\n-Host a new game\n-Click on a saved game to host it\n-Click on a game session to join it";
-            }
-        }
+        gameHash = hashes[gameToJoin];
+        var request = new RestRequest("api/sessions/" + gameHash + "/players/" + username + "?access_token=" + token, Method.PUT)
+        .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+        IRestResponse response = client.Execute(request);
+        foreach(KeyValuePair<Button, string> entry in hashes){
+            entry.Key.interactable = false;
+        } 
+        LaunchGameButton.interactable = false;
+        //HostGameButton.interactable = false;
+
+        var request2 = new RestRequest("api/sessions/" + gameHash, Method.GET)
+        .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+        IRestResponse response2 = client.Execute(request2);
+        var obj2 = JObject.Parse(response2.Content);
+        Dictionary<string, object> sessionDetails = obj2.ToObject<Dictionary<string, object>>();
+
+        Debug.Log("SavedGame ID : " + sessionDetails["savegameid"].ToString());
+
+        GameBoard.saveGameId = sessionDetails["savegameid"].ToString();
+
+        joined = true;
+        InfoText.text = "You will be brought to the next scene once the host launches the game!";
+        
+        SFS.JoinRoom();
+
+        // if(!intentToDeleteSession){
+        //     gameHash = hashes[gameToJoin];
+        //     var request = new RestRequest("api/sessions/" + gameHash + "/players/" + username + "?access_token=" + token, Method.PUT)
+        //     .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+        //     IRestResponse response = client.Execute(request);
+        //     foreach(KeyValuePair<Button, string> entry in hashes){
+        //         entry.Key.interactable = false;
+        //     } 
+        //     LaunchGameButton.interactable = false;
+        //     //HostGameButton.interactable = false;
+
+        //     var request2 = new RestRequest("api/sessions/" + gameHash, Method.GET)
+        //         .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+        //     IRestResponse response2 = client.Execute(request2);
+        //     var obj2 = JObject.Parse(response2.Content);
+        //     Dictionary<string, object> sessionDetails = obj2.ToObject<Dictionary<string, object>>();
+
+        //     Debug.Log("SavedGame ID : " + sessionDetails["savegameid"].ToString());
+
+        //     GameBoard.saveGameId = sessionDetails["savegameid"].ToString();
+
+        //     joined = true;
+        //     InfoText.text = "You will be brought to the next scene once the host launches the game!";
+        
+        //     SFS.JoinRoom();
+        // }else{
+        //     if(joined){
+        //         LaunchGameButton.interactable = false;
+        //         joined = false;
+        //     }
+        //     if(!Launched(gameHash)) {
+        //         DeleteSession();
+        //     }else{
+        //         var request = new RestRequest("api/sessions/" + gameHash + "?access_token=" + GetAdminToken(), Method.DELETE)
+        //         .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+        //         IRestResponse response = client.Execute(request);
+        //     } 
+        //     hosting = false;
+        //     deleteSessionText.text = "Delete a session";
+
+        //     if (hashes.ContainsKey(gameToJoin)) {
+        //         hashes.Remove(gameToJoin);
+        //         fToken.text = "";
+        //         NewGameButton.interactable = false;
+        //         InfoText.text = "You can:\n-Host a new game\n-Click on a saved game to host it\n-Click on a game session to join it";
+        //     }
+        // }
         
     }
 

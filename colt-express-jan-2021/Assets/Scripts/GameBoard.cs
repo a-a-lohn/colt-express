@@ -1524,7 +1524,7 @@ public class GameBoard : MonoBehaviour
         newAction = false;
         newAction = false;
         myTurn = false;
-        saveGameId = "";
+        //saveGameId = "";
         saveGameOnLobby = false;
         // these cause issues
         // playingBandits = new List<Button>();

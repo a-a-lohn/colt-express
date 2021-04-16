@@ -135,7 +135,10 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 //		assert(bandits.size() > 1);
 //		
 //		// for testing purposes - shouldn't be any current bandit at the start of game (horse attack)
-		gm.currentBandit = new Bandit();
+		if(gm.currentBandit == null) {
+			gm.currentBandit = new Bandit();
+		}
+		
 			//gm.currentBandit = gm.bandits.get(0);
 		
 		updateGameStateSenderOnly(sender, rtn);

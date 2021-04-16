@@ -42,7 +42,7 @@ public static class SFS
 	public static int trainIndex;
 
     static SFS(){
-        defaultHost =  "13.72.79.112"; //"127.0.0.1"; 
+        defaultHost =  "127.0.0.1";//"13.72.79.112";  
 	    defaultTcpPort = 9933;
         zone = "MergedExt";
     }
@@ -106,14 +106,19 @@ public static class SFS
 				cc.UpdateDisplayText(chosenCharText);
 				cc.DisplayRemainingCharacters(evt);
 			}
-		} else if (cmd == "updateGameState") {
+		} 
+		
+		else if (cmd == "updateGameState") {
 			Debug.Log("UGS called in SFS.cs");
+			Debug.Log("Current SaveGame ID Content before updating gamestate: "+ GameBoard.saveGameId);
 			gb.UpdateGameState(evt);
 			if (gb.started==false & GameBoard.saveGameId == "") {
 				Debug.Log("Condition triggered, started = false");
 			 	gb.promptHorseAttack();
 			}
-        } else if (cmd == "nextAction") {
+        } 
+		
+		else if (cmd == "nextAction") {
 			ISFSObject responseParams = (SFSObject)evt.Params["params"];
 			step = responseParams.GetInt("step");
 			Debug.Log("received step " + step);
@@ -140,7 +145,8 @@ public static class SFS
 		}  else if (cmd == "currentSaveGameID") {
 			ISFSObject responseParams = (SFSObject)evt.Params["params"];
 			string saveGame = responseParams.GetUtfString("savegameID");
-			if(saveGame != null){
+			Debug.Log("Here is the returned SaveGame after Loading!!!"+ saveGame);
+			if(saveGame != ""){
 				GameBoard.saveGameId = saveGame;
 			}
 		}
