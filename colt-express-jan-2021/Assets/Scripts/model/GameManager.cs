@@ -1299,17 +1299,16 @@ namespace model {
             {
                 ArrayList loots = b.getLoot();
                 int value = 0;
-
-                foreach(Loot l in b.loot){
+                foreach(Loot l in loots){
                     try{
                         Money money = (Money) l;
                         value = value + money.getValue();
-                        winner.Add(value);
                     }
                     catch(Exception e){
-
+                        
                     }
                 }
+                winner.Add(value);
             }
 
             ArrayList gunslinger = this.calculateGunslinger();
