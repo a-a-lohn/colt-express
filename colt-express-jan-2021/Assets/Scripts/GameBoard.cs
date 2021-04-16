@@ -1700,6 +1700,7 @@ public class GameBoard : MonoBehaviour
             started = true;
             Destroy(GameObject.Find("horseBtnOne"));
             Destroy(GameObject.Find("horseBtnTwo"));
+            gameStatus.text = "SCHEMIN";
             return;
         }
 

@@ -698,14 +698,14 @@ namespace model {
                 ArrayList possibilities = new ArrayList();
                 //TRAVERSE TRAIN UNITS TOWARDS RIGHT AND LEFT TO FIND BANDITS IN LINE OF SIGHT
                 TrainUnit currentRoof = this.currentBandit.getPosition();
-                if(currentRoof.numOfBanditsHere()>1){
-                    foreach (Bandit b in currentRoof.getBanditsHere()){
-                        if(b.getCharacter() != currentBandit.getCharacter()){
-                            possibilities.Add(b);
-                        }
-                    }
-                    return possibilities;
-                }
+                // if(currentRoof.numOfBanditsHere()>1){
+                //     foreach (Bandit b in currentRoof.getBanditsHere()){
+                //         if(b.getCharacter() != currentBandit.getCharacter()){
+                //             possibilities.Add(b);
+                //         }
+                //     }
+                //     return possibilities;
+                // }
                 TrainUnit toLeft = currentRoof.getLeft();
                 while (toLeft != null)
                 {
