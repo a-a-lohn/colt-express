@@ -362,13 +362,14 @@ public class GameBoard : MonoBehaviour
 
         if(saveGameId != "") {
             started = true;
-            Destroy(GameObject.Find("horseBtnOne"));
-            Destroy(GameObject.Find("horseBtnTwo"));
+            horseBtnOne.gameObject.SetActive(false);
+            horseBtnTwo.gameObject.SetActive(false);
         }
 
-        if(returningFromChat) {
-            Destroy(GameObject.Find("horseBtnOne"));
-            Destroy(GameObject.Find("horseBtnTwo"));
+        if(returningFromChat & horseBtnOne != null) {
+            Debug.Log("returning from chat");
+            Destroy(horseBtnOne);
+            Destroy(horseBtnTwo);
         } else {
             currentRoundText.text = "";
             exitText.text ="";
