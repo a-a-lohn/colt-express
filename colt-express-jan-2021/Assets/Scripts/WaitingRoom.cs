@@ -491,7 +491,7 @@ public class WaitingRoom : MonoBehaviour
 
     }
 
-    public void DeleteSaveGame(Text savegameID) {
+    static public void DeleteSaveGame(Text savegameID) {
         if(intentToDelete) {
             string adminToken = GetAdminToken();
             var request = new RestRequest("api/gameservices/ColtExpress/savegames/" + savegameID.text + "?access_token=" + adminToken, Method.DELETE)
@@ -505,7 +505,6 @@ public class WaitingRoom : MonoBehaviour
             ExtensionRequest req = new ExtensionRequest("gm.deleteSavedGame",obj);
             SFS.Send(req);
         }
-        //TODO: DELETE FROM SFS AS WELL
     }
 
     private void LeaveSession() {
@@ -547,7 +546,7 @@ public class WaitingRoom : MonoBehaviour
         }
     }*/
 
-    private string GetAdminToken() {
+    public static string GetAdminToken() {
         var request = new RestRequest("oauth/token", Method.POST)
             .AddParameter("grant_type", "password")
             .AddParameter("username", "admin")

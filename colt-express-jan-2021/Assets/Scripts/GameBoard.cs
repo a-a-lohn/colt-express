@@ -859,6 +859,18 @@ public class GameBoard : MonoBehaviour
                 if(r.turnCounter ==  null) Debug.Log("r.turnCounter is null");
                 r.currentTurn = (Turn)r.turns[r.turnCounter];
             }
+        } else {
+            string adminToken = WaitingRoom.GetAdminToken();
+            var request = new RestRequest("api/gameservices/ColtExpress/savegames/" + saveGameId + "?access_token=" + adminToken, Method.DELETE)
+                .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+            IRestResponse response = client.Execute(request);
+            Debug.Log("Here is the delete saved game return: "+ response.ErrorMessage + "   " + response.StatusCode);
+
+            Debug.Log("GameID of saved game to be deleted content : " + saveGameId);
+            ISFSObject obj = SFSObject.NewInstance();
+            obj.PutUtfString("savegameId", saveGameId);
+            ExtensionRequest req = new ExtensionRequest("gm.deleteSavedGame",obj);
+            SFS.Send(req);
         }
         if(gm.banditPositions ==  null) Debug.Log("gm.bp is null");
         if(gm.trainRoof ==  null) Debug.Log("gm.trainRoof is null");

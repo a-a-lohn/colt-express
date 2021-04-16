@@ -1610,7 +1610,7 @@ namespace model {
             }
 
             if (desc == "Marshal starts his revenge!!!") {
-                desc = "No one has a purse! Marshal failed his revenge!";
+                desc = "No one on the car above the Marsahl has a purse! Marshal failed his revenge!";
             }
 
             return desc;

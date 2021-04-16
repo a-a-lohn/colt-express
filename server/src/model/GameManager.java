@@ -349,9 +349,6 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		RoundCards.remove(0);
 		RoundCards.remove(0);
 		RoundCards.remove(0);
-		RoundCards.remove(0);
-		RoundCards.remove(0);
-		RoundCards.remove(0);
 		
 		//Round r8 = new Round(RoundType.PickPocketing);
 		Round r9 = new Round(RoundType.MarshalsRevenge);
