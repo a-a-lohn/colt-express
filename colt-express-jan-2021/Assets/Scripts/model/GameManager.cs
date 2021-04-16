@@ -390,6 +390,20 @@ namespace model {
                     this.roundIndex++;
                     if (this.roundIndex == this.rounds.Count) {
                         this.setGameStatus("COMPLETED");
+                        ArrayList scores = calculateWinner();
+                        ArrayList winners = getFinalWinner(calculateWinner());
+                        message = message + "\nFINAL SCORES:";
+                        for (int i = 0; i < scores.Count; i++) {
+                            Bandit b = (Bandit)bandits[i];
+                            int s = (int)scores[i];
+                            message = message + "\n" + b.getCharacter() + ": " + s;
+                        }
+                        message = message + "\nWINNER:";
+                        for (int i = 0; i < winners.Count; i++) {
+                            Bandit b = (Bandit)winners[i];
+                            message = message + b.getCharacter() + ", ";
+                        }
+                        message = message + "\nGood game!";
                     }
                     else {
                         this.currentRound = (Round) this.rounds[this.roundIndex];
@@ -397,7 +411,7 @@ namespace model {
                         this.banditsPlayedThisTurn = 0;
                         currentBandit = (Bandit) this.bandits[banditIndex]; //ADDED
                         foreach (Bandit b in bandits) {
-                            //b.deck = Bandit.shuffle(b.getDeck());
+                            b.deck = Bandit.shuffle(b.getDeck());
                         }
                     }
                 }
@@ -1337,13 +1351,75 @@ namespace model {
                         foreach (BulletCard c in aBandit.getDeck()) {
                             winner[i] = (int)winner[i] + 200;
                         }
-                    } else { 
-                        
                     }
                 }
             }
 
             return winner;
+        }
+
+        public ArrayList getFinalWinner(ArrayList winner) {
+            ArrayList result = new ArrayList();
+            int highestScore = 0;
+            for (int i = 0; i < winner.Count; i++)
+            {
+                if (highestScore <= (int)winner[i]) {
+                    highestScore = (int)winner[i];
+                }
+            }
+            for (int i = 0; i < winner.Count; i++)
+            {
+                if ((int)winner[i] == highestScore) {
+                    result.Add(bandits[i]);
+                }
+            }
+            if (result.Count == 1)
+            {
+                Bandit bandit = (Bandit)result[0];
+                Debug.Log(bandit.getCharacter() + " is the final winner!!!");
+            }
+            else {
+                ArrayList bullets = new ArrayList();
+                ArrayList finalResult = new ArrayList();
+                foreach (Bandit b in result) {
+                    int count = 0;
+                    ArrayList deck = b.getDeck();
+                    foreach (BulletCard bc in deck) {
+                        count++;
+                    }
+                    bullets.Add(count);
+                }
+
+                int lowestBullets = 99;
+                foreach (int anInt in bullets)
+                {
+                    if (anInt <= lowestBullets) {
+                        lowestBullets = anInt;
+                    }
+                }
+
+                for (int i = 0; i < bullets.Count; i++)
+                {
+                    if ((int)bullets[i] == lowestBullets) {
+                        finalResult.Add((Bandit)result[i]) ;
+                    }
+                }
+
+                if (finalResult.Count == 1)
+                {
+                    Bandit bandit = (Bandit)result[0];
+                    Debug.Log(bandit.getCharacter() + " is the final winner!!!");
+                }
+                else {
+                    foreach (Bandit b in finalResult)
+                    {
+                        Debug.Log(b.getCharacter() + ", ");
+                    }
+                    Debug.Log("win simultaneously");
+                    return finalResult;
+                }
+            }
+            return result;
         }
 
         public string angryMarshal()

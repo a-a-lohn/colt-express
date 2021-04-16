@@ -260,6 +260,7 @@ public class Bandit implements SerializableSFSType {
 		this.deck.add(acRob2);
 		this.deck.add(acShoot2);
 		
+		Collections.shuffle(deck);
 		
 		//updateOtherDecks();
 	}
