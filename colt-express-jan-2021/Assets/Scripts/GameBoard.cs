@@ -1211,9 +1211,9 @@ public class GameBoard : MonoBehaviour
             }
         }
 
-        Debug.Log("BEFORE GM.HORSES!!!!!!");
+        //Debug.Log("BEFORE GM.HORSES!!!!!!");
         foreach(object ahobj in gm.horses){
-            Debug.Log("INSIDE GM.HORSES!!!!!!");
+            //Debug.Log("INSIDE GM.HORSES!!!!!!");
             Horse aHorse = (Horse) ahobj;
             TrainUnit aHorseTU = aHorse.adjacentTo; 
             string aHorseCarType = aHorseTU.getCarTypeAsString();

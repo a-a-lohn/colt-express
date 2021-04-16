@@ -264,7 +264,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 			}
 		}
 		System.out.println("Num chosen: " + chosen);
-		if (positionTurns == (gm.bandits.size()- chosen) && gm.bandits.size() > gm.banditPositions.size()) {
+		if (positionTurns == (gm.bandits.size() - chosen) && gm.bandits.size() > gm.banditPositions.size()) {
 			if (gm.trainIndex > 0) {
 			gm.trainIndex -= 1;
 			}
@@ -296,6 +296,7 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 			firstBandits = new ArrayList<Bandit>();
 			nextBandits = new ArrayList<Bandit>();
 			updateGameState(rtn);
+			positionTurns = 0;
 		}
 	}
 	

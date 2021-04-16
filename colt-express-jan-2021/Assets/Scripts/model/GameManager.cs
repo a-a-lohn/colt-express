@@ -933,6 +933,7 @@ namespace model {
 
         public void dropPrompt(Bandit punched, ArrayList possibilities){
             GameBoard.punchStep = 2;
+            GameBoard.banditTopunch = punched;
             if(possibilities.Count == 0){
                 Debug.Log("no loot to choose for punch");
                 GameBoard.setNextAction("No loots to drop for " + punched.getCharacter());
@@ -967,6 +968,7 @@ namespace model {
 
         public void knockbackPrompt(Bandit punched, Loot dropped, ArrayList possibilities){
             GameBoard.punchStep = 3;
+            GameBoard.lootToDrop = dropped;
             if(possibilities.Count == 0){ // ERROR
                 GameBoard.punchStep = 0;
                 Debug.Log("no place to punch the bandit.. this shouldn't happen");
