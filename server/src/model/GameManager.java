@@ -348,7 +348,16 @@ public class GameManager /* extends BaseClientRequestHandler */ implements Seria
 		Collections.shuffle(RoundCards);
 		RoundCards.remove(0);
 		RoundCards.remove(0);
-
+		RoundCards.remove(0);
+		RoundCards.remove(0);
+		RoundCards.remove(0);
+		RoundCards.remove(0);
+		
+		//Round r8 = new Round(RoundType.PickPocketing);
+		Round r9 = new Round(RoundType.MarshalsRevenge);
+		//Round r10 = new Round(RoundType.HostageConductor);
+		RoundCards.add(r9);
+		
 		return RoundCards;
 	}
 

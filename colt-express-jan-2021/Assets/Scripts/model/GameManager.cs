@@ -1259,7 +1259,7 @@ namespace model {
             this.endOfTurn(currentBandit.getCharacter() + " rode to " + currentBandit.getPosition().getCarTypeAsString(), noChoice);
         }
 	
-	public ArrayList calculateGunslinger()
+	    public ArrayList calculateGunslinger()
         {
             ArrayList bulletCardsLeft = new ArrayList();
             foreach (Bandit b in bandits)
@@ -1285,6 +1285,8 @@ namespace model {
             return gunslinger;
         }
 
+        
+
         public ArrayList calculateWinner()
         {
             ArrayList winner = new ArrayList();
@@ -1292,11 +1294,17 @@ namespace model {
             {
                 ArrayList loots = b.getLoot();
                 int value = 0;
-                foreach (Money money in loots)
-                {
-                    value = value + money.getValue();
+
+                foreach(Loot l in b.loot){
+                    try{
+                        Money money = (Money) l;
+                        value = value + money.getValue();
+                        winner.Add(value);
+                    }
+                    catch(Exception e){
+
+                    }
                 }
-                winner.Add(value);
             }
 
             ArrayList gunslinger = this.calculateGunslinger();
@@ -1311,50 +1319,50 @@ namespace model {
                 }
             }
 
-            // now calculate the hostage ransom
-            for (int i = 0; i < bandits.Count; i++)
-            {
-                Bandit aBandit = (Bandit)bandits[i];
-                if (aBandit.getHostageAsString() != null) {
-                    string hostage = aBandit.getHostageAsString();
-                    if (hostage.Equals("POODLE")){
-                        winner[i] = (int)winner[i] + 1000;
-                    } else if (hostage.Equals("BANKER")) {  // Get 1000 if the bandit has at least one Strongbox.
-                        foreach (Money money in aBandit.getLoot()) {
-                            if (money.getMoneyTypeAsString() == "STRONGBOX") {
-                                winner[i] = (int)winner[i] + 1000;
-                            }
-                            break;
-                        }
-                    } else if (hostage.Equals("MINISTER")) {
-                        winner[i] = (int)winner[i] + 900;
-                    } else if (hostage.Equals("TEACHER")) {
-                        winner[i] = (int)winner[i] + 800;
-                    } else if (hostage.Equals("ZEALOT")) {
-                        winner[i] = (int)winner[i] + 700;
-                    } else if (hostage.Equals("OLDLADY")) {
-                        foreach (Money money in aBandit.getLoot())
-                        {
-                            if (money.getMoneyTypeAsString() == "RUBY")
-                            {
-                                winner[i] = (int)winner[i] + 500;
-                            }
-                        }
-                    } else if (hostage.Equals("POKERPLAYER")) {
-                        foreach (Money money in aBandit.getLoot())
-                        {
-                            if (money.getMoneyTypeAsString() == "PURSE")
-                            {
-                                winner[i] = (int)winner[i] + 250;
-                            }
-                        }
-                    } else if (hostage.Equals("PHOTOGRAPHER")) {
-                        foreach (BulletCard c in aBandit.getDeck()) {
-                            winner[i] = (int)winner[i] + 200;
-                        }
-                    }
-                }
-            }
+            //now calculate the hostage ransom
+            // for (int i = 0; i < bandits.Count; i++)
+            // {
+            //     Bandit aBandit = (Bandit)bandits[i];
+            //     if (aBandit.getHostageAsString() != null) {
+            //         string hostage = aBandit.getHostageAsString();
+            //         if (hostage.Equals("POODLE")){
+            //             winner[i] = (int)winner[i] + 1000;
+            //         } else if (hostage.Equals("BANKER")) {  // Get 1000 if the bandit has at least one Strongbox.
+            //             foreach (Money money in aBandit.getLoot()) {
+            //                 if (money.getMoneyTypeAsString() == "STRONGBOX") {
+            //                     winner[i] = (int)winner[i] + 1000;
+            //                 }
+            //                 break;
+            //             }
+            //         } else if (hostage.Equals("MINISTER")) {
+            //             winner[i] = (int)winner[i] + 900;
+            //         } else if (hostage.Equals("TEACHER")) {
+            //             winner[i] = (int)winner[i] + 800;
+            //         } else if (hostage.Equals("ZEALOT")) {
+            //             winner[i] = (int)winner[i] + 700;
+            //         } else if (hostage.Equals("OLDLADY")) {
+            //             foreach (Money money in aBandit.getLoot())
+            //             {
+            //                 if (money.getMoneyTypeAsString() == "RUBY")
+            //                 {
+            //                     winner[i] = (int)winner[i] + 500;
+            //                 }
+            //             }
+            //         } else if (hostage.Equals("POKERPLAYER")) {
+            //             foreach (Money money in aBandit.getLoot())
+            //             {
+            //                 if (money.getMoneyTypeAsString() == "PURSE")
+            //                 {
+            //                     winner[i] = (int)winner[i] + 250;
+            //                 }
+            //             }
+            //         } else if (hostage.Equals("PHOTOGRAPHER")) {
+            //             foreach (BulletCard c in aBandit.getDeck()) {
+            //                 winner[i] = (int)winner[i] + 200;
+            //             }
+            //         }
+            //     }
+            // }
 
             return winner;
         }

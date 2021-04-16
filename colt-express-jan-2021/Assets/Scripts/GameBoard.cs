@@ -385,6 +385,9 @@ public class GameBoard : MonoBehaviour
             tucoRevolver.text = "";
 
             resetGB();
+        } else {
+            Destroy(GameObject.Find("horseBtnOne"));
+            Destroy(GameObject.Find("horseBtnTwo"));
         }
         
         EnterGameBoardScene();
@@ -823,7 +826,13 @@ public class GameBoard : MonoBehaviour
             Debug.Log("gm.currentRound.turns ==  null");
         }
         int num = gm.roundIndex+1;
-        currentRoundText.text = "Round #" + num + " - " + gm.currentRound.roundTypeAsString + "\n";
+        string roundtype;
+        if(gm.currentRound.roundTypeAsString == "Cave" | (gm.currentRound.roundTypeAsString == "Bridge")) {
+            roundtype = "Regular";
+        } else {
+            roundtype = gm.currentRound.roundTypeAsString;
+        }
+        currentRoundText.text = "Round #" + num + " - " + roundtype + "\n";
 
         if(gm.getGameStatus() == "STEALIN") {
             turnNum.text = "";
@@ -1060,8 +1069,8 @@ public class GameBoard : MonoBehaviour
         buttonToObject.Add(trainTwoTop, "null"); 
         buttonToObject.Add(trainThreeBtm, "null"); 
         buttonToObject.Add(trainThreeTop, "null"); 
-        buttonToObject.Add(trainfourTop, "null"); 
-        buttonToObject.Add(trainfourBtm, "null");
+        buttonToObject.Add(trainfourBtm, "null"); 
+        buttonToObject.Add(trainfourTop, "null");
         buttonToObject.Add(locoBtm, "null"); 
         buttonToObject.Add(locoTop, "null");
 
@@ -1112,13 +1121,13 @@ public class GameBoard : MonoBehaviour
         trainCabins.Insert(1, trainOneBtm);
         trainCabins.Insert(2, trainTwoBtm);
         trainCabins.Insert(3, trainThreeBtm);
-        trainCabins.Insert(4, trainfourTop);
+        trainCabins.Insert(4, trainfourBtm);
 
         trainRoofs.Insert(0, locoTop);
         trainRoofs.Insert(1, trainOneTop);
         trainRoofs.Insert(2, trainTwoTop);
         trainRoofs.Insert(3, trainThreeTop);
-        trainRoofs.Insert(4, trainfourBtm);
+        trainRoofs.Insert(4, trainfourTop);
 
         goHandCard.Insert(0, handCard1);
         goHandCard.Insert(1, handCard2);

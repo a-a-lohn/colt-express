@@ -87,7 +87,9 @@ public class WaitingRoom : MonoBehaviour
         DeleteButton.interactable = false;
         DeleteSessionButton.interactable = false;
 
-        if(resetFields) SetFields();
+        if(resetFields) {
+            SetFields();
+        }
 
         GetSessions();
 
