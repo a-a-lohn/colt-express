@@ -378,13 +378,14 @@ namespace model {
                     if(currentRound.roundTypeAsString != "Cave" & currentRound.roundTypeAsString != "Bridge") {
                         message = message + "\nEND OF ROUND EVENT: " + currentRound.roundTypeAsString + ". ";
                         if(currentRound.roundTypeAsString == "AngryMarshal") message = message + angryMarshal();
-                        else if(currentRound.roundTypeAsString == "SwivelArm") message = message + swivelArm();
-                        else if(currentRound.roundTypeAsString == "Braking") message = message + braking();
-                        else if(currentRound.roundTypeAsString == "TakeItAll") message = message + takeItAll();
-                        else if(currentRound.roundTypeAsString == "PassengersRebellion") message = message + passengersRebellion();
+                        else if (currentRound.roundTypeAsString == "SwivelArm") message = message + swivelArm();
+                        else if (currentRound.roundTypeAsString == "Braking") message = message + braking();
+                        else if (currentRound.roundTypeAsString == "TakeItAll") message = message + takeItAll();
+                        else if (currentRound.roundTypeAsString == "PassengersRebellion") message = message + passengersRebellion();
                         else if (currentRound.roundTypeAsString == "pantingHorses") message = message + pantingHorses();
                         else if (currentRound.roundTypeAsString == "marshalsRevenge") message = message + marshalsRevenge();
                         else if (currentRound.roundTypeAsString == "hostageConductor") message = message + hostageConductor();
+                        else if (currentRound.roundTypeAsString == "pickpocketing") message = message + pickpocketing(); 
                     }
                     //  played pile is empty
                     this.roundIndex++;
