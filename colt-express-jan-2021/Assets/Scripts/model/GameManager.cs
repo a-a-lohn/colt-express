@@ -1406,10 +1406,10 @@ namespace model {
             }
             if (desc == "Bandits are moving!!!")
             {
-                desc = "No bandits are moving this round!!!";
+                desc = "No bandits moved!!!";
             }
             else {
-                desc = desc + "moves to the roof of the caboose!";
+                desc = desc + "all moved to the roof of the caboose!";
             }
             return desc;
         }
@@ -1432,12 +1432,12 @@ namespace model {
                     {
                         TrainUnit rightOfBandit = banditPosition.getRight();
                         b.setPosition(rightOfBandit);
-                        desc = desc + "Bandit " + b.getCharacter() + " moved to roof of " + rightOfBandit.getCarTypeAsString();
+                        desc = desc + b.getCharacter() + " moved to roof of " + rightOfBandit.getCarTypeAsString();
                     }
                 }
             }
-            if (desc == "Bandits on roof are moving!!!") {
-                desc = "No bandits are moving this round!!!";
+            if (desc == "Bandits on roof moved!!!") {
+                desc = "No bandits are moved!!!";
             }
             return desc;
         }

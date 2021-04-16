@@ -579,37 +579,37 @@ public class GameBoard : MonoBehaviour
                 buttonToObject[cheyenne] = b;
                 //Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
                 playingBandits.Add(cheyenne);
-                cheyenneRevolver.text = b.getSizeOfBullets().ToString();
+                cheyenneRevolver.text = "Revolver: " + b.getSizeOfBullets().ToString();
             }
             if (b.characterAsString == "BELLE") {
                 buttonToObject[belle] = b;
                 //Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
                 playingBandits.Add(belle);
-                belleRevolver.text = b.getSizeOfBullets().ToString();
+                belleRevolver.text = "Revolver: " + b.getSizeOfBullets().ToString();
             }
             if (b.characterAsString == "TUCO") {
                 buttonToObject[tuco] = b;
                 //Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
                 playingBandits.Add(tuco);
-                tucoRevolver.text = b.getSizeOfBullets().ToString();
+                tucoRevolver.text = "Revolver: " + b.getSizeOfBullets().ToString();
             }
             if (b.characterAsString == "DOC") {
                 buttonToObject[doc] = b;
                 //Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
                 playingBandits.Add(doc);
-                docRevolver.text = b.getSizeOfBullets().ToString();
+                docRevolver.text = "Revolver: " + b.getSizeOfBullets().ToString();
             }
             if (b.characterAsString == "GHOST") {
                 buttonToObject[ghost] = b;
                 //Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
                 playingBandits.Add(ghost);
-                ghostRevolver.text = b.getSizeOfBullets().ToString();
+                ghostRevolver.text = "Revolver: " + b.getSizeOfBullets().ToString();
             }
             if (b.characterAsString == "DJANGO") {
                 buttonToObject[django] = b;
                 //Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
                 playingBandits.Add(django);
-                djangoRevolver.text = b.getSizeOfBullets().ToString();
+                djangoRevolver.text = "Revolver: " + b.getSizeOfBullets().ToString();
             }
             
             /* place the bandits in their starting positions */
