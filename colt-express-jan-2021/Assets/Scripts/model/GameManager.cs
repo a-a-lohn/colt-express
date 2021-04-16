@@ -1496,7 +1496,7 @@ namespace model {
                 desc = "No bandits moved!!!";
             }
             else {
-                desc = desc + "all moved to the roof of the caboose!";
+                desc = desc + "moved to the roof of the caboose!";
             }
             return desc;
         }
@@ -1605,7 +1605,7 @@ namespace model {
             }
 
             if (desc == "Marshal starts his revenge!!!") {
-                desc = "No one has a purse!Marshal failed his revenge!";
+                desc = "No one has a purse! Marshal failed his revenge!";
             }
 
             return desc;

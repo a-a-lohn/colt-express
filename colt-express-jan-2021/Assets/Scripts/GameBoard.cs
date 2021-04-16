@@ -366,7 +366,10 @@ public class GameBoard : MonoBehaviour
             Destroy(GameObject.Find("horseBtnTwo"));
         }
 
-        if(!returningFromChat) {
+        if(returningFromChat) {
+            Destroy(GameObject.Find("horseBtnOne"));
+            Destroy(GameObject.Find("horseBtnTwo"));
+        } else {
             currentRoundText.text = "";
             exitText.text ="";
             log.text = "";
@@ -385,9 +388,6 @@ public class GameBoard : MonoBehaviour
             tucoRevolver.text = "";
 
             resetGB();
-        } else {
-            Destroy(GameObject.Find("horseBtnOne"));
-            Destroy(GameObject.Find("horseBtnTwo"));
         }
         
         EnterGameBoardScene();
@@ -851,11 +851,13 @@ public class GameBoard : MonoBehaviour
     void reassignReferences() {
         if(gm.playedPileInstance == null) gm.playedPileInstance = PlayedPile.getInstance();
         Marshal.instance = gm.marshalInstance;
-        gm.currentRound = (Round)gm.rounds[gm.roundIndex];
-        foreach(Round r in gm.rounds) {
-            if(r.turns ==  null) Debug.Log("r.turns is null");
-            if(r.turnCounter ==  null) Debug.Log("r.turnCounter is null");
-            r.currentTurn = (Turn)r.turns[r.turnCounter];
+        if(gm.roundIndex < gm.rounds.Count) {
+            gm.currentRound = (Round)gm.rounds[gm.roundIndex];
+            foreach(Round r in gm.rounds) {
+                if(r.turns ==  null) Debug.Log("r.turns is null");
+                if(r.turnCounter ==  null) Debug.Log("r.turnCounter is null");
+                r.currentTurn = (Turn)r.turns[r.turnCounter];
+            }
         }
         if(gm.banditPositions ==  null) Debug.Log("gm.bp is null");
         if(gm.trainRoof ==  null) Debug.Log("gm.trainRoof is null");
@@ -1321,7 +1323,7 @@ public class GameBoard : MonoBehaviour
         if(bToMove.name == "HorseBelle" || bToMove.name == "HorseCheyenne" || bToMove.name == "HorseDoc" || bToMove.name == "HorseDjango" || bToMove.name == "HorseGhost" || bToMove.name == "HorseTuco"){
             // it's a horse! 
             // shift the horse forward by -50.0F 
-            Debug.Log(bToMove.name + " IS A HORSE!!!");
+            //Debug.Log(bToMove.name + " IS A HORSE!!!");
             Vector3 oldPos = bToMove.transform.position;
             bToMove.transform.position = new Vector3(oldPos[0], oldPos[1] - 50.0F, oldPos[2]);
         }
