@@ -32,7 +32,7 @@ public class GameBoard : MonoBehaviour
 {
     private static RestClient client = new RestClient("http://13.72.79.112:4242");
     public static string gameHash = WaitingRoom.gameHash;
-    public bool started = false;
+    public static bool started = false;
 
     public Button chat;
     bool returningFromChat = false;
@@ -853,7 +853,7 @@ public class GameBoard : MonoBehaviour
             canDrawCards = false;
             // cap hand with 11 cards
             if(gm.currentBandit.getHand().Count <= 8) gm.drawCards(3);
-            else gm.drawCards(11 - gm.currentBandit.getHand().Count);
+            else if(gm.currentBandit.getHand().Count < 11) gm.drawCards(11 - gm.currentBandit.getHand().Count);
             newAction = false;
             actionText.text = "";
             Debug.Log("drawing cards");
@@ -1452,6 +1452,9 @@ public class GameBoard : MonoBehaviour
 
         try {
             string nullstr = (string)buttonToObject[button];
+            Debug.Log("nullstr: " + nullstr);
+            var o = buttonToObject[button];
+            Debug.Log("Type: " + o.GetType());
             buttonText.text = "";
             button.interactable = false;
             return;

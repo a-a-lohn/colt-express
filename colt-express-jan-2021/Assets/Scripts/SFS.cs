@@ -109,7 +109,7 @@ public static class SFS
 		} else if (cmd == "updateGameState") {
 			Debug.Log("UGS called in SFS.cs");
 			gb.UpdateGameState(evt);
-			if (gb.started==false & GameBoard.saveGameId == "") {
+			if (GameBoard.started==false & GameBoard.saveGameId == "") {
 				Debug.Log("Condition triggered, started = false");
 			 	gb.promptHorseAttack();
 			}
