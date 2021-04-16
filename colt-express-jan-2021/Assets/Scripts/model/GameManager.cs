@@ -1330,6 +1330,70 @@ namespace model {
             return winner;
         }
 
+        public ArrayList getFinalWinner(ArrayList winner) {
+            ArrayList result = new ArrayList();
+            int highestScore = 0;
+            for (int i = 0; i < winner.Count; i++)
+            {
+                if (highestScore <= (int)winner[i]) {
+                    highestScore = (int)winner[i];
+                }
+            }
+            for (int i = 0; i < winner.Count; i++)
+            {
+                if ((int)winner[i] == highestScore) {
+                    result.Add(bandits[i]);
+                }
+            }
+            if (result.Count == 1)
+            {
+                Bandit bandit = (Bandit)result[0];
+                Debug.Log(bandit.getCharacter() + " is the final winner!!!");
+            }
+            else {
+                ArrayList bullets = new ArrayList();
+                ArrayList finalResult = new ArrayList();
+                foreach (Bandit b in result) {
+                    int count = 0;
+                    ArrayList deck = b.getDeck();
+                    foreach (BulletCard bc in deck) {
+                        count++;
+                    }
+                    bullets.Add(count);
+                }
+
+                int lowestBullets = 99;
+                foreach (int anInt in bullets)
+                {
+                    if (anInt <= lowestBullets) {
+                        lowestBullets = anInt;
+                    }
+                }
+
+                for (int i = 0; i < bullets.Count; i++)
+                {
+                    if ((int)bullets[i] == lowestBullets) {
+                        finalResult.Add((Bandit)result[i]) ;
+                    }
+                }
+
+                if (finalResult.Count == 1)
+                {
+                    Bandit bandit = (Bandit)result[0];
+                    Debug.Log(bandit.getCharacter() + " is the final winner!!!");
+                }
+                else {
+                    foreach (Bandit b in finalResult)
+                    {
+                        Debug.Log(b.getCharacter() + ", ");
+                    }
+                    Debug.Log("win simultaneously");
+                    return finalResult;
+                }
+            }
+            return result;
+        }
+
         public string angryMarshal()
         {
             string desc = "MARSHAL shot ";
