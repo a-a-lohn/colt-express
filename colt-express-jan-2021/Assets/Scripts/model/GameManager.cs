@@ -711,6 +711,11 @@ namespace model {
 
         public ArrayList calculateShoot(){
 		    
+            //NO BULLETS
+            if(this.currentBandit.bullets.Count == 0){
+                return new ArrayList();
+            }
+
 		    //ROOF CASE:
 		    if (this.currentBandit.getPosition().getCarFloorAsString().Equals("ROOF")) {
                 ArrayList possibilities = new ArrayList();
