@@ -1545,8 +1545,9 @@ namespace model {
             return desc;
         }
 
-        public void marshalsRevenge()
+        public string marshalsRevenge()
         {
+            string desc = "Marshal starts his revenge!!!";
             Marshal marshal = Marshal.getInstance();
             TrainUnit marshalPosition = marshal.getMarshalPosition();
             TrainUnit topOfMP = marshalPosition.getAbove();
@@ -1559,30 +1560,37 @@ namespace model {
                     ArrayList loots = b.getLoot();
                     int indexx = -1;
                     int value = 2000;
+                    string moneyType = "";
                     foreach (Money money in loots)
                     {
-                        Bandit bandit = money.getBelongsTo();
-                        Debug.Log(bandit.getCharacter());
-                        Debug.Log(money.getMoneyTypeAsString());
                         if (money.getMoneyTypeAsString() == "PURSE")
                         {
                             if (money.getValue() < value)
                             {
                                 value = money.getValue();
                                 indexx = loots.IndexOf(money);
+                                moneyType = money.getMoneyTypeAsString();
                             }
                         }
                     }
                     if (indexx > -1)
                     {
                         b.removeLoot((Money)loots[indexx]);
+                        desc = desc + b.getCharacter() + "lost his " + moneyType + ", ";
                     }
                 }
             }
+
+            if (desc == "Marshal starts his revenge!!!") {
+                desc = "No one has a purse!Marshal failed his revenge!";
+            }
+
+            return desc;
         }
 
-        public void pickpocketing()
+        public string pickpocketing()
         {
+            string desc = "Bandit get one purse if there're no other bandits around!!!";
             foreach (Bandit b in this.bandits)
             {
                 TrainUnit banditPosition = b.getPosition();
@@ -1594,6 +1602,7 @@ namespace model {
                         {
                             if (money.getMoneyTypeAsString() == "PURSE")
                             {
+                                desc = desc + b.getCharacter() + ", ";
                                 b.addLoot(money);
                                 break;
                             }
@@ -1601,10 +1610,19 @@ namespace model {
                     }
                 }
             }
+
+            if (desc == "Bandit get one purse if there're no other bandits around!!!") {
+                desc = "No one earned purses!"
+            }
+            else {
+                desc = desc + "earned a purse!";
+            }
+            return desc;
         }
 
-        public void hostageConductor()
+        public string hostageConductor()
         {
+            string desc = "Bandits in locomotive will get one more purse!!!";
             foreach (Bandit b in this.bandits)
             {
                 TrainUnit banditPosition = b.getPosition();
@@ -1616,13 +1634,23 @@ namespace model {
                 }
                 if (index == 0)
                 {
+                    desc = desc + b.getCharacter() + ", ";
                     b.addLoot(new Money("PURSE", 250));
                 }
             }
+            if (desc == "Bandits in locomotive will get one more purse!!!")
+            {
+                desc = "No one is in locomotive!";
+            }
+            else { 
+                desc = desc + "earned a purse!";
+            }
+            return desc;
         }
 
-        public void pantingHorses()
+        public string pantingHorses()
         {
+            string desc = "Horses are removed!!!";
             if (this.sizeOfBandits() <= 4)
             {
                 for (int index = trainLength-1; index > 0; index--)
@@ -1632,6 +1660,7 @@ namespace model {
                     if ((Horse)horsesHere[0] != null)
                     {
                         horsesHere.RemoveAt(0);
+                        desc = desc + "One horse is removed!";
                         break;
                     }
                 }
@@ -1643,6 +1672,7 @@ namespace model {
                 {
                     if (num == 2)
                     {
+                        desc = desc + "Two horses are removed!";
                         break;
                     }
                     TrainUnit trainunit = (TrainUnit)this.trainCabin[index];
@@ -1654,6 +1684,8 @@ namespace model {
                     }
                 }
             }
+
+            return desc;
         }
 
         public void aShotOfWhiskeyForTheMarshall()
