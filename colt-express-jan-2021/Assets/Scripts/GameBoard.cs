@@ -867,10 +867,10 @@ public class GameBoard : MonoBehaviour
             Debug.Log("Here is the delete saved game return: "+ response.ErrorMessage + "   " + response.StatusCode);
 
             Debug.Log("GameID of saved game to be deleted content : " + saveGameId);
-            ISFSObject obj = SFSObject.NewInstance();
-            obj.PutUtfString("savegameId", saveGameId);
-            ExtensionRequest req = new ExtensionRequest("gm.deleteSavedGame",obj);
-            SFS.Send(req);
+            // ISFSObject obj = SFSObject.NewInstance();
+            // obj.PutUtfString("savegameId", saveGameId);
+            // ExtensionRequest req = new ExtensionRequest("gm.deleteSavedGame",obj);
+            // SFS.Send(req);
         }
         if(gm.banditPositions ==  null) Debug.Log("gm.bp is null");
         if(gm.trainRoof ==  null) Debug.Log("gm.trainRoof is null");
