@@ -385,8 +385,6 @@ namespace model {
                         else if (currentRound.roundTypeAsString == "pantingHorses") message = message + pantingHorses();
                         else if (currentRound.roundTypeAsString == "marshalsRevenge") message = message + marshalsRevenge();
                         else if (currentRound.roundTypeAsString == "hostageConductor") message = message + hostageConductor();
-
-
                     }
                     //  played pile is empty
                     this.roundIndex++;

@@ -54,6 +54,8 @@ public class WaitingRoom : MonoBehaviour
     public static bool intentToDelete = false;
     public static bool intentToDeleteSession = false;
 
+    public static bool resetFields = false;
+
     private static Dictionary<Button, string> hashes = new Dictionary<Button, string>();
     private static Dictionary<Button, string> saveMap = new Dictionary<Button, string>();
 
@@ -85,7 +87,7 @@ public class WaitingRoom : MonoBehaviour
         DeleteButton.interactable = false;
         DeleteSessionButton.interactable = false;
 
-        //SetFields();
+        if(resetFields) SetFields();
 
         GetSessions();
 
