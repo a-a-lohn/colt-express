@@ -221,8 +221,8 @@ namespace model {
             }
             else if(deckSize <= cardsToDraw){
                 for (int i = 0; i<deckSize; i++) {
-                    Card toAdd = this.getFromDeckAt(i);
-                    this.removeFromDeckAt(0);
+                    Card toAdd = this.getFromDeckAt(sizeOfDeck()-1);
+                    this.removeFromDeckAt(sizeOfDeck()-1);
                     this.addToHand(toAdd);
                 }
             }

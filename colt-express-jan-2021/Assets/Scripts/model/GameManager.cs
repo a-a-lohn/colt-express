@@ -86,7 +86,7 @@ namespace model {
                 }
             }
             GameBoard.clickable = cards;
-            if(currentBandit.getDeck().Count > 0) GameBoard.setDrawCardsButton(true);
+            if(currentBandit.getDeck().Count > 0 & currentBandit.getHand().Count < 11) GameBoard.setDrawCardsButton(true);
             else GameBoard.setDrawCardsButton(false);
             GameBoard.setNextAction("Play a card or draw cards");
             
@@ -229,7 +229,7 @@ namespace model {
                     this.banditsPlayedThisTurn++;
 
                     //  ALL BANDITS HAVE PLAYED
-                    if ((this.banditsPlayedThisTurn == this.bandits.Count)) {
+                    if (this.banditsPlayedThisTurn == this.bandits.Count) {
                         Debug.Log("all have played");
                         if (this.currentRound.hasNextTurn() == true) {
                             //  THERE ARE MORE TURNS IN THE ROUND - NEXT TURN
@@ -698,14 +698,14 @@ namespace model {
                 ArrayList possibilities = new ArrayList();
                 //TRAVERSE TRAIN UNITS TOWARDS RIGHT AND LEFT TO FIND BANDITS IN LINE OF SIGHT
                 TrainUnit currentRoof = this.currentBandit.getPosition();
-                if(currentRoof.numOfBanditsHere()>1){
-                    foreach (Bandit b in currentRoof.getBanditsHere()){
-                        if(b.getCharacter() != currentBandit.getCharacter()){
-                            possibilities.Add(b);
-                        }
-                    }
-                    return possibilities;
-                }
+                // if(currentRoof.numOfBanditsHere()>1){
+                //     foreach (Bandit b in currentRoof.getBanditsHere()){
+                //         if(b.getCharacter() != currentBandit.getCharacter()){
+                //             possibilities.Add(b);
+                //         }
+                //     }
+                //     return possibilities;
+                // }
                 TrainUnit toLeft = currentRoof.getLeft();
                 while (toLeft != null)
                 {
@@ -754,20 +754,21 @@ namespace model {
                     }
                 }
                 //BELLE ABILITY
-                // foreach (Bandit b in possibilities){
-                //     if(b.getCharacter().Equals("BELLE") && possibilities.Count > 1){
-                //         possibilities.Remove(b);
-                //     }
-                // }
-                bool includesBelle = false;
-                int ind = 0;
                 foreach (Bandit b in possibilities){
                     if(b.getCharacter().Equals("BELLE") && possibilities.Count > 1){
-                        includesBelle = true;
+                        possibilities.Remove(b);
                         break;
                     }
-                    ind++;
                 }
+                // bool includesBelle = false;
+                // int ind = 0;
+                // foreach (Bandit b in possibilities){
+                //     if(b.getCharacter().Equals("BELLE") && possibilities.Count > 1){
+                //         includesBelle = true;
+                //         break;
+                //     }
+                //     ind++;
+                // }
                 return possibilities;
 		    } 
 
@@ -796,17 +797,23 @@ namespace model {
                     }
                 }
                 //BELLE ABILITY
-                bool includesBelle = false;
-                int ind = 0;
                 foreach (Bandit b in possibilities){
                     if(b.getCharacter().Equals("BELLE") && possibilities.Count > 1){
-                        includesBelle = true;
+                        possibilities.Remove(b);
                         break;
                     }
-                    ind++;
                 }
-                Debug.Log("num of bandits to shoot: " + possibilities.Count);
-                if(includesBelle) possibilities.RemoveAt(ind);
+                // bool includesBelle = false;
+                // int ind = 0;
+                // foreach (Bandit b in possibilities){
+                //     if(b.getCharacter().Equals("BELLE") && possibilities.Count > 1){
+                //         includesBelle = true;
+                //         break;
+                //     }
+                //     ind++;
+                // }
+                // Debug.Log("num of bandits to shoot: " + possibilities.Count);
+                // if(includesBelle) possibilities.RemoveAt(ind);
 
                 return possibilities;
 		    }
@@ -888,15 +895,21 @@ namespace model {
 		    	}
 		    }
             //BELLE ABILITY
-            bool includesBelle = false;
-            int ind = 0;
             foreach (Bandit b in possibilities){
                 if(b.getCharacter().Equals("BELLE") && possibilities.Count > 1){
-                    includesBelle = true;
+                    possibilities.Remove(b);
                     break;
                 }
-                ind++;
             }
+            // bool includesBelle = false;
+            // int ind = 0;
+            // foreach (Bandit b in possibilities){
+            //     if(b.getCharacter().Equals("BELLE") && possibilities.Count > 1){
+            //         includesBelle = true;
+            //         break;
+            //     }
+            //     ind++;
+            // }
             return possibilities; // arraylist of bandits
 	    }
 
@@ -1457,10 +1470,10 @@ namespace model {
             }
             if (desc == "Bandits are moving!!!")
             {
-                desc = "No bandits are moving this round!!!";
+                desc = "No bandits moved!!!";
             }
             else {
-                desc = desc + "moves to the roof of the caboose!";
+                desc = desc + "all moved to the roof of the caboose!";
             }
             return desc;
         }
@@ -1483,12 +1496,12 @@ namespace model {
                     {
                         TrainUnit rightOfBandit = banditPosition.getRight();
                         b.setPosition(rightOfBandit);
-                        desc = desc + "Bandit " + b.getCharacter() + " moved to roof of " + rightOfBandit.getCarTypeAsString();
+                        desc = desc + b.getCharacter() + " moved to roof of " + rightOfBandit.getCarTypeAsString();
                     }
                 }
             }
-            if (desc == "Bandits on roof are moving!!!") {
-                desc = "No bandits are moving this round!!!";
+            if (desc == "Bandits on roof moved!!!") {
+                desc = "No bandits are moved!!!";
             }
             return desc;
         }

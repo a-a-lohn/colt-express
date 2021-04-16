@@ -32,7 +32,7 @@ public class GameBoard : MonoBehaviour
 {
     private static RestClient client = new RestClient("http://13.72.79.112:4242");
     public static string gameHash = WaitingRoom.gameHash;
-    public bool started = false;
+    public static bool started = false;
 
     public Button chat;
     bool returningFromChat = false;
@@ -579,37 +579,37 @@ public class GameBoard : MonoBehaviour
                 buttonToObject[cheyenne] = b;
                 //Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
                 playingBandits.Add(cheyenne);
-                cheyenneRevolver.text = b.getSizeOfBullets().ToString();
+                cheyenneRevolver.text = "Revolver: " + b.getSizeOfBullets().ToString();
             }
             if (b.characterAsString == "BELLE") {
                 buttonToObject[belle] = b;
                 //Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
                 playingBandits.Add(belle);
-                belleRevolver.text = b.getSizeOfBullets().ToString();
+                belleRevolver.text = "Revolver: " + b.getSizeOfBullets().ToString();
             }
             if (b.characterAsString == "TUCO") {
                 buttonToObject[tuco] = b;
                 //Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
                 playingBandits.Add(tuco);
-                tucoRevolver.text = b.getSizeOfBullets().ToString();
+                tucoRevolver.text = "Revolver: " + b.getSizeOfBullets().ToString();
             }
             if (b.characterAsString == "DOC") {
                 buttonToObject[doc] = b;
                 //Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
                 playingBandits.Add(doc);
-                docRevolver.text = b.getSizeOfBullets().ToString();
+                docRevolver.text = "Revolver: " + b.getSizeOfBullets().ToString();
             }
             if (b.characterAsString == "GHOST") {
                 buttonToObject[ghost] = b;
                 //Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
                 playingBandits.Add(ghost);
-                ghostRevolver.text = b.getSizeOfBullets().ToString();
+                ghostRevolver.text = "Revolver: " + b.getSizeOfBullets().ToString();
             }
             if (b.characterAsString == "DJANGO") {
                 buttonToObject[django] = b;
                 //Debug.Log(b.characterAsString + "'s bullets " + b.getSizeOfBullets());
                 playingBandits.Add(django);
-                djangoRevolver.text = b.getSizeOfBullets().ToString();
+                djangoRevolver.text = "Revolver: " + b.getSizeOfBullets().ToString();
             }
             
             /* place the bandits in their starting positions */
@@ -853,7 +853,7 @@ public class GameBoard : MonoBehaviour
             canDrawCards = false;
             // cap hand with 11 cards
             if(gm.currentBandit.getHand().Count <= 8) gm.drawCards(3);
-            else gm.drawCards(11 - gm.currentBandit.getHand().Count);
+            else if(gm.currentBandit.getHand().Count < 11) gm.drawCards(11 - gm.currentBandit.getHand().Count);
             newAction = false;
             actionText.text = "";
             Debug.Log("drawing cards");
@@ -1452,6 +1452,9 @@ public class GameBoard : MonoBehaviour
 
         try {
             string nullstr = (string)buttonToObject[button];
+            Debug.Log("nullstr: " + nullstr);
+            var o = buttonToObject[button];
+            Debug.Log("Type: " + o.GetType());
             buttonText.text = "";
             button.interactable = false;
             return;
@@ -1697,6 +1700,7 @@ public class GameBoard : MonoBehaviour
             started = true;
             Destroy(GameObject.Find("horseBtnOne"));
             Destroy(GameObject.Find("horseBtnTwo"));
+            gameStatus.text = "SCHEMIN";
             return;
         }
 
