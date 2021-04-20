@@ -113,6 +113,12 @@ public class Round implements SerializableSFSType {
             turns.add(new Turn(TurnType.STANDARD));
             turns.add(new Turn(TurnType.TUNNEL));
         }
+        if(rt == RoundType.MarshalsRevenge) {
+        	turns.add(new Turn(TurnType.STANDARD));
+            turns.add(new Turn(TurnType.STANDARD));
+            turns.add(new Turn(TurnType.TUNNEL));
+            turns.add(new Turn(TurnType.STANDARD));
+        }
         this.currentTurn = turns.get(0);
         System.out.println("turn: " + currentTurn.turnTypeAsString);
     }

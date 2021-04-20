@@ -18,9 +18,9 @@ namespace model {
     
         public string carTypeAsString;
         public string carFloorAsString;
-        public bool isMarshalHere ;
-        public ArrayList lootHere ;
-        public ArrayList horsesHere ;
+        public bool isMarshalHere;
+        public ArrayList lootHere;
+        
         
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--
         public TrainUnit() {}
@@ -62,7 +62,7 @@ namespace model {
         
         // carFloorAsString
         public string getCarFloorAsString() {
-            return this.getCarFloorAsString();
+            return this.carFloorAsString;
         }
         
         public void setCarFloorAsString(string floor) {
@@ -116,36 +116,6 @@ namespace model {
             otherTrainUnit.above = this;
         }*/
         
-        public TrainUnit getRight() {
-            GameManager gm = GameManager.getInstance();
-            int index = gm.trainCabin.IndexOf(this);
-            bool isRoof = false;
-            if (index == -1) {
-                index = gm.trainRoof.IndexOf(this);
-                if (index > -1) {
-                    isRoof = true;
-                }
-                else {
-                    return null;
-                }
-            }
-            int size = gm.trainCabin.Count;
-            if (index + 1 < size) {
-                if (isRoof) {
-                    return (TrainUnit)gm.trainRoof[index+1];
-                }
-                else {
-                    return (TrainUnit)gm.trainCabin[index+1];
-                }
-            }
-            return null;
-        }
-        
-        /*public void setRight(TrainUnit otherTrainUnit) {
-            this.right = otherTrainUnit;
-            otherTrainUnit.left = this;
-        }*/
-        
         public TrainUnit getLeft() {
             GameManager gm = GameManager.getInstance();
             int index = gm.trainCabin.IndexOf(this);
@@ -160,6 +130,41 @@ namespace model {
                 }
             }
             int size = gm.trainCabin.Count;
+            //Debug.Log("cabin count in left: " + size);
+            //Debug.Log("index of train in left: " + index);
+            if (index + 1 < size) {
+                if (isRoof) {
+                    return (TrainUnit)gm.trainRoof[index+1];
+                }
+                else {
+                    return (TrainUnit)gm.trainCabin[index+1];
+                }
+            }
+            Debug.Log("returning null");
+            return null;
+        }
+        
+        /*public void setRight(TrainUnit otherTrainUnit) {
+            this.right = otherTrainUnit;
+            otherTrainUnit.left = this;
+        }*/
+        
+        public TrainUnit getRight() {
+            GameManager gm = GameManager.getInstance();
+            int index = gm.trainCabin.IndexOf(this);
+            bool isRoof = false;
+            if (index == -1) {
+                index = gm.trainRoof.IndexOf(this);
+                if (index > -1) {
+                    isRoof = true;
+                }
+                else {
+                    return null;
+                }
+            }
+            int size = gm.trainCabin.Count;
+            //Debug.Log("cabin count in right: " + size);
+            //Debug.Log("index of train in right: " + index);
             if (index-1  >= 0) {
                 if (isRoof) {
                     return (TrainUnit)gm.trainRoof[index-1];
@@ -168,6 +173,7 @@ namespace model {
                     return (TrainUnit)gm.trainCabin[index-1];
                 }
             }
+            Debug.Log("returning null");
             return null;
         }
         
@@ -193,7 +199,7 @@ namespace model {
         //change the hashmap for bandit stuff
         public void addBandit(Bandit b) {
             GameManager gm = GameManager.getInstance();
-            gm.banditPositions[b] = this;
+            gm.banditPositions[b.characterAsString] = this;
         }
         
         /*public void removeBandit(Bandit b) {
@@ -204,7 +210,7 @@ namespace model {
         //query hashmap
         public bool containsBandit(Bandit b) {
             GameManager gm = GameManager.getInstance();
-            if (gm.banditPositions[b] == this) {
+            if (gm.banditPositions[b.characterAsString] == this) {
                 return true;
             }
             return false;
@@ -216,13 +222,17 @@ namespace model {
         
         public ArrayList getBanditsHere() {
             GameManager gm = GameManager.getInstance();
-            ArrayList bandits = new ArrayList();
-            foreach (Bandit b in gm.banditPositions) {
-                if (gm.banditPositions[b] == this) {
-                    bandits.Add(b);
+            ArrayList banditsArr = new ArrayList();
+            foreach (Bandit b in gm.bandits) {
+                foreach (DictionaryEntry de in gm.banditPositions) {
+                    TrainUnit t = (TrainUnit) de.Value;
+                    if (b.characterAsString.Equals(de.Key) && de.Value.Equals(this)) {
+                        banditsArr.Add(b);
+                        break;
+                    }
                 }
             }
-            return bandits;
+            return banditsArr;
         }
         
         public void addLoot(Loot a) {
@@ -235,11 +245,11 @@ namespace model {
             this.lootHere.Remove(a);
         }
         
-        bool containsLoot(Loot a) {
+        public bool containsLoot(Loot a) {
             return this.lootHere.Contains(a);
         }
         
-        int numOfLootHere() {
+        public int numOfLootHere() {
             return this.lootHere.Count;
         }
         
@@ -255,9 +265,20 @@ namespace model {
             this.isMarshalHere = b;
         }
         
-        public void moveMarshalTo(TrainUnit dest) {
-            this.isMarshalHere = false;
-            dest.isMarshalHere = true;
+        // public void moveMarshalTo(TrainUnit dest) {
+        //     this.isMarshalHere = false;
+        //     dest.isMarshalHere = true;
+        // }
+
+        public ArrayList getHorsesHere(){
+            GameManager gm = GameManager.getInstance();
+            ArrayList horsesHere = new ArrayList();
+            foreach(Horse h in gm.horses){
+                if(h.getAdjacentTo().Equals(this)){
+                    horsesHere.Add(h);
+                }
+            }
+            return horsesHere;
         }
     }
 }

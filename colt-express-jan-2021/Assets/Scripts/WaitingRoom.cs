@@ -29,6 +29,7 @@ public class WaitingRoom : MonoBehaviour
     public Button SavedSessionButtonA;
     public Button SavedSessionButtonB;
     public Button DeleteButton;
+    public Button DeleteSessionButton;
 
     public Text fToken; // newgamebutton text
     public Text SavedSessionButtonAText;
@@ -38,7 +39,9 @@ public class WaitingRoom : MonoBehaviour
     public Text InfoText;
     public Text launchText;
     public Text deleteText;
+    public Text deleteSessionText;
 
+    //bool playingSaveGame = false;
 
     public static string gameHash = null;
     private static string token;
@@ -49,6 +52,9 @@ public class WaitingRoom : MonoBehaviour
     public static int numPlayers;
     public static int numSessions = 0;
     public static bool intentToDelete = false;
+    public static bool intentToDeleteSession = false;
+
+    public static bool resetFields = false;
 
     private static Dictionary<Button, string> hashes = new Dictionary<Button, string>();
     private static Dictionary<Button, string> saveMap = new Dictionary<Button, string>();
@@ -56,6 +62,7 @@ public class WaitingRoom : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log(GetAdminToken());
         token = PlayerPrefs.GetString("token", "No token found");
         username = PlayerPrefs.GetString("username", "noUser");
         
@@ -65,9 +72,11 @@ public class WaitingRoom : MonoBehaviour
             // For C# serialization
             DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
             SFS.setSFS(sfs);
+            Debug.Log("SFS was null. Setting it now");
         }
         if (!SFS.IsConnected()) {
             SFS.Connect(username);
+            Debug.Log("was not connected. Connecting now");
         }
 
         HostGameButton.interactable = false;
@@ -76,6 +85,11 @@ public class WaitingRoom : MonoBehaviour
         SavedSessionButtonA.interactable = false;
         SavedSessionButtonB.interactable = false;
         DeleteButton.interactable = false;
+        DeleteSessionButton.interactable = false;
+
+        // if(resetFields) {
+        //     SetFields();
+        // }
 
         GetSessions();
 
@@ -116,6 +130,18 @@ public class WaitingRoom : MonoBehaviour
         */
     }
 
+    void SetFields() {
+        gameHash = null;
+        joined = false;
+        hosting = false;
+        numSessions = 0;
+        intentToDelete = false;
+        intentToDeleteSession = false;
+
+        hashes = new Dictionary<Button, string>();
+        saveMap = new Dictionary<Button, string>();
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -123,15 +149,21 @@ public class WaitingRoom : MonoBehaviour
 			SFS.ProcessEvents();
 		}
 
-        GetSessions();
+        // Create a temporary reference to the current scene.
+        Scene currentScene = SceneManager.GetActiveScene();
+         // Retrieve the name of this scene.
+        string sceneName = currentScene.name;
 
-        if(!SFS.enteredGame && numSessions > 0) {
-            if(hosting && !LaunchGameButton.interactable) {
-                ActivateLaunchGameButton();
+        if(sceneName == "WaitingRoom") {
+            GetSessions();
+            if(!SFS.enteredGame && numSessions > 0) {
+                if(hosting && !LaunchGameButton.interactable) {
+                    ActivateLaunchGameButton();
+                }
+                GoToGame();
             }
-            GoToGame();
+            Invoke("Stall",1);
         }
-        Invoke("Stall",1);
     }
 
     private void Stall() { }
@@ -145,16 +177,20 @@ public class WaitingRoom : MonoBehaviour
             Dictionary<string, object> sessionDetails = obj.ToObject<Dictionary<string, object>>();
             
             if (Launched(gameHash)) {
-                if(GameBoard.savegameId == null/*savegameid of the game is empty*/) {
-                    numPlayers = 1 + sessionDetails["players"].ToString().ToCharArray().Count(c => c == ',');
-                    SceneManager.LoadScene("ChooseYourCharacter");
-                } else {
-                    //create an sfs request that assigns the game in the hashmap with the given id as the working game on the server and returns a string saying which bandit you will be playing as
-                    // assign chosencharacter string to the received string in SFS.cs
-                    // go directly to gameboard scene
-                }
+                numPlayers = 1 + sessionDetails["players"].ToString().ToCharArray().Count(c => c == ',');
+                SceneManager.LoadScene("ChooseYourCharacter");
             }
             
+        }
+    }
+
+    public void PlayingSaveGame(Text savegameID) {
+        if(!intentToDelete) {
+            Debug.Log("GameID content : " + savegameID.text);
+            ISFSObject obj2 = SFSObject.NewInstance();
+            obj2.PutUtfString("savegameId", savegameID.text);
+            ExtensionRequest req = new ExtensionRequest("gm.loadSavedGame",obj2);
+            SFS.Send(req);
         }
     }
 
@@ -179,26 +215,89 @@ public class WaitingRoom : MonoBehaviour
         numPlayers = 1 + sessionDetails["players"].ToString().ToCharArray().Count(c => c == ',');
 
         //Dictionary<string, object> sessionGameParams = (Dictionary<string, object>)sessionDetails["gameParameters"];
-        int minPlayers = 2; //number of players from savegame //(int)sessionGameParams["minSessionPlayers"];
+        int minPlayers = 3; //number of players from savegame //(int)sessionGameParams["minSessionPlayers"];
         // get savegame if it is one, check how many players it needs
-        if (numPlayers >= Mathf.Max(2, minPlayers)) { //change to 3
+        if (numPlayers >= minPlayers) {
             LaunchGameButton.interactable = true;
         }
     }
 
     public void JoinGame(Button gameToJoin)
-    {
+    {   
+
         gameHash = hashes[gameToJoin];
         var request = new RestRequest("api/sessions/" + gameHash + "/players/" + username + "?access_token=" + token, Method.PUT)
-            .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+        .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
         IRestResponse response = client.Execute(request);
         foreach(KeyValuePair<Button, string> entry in hashes){
             entry.Key.interactable = false;
         } 
         LaunchGameButton.interactable = false;
         //HostGameButton.interactable = false;
+
+        var request2 = new RestRequest("api/sessions/" + gameHash, Method.GET)
+        .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+        IRestResponse response2 = client.Execute(request2);
+        var obj2 = JObject.Parse(response2.Content);
+        Dictionary<string, object> sessionDetails = obj2.ToObject<Dictionary<string, object>>();
+
+        Debug.Log("SavedGame ID : " + sessionDetails["savegameid"].ToString());
+
+        GameBoard.saveGameId = sessionDetails["savegameid"].ToString();
+
         joined = true;
         InfoText.text = "You will be brought to the next scene once the host launches the game!";
+        
+        SFS.JoinRoom();
+
+        // if(!intentToDeleteSession){
+        //     gameHash = hashes[gameToJoin];
+        //     var request = new RestRequest("api/sessions/" + gameHash + "/players/" + username + "?access_token=" + token, Method.PUT)
+        //     .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+        //     IRestResponse response = client.Execute(request);
+        //     foreach(KeyValuePair<Button, string> entry in hashes){
+        //         entry.Key.interactable = false;
+        //     } 
+        //     LaunchGameButton.interactable = false;
+        //     //HostGameButton.interactable = false;
+
+        //     var request2 = new RestRequest("api/sessions/" + gameHash, Method.GET)
+        //         .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+        //     IRestResponse response2 = client.Execute(request2);
+        //     var obj2 = JObject.Parse(response2.Content);
+        //     Dictionary<string, object> sessionDetails = obj2.ToObject<Dictionary<string, object>>();
+
+        //     Debug.Log("SavedGame ID : " + sessionDetails["savegameid"].ToString());
+
+        //     GameBoard.saveGameId = sessionDetails["savegameid"].ToString();
+
+        //     joined = true;
+        //     InfoText.text = "You will be brought to the next scene once the host launches the game!";
+        
+        //     SFS.JoinRoom();
+        // }else{
+        //     if(joined){
+        //         LaunchGameButton.interactable = false;
+        //         joined = false;
+        //     }
+        //     if(!Launched(gameHash)) {
+        //         DeleteSession();
+        //     }else{
+        //         var request = new RestRequest("api/sessions/" + gameHash + "?access_token=" + GetAdminToken(), Method.DELETE)
+        //         .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+        //         IRestResponse response = client.Execute(request);
+        //     } 
+        //     hosting = false;
+        //     deleteSessionText.text = "Delete a session";
+
+        //     if (hashes.ContainsKey(gameToJoin)) {
+        //         hashes.Remove(gameToJoin);
+        //         fToken.text = "";
+        //         NewGameButton.interactable = false;
+        //         InfoText.text = "You can:\n-Host a new game\n-Click on a saved game to host it\n-Click on a game session to join it";
+        //     }
+        // }
+        
     }
 
     public void CreateSession(Text savegameID)
@@ -223,6 +322,8 @@ public class WaitingRoom : MonoBehaviour
             hosting = true;
             joined = true;
             InfoText.text = "You will be brought to the next scene once you launch your game!";
+
+            SFS.JoinRoom();
         }
     }
 
@@ -271,6 +372,7 @@ public class WaitingRoom : MonoBehaviour
 
         if(numSessions==0) {
             DeleteButton.interactable = true;
+            DeleteSessionButton.interactable = false;
             if(intentToDelete) {
                 HostGameButton.interactable = false;
             } else {
@@ -290,6 +392,14 @@ public class WaitingRoom : MonoBehaviour
             if(joined) {
                 NewGameButton.interactable = false;
             }
+            if(hosting){
+                DeleteSessionButton.interactable = true;
+                if(intentToDeleteSession){
+                    NewGameButton.interactable = true;
+                }else{
+                    NewGameButton.interactable = false;
+                }
+            }
         }
 
     }
@@ -308,8 +418,11 @@ public class WaitingRoom : MonoBehaviour
         int gameNo = 0;
         Text saveGameText;
         Text saveGameIDText;
+        int i = 0;
         foreach(Dictionary<string, object> saveGame in saveGames)
         {
+            if(i>1) break;
+            i++;
             // create a gamebutton for each game here
 
             if (gameNo == 0) {
@@ -367,12 +480,30 @@ public class WaitingRoom : MonoBehaviour
 
     }
 
-    public void DeleteSaveGame(Text savegameID) {
+     public void IntentToDeleteSession() {
+        if(intentToDeleteSession) {
+            intentToDeleteSession = false;
+            deleteSessionText.text = "Delete a session";
+        } else {
+            intentToDeleteSession = true;
+            deleteSessionText.text = "Go back";
+        }
+
+    }
+
+    static public void DeleteSaveGame(Text savegameID) {
         if(intentToDelete) {
             string adminToken = GetAdminToken();
             var request = new RestRequest("api/gameservices/ColtExpress/savegames/" + savegameID.text + "?access_token=" + adminToken, Method.DELETE)
                 .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
             IRestResponse response = client.Execute(request);
+            Debug.Log("Here is the delete saved game return: "+ response.ErrorMessage + "   " + response.StatusCode);
+
+            Debug.Log("GameID of saved game to be deleted content : " + savegameID.text);
+            ISFSObject obj = SFSObject.NewInstance();
+            obj.PutUtfString("savegameId", savegameID.text);
+            ExtensionRequest req = new ExtensionRequest("gm.deleteSavedGame",obj);
+            SFS.Send(req);
         }
     }
 
@@ -415,7 +546,7 @@ public class WaitingRoom : MonoBehaviour
         }
     }*/
 
-    private string GetAdminToken() {
+    public static string GetAdminToken() {
         var request = new RestRequest("oauth/token", Method.POST)
             .AddParameter("grant_type", "password")
             .AddParameter("username", "admin")
@@ -423,9 +554,9 @@ public class WaitingRoom : MonoBehaviour
             .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
             IRestResponse response = client.Execute(request);
             
-            var obj = JObject.Parse(response.Content);
-            string adminToken = (string)obj["access_token"];
-            return adminToken.Replace("+", "%2B");
+        var obj = JObject.Parse(response.Content);
+        string adminToken = (string)obj["access_token"];
+        return adminToken.Replace("+", "%2B");
     }
 
     private void DeleteSession() {
@@ -452,38 +583,7 @@ public class WaitingRoom : MonoBehaviour
         SaveGameState("test");
     }
 
-    public void SaveGameState(string savegameID) {
-        Debug.Log("SaveGameState is called!"); 
-		//ONLY NEED TO SEND THE SAVEGAME REQUEST TO THE LS ONCE
-		//(although making the same call multiple times can't hurt, and is simpler)
-		var request = new RestRequest("api/sessions/" + gameHash, Method.GET)
-            .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
-        IRestResponse response = client.Execute(request);
-        var JObj = JObject.Parse(response.Content);
-        Dictionary<string, object> sessionDetails = JObj.ToObject<Dictionary<string, object>>();
-
-		dynamic j = new JObject();
-		var temp = JsonConvert.SerializeObject(sessionDetails["gameParameters"]);
-		var gameParameters = JsonConvert.DeserializeObject<Dictionary<string, string>>(temp);
-
-		string gameName = gameParameters["name"];
-        Debug.Log("gamename: " + gameName);
-		j.gamename = gameName; // can replace with "ColtExpress"
-		//below I deserialize a JSON object to a collection
-        List<string> players = JsonConvert.DeserializeObject<List<string>>(sessionDetails["players"].ToString());
-		//temp = JsonConvert.SerializeObject(sessionDetails["players"]);
-		Debug.Log("players: " + players.ToString());
-        j.players = JsonConvert.SerializeObject(players);//In case it doesn't work, debug by adding a .ToArray()
-		j.savegameid = savegameID;
-
-        Debug.Log("j: " + j.ToString());
-		request = new RestRequest("api/gameservices/" + gameName + "/savegames/" + savegameID + "?access_token=" + GetAdminToken(), Method.POST)
-            .AddParameter("application/json", j.ToString(), ParameterType.RequestBody)
-            .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
-
-        IRestResponse response2 = client.Execute(request);
-        var obj = JObject.Parse(response2.Content);
-        Debug.Log(obj.ToString());
+    public void SaveGameState(string savegameID) {    
+        GameBoard.TestSave();
 	}
-
 }

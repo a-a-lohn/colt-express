@@ -35,13 +35,14 @@ public static class SFS
 
 	public static int step = 0;
 
+	public static TestGame tg;
 	public static GameBoard gb;
 	public static ChooseCharacter cc;
 	public static Chat chat;
-	public static int trainIndex = 1;
+	public static int trainIndex;
 
     static SFS(){
-        defaultHost = "127.0.0.1";//"13.72.79.112";
+        defaultHost =  "13.72.79.112";//"127.0.0.1";  
 	    defaultTcpPort = 9933;
         zone = "MergedExt";
     }
@@ -53,6 +54,10 @@ public static class SFS
 	public static SmartFox getSFS() {
         return sfs;
     }
+
+	public static void setTestGame() {
+		tg = GameObject.Find("TestGameGO").GetComponent<TestGame>();
+	}
 
 	public static void setGameBoard() {
 		gb = GameObject.Find("GameBoardGO").GetComponent<GameBoard>();
@@ -101,14 +106,19 @@ public static class SFS
 				cc.UpdateDisplayText(chosenCharText);
 				cc.DisplayRemainingCharacters(evt);
 			}
-		} else if (cmd == "updateGameState") {
-			GameManager gm = GameManager.getInstance();
-            gb.UpdateGameState(evt);
-			if (GameBoard.started==false) {
-				GameBoard.promptHorseAttack(trainIndex);
-				trainIndex++;
+		} 
+		
+		else if (cmd == "updateGameState") {
+			Debug.Log("UGS called in SFS.cs");
+			Debug.Log("Current SaveGame ID Content before updating gamestate: "+ GameBoard.saveGameId);
+			gb.UpdateGameState(evt);
+			if (GameBoard.started==false & GameBoard.saveGameId == "") {
+				Debug.Log("Condition triggered, started = false");
+			 	gb.promptHorseAttack();
 			}
-        } else if (cmd == "nextAction") {
+        } 
+		
+		else if (cmd == "nextAction") {
 			ISFSObject responseParams = (SFSObject)evt.Params["params"];
 			step = responseParams.GetInt("step");
 			Debug.Log("received step " + step);
@@ -130,7 +140,16 @@ public static class SFS
    				Debug.Log(String.Format("{0}: {1}", key.characterAsString, m.carTypeAsString));
 			}
 			//GameBoard.SendNewGameState();
-		} 
+		}  else if (cmd == "testgame") {
+			tg.ReceiveInitializedGame(evt);
+		}  else if (cmd == "currentSaveGameID") {
+			ISFSObject responseParams = (SFSObject)evt.Params["params"];
+			string saveGame = responseParams.GetUtfString("savegameID");
+			Debug.Log("Here is the returned SaveGame after Loading!!!"+ saveGame);
+			if(saveGame != ""){
+				GameBoard.saveGameId = saveGame;
+			}
+		}
     }
 
     public static void Connect(string uname) {
@@ -142,7 +161,7 @@ public static class SFS
 			// Clear console
 			//debugText.text = "";
 			
-			trace("Now connecting...");	
+			Debug.Log("Now connecting...");	
 			
             // Add listeners
 			sfs.AddEventListener(SFSEvent.CONNECTION, OnConnection);
@@ -213,14 +232,13 @@ public static class SFS
 
     private static void OnConnection(BaseEvent evt) {
 		if ((bool)evt.Params["success"]) {
-			trace("Connection established successfully");
-			trace("Connection mode is: " + sfs.ConnectionMode);
+			Debug.Log("Connection established successfully");
 
             // Login with some username after having made connection
 			sfs.Send(new Sfs2X.Requests.LoginRequest(username));
 
 		} else {
-			trace("Connection failed; is the server running at all?");
+			Debug.Log("Connection failed; is the server running at all?");
 			
 			// Remove SFS2X listeners and re-enable interface
 			reset();
@@ -228,7 +246,7 @@ public static class SFS
 	}
 	
 	private static void OnConnectionLost(BaseEvent evt) {
-		trace("Connection was lost; reason is: " + (string)evt.Params["reason"]);
+		Debug.Log("Connection was lost; reason is: " + (string)evt.Params["reason"]);
 		
 		// Remove SFS2X listeners and re-enable interface
 		reset();
@@ -283,14 +301,18 @@ public static class SFS
 
 		// Populate Room list
 		populateRoomList(sfs.RoomList);*/
+	}
 
+	public static void JoinRoom() {
 		// Join first Room in Zone
 		if (sfs.RoomList.Count > 0) {
+			Debug.Log("joining a room");
 			sfs.Send(new Sfs2X.Requests.JoinRoomRequest(sfs.RoomList[0].Name));
 		}
 	}
 
 	public static void LeaveRoom() {
+		Debug.Log("leaving room");
 		sfs.Send(new Sfs2X.Requests.LeaveRoomRequest());
 	}
 	
@@ -304,95 +326,11 @@ public static class SFS
 		// Show error message
 		debugText = "Login failed: " + (string) evt.Params["errorMessage"];
 	}
-
-
-	/*private static void populateRoomList(List<Room> rooms) {
-		// Clear current Room list
-		clearRoomList();
-
-		// For the roomlist we use a scrollable area containing a separate prefab button for each Room
-		// Buttons are clickable to join Rooms
-		foreach (Room room in rooms) {
-			int roomId = room.Id;
-
-			GameObject newListItem = Instantiate(roomListItem) as GameObject;
-			RoomItem roomItem = newListItem.GetComponent<RoomItem>();
-			roomItem.nameLabel.text = room.Name;
-			roomItem.maxUsersLabel.text = "[max " + room.MaxUsers + " users]";
-			roomItem.roomId = roomId;
-
-			roomItem.button.onClick.AddListener(() => OnRoomItemClick(roomId));
-
-			newListItem.transform.SetParent(roomListContent, false);
-		}
-	}
-
-	private static void clearRoomList() {
-		foreach (Transform child in roomListContent.transform) {
-			GameObject.Destroy(child.gameObject);
-		}
-	}
-
-	private static void populateUserList(List<User> users) {
-		// For the userlist we use a simple text area, with a user name in each row
-		// No interaction is possible in this example
-
-		// Get user names
-		List<string> userNames = new List<string>();
-
-		foreach (User user in users) {
-
-			string name = user.Name;
-
-			if (user == sfs.MySelf)
-				name += " <color=#808080ff>(you)</color>";
-
-			userNames.Add(name);
-		}
-
-		// Sort list
-		userNames.Sort();
-
-		// Display list
-		userListText.text = "";
-		userListText.text = String.Join("\n", userNames.ToArray());
-	}
-
-
-	private static void OnRoomJoin(BaseEvent evt) {
-		Room room = (Room) evt.Params["room"];
-
-		// Clear chat (uless this is the first time a Room is joined - or the initial system message would be deleted)
-		if (!firstJoin)
-			chatText.text = "";
-
-		firstJoin = false;
-		
-		// Show system message
-		printSystemMessage("\nYou joined room '" + room.Name + "'\n");
-
-		// Enable chat controls
-		chatControls.interactable = true;
-
-		// Populate users list
-		populateUserList(room.UserList);
-	}*/
 	
 	private static void OnRoomJoinError(BaseEvent evt) {
 		// Show error message
 		Debug.Log("Room join failed: " + (string) evt.Params["errorMessage"]);
 	}
-	
-	/*private static void OnUserEnterRoom(BaseEvent evt) {
-		User user = (User) evt.Params["user"];
-		Room room = (Room) evt.Params["room"];
-
-		// Show system message
-		printSystemMessage("User " + user.Name + " entered the room");
-
-		// Populate users list
-		populateUserList(room.UserList);
-	}*/
 	
 	private static void OnUserExitRoom(BaseEvent evt) {
 		ISFSObject obj = SFSObject.NewInstance();
@@ -403,14 +341,7 @@ public static class SFS
 		username = PlayerPrefs.GetString("username", "No username found");
 		Debug.Log(username);
 		Debug.Log(user.Name);
-		if (user.Name != username) {
-			//Room room = (Room)evt.Params["room"];
-			
-			// Show system message
-			//printSystemMessage("User " + user.Name + " left the room");
-			
-			// Populate users list
-			//populateUserList(room.UserList);
+		if (user.Name != username) {			
 			Debug.Log(user.Name + " left the game!");
 			//gb.exit.SetActive(true);
 			gb.exitText.text = user.Name + " left the game! You will now be redirected to the Waiting Room"; 
@@ -425,17 +356,12 @@ public static class SFS
 		}
 	}
 
-	/*private static void OnRoomAdd(BaseEvent evt) {
-		// Re-populate Room list
-		populateRoomList(sfs.RoomList);
-	}*/
-
     private static void OnPublicMessage(BaseEvent evt) {
 		User sender = (User) evt.Params["sender"];
 		string message = (string) evt.Params["message"];
 		
 		printUserMessage(sender, message);
-		chat.printUserMessage();
+		if(chat != null) chat.printUserMessage();
 	}
 
 	private static void printUserMessage(User user, string message) {

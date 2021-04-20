@@ -28,19 +28,19 @@ namespace model {
 
         public void removePlayedCardsAt(int index) {
             if ((this.playedCards.Count > index)) {
-                this.playedCards.Remove(index);
+                this.playedCards.RemoveAt(index);
             }
         }
 
         public ActionCard getPlayedCardsAt(int index) {
-            if ((this.playedCards.Count > index)) {
+            if (this.playedCards.Count > index) {
                 return (ActionCard)this.playedCards[index];
             }
             return null;
         }
 
         public void addPlayedCards(ActionCard a) {
-            this.playedCards.Add(a);
+            this.playedCards.Insert(0, a);
         }
         
         public void removePlayedCard(ActionCard a) {

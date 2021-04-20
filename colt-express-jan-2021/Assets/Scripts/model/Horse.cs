@@ -18,7 +18,6 @@ namespace model {
     {
 
         public TrainUnit adjacentTo;
-        //public Option<Bandit> riddenBy;
         public Bandit riddenBy;
         
         // --EMPTY CONSTRUCTOR FOR SERIALIZATION--

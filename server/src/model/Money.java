@@ -20,6 +20,7 @@ public class Money extends Loot implements SerializableSFSType {
     
 	public Money(MoneyType mt, int value) {
 		this.moneyType = mt;
+		this.moneyTypeAsString = mt.toString();
 		this.value = value;
 	}
     
@@ -32,7 +33,7 @@ public class Money extends Loot implements SerializableSFSType {
 	 * 2x $300
 	 * 8x $250
 	 * 
-	 * 6 gems worth:
+	 * 6 jewels worth:
 	 * 6x $500
 	 * 
 	 * 2 strongboxes worth:

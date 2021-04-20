@@ -13,20 +13,111 @@ import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
  */
 public abstract class Loot implements SerializableSFSType {
     
-//	public Optional<Bandit> belongsTo;
-//	public Optional<TrainUnit> position;
-    
     //--EMPTY CONSTRUCTOR FOR SERIALIZATION--
     public Loot() { }
     
     /**
      * --LOOT METHODS--
      */
-    public void drop() {
-    	//TODO
-    }
-    public void pickup() {
-    	//TODO
+    
+ 	/**
+ 	 * All Money Tokens
+ 	 * 18 purses worth:
+	 * 2x $500
+	 * 2x $450
+	 * 2x $400
+	 * 2x $350
+	 * 2x $300
+	 * 8x $250
+	 * 
+	 * 6 jewels worth:
+	 * 6x $500
+	 * 
+	 * 2 strongboxes worth:
+	 * 2x $1000
+	 * 
+	 * All Whiskey Tokens
+	 * 5 whiskey flasks
+	 * 1 old whiskey flask
+	 * 
+ 	 * Create loot for each train cabin
+ 	 * CAR1 3 PURSE (500, 350, 250) NORMAL WHISKEY
+ 	 * CAR2 3 GEM NORMAL WHISKEY
+ 	 * CAR3 1 PURSE 1 GEM (400) NORMAL WHISKEY
+ 	 * CAR4 3 PURSE 1 GEM (450, 400, 350) NORMAL WHISKEY
+ 	 * CAR5 4 PURSE 1 GEM (500, 450, 300, 250) NORMAL WHISKEY
+ 	 * CAR6 1 PURSE (300) OLD WHISKEY
+ 	 */
+    public static void createLoot() {
+    	GameManager gm = GameManager.getInstance();
+    	for(TrainUnit t : gm.trainCabin) {
+    		if(t.carType.equals(CarType.CAR1)) {
+    			System.out.println("Initializing Loot for CAR1");
+    			Loot purse1 = new Money(MoneyType.PURSE, 500);
+    			Loot purse2 = new Money(MoneyType.PURSE, 350);
+    			Loot purse3 = new Money(MoneyType.PURSE, 250);
+    			Loot whiskey = new Whiskey(WhiskeyType.NORMAL);
+    			t.addLoot(purse1);
+    			t.addLoot(purse2);
+    			t.addLoot(purse3);
+    			t.addLoot(whiskey);
+    		}
+    		else if(t.carType.equals(CarType.CAR2)) {
+    			System.out.println("Initializing Loot for CAR2");
+    			Loot jewel1 = new Money(MoneyType.JEWEL, 500);
+    			Loot jewel2 = new Money(MoneyType.JEWEL, 500);
+    			Loot jewel3 = new Money(MoneyType.JEWEL, 500);
+    			Loot whiskey = new Whiskey(WhiskeyType.NORMAL);
+    			t.addLoot(jewel1);
+    			t.addLoot(jewel2);
+    			t.addLoot(jewel3);
+    			t.addLoot(whiskey);
+    		}
+    		else if(t.carType.equals(CarType.CAR3)) {
+    			System.out.println("Initializing Loot for CAR3");
+    			Loot purse = new Money(MoneyType.PURSE, 400);
+    			Loot jewel = new Money(MoneyType.JEWEL, 500);
+    			Loot whiskey = new Whiskey(WhiskeyType.NORMAL);
+    			t.addLoot(purse);
+    			t.addLoot(jewel);
+    			t.addLoot(whiskey);
+    		}
+    		else if(t.carType.equals(CarType.CAR4)) {
+    			System.out.println("Initializing Loot for CAR4");
+    			Loot purse1 = new Money(MoneyType.PURSE, 450);
+    			Loot purse2 = new Money(MoneyType.PURSE, 400);
+    			Loot purse3 = new Money(MoneyType.PURSE, 350);
+    			Loot jewel = new Money(MoneyType.JEWEL, 500);
+    			Loot whiskey = new Whiskey(WhiskeyType.NORMAL);
+    			t.addLoot(purse1);
+    			t.addLoot(purse2);
+    			t.addLoot(purse3);
+    			t.addLoot(jewel);
+    			t.addLoot(whiskey);
+    		}
+    		else if(t.carType.equals(CarType.CAR5)) {
+    			System.out.println("Initializing Loot for CAR5");
+    			Loot purse1 = new Money(MoneyType.PURSE, 500);
+    			Loot purse2 = new Money(MoneyType.PURSE, 450);
+    			Loot purse3 = new Money(MoneyType.PURSE, 300);
+    			Loot purse4 = new Money(MoneyType.PURSE, 250);
+    			Loot jewel = new Money(MoneyType.JEWEL, 500);
+    			Loot whiskey = new Whiskey(WhiskeyType.NORMAL);
+    			t.addLoot(purse1);
+    			t.addLoot(purse2);
+    			t.addLoot(purse3);
+    			t.addLoot(purse4);
+    			t.addLoot(jewel);
+    			t.addLoot(whiskey);
+    		}
+    		else if(t.carType.equals(CarType.CAR6)) {
+    			System.out.println("Initializing Loot for CAR6");
+    			Loot purse = new Money(MoneyType.PURSE, 300);
+    			Loot whiskey = new Whiskey(WhiskeyType.OLD);
+    			t.addLoot(purse);
+    			t.addLoot(whiskey);
+    		}
+    	}
     }
     
 }

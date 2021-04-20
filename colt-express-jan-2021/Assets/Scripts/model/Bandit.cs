@@ -57,13 +57,13 @@ namespace model {
         //position
         public TrainUnit getPosition() {
             GameManager gm = GameManager.getInstance();
-            TrainUnit pos = (TrainUnit)gm.banditPositions[this];
+            TrainUnit pos = (TrainUnit)gm.banditPositions[this.characterAsString];
             return (TrainUnit)pos;
         }
         public void setPosition(TrainUnit newObject) {
             //change hashmap of bandit-position
             GameManager gm = GameManager.getInstance();
-            gm.banditPositions[this] = newObject;
+            gm.banditPositions[this.characterAsString] = newObject;
         }
         
         //loot
@@ -75,19 +75,21 @@ namespace model {
             return null;
         }
         public void addLoot(Loot a) {
-            bool contains = this.loot.Contains(a);
-            if (contains) {
-                return;
-            }
             this.loot.Add(a);
         }
         public void removeLoot(Loot a) {
-            if (this.loot.Contains(a)) {
-                this.loot.Remove(a);
-            }
+            this.loot.Remove(a);
         }
         public ArrayList getLoot() {
             return this.loot;
+        }
+        public bool containsLoot(Loot l){
+            if(this.loot.Contains(l)){
+                return true;
+            }
+            else{
+                return false;
+            }
         }
         
         //deck
@@ -99,9 +101,7 @@ namespace model {
             this.deck.Insert(index, a);
         }
         public void removeFromDeckAt(int index) {
-            if ((this.deck.Count > index)) {
-                this.deck.Remove(index);
-            }
+            this.deck.RemoveAt(index);
         }
         public Card getFromDeckAt(int index) {
             if ((this.deck.Count > index)) {
@@ -125,17 +125,12 @@ namespace model {
         
         //hand
         public void addToHand(Card a) {
-            bool contains = this.hand.Contains(a);
-            if (contains) {
-                return;
-            }
             this.hand.Add(a);
             
         }
         public void removeFromHand(Card a) {
-            if (this.hand.Contains(a)) {
-                this.hand.Remove(a);
-            }
+            this.hand.Remove(a);
+
         }
         public int sizeOfHand() {
             int size = this.hand.Count;
@@ -183,47 +178,6 @@ namespace model {
 		    this.consecutiveTurnCounter = i;
 	    }
         
-
-        //initializing methods
-        public void createStartingCards() {
-            string[] actions= {"MOVE", "MOVE", "CHANGE_FLOOR","CHANGE_FLOOR", "MOVE_MARSHAL", "PUNCH", "ROB", "ROB", "SHOOT","SHOOT"};
-            for (int i = 0; i<actions.Length; i++) {
-                Card c = new ActionCard (actions[i], this.characterAsString);
-                this.deck.Add(c);
-            }
-        }
-        
-        public void createHand() {
-            this.shuffle();
-            for (int i = 0; (i < 6); i++) {
-                Card c = (Card)this.deck[0];
-                this.hand.Add(c);
-                this.deck.Remove(c);
-            }
-            
-        }
-        
-        public void createBulletCards() {
-            BulletCard bc1 = new BulletCard(this.characterAsString);
-            BulletCard bc2 = new BulletCard(this.characterAsString);
-            BulletCard bc3 = new BulletCard(this.characterAsString);
-            BulletCard bc4 = new BulletCard(this.characterAsString);
-            BulletCard bc5 = new BulletCard(this.characterAsString);
-            BulletCard bc6 = new BulletCard(this.characterAsString);
-            this.bullets.Add(bc1);
-            this.bullets.Add(bc2);
-            this.bullets.Add(bc3);
-            this.bullets.Add(bc4);
-            this.bullets.Add(bc5);
-            this.bullets.Add(bc6);
-        }
-        
-        public void createStartingPurse() {
-            Money startingPurse = new Money("PURSE", 250); 
-            this.loot.Add(startingPurse);
-        }
-
-        //TODO: combine this game manager
         public void clearHand(){
             foreach (Card c in this.hand){
                 this.deck.Add(c);
@@ -260,10 +214,24 @@ namespace model {
         }
 
         public void drawCards(int cardsToDraw) {
-            for (int i = this.sizeOfDeck()-1; i > this.sizeOfDeck()-cardsToDraw-1; i--) {
-                Card toAdd = this.getFromDeckAt(i);
-                this.removeFromDeckAt(i);
-                this.addToHand(toAdd);
+            Debug.Log("cards to draw: " + cardsToDraw);
+            int deckSize = this.sizeOfDeck();
+            if(deckSize == 0){
+                return;
+            }
+            else if(deckSize <= cardsToDraw){
+                for (int i = 0; i<deckSize; i++) {
+                    Card toAdd = this.getFromDeckAt(sizeOfDeck()-1);
+                    this.removeFromDeckAt(sizeOfDeck()-1);
+                    this.addToHand(toAdd);
+                }
+            }
+            else{
+                for (int i = deckSize-1; i > deckSize-cardsToDraw-1; i--) {
+                    Card toAdd = this.getFromDeckAt(i);
+                    this.removeFromDeckAt(i);
+                    this.addToHand(toAdd);
+                }
             }
         }
 
@@ -298,11 +266,11 @@ namespace model {
             deckBC.Clear();
             foreach (Card c in deck) {
                 if (c is ActionCard) {
-                    Debug.Log("Adding an action card to deck");
+                    //Debug.Log("Adding an action card to deck");
                     deckAC.Add(((ActionCard) c));
                 }
                 else {
-                    Debug.Log("Adding a bullet card to deck");
+                   // Debug.Log("Adding a bullet card to deck");
                     deckBC.Add(((BulletCard) c));
                 }
             }
@@ -324,11 +292,11 @@ namespace model {
             handBC.Clear();
             foreach (Card c in hand) {
                 if (c is ActionCard) {
-                    Debug.Log("Adding an action card to hand");
+                    //Debug.Log("Adding an action card to hand");
                     handAC.Add(((ActionCard) c));
                 }
                 else {
-                    Debug.Log("Adding a bullet card to hand");
+                    //Debug.Log("Adding a bullet card to hand");
                     handBC.Add(((BulletCard) c));
                 }
             }

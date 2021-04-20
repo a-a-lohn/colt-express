@@ -28,7 +28,37 @@ namespace model {
         }
 
         public Bandit getBelongsTo(){
-            return new Bandit("BELLE");
+            GameManager gm = GameManager.getInstance();
+            foreach(Bandit b in gm.bandits){
+                if(b.containsLoot(this)){
+                    Debug.Assert(this.getPosition() == null);
+                    return b;
+                }
+            }
+            return null;
+        }
+
+        public TrainUnit getPosition(){
+            GameManager gm = GameManager.getInstance();
+            foreach(TrainUnit t in gm.trainRoof){
+                if(t.containsLoot(this)){
+                    Debug.Assert(this.getBelongsTo() == null);
+                    return t;
+                }
+            }
+            foreach(TrainUnit t in gm.trainCabin){
+                if(t.containsLoot(this)){
+                    Debug.Assert(this.getBelongsTo() == null);
+                    return t;
+                }
+            }
+            foreach(TrainUnit t in gm.stagecoach){
+                if(t.containsLoot(this)){
+                    Debug.Assert(this.getBelongsTo() == null);
+                    return t;
+                }
+            }
+            return null;
         }
     }
 }
