@@ -2,8 +2,6 @@ package model;
 
 import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
 
-// Start of user code for imports
-// End of user code
 
 /**
  * Whiskey class definition.
@@ -12,9 +10,9 @@ import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
 public class Whiskey extends Loot implements SerializableSFSType {
     
     transient public WhiskeyType whiskeyType;
-    public String whiskeyTypeAsString; //FOR NETWORKING
+    public String whiskeyTypeAsString;
     transient public WhiskeyStatus whiskeyStatus;
-    public String whiskeyStatusAsString; //FOR NETWORKING
+    public String whiskeyStatusAsString;
     
 
     //--EMPTY CONSTRUCTOR FOR SERIALIZATION--

@@ -38,7 +38,6 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	boolean savedCurrentGameAtLeastOnce = false;
 	String currentSaveGameId;
 	int positionTurns = 0;
-	//int trainIndex = 1;
 	private static List<String> chosenCharactersSavedGame = new ArrayList<String>();
 	private static ArrayList<Bandit> firstBandits = new ArrayList<Bandit>();
 	private static ArrayList<Bandit> nextBandits = new ArrayList<Bandit>();
@@ -131,8 +130,6 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	public void handleEnterGameBoardScene(User sender, ISFSObject params, ISFSObject rtn) {
 		System.out.println("entering gb scene");
 		gm = GameManager.getInstance();
-//		ArrayList<Bandit> bandits = game.bandits;
-//		assert(bandits.size() > 1);
 	
 		if(gm.currentBandit == null) {
 			gm.currentBandit = new Bandit();
@@ -144,28 +141,24 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 	public void handleNewGameState(ISFSObject params, ISFSObject rtn) {
 		gm = (GameManager) params.getClass("gm");
 		GameManager.singleton = gm;
-		//GameManager.singleton = gm;
 		System.out.println("received game state!");
 		String log = (String) params.getUtfString("log");
 		if(log != null) {
 			System.out.println("Received log message: " + log);
 			rtn.putUtfString("log", log);
 		}
-		//System.out.println(gm.bandits.get(0).position.carTypeAsString);
 		updateGameState(rtn);
 	}
 	
 	public void updateGameState(ISFSObject rtn) {
 		rtn.putClass("gm", gm);
 		System.out.println("Sending game state to all");
-		//System.out.println("Current bandit: " + gm.currentBandit.characterAsString);
 		sendToAllUsers(rtn, "updateGameState");
 	}
 	
 	public void updateGameStateSenderOnly(User sender, ISFSObject rtn) {
 		rtn.putClass("gm", gm);
 		System.out.println("Sending game state to " + sender.getName());
-		//System.out.println("Current bandit: " + gm.currentBandit.characterAsString);
 		sendToSender(sender, rtn, "updateGameState");
 	}	
 	
@@ -278,16 +271,6 @@ public class ColtMultiHandler extends BaseClientRequestHandler {
 			if (gm.currentBandit.characterAsString != null) 
 				return;
 			ArrayList<Bandit> bd = new ArrayList<Bandit>();
-//			Iterator it = gm.banditPositions.entrySet().iterator();
-//			for(String s : orderedBandits) {
-////				HashMap.Entry pair = (HashMap.Entry)it.next();
-////				String name = (String)pair.getKey();
-//				for (Bandit b: gm.bandits) {
-//					if (b.characterAsString.equals(s))
-//							bd.add(b);
-//				}
-//			}
-			//if(gm.bandits.size() == firstBandits.size()) System.out.println("same size");
 			gm.bandits = firstBandits;
 			for(Bandit b : nextBandits) {
 				gm.bandits.add(b);

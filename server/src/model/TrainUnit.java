@@ -8,8 +8,6 @@ import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
 
 import model.Bandit;
 
-// Start of user code for imports
-// End of user code
 
 /**
  * TrainUnit class definition.
@@ -103,7 +101,7 @@ public class TrainUnit implements SerializableSFSType {
     
     
     
-    public static void moveStagecoach() { //TODO SHOTGUN MUST MOVE WITH STAGECOACH
+    public static void moveStagecoach() { // SHOTGUN MUST MOVE WITH STAGECOACH
     	return;
     	/*TrainUnit stagecoachRoof = TrainUnit.getStagecoach().get(0);
     	TrainUnit stagecoachCabin = TrainUnit.getStagecoach().get(1);
@@ -168,17 +166,10 @@ public class TrainUnit implements SerializableSFSType {
     int numOfLootHere() {
         return this.lootHere.size();
     }
-
-    /*public HashSet<Loot> getLootHere() {
-        return this.lootHere.clone();
-    }*/
-    
     
     /**
      * MARSHAL METHODS
-     */
-    
-    
+     */    
     public boolean getIsMarshalHere() {
         return this.isMarshalHere;
     }
@@ -190,50 +181,4 @@ public class TrainUnit implements SerializableSFSType {
     	this.isMarshalHere = false;
     	dest.isMarshalHere = true;
     }
-
-    /**
-     * HORSE METHODS, (HAVE NOT BEEN CHECKED)
-     */
-    
-    /*
-    public boolean addHorsesAt(int index, Horse a) {
-        boolean contains = horses.contains(a);
-        if (contains) {
-            return false;
-        }
-        horses.add(index, a);
-        return true;
-    }
-    public boolean removeHorsesAt(int index) {
-        Horse removedElement = horses.remove(index);
-        boolean result = removedElement != null;
-        return result;
-    }
-    Horse getHorsesAt(int index) {
-        Horse associated = horses.get(index);
-        return associated;
-    }
-    boolean addHorses(Horse a) {
-        boolean contains = horses.contains(a);
-        if (contains) {
-            return false;
-        }
-        boolean added = horses.add(a);
-        return added;
-    }
-    boolean removeHorse(Horse a) {
-        boolean removed = horses.remove(a);
-        return removed;
-    }
-    boolean containsHorse(Horse a) {
-        boolean contains = horses.contains(a);
-        return contains;
-    }
-    int sizeOfHorses() {
-        int size = horses.size();
-        return size;
-    }
-    ArrayList<Horse> getHorses() {
-        return this.horses;
-    }*/
 }

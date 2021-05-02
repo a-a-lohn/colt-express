@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
 
-// Start of user code for imports
-// End of user code
 
 /**
  * PlayedPile class definition.

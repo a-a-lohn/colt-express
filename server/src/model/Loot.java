@@ -1,11 +1,7 @@
 package model;
 
-import java.util.Optional;
-
 import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
 
-// Start of user code for imports
-// End of user code
 
 /**
  * Loot class definition.

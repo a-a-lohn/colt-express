@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import com.smartfoxserver.v2.protocol.serialization.SerializableSFSType;
 
-// Start of user code for imports
-// End of user code
 
 /**
  * Round class definition.
@@ -15,8 +13,7 @@ public class Round implements SerializableSFSType {
     
 	transient public RoundType roundType;
 	
-	//= round.toString(); -- Not sure if this will work, may have to be done assigned after round is assigned
-	public String roundTypeAsString; //FOR NETWORKING
+	public String roundTypeAsString;
 	
 	public Turn currentTurn;
 	public int turnCounter = 0; //Tracks the current turn
