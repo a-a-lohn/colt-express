@@ -9,7 +9,7 @@ This project was created and developed over a period of about eight months for t
 # Download and Installation
 Download and launch the latest release [here](https://github.com/a-a-lohn/colt-express/releases/download/v1.0/ColtExpress.Setup.Windows.x86.-.64.exe).
 
-Note: The executable is only compatible for Windows machines. Furthermore, this application relies on two external server components running on localhost: a [Lobby Service](https://github.com/kartoffelquadrat/LobbyService) (LS) instance and a [SmartFoxServer](https://www.smartfoxserver.com/) (SFS) instance. Please see the [setup](setup.md) guide for more details.
+Note: The executable is only compatible for Windows machines. Furthermore, this application relies on two external server components running on localhost: a [Lobby Service](https://github.com/kartoffelquadrat/LobbyService) (LS) instance and a [SmartFoxServer](https://www.smartfoxserver.com/) (SFS) instance. Please see the [setup guide](setup.md) for more details.
 
 # Usage
 Once downloaded/installed (or built manually), the game can be run by clicking on the Colt Express Unity Application executable.
