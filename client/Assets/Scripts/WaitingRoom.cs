@@ -21,7 +21,7 @@ using Sfs2X.Protocol.Serialization;
 
 public class WaitingRoom : MonoBehaviour
 {
-    private static RestClient client = new RestClient("http://13.72.79.112:4242");
+    private static RestClient client = new RestClient("http://127.0.0.1:4242");
 
     public Button HostGameButton;
     public Button LaunchGameButton;
@@ -40,8 +40,6 @@ public class WaitingRoom : MonoBehaviour
     public Text launchText;
     public Text deleteText;
     public Text deleteSessionText;
-
-    //bool playingSaveGame = false;
 
     public static string gameHash = null;
     private static string token;
@@ -92,42 +90,6 @@ public class WaitingRoom : MonoBehaviour
         // }
 
         GetSessions();
-
-        //TODO:
-        // make enter room functionality only occur when entered gameboard
-        // do not allow the same user to log in from multiple machines
-
-
-        // add savegame logic to WR
-        /*
-        - //have >=2 buttons each for savegames
-        - //clicking hostgame launches a session
-        - clicking on a savegame creates a forked session
-        - clicking 'save' during gameplay creates a savegame. Every subsequent
-          click to save the game does nothing in LS but updates saved game on server
-        - completing/leaving a game that was never saved deletes the launched session
-        - completing a game that was saved (either during the game or earlier)
-          first deletes the savegames with that savegameid, then the session
-        - leaving a game that was saved deletes the launched session but keeps the last
-          savegame
-        - add a delete savegame button to WR that deletes savegames (and unlaunched
-          games forked from it)
-
-        - //if someone logs out, they leave the session. If they are the host, the session
-          is deleted and the buttons become clickable
-        - //only one session button is needed at all times. Once someone hosts (by clicking
-          host game or clicking on a savegame), no one else should be able to do anything
-          but join that game. When you enter the WR, either there will be a game ready
-          for you to join that has been launched by someone and you can't click anything
-          else, or you can host a game. There is never an unlaunched session going on
-          unless its about to be played
-        - change logic to require 'min-players' # of people to register before
-          a game becomes launchable, not just a fixed number like 2 or 3. Because
-          savegames can have a higher min number
-
-        - do not allow for more than 2/3 savegames to ever be created
-        - add savegame api call logic to a 'settings' scene--no savegames are created in WR
-        */
     }
 
     void SetFields() {
@@ -249,54 +211,6 @@ public class WaitingRoom : MonoBehaviour
         InfoText.text = "You will be brought to the next scene once the host launches the game!";
         
         SFS.JoinRoom();
-
-        // if(!intentToDeleteSession){
-        //     gameHash = hashes[gameToJoin];
-        //     var request = new RestRequest("api/sessions/" + gameHash + "/players/" + username + "?access_token=" + token, Method.PUT)
-        //     .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
-        //     IRestResponse response = client.Execute(request);
-        //     foreach(KeyValuePair<Button, string> entry in hashes){
-        //         entry.Key.interactable = false;
-        //     } 
-        //     LaunchGameButton.interactable = false;
-        //     //HostGameButton.interactable = false;
-
-        //     var request2 = new RestRequest("api/sessions/" + gameHash, Method.GET)
-        //         .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
-        //     IRestResponse response2 = client.Execute(request2);
-        //     var obj2 = JObject.Parse(response2.Content);
-        //     Dictionary<string, object> sessionDetails = obj2.ToObject<Dictionary<string, object>>();
-
-        //     Debug.Log("SavedGame ID : " + sessionDetails["savegameid"].ToString());
-
-        //     GameBoard.saveGameId = sessionDetails["savegameid"].ToString();
-
-        //     joined = true;
-        //     InfoText.text = "You will be brought to the next scene once the host launches the game!";
-        
-        //     SFS.JoinRoom();
-        // }else{
-        //     if(joined){
-        //         LaunchGameButton.interactable = false;
-        //         joined = false;
-        //     }
-        //     if(!Launched(gameHash)) {
-        //         DeleteSession();
-        //     }else{
-        //         var request = new RestRequest("api/sessions/" + gameHash + "?access_token=" + GetAdminToken(), Method.DELETE)
-        //         .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
-        //         IRestResponse response = client.Execute(request);
-        //     } 
-        //     hosting = false;
-        //     deleteSessionText.text = "Delete a session";
-
-        //     if (hashes.ContainsKey(gameToJoin)) {
-        //         hashes.Remove(gameToJoin);
-        //         fToken.text = "";
-        //         NewGameButton.interactable = false;
-        //         InfoText.text = "You can:\n-Host a new game\n-Click on a saved game to host it\n-Click on a game session to join it";
-        //     }
-        // }
         
     }
 
@@ -327,7 +241,6 @@ public class WaitingRoom : MonoBehaviour
         }
     }
 
-    // FIX, ATTACH TO BUTTONS, ALLOW FOR MAX 3 SESSIONS
     private void GetSessions()
     {
         var request = new RestRequest("api/sessions", Method.GET);
@@ -363,7 +276,7 @@ public class WaitingRoom : MonoBehaviour
 
             
             numSessionsTemp++;
-            // for now, we only have one button, so break after first session
+            // only have one button, so break after first session
             break;   
         }
         numSessions = numSessionsTemp;
@@ -451,9 +364,8 @@ public class WaitingRoom : MonoBehaviour
                 players = players.Replace(c, string.Empty);
             }
             saveGameText.text += "\nOriginal participants: " + players;
-            //fToken.text += "\nLaunch status: " + entry.Value["launched"].ToString();
 
-            // for now, we only have one button, so break after first session
+            // only have one button, so break after first session
             gameNo++;   
         }
         if (gameNo==0) {
@@ -529,22 +441,6 @@ public class WaitingRoom : MonoBehaviour
         joined = true;
         launchText.text = "Your game is launching!";
     }
-
-    /*private static Boolean LaunchStatus()
-    {
-        var request = new RestRequest("api/sessions", Method.GET);
-        IRestResponse response = client.Execute(request);
-        var obj = JObject.Parse(response.Content);
-        var status = (string)obj["sessions"][ExtractHash()]["launched"];
-        if (status.ToLower().Equals("true"))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }*/
 
     public static string GetAdminToken() {
         var request = new RestRequest("oauth/token", Method.POST)

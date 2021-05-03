@@ -5,6 +5,8 @@ client/Temp
 client/Logs
 client/UserSettings
 
+client/Assets/Scripts/TestGame.cs
+
 server/.classpath
 server/.project
 server/.settings

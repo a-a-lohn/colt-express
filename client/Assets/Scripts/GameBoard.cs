@@ -30,22 +30,14 @@ using System.Text;
 
 public class GameBoard : MonoBehaviour
 {
-    private static RestClient client = new RestClient("http://13.72.79.112:4242");
+    private static RestClient client = new RestClient("http://127.0.0.1:4242");
     public static string gameHash = WaitingRoom.gameHash;
     public static bool started = false;
 
     public Button chat;
-    bool returningFromChat = false;
+    static bool returningFromChat = false;
 
     Random r = new Random(10);
-
-    //debug variables
-    public static Text debugText;
-    public static string debugTextString;
-    // public Button button;
-    // public Button extension;
-    // public Button chooseChar;
-
 
     public static ArrayList clickable;
     public static string action = "";
@@ -180,8 +172,6 @@ public class GameBoard : MonoBehaviour
 
     public static Dictionary<Button, object> buttonToObject = new Dictionary<Button, object>();
 
-    // public Text clickableGOsText;
-
     private List<Button> goNeutralBulletCards;
 
     // a list of bullet cards for each and every bandit 
@@ -191,15 +181,6 @@ public class GameBoard : MonoBehaviour
     private List<Button> goTUCOBulletCards; 
     private List<Button> goDJANGOBulletCards; 
     private List<Button> goGHOSTBulletCards; 
-
-    // a list of action cards for each and every bandit's hand 
-    // private List<Button> goBELLEHand; 
-    // private List<Button> goCHEYENNEHand; 
-    // private List<Button> goDOCHand; 
-    // private List<Button> goGHOSTHand; 
-    // private List<Button> goTUCOHand; 
-    // private List<Button> goDJANGOHand; 
-
 
     private List<GameObject> clickableGOs; 
 
@@ -218,29 +199,11 @@ public class GameBoard : MonoBehaviour
 
     public Button drawCardsButton;
     static bool canDrawCards = false;
-    //bool sleepInvoked = false;
     
-    /* a card has 4 attributes */
     public Text handCardActionType1; 
-    // public Text handCardOneSaveForNetRound;
-    // public Text handCardOneIsFaceDown; 
-    // public Text handCardOneBelongsTo;
-
     public Text handCardActionType2;
-    // public Text handCardTwoSaveForNetRound;
-    // public Text handCardTwoIsFaceDown; 
-    // public Text handCardTwoBelongsTo;
-
     public Text handCardActionType3; 
-    // public Text handCardThreeSaveForNetRound;
-    // public Text handCardThreeIsFaceDown; 
-    // public Text handCardThreeBelongsTo;
-
     public Text handCardActionType4; 
-    // public Text handCardFourSaveForNetRound;
-    // public Text handCardFourIsFaceDown; 
-    // public Text handCardFourBelongsTo;
-
     public Text handCardActionType5; 
     public Text handCardActionType6; 
     public Text handCardActionType7; 
@@ -291,46 +254,6 @@ public class GameBoard : MonoBehaviour
     private List<float> faraway= new List<float>() {117.7F, -373.8F, -364.5F};
 
     void Start(){  
-        /*
-        if (SFS.getSFS() == null) {
-            // Initialize SFS2X client. This can be done in an earlier scene instead
-            SmartFox sfs = new SmartFox();
-            // For C# serialization
-            DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
-            SFS.setSFS(sfs);
-            Debug.Log("SFS was null. Setting it now");
-        }
-        if (!SFS.IsConnected()) {
-            SFS.Connect("test");
-            Debug.Log("was not connected. Connecting now");
-        }*/
-
-        // Screen.SetResolution(1080, 1920, false);  
-        // Debug.Log("bel gem: " + belleGemGO.transform.position); 
-        // Debug.Log("bel belleWhisGO: " + belleWhisGO.transform.position); 
-        // Debug.Log("bel belStrGo: " + belStrGo.transform.position); 
-        // Debug.Log("bel belPurGo: " + belPurGo.transform.position); 
-
-        //belle.transform.position = new Vector3(fourTop[0], fourTop[1], fourTop[2]);
-
-        // Debug.Log("locoTop" + locoTop.transform.position); 
-        // Debug.Log("locoBTM" + locoBtm.transform.position); 
-        // Debug.Log("cartOneTop" + trainOneTop.transform.position); 
-        // Debug.Log("cartOneBtm" + trainOneBtm.transform.position); 
-        // Debug.Log("cartTwoTop" + trainTwoTop.transform.position); 
-        // Debug.Log("cartTwoBtm" + trainTwoBtm.transform.position); 
-        // Debug.Log("cartThreeTop" + trainThreeTop.transform.position); 
-        // Debug.Log("cartThreeBtm" + trainThreeBtm.transform.position); 
-        // Debug.Log("cartFourTop" + trainfourTop.transform.position); 
-        // Debug.Log("cartFourBtm" + trainfourBtm.transform.position); 
-
-  
-        // Debug.Log("che prof" + cheyenneProf.transform.position); 
-        // Debug.Log("doc prof" + docProf.transform.position); 
-        // Debug.Log("dja prof" + djangoProf.transform.position); 
-        // Debug.Log("tuc prof" + tucoProf.transform.position); 
-        // Debug.Log("gho prof" + ghostProf.transform.position);
-
         locBtm = new List<float>() {locoBtm.transform.position[0], locoBtm.transform.position[1], locoBtm.transform.position[2]};
         locTop = new List<float>() {locoTop.transform.position[0], locoTop.transform.position[1], locoTop.transform.position[2]};
         oneBtm = new List<float>() {trainOneBtm.transform.position[0], trainOneBtm.transform.position[1], trainOneBtm.transform.position[2]};
@@ -349,17 +272,6 @@ public class GameBoard : MonoBehaviour
         tucLoot = new List<float>() {tucoProf.transform.position[0], tucoProf.transform.position[1], tucoProf.transform.position[2]};
         ghoLoot = new List<float>() {ghostProf.transform.position[0], ghostProf.transform.position[1], ghostProf.transform.position[2]};
 
-        // testing 
-        // belle.transform.position = new Vector3(oneTop[0], oneTop[1], oneTop[2]);
-        // cheyenne.transform.position = new Vector3(twoTop[0], twoTop[1], twoTop[2]);
-        // doc.transform.position = new Vector3(threeTop[0], threeTop[1], threeTop[2]);
-        // django.transform.position = new Vector3(fourTop[0], fourTop[1], fourTop[2]);
-        // tuco.transform.position = new Vector3(fourBtm[0], fourBtm[1], fourBtm[2]);
-        // ghost.transform.position = new Vector3(locTop[0], locTop[1], locTop[2]);
-        // marshal.transform.position = new Vector3(locBtm[0], locBtm[1], locBtm[2]);
-        // oneBtm = new Vector3(trainOneBtm.transform.position[0], trainOneBtm.transform.position[1], trainOneBtm.transform.position[2]);
-        // oneTop = new Vector3(trainOneBtm.transform.position[0], trainOneBtm.transform.position[1], trainOneBtm.transform.position[2]);
-
         if(saveGameId != "") {
             started = true;
             horseBtnOne.gameObject.SetActive(false);
@@ -368,28 +280,29 @@ public class GameBoard : MonoBehaviour
 
         if(returningFromChat & horseBtnOne != null) {
             Debug.Log("returning from chat");
-            Destroy(horseBtnOne);
-            Destroy(horseBtnTwo);
-        } else {
-            currentRoundText.text = "";
-            exitText.text ="";
-            log.text = "";
-            currentPlayer.text = "";
-            actionText.text = "";
-            resolveCard.text = "";
-            addAllBandits();
-            SFS.setGameBoard();
-            initMap();
-
-            belleRevolver.text = "";
-            cheyenneRevolver.text = "";
-            docRevolver.text = "";
-            djangoRevolver.text = "";
-            ghostRevolver.text = "";
-            tucoRevolver.text = "";
-
-            resetGB();
+            Destroy(GameObject.Find("horseBtnOne"));
+            Destroy(GameObject.Find("horseBtnTwo"));
         }
+
+        currentRoundText.text = "";
+        exitText.text ="";
+        log.text = "";
+        currentPlayer.text = "";
+        actionText.text = "";
+        resolveCard.text = "";
+        addAllBandits();
+        SFS.setGameBoard();
+        initMap();
+
+        belleRevolver.text = "";
+        cheyenneRevolver.text = "";
+        docRevolver.text = "";
+        djangoRevolver.text = "";
+        ghostRevolver.text = "";
+        tucoRevolver.text = "";
+
+        resetGB();
+
         
         EnterGameBoardScene();
     }
@@ -397,10 +310,10 @@ public class GameBoard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(returningFromChat){
-            horseBtnOne.gameObject.SetActive(false);
-            horseBtnTwo.gameObject.SetActive(false);
-        }
+        // if(returningFromChat){
+        //     horseBtnOne.gameObject.SetActive(false);
+        //     horseBtnTwo.gameObject.SetActive(false);
+        // }
 
         if(newAction) {
             actionText.text = action;
@@ -468,24 +381,6 @@ public class GameBoard : MonoBehaviour
     public static Bandit banditTopunch;
     public static Loot lootToDrop;
     public static int punchStep = 0; // step 1 is choosing a bandit, 2 is choosing a loot to drop, 3 is choosing a trainunit
-
-    /* getRandOffset() picks and returns a random float from a set of pre-defined floats */
-    // public float getRandOffset(){
-    //     var values = new[] { 20.0F, 40.0F, 50.0F, -20.0F, -30.0F, -50.0F, 46.0F, 35.0F, -46.0F, -35.0F, 20.0F, 40.0F, 50.0F, -20.0F, -30.0F, -50.0F, 46.0F, 35.0F, -46.0F, -35.0F, 20.0F, 40.0F, 50.0F, -20.0F, -30.0F, -50.0F, 46.0F, 35.0F, -46.0F, -35.0F, -20.0F, -30.0F, -50.0F, 46.0F, 35.0F, -46.0F, -35.0F, 20.0F, 40.0F, 50.0F, -20.0F, -30.0F, -50.0F, 46.0F, 35.0F, -46.0F, -35.0F };
-    //     int ri = r.Next(0, values.Length);
-    //     float result = values[ri];
-    //     //Debug.Log("THE RANDOM OFFSET IS: " + result);
-    //     return result; 
-    // }
-
-
-    // /* getRandOffset() picks and returns a random float from a set of pre-defined floats */
-    // public float getRandOffsetBanditLoot(){
-    //     var values = new[] { 8.0F, 10.0F, 12.0F, -8.0F, -10.0F, -12.0F, 8.0F, 10.0F, 12.0F, -8.0F, -10.0F, -12.0F, 8.0F, 10.0F, 12.0F, -8.0F, -10.0F, -12.0F, 8.0F, 10.0F, 12.0F, -8.0F, -10.0F, -12.0F, 8.0F, 10.0F, 12.0F, -8.0F, -10.0F, -12.0F, 8.0F, 10.0F, 12.0F, -8.0F, -10.0F, -12.0F };
-    //     int ri = r.Next(0, values.Length);
-    //     float result = values[ri];
-    //     return result; 
-    // }
 
     public float getRandOffset(){
         var values = new[] { 20.0F, 30.0F, 35.0F, 40.0F, 35.0F, 50.0F, -20.0F, -25.0F, -30.0F, -40.0F, -50.0F, 20.0F, 30.0F, 35.0F, 40.0F, 35.0F, 50.0F, -20.0F, -25.0F, -30.0F, -40.0F, -50.0F,20.0F, 30.0F, 35.0F, 40.0F, 35.0F, 50.0F, -20.0F, -25.0F, -30.0F, -40.0F, -50.0F,20.0F, 30.0F, 35.0F, 40.0F, 35.0F, 50.0F, -20.0F, -25.0F, -30.0F, -40.0F, -50.0F,20.0F, 30.0F, 35.0F, 40.0F, 35.0F, 50.0F, -20.0F, -25.0F, -30.0F, -40.0F, -50.0F,20.0F, 30.0F, 35.0F, 40.0F, 35.0F, 50.0F, -20.0F, -25.0F, -30.0F, -40.0F, -50.0F,20.0F, 30.0F, 35.0F, 40.0F, 35.0F, 50.0F, -20.0F, -25.0F, -30.0F, -40.0F, -50.0F,20.0F, 30.0F, 35.0F, 40.0F, 35.0F, 50.0F, -20.0F, -25.0F, -30.0F, -40.0F, -50.0F, 20.0F, 30.0F, 35.0F, 40.0F, 35.0F, 50.0F, -20.0F, -25.0F, -30.0F, -40.0F, -50.0F, 20.0F, 30.0F, 35.0F, 40.0F, 35.0F, 50.0F, -20.0F, -25.0F, -30.0F, -40.0F, -50.0F,20.0F, 30.0F, 35.0F, 40.0F, 35.0F, 50.0F, -20.0F, -25.0F, -30.0F, -40.0F, -50.0F,20.0F, 30.0F, 35.0F, 40.0F, 35.0F, 50.0F, -20.0F, -25.0F, -30.0F, -40.0F, -50.0F,20.0F, 30.0F, 35.0F, 40.0F, 35.0F, 50.0F, -20.0F, -25.0F, -30.0F, -40.0F, -50.0F,20.0F, 30.0F, 35.0F, 40.0F, 35.0F, 50.0F, -20.0F, -25.0F, -30.0F, -40.0F, -50.0F,20.0F, 30.0F, 35.0F, 40.0F, 35.0F, 50.0F, -20.0F, -25.0F, -30.0F, -40.0F, -50.0F,20.0F, 30.0F, 35.0F, 40.0F, 35.0F, 50.0F, -20.0F, -25.0F, -30.0F, -40.0F, -50.0F, 20.0F, 30.0F, 35.0F, 40.0F, 35.0F, 50.0F, -20.0F, -25.0F, -30.0F, -40.0F, -50.0F, 20.0F, 30.0F, 35.0F, 40.0F, 35.0F, 50.0F, -20.0F, -25.0F, -30.0F, -40.0F, -50.0F,20.0F, 30.0F, 35.0F, 40.0F, 35.0F, 50.0F, -20.0F, -25.0F, -30.0F, -40.0F, -50.0F,20.0F, 30.0F, 35.0F, 40.0F, 35.0F, 50.0F, -20.0F, -25.0F, -30.0F, -40.0F, -50.0F,20.0F, 30.0F, 35.0F, 40.0F, 35.0F, 50.0F, -20.0F, -25.0F, -30.0F, -40.0F, -50.0F,20.0F, 30.0F, 35.0F, 40.0F, 35.0F, 50.0F, -20.0F, -25.0F, -30.0F, -40.0F, -50.0F,20.0F, 30.0F, 35.0F, 40.0F, 35.0F, 50.0F, -20.0F, -25.0F, -30.0F, -40.0F, -50.0F,20.0F, 30.0F, 35.0F, 40.0F, 35.0F, 50.0F, -20.0F, -25.0F, -30.0F, -40.0F, -50.0F} ;
@@ -586,7 +481,7 @@ public class GameBoard : MonoBehaviour
 
         ISFSObject responseParams = (SFSObject)evt.Params["params"];
         string logStr = responseParams.GetUtfString("log") + "\n\n";
-        if (logStr != null) {
+        if (logStr != null && log != null) {
             logCounter++;
             if(logCounter % 3 == 0) {
                 log.text = logStr;
@@ -602,11 +497,7 @@ public class GameBoard : MonoBehaviour
         
         int numberOfBandits = gm.bandits.Count;
 
-        //Debug.Log("THERE ARE " + numberOfBandits + " IN THE GAME!");
         removeTrainCarts(numberOfBandits);
-        // removeBandits(gm.bandits);
-        
-        //addAllBandits();
 
         ArrayList banditsArray = gm.bandits;
         foreach (Bandit b in banditsArray) {
@@ -1269,18 +1160,14 @@ public class GameBoard : MonoBehaviour
             }
         }
 
-        //Debug.Log("BEFORE GM.HORSES!!!!!!");
         foreach(object ahobj in gm.horses){
-            //Debug.Log("INSIDE GM.HORSES!!!!!!");
             Horse aHorse = (Horse) ahobj;
             TrainUnit aHorseTU = aHorse.adjacentTo; 
             string aHorseCarType = aHorseTU.getCarTypeAsString();
-            // string aHorseFloorAsString = aHorseTU.getCarTypeAsString();
             placeHorseAt(aHorse, aHorseCarType, "CABIN");
         }
     }
 
-    // move the button(bandit or horse) that is passed in to the 
     public void moveButtonTo(Button bToMove, string cartype, string carfloor){
         if(carfloor == "CABIN"){
                 if(cartype == "LOCOMOTIVE"){
@@ -1341,7 +1228,6 @@ public class GameBoard : MonoBehaviour
         if(bToMove.name == "HorseBelle" || bToMove.name == "HorseCheyenne" || bToMove.name == "HorseDoc" || bToMove.name == "HorseDjango" || bToMove.name == "HorseGhost" || bToMove.name == "HorseTuco"){
             // it's a horse! 
             // shift the horse forward by -50.0F 
-            //Debug.Log(bToMove.name + " IS A HORSE!!!");
             Vector3 oldPos = bToMove.transform.position;
             bToMove.transform.position = new Vector3(oldPos[0], oldPos[1] - 50.0F, oldPos[2]);
         }
@@ -1370,7 +1256,6 @@ public class GameBoard : MonoBehaviour
         Button banditBtn = allBandits[0];
         foreach(Button aBanditBtn in allBandits){
             if(aBanditBtn.name.ToUpper() == b.characterAsString){
-                //playingBandits.Add(aBanditBtn);
                 banditBtn = aBanditBtn;
             }
         }
@@ -1478,13 +1363,6 @@ public class GameBoard : MonoBehaviour
         }
     }
 
-    /* promptDrawOrPlayMessage displays the prompt message on gameboard*/
-    public static void promptDrawOrPlayMessage(){
-        // promptDrawCardsOrPlayCardMsg.text = "Please play a card or draw 3 cards!";
-        // GameObject GameBoardGameObject = GameObject.Find("GameBoardGO");
-        // GameBoardGameObject.
-    }
-
     public void addNullListToMap(List<Button> aBtnList){
         foreach(Button aBtn in aBtnList){
             buttonToObject.Add(aBtn, "null");
@@ -1541,43 +1419,6 @@ public class GameBoard : MonoBehaviour
         SFS.LeaveRoom(); // triggers exit to WaitingRoom scene
     }
 
-    /* Map all Buttons to their GM objects counterparts */
-    public void mapAll(){
-        
-    }
-    
-    /* makeShootPossibilitiesClickable makes all possibilities clickable */
-    public static void makeShootPossibilitiesClickable(ArrayList possibilities){
-        Debug.Log("HELLO FROM makeShootPossibilitiesClickable");
-
-        foreach(Bandit b in possibilities){
-            foreach(Button oneBtn in buttonToObject.Keys){
-                if(b.characterAsString == oneBtn.name.ToUpper()){
-                    oneBtn.interactable = true; 
-                }
-            }
-        }
-    }
-
-    /* makePunchPossibilitiesClickable makes all possibilities clickable AND returns the clicked Bandit's name as a string */
-    public static string makePunchPossibilitiesClickable(ArrayList possibilities){
-        foreach(Bandit b in possibilities){
-            foreach(Button oneBtn in buttonToObject.Keys){
-                if(b.characterAsString == oneBtn.name.ToUpper()){
-                    oneBtn.interactable = true; 
-                }
-            }
-        }
-
-        // user clicks on one of the highlighted bandits 
-        while(punchedBandit is null){
-            makePunchPossibilitiesClickable(possibilities);
-        }   
-
-        Debug.Log("PASSED BACK TO GM");
-        return punchedBandit; 
-    }
-
 
     private void resetGB() {
         gameHash = WaitingRoom.gameHash;
@@ -1587,15 +1428,10 @@ public class GameBoard : MonoBehaviour
         myTurn = false;
         //saveGameId = "";
         saveGameOnLobby = false;
-        // these cause issues
-        // playingBandits = new List<Button>();
-        // allGem = new List<Button>();
-        // allPurse = new List<Button>();
-        // allBox = new List<Button>();
-        // allWhiskey = new List<Button>();
         canDrawCards = false;
         calledMapTrain = false;
     }
+
 
     /*
     *
@@ -1604,8 +1440,6 @@ public class GameBoard : MonoBehaviour
     *
     *
     */
-
-
 
 
     public void EnterGameBoardScene() {
@@ -1653,7 +1487,6 @@ public class GameBoard : MonoBehaviour
     }
 
     public void onSettingsBtnClick(){
-        Debug.Log("leavingggg");
         LeaveRoom();
         OnApplicationQuit();
     }

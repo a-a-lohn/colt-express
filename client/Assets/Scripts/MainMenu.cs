@@ -6,11 +6,11 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour{
     public void Login(){
-        SceneManager.LoadScene("Login"); // load all scenes named "Game"
+        SceneManager.LoadScene("Login");
     }
 
     public void Register(){
-        SceneManager.LoadScene("Register"); // load all scenes named "Game"
+        SceneManager.LoadScene("Register");
     }
 
     public void QuitGame(){

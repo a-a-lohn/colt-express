@@ -15,7 +15,7 @@ public class Register : MonoBehaviour
     public InputField passwordConfirm;
     public Text infoText;
     
-    private static RestClient client = new RestClient("http://13.72.79.112:4242");
+    private static RestClient client = new RestClient("http://127.0.0.1:4242");
     private string adminToken;
 
     // Start is called before the first frame update

@@ -25,31 +25,12 @@ using model;
 public class ChooseCharacter : MonoBehaviour
 {
 
-    /*static ChooseCharacter ccInstance;
-    public static ChooseCharacter Instance
-    {
-        get
-        {
-            if (ccInstance == null){
-                GameObject go = new GameObject();
-                mInstance = go.AddComponent<ChooseCharacter>();
-            }
-            return ccInstance;
-        }
-    }*/
-
-
-    // debugging variables
-    // public Text selected;
-    // public static string debugText;
-    //public Button button;
-
     public Text display;
     public Text info;
 
     private static bool alreadyCalled;
 
-    private static RestClient client = new RestClient("http://13.72.79.112:4242");
+    private static RestClient client = new RestClient("http://127.0.0.1:4242");
 
     //SAVE THE CHOSEN CHARACTER IN THIS STRING SO IT CAN BE USED BY GAMEMANAGER
     public static string character;
@@ -66,15 +47,7 @@ public class ChooseCharacter : MonoBehaviour
     void Start()
     {
         Screen.SetResolution(800, 600, true);
-        // testing 
-            //  var foundButtonObjects = FindObjectsOfType<Button>();
-            //     foreach(Button btn in foundButtonObjects){
-            //         if(btn.name == "TucoBtn"){
-            //             btn.interactable = false; 
-            //         }
-            //        //  btn.interactable = false; 
-            //     }
-        //////
+
         character = "";
         alreadyCalled = false;
 
@@ -89,18 +62,6 @@ public class ChooseCharacter : MonoBehaviour
 
         SFS.setChooseCharacter();
 
-        // rend = GetComponent<Renderer>();
-        // name = this.GameObject;
-        //debugText = "";
-        // selected.text = "";
-
-        // Initialize SFS2X client. This can be done in an earlier scene instead
-		/*SmartFox sfs = new SmartFox();
-        // For C# serialization
-		DefaultSFSDataSerializer.RunningAssembly = Assembly.GetExecutingAssembly();
-        SFS.setSFS(sfs);
-
-        SFS.Connect("teseegst");*/
     }
 
     // Update is called once per frame
@@ -108,47 +69,13 @@ public class ChooseCharacter : MonoBehaviour
     {
         if (SFS.IsConnected() && !alreadyCalled) {
             alreadyCalled = true;
-            EnterChooseCharacterScene();// IF RUNNING TESTS STARTING FROM THIS SCENE,
-                                        // MUST DELAY CALLING OF THIS METHOD BY 1-2 SECONDS
-            /*
-            THIS LISTENER CAN BE REMOVED ONCE THE CHARACTERS THEMSELVES CAN BE CLICKED
-            */
-            // button.onClick.AddListener(CharacterChoice);
+            EnterChooseCharacterScene();
         }
         if (SFS.IsConnected()) {
 			SFS.ProcessEvents();
 		}
 
-        // for debugging
-        /*if (SFS.moreText) {
-            debugText += SFS.debugText;
-            SFS.moreText = false;
-        }
-        if (debugText != selected.text) {
-            selected.text = debugText;
-        }*/
     }
-
-
-    void OnMouseEnter()
- 	{
- 
-    //   string objectName = gameObject.name;
-    //   Debug.Log(objectName);
-    //  startcolor = rend.material.color;
-    //  rend.material.color = Color.grey;
-     // Debug.Log(this.GameObject.name);
- 	}
-
-    void OnMouseExit()
- 	{
- 
- 	}
-
- 	void OnMouseDown()
- 	{
-
- 	}
 
     public static void trace(string msg) {
 		//debugText += (debugText != "" ? "\n" : "") + msg;
@@ -163,16 +90,12 @@ public class ChooseCharacter : MonoBehaviour
 
 
     public void CharacterChoice(Button b) {
-        //Debug.Log("called character choice");
-        //var go = EventSystem.current.currentSelectedGameObject;
         character = b.name.ToUpper();
-        //Debug.Log(character);
         SetAllNotInteractable();
         ISFSObject obj = SFSObject.NewInstance();
 		obj.PutUtfString("chosenCharacter", character);
         ExtensionRequest req = new ExtensionRequest("gm.chosenCharacter",obj);
         SFS.Send(req);
-        //trace("chose"+character);
     }
 
     public void UpdateDisplayText(string ut) {
@@ -185,7 +108,6 @@ public class ChooseCharacter : MonoBehaviour
         try {
             ISFSArray a = responseParams.GetSFSArray("characterList");
             int size = responseParams.GetSFSArray("characterList").Size();
-            //Debug.Log("Characters to choose from: " + size);
             // loop through all the buttons
             // if a character's name is in the input list -> active the button // otherwise deactive the btn 
             SetAllNotInteractable();
@@ -194,32 +116,22 @@ public class ChooseCharacter : MonoBehaviour
                 for (int i = 0; i < size; i++) {
                     foreach(Button btn in foundButtonObjects){
                         string banditName = (string)a.GetUtfString(i);
-                        //Debug.Log(banditName);
-                        if(btn.name == "Tuco" && banditName == "TUCO"){
-                            //Debug.Log("setting tuco btn to true");
-                            // save in a variable so we can use it later 
-                            //character = "Tuco"; 
+                        if(btn.name == "Tuco" && banditName == "TUCO"){; 
                             btn.interactable = true; 
                         }
                         if(btn.name == "Belle" && banditName == "BELLE"){
-                            //character = "Belle"; 
                             btn.interactable = true; 
                         }
                         if(btn.name == "Cheyenne" && banditName == "CHEYENNE"){
-                            //Debug.Log("setting cheyenne btn to true");
-                            //character = "Cheyenne"; 
                             btn.interactable = true; 
                         }
                         if(btn.name == "Django" && banditName == "DJANGO"){
-                            //character = "Django"; 
                             btn.interactable = true; 
                         }
                         if(btn.name == "Ghost" && banditName == "GHOST"){
-                            //character = "Ghost"; 
                             btn.interactable = true; 
                         }
                         if(btn.name == "Doc" && banditName == "DOC"){
-                            //character = "Doc"; 
                             btn.interactable = true; 
                         }
                     }
@@ -234,7 +146,6 @@ public class ChooseCharacter : MonoBehaviour
         var foundButtonObjects = FindObjectsOfType<Button>();
         foreach(Button btn in foundButtonObjects){
             if(btn.name == "Tuco"){
-                //Debug.Log("setting tuco btn to false");
                 btn.interactable = false; 
             }
             if(btn.name == "Belle"){
@@ -275,8 +186,6 @@ public class ChooseCharacter : MonoBehaviour
             var obj = JObject.Parse(response.Content);
             string adminToken = (string)obj["access_token"];
             adminToken = adminToken.Replace("+", "%2B");
-            //PlayerPrefs.SetString("admintoken", adminToken);
-            //PlayerPrefs.Save();
 
             var request2 = new RestRequest("api/sessions/" + WaitingRoom.gameHash + "?access_token=" + adminToken, Method.DELETE)
                 .AddHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");

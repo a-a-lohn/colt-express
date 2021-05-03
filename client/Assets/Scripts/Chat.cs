@@ -19,12 +19,14 @@ public class Chat : MonoBehaviour
 
     public InputField msgField;
     public Text chatText;
+    public static bool chatting;
 
     // Start is called before the first frame update
     void Start()
     {
         SFS.setChat();
         chatText.text = SFS.chatText;
+        chatting = true;
     }
 
     // Update is called once per frame
@@ -55,11 +57,11 @@ public class Chat : MonoBehaviour
 	}
 
     public void printUserMessage() {
-		//chatText.text += "<b>" + (user == SFS.getSFS().MySelf ? "You" : user.Name) + ":</b> " + message + "\n";
         chatText.text = SFS.chatText;
 	}
 
     public void GoToGame(){
+        chatting = false;
         SceneManager.LoadScene("GameBoard");
     }
 

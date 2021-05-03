@@ -10,15 +10,12 @@ using Newtonsoft.Json.Linq;
 public class Login : MonoBehaviour {
     public InputField username; // used to store user info
     public InputField password; 
-    public Text fText; // used to put the username+password to the screen (for testing purposes)
+    public Text fText; // used to display info on the screen
 
-    public static RestClient client = new RestClient("http://13.72.79.112:4242");
+    public static RestClient client = new RestClient("http://127.0.0.1:4242");
     public static string token;
-    // public static string username;
-    // public static string password;
 
     public void VerifyUser(){
-        Debug.Log("what?");
         var request = new RestRequest("oauth/token", Method.POST)
             .AddParameter("grant_type", "password")
             .AddParameter("username", username.text)
@@ -33,7 +30,6 @@ public class Login : MonoBehaviour {
             PlayerPrefs.SetString("token", token);
             PlayerPrefs.SetString("username", username.text);
             PlayerPrefs.Save();
-            //fText.text = token;
             GoToWR();
         } catch (Exception e) {
             fText.text = "Invalid username or password";

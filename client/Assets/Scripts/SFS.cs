@@ -6,8 +6,6 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
-//using System.Windows;
-
 using Sfs2X;
 using Sfs2X.Logging;
 using Sfs2X.Util;
@@ -42,7 +40,7 @@ public static class SFS
 	public static int trainIndex;
 
     static SFS(){
-        defaultHost =  "13.72.79.112";//"127.0.0.1";  
+        defaultHost =  "127.0.0.1";
 	    defaultTcpPort = 9933;
         zone = "MergedExt";
     }
@@ -94,7 +92,7 @@ public static class SFS
     // client side: receiving feedback from SERVER
     private static void OnExtensionResponse(BaseEvent evt) {
         String cmd = (String)evt.Params["cmd"];
-        trace("response received: " + cmd); // shpows up after "in-class" debug message
+        trace("response received: " + cmd); // shows up after "in-class" debug message
 		if (cmd == "remainingCharacters") {
 			ISFSObject responseParams = (SFSObject)evt.Params["params"];
 			string player = responseParams.GetUtfString("player");
@@ -106,9 +104,7 @@ public static class SFS
 				cc.UpdateDisplayText(chosenCharText);
 				cc.DisplayRemainingCharacters(evt);
 			}
-		} 
-		
-		else if (cmd == "updateGameState") {
+		} else if (cmd == "updateGameState" && (Chat.chatting == null || !Chat.chatting)) {
 			Debug.Log("UGS called in SFS.cs");
 			Debug.Log("Current SaveGame ID Content before updating gamestate: "+ GameBoard.saveGameId);
 			gb.UpdateGameState(evt);
@@ -116,30 +112,10 @@ public static class SFS
 				Debug.Log("Condition triggered, started = false");
 			 	gb.promptHorseAttack();
 			}
-        } 
-		
-		else if (cmd == "nextAction") {
+        } else if (cmd == "nextAction") {
 			ISFSObject responseParams = (SFSObject)evt.Params["params"];
 			step = responseParams.GetInt("step");
 			Debug.Log("received step " + step);
-			// gb.executeHardCoded(step);
-		} else if (false/*cmd == incoming character name from save game*/) {
-			// 	assign this client to be the character as specified by the incoming string
-		} else if (cmd == "testSerial") {
-			ISFSObject responseParams = (SFSObject)evt.Params["params"];
-			GameManager gm = (GameManager) responseParams.GetClass("gm");
-			GameManager.replaceInstance(gm);
-			GameManager newgm = GameManager.getInstance();
-			TrainUnit t = (TrainUnit) newgm.trainRoof[0];
-			Debug.Log(t.carTypeAsString);
-			Debug.Log("test");
-			Hashtable ht = newgm.banditPositions;
-			foreach(Bandit key in ht.Keys)
-			{			
-				TrainUnit m = (TrainUnit) ht[key];
-   				Debug.Log(String.Format("{0}: {1}", key.characterAsString, m.carTypeAsString));
-			}
-			//GameBoard.SendNewGameState();
 		}  else if (cmd == "testgame") {
 			tg.ReceiveInitializedGame(evt);
 		}  else if (cmd == "currentSaveGameID") {
@@ -157,9 +133,6 @@ public static class SFS
 			
 			username = uname;
 			// CONNECT
-
-			// Clear console
-			//debugText.text = "";
 			
 			Debug.Log("Now connecting...");	
 			
@@ -292,15 +265,7 @@ public static class SFS
 
 
     private static void OnLogin(BaseEvent evt) {
-		/*User user = (User) evt.Params["user"];
 
-		// Show system message
-		string msg = "Login successful!\n";
-		msg += "Logged in as " + user.Name;
-		trace(msg);
-
-		// Populate Room list
-		populateRoomList(sfs.RoomList);*/
 	}
 
 	public static void JoinRoom() {
