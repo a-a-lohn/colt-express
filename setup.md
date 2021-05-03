@@ -1,7 +1,7 @@
 # Setup
 
 ## Compatibility
-The executable file located in the `installer` folder is only compatible for Windows machines. For other operating systems, it is necessary to build and run the Unity application from the source code, using `\client` as the root folder.
+The executable file located in the `installer` folder is only compatible for Windows machines. For other operating systems, it is necessary to build and run the Unity application from the source code, using `client` as the root folder.
 To download Unity, check out the [downloads page](https://unity3d.com/get-unity/download) of Unity's website. Note that the version of Unity used for this project was 2020.2.1f1.
 
 For details on how to build and run a Unity application, please see [this video](https://youtu.be/7nxKAtxGSn8) (up to 6:05). 
